@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -31,6 +31,12 @@ class CallAnalysisCreateParams(TypedDict, total=False):
 
     is_test: Annotated[bool, PropertyInfo(alias="isTest")]
     """Whether this is a test call"""
+
+    properties: Dict[str, object]
+    """Custom properties to include with the call.
+
+    These can be used for filtering and will show in the call details page
+    """
 
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
     """URL of source stereo recording in WAV format.
