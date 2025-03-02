@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import Literal
 
 import httpx
@@ -58,6 +58,7 @@ class CallAnalysisResource(SyncAPIResource):
         started_at: str,
         ended_reason: str | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -84,6 +85,9 @@ class CallAnalysisResource(SyncAPIResource):
 
           is_test: Whether this is a test call
 
+          properties: Custom properties to include with the call. These can be used for filtering and
+              will show in the call details page
+
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
 
@@ -106,6 +110,7 @@ class CallAnalysisResource(SyncAPIResource):
                     "started_at": started_at,
                     "ended_reason": ended_reason,
                     "is_test": is_test,
+                    "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,
@@ -180,6 +185,7 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
         started_at: str,
         ended_reason: str | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -206,6 +212,9 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
 
           is_test: Whether this is a test call
 
+          properties: Custom properties to include with the call. These can be used for filtering and
+              will show in the call details page
+
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
 
@@ -228,6 +237,7 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
                     "started_at": started_at,
                     "ended_reason": ended_reason,
                     "is_test": is_test,
+                    "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,
