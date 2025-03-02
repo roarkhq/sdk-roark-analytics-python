@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.roark.ai](https://docs.roark.ai
 
 ```sh
 # install from PyPI
-pip install --pre roark_analytics
+pip install roark_analytics
 ```
 
 ## Usage
