@@ -15,12 +15,9 @@ The REST API documentation can be found on [docs.roark.ai](https://docs.roark.ai
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/roarkhq/sdk-roark-analytics-python.git
+# install from PyPI
+pip install roark_analytics
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainless.com/docs/guides/publish), this will become: `pip install --pre roark_analytics`
 
 ## Usage
 
