@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.15.0 (2025-03-04)
+
+Full Changelog: [v1.14.0...v1.15.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.14.0...v1.15.0)
+
+### Features
+
+* **api:** api update ([#53](https://github.com/roarkhq/sdk-roark-analytics-python/issues/53)) ([2c58660](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2c586604a7de5f85976b2f893826d9ad94f68273))
+
+
+### Chores
+
+* **internal:** remove unused http client options forwarding ([#51](https://github.com/roarkhq/sdk-roark-analytics-python/issues/51)) ([1e7213d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1e7213ddfb3bc2c3b07d23f8fd8ef1d22b784bb9))
+
 ## 1.14.0 (2025-03-03)
 
 Full Changelog: [v1.13.0...v1.14.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.13.0...v1.14.0)
