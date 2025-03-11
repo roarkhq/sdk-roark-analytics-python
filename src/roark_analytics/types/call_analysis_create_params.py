@@ -38,12 +38,18 @@ class CallAnalysisCreateParams(TypedDict, total=False):
     These can be used for filtering and will show in the call details page
     """
 
+    retell_call_id: Annotated[str, PropertyInfo(alias="retellCallId")]
+    """Retell call ID if call is being imported from Retell"""
+
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
     """URL of source stereo recording in WAV format.
 
     Must be accessible. Can be a signed URL. While optional it allows for a richer
     audio player
     """
+
+    vapi_call_id: Annotated[str, PropertyInfo(alias="vapiCallId")]
+    """Vapi call ID if call is being imported from Vapi"""
 
 
 class Participant(TypedDict, total=False):
