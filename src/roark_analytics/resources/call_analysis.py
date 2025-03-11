@@ -59,7 +59,9 @@ class CallAnalysisResource(SyncAPIResource):
         ended_reason: str | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
+        retell_call_id: str | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
+        vapi_call_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -88,8 +90,12 @@ class CallAnalysisResource(SyncAPIResource):
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
 
+          retell_call_id: Retell call ID if call is being imported from Retell
+
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
+
+          vapi_call_id: Vapi call ID if call is being imported from Vapi
 
           extra_headers: Send extra headers
 
@@ -111,7 +117,9 @@ class CallAnalysisResource(SyncAPIResource):
                     "ended_reason": ended_reason,
                     "is_test": is_test,
                     "properties": properties,
+                    "retell_call_id": retell_call_id,
                     "stereo_recording_url": stereo_recording_url,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,
             ),
@@ -186,7 +194,9 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
         ended_reason: str | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
+        retell_call_id: str | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
+        vapi_call_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -215,8 +225,12 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
 
+          retell_call_id: Retell call ID if call is being imported from Retell
+
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
+
+          vapi_call_id: Vapi call ID if call is being imported from Vapi
 
           extra_headers: Send extra headers
 
@@ -238,7 +252,9 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
                     "ended_reason": ended_reason,
                     "is_test": is_test,
                     "properties": properties,
+                    "retell_call_id": retell_call_id,
                     "stereo_recording_url": stereo_recording_url,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,
             ),
