@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.41.0 (2025-03-14)
+
+Full Changelog: [v1.40.0...v1.41.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.40.0...v1.41.0)
+
+### Features
+
+* **api:** api update ([#132](https://github.com/roarkhq/sdk-roark-analytics-python/issues/132)) ([8617c93](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8617c93d964ae5f1c3dd4659e17519842f46473e))
+
+
+### Chores
+
+* **internal:** remove extra empty newlines ([#130](https://github.com/roarkhq/sdk-roark-analytics-python/issues/130)) ([34f6ca5](https://github.com/roarkhq/sdk-roark-analytics-python/commit/34f6ca5723820d75e5a52366ea2744e330be3fc9))
+
 ## 1.40.0 (2025-03-13)
 
 Full Changelog: [v1.39.0...v1.40.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.39.0...v1.40.0)
