@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.44.1 (2025-03-15)
+
+Full Changelog: [v1.44.0...v1.44.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.44.0...v1.44.1)
+
+### Bug Fixes
+
+* **types:** handle more discriminated union shapes ([#145](https://github.com/roarkhq/sdk-roark-analytics-python/issues/145)) ([4e4185b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4e4185b803316380ce48b6557e865759be0c00f8))
+
+
+### Chores
+
+* **internal:** bump rye to 0.44.0 ([#143](https://github.com/roarkhq/sdk-roark-analytics-python/issues/143)) ([01689df](https://github.com/roarkhq/sdk-roark-analytics-python/commit/01689dfc4ebf1df2c62415c102ad6d7a50504105))
+
 ## 1.44.0 (2025-03-15)
 
 Full Changelog: [v1.43.0...v1.44.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.43.0...v1.44.0)
