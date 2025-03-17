@@ -61,6 +61,7 @@ class CallAnalysisResource(SyncAPIResource):
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         retell_call_id: str | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
+        tool_invocations: Iterable[call_analysis_create_params.ToolInvocation] | NotGiven = NOT_GIVEN,
         vapi_call_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -95,6 +96,8 @@ class CallAnalysisResource(SyncAPIResource):
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
 
+          tool_invocations: List of tool invocations made during the call
+
           vapi_call_id: Vapi call ID if call is being imported from Vapi
 
           extra_headers: Send extra headers
@@ -119,6 +122,7 @@ class CallAnalysisResource(SyncAPIResource):
                     "properties": properties,
                     "retell_call_id": retell_call_id,
                     "stereo_recording_url": stereo_recording_url,
+                    "tool_invocations": tool_invocations,
                     "vapi_call_id": vapi_call_id,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,
@@ -196,6 +200,7 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         retell_call_id: str | NotGiven = NOT_GIVEN,
         stereo_recording_url: str | NotGiven = NOT_GIVEN,
+        tool_invocations: Iterable[call_analysis_create_params.ToolInvocation] | NotGiven = NOT_GIVEN,
         vapi_call_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -230,6 +235,8 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
           stereo_recording_url: URL of source stereo recording in WAV format. Must be accessible. Can be a
               signed URL. While optional it allows for a richer audio player
 
+          tool_invocations: List of tool invocations made during the call
+
           vapi_call_id: Vapi call ID if call is being imported from Vapi
 
           extra_headers: Send extra headers
@@ -254,6 +261,7 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
                     "properties": properties,
                     "retell_call_id": retell_call_id,
                     "stereo_recording_url": stereo_recording_url,
+                    "tool_invocations": tool_invocations,
                     "vapi_call_id": vapi_call_id,
                 },
                 call_analysis_create_params.CallAnalysisCreateParams,

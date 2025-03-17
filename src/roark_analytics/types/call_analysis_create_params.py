@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["CallAnalysisCreateParams", "Participant"]
+__all__ = [
+    "CallAnalysisCreateParams",
+    "Participant",
+    "ToolInvocation",
+    "ToolInvocationParameters",
+    "ToolInvocationParametersUnionMember0",
+]
 
 
 class CallAnalysisCreateParams(TypedDict, total=False):
@@ -48,6 +54,9 @@ class CallAnalysisCreateParams(TypedDict, total=False):
     audio player
     """
 
+    tool_invocations: Annotated[Iterable[ToolInvocation], PropertyInfo(alias="toolInvocations")]
+    """List of tool invocations made during the call"""
+
     vapi_call_id: Annotated[str, PropertyInfo(alias="vapiCallId")]
     """Vapi call ID if call is being imported from Vapi"""
 
@@ -62,3 +71,28 @@ class Participant(TypedDict, total=False):
     phone_number: Annotated[Optional[str], PropertyInfo(alias="phoneNumber")]
 
     spoke_first: Annotated[bool, PropertyInfo(alias="spokeFirst")]
+
+
+class ToolInvocationParametersUnionMember0(TypedDict, total=False):
+    description: str
+
+    type: Literal["string", "number", "boolean"]
+
+    value: object
+
+
+ToolInvocationParameters: TypeAlias = Union[ToolInvocationParametersUnionMember0, object]
+
+
+class ToolInvocation(TypedDict, total=False):
+    description: Required[str]
+
+    name: Required[str]
+
+    parameters: Required[Dict[str, ToolInvocationParameters]]
+
+    result: Required[Dict[str, object]]
+
+    start_offset_ms: Required[Annotated[int, PropertyInfo(alias="startOffsetMs")]]
+
+    end_offset_ms: Annotated[int, PropertyInfo(alias="endOffsetMs")]
