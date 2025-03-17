@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.64.0 (2025-03-17)
+
+Full Changelog: [v1.63.0...v1.64.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.63.0...v1.64.0)
+
+### Features
+
+* **api:** api update ([#205](https://github.com/roarkhq/sdk-roark-analytics-python/issues/205)) ([ec0d678](https://github.com/roarkhq/sdk-roark-analytics-python/commit/ec0d6783545000a23df9e1e418f5738ab7c63273))
+
+
+### Bug Fixes
+
+* **ci:** ensure pip is always available ([#202](https://github.com/roarkhq/sdk-roark-analytics-python/issues/202)) ([be3b90c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/be3b90c0a2399dda3580067054f4d51857569bc0))
+* **ci:** remove publishing patch ([#204](https://github.com/roarkhq/sdk-roark-analytics-python/issues/204)) ([4dbcb4c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4dbcb4c3e5ddb06032dff43d158635f4dc423b34))
+
 ## 1.63.0 (2025-03-17)
 
 Full Changelog: [v1.62.0...v1.63.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.62.0...v1.63.0)
