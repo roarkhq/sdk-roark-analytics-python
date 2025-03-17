@@ -85,14 +85,14 @@ ToolInvocationParameters: TypeAlias = Union[ToolInvocationParametersUnionMember0
 
 
 class ToolInvocation(TypedDict, total=False):
-    description: Required[str]
-
     name: Required[str]
 
     parameters: Required[Dict[str, ToolInvocationParameters]]
 
-    result: Required[Dict[str, object]]
+    result: Required[Union[str, Dict[str, object]]]
 
     start_offset_ms: Required[Annotated[int, PropertyInfo(alias="startOffsetMs")]]
+
+    description: str
 
     end_offset_ms: Annotated[int, PropertyInfo(alias="endOffsetMs")]
