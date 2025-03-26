@@ -80,7 +80,8 @@ class CallAnalysisResource(SyncAPIResource):
 
           participants: Exactly two participants in the call
 
-          recording_url: URL of source recording (must be an accessible WAV file). Can be a signed URL.
+          recording_url: URL of source recording (must be an accessible WAV or MP3 file). Can be a signed
+              URL.
 
           started_at: When the call started (ISO 8601 format)
 
@@ -219,7 +220,8 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
 
           participants: Exactly two participants in the call
 
-          recording_url: URL of source recording (must be an accessible WAV file). Can be a signed URL.
+          recording_url: URL of source recording (must be an accessible WAV or MP3 file). Can be a signed
+              URL.
 
           started_at: When the call started (ISO 8601 format)
 

@@ -27,7 +27,10 @@ class CallAnalysisCreateParams(TypedDict, total=False):
     """Exactly two participants in the call"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV file). Can be a signed URL."""
+    """URL of source recording (must be an accessible WAV or MP3 file).
+
+    Can be a signed URL.
+    """
 
     started_at: Required[Annotated[str, PropertyInfo(alias="startedAt")]]
     """When the call started (ISO 8601 format)"""
