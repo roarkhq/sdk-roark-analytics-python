@@ -24,7 +24,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         )
         assert_matches_type(CallAnalysisCreateResponse, call_analysis, path=["response"])
 
@@ -50,7 +50,7 @@ class TestCallAnalysis:
                 },
             ],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
             ended_reason="endedReason",
             is_test=False,
             properties={
@@ -61,19 +61,29 @@ class TestCallAnalysis:
             stereo_recording_url="https://example.com",
             tool_invocations=[
                 {
-                    "name": "name",
-                    "parameters": {
-                        "foo": {
-                            "description": "description",
-                            "type": "string",
-                            "value": {},
-                        }
-                    },
-                    "result": "string",
-                    "start_offset_ms": 0,
-                    "description": "description",
+                    "name": "getDentalAppointments",
+                    "parameters": {},
+                    "result": {"appointments": "bar"},
+                    "start_offset_ms": 2000,
+                    "description": "Get available dental appointments",
                     "end_offset_ms": 0,
-                }
+                },
+                {
+                    "name": "bookAppointment",
+                    "parameters": {
+                        "patientName": "John Doe",
+                        "patientPhone": "+1234567890",
+                        "appointmentType": {
+                            "description": "Type of dental appointment",
+                            "type": "string",
+                            "value": "cleaning",
+                        },
+                    },
+                    "result": "Success",
+                    "start_offset_ms": 7000,
+                    "description": "Book an appointment for the client",
+                    "end_offset_ms": 0,
+                },
             ],
             vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -86,7 +96,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         )
 
         assert response.is_closed is True
@@ -101,7 +111,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -160,7 +170,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         )
         assert_matches_type(CallAnalysisCreateResponse, call_analysis, path=["response"])
 
@@ -186,7 +196,7 @@ class TestAsyncCallAnalysis:
                 },
             ],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
             ended_reason="endedReason",
             is_test=False,
             properties={
@@ -197,19 +207,29 @@ class TestAsyncCallAnalysis:
             stereo_recording_url="https://example.com",
             tool_invocations=[
                 {
-                    "name": "name",
-                    "parameters": {
-                        "foo": {
-                            "description": "description",
-                            "type": "string",
-                            "value": {},
-                        }
-                    },
-                    "result": "string",
-                    "start_offset_ms": 0,
-                    "description": "description",
+                    "name": "getDentalAppointments",
+                    "parameters": {},
+                    "result": {"appointments": "bar"},
+                    "start_offset_ms": 2000,
+                    "description": "Get available dental appointments",
                     "end_offset_ms": 0,
-                }
+                },
+                {
+                    "name": "bookAppointment",
+                    "parameters": {
+                        "patientName": "John Doe",
+                        "patientPhone": "+1234567890",
+                        "appointmentType": {
+                            "description": "Type of dental appointment",
+                            "type": "string",
+                            "value": "cleaning",
+                        },
+                    },
+                    "result": "Success",
+                    "start_offset_ms": 7000,
+                    "description": "Book an appointment for the client",
+                    "end_offset_ms": 0,
+                },
             ],
             vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -222,7 +242,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         )
 
         assert response.is_closed is True
@@ -237,7 +257,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-03-28T20:28:49.653Z",
+            started_at="2025-03-29T11:13:51.025Z",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
