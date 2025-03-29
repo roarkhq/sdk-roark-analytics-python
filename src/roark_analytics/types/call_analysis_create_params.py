@@ -89,13 +89,22 @@ ToolInvocationParameters: TypeAlias = Union[ToolInvocationParametersUnionMember0
 
 class ToolInvocation(TypedDict, total=False):
     name: Required[str]
+    """Name of the tool that was invoked"""
 
     parameters: Required[Dict[str, ToolInvocationParameters]]
+    """Parameters provided to the tool during invocation"""
 
     result: Required[Union[str, Dict[str, object]]]
+    """Result returned by the tool after execution. Can be a string or a JSON object"""
 
     start_offset_ms: Required[Annotated[int, PropertyInfo(alias="startOffsetMs")]]
+    """Offset in milliseconds from the start of the call when the tool was invoked"""
 
     description: str
+    """Description of when the tool should be invoked"""
 
     end_offset_ms: Annotated[int, PropertyInfo(alias="endOffsetMs")]
+    """
+    Offset in milliseconds from the start of the call when the tool execution
+    completed. Used to calculate duration of the tool execution
+    """
