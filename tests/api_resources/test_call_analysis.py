@@ -24,7 +24,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         )
         assert_matches_type(CallAnalysisCreateResponse, call_analysis, path=["response"])
 
@@ -50,7 +50,7 @@ class TestCallAnalysis:
                 },
             ],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
             ended_reason="endedReason",
             is_test=False,
             properties={
@@ -96,7 +96,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         )
 
         assert response.is_closed is True
@@ -111,7 +111,7 @@ class TestCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -170,7 +170,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         )
         assert_matches_type(CallAnalysisCreateResponse, call_analysis, path=["response"])
 
@@ -196,7 +196,7 @@ class TestAsyncCallAnalysis:
                 },
             ],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
             ended_reason="endedReason",
             is_test=False,
             properties={
@@ -242,7 +242,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         )
 
         assert response.is_closed is True
@@ -257,7 +257,7 @@ class TestAsyncCallAnalysis:
             interface_type="PHONE",
             participants=[{"role": "AGENT"}, {"role": "AGENT"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-04-02T12:21:02.320Z",
+            started_at="2025-04-02T13:48:12.232Z",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
