@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.95.0 (2025-04-03)
+
+Full Changelog: [v1.94.0...v1.95.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.94.0...v1.95.0)
+
+### Features
+
+* **api:** api update ([#298](https://github.com/roarkhq/sdk-roark-analytics-python/issues/298)) ([66a708e](https://github.com/roarkhq/sdk-roark-analytics-python/commit/66a708ec5f92d15d504071e7c759b4823a3b3fd2))
+
 ## 1.94.0 (2025-04-03)
 
 Full Changelog: [v1.93.0...v1.94.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.93.0...v1.94.0)
