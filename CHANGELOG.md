@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.102.1 (2025-04-04)
+
+Full Changelog: [v1.102.0...v1.102.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.102.0...v1.102.1)
+
+### Chores
+
+* **internal:** remove trailing character ([#322](https://github.com/roarkhq/sdk-roark-analytics-python/issues/322)) ([41714b4](https://github.com/roarkhq/sdk-roark-analytics-python/commit/41714b49a880e534ab3b65972e15195f4a238149))
+
 ## 1.102.0 (2025-04-04)
 
 Full Changelog: [v1.101.0...v1.102.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.101.0...v1.102.0)
