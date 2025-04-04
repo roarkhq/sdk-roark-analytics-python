@@ -1741,7 +1741,7 @@ class TestAsyncRoark:
         import threading
 
         from roark_analytics._utils import asyncify
-        from roark_analytics._base_client import get_platform 
+        from roark_analytics._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
