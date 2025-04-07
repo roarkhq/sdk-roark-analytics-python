@@ -36,7 +36,7 @@ call_analysis = client.call_analysis.create(
     interface_type="PHONE",
     participants=[{"role": "AGENT"}, {"role": "AGENT"}],
     recording_url="https://example.com/recording.wav",
-    started_at="2025-04-04T18:58:58.522Z",
+    started_at="2025-04-07T13:45:48.511Z",
 )
 print(call_analysis.data)
 ```
@@ -66,7 +66,7 @@ async def main() -> None:
         interface_type="PHONE",
         participants=[{"role": "AGENT"}, {"role": "AGENT"}],
         recording_url="https://example.com/recording.wav",
-        started_at="2025-04-04T18:58:58.522Z",
+        started_at="2025-04-07T13:45:48.511Z",
     )
     print(call_analysis.data)
 
@@ -106,7 +106,7 @@ try:
         interface_type="PHONE",
         participants=[{"role": "AGENT"}, {"role": "AGENT"}],
         recording_url="https://example.com/recording.wav",
-        started_at="2025-04-04T18:58:58.522Z",
+        started_at="2025-04-07T13:45:48.511Z",
     )
 except roark_analytics.APIConnectionError as e:
     print("The server could not be reached")
@@ -155,7 +155,7 @@ client.with_options(max_retries=5).call_analysis.create(
     interface_type="PHONE",
     participants=[{"role": "AGENT"}, {"role": "AGENT"}],
     recording_url="https://example.com/recording.wav",
-    started_at="2025-04-04T18:58:58.522Z",
+    started_at="2025-04-07T13:45:48.511Z",
 )
 ```
 
@@ -184,7 +184,7 @@ client.with_options(timeout=5.0).call_analysis.create(
     interface_type="PHONE",
     participants=[{"role": "AGENT"}, {"role": "AGENT"}],
     recording_url="https://example.com/recording.wav",
-    started_at="2025-04-04T18:58:58.522Z",
+    started_at="2025-04-07T13:45:48.511Z",
 )
 ```
 
@@ -235,7 +235,7 @@ response = client.call_analysis.with_raw_response.create(
         "role": "AGENT"
     }],
     recording_url="https://example.com/recording.wav",
-    started_at="2025-04-04T18:58:58.522Z",
+    started_at="2025-04-07T13:45:48.511Z",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -259,7 +259,7 @@ with client.call_analysis.with_streaming_response.create(
     interface_type="PHONE",
     participants=[{"role": "AGENT"}, {"role": "AGENT"}],
     recording_url="https://example.com/recording.wav",
-    started_at="2025-04-04T18:58:58.522Z",
+    started_at="2025-04-07T13:45:48.511Z",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
