@@ -33,8 +33,8 @@ client = Roark(
 
 call_analysis = client.call_analysis.create(
     call_direction="INBOUND",
-    interface_type="PHONE",
-    participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+    interface_type="WEB",
+    participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
     recording_url="https://example.com/recording.wav",
     started_at="2025-04-08T01:08:47.686Z",
 )
@@ -63,8 +63,8 @@ client = AsyncRoark(
 async def main() -> None:
     call_analysis = await client.call_analysis.create(
         call_direction="INBOUND",
-        interface_type="PHONE",
-        participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+        interface_type="WEB",
+        participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
         recording_url="https://example.com/recording.wav",
         started_at="2025-04-08T01:08:47.686Z",
     )
@@ -103,8 +103,8 @@ client = Roark()
 try:
     client.call_analysis.create(
         call_direction="INBOUND",
-        interface_type="PHONE",
-        participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+        interface_type="WEB",
+        participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
         recording_url="https://example.com/recording.wav",
         started_at="2025-04-08T01:08:47.686Z",
     )
@@ -152,8 +152,8 @@ client = Roark(
 # Or, configure per-request:
 client.with_options(max_retries=5).call_analysis.create(
     call_direction="INBOUND",
-    interface_type="PHONE",
-    participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+    interface_type="WEB",
+    participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
     recording_url="https://example.com/recording.wav",
     started_at="2025-04-08T01:08:47.686Z",
 )
@@ -181,8 +181,8 @@ client = Roark(
 # Override per-request:
 client.with_options(timeout=5.0).call_analysis.create(
     call_direction="INBOUND",
-    interface_type="PHONE",
-    participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+    interface_type="WEB",
+    participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
     recording_url="https://example.com/recording.wav",
     started_at="2025-04-08T01:08:47.686Z",
 )
@@ -228,11 +228,11 @@ from roark_analytics import Roark
 client = Roark()
 response = client.call_analysis.with_raw_response.create(
     call_direction="INBOUND",
-    interface_type="PHONE",
+    interface_type="WEB",
     participants=[{
         "role": "AGENT"
     }, {
-        "role": "AGENT"
+        "role": "CUSTOMER"
     }],
     recording_url="https://example.com/recording.wav",
     started_at="2025-04-08T01:08:47.686Z",
@@ -256,8 +256,8 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.call_analysis.with_streaming_response.create(
     call_direction="INBOUND",
-    interface_type="PHONE",
-    participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+    interface_type="WEB",
+    participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
     recording_url="https://example.com/recording.wav",
     started_at="2025-04-08T01:08:47.686Z",
 ) as response:

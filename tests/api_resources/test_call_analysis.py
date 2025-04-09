@@ -21,8 +21,8 @@ class TestCallAnalysis:
     def test_method_create(self, client: Roark) -> None:
         call_analysis = client.call_analysis.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -32,7 +32,7 @@ class TestCallAnalysis:
     def test_method_create_with_all_params(self, client: Roark) -> None:
         call_analysis = client.call_analysis.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
+            interface_type="WEB",
             participants=[
                 {
                     "role": "AGENT",
@@ -42,7 +42,7 @@ class TestCallAnalysis:
                     "spoke_first": True,
                 },
                 {
-                    "role": "AGENT",
+                    "role": "CUSTOMER",
                     "is_simulated": True,
                     "name": "John Doe",
                     "phone_number": "+15557654321",
@@ -93,8 +93,8 @@ class TestCallAnalysis:
     def test_raw_response_create(self, client: Roark) -> None:
         response = client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -108,8 +108,8 @@ class TestCallAnalysis:
     def test_streaming_response_create(self, client: Roark) -> None:
         with client.call_analysis.with_streaming_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         ) as response:
@@ -167,8 +167,8 @@ class TestAsyncCallAnalysis:
     async def test_method_create(self, async_client: AsyncRoark) -> None:
         call_analysis = await async_client.call_analysis.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -178,7 +178,7 @@ class TestAsyncCallAnalysis:
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
         call_analysis = await async_client.call_analysis.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
+            interface_type="WEB",
             participants=[
                 {
                     "role": "AGENT",
@@ -188,7 +188,7 @@ class TestAsyncCallAnalysis:
                     "spoke_first": True,
                 },
                 {
-                    "role": "AGENT",
+                    "role": "CUSTOMER",
                     "is_simulated": True,
                     "name": "John Doe",
                     "phone_number": "+15557654321",
@@ -239,8 +239,8 @@ class TestAsyncCallAnalysis:
     async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
         response = await async_client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -254,8 +254,8 @@ class TestAsyncCallAnalysis:
     async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
         async with async_client.call_analysis.with_streaming_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         ) as response:
