@@ -752,8 +752,8 @@ class TestRoark:
                     maybe_transform(
                         dict(
                             call_direction="INBOUND",
-                            interface_type="PHONE",
-                            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+                            interface_type="WEB",
+                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
                             started_at="2025-04-08T01:08:47.686Z",
                         ),
@@ -779,8 +779,8 @@ class TestRoark:
                     maybe_transform(
                         dict(
                             call_direction="INBOUND",
-                            interface_type="PHONE",
-                            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+                            interface_type="WEB",
+                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
                             started_at="2025-04-08T01:08:47.686Z",
                         ),
@@ -821,8 +821,8 @@ class TestRoark:
 
         response = client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -849,8 +849,8 @@ class TestRoark:
 
         response = client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
             extra_headers={"x-stainless-retry-count": Omit()},
@@ -879,8 +879,8 @@ class TestRoark:
 
         response = client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
             extra_headers={"x-stainless-retry-count": "42"},
@@ -1588,8 +1588,8 @@ class TestAsyncRoark:
                     maybe_transform(
                         dict(
                             call_direction="INBOUND",
-                            interface_type="PHONE",
-                            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+                            interface_type="WEB",
+                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
                             started_at="2025-04-08T01:08:47.686Z",
                         ),
@@ -1615,8 +1615,8 @@ class TestAsyncRoark:
                     maybe_transform(
                         dict(
                             call_direction="INBOUND",
-                            interface_type="PHONE",
-                            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+                            interface_type="WEB",
+                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
                             started_at="2025-04-08T01:08:47.686Z",
                         ),
@@ -1658,8 +1658,8 @@ class TestAsyncRoark:
 
         response = await client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
         )
@@ -1689,8 +1689,8 @@ class TestAsyncRoark:
 
         response = await client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
             extra_headers={"x-stainless-retry-count": Omit()},
@@ -1720,8 +1720,8 @@ class TestAsyncRoark:
 
         response = await client.call_analysis.with_raw_response.create(
             call_direction="INBOUND",
-            interface_type="PHONE",
-            participants=[{"role": "AGENT"}, {"role": "AGENT"}],
+            interface_type="WEB",
+            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
             started_at="2025-04-08T01:08:47.686Z",
             extra_headers={"x-stainless-retry-count": "42"},
