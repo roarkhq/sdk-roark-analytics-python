@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.109.0 (2025-04-10)
+
+Full Changelog: [v1.108.0...v1.109.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.108.0...v1.109.0)
+
+### Features
+
+* **api:** api update ([62eeed9](https://github.com/roarkhq/sdk-roark-analytics-python/commit/62eeed9e437af08e0d4a44a620739f9988613f42))
+
+
+### Chores
+
+* **internal:** expand CI branch coverage ([8927eaa](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8927eaa511902c69fc591382a7ebbcc9b4a684fe))
+* **internal:** reduce CI branch coverage ([fafa2e5](https://github.com/roarkhq/sdk-roark-analytics-python/commit/fafa2e5a65dc56a402defc8ed2e31408eef25b7b))
+* **internal:** slight transform perf improvement ([#340](https://github.com/roarkhq/sdk-roark-analytics-python/issues/340)) ([65307be](https://github.com/roarkhq/sdk-roark-analytics-python/commit/65307beb20e9c79a4dea42adc9cbeffcb1ec4c92))
+* **tests:** improve enum examples ([#341](https://github.com/roarkhq/sdk-roark-analytics-python/issues/341)) ([df0d6f7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/df0d6f7f4aedcccff3eda4bc179c95079bc19499))
+
 ## 1.108.0 (2025-04-08)
 
 Full Changelog: [v1.107.0...v1.108.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.107.0...v1.108.0)
