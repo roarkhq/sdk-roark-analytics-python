@@ -1,6 +1,6 @@
 [project]
 name = "roark_analytics"
-version = "1.113.0"
+version = "1.114.0"
 description = "The official Python library for the roark API"
 dynamic = ["readme"]
 license = "Apache-2.0"
