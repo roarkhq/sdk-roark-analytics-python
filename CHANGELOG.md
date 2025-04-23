@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.117.0 (2025-04-23)
+
+Full Changelog: [v1.116.0...v1.117.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.116.0...v1.117.0)
+
+### Features
+
+* **api:** api update ([b1208ef](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b1208ef735e650d539f26a4862e1bbfabc9fee7f))
+
+
+### Bug Fixes
+
+* **pydantic v1:** more robust ModelField.annotation check ([092e0d6](https://github.com/roarkhq/sdk-roark-analytics-python/commit/092e0d6f3467fb14bbe22c82e088e3ddb6bc3d27))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([d8694af](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d8694af3dd264b7d949884270a379319bfa1adbe))
+* **internal:** fix list file params ([175ac5a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/175ac5a875b67121fa9ae767b496bc761ff345f8))
+* **internal:** import reformatting ([525e2bf](https://github.com/roarkhq/sdk-roark-analytics-python/commit/525e2bf514c5b5a6119a4692aaffe4490244fa25))
+* **internal:** refactor retries to not use recursion ([033cd6a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/033cd6ad05a24d4b54a473211e993a106bd8cfa0))
+
 ## 1.116.0 (2025-04-23)
 
 Full Changelog: [v1.115.0...v1.116.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.115.0...v1.116.0)
