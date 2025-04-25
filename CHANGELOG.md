@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.118.0 (2025-04-25)
+
+Full Changelog: [v1.117.0...v1.118.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.117.0...v1.118.0)
+
+### Features
+
+* **api:** api update ([46603ae](https://github.com/roarkhq/sdk-roark-analytics-python/commit/46603ae4cf9172b8bd85e04f990db4e38d2cac59))
+* **api:** api update ([410737b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/410737bdec006800ac772f822146f817746e2fd8))
+* **api:** api update ([2ee443c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2ee443c47cd4a1170b4be359610caa3a7c7eb025))
+
+
+### Chores
+
+* broadly detect json family of content-type headers ([386cf65](https://github.com/roarkhq/sdk-roark-analytics-python/commit/386cf65d3ccdc28f71043ff2111b81b63f72841a))
+* **ci:** only use depot for staging repos ([9675544](https://github.com/roarkhq/sdk-roark-analytics-python/commit/96755447bc65a8bc26df93997e04cce58618865d))
+* **internal:** codegen related update ([9347703](https://github.com/roarkhq/sdk-roark-analytics-python/commit/9347703238f9746a499d4f0dd25d301b09220082))
+
 ## 1.117.0 (2025-04-23)
 
 Full Changelog: [v1.116.0...v1.117.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.116.0...v1.117.0)
