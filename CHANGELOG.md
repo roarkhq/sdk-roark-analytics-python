@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.137.0 (2025-05-09)
+
+Full Changelog: [v1.136.0...v1.137.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.136.0...v1.137.0)
+
+### Features
+
+* **api:** api update ([5b39a9b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5b39a9b5e5f785a5d8418db791da93ae6fb507bf))
+
+
+### Chores
+
+* **internal:** avoid errors for isinstance checks on proxies ([69658b4](https://github.com/roarkhq/sdk-roark-analytics-python/commit/69658b4931e60378499cb68b697fcbc0ef2fa60b))
+
 ## 1.136.0 (2025-05-08)
 
 Full Changelog: [v1.135.0...v1.136.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.135.0...v1.136.0)
