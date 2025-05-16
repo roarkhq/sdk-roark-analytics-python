@@ -54,6 +54,21 @@ class CallAnalysisResource(SyncAPIResource):
         recording_url: str,
         started_at: str,
         ended_reason: str | NotGiven = NOT_GIVEN,
+        ended_status: Literal[
+            "AGENT_ENDED_CALL",
+            "AGENT_TRANSFERRED_CALL",
+            "AGENT_ERROR",
+            "CUSTOMER_ENDED_CALL",
+            "VOICE_MAIL_REACHED",
+            "SILENCE_TIME_OUT",
+            "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
+            "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_BUSY",
+            "DIAL_ERROR",
+            "MAX_DURATION_REACHED",
+            "UNKNOWN",
+        ]
+        | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         retell_call_id: str | NotGiven = NOT_GIVEN,
@@ -82,7 +97,9 @@ class CallAnalysisResource(SyncAPIResource):
 
           started_at: When the call started (ISO 8601 format)
 
-          ended_reason: Reason why the call ended (optional)
+          ended_reason: Additional context on why the call terminated with the endedStatus
+
+          ended_status: High-level call end status, indicating how the call terminated
 
           is_test: Whether this is a test call
 
@@ -116,6 +133,7 @@ class CallAnalysisResource(SyncAPIResource):
                     "recording_url": recording_url,
                     "started_at": started_at,
                     "ended_reason": ended_reason,
+                    "ended_status": ended_status,
                     "is_test": is_test,
                     "properties": properties,
                     "retell_call_id": retell_call_id,
@@ -194,6 +212,21 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
         recording_url: str,
         started_at: str,
         ended_reason: str | NotGiven = NOT_GIVEN,
+        ended_status: Literal[
+            "AGENT_ENDED_CALL",
+            "AGENT_TRANSFERRED_CALL",
+            "AGENT_ERROR",
+            "CUSTOMER_ENDED_CALL",
+            "VOICE_MAIL_REACHED",
+            "SILENCE_TIME_OUT",
+            "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
+            "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_BUSY",
+            "DIAL_ERROR",
+            "MAX_DURATION_REACHED",
+            "UNKNOWN",
+        ]
+        | NotGiven = NOT_GIVEN,
         is_test: bool | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         retell_call_id: str | NotGiven = NOT_GIVEN,
@@ -222,7 +255,9 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
 
           started_at: When the call started (ISO 8601 format)
 
-          ended_reason: Reason why the call ended (optional)
+          ended_reason: Additional context on why the call terminated with the endedStatus
+
+          ended_status: High-level call end status, indicating how the call terminated
 
           is_test: Whether this is a test call
 
@@ -256,6 +291,7 @@ class AsyncCallAnalysisResource(AsyncAPIResource):
                     "recording_url": recording_url,
                     "started_at": started_at,
                     "ended_reason": ended_reason,
+                    "ended_status": ended_status,
                     "is_test": is_test,
                     "properties": properties,
                     "retell_call_id": retell_call_id,

@@ -36,7 +36,26 @@ class CallAnalysisCreateParams(TypedDict, total=False):
     """When the call started (ISO 8601 format)"""
 
     ended_reason: Annotated[str, PropertyInfo(alias="endedReason")]
-    """Reason why the call ended (optional)"""
+    """Additional context on why the call terminated with the endedStatus"""
+
+    ended_status: Annotated[
+        Literal[
+            "AGENT_ENDED_CALL",
+            "AGENT_TRANSFERRED_CALL",
+            "AGENT_ERROR",
+            "CUSTOMER_ENDED_CALL",
+            "VOICE_MAIL_REACHED",
+            "SILENCE_TIME_OUT",
+            "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
+            "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_BUSY",
+            "DIAL_ERROR",
+            "MAX_DURATION_REACHED",
+            "UNKNOWN",
+        ],
+        PropertyInfo(alias="endedStatus"),
+    ]
+    """High-level call end status, indicating how the call terminated"""
 
     is_test: Annotated[bool, PropertyInfo(alias="isTest")]
     """Whether this is a test call"""
