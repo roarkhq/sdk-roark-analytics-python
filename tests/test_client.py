@@ -755,7 +755,7 @@ class TestRoark:
                             interface_type="WEB",
                             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
-                            started_at="2025-05-25T13:08:43.005Z",
+                            started_at="2025-05-25T13:55:10.878Z",
                         ),
                         CallAnalysisCreateParams,
                     ),
@@ -782,7 +782,7 @@ class TestRoark:
                             interface_type="WEB",
                             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
-                            started_at="2025-05-25T13:08:43.005Z",
+                            started_at="2025-05-25T13:55:10.878Z",
                         ),
                         CallAnalysisCreateParams,
                     ),
@@ -824,7 +824,7 @@ class TestRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
         )
 
         assert response.retries_taken == failures_before_success
@@ -852,7 +852,7 @@ class TestRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -882,7 +882,7 @@ class TestRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
@@ -1591,7 +1591,7 @@ class TestAsyncRoark:
                             interface_type="WEB",
                             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
-                            started_at="2025-05-25T13:08:43.005Z",
+                            started_at="2025-05-25T13:55:10.878Z",
                         ),
                         CallAnalysisCreateParams,
                     ),
@@ -1618,7 +1618,7 @@ class TestAsyncRoark:
                             interface_type="WEB",
                             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
                             recording_url="https://example.com/recording.wav",
-                            started_at="2025-05-25T13:08:43.005Z",
+                            started_at="2025-05-25T13:55:10.878Z",
                         ),
                         CallAnalysisCreateParams,
                     ),
@@ -1661,7 +1661,7 @@ class TestAsyncRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
         )
 
         assert response.retries_taken == failures_before_success
@@ -1692,7 +1692,7 @@ class TestAsyncRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -1723,7 +1723,7 @@ class TestAsyncRoark:
             interface_type="WEB",
             participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
             recording_url="https://example.com/recording.wav",
-            started_at="2025-05-25T13:08:43.005Z",
+            started_at="2025-05-25T13:55:10.878Z",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
