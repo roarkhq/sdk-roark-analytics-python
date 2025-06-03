@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import health, call_analysis
+from .resources import health, evaluations
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import RoarkError, APIStatusError
 from ._base_client import (
@@ -35,7 +35,7 @@ __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Roark", "A
 
 class Roark(SyncAPIClient):
     health: health.HealthResource
-    call_analysis: call_analysis.CallAnalysisResource
+    evaluations: evaluations.EvaluationsResource
     with_raw_response: RoarkWithRawResponse
     with_streaming_response: RoarkWithStreamedResponse
 
@@ -94,7 +94,7 @@ class Roark(SyncAPIClient):
         )
 
         self.health = health.HealthResource(self)
-        self.call_analysis = call_analysis.CallAnalysisResource(self)
+        self.evaluations = evaluations.EvaluationsResource(self)
         self.with_raw_response = RoarkWithRawResponse(self)
         self.with_streaming_response = RoarkWithStreamedResponse(self)
 
@@ -205,7 +205,7 @@ class Roark(SyncAPIClient):
 
 class AsyncRoark(AsyncAPIClient):
     health: health.AsyncHealthResource
-    call_analysis: call_analysis.AsyncCallAnalysisResource
+    evaluations: evaluations.AsyncEvaluationsResource
     with_raw_response: AsyncRoarkWithRawResponse
     with_streaming_response: AsyncRoarkWithStreamedResponse
 
@@ -264,7 +264,7 @@ class AsyncRoark(AsyncAPIClient):
         )
 
         self.health = health.AsyncHealthResource(self)
-        self.call_analysis = call_analysis.AsyncCallAnalysisResource(self)
+        self.evaluations = evaluations.AsyncEvaluationsResource(self)
         self.with_raw_response = AsyncRoarkWithRawResponse(self)
         self.with_streaming_response = AsyncRoarkWithStreamedResponse(self)
 
@@ -376,25 +376,25 @@ class AsyncRoark(AsyncAPIClient):
 class RoarkWithRawResponse:
     def __init__(self, client: Roark) -> None:
         self.health = health.HealthResourceWithRawResponse(client.health)
-        self.call_analysis = call_analysis.CallAnalysisResourceWithRawResponse(client.call_analysis)
+        self.evaluations = evaluations.EvaluationsResourceWithRawResponse(client.evaluations)
 
 
 class AsyncRoarkWithRawResponse:
     def __init__(self, client: AsyncRoark) -> None:
         self.health = health.AsyncHealthResourceWithRawResponse(client.health)
-        self.call_analysis = call_analysis.AsyncCallAnalysisResourceWithRawResponse(client.call_analysis)
+        self.evaluations = evaluations.AsyncEvaluationsResourceWithRawResponse(client.evaluations)
 
 
 class RoarkWithStreamedResponse:
     def __init__(self, client: Roark) -> None:
         self.health = health.HealthResourceWithStreamingResponse(client.health)
-        self.call_analysis = call_analysis.CallAnalysisResourceWithStreamingResponse(client.call_analysis)
+        self.evaluations = evaluations.EvaluationsResourceWithStreamingResponse(client.evaluations)
 
 
 class AsyncRoarkWithStreamedResponse:
     def __init__(self, client: AsyncRoark) -> None:
         self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
-        self.call_analysis = call_analysis.AsyncCallAnalysisResourceWithStreamingResponse(client.call_analysis)
+        self.evaluations = evaluations.AsyncEvaluationsResourceWithStreamingResponse(client.evaluations)
 
 
 Client = Roark

@@ -33,7 +33,7 @@ from roark_analytics._base_client import (
     BaseClient,
     make_request_options,
 )
-from roark_analytics.types.call_analysis_create_params import CallAnalysisCreateParams
+from roark_analytics.types.evaluation_create_params import EvaluationCreateParams
 
 from .utils import update_env
 
@@ -742,24 +742,12 @@ class TestRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/call-analysis").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v1/evaluations").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/v1/call-analysis",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            call_direction="INBOUND",
-                            interface_type="WEB",
-                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-                            recording_url="https://example.com/recording.wav",
-                            started_at="2025-06-03T09:37:24.594Z",
-                        ),
-                        CallAnalysisCreateParams,
-                    ),
-                ),
+                "/v1/evaluations",
+                body=cast(object, maybe_transform(dict(evaluators=["string"]), EvaluationCreateParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -769,24 +757,12 @@ class TestRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/call-analysis").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v1/evaluations").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/v1/call-analysis",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            call_direction="INBOUND",
-                            interface_type="WEB",
-                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-                            recording_url="https://example.com/recording.wav",
-                            started_at="2025-06-03T09:37:24.594Z",
-                        ),
-                        CallAnalysisCreateParams,
-                    ),
-                ),
+                "/v1/evaluations",
+                body=cast(object, maybe_transform(dict(evaluators=["string"]), EvaluationCreateParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -817,15 +793,9 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-        )
+        response = client.evaluations.with_raw_response.create(evaluators=["string"])
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -845,15 +815,10 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = client.evaluations.with_raw_response.create(
+            evaluators=["string"], extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -875,15 +840,10 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-            extra_headers={"x-stainless-retry-count": "42"},
+        response = client.evaluations.with_raw_response.create(
+            evaluators=["string"], extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1578,24 +1538,12 @@ class TestAsyncRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/call-analysis").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v1/evaluations").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/v1/call-analysis",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            call_direction="INBOUND",
-                            interface_type="WEB",
-                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-                            recording_url="https://example.com/recording.wav",
-                            started_at="2025-06-03T09:37:24.594Z",
-                        ),
-                        CallAnalysisCreateParams,
-                    ),
-                ),
+                "/v1/evaluations",
+                body=cast(object, maybe_transform(dict(evaluators=["string"]), EvaluationCreateParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1605,24 +1553,12 @@ class TestAsyncRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/call-analysis").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v1/evaluations").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/v1/call-analysis",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            call_direction="INBOUND",
-                            interface_type="WEB",
-                            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-                            recording_url="https://example.com/recording.wav",
-                            started_at="2025-06-03T09:37:24.594Z",
-                        ),
-                        CallAnalysisCreateParams,
-                    ),
-                ),
+                "/v1/evaluations",
+                body=cast(object, maybe_transform(dict(evaluators=["string"]), EvaluationCreateParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1654,15 +1590,9 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = await client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-        )
+        response = await client.evaluations.with_raw_response.create(evaluators=["string"])
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1685,15 +1615,10 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = await client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = await client.evaluations.with_raw_response.create(
+            evaluators=["string"], extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1716,15 +1641,10 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/call-analysis").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/evaluations").mock(side_effect=retry_handler)
 
-        response = await client.call_analysis.with_raw_response.create(
-            call_direction="INBOUND",
-            interface_type="WEB",
-            participants=[{"role": "AGENT"}, {"role": "CUSTOMER"}],
-            recording_url="https://example.com/recording.wav",
-            started_at="2025-06-03T09:37:24.594Z",
-            extra_headers={"x-stainless-retry-count": "42"},
+        response = await client.evaluations.with_raw_response.create(
+            evaluators=["string"], extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

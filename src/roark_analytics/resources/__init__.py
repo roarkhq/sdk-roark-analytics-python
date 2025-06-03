@@ -8,13 +8,13 @@ from .health import (
     HealthResourceWithStreamingResponse,
     AsyncHealthResourceWithStreamingResponse,
 )
-from .call_analysis import (
-    CallAnalysisResource,
-    AsyncCallAnalysisResource,
-    CallAnalysisResourceWithRawResponse,
-    AsyncCallAnalysisResourceWithRawResponse,
-    CallAnalysisResourceWithStreamingResponse,
-    AsyncCallAnalysisResourceWithStreamingResponse,
+from .evaluations import (
+    EvaluationsResource,
+    AsyncEvaluationsResource,
+    EvaluationsResourceWithRawResponse,
+    AsyncEvaluationsResourceWithRawResponse,
+    EvaluationsResourceWithStreamingResponse,
+    AsyncEvaluationsResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -24,10 +24,10 @@ __all__ = [
     "AsyncHealthResourceWithRawResponse",
     "HealthResourceWithStreamingResponse",
     "AsyncHealthResourceWithStreamingResponse",
-    "CallAnalysisResource",
-    "AsyncCallAnalysisResource",
-    "CallAnalysisResourceWithRawResponse",
-    "AsyncCallAnalysisResourceWithRawResponse",
-    "CallAnalysisResourceWithStreamingResponse",
-    "AsyncCallAnalysisResourceWithStreamingResponse",
+    "EvaluationsResource",
+    "AsyncEvaluationsResource",
+    "EvaluationsResourceWithRawResponse",
+    "AsyncEvaluationsResourceWithRawResponse",
+    "EvaluationsResourceWithStreamingResponse",
+    "AsyncEvaluationsResourceWithStreamingResponse",
 ]
