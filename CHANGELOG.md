@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.177.0 (2025-06-03)
+
+Full Changelog: [v1.176.0...v1.177.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.176.0...v1.177.0)
+
+### Features
+
+* **api:** api update ([1ddad31](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1ddad31d5ce0197768f9b8345de634b17074eb21))
+* **client:** add follow_redirects request option ([96e62ca](https://github.com/roarkhq/sdk-roark-analytics-python/commit/96e62ca2bb5de17c5dc9e406368db4a3b19dcbb8))
+
 ## 1.176.0 (2025-06-03)
 
 Full Changelog: [v1.175.0...v1.176.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.175.0...v1.176.0)
