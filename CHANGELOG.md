@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.176.0 (2025-06-03)
+
+Full Changelog: [v1.175.0...v1.176.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.175.0...v1.176.0)
+
+### Features
+
+* **api:** api update ([02e4357](https://github.com/roarkhq/sdk-roark-analytics-python/commit/02e4357be691eb0b415158cbf82439882d1465c4))
+* **api:** api update ([5b784bd](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5b784bdf156709a7e763204912b9ef8485cd0bb0))
+
+
+### Chores
+
+* **docs:** remove reference to rye shell ([63c3245](https://github.com/roarkhq/sdk-roark-analytics-python/commit/63c32454c7a771288465288d6ed29de676e87ff3))
+
 ## 1.175.0 (2025-06-02)
 
 Full Changelog: [v1.174.0...v1.175.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.174.0...v1.175.0)
