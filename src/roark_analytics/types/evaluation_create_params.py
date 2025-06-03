@@ -25,10 +25,13 @@ __all__ = [
 
 class EvaluationCreateParams(TypedDict, total=False):
     evaluators: Required[Union[List[str], Literal["all"]]]
-    """List of evaluators to evaluate the calls or "all" to evaluate all evaluators"""
+    """
+    List of evaluators slugs to evaluate the calls or "all" to evaluate all
+    evaluators
+    """
 
     call: Call
-    """Call to evaluate"""
+    """Call input to evaluate"""
 
     dataset: Dataset
 
@@ -261,7 +264,7 @@ class DatasetCall(TypedDict, total=False):
 
 class Dataset(TypedDict, total=False):
     calls: Required[Iterable[DatasetCall]]
-    """List of calls to evaluate"""
+    """List of calls input to evaluate"""
 
     name: Required[str]
     """Name of the dataset"""

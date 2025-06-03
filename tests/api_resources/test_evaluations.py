@@ -138,6 +138,91 @@ class TestEvaluations:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    def test_method_retrieve(self, client: Roark) -> None:
+        evaluation = client.evaluations.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    def test_raw_response_retrieve(self, client: Roark) -> None:
+        response = client.evaluations.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = response.parse()
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve(self, client: Roark) -> None:
+        with client.evaluations.with_streaming_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = response.parse()
+            assert_matches_type(object, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.evaluations.with_raw_response.retrieve(
+                "",
+            )
+
+    @parametrize
+    def test_method_get_runs(self, client: Roark) -> None:
+        evaluation = client.evaluations.get_runs(
+            job_id="jobId",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    def test_method_get_runs_with_all_params(self, client: Roark) -> None:
+        evaluation = client.evaluations.get_runs(
+            job_id="jobId",
+            limit="10",
+            next_cursor="nextCursor",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_runs(self, client: Roark) -> None:
+        response = client.evaluations.with_raw_response.get_runs(
+            job_id="jobId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = response.parse()
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_runs(self, client: Roark) -> None:
+        with client.evaluations.with_streaming_response.get_runs(
+            job_id="jobId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = response.parse()
+            assert_matches_type(object, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_runs(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.evaluations.with_raw_response.get_runs(
+                job_id="",
+            )
+
 
 class TestAsyncEvaluations:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -262,3 +347,88 @@ class TestAsyncEvaluations:
             assert_matches_type(EvaluationCreateResponse, evaluation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_retrieve(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluations.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_retrieve(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluations.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = await response.parse()
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluations.with_streaming_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = await response.parse()
+            assert_matches_type(object, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.evaluations.with_raw_response.retrieve(
+                "",
+            )
+
+    @parametrize
+    async def test_method_get_runs(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluations.get_runs(
+            job_id="jobId",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    async def test_method_get_runs_with_all_params(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluations.get_runs(
+            job_id="jobId",
+            limit="10",
+            next_cursor="nextCursor",
+        )
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_runs(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluations.with_raw_response.get_runs(
+            job_id="jobId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = await response.parse()
+        assert_matches_type(object, evaluation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_runs(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluations.with_streaming_response.get_runs(
+            job_id="jobId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = await response.parse()
+            assert_matches_type(object, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_runs(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.evaluations.with_raw_response.get_runs(
+                job_id="",
+            )
