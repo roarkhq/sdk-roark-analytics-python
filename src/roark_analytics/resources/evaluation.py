@@ -21,28 +21,28 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.evaluation_create_response import EvaluationCreateResponse
 
-__all__ = ["EvaluationsResource", "AsyncEvaluationsResource"]
+__all__ = ["EvaluationResource", "AsyncEvaluationResource"]
 
 
-class EvaluationsResource(SyncAPIResource):
+class EvaluationResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> EvaluationsResourceWithRawResponse:
+    def with_raw_response(self) -> EvaluationResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
         """
-        return EvaluationsResourceWithRawResponse(self)
+        return EvaluationResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> EvaluationsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> EvaluationResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
-        return EvaluationsResourceWithStreamingResponse(self)
+        return EvaluationResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -75,7 +75,7 @@ class EvaluationsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/v1/evaluations",
+            "/v1/evaluation",
             body=maybe_transform(
                 {
                     "evaluators": evaluators,
@@ -118,7 +118,7 @@ class EvaluationsResource(SyncAPIResource):
         if not job_id:
             raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return self._get(
-            f"/v1/evaluations/{job_id}",
+            f"/v1/evaluation/{job_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -157,7 +157,7 @@ class EvaluationsResource(SyncAPIResource):
         if not job_id:
             raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return self._get(
-            f"/v1/evaluations/{job_id}/runs",
+            f"/v1/evaluation/{job_id}/runs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -175,25 +175,25 @@ class EvaluationsResource(SyncAPIResource):
         )
 
 
-class AsyncEvaluationsResource(AsyncAPIResource):
+class AsyncEvaluationResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncEvaluationsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncEvaluationResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncEvaluationsResourceWithRawResponse(self)
+        return AsyncEvaluationResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncEvaluationsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncEvaluationResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
-        return AsyncEvaluationsResourceWithStreamingResponse(self)
+        return AsyncEvaluationResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -226,7 +226,7 @@ class AsyncEvaluationsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/v1/evaluations",
+            "/v1/evaluation",
             body=await async_maybe_transform(
                 {
                     "evaluators": evaluators,
@@ -269,7 +269,7 @@ class AsyncEvaluationsResource(AsyncAPIResource):
         if not job_id:
             raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return await self._get(
-            f"/v1/evaluations/{job_id}",
+            f"/v1/evaluation/{job_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -308,7 +308,7 @@ class AsyncEvaluationsResource(AsyncAPIResource):
         if not job_id:
             raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return await self._get(
-            f"/v1/evaluations/{job_id}/runs",
+            f"/v1/evaluation/{job_id}/runs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -326,61 +326,61 @@ class AsyncEvaluationsResource(AsyncAPIResource):
         )
 
 
-class EvaluationsResourceWithRawResponse:
-    def __init__(self, evaluations: EvaluationsResource) -> None:
-        self._evaluations = evaluations
+class EvaluationResourceWithRawResponse:
+    def __init__(self, evaluation: EvaluationResource) -> None:
+        self._evaluation = evaluation
 
         self.create = to_raw_response_wrapper(
-            evaluations.create,
+            evaluation.create,
         )
         self.retrieve = to_raw_response_wrapper(
-            evaluations.retrieve,
+            evaluation.retrieve,
         )
         self.get_runs = to_raw_response_wrapper(
-            evaluations.get_runs,
+            evaluation.get_runs,
         )
 
 
-class AsyncEvaluationsResourceWithRawResponse:
-    def __init__(self, evaluations: AsyncEvaluationsResource) -> None:
-        self._evaluations = evaluations
+class AsyncEvaluationResourceWithRawResponse:
+    def __init__(self, evaluation: AsyncEvaluationResource) -> None:
+        self._evaluation = evaluation
 
         self.create = async_to_raw_response_wrapper(
-            evaluations.create,
+            evaluation.create,
         )
         self.retrieve = async_to_raw_response_wrapper(
-            evaluations.retrieve,
+            evaluation.retrieve,
         )
         self.get_runs = async_to_raw_response_wrapper(
-            evaluations.get_runs,
+            evaluation.get_runs,
         )
 
 
-class EvaluationsResourceWithStreamingResponse:
-    def __init__(self, evaluations: EvaluationsResource) -> None:
-        self._evaluations = evaluations
+class EvaluationResourceWithStreamingResponse:
+    def __init__(self, evaluation: EvaluationResource) -> None:
+        self._evaluation = evaluation
 
         self.create = to_streamed_response_wrapper(
-            evaluations.create,
+            evaluation.create,
         )
         self.retrieve = to_streamed_response_wrapper(
-            evaluations.retrieve,
+            evaluation.retrieve,
         )
         self.get_runs = to_streamed_response_wrapper(
-            evaluations.get_runs,
+            evaluation.get_runs,
         )
 
 
-class AsyncEvaluationsResourceWithStreamingResponse:
-    def __init__(self, evaluations: AsyncEvaluationsResource) -> None:
-        self._evaluations = evaluations
+class AsyncEvaluationResourceWithStreamingResponse:
+    def __init__(self, evaluation: AsyncEvaluationResource) -> None:
+        self._evaluation = evaluation
 
         self.create = async_to_streamed_response_wrapper(
-            evaluations.create,
+            evaluation.create,
         )
         self.retrieve = async_to_streamed_response_wrapper(
-            evaluations.retrieve,
+            evaluation.retrieve,
         )
         self.get_runs = async_to_streamed_response_wrapper(
-            evaluations.get_runs,
+            evaluation.get_runs,
         )
