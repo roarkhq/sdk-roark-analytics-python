@@ -14,19 +14,19 @@ from roark_analytics.types import EvaluationCreateResponse
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
-class TestEvaluations:
+class TestEvaluation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Roark) -> None:
-        evaluation = client.evaluations.create(
+        evaluation = client.evaluation.create(
             evaluators=["string"],
         )
         assert_matches_type(EvaluationCreateResponse, evaluation, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Roark) -> None:
-        evaluation = client.evaluations.create(
+        evaluation = client.evaluation.create(
             evaluators=["string"],
             call={
                 "call_direction": "INBOUND",
@@ -116,7 +116,7 @@ class TestEvaluations:
 
     @parametrize
     def test_raw_response_create(self, client: Roark) -> None:
-        response = client.evaluations.with_raw_response.create(
+        response = client.evaluation.with_raw_response.create(
             evaluators=["string"],
         )
 
@@ -127,7 +127,7 @@ class TestEvaluations:
 
     @parametrize
     def test_streaming_response_create(self, client: Roark) -> None:
-        with client.evaluations.with_streaming_response.create(
+        with client.evaluation.with_streaming_response.create(
             evaluators=["string"],
         ) as response:
             assert not response.is_closed
@@ -140,14 +140,14 @@ class TestEvaluations:
 
     @parametrize
     def test_method_retrieve(self, client: Roark) -> None:
-        evaluation = client.evaluations.retrieve(
+        evaluation = client.evaluation.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(object, evaluation, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Roark) -> None:
-        response = client.evaluations.with_raw_response.retrieve(
+        response = client.evaluation.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
@@ -158,7 +158,7 @@ class TestEvaluations:
 
     @parametrize
     def test_streaming_response_retrieve(self, client: Roark) -> None:
-        with client.evaluations.with_streaming_response.retrieve(
+        with client.evaluation.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
@@ -172,20 +172,20 @@ class TestEvaluations:
     @parametrize
     def test_path_params_retrieve(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            client.evaluations.with_raw_response.retrieve(
+            client.evaluation.with_raw_response.retrieve(
                 "",
             )
 
     @parametrize
     def test_method_get_runs(self, client: Roark) -> None:
-        evaluation = client.evaluations.get_runs(
+        evaluation = client.evaluation.get_runs(
             job_id="jobId",
         )
         assert_matches_type(object, evaluation, path=["response"])
 
     @parametrize
     def test_method_get_runs_with_all_params(self, client: Roark) -> None:
-        evaluation = client.evaluations.get_runs(
+        evaluation = client.evaluation.get_runs(
             job_id="jobId",
             limit="10",
             next_cursor="nextCursor",
@@ -194,7 +194,7 @@ class TestEvaluations:
 
     @parametrize
     def test_raw_response_get_runs(self, client: Roark) -> None:
-        response = client.evaluations.with_raw_response.get_runs(
+        response = client.evaluation.with_raw_response.get_runs(
             job_id="jobId",
         )
 
@@ -205,7 +205,7 @@ class TestEvaluations:
 
     @parametrize
     def test_streaming_response_get_runs(self, client: Roark) -> None:
-        with client.evaluations.with_streaming_response.get_runs(
+        with client.evaluation.with_streaming_response.get_runs(
             job_id="jobId",
         ) as response:
             assert not response.is_closed
@@ -219,24 +219,24 @@ class TestEvaluations:
     @parametrize
     def test_path_params_get_runs(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            client.evaluations.with_raw_response.get_runs(
+            client.evaluation.with_raw_response.get_runs(
                 job_id="",
             )
 
 
-class TestAsyncEvaluations:
+class TestAsyncEvaluation:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluations.create(
+        evaluation = await async_client.evaluation.create(
             evaluators=["string"],
         )
         assert_matches_type(EvaluationCreateResponse, evaluation, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluations.create(
+        evaluation = await async_client.evaluation.create(
             evaluators=["string"],
             call={
                 "call_direction": "INBOUND",
@@ -326,7 +326,7 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
-        response = await async_client.evaluations.with_raw_response.create(
+        response = await async_client.evaluation.with_raw_response.create(
             evaluators=["string"],
         )
 
@@ -337,7 +337,7 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
-        async with async_client.evaluations.with_streaming_response.create(
+        async with async_client.evaluation.with_streaming_response.create(
             evaluators=["string"],
         ) as response:
             assert not response.is_closed
@@ -350,14 +350,14 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluations.retrieve(
+        evaluation = await async_client.evaluation.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(object, evaluation, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncRoark) -> None:
-        response = await async_client.evaluations.with_raw_response.retrieve(
+        response = await async_client.evaluation.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
@@ -368,7 +368,7 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncRoark) -> None:
-        async with async_client.evaluations.with_streaming_response.retrieve(
+        async with async_client.evaluation.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
@@ -382,20 +382,20 @@ class TestAsyncEvaluations:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            await async_client.evaluations.with_raw_response.retrieve(
+            await async_client.evaluation.with_raw_response.retrieve(
                 "",
             )
 
     @parametrize
     async def test_method_get_runs(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluations.get_runs(
+        evaluation = await async_client.evaluation.get_runs(
             job_id="jobId",
         )
         assert_matches_type(object, evaluation, path=["response"])
 
     @parametrize
     async def test_method_get_runs_with_all_params(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluations.get_runs(
+        evaluation = await async_client.evaluation.get_runs(
             job_id="jobId",
             limit="10",
             next_cursor="nextCursor",
@@ -404,7 +404,7 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_raw_response_get_runs(self, async_client: AsyncRoark) -> None:
-        response = await async_client.evaluations.with_raw_response.get_runs(
+        response = await async_client.evaluation.with_raw_response.get_runs(
             job_id="jobId",
         )
 
@@ -415,7 +415,7 @@ class TestAsyncEvaluations:
 
     @parametrize
     async def test_streaming_response_get_runs(self, async_client: AsyncRoark) -> None:
-        async with async_client.evaluations.with_streaming_response.get_runs(
+        async with async_client.evaluation.with_streaming_response.get_runs(
             job_id="jobId",
         ) as response:
             assert not response.is_closed
@@ -429,6 +429,6 @@ class TestAsyncEvaluations:
     @parametrize
     async def test_path_params_get_runs(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            await async_client.evaluations.with_raw_response.get_runs(
+            await async_client.evaluation.with_raw_response.get_runs(
                 job_id="",
             )

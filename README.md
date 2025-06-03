@@ -31,7 +31,7 @@ client = Roark(
     bearer_token=os.environ.get("ROARK_API_BEARER_TOKEN"),  # This is the default and can be omitted
 )
 
-evaluation = client.evaluations.create(
+evaluation = client.evaluation.create(
     evaluators=["string"],
 )
 print(evaluation.data)
@@ -57,7 +57,7 @@ client = AsyncRoark(
 
 
 async def main() -> None:
-    evaluation = await client.evaluations.create(
+    evaluation = await client.evaluation.create(
         evaluators=["string"],
     )
     print(evaluation.data)
@@ -86,7 +86,7 @@ from roark_analytics import Roark
 
 client = Roark()
 
-evaluation = client.evaluations.create(
+evaluation = client.evaluation.create(
     evaluators=["string"],
     call={
         "call_direction": "INBOUND",
@@ -115,7 +115,7 @@ from roark_analytics import Roark
 client = Roark()
 
 try:
-    client.evaluations.create(
+    client.evaluation.create(
         evaluators=["string"],
     )
 except roark_analytics.APIConnectionError as e:
@@ -160,7 +160,7 @@ client = Roark(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).evaluations.create(
+client.with_options(max_retries=5).evaluation.create(
     evaluators=["string"],
 )
 ```
@@ -185,7 +185,7 @@ client = Roark(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).evaluations.create(
+client.with_options(timeout=5.0).evaluation.create(
     evaluators=["string"],
 )
 ```
@@ -228,12 +228,12 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from roark_analytics import Roark
 
 client = Roark()
-response = client.evaluations.with_raw_response.create(
+response = client.evaluation.with_raw_response.create(
     evaluators=["string"],
 )
 print(response.headers.get('X-My-Header'))
 
-evaluation = response.parse()  # get the object that `evaluations.create()` would have returned
+evaluation = response.parse()  # get the object that `evaluation.create()` would have returned
 print(evaluation.data)
 ```
 
@@ -248,7 +248,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.evaluations.with_streaming_response.create(
+with client.evaluation.with_streaming_response.create(
     evaluators=["string"],
 ) as response:
     print(response.headers.get("X-My-Header"))
