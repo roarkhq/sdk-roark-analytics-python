@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import evaluation_create_params
+from ..types import evaluation_create_params, evaluation_get_runs_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -58,12 +58,13 @@ class EvaluationsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluationCreateResponse:
         """
-        Create evaluation jobs for either a dataset of calls or a single call
+        Create evaluation jobs for a dataset of calls
 
         Args:
-          evaluators: List of evaluators to evaluate the calls or "all" to evaluate all evaluators
+          evaluators: List of evaluators slugs to evaluate the calls or "all" to evaluate all
+              evaluators
 
-          call: Call to evaluate
+          call: Call input to evaluate
 
           extra_headers: Send extra headers
 
@@ -87,6 +88,90 @@ class EvaluationsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EvaluationCreateResponse,
+        )
+
+    def retrieve(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Retrieve details of a specific evaluation job
+
+        Args:
+          job_id: ID of the evaluation job
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._get(
+            f"/v1/evaluations/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    def get_runs(
+        self,
+        job_id: str,
+        *,
+        limit: str | NotGiven = NOT_GIVEN,
+        next_cursor: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Retrieve paginated details of a specific evaluation job runs
+
+        Args:
+          limit: Number of items to return per page
+
+          next_cursor: Cursor for the next page of items
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._get(
+            f"/v1/evaluations/{job_id}/runs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "next_cursor": next_cursor,
+                    },
+                    evaluation_get_runs_params.EvaluationGetRunsParams,
+                ),
+            ),
+            cast_to=object,
         )
 
 
@@ -124,12 +209,13 @@ class AsyncEvaluationsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluationCreateResponse:
         """
-        Create evaluation jobs for either a dataset of calls or a single call
+        Create evaluation jobs for a dataset of calls
 
         Args:
-          evaluators: List of evaluators to evaluate the calls or "all" to evaluate all evaluators
+          evaluators: List of evaluators slugs to evaluate the calls or "all" to evaluate all
+              evaluators
 
-          call: Call to evaluate
+          call: Call input to evaluate
 
           extra_headers: Send extra headers
 
@@ -155,6 +241,90 @@ class AsyncEvaluationsResource(AsyncAPIResource):
             cast_to=EvaluationCreateResponse,
         )
 
+    async def retrieve(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Retrieve details of a specific evaluation job
+
+        Args:
+          job_id: ID of the evaluation job
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._get(
+            f"/v1/evaluations/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    async def get_runs(
+        self,
+        job_id: str,
+        *,
+        limit: str | NotGiven = NOT_GIVEN,
+        next_cursor: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Retrieve paginated details of a specific evaluation job runs
+
+        Args:
+          limit: Number of items to return per page
+
+          next_cursor: Cursor for the next page of items
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._get(
+            f"/v1/evaluations/{job_id}/runs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "next_cursor": next_cursor,
+                    },
+                    evaluation_get_runs_params.EvaluationGetRunsParams,
+                ),
+            ),
+            cast_to=object,
+        )
+
 
 class EvaluationsResourceWithRawResponse:
     def __init__(self, evaluations: EvaluationsResource) -> None:
@@ -162,6 +332,12 @@ class EvaluationsResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             evaluations.create,
+        )
+        self.retrieve = to_raw_response_wrapper(
+            evaluations.retrieve,
+        )
+        self.get_runs = to_raw_response_wrapper(
+            evaluations.get_runs,
         )
 
 
@@ -172,6 +348,12 @@ class AsyncEvaluationsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             evaluations.create,
         )
+        self.retrieve = async_to_raw_response_wrapper(
+            evaluations.retrieve,
+        )
+        self.get_runs = async_to_raw_response_wrapper(
+            evaluations.get_runs,
+        )
 
 
 class EvaluationsResourceWithStreamingResponse:
@@ -181,6 +363,12 @@ class EvaluationsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             evaluations.create,
         )
+        self.retrieve = to_streamed_response_wrapper(
+            evaluations.retrieve,
+        )
+        self.get_runs = to_streamed_response_wrapper(
+            evaluations.get_runs,
+        )
 
 
 class AsyncEvaluationsResourceWithStreamingResponse:
@@ -189,4 +377,10 @@ class AsyncEvaluationsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             evaluations.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            evaluations.retrieve,
+        )
+        self.get_runs = async_to_streamed_response_wrapper(
+            evaluations.get_runs,
         )
