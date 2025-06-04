@@ -31,10 +31,8 @@ client = Roark(
     bearer_token=os.environ.get("ROARK_API_BEARER_TOKEN"),  # This is the default and can be omitted
 )
 
-evaluation = client.evaluation.create(
-    evaluators=["string"],
-)
-print(evaluation.data)
+health = client.health.get()
+print(health.data)
 ```
 
 While you can provide a `bearer_token` keyword argument,
@@ -57,10 +55,8 @@ client = AsyncRoark(
 
 
 async def main() -> None:
-    evaluation = await client.evaluation.create(
-        evaluators=["string"],
-    )
-    print(evaluation.data)
+    health = await client.health.get()
+    print(health.data)
 
 
 asyncio.run(main())
@@ -76,28 +72,6 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
-
-## Nested params
-
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
-
-```python
-from roark_analytics import Roark
-
-client = Roark()
-
-evaluation = client.evaluation.create(
-    evaluators=["string"],
-    call={
-        "call_direction": "INBOUND",
-        "interface_type": "PHONE",
-        "participants": [{"role": "AGENT"}, {"role": "AGENT"}],
-        "recording_url": "https://example.com",
-        "started_at": "startedAt",
-    },
-)
-print(evaluation.call)
-```
 
 ## Handling errors
 
@@ -115,9 +89,7 @@ from roark_analytics import Roark
 client = Roark()
 
 try:
-    client.evaluation.create(
-        evaluators=["string"],
-    )
+    client.health.get()
 except roark_analytics.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -160,9 +132,7 @@ client = Roark(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).evaluation.create(
-    evaluators=["string"],
-)
+client.with_options(max_retries=5).health.get()
 ```
 
 ### Timeouts
@@ -185,9 +155,7 @@ client = Roark(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).evaluation.create(
-    evaluators=["string"],
-)
+client.with_options(timeout=5.0).health.get()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -228,13 +196,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from roark_analytics import Roark
 
 client = Roark()
-response = client.evaluation.with_raw_response.create(
-    evaluators=["string"],
-)
+response = client.health.with_raw_response.get()
 print(response.headers.get('X-My-Header'))
 
-evaluation = response.parse()  # get the object that `evaluation.create()` would have returned
-print(evaluation.data)
+health = response.parse()  # get the object that `health.get()` would have returned
+print(health.data)
 ```
 
 These methods return an [`APIResponse`](https://github.com/roarkhq/sdk-roark-analytics-python/tree/main/src/roark_analytics/_response.py) object.
@@ -248,9 +214,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.evaluation.with_streaming_response.create(
-    evaluators=["string"],
-) as response:
+with client.health.with_streaming_response.get() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
