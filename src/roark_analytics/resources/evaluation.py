@@ -58,7 +58,7 @@ class EvaluationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluationCreateJobResponse:
         """
-        Create a evaluation job for a dataset of calls
+        Create a evaluation job for a single call or dataset of calls
 
         Args:
           evaluators: List of evaluators slugs to evaluate the calls or "all" to evaluate all
@@ -209,7 +209,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluationCreateJobResponse:
         """
-        Create a evaluation job for a dataset of calls
+        Create a evaluation job for a single call or dataset of calls
 
         Args:
           evaluators: List of evaluators slugs to evaluate the calls or "all" to evaluate all
