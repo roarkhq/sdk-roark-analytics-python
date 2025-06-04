@@ -8,14 +8,6 @@ from .health import (
     HealthResourceWithStreamingResponse,
     AsyncHealthResourceWithStreamingResponse,
 )
-from .evaluation import (
-    EvaluationResource,
-    AsyncEvaluationResource,
-    EvaluationResourceWithRawResponse,
-    AsyncEvaluationResourceWithRawResponse,
-    EvaluationResourceWithStreamingResponse,
-    AsyncEvaluationResourceWithStreamingResponse,
-)
 
 __all__ = [
     "HealthResource",
@@ -24,10 +16,4 @@ __all__ = [
     "AsyncHealthResourceWithRawResponse",
     "HealthResourceWithStreamingResponse",
     "AsyncHealthResourceWithStreamingResponse",
-    "EvaluationResource",
-    "AsyncEvaluationResource",
-    "EvaluationResourceWithRawResponse",
-    "AsyncEvaluationResourceWithRawResponse",
-    "EvaluationResourceWithStreamingResponse",
-    "AsyncEvaluationResourceWithStreamingResponse",
 ]
