@@ -19,7 +19,9 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.evaluation_get_job_response import EvaluationGetJobResponse
 from ..types.evaluation_create_job_response import EvaluationCreateJobResponse
+from ..types.evaluation_get_job_runs_response import EvaluationGetJobRunsResponse
 
 __all__ = ["EvaluationResource", "AsyncEvaluationResource"]
 
@@ -100,7 +102,7 @@ class EvaluationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetJobResponse:
         """
         Retrieve details of a specific evaluation job
 
@@ -122,7 +124,7 @@ class EvaluationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=EvaluationGetJobResponse,
         )
 
     def get_job_runs(
@@ -137,7 +139,7 @@ class EvaluationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs
 
@@ -171,7 +173,7 @@ class EvaluationResource(SyncAPIResource):
                     evaluation_get_job_runs_params.EvaluationGetJobRunsParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=EvaluationGetJobRunsResponse,
         )
 
 
@@ -251,7 +253,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetJobResponse:
         """
         Retrieve details of a specific evaluation job
 
@@ -273,7 +275,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=EvaluationGetJobResponse,
         )
 
     async def get_job_runs(
@@ -288,7 +290,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs
 
@@ -322,7 +324,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
                     evaluation_get_job_runs_params.EvaluationGetJobRunsParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=EvaluationGetJobRunsResponse,
         )
 
 
