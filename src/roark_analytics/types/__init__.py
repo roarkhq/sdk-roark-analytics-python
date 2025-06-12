@@ -8,3 +8,13 @@ from .evaluation_create_job_params import EvaluationCreateJobParams as Evaluatio
 from .evaluation_create_job_response import EvaluationCreateJobResponse as EvaluationCreateJobResponse
 from .evaluation_get_job_runs_params import EvaluationGetJobRunsParams as EvaluationGetJobRunsParams
 from .evaluation_get_job_runs_response import EvaluationGetJobRunsResponse as EvaluationGetJobRunsResponse
+from .integration_create_vapi_call_params import IntegrationCreateVapiCallParams as IntegrationCreateVapiCallParams
+from .integration_create_retell_call_params import (
+    IntegrationCreateRetellCallParams as IntegrationCreateRetellCallParams,
+)
+from .integration_create_vapi_call_response import (
+    IntegrationCreateVapiCallResponse as IntegrationCreateVapiCallResponse,
+)
+from .integration_create_retell_call_response import (
+    IntegrationCreateRetellCallResponse as IntegrationCreateRetellCallResponse,
+)

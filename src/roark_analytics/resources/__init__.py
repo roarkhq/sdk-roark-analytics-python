@@ -16,6 +16,14 @@ from .evaluation import (
     EvaluationResourceWithStreamingResponse,
     AsyncEvaluationResourceWithStreamingResponse,
 )
+from .integrations import (
+    IntegrationsResource,
+    AsyncIntegrationsResource,
+    IntegrationsResourceWithRawResponse,
+    AsyncIntegrationsResourceWithRawResponse,
+    IntegrationsResourceWithStreamingResponse,
+    AsyncIntegrationsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "HealthResource",
@@ -30,4 +38,10 @@ __all__ = [
     "AsyncEvaluationResourceWithRawResponse",
     "EvaluationResourceWithStreamingResponse",
     "AsyncEvaluationResourceWithStreamingResponse",
+    "IntegrationsResource",
+    "AsyncIntegrationsResource",
+    "IntegrationsResourceWithRawResponse",
+    "AsyncIntegrationsResourceWithRawResponse",
+    "IntegrationsResourceWithStreamingResponse",
+    "AsyncIntegrationsResourceWithStreamingResponse",
 ]
