@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.184.1 (2025-06-13)
+
+Full Changelog: [v1.184.0...v1.184.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.184.0...v1.184.1)
+
+### Bug Fixes
+
+* **client:** correctly parse binary response | stream ([a5cf0e9](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a5cf0e9391b32a30b7dfa69180dc704637494276))
+
+
+### Chores
+
+* **tests:** run tests in parallel ([b0a2d2d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b0a2d2d62c7a034620d2c3f6472c33a347b04111))
+
 ## 1.184.0 (2025-06-12)
 
 Full Changelog: [v1.183.0...v1.184.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.183.0...v1.184.0)
