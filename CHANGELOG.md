@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.185.0 (2025-06-23)
+
+Full Changelog: [v1.184.1...v1.185.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.184.1...v1.185.0)
+
+### Features
+
+* **api:** api update ([865b44a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/865b44a0458ecfd15148d8501a46eb019087720a))
+* **api:** api update ([81fc67c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/81fc67c85bab0347887f2fd51a9f55c5e9b500fd))
+* **client:** add support for aiohttp ([52e840a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/52e840a408366dfaea39bf44b6682dfbcb94016d))
+
+
+### Bug Fixes
+
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([fb7bacd](https://github.com/roarkhq/sdk-roark-analytics-python/commit/fb7bacde394f6553a5e450a4d2c7a02c5a9a17b8))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([75807a1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/75807a1b2becca4dcb6bcac232ae880f3bfd38bf))
+* **internal:** codegen related update ([dc113a0](https://github.com/roarkhq/sdk-roark-analytics-python/commit/dc113a07f626707b7cda76b1fdf464ce184a3aa0))
+* **internal:** codegen related update ([3341eb4](https://github.com/roarkhq/sdk-roark-analytics-python/commit/3341eb468f3b7db676380b4bd3139f8d2ed212c0))
+* **internal:** update conftest.py ([24c496a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/24c496a6e71856e685fb2a23f43dcb506dfb0de4))
+* **internal:** version bump ([a7ebbd8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a7ebbd8c9887ba82f6af8a51ba9a4a6ee05f3569))
+* **readme:** update badges ([68ed762](https://github.com/roarkhq/sdk-roark-analytics-python/commit/68ed7623bfcb1a8d8513e9d1da777e6f382a55c8))
+* **tests:** add tests for httpx client instantiation & proxies ([49e9adc](https://github.com/roarkhq/sdk-roark-analytics-python/commit/49e9adcfa27d56efcded0a1e69d0926e7bf7ef6e))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([839f7a8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/839f7a8252188f17ab07e7e6be613f950189eaea))
+
 ## 1.184.1 (2025-06-13)
 
 Full Changelog: [v1.184.0...v1.184.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.184.0...v1.184.1)
