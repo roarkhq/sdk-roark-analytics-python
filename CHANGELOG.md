@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.186.2 (2025-06-30)
+
+Full Changelog: [v1.186.1...v1.186.2](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.186.1...v1.186.2)
+
+### Bug Fixes
+
+* **ci:** correct conditional ([08342e7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/08342e77b999c7a348e4a3467f4a813658445edb))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([8381ec8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8381ec8e7ff42e848197010ffd19f0c8197ae30f))
+
 ## 1.186.1 (2025-06-27)
 
 Full Changelog: [v1.186.0...v1.186.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.186.0...v1.186.1)
