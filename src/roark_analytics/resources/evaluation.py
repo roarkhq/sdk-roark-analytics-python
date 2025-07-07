@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import evaluation_create_job_params, evaluation_get_job_runs_params
+from ..types import evaluation_create_job_params, evaluation_get_job_runs_params, evaluation_get_evaluators_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -90,6 +90,82 @@ class EvaluationResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EvaluationCreateJobResponse,
+        )
+
+    def get_evaluator_by_id(
+        self,
+        evaluator_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Returns a specific evaluator with its blocks and configuration.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not evaluator_id:
+            raise ValueError(f"Expected a non-empty value for `evaluator_id` but received {evaluator_id!r}")
+        return self._get(
+            f"/v1/evaluation/evaluators/{evaluator_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    def get_evaluators(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Returns a list of evaluators with their blocks and configuration for the
+        authenticated project.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/evaluation/evaluators",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
+                ),
+            ),
+            cast_to=object,
         )
 
     def get_job(
@@ -243,6 +319,82 @@ class AsyncEvaluationResource(AsyncAPIResource):
             cast_to=EvaluationCreateJobResponse,
         )
 
+    async def get_evaluator_by_id(
+        self,
+        evaluator_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Returns a specific evaluator with its blocks and configuration.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not evaluator_id:
+            raise ValueError(f"Expected a non-empty value for `evaluator_id` but received {evaluator_id!r}")
+        return await self._get(
+            f"/v1/evaluation/evaluators/{evaluator_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    async def get_evaluators(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Returns a list of evaluators with their blocks and configuration for the
+        authenticated project.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/evaluation/evaluators",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
+                ),
+            ),
+            cast_to=object,
+        )
+
     async def get_job(
         self,
         job_id: str,
@@ -335,6 +487,12 @@ class EvaluationResourceWithRawResponse:
         self.create_job = to_raw_response_wrapper(
             evaluation.create_job,
         )
+        self.get_evaluator_by_id = to_raw_response_wrapper(
+            evaluation.get_evaluator_by_id,
+        )
+        self.get_evaluators = to_raw_response_wrapper(
+            evaluation.get_evaluators,
+        )
         self.get_job = to_raw_response_wrapper(
             evaluation.get_job,
         )
@@ -349,6 +507,12 @@ class AsyncEvaluationResourceWithRawResponse:
 
         self.create_job = async_to_raw_response_wrapper(
             evaluation.create_job,
+        )
+        self.get_evaluator_by_id = async_to_raw_response_wrapper(
+            evaluation.get_evaluator_by_id,
+        )
+        self.get_evaluators = async_to_raw_response_wrapper(
+            evaluation.get_evaluators,
         )
         self.get_job = async_to_raw_response_wrapper(
             evaluation.get_job,
@@ -365,6 +529,12 @@ class EvaluationResourceWithStreamingResponse:
         self.create_job = to_streamed_response_wrapper(
             evaluation.create_job,
         )
+        self.get_evaluator_by_id = to_streamed_response_wrapper(
+            evaluation.get_evaluator_by_id,
+        )
+        self.get_evaluators = to_streamed_response_wrapper(
+            evaluation.get_evaluators,
+        )
         self.get_job = to_streamed_response_wrapper(
             evaluation.get_job,
         )
@@ -379,6 +549,12 @@ class AsyncEvaluationResourceWithStreamingResponse:
 
         self.create_job = async_to_streamed_response_wrapper(
             evaluation.create_job,
+        )
+        self.get_evaluator_by_id = async_to_streamed_response_wrapper(
+            evaluation.get_evaluator_by_id,
+        )
+        self.get_evaluators = async_to_streamed_response_wrapper(
+            evaluation.get_evaluators,
         )
         self.get_job = async_to_streamed_response_wrapper(
             evaluation.get_job,
