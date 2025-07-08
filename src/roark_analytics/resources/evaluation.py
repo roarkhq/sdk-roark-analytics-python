@@ -22,6 +22,8 @@ from .._base_client import make_request_options
 from ..types.evaluation_get_job_response import EvaluationGetJobResponse
 from ..types.evaluation_create_job_response import EvaluationCreateJobResponse
 from ..types.evaluation_get_job_runs_response import EvaluationGetJobRunsResponse
+from ..types.evaluation_get_evaluators_response import EvaluationGetEvaluatorsResponse
+from ..types.evaluation_get_evaluator_by_id_response import EvaluationGetEvaluatorByIDResponse
 
 __all__ = ["EvaluationResource", "AsyncEvaluationResource"]
 
@@ -102,7 +104,7 @@ class EvaluationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetEvaluatorByIDResponse:
         """
         Returns a specific evaluator with its blocks and configuration.
 
@@ -122,7 +124,7 @@ class EvaluationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=EvaluationGetEvaluatorByIDResponse,
         )
 
     def get_evaluators(
@@ -136,12 +138,16 @@ class EvaluationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetEvaluatorsResponse:
         """
         Returns a list of evaluators with their blocks and configuration for the
         authenticated project.
 
         Args:
+          after: Cursor for pagination - evaluator ID to start after
+
+          limit: Maximum number of evaluators to return (default: 20, max: 50)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -165,7 +171,7 @@ class EvaluationResource(SyncAPIResource):
                     evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=EvaluationGetEvaluatorsResponse,
         )
 
     def get_job(
@@ -329,7 +335,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetEvaluatorByIDResponse:
         """
         Returns a specific evaluator with its blocks and configuration.
 
@@ -349,7 +355,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=EvaluationGetEvaluatorByIDResponse,
         )
 
     async def get_evaluators(
@@ -363,12 +369,16 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> EvaluationGetEvaluatorsResponse:
         """
         Returns a list of evaluators with their blocks and configuration for the
         authenticated project.
 
         Args:
+          after: Cursor for pagination - evaluator ID to start after
+
+          limit: Maximum number of evaluators to return (default: 20, max: 50)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -392,7 +402,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
                     evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=EvaluationGetEvaluatorsResponse,
         )
 
     async def get_job(
