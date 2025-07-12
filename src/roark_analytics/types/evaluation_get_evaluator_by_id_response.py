@@ -27,6 +27,7 @@ class BlockUnionMember0(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["CUSTOM_PROMPT"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -55,6 +56,7 @@ class BlockUnionMember1(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["DATAFIELD_CHECK"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -89,6 +91,7 @@ class BlockUnionMember2(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["EMOTION"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -114,6 +117,7 @@ class BlockUnionMember3(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["LATENCY"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -142,6 +146,7 @@ class BlockUnionMember4(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["POLITENESS"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -164,6 +169,7 @@ class BlockUnionMember5(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["SENTIMENT"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -186,6 +192,7 @@ class BlockUnionMember6(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["TOOL_CALLS"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -217,6 +224,7 @@ class BlockUnionMember7(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["TOXICITY"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
@@ -239,6 +247,7 @@ class BlockUnionMember8(BaseModel):
     """Unique identifier for the block"""
 
     block_type: Literal["VOCAL_CUE"] = FieldInfo(alias="blockType")
+    """Block type identifier"""
 
     description: Optional[str] = None
     """Optional description of what this block evaluates"""
