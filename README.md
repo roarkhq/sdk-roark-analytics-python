@@ -83,7 +83,6 @@ pip install roark_analytics[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from roark_analytics import DefaultAioHttpClient
 from roark_analytics import AsyncRoark
@@ -91,9 +90,7 @@ from roark_analytics import AsyncRoark
 
 async def main() -> None:
     async with AsyncRoark(
-        bearer_token=os.environ.get(
-            "ROARK_API_BEARER_TOKEN"
-        ),  # This is the default and can be omitted
+        bearer_token="My Bearer Token",
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.evaluation.create_job(
