@@ -125,7 +125,7 @@ response = client.evaluation.create_job(
     call={
         "call_direction": "INBOUND",
         "interface_type": "PHONE",
-        "participants": [{"role": "AGENT"}, {"role": "AGENT"}],
+        "participants": [{"role": "AGENT"}],
         "recording_url": "https://example.com",
         "started_at": "startedAt",
     },

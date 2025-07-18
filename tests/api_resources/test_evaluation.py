@@ -44,14 +44,7 @@ class TestEvaluation:
                         "name": "x",
                         "phone_number": "xxx",
                         "spoke_first": True,
-                    },
-                    {
-                        "role": "AGENT",
-                        "is_simulated": True,
-                        "name": "x",
-                        "phone_number": "xxx",
-                        "spoke_first": True,
-                    },
+                    }
                 ],
                 "recording_url": "https://example.com",
                 "started_at": "startedAt",
@@ -85,14 +78,7 @@ class TestEvaluation:
                                 "name": "x",
                                 "phone_number": "xxx",
                                 "spoke_first": True,
-                            },
-                            {
-                                "role": "AGENT",
-                                "is_simulated": True,
-                                "name": "x",
-                                "phone_number": "xxx",
-                                "spoke_first": True,
-                            },
+                            }
                         ],
                         "recording_url": "https://example.com",
                         "started_at": "startedAt",
@@ -327,14 +313,7 @@ class TestAsyncEvaluation:
                         "name": "x",
                         "phone_number": "xxx",
                         "spoke_first": True,
-                    },
-                    {
-                        "role": "AGENT",
-                        "is_simulated": True,
-                        "name": "x",
-                        "phone_number": "xxx",
-                        "spoke_first": True,
-                    },
+                    }
                 ],
                 "recording_url": "https://example.com",
                 "started_at": "startedAt",
@@ -368,14 +347,7 @@ class TestAsyncEvaluation:
                                 "name": "x",
                                 "phone_number": "xxx",
                                 "spoke_first": True,
-                            },
-                            {
-                                "role": "AGENT",
-                                "is_simulated": True,
-                                "name": "x",
-                                "phone_number": "xxx",
-                                "spoke_first": True,
-                            },
+                            }
                         ],
                         "recording_url": "https://example.com",
                         "started_at": "startedAt",
