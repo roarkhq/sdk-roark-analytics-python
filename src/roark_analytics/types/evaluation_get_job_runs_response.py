@@ -11,7 +11,7 @@ __all__ = [
     "EvaluationGetJobRunsResponse",
     "Data",
     "DataData",
-    "DataDataBlock",
+    "DataDataBlockRun",
     "DataDataEvaluator",
     "DataDataEvidence",
     "DataDataMetric",
@@ -19,12 +19,15 @@ __all__ = [
 ]
 
 
-class DataDataBlock(BaseModel):
-    id: str
-    """ID of the block run"""
+class DataDataBlockRun(BaseModel):
+    block_definition_id: str = FieldInfo(alias="blockDefinitionId")
+    """ID of the block definition"""
 
     block_name: str = FieldInfo(alias="blockName")
     """Name of the evaluation block"""
+
+    block_run_id: str = FieldInfo(alias="blockRunId")
+    """ID of the block run instance"""
 
     created_at: str = FieldInfo(alias="createdAt")
     """When the block run was created"""
@@ -97,7 +100,7 @@ class DataDataMetric(BaseModel):
 
 
 class DataData(BaseModel):
-    blocks: List[DataDataBlock]
+    block_runs: List[DataDataBlockRun] = FieldInfo(alias="blockRuns")
     """All block runs for this evaluator, including skipped ones"""
 
     evaluator: DataDataEvaluator
