@@ -37,13 +37,13 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import CallGetEvaluationRunResponse, CallGetSentimentRunResponse
+from roark_analytics.types import CallGetEvaluationRunsResponse, CallGetSentimentRunsResponse
 ```
 
 Methods:
 
-- <code title="get /v1/call/{id}/evaluation-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_evaluation_run</a>(id) -> <a href="./src/roark_analytics/types/call_get_evaluation_run_response.py">CallGetEvaluationRunResponse</a></code>
-- <code title="get /v1/call/{id}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_sentiment_run</a>(id) -> <a href="./src/roark_analytics/types/call_get_sentiment_run_response.py">CallGetSentimentRunResponse</a></code>
+- <code title="get /v1/call/{callId}/evaluation-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_evaluation_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_evaluation_runs_response.py">CallGetEvaluationRunsResponse</a></code>
+- <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_sentiment_runs_response.py">CallGetSentimentRunsResponse</a></code>
 
 # Integrations
 
