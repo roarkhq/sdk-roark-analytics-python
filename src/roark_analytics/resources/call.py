@@ -14,8 +14,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.call_get_sentiment_run_response import CallGetSentimentRunResponse
-from ..types.call_get_evaluation_run_response import CallGetEvaluationRunResponse
+from ..types.call_get_sentiment_runs_response import CallGetSentimentRunsResponse
+from ..types.call_get_evaluation_runs_response import CallGetEvaluationRunsResponse
 
 __all__ = ["CallResource", "AsyncCallResource"]
 
@@ -40,9 +40,9 @@ class CallResource(SyncAPIResource):
         """
         return CallResourceWithStreamingResponse(self)
 
-    def get_evaluation_run(
+    def get_evaluation_runs(
         self,
-        id: str,
+        call_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -50,12 +50,12 @@ class CallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CallGetEvaluationRunResponse:
+    ) -> CallGetEvaluationRunsResponse:
         """
-        Fetch evaluation run results for a specific call.
+        Fetch all evaluation run results for a specific call.
 
         Args:
-          id: ID of the call to fetch evaluation run for
+          call_id: ID of the call to fetch evaluation run for
 
           extra_headers: Send extra headers
 
@@ -65,19 +65,19 @@ class CallResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{id}/evaluation-run",
+            f"/v1/call/{call_id}/evaluation-run",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetEvaluationRunResponse,
+            cast_to=CallGetEvaluationRunsResponse,
         )
 
-    def get_sentiment_run(
+    def get_sentiment_runs(
         self,
-        id: str,
+        call_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -85,13 +85,13 @@ class CallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CallGetSentimentRunResponse:
+    ) -> CallGetSentimentRunsResponse:
         """
         Fetch detailed sentiment analysis results for a specific call, including
         emotional tone, key phrases, and sentiment scores.
 
         Args:
-          id: ID of the call to fetch sentiment run for
+          call_id: ID of the call to fetch sentiment run for
 
           extra_headers: Send extra headers
 
@@ -101,14 +101,14 @@ class CallResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{id}/sentiment-run",
+            f"/v1/call/{call_id}/sentiment-run",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetSentimentRunResponse,
+            cast_to=CallGetSentimentRunsResponse,
         )
 
 
@@ -132,9 +132,9 @@ class AsyncCallResource(AsyncAPIResource):
         """
         return AsyncCallResourceWithStreamingResponse(self)
 
-    async def get_evaluation_run(
+    async def get_evaluation_runs(
         self,
-        id: str,
+        call_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -142,12 +142,12 @@ class AsyncCallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CallGetEvaluationRunResponse:
+    ) -> CallGetEvaluationRunsResponse:
         """
-        Fetch evaluation run results for a specific call.
+        Fetch all evaluation run results for a specific call.
 
         Args:
-          id: ID of the call to fetch evaluation run for
+          call_id: ID of the call to fetch evaluation run for
 
           extra_headers: Send extra headers
 
@@ -157,19 +157,19 @@ class AsyncCallResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{id}/evaluation-run",
+            f"/v1/call/{call_id}/evaluation-run",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetEvaluationRunResponse,
+            cast_to=CallGetEvaluationRunsResponse,
         )
 
-    async def get_sentiment_run(
+    async def get_sentiment_runs(
         self,
-        id: str,
+        call_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -177,13 +177,13 @@ class AsyncCallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CallGetSentimentRunResponse:
+    ) -> CallGetSentimentRunsResponse:
         """
         Fetch detailed sentiment analysis results for a specific call, including
         emotional tone, key phrases, and sentiment scores.
 
         Args:
-          id: ID of the call to fetch sentiment run for
+          call_id: ID of the call to fetch sentiment run for
 
           extra_headers: Send extra headers
 
@@ -193,14 +193,14 @@ class AsyncCallResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{id}/sentiment-run",
+            f"/v1/call/{call_id}/sentiment-run",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetSentimentRunResponse,
+            cast_to=CallGetSentimentRunsResponse,
         )
 
 
@@ -208,11 +208,11 @@ class CallResourceWithRawResponse:
     def __init__(self, call: CallResource) -> None:
         self._call = call
 
-        self.get_evaluation_run = to_raw_response_wrapper(
-            call.get_evaluation_run,
+        self.get_evaluation_runs = to_raw_response_wrapper(
+            call.get_evaluation_runs,
         )
-        self.get_sentiment_run = to_raw_response_wrapper(
-            call.get_sentiment_run,
+        self.get_sentiment_runs = to_raw_response_wrapper(
+            call.get_sentiment_runs,
         )
 
 
@@ -220,11 +220,11 @@ class AsyncCallResourceWithRawResponse:
     def __init__(self, call: AsyncCallResource) -> None:
         self._call = call
 
-        self.get_evaluation_run = async_to_raw_response_wrapper(
-            call.get_evaluation_run,
+        self.get_evaluation_runs = async_to_raw_response_wrapper(
+            call.get_evaluation_runs,
         )
-        self.get_sentiment_run = async_to_raw_response_wrapper(
-            call.get_sentiment_run,
+        self.get_sentiment_runs = async_to_raw_response_wrapper(
+            call.get_sentiment_runs,
         )
 
 
@@ -232,11 +232,11 @@ class CallResourceWithStreamingResponse:
     def __init__(self, call: CallResource) -> None:
         self._call = call
 
-        self.get_evaluation_run = to_streamed_response_wrapper(
-            call.get_evaluation_run,
+        self.get_evaluation_runs = to_streamed_response_wrapper(
+            call.get_evaluation_runs,
         )
-        self.get_sentiment_run = to_streamed_response_wrapper(
-            call.get_sentiment_run,
+        self.get_sentiment_runs = to_streamed_response_wrapper(
+            call.get_sentiment_runs,
         )
 
 
@@ -244,9 +244,9 @@ class AsyncCallResourceWithStreamingResponse:
     def __init__(self, call: AsyncCallResource) -> None:
         self._call = call
 
-        self.get_evaluation_run = async_to_streamed_response_wrapper(
-            call.get_evaluation_run,
+        self.get_evaluation_runs = async_to_streamed_response_wrapper(
+            call.get_evaluation_runs,
         )
-        self.get_sentiment_run = async_to_streamed_response_wrapper(
-            call.get_sentiment_run,
+        self.get_sentiment_runs = async_to_streamed_response_wrapper(
+            call.get_sentiment_runs,
         )
