@@ -7,19 +7,10 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = [
-    "EvaluationGetJobRunsResponse",
-    "Data",
-    "DataData",
-    "DataDataBlockRun",
-    "DataDataEvaluator",
-    "DataDataEvidence",
-    "DataDataMetric",
-    "DataPagination",
-]
+__all__ = ["CallGetEvaluationRunsResponse", "Data", "DataBlockRun", "DataEvaluator", "DataEvidence", "DataMetric"]
 
 
-class DataDataBlockRun(BaseModel):
+class DataBlockRun(BaseModel):
     block_definition_id: str = FieldInfo(alias="blockDefinitionId")
     """ID of the block definition"""
 
@@ -45,7 +36,7 @@ class DataDataBlockRun(BaseModel):
     """Status of the block run"""
 
 
-class DataDataEvaluator(BaseModel):
+class DataEvaluator(BaseModel):
     id: str
     """ID of the evaluator"""
 
@@ -56,7 +47,7 @@ class DataDataEvaluator(BaseModel):
     """Weight of the evaluator"""
 
 
-class DataDataEvidence(BaseModel):
+class DataEvidence(BaseModel):
     comment_text: Optional[str] = FieldInfo(alias="commentText", default=None)
     """Comment text of the evidence"""
 
@@ -70,7 +61,7 @@ class DataDataEvidence(BaseModel):
     """Snippet text of the evidence"""
 
 
-class DataDataMetric(BaseModel):
+class DataMetric(BaseModel):
     boolean_value: Optional[bool] = FieldInfo(alias="booleanValue", default=None)
     """Boolean value of the metric"""
 
@@ -99,15 +90,15 @@ class DataDataMetric(BaseModel):
     """Value type of the metric"""
 
 
-class DataData(BaseModel):
-    block_runs: List[DataDataBlockRun] = FieldInfo(alias="blockRuns")
+class Data(BaseModel):
+    block_runs: List[DataBlockRun] = FieldInfo(alias="blockRuns")
     """All block runs for this evaluator, including skipped ones"""
 
-    evaluator: DataDataEvaluator
+    evaluator: DataEvaluator
 
-    evidence: List[DataDataEvidence]
+    evidence: List[DataEvidence]
 
-    metrics: List[DataDataMetric]
+    metrics: List[DataMetric]
 
     status: Literal["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"]
     """Status of the evaluator run"""
@@ -136,25 +127,6 @@ class DataData(BaseModel):
     """Summary of the evaluation run"""
 
 
-class DataPagination(BaseModel):
-    has_more: bool = FieldInfo(alias="hasMore")
-    """Whether there are more items to fetch"""
-
-    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
-    """Cursor for the next page of items"""
-
-    total: float
-    """Total number of items"""
-
-
-class Data(BaseModel):
-    data: Optional[List[DataData]] = None
-    """Evaluator runs of the evaluation job"""
-
-    pagination: Optional[DataPagination] = None
-    """Pagination information"""
-
-
-class EvaluationGetJobRunsResponse(BaseModel):
-    data: Data
-    """Evaluation job runs response payload"""
+class CallGetEvaluationRunsResponse(BaseModel):
+    data: List[Data]
+    """Evaluation run response payload"""

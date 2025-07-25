@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .call import (
+    CallResource,
+    AsyncCallResource,
+    CallResourceWithRawResponse,
+    AsyncCallResourceWithRawResponse,
+    CallResourceWithStreamingResponse,
+    AsyncCallResourceWithStreamingResponse,
+)
 from .health import (
     HealthResource,
     AsyncHealthResource,
@@ -38,6 +46,12 @@ __all__ = [
     "AsyncEvaluationResourceWithRawResponse",
     "EvaluationResourceWithStreamingResponse",
     "AsyncEvaluationResourceWithStreamingResponse",
+    "CallResource",
+    "AsyncCallResource",
+    "CallResourceWithRawResponse",
+    "AsyncCallResourceWithRawResponse",
+    "CallResourceWithStreamingResponse",
+    "AsyncCallResourceWithStreamingResponse",
     "IntegrationsResource",
     "AsyncIntegrationsResource",
     "IntegrationsResourceWithRawResponse",

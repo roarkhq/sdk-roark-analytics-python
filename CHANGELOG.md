@@ -1,5 +1,41 @@
 # Changelog
 
+## 2.0.0 (2025-07-25)
+
+Full Changelog: [v1.189.0...v2.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.189.0...v2.0.0)
+
+### Features
+
+* **api:** api update ([05396c7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/05396c72066abda57fd8b6c6873d8cac0f44c8ed))
+* **api:** api update ([4b296c8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4b296c897da9546e50e1bb4c532e9078e31baa0c))
+* **api:** api update ([5cbe24a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5cbe24a736a3f3f05b77d6034da320c7fcf9f900))
+* **api:** api update ([ad15155](https://github.com/roarkhq/sdk-roark-analytics-python/commit/ad15155aa7f72df44b140e0cee56372d9adad55d))
+* **api:** api update ([dae4bbb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/dae4bbb0e34bde6e2b6d07c26b5a21df2877e314))
+* **api:** api update ([8292dde](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8292dde9fab85501ab2f454a5e07508944974388))
+* **api:** api update ([97894e0](https://github.com/roarkhq/sdk-roark-analytics-python/commit/97894e0b589ee95897dca39f55e4761547830e64))
+* **api:** api update ([d0c89e9](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d0c89e9f901b7f5b1381cbe014bb78d621b7eb6b))
+* **api:** api update ([2ba5813](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2ba581381c62685164fb69de02bc66134cc86231))
+* **api:** api update ([701a62a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/701a62ae9a05063a35c2e5f5e626d61fcc45c32c))
+* clean up environment call outs ([6db6fd1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/6db6fd11581745d0dd807d47d32e8e6bc680028a))
+
+
+### Bug Fixes
+
+* **client:** don't send Content-Type header on GET requests ([2ca9230](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2ca92304046ef87cd567d20aad395175c45d8d01))
+* **parsing:** correctly handle nested discriminated unions ([5c80c26](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5c80c265087caa9c7b48550efad8beab9e4ed50a))
+* **parsing:** ignore empty metadata ([a042dd8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a042dd853dd6a56d0528f955c0a15a7adea01616))
+* **parsing:** parse extra field types ([1edf77e](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1edf77ee6c3a5dbf3429f73af4aef058d8ee2d68))
+
+
+### Chores
+
+* **internal:** bump pinned h11 dep ([3571301](https://github.com/roarkhq/sdk-roark-analytics-python/commit/35713017b76b63decf63fcfe64bb73a879039db1))
+* **internal:** codegen related update ([13e13ad](https://github.com/roarkhq/sdk-roark-analytics-python/commit/13e13adc9dcbea1bc2f2abe88b8ba0ca835af1dd))
+* **internal:** codegen related update ([fc7b67a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/fc7b67aa62345c4d79171dc358aa27cc06c903b0))
+* **package:** mark python 3.13 as supported ([6d993b3](https://github.com/roarkhq/sdk-roark-analytics-python/commit/6d993b3e3a1698ac85f940a0508956a95f741d30))
+* **project:** add settings file for vscode ([78972c2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/78972c2838b307df28672577d048e10df0040216))
+* **readme:** fix version rendering on pypi ([4a83ef2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4a83ef2ba88504445b6fe704a012128c690abc3d))
+
 ## 1.189.0 (2025-07-08)
 
 Full Changelog: [v1.188.0...v1.189.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v1.188.0...v1.189.0)
