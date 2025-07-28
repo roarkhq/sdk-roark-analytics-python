@@ -118,16 +118,14 @@ class DataData(BaseModel):
     completed_at: Optional[str] = FieldInfo(alias="completedAt", default=None)
     """When the evaluator run completed"""
 
+    result: Optional[Literal["SUCCESS", "FAILURE", "SKIPPED"]] = None
+    """
+    Result of the evaluator run based on score threshold (IRRELEVANT is mapped to
+    SKIPPED)
+    """
+
     score: Optional[float] = None
     """Score of the evaluation run (0-1)"""
-
-    score_classification: Optional[Literal["SUCCESS", "FAILURE", "SKIPPED"]] = FieldInfo(
-        alias="scoreClassification", default=None
-    )
-    """
-    Score classification of the evaluator run based on score threshold (IRRELEVANT
-    is mapped to SKIPPED)
-    """
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the evaluator run started"""
