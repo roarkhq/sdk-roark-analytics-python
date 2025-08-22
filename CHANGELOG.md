@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.2.0 (2025-08-22)
+
+Full Changelog: [v2.1.0...v2.2.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.1.0...v2.2.0)
+
+### Features
+
+* **client:** support file upload requests ([dcca8fb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/dcca8fb047301c69c2adff8e8a462807887535d9))
+
+
+### Chores
+
+* **internal:** fix ruff target version ([32fead1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/32fead17d3d5d8374916cbe93e1ce0f337679c96))
+* **internal:** update comment in script ([5736d0f](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5736d0f4e81e8a5fc4cf4f2b2cd3c674406aa4f1))
+* update @stainless-api/prism-cli to v5.15.0 ([e12aec2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e12aec2c46689da3f8044b920ddeaf16a6bd0fbe))
+* update github action ([bef1314](https://github.com/roarkhq/sdk-roark-analytics-python/commit/bef13148023457292223539f746d067f5c94911f))
+
 ## 2.1.0 (2025-07-28)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.0.0...v2.1.0)
