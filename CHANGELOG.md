@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.2.1 (2025-08-30)
+
+Full Changelog: [v2.2.0...v2.2.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.2.0...v2.2.1)
+
+### Chores
+
+* **internal:** add Sequence related utils ([43c25f8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/43c25f87a12d6c6a8187a2b0649233a15af1e1e9))
+
 ## 2.2.0 (2025-08-27)
 
 Full Changelog: [v2.1.0...v2.2.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.1.0...v2.2.0)
