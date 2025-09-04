@@ -6,7 +6,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationGetJobResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataScenario"]
+__all__ = ["SimulationLookupJobResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataScenario"]
 
 
 class DataAgentEndpoint(BaseModel):
@@ -101,6 +101,6 @@ class Data(BaseModel):
     """When the job started"""
 
 
-class SimulationGetJobResponse(BaseModel):
+class SimulationLookupJobResponse(BaseModel):
     data: Data
     """Simulation job with related entities"""
