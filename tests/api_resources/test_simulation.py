@@ -18,6 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestSimulation:
+    # Do not test lookup_job - prism doesn't like camel case params
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
@@ -50,46 +51,6 @@ class TestSimulation:
             assert_matches_type(SimulationGetJobByIDResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_method_lookup_job(self, client: Roark) -> None:
-        simulation = client.simulation.lookup_job(
-            roark_phone_number={},
-        )
-        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_method_lookup_job_with_all_params(self, client: Roark) -> None:
-        simulation = client.simulation.lookup_job(
-            roark_phone_number={},
-            call_received_at={},
-        )
-        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_raw_response_lookup_job(self, client: Roark) -> None:
-        response = client.simulation.with_raw_response.lookup_job(
-            roark_phone_number={},
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        simulation = response.parse()
-        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_lookup_job(self, client: Roark) -> None:
-        with client.simulation.with_streaming_response.lookup_job(
-            roark_phone_number={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            simulation = response.parse()
-            assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncSimulation:
     parametrize = pytest.mark.parametrize(
