@@ -10,7 +10,6 @@ import pytest
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
-    SimulationLookupJobResponse,
     SimulationGetJobByIDResponse,
 )
 
