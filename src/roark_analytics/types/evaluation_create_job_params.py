@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = [
@@ -24,7 +25,7 @@ __all__ = [
 
 
 class EvaluationCreateJobParams(TypedDict, total=False):
-    evaluators: Required[Union[List[str], Literal["all"]]]
+    evaluators: Required[Union[SequenceNotStr[str], Literal["all"]]]
     """
     List of evaluators slugs to evaluate the calls or "all" to evaluate all
     evaluators
