@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.3.0 (2025-09-04)
+
+Full Changelog: [v2.2.0...v2.3.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.2.0...v2.3.0)
+
+### Features
+
+* improve future compat with pydantic v3 ([e2198c2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e2198c275f8da3422e62f676aa36b4ac74ec3c82))
+* **types:** replace List[str] with SequenceNotStr in params ([b9ad7f3](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b9ad7f3c0255144f67f854396d8b26c8e6cfe133))
+
+
+### Chores
+
+* **internal:** add Sequence related utils ([43c25f8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/43c25f87a12d6c6a8187a2b0649233a15af1e1e9))
+
 ## 2.2.0 (2025-08-27)
 
 Full Changelog: [v2.1.0...v2.2.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.1.0...v2.2.0)
