@@ -66,10 +66,10 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import SimulationGetJobResponse, SimulationGetJobByIDResponse
+from roark_analytics.types import SimulationGetJobByIDResponse, SimulationLookupJobResponse
 ```
 
 Methods:
 
-- <code title="get /v1/simulation/job">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job</a>(\*\*<a href="src/roark_analytics/types/simulation_get_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_get_job_response.py">SimulationGetJobResponse</a></code>
-- <code title="get /v1/simulation/jobs/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_job_by_id_response.py">SimulationGetJobByIDResponse</a></code>
+- <code title="get /v1/simulation/job/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_job_by_id_response.py">SimulationGetJobByIDResponse</a></code>
+- <code title="get /v1/simulation/job/lookup">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">lookup_job</a>(\*\*<a href="src/roark_analytics/types/simulation_lookup_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_lookup_job_response.py">SimulationLookupJobResponse</a></code>

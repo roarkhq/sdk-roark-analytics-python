@@ -9,56 +9,16 @@ import pytest
 
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
-from roark_analytics.types import SimulationGetJobResponse, SimulationGetJobByIDResponse
+from roark_analytics.types import (
+    SimulationLookupJobResponse,
+    SimulationGetJobByIDResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestSimulation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
-
-    @parametrize
-    def test_method_get_job(self, client: Roark) -> None:
-        simulation = client.simulation.get_job(
-            phone_number={},
-            roark_phone_number={},
-        )
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_method_get_job_with_all_params(self, client: Roark) -> None:
-        simulation = client.simulation.get_job(
-            phone_number={},
-            roark_phone_number={},
-            timestamp={},
-        )
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_job(self, client: Roark) -> None:
-        response = client.simulation.with_raw_response.get_job(
-            phone_number={},
-            roark_phone_number={},
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        simulation = response.parse()
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_job(self, client: Roark) -> None:
-        with client.simulation.with_streaming_response.get_job(
-            phone_number={},
-            roark_phone_number={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            simulation = response.parse()
-            assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_get_job_by_id(self, client: Roark) -> None:
@@ -91,54 +51,50 @@ class TestSimulation:
 
         assert cast(Any, response.is_closed) is True
 
-
-class TestAsyncSimulation:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
-
     @parametrize
-    async def test_method_get_job(self, async_client: AsyncRoark) -> None:
-        simulation = await async_client.simulation.get_job(
-            phone_number={},
+    def test_method_lookup_job(self, client: Roark) -> None:
+        simulation = client.simulation.lookup_job(
             roark_phone_number={},
         )
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_method_get_job_with_all_params(self, async_client: AsyncRoark) -> None:
-        simulation = await async_client.simulation.get_job(
-            phone_number={},
+    def test_method_lookup_job_with_all_params(self, client: Roark) -> None:
+        simulation = client.simulation.lookup_job(
             roark_phone_number={},
-            timestamp={},
+            call_received_at={},
         )
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_job(self, async_client: AsyncRoark) -> None:
-        response = await async_client.simulation.with_raw_response.get_job(
-            phone_number={},
+    def test_raw_response_lookup_job(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.lookup_job(
             roark_phone_number={},
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        simulation = await response.parse()
-        assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
+        simulation = response.parse()
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_job(self, async_client: AsyncRoark) -> None:
-        async with async_client.simulation.with_streaming_response.get_job(
-            phone_number={},
+    def test_streaming_response_lookup_job(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.lookup_job(
             roark_phone_number={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            simulation = await response.parse()
-            assert_matches_type(SimulationGetJobResponse, simulation, path=["response"])
+            simulation = response.parse()
+            assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+
+class TestAsyncSimulation:
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
     @parametrize
     async def test_method_get_job_by_id(self, async_client: AsyncRoark) -> None:
@@ -168,5 +124,44 @@ class TestAsyncSimulation:
 
             simulation = await response.parse()
             assert_matches_type(SimulationGetJobByIDResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_lookup_job(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.lookup_job(
+            roark_phone_number={},
+        )
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_method_lookup_job_with_all_params(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.lookup_job(
+            roark_phone_number={},
+            call_received_at={},
+        )
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_lookup_job(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.lookup_job(
+            roark_phone_number={},
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = await response.parse()
+        assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_lookup_job(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.lookup_job(
+            roark_phone_number={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = await response.parse()
+            assert_matches_type(SimulationLookupJobResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
