@@ -60,3 +60,16 @@ Methods:
 
 - <code title="post /v1/retell/call">client.integrations.<a href="./src/roark_analytics/resources/integrations.py">create_retell_call</a>(\*\*<a href="src/roark_analytics/types/integration_create_retell_call_params.py">params</a>) -> <a href="./src/roark_analytics/types/integration_create_retell_call_response.py">IntegrationCreateRetellCallResponse</a></code>
 - <code title="post /v1/vapi/call">client.integrations.<a href="./src/roark_analytics/resources/integrations.py">create_vapi_call</a>(\*\*<a href="src/roark_analytics/types/integration_create_vapi_call_params.py">params</a>) -> <a href="./src/roark_analytics/types/integration_create_vapi_call_response.py">IntegrationCreateVapiCallResponse</a></code>
+
+# Simulation
+
+Types:
+
+```python
+from roark_analytics.types import SimulationGetJobResponse, SimulationGetJobByIDResponse
+```
+
+Methods:
+
+- <code title="get /v1/simulation/job">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job</a>(\*\*<a href="src/roark_analytics/types/simulation_get_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_get_job_response.py">SimulationGetJobResponse</a></code>
+- <code title="get /v1/simulation/jobs/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_job_by_id_response.py">SimulationGetJobByIDResponse</a></code>

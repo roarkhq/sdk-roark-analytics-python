@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import call, health, evaluation, integrations
+from .resources import call, health, evaluation, simulation, integrations
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import RoarkError, APIStatusError
 from ._base_client import (
@@ -38,6 +38,7 @@ class Roark(SyncAPIClient):
     evaluation: evaluation.EvaluationResource
     call: call.CallResource
     integrations: integrations.IntegrationsResource
+    simulation: simulation.SimulationResource
     with_raw_response: RoarkWithRawResponse
     with_streaming_response: RoarkWithStreamedResponse
 
@@ -99,6 +100,7 @@ class Roark(SyncAPIClient):
         self.evaluation = evaluation.EvaluationResource(self)
         self.call = call.CallResource(self)
         self.integrations = integrations.IntegrationsResource(self)
+        self.simulation = simulation.SimulationResource(self)
         self.with_raw_response = RoarkWithRawResponse(self)
         self.with_streaming_response = RoarkWithStreamedResponse(self)
 
@@ -212,6 +214,7 @@ class AsyncRoark(AsyncAPIClient):
     evaluation: evaluation.AsyncEvaluationResource
     call: call.AsyncCallResource
     integrations: integrations.AsyncIntegrationsResource
+    simulation: simulation.AsyncSimulationResource
     with_raw_response: AsyncRoarkWithRawResponse
     with_streaming_response: AsyncRoarkWithStreamedResponse
 
@@ -273,6 +276,7 @@ class AsyncRoark(AsyncAPIClient):
         self.evaluation = evaluation.AsyncEvaluationResource(self)
         self.call = call.AsyncCallResource(self)
         self.integrations = integrations.AsyncIntegrationsResource(self)
+        self.simulation = simulation.AsyncSimulationResource(self)
         self.with_raw_response = AsyncRoarkWithRawResponse(self)
         self.with_streaming_response = AsyncRoarkWithStreamedResponse(self)
 
@@ -387,6 +391,7 @@ class RoarkWithRawResponse:
         self.evaluation = evaluation.EvaluationResourceWithRawResponse(client.evaluation)
         self.call = call.CallResourceWithRawResponse(client.call)
         self.integrations = integrations.IntegrationsResourceWithRawResponse(client.integrations)
+        self.simulation = simulation.SimulationResourceWithRawResponse(client.simulation)
 
 
 class AsyncRoarkWithRawResponse:
@@ -395,6 +400,7 @@ class AsyncRoarkWithRawResponse:
         self.evaluation = evaluation.AsyncEvaluationResourceWithRawResponse(client.evaluation)
         self.call = call.AsyncCallResourceWithRawResponse(client.call)
         self.integrations = integrations.AsyncIntegrationsResourceWithRawResponse(client.integrations)
+        self.simulation = simulation.AsyncSimulationResourceWithRawResponse(client.simulation)
 
 
 class RoarkWithStreamedResponse:
@@ -403,6 +409,7 @@ class RoarkWithStreamedResponse:
         self.evaluation = evaluation.EvaluationResourceWithStreamingResponse(client.evaluation)
         self.call = call.CallResourceWithStreamingResponse(client.call)
         self.integrations = integrations.IntegrationsResourceWithStreamingResponse(client.integrations)
+        self.simulation = simulation.SimulationResourceWithStreamingResponse(client.simulation)
 
 
 class AsyncRoarkWithStreamedResponse:
@@ -411,6 +418,7 @@ class AsyncRoarkWithStreamedResponse:
         self.evaluation = evaluation.AsyncEvaluationResourceWithStreamingResponse(client.evaluation)
         self.call = call.AsyncCallResourceWithStreamingResponse(client.call)
         self.integrations = integrations.AsyncIntegrationsResourceWithStreamingResponse(client.integrations)
+        self.simulation = simulation.AsyncSimulationResourceWithStreamingResponse(client.simulation)
 
 
 Client = Roark
