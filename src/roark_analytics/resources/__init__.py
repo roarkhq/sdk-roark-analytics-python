@@ -24,6 +24,14 @@ from .evaluation import (
     EvaluationResourceWithStreamingResponse,
     AsyncEvaluationResourceWithStreamingResponse,
 )
+from .simulation import (
+    SimulationResource,
+    AsyncSimulationResource,
+    SimulationResourceWithRawResponse,
+    AsyncSimulationResourceWithRawResponse,
+    SimulationResourceWithStreamingResponse,
+    AsyncSimulationResourceWithStreamingResponse,
+)
 from .integrations import (
     IntegrationsResource,
     AsyncIntegrationsResource,
@@ -58,4 +66,10 @@ __all__ = [
     "AsyncIntegrationsResourceWithRawResponse",
     "IntegrationsResourceWithStreamingResponse",
     "AsyncIntegrationsResourceWithStreamingResponse",
+    "SimulationResource",
+    "AsyncSimulationResource",
+    "SimulationResourceWithRawResponse",
+    "AsyncSimulationResourceWithRawResponse",
+    "SimulationResourceWithStreamingResponse",
+    "AsyncSimulationResourceWithStreamingResponse",
 ]
