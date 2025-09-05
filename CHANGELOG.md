@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.1 (2025-09-05)
+
+Full Changelog: [v2.5.0...v2.5.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.5.0...v2.5.1)
+
+### Chores
+
+* **internal:** move mypy configurations to `pyproject.toml` file ([14f1f8b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/14f1f8baf6bdf3255c12b726fc564b60f978caa6))
+
 ## 2.5.0 (2025-09-05)
 
 Full Changelog: [v2.4.0...v2.5.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.4.0...v2.5.0)
