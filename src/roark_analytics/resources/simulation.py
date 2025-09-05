@@ -86,7 +86,8 @@ class SimulationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SimulationLookupJobResponse:
         """
-        Find a simulation job by looking up the active lease for the given phone numbers
+        Find the matching simulation job using the number used by the Roark simulation
+        agent.
 
         Args:
           roark_phone_number: Phone number provisioned by Roark for the simulation job in E.164 format. In the
@@ -188,7 +189,8 @@ class AsyncSimulationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SimulationLookupJobResponse:
         """
-        Find a simulation job by looking up the active lease for the given phone numbers
+        Find the matching simulation job using the number used by the Roark simulation
+        agent.
 
         Args:
           roark_phone_number: Phone number provisioned by Roark for the simulation job in E.164 format. In the
