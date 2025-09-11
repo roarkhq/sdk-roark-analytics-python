@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.2 (2025-09-11)
+
+Full Changelog: [v2.5.1...v2.5.2](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.5.1...v2.5.2)
+
+### Chores
+
+* **internal:** codegen related update ([2deca6e](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2deca6e2c6abe779ab307760b7a5e3fea08b0053))
+
 ## 2.5.1 (2025-09-05)
 
 Full Changelog: [v2.5.0...v2.5.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.5.0...v2.5.1)
