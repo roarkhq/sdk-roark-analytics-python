@@ -1,6 +1,6 @@
 [project]
 name = "roark_analytics"
-version = "2.5.1"
+version = "2.5.2"
 description = "The official Python library for the roark API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -56,7 +56,6 @@ dev-dependencies = [
     "dirty-equals>=0.6.0",
     "importlib-metadata>=6.7.0",
     "rich>=13.7.1",
-    "nest_asyncio==1.6.0",
     "pytest-xdist>=3.6.1",
 ]
 
