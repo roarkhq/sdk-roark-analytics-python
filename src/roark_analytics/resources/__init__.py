@@ -16,6 +16,14 @@ from .health import (
     HealthResourceWithStreamingResponse,
     AsyncHealthResourceWithStreamingResponse,
 )
+from .persona import (
+    PersonaResource,
+    AsyncPersonaResource,
+    PersonaResourceWithRawResponse,
+    AsyncPersonaResourceWithRawResponse,
+    PersonaResourceWithStreamingResponse,
+    AsyncPersonaResourceWithStreamingResponse,
+)
 from .evaluation import (
     EvaluationResource,
     AsyncEvaluationResource,
@@ -72,4 +80,10 @@ __all__ = [
     "AsyncSimulationResourceWithRawResponse",
     "SimulationResourceWithStreamingResponse",
     "AsyncSimulationResourceWithStreamingResponse",
+    "PersonaResource",
+    "AsyncPersonaResource",
+    "PersonaResourceWithRawResponse",
+    "AsyncPersonaResourceWithRawResponse",
+    "PersonaResourceWithStreamingResponse",
+    "AsyncPersonaResourceWithStreamingResponse",
 ]

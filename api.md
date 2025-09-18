@@ -73,3 +73,23 @@ Methods:
 
 - <code title="get /v1/simulation/job/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_job_by_id_response.py">SimulationGetJobByIDResponse</a></code>
 - <code title="get /v1/simulation/job/lookup">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">lookup_job</a>(\*\*<a href="src/roark_analytics/types/simulation_lookup_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_lookup_job_response.py">SimulationLookupJobResponse</a></code>
+
+# Persona
+
+Types:
+
+```python
+from roark_analytics.types import (
+    PersonaCreateResponse,
+    PersonaUpdateResponse,
+    PersonaFindAllResponse,
+    PersonaGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/persona">client.persona.<a href="./src/roark_analytics/resources/persona.py">create</a>(\*\*<a href="src/roark_analytics/types/persona_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/persona_create_response.py">PersonaCreateResponse</a></code>
+- <code title="put /v1/persona/{personaId}">client.persona.<a href="./src/roark_analytics/resources/persona.py">update</a>(persona_id, \*\*<a href="src/roark_analytics/types/persona_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/persona_update_response.py">PersonaUpdateResponse</a></code>
+- <code title="get /v1/persona">client.persona.<a href="./src/roark_analytics/resources/persona.py">find_all</a>(\*\*<a href="src/roark_analytics/types/persona_find_all_params.py">params</a>) -> <a href="./src/roark_analytics/types/persona_find_all_response.py">PersonaFindAllResponse</a></code>
+- <code title="get /v1/persona/{personaId}">client.persona.<a href="./src/roark_analytics/resources/persona.py">get_by_id</a>(persona_id) -> <a href="./src/roark_analytics/types/persona_get_by_id_response.py">PersonaGetByIDResponse</a></code>
