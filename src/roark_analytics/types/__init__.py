@@ -3,6 +3,13 @@
 from __future__ import annotations
 
 from .health_get_response import HealthGetResponse as HealthGetResponse
+from .persona_create_params import PersonaCreateParams as PersonaCreateParams
+from .persona_update_params import PersonaUpdateParams as PersonaUpdateParams
+from .persona_create_response import PersonaCreateResponse as PersonaCreateResponse
+from .persona_find_all_params import PersonaFindAllParams as PersonaFindAllParams
+from .persona_update_response import PersonaUpdateResponse as PersonaUpdateResponse
+from .persona_find_all_response import PersonaFindAllResponse as PersonaFindAllResponse
+from .persona_get_by_id_response import PersonaGetByIDResponse as PersonaGetByIDResponse
 from .evaluation_get_job_response import EvaluationGetJobResponse as EvaluationGetJobResponse
 from .evaluation_create_job_params import EvaluationCreateJobParams as EvaluationCreateJobParams
 from .simulation_lookup_job_params import SimulationLookupJobParams as SimulationLookupJobParams
