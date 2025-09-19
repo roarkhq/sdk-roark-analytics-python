@@ -51,20 +51,21 @@ class PersonaResource(SyncAPIResource):
         self,
         *,
         accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
-        background_noise: Literal["NONE", "OFFICE"],
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
-        confirmation_style: Literal["EXPLICIT", "VAGUE"],
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        has_disfluencies: bool,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
-        memory_reliability: Literal["HIGH", "LOW"],
         name: str,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"],
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"],
+        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
         backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
+        | NotGiven = NOT_GIVEN,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        has_disfluencies: bool | NotGiven = NOT_GIVEN,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -76,35 +77,36 @@ class PersonaResource(SyncAPIResource):
         Creates a new persona for the authenticated project.
 
         Args:
-          accent: Accent of the persona
+          accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+              optional variants
+
+          gender: Gender of the persona
+
+          language: Primary language ISO 639-1 code for the persona
+
+          name: The name the agent will identify as during conversations
 
           background_noise: Background noise setting
+
+          backstory_prompt: Background story and behavioral patterns for the persona
 
           base_emotion: Base emotional state of the persona
 
           confirmation_style: How the persona confirms information
 
-          gender: Gender of the persona
-
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           intent_clarity: How clearly the persona expresses their intentions
 
-          language: Primary language for the persona
-
           memory_reliability: How reliable the persona's memory is
 
-          name: The name the agent will identify as during conversations
+          properties: Additional custom properties about the persona
+
+          secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
-
-          backstory_prompt: Background story and behavioral patterns for the persona
-
-          properties: Additional custom properties about the persona
-
-          secondary_language: Secondary language for code-switching (e.g., Hinglish, Spanglish)
 
           extra_headers: Send extra headers
 
@@ -119,20 +121,20 @@ class PersonaResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "accent": accent,
+                    "gender": gender,
+                    "language": language,
+                    "name": name,
                     "background_noise": background_noise,
+                    "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
-                    "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,
-                    "language": language,
                     "memory_reliability": memory_reliability,
-                    "name": name,
-                    "speech_clarity": speech_clarity,
-                    "speech_pace": speech_pace,
-                    "backstory_prompt": backstory_prompt,
                     "properties": properties,
                     "secondary_language": secondary_language,
+                    "speech_clarity": speech_clarity,
+                    "speech_pace": speech_pace,
                 },
                 persona_create_params.PersonaCreateParams,
             ),
@@ -146,21 +148,23 @@ class PersonaResource(SyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
-        background_noise: Literal["NONE", "OFFICE"],
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
-        confirmation_style: Literal["EXPLICIT", "VAGUE"],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        has_disfluencies: bool,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
-        memory_reliability: Literal["HIGH", "LOW"],
-        name: str,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"],
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"],
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
+        | NotGiven = NOT_GIVEN,
+        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
         backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
+        | NotGiven = NOT_GIVEN,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | NotGiven = NOT_GIVEN,
+        has_disfluencies: bool | NotGiven = NOT_GIVEN,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | NotGiven = NOT_GIVEN,
+        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -172,9 +176,12 @@ class PersonaResource(SyncAPIResource):
         Updates an existing persona by its ID.
 
         Args:
-          accent: Accent of the persona
+          accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+              optional variants
 
           background_noise: Background noise setting
+
+          backstory_prompt: Background story and behavioral patterns for the persona
 
           base_emotion: Base emotional state of the persona
 
@@ -186,21 +193,19 @@ class PersonaResource(SyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
-          language: Primary language for the persona
+          language: Primary language ISO 639-1 code for the persona
 
           memory_reliability: How reliable the persona's memory is
 
           name: The name the agent will identify as during conversations
 
+          properties: Additional custom properties about the persona
+
+          secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
+
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
-
-          backstory_prompt: Background story and behavioral patterns for the persona
-
-          properties: Additional custom properties about the persona
-
-          secondary_language: Secondary language for code-switching (e.g., Hinglish, Spanglish)
 
           extra_headers: Send extra headers
 
@@ -218,6 +223,7 @@ class PersonaResource(SyncAPIResource):
                 {
                     "accent": accent,
                     "background_noise": background_noise,
+                    "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "gender": gender,
@@ -226,11 +232,10 @@ class PersonaResource(SyncAPIResource):
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,
-                    "speech_clarity": speech_clarity,
-                    "speech_pace": speech_pace,
-                    "backstory_prompt": backstory_prompt,
                     "properties": properties,
                     "secondary_language": secondary_language,
+                    "speech_clarity": speech_clarity,
+                    "speech_pace": speech_pace,
                 },
                 persona_update_params.PersonaUpdateParams,
             ),
@@ -342,20 +347,21 @@ class AsyncPersonaResource(AsyncAPIResource):
         self,
         *,
         accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
-        background_noise: Literal["NONE", "OFFICE"],
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
-        confirmation_style: Literal["EXPLICIT", "VAGUE"],
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        has_disfluencies: bool,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
-        memory_reliability: Literal["HIGH", "LOW"],
         name: str,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"],
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"],
+        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
         backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
+        | NotGiven = NOT_GIVEN,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        has_disfluencies: bool | NotGiven = NOT_GIVEN,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -367,35 +373,36 @@ class AsyncPersonaResource(AsyncAPIResource):
         Creates a new persona for the authenticated project.
 
         Args:
-          accent: Accent of the persona
+          accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+              optional variants
+
+          gender: Gender of the persona
+
+          language: Primary language ISO 639-1 code for the persona
+
+          name: The name the agent will identify as during conversations
 
           background_noise: Background noise setting
+
+          backstory_prompt: Background story and behavioral patterns for the persona
 
           base_emotion: Base emotional state of the persona
 
           confirmation_style: How the persona confirms information
 
-          gender: Gender of the persona
-
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           intent_clarity: How clearly the persona expresses their intentions
 
-          language: Primary language for the persona
-
           memory_reliability: How reliable the persona's memory is
 
-          name: The name the agent will identify as during conversations
+          properties: Additional custom properties about the persona
+
+          secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
-
-          backstory_prompt: Background story and behavioral patterns for the persona
-
-          properties: Additional custom properties about the persona
-
-          secondary_language: Secondary language for code-switching (e.g., Hinglish, Spanglish)
 
           extra_headers: Send extra headers
 
@@ -410,20 +417,20 @@ class AsyncPersonaResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "accent": accent,
+                    "gender": gender,
+                    "language": language,
+                    "name": name,
                     "background_noise": background_noise,
+                    "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
-                    "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,
-                    "language": language,
                     "memory_reliability": memory_reliability,
-                    "name": name,
-                    "speech_clarity": speech_clarity,
-                    "speech_pace": speech_pace,
-                    "backstory_prompt": backstory_prompt,
                     "properties": properties,
                     "secondary_language": secondary_language,
+                    "speech_clarity": speech_clarity,
+                    "speech_pace": speech_pace,
                 },
                 persona_create_params.PersonaCreateParams,
             ),
@@ -437,21 +444,23 @@ class AsyncPersonaResource(AsyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
-        background_noise: Literal["NONE", "OFFICE"],
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
-        confirmation_style: Literal["EXPLICIT", "VAGUE"],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        has_disfluencies: bool,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
-        memory_reliability: Literal["HIGH", "LOW"],
-        name: str,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"],
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"],
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
+        | NotGiven = NOT_GIVEN,
+        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
         backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
+        | NotGiven = NOT_GIVEN,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | NotGiven = NOT_GIVEN,
+        has_disfluencies: bool | NotGiven = NOT_GIVEN,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | NotGiven = NOT_GIVEN,
+        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
         properties: Dict[str, object] | NotGiven = NOT_GIVEN,
         secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -463,9 +472,12 @@ class AsyncPersonaResource(AsyncAPIResource):
         Updates an existing persona by its ID.
 
         Args:
-          accent: Accent of the persona
+          accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+              optional variants
 
           background_noise: Background noise setting
+
+          backstory_prompt: Background story and behavioral patterns for the persona
 
           base_emotion: Base emotional state of the persona
 
@@ -477,21 +489,19 @@ class AsyncPersonaResource(AsyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
-          language: Primary language for the persona
+          language: Primary language ISO 639-1 code for the persona
 
           memory_reliability: How reliable the persona's memory is
 
           name: The name the agent will identify as during conversations
 
+          properties: Additional custom properties about the persona
+
+          secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
+
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
-
-          backstory_prompt: Background story and behavioral patterns for the persona
-
-          properties: Additional custom properties about the persona
-
-          secondary_language: Secondary language for code-switching (e.g., Hinglish, Spanglish)
 
           extra_headers: Send extra headers
 
@@ -509,6 +519,7 @@ class AsyncPersonaResource(AsyncAPIResource):
                 {
                     "accent": accent,
                     "background_noise": background_noise,
+                    "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "gender": gender,
@@ -517,11 +528,10 @@ class AsyncPersonaResource(AsyncAPIResource):
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,
-                    "speech_clarity": speech_clarity,
-                    "speech_pace": speech_pace,
-                    "backstory_prompt": backstory_prompt,
                     "properties": properties,
                     "secondary_language": secondary_language,
+                    "speech_clarity": speech_clarity,
+                    "speech_pace": speech_pace,
                 },
                 persona_update_params.PersonaUpdateParams,
             ),

@@ -15,7 +15,10 @@ class Data(BaseModel):
     """Unique identifier of the persona"""
 
     accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
-    """Accent of the persona"""
+    """
+    Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+    optional variants
+    """
 
     background_noise: Literal["NONE", "OFFICE"] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
@@ -41,13 +44,16 @@ class Data(BaseModel):
     """How clearly the persona expresses their intentions"""
 
     language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"]
-    """Primary language for the persona"""
+    """Primary language ISO 639-1 code for the persona"""
 
     memory_reliability: Literal["HIGH", "LOW"] = FieldInfo(alias="memoryReliability")
     """How reliable the persona's memory is"""
 
     name: str
     """The name the agent will identify as during conversations"""
+
+    properties: Dict[str, object]
+    """Additional custom properties about the persona"""
 
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
     """Speech clarity of the persona"""
@@ -61,11 +67,10 @@ class Data(BaseModel):
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
     """Background story and behavioral patterns for the persona"""
 
-    properties: Optional[Dict[str, object]] = None
-    """Additional custom properties about the persona"""
-
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
-    """Secondary language for code-switching (e.g., Hinglish, Spanglish)"""
+    """
+    Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
+    """
 
 
 class Pagination(BaseModel):
