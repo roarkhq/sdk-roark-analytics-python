@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import persona_create_params, persona_update_params, persona_find_all_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -54,24 +54,23 @@ class PersonaResource(SyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
         name: str,
-        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
-        backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
-        | NotGiven = NOT_GIVEN,
-        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        has_disfluencies: bool | NotGiven = NOT_GIVEN,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
+        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        backstory_prompt: Optional[str] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        has_disfluencies: bool | Omit = omit,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
+        properties: Dict[str, object] | Omit = omit,
+        secondary_language: Optional[Literal["EN"]] | Omit = omit,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaCreateResponse:
         """
         Creates a new persona for the authenticated project.
@@ -148,29 +147,27 @@ class PersonaResource(SyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
-        | NotGiven = NOT_GIVEN,
-        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
-        backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
-        | NotGiven = NOT_GIVEN,
-        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | NotGiven = NOT_GIVEN,
-        has_disfluencies: bool | NotGiven = NOT_GIVEN,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | NotGiven = NOT_GIVEN,
-        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
+        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        backstory_prompt: Optional[str] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        has_disfluencies: bool | Omit = omit,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | Omit = omit,
+        memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
+        name: str | Omit = omit,
+        properties: Dict[str, object] | Omit = omit,
+        secondary_language: Optional[Literal["EN"]] | Omit = omit,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaUpdateResponse:
         """
         Updates an existing persona by its ID.
@@ -248,15 +245,15 @@ class PersonaResource(SyncAPIResource):
     def find_all(
         self,
         *,
-        after: str | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        search_text: str | NotGiven = NOT_GIVEN,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        search_text: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaFindAllResponse:
         """
         Returns a paginated list of personas for the authenticated project.
@@ -298,7 +295,7 @@ class PersonaResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaGetByIDResponse:
         """
         Returns a specific persona by its ID.
@@ -350,24 +347,23 @@ class AsyncPersonaResource(AsyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
         name: str,
-        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
-        backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
-        | NotGiven = NOT_GIVEN,
-        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        has_disfluencies: bool | NotGiven = NOT_GIVEN,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
+        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        backstory_prompt: Optional[str] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        has_disfluencies: bool | Omit = omit,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
+        properties: Dict[str, object] | Omit = omit,
+        secondary_language: Optional[Literal["EN"]] | Omit = omit,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaCreateResponse:
         """
         Creates a new persona for the authenticated project.
@@ -444,29 +440,27 @@ class AsyncPersonaResource(AsyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
-        | NotGiven = NOT_GIVEN,
-        background_noise: Literal["NONE", "OFFICE"] | NotGiven = NOT_GIVEN,
-        backstory_prompt: Optional[str] | NotGiven = NOT_GIVEN,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"]
-        | NotGiven = NOT_GIVEN,
-        confirmation_style: Literal["EXPLICIT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | NotGiven = NOT_GIVEN,
-        has_disfluencies: bool | NotGiven = NOT_GIVEN,
-        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | NotGiven = NOT_GIVEN,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | NotGiven = NOT_GIVEN,
-        memory_reliability: Literal["HIGH", "LOW"] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        secondary_language: Optional[Literal["EN"]] | NotGiven = NOT_GIVEN,
-        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | NotGiven = NOT_GIVEN,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | NotGiven = NOT_GIVEN,
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
+        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        backstory_prompt: Optional[str] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        has_disfluencies: bool | Omit = omit,
+        intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | Omit = omit,
+        memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
+        name: str | Omit = omit,
+        properties: Dict[str, object] | Omit = omit,
+        secondary_language: Optional[Literal["EN"]] | Omit = omit,
+        speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
+        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaUpdateResponse:
         """
         Updates an existing persona by its ID.
@@ -544,15 +538,15 @@ class AsyncPersonaResource(AsyncAPIResource):
     async def find_all(
         self,
         *,
-        after: str | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
-        search_text: str | NotGiven = NOT_GIVEN,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        search_text: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaFindAllResponse:
         """
         Returns a paginated list of personas for the authenticated project.
@@ -594,7 +588,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PersonaGetByIDResponse:
         """
         Returns a specific persona by its ID.

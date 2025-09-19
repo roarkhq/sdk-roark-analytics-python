@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import evaluation_create_job_params, evaluation_get_job_runs_params, evaluation_get_evaluators_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -52,14 +52,14 @@ class EvaluationResource(SyncAPIResource):
         self,
         *,
         evaluators: Union[SequenceNotStr[str], Literal["all"]],
-        call: evaluation_create_job_params.Call | NotGiven = NOT_GIVEN,
-        dataset: evaluation_create_job_params.Dataset | NotGiven = NOT_GIVEN,
+        call: evaluation_create_job_params.Call | Omit = omit,
+        dataset: evaluation_create_job_params.Dataset | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationCreateJobResponse:
         """
         Create a evaluation job for a single call or dataset of calls
@@ -103,7 +103,7 @@ class EvaluationResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetEvaluatorByIDResponse:
         """
         Returns a specific evaluator with its blocks and configuration.
@@ -130,14 +130,14 @@ class EvaluationResource(SyncAPIResource):
     def get_evaluators(
         self,
         *,
-        after: str | NotGiven = NOT_GIVEN,
-        limit: str | NotGiven = NOT_GIVEN,
+        after: str | Omit = omit,
+        limit: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetEvaluatorsResponse:
         """
         Returns a list of evaluators with their blocks and configuration for the
@@ -183,7 +183,7 @@ class EvaluationResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetJobResponse:
         """
         Retrieve details of a specific evaluation job
@@ -213,14 +213,14 @@ class EvaluationResource(SyncAPIResource):
         self,
         job_id: str,
         *,
-        limit: str | NotGiven = NOT_GIVEN,
-        next_cursor: str | NotGiven = NOT_GIVEN,
+        limit: str | Omit = omit,
+        next_cursor: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs
@@ -283,14 +283,14 @@ class AsyncEvaluationResource(AsyncAPIResource):
         self,
         *,
         evaluators: Union[SequenceNotStr[str], Literal["all"]],
-        call: evaluation_create_job_params.Call | NotGiven = NOT_GIVEN,
-        dataset: evaluation_create_job_params.Dataset | NotGiven = NOT_GIVEN,
+        call: evaluation_create_job_params.Call | Omit = omit,
+        dataset: evaluation_create_job_params.Dataset | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationCreateJobResponse:
         """
         Create a evaluation job for a single call or dataset of calls
@@ -334,7 +334,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetEvaluatorByIDResponse:
         """
         Returns a specific evaluator with its blocks and configuration.
@@ -361,14 +361,14 @@ class AsyncEvaluationResource(AsyncAPIResource):
     async def get_evaluators(
         self,
         *,
-        after: str | NotGiven = NOT_GIVEN,
-        limit: str | NotGiven = NOT_GIVEN,
+        after: str | Omit = omit,
+        limit: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetEvaluatorsResponse:
         """
         Returns a list of evaluators with their blocks and configuration for the
@@ -414,7 +414,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetJobResponse:
         """
         Retrieve details of a specific evaluation job
@@ -444,14 +444,14 @@ class AsyncEvaluationResource(AsyncAPIResource):
         self,
         job_id: str,
         *,
-        limit: str | NotGiven = NOT_GIVEN,
-        next_cursor: str | NotGiven = NOT_GIVEN,
+        limit: str | Omit = omit,
+        next_cursor: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EvaluationGetJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs

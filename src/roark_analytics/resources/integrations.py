@@ -7,7 +7,7 @@ from typing import Dict
 import httpx
 
 from ..types import integration_create_vapi_call_params, integration_create_retell_call_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -48,14 +48,14 @@ class IntegrationsResource(SyncAPIResource):
         self,
         *,
         retell_call_ended_payload: Dict[str, object],
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        skip_already_imported: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | Omit = omit,
+        skip_already_imported: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntegrationCreateRetellCallResponse:
         """
         Process and upload a Retell call to Roark evaluation
@@ -96,14 +96,14 @@ class IntegrationsResource(SyncAPIResource):
         self,
         *,
         vapi_end_of_call_report_payload: Dict[str, object],
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        skip_already_imported: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | Omit = omit,
+        skip_already_imported: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntegrationCreateVapiCallResponse:
         """
         Process and upload a VAPI call to Roark evaluation
@@ -165,14 +165,14 @@ class AsyncIntegrationsResource(AsyncAPIResource):
         self,
         *,
         retell_call_ended_payload: Dict[str, object],
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        skip_already_imported: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | Omit = omit,
+        skip_already_imported: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntegrationCreateRetellCallResponse:
         """
         Process and upload a Retell call to Roark evaluation
@@ -213,14 +213,14 @@ class AsyncIntegrationsResource(AsyncAPIResource):
         self,
         *,
         vapi_end_of_call_report_payload: Dict[str, object],
-        properties: Dict[str, object] | NotGiven = NOT_GIVEN,
-        skip_already_imported: bool | NotGiven = NOT_GIVEN,
+        properties: Dict[str, object] | Omit = omit,
+        skip_already_imported: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntegrationCreateVapiCallResponse:
         """
         Process and upload a VAPI call to Roark evaluation
