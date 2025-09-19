@@ -61,7 +61,8 @@ class TestPersona:
                 "zipCode": "bar",
                 "occupation": "bar",
             },
-            secondary_language=None,
+            # TODO: Uncomment when Prism correctly handles null values for nullable enums
+            # secondary_language=None,
         )
         assert_matches_type(PersonaCreateResponse, persona, path=["response"])
 
@@ -152,7 +153,8 @@ class TestPersona:
                 "zipCode": "bar",
                 "occupation": "bar",
             },
-            secondary_language=None,
+            # TODO: Uncomment when Prism correctly handles null values for nullable enums
+            # secondary_language=None,
         )
         assert_matches_type(PersonaUpdateResponse, persona, path=["response"])
 
@@ -340,7 +342,8 @@ class TestAsyncPersona:
                 "zipCode": "bar",
                 "occupation": "bar",
             },
-            secondary_language=None,
+            # TODO: Uncomment when Prism correctly handles null values for nullable enums
+            # secondary_language=None,
         )
         assert_matches_type(PersonaCreateResponse, persona, path=["response"])
 
@@ -431,7 +434,8 @@ class TestAsyncPersona:
                 "zipCode": "bar",
                 "occupation": "bar",
             },
-            secondary_language=None,
+            # TODO: Uncomment when Prism correctly handles null values for nullable enums
+            # secondary_language=None,
         )
         assert_matches_type(PersonaUpdateResponse, persona, path=["response"])
 
