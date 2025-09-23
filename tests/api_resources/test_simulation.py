@@ -23,14 +23,14 @@ class TestSimulation:
     @parametrize
     def test_method_get_job_by_id(self, client: Roark) -> None:
         simulation = client.simulation.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         )
         assert_matches_type(SimulationGetJobByIDResponse, simulation, path=["response"])
 
     @parametrize
     def test_raw_response_get_job_by_id(self, client: Roark) -> None:
         response = client.simulation.with_raw_response.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         )
 
         assert response.is_closed is True
@@ -41,7 +41,7 @@ class TestSimulation:
     @parametrize
     def test_streaming_response_get_job_by_id(self, client: Roark) -> None:
         with client.simulation.with_streaming_response.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -99,14 +99,14 @@ class TestAsyncSimulation:
     @parametrize
     async def test_method_get_job_by_id(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         )
         assert_matches_type(SimulationGetJobByIDResponse, simulation, path=["response"])
 
     @parametrize
     async def test_raw_response_get_job_by_id(self, async_client: AsyncRoark) -> None:
         response = await async_client.simulation.with_raw_response.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         )
 
         assert response.is_closed is True
@@ -117,7 +117,7 @@ class TestAsyncSimulation:
     @parametrize
     async def test_streaming_response_get_job_by_id(self, async_client: AsyncRoark) -> None:
         async with async_client.simulation.with_streaming_response.get_job_by_id(
-            {},
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
