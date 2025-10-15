@@ -94,7 +94,7 @@ class Call(TypedDict, total=False):
     """Exactly two participants in the call"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV or MP3 file).
+    """URL of source recording (must be an accessible WAV, MP3, or MP4 file).
 
     Can be a signed URL.
     """
@@ -137,10 +137,10 @@ class Call(TypedDict, total=False):
     """Retell call ID if call is being imported from Retell"""
 
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
-    """URL of source stereo recording in WAV format.
+    """URL of source stereo recording.
 
     Must be accessible. Can be a signed URL. While optional it allows for a richer
-    audio player
+    audio player. Supported formats: WAV, MP3, MP4.
     """
 
     tool_invocations: Annotated[Iterable[CallToolInvocation], PropertyInfo(alias="toolInvocations")]
@@ -207,7 +207,7 @@ class DatasetCall(TypedDict, total=False):
     """Exactly two participants in the call"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV or MP3 file).
+    """URL of source recording (must be an accessible WAV, MP3, or MP4 file).
 
     Can be a signed URL.
     """
@@ -250,10 +250,10 @@ class DatasetCall(TypedDict, total=False):
     """Retell call ID if call is being imported from Retell"""
 
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
-    """URL of source stereo recording in WAV format.
+    """URL of source stereo recording.
 
     Must be accessible. Can be a signed URL. While optional it allows for a richer
-    audio player
+    audio player. Supported formats: WAV, MP3, MP4.
     """
 
     tool_invocations: Annotated[Iterable[DatasetCallToolInvocation], PropertyInfo(alias="toolInvocations")]
