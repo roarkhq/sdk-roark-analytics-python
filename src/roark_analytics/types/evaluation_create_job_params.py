@@ -44,6 +44,8 @@ class CallParticipant(TypedDict, total=False):
 
     name: Optional[str]
 
+    participant_id: Annotated[Optional[str], PropertyInfo(alias="participantId")]
+
     phone_number: Annotated[Optional[str], PropertyInfo(alias="phoneNumber")]
 
     spoke_first: Annotated[bool, PropertyInfo(alias="spokeFirst")]
@@ -156,6 +158,8 @@ class DatasetCallParticipant(TypedDict, total=False):
     is_simulated: Annotated[bool, PropertyInfo(alias="isSimulated")]
 
     name: Optional[str]
+
+    participant_id: Annotated[Optional[str], PropertyInfo(alias="participantId")]
 
     phone_number: Annotated[Optional[str], PropertyInfo(alias="phoneNumber")]
 
