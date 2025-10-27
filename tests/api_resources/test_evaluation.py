@@ -42,6 +42,7 @@ class TestEvaluation:
                         "role": "AGENT",
                         "is_simulated": True,
                         "name": "x",
+                        "participant_id": "participantId",
                         "phone_number": "xxx",
                         "spoke_first": True,
                     }
@@ -76,6 +77,7 @@ class TestEvaluation:
                                 "role": "AGENT",
                                 "is_simulated": True,
                                 "name": "x",
+                                "participant_id": "participantId",
                                 "phone_number": "xxx",
                                 "spoke_first": True,
                             }
@@ -311,6 +313,7 @@ class TestAsyncEvaluation:
                         "role": "AGENT",
                         "is_simulated": True,
                         "name": "x",
+                        "participant_id": "participantId",
                         "phone_number": "xxx",
                         "spoke_first": True,
                     }
@@ -345,6 +348,7 @@ class TestAsyncEvaluation:
                                 "role": "AGENT",
                                 "is_simulated": True,
                                 "name": "x",
+                                "participant_id": "participantId",
                                 "phone_number": "xxx",
                                 "spoke_first": True,
                             }
