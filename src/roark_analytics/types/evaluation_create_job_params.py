@@ -109,14 +109,21 @@ class Call(TypedDict, total=False):
 
     ended_status: Annotated[
         Literal[
+            "PARTICIPANTS_DID_NOT_SPEAK",
+            "AGENT_DID_NOT_ANSWER",
+            "AGENT_DID_NOT_SPEAK",
+            "AGENT_STOPPED_SPEAKING",
             "AGENT_ENDED_CALL",
             "AGENT_TRANSFERRED_CALL",
+            "AGENT_BUSY",
             "AGENT_ERROR",
             "CUSTOMER_ENDED_CALL",
             "VOICE_MAIL_REACHED",
             "SILENCE_TIME_OUT",
             "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
             "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_DID_NOT_SPEAK",
+            "CUSTOMER_STOPPED_SPEAKING",
             "CUSTOMER_BUSY",
             "DIAL_ERROR",
             "MAX_DURATION_REACHED",
@@ -224,14 +231,21 @@ class DatasetCall(TypedDict, total=False):
 
     ended_status: Annotated[
         Literal[
+            "PARTICIPANTS_DID_NOT_SPEAK",
+            "AGENT_DID_NOT_ANSWER",
+            "AGENT_DID_NOT_SPEAK",
+            "AGENT_STOPPED_SPEAKING",
             "AGENT_ENDED_CALL",
             "AGENT_TRANSFERRED_CALL",
+            "AGENT_BUSY",
             "AGENT_ERROR",
             "CUSTOMER_ENDED_CALL",
             "VOICE_MAIL_REACHED",
             "SILENCE_TIME_OUT",
             "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
             "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_DID_NOT_SPEAK",
+            "CUSTOMER_STOPPED_SPEAKING",
             "CUSTOMER_BUSY",
             "DIAL_ERROR",
             "MAX_DURATION_REACHED",
