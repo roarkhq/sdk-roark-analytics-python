@@ -20,7 +20,9 @@ class Data(BaseModel):
     optional variants
     """
 
-    background_noise: Literal["NONE", "OFFICE"] = FieldInfo(alias="backgroundNoise")
+    background_noise: Literal[
+        "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+    ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
     base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] = FieldInfo(

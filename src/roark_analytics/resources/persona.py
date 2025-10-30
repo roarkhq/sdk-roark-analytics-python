@@ -54,7 +54,10 @@ class PersonaResource(SyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
         name: str,
-        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        background_noise: Literal[
+            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        ]
+        | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
@@ -148,7 +151,10 @@ class PersonaResource(SyncAPIResource):
         persona_id: str,
         *,
         accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
-        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        background_noise: Literal[
+            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        ]
+        | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
@@ -347,7 +353,10 @@ class AsyncPersonaResource(AsyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
         name: str,
-        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        background_noise: Literal[
+            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        ]
+        | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
@@ -441,7 +450,10 @@ class AsyncPersonaResource(AsyncAPIResource):
         persona_id: str,
         *,
         accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
-        background_noise: Literal["NONE", "OFFICE"] | Omit = omit,
+        background_noise: Literal[
+            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        ]
+        | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,

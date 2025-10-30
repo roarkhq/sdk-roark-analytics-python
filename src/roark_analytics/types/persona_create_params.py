@@ -26,7 +26,10 @@ class PersonaCreateParams(TypedDict, total=False):
     name: Required[str]
     """The name the agent will identify as during conversations"""
 
-    background_noise: Annotated[Literal["NONE", "OFFICE"], PropertyInfo(alias="backgroundNoise")]
+    background_noise: Annotated[
+        Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
+        PropertyInfo(alias="backgroundNoise"),
+    ]
     """Background noise setting"""
 
     backstory_prompt: Annotated[Optional[str], PropertyInfo(alias="backstoryPrompt")]
