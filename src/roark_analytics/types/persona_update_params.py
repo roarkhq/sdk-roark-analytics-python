@@ -17,7 +17,10 @@ class PersonaUpdateParams(TypedDict, total=False):
     optional variants
     """
 
-    background_noise: Annotated[Literal["NONE", "OFFICE"], PropertyInfo(alias="backgroundNoise")]
+    background_noise: Annotated[
+        Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
+        PropertyInfo(alias="backgroundNoise"),
+    ]
     """Background noise setting"""
 
     backstory_prompt: Annotated[Optional[str], PropertyInfo(alias="backstoryPrompt")]
