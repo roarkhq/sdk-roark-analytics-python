@@ -74,19 +74,19 @@ class DataScenario(BaseModel):
 
 class Data(BaseModel):
     agent_endpoint: DataAgentEndpoint = FieldInfo(alias="agentEndpoint")
-    """Agent endpoint used in the simulation"""
+    """Agent endpoint used in a simulation"""
 
     created_at: str = FieldInfo(alias="createdAt")
     """When the job was created"""
 
     persona: DataPersona
-    """Persona used in the simulation"""
+    """Persona used in a simulation"""
 
     processing_status: str = FieldInfo(alias="processingStatus")
     """Processing status"""
 
     scenario: DataScenario
-    """Scenario used in the simulation"""
+    """Scenario used in a simulation"""
 
     simulation_job_id: str = FieldInfo(alias="simulationJobId")
     """Simulation job ID"""

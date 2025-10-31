@@ -53,8 +53,10 @@ class SimulationResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationGetJobByIDResponse:
-        """
-        Find a simulation job directly by its ID
+        """Get a individual simulation run directly by its ID.
+
+        This is generally part of a
+        larger simulation run plan job.
 
         Args:
           extra_headers: Send extra headers
@@ -86,7 +88,7 @@ class SimulationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationLookupJobResponse:
         """
-        Find the matching simulation job using the number used by the Roark simulation
+        Find the matching simulation using the number used by the Roark simulation
         agent.
 
         Args:
@@ -156,8 +158,10 @@ class AsyncSimulationResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationGetJobByIDResponse:
-        """
-        Find a simulation job directly by its ID
+        """Get a individual simulation run directly by its ID.
+
+        This is generally part of a
+        larger simulation run plan job.
 
         Args:
           extra_headers: Send extra headers
@@ -189,7 +193,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationLookupJobResponse:
         """
-        Find the matching simulation job using the number used by the Roark simulation
+        Find the matching simulation using the number used by the Roark simulation
         agent.
 
         Args:
