@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -25,43 +26,67 @@ class DataAgentEndpoint(BaseModel):
 
 class DataPersona(BaseModel):
     id: str
-    """Persona ID"""
+    """Unique identifier of the persona"""
 
-    accent: str
-    """Accent of the persona"""
+    accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]
+    """
+    Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
+    optional variants
+    """
 
-    background_noise: str = FieldInfo(alias="backgroundNoise")
+    background_noise: Literal[
+        "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+    ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: str = FieldInfo(alias="baseEmotion")
-    """Base emotion of the persona"""
+    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] = FieldInfo(
+        alias="baseEmotion"
+    )
+    """Base emotional state of the persona"""
 
-    confirmation_style: str = FieldInfo(alias="confirmationStyle")
+    confirmation_style: Literal["EXPLICIT", "VAGUE"] = FieldInfo(alias="confirmationStyle")
     """How the persona confirms information"""
 
-    disfluencies: bool
-    """Whether persona has speech disfluencies"""
+    created_at: str = FieldInfo(alias="createdAt")
+    """Creation timestamp"""
 
-    gender: str
+    gender: Literal["MALE", "FEMALE", "NEUTRAL"]
     """Gender of the persona"""
 
-    intent_clarity: str = FieldInfo(alias="intentClarity")
-    """How clearly the persona expresses intent"""
+    has_disfluencies: bool = FieldInfo(alias="hasDisfluencies")
+    """Whether the persona uses filler words like "um" and "uh" """
 
-    language: str
-    """Language of the persona"""
+    intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] = FieldInfo(alias="intentClarity")
+    """How clearly the persona expresses their intentions"""
 
-    memory_reliability: str = FieldInfo(alias="memoryReliability")
-    """Reliability of persona memory"""
+    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"]
+    """Primary language ISO 639-1 code for the persona"""
+
+    memory_reliability: Literal["HIGH", "LOW"] = FieldInfo(alias="memoryReliability")
+    """How reliable the persona's memory is"""
 
     name: str
-    """Persona name"""
+    """The name the agent will identify as during conversations"""
 
-    speech_clarity: str = FieldInfo(alias="speechClarity")
-    """Speech clarity"""
+    properties: Dict[str, object]
+    """Additional custom properties about the persona"""
 
-    speech_pace: str = FieldInfo(alias="speechPace")
-    """Speech pace"""
+    speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
+    """Speech clarity of the persona"""
+
+    speech_pace: Literal["SLOW", "NORMAL", "FAST"] = FieldInfo(alias="speechPace")
+    """Speech pace of the persona"""
+
+    updated_at: str = FieldInfo(alias="updatedAt")
+    """Last update timestamp"""
+
+    backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
+    """Background story and behavioral patterns for the persona"""
+
+    secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
+    """
+    Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
+    """
 
 
 class DataScenario(BaseModel):
@@ -80,7 +105,6 @@ class Data(BaseModel):
     """When the job was created"""
 
     persona: DataPersona
-    """Persona used in a simulation"""
 
     processing_status: str = FieldInfo(alias="processingStatus")
     """Processing status"""
