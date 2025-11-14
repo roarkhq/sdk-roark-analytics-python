@@ -11,7 +11,7 @@ __all__ = ["PersonaCreateParams"]
 
 
 class PersonaCreateParams(TypedDict, total=False):
-    accent: Required[Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"]]
+    accent: Required[Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT"]]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
     optional variants
@@ -20,7 +20,7 @@ class PersonaCreateParams(TypedDict, total=False):
     gender: Required[Literal["MALE", "FEMALE", "NEUTRAL"]]
     """Gender of the persona"""
 
-    language: Required[Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"]]
+    language: Required[Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT"]]
     """Primary language ISO 639-1 code for the persona"""
 
     name: Required[str]
