@@ -37,13 +37,30 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import CallGetEvaluationRunsResponse, CallGetSentimentRunsResponse
+from roark_analytics.types import (
+    CallGetEvaluationRunsResponse,
+    CallGetMetricsResponse,
+    CallGetSentimentRunsResponse,
+)
 ```
 
 Methods:
 
 - <code title="get /v1/call/{callId}/evaluation-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_evaluation_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_evaluation_runs_response.py">CallGetEvaluationRunsResponse</a></code>
+- <code title="get /v1/call/{callId}/metrics">client.call.<a href="./src/roark_analytics/resources/call.py">get_metrics</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_metrics_response.py">CallGetMetricsResponse</a></code>
 - <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_sentiment_runs_response.py">CallGetSentimentRunsResponse</a></code>
+
+# Metric
+
+Types:
+
+```python
+from roark_analytics.types import MetricGetDefinitionsResponse
+```
+
+Methods:
+
+- <code title="get /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">get_definitions</a>() -> <a href="./src/roark_analytics/types/metric_get_definitions_response.py">MetricGetDefinitionsResponse</a></code>
 
 # Integrations
 
