@@ -50,9 +50,9 @@ class PersonaResource(SyncAPIResource):
     def create(
         self,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT"],
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT"],
         name: str,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
@@ -150,7 +150,7 @@ class PersonaResource(SyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -161,7 +161,7 @@ class PersonaResource(SyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | Omit = omit,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
@@ -349,9 +349,9 @@ class AsyncPersonaResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"],
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT"],
         gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"],
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT"],
         name: str,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
@@ -449,7 +449,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         self,
         persona_id: str,
         *,
-        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU"] | Omit = omit,
+        accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -460,7 +460,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL"] | Omit = omit,
+        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
