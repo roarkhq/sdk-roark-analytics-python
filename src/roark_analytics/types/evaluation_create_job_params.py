@@ -44,6 +44,8 @@ class CallParticipant(TypedDict, total=False):
 
     name: Optional[str]
 
+    participant_id: Annotated[Optional[str], PropertyInfo(alias="participantId")]
+
     phone_number: Annotated[Optional[str], PropertyInfo(alias="phoneNumber")]
 
     spoke_first: Annotated[bool, PropertyInfo(alias="spokeFirst")]
@@ -94,7 +96,7 @@ class Call(TypedDict, total=False):
     """Exactly two participants in the call"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV or MP3 file).
+    """URL of source recording (must be an accessible WAV, MP3, or MP4 file).
 
     Can be a signed URL.
     """
@@ -107,14 +109,21 @@ class Call(TypedDict, total=False):
 
     ended_status: Annotated[
         Literal[
+            "PARTICIPANTS_DID_NOT_SPEAK",
+            "AGENT_DID_NOT_ANSWER",
+            "AGENT_DID_NOT_SPEAK",
+            "AGENT_STOPPED_SPEAKING",
             "AGENT_ENDED_CALL",
             "AGENT_TRANSFERRED_CALL",
+            "AGENT_BUSY",
             "AGENT_ERROR",
             "CUSTOMER_ENDED_CALL",
             "VOICE_MAIL_REACHED",
             "SILENCE_TIME_OUT",
             "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
             "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_DID_NOT_SPEAK",
+            "CUSTOMER_STOPPED_SPEAKING",
             "CUSTOMER_BUSY",
             "DIAL_ERROR",
             "MAX_DURATION_REACHED",
@@ -137,10 +146,10 @@ class Call(TypedDict, total=False):
     """Retell call ID if call is being imported from Retell"""
 
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
-    """URL of source stereo recording in WAV format.
+    """URL of source stereo recording.
 
     Must be accessible. Can be a signed URL. While optional it allows for a richer
-    audio player
+    audio player. Supported formats: WAV, MP3, MP4.
     """
 
     tool_invocations: Annotated[Iterable[CallToolInvocation], PropertyInfo(alias="toolInvocations")]
@@ -156,6 +165,8 @@ class DatasetCallParticipant(TypedDict, total=False):
     is_simulated: Annotated[bool, PropertyInfo(alias="isSimulated")]
 
     name: Optional[str]
+
+    participant_id: Annotated[Optional[str], PropertyInfo(alias="participantId")]
 
     phone_number: Annotated[Optional[str], PropertyInfo(alias="phoneNumber")]
 
@@ -207,7 +218,7 @@ class DatasetCall(TypedDict, total=False):
     """Exactly two participants in the call"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV or MP3 file).
+    """URL of source recording (must be an accessible WAV, MP3, or MP4 file).
 
     Can be a signed URL.
     """
@@ -220,14 +231,21 @@ class DatasetCall(TypedDict, total=False):
 
     ended_status: Annotated[
         Literal[
+            "PARTICIPANTS_DID_NOT_SPEAK",
+            "AGENT_DID_NOT_ANSWER",
+            "AGENT_DID_NOT_SPEAK",
+            "AGENT_STOPPED_SPEAKING",
             "AGENT_ENDED_CALL",
             "AGENT_TRANSFERRED_CALL",
+            "AGENT_BUSY",
             "AGENT_ERROR",
             "CUSTOMER_ENDED_CALL",
             "VOICE_MAIL_REACHED",
             "SILENCE_TIME_OUT",
             "PHONE_CALL_PROVIDER_CONNECTION_ERROR",
             "CUSTOMER_DID_NOT_ANSWER",
+            "CUSTOMER_DID_NOT_SPEAK",
+            "CUSTOMER_STOPPED_SPEAKING",
             "CUSTOMER_BUSY",
             "DIAL_ERROR",
             "MAX_DURATION_REACHED",
@@ -250,10 +268,10 @@ class DatasetCall(TypedDict, total=False):
     """Retell call ID if call is being imported from Retell"""
 
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
-    """URL of source stereo recording in WAV format.
+    """URL of source stereo recording.
 
     Must be accessible. Can be a signed URL. While optional it allows for a richer
-    audio player
+    audio player. Supported formats: WAV, MP3, MP4.
     """
 
     tool_invocations: Annotated[Iterable[DatasetCallToolInvocation], PropertyInfo(alias="toolInvocations")]
