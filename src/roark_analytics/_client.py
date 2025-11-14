@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import call, health, persona, evaluation, simulation, integrations
+from .resources import call, health, metric, persona, evaluation, simulation, integrations
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import RoarkError, APIStatusError
 from ._base_client import (
@@ -37,6 +37,7 @@ class Roark(SyncAPIClient):
     health: health.HealthResource
     evaluation: evaluation.EvaluationResource
     call: call.CallResource
+    metric: metric.MetricResource
     integrations: integrations.IntegrationsResource
     simulation: simulation.SimulationResource
     persona: persona.PersonaResource
@@ -100,6 +101,7 @@ class Roark(SyncAPIClient):
         self.health = health.HealthResource(self)
         self.evaluation = evaluation.EvaluationResource(self)
         self.call = call.CallResource(self)
+        self.metric = metric.MetricResource(self)
         self.integrations = integrations.IntegrationsResource(self)
         self.simulation = simulation.SimulationResource(self)
         self.persona = persona.PersonaResource(self)
@@ -215,6 +217,7 @@ class AsyncRoark(AsyncAPIClient):
     health: health.AsyncHealthResource
     evaluation: evaluation.AsyncEvaluationResource
     call: call.AsyncCallResource
+    metric: metric.AsyncMetricResource
     integrations: integrations.AsyncIntegrationsResource
     simulation: simulation.AsyncSimulationResource
     persona: persona.AsyncPersonaResource
@@ -278,6 +281,7 @@ class AsyncRoark(AsyncAPIClient):
         self.health = health.AsyncHealthResource(self)
         self.evaluation = evaluation.AsyncEvaluationResource(self)
         self.call = call.AsyncCallResource(self)
+        self.metric = metric.AsyncMetricResource(self)
         self.integrations = integrations.AsyncIntegrationsResource(self)
         self.simulation = simulation.AsyncSimulationResource(self)
         self.persona = persona.AsyncPersonaResource(self)
@@ -394,6 +398,7 @@ class RoarkWithRawResponse:
         self.health = health.HealthResourceWithRawResponse(client.health)
         self.evaluation = evaluation.EvaluationResourceWithRawResponse(client.evaluation)
         self.call = call.CallResourceWithRawResponse(client.call)
+        self.metric = metric.MetricResourceWithRawResponse(client.metric)
         self.integrations = integrations.IntegrationsResourceWithRawResponse(client.integrations)
         self.simulation = simulation.SimulationResourceWithRawResponse(client.simulation)
         self.persona = persona.PersonaResourceWithRawResponse(client.persona)
@@ -404,6 +409,7 @@ class AsyncRoarkWithRawResponse:
         self.health = health.AsyncHealthResourceWithRawResponse(client.health)
         self.evaluation = evaluation.AsyncEvaluationResourceWithRawResponse(client.evaluation)
         self.call = call.AsyncCallResourceWithRawResponse(client.call)
+        self.metric = metric.AsyncMetricResourceWithRawResponse(client.metric)
         self.integrations = integrations.AsyncIntegrationsResourceWithRawResponse(client.integrations)
         self.simulation = simulation.AsyncSimulationResourceWithRawResponse(client.simulation)
         self.persona = persona.AsyncPersonaResourceWithRawResponse(client.persona)
@@ -414,6 +420,7 @@ class RoarkWithStreamedResponse:
         self.health = health.HealthResourceWithStreamingResponse(client.health)
         self.evaluation = evaluation.EvaluationResourceWithStreamingResponse(client.evaluation)
         self.call = call.CallResourceWithStreamingResponse(client.call)
+        self.metric = metric.MetricResourceWithStreamingResponse(client.metric)
         self.integrations = integrations.IntegrationsResourceWithStreamingResponse(client.integrations)
         self.simulation = simulation.SimulationResourceWithStreamingResponse(client.simulation)
         self.persona = persona.PersonaResourceWithStreamingResponse(client.persona)
@@ -424,6 +431,7 @@ class AsyncRoarkWithStreamedResponse:
         self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
         self.evaluation = evaluation.AsyncEvaluationResourceWithStreamingResponse(client.evaluation)
         self.call = call.AsyncCallResourceWithStreamingResponse(client.call)
+        self.metric = metric.AsyncMetricResourceWithStreamingResponse(client.metric)
         self.integrations = integrations.AsyncIntegrationsResourceWithStreamingResponse(client.integrations)
         self.simulation = simulation.AsyncSimulationResourceWithStreamingResponse(client.simulation)
         self.persona = persona.AsyncPersonaResourceWithStreamingResponse(client.persona)

@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import httpx
 
-from .._types import Body, Query, Headers, NotGiven, not_given
+from ..types import call_get_metrics_params
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -14,6 +16,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.call_get_metrics_response import CallGetMetricsResponse
 from ..types.call_get_sentiment_runs_response import CallGetSentimentRunsResponse
 from ..types.call_get_evaluation_runs_response import CallGetEvaluationRunsResponse
 
@@ -73,6 +76,49 @@ class CallResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CallGetEvaluationRunsResponse,
+        )
+
+    def get_metrics(
+        self,
+        call_id: str,
+        *,
+        flatten: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetMetricsResponse:
+        """
+        Fetch all call-level metrics for a specific call, including both
+        system-generated and custom metrics. Only returns successfully computed metrics.
+
+        Args:
+          flatten:
+              Whether to return a flat list instead of grouped by metric definition (default:
+              false)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._get(
+            f"/v1/call/{call_id}/metrics",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"flatten": flatten}, call_get_metrics_params.CallGetMetricsParams),
+            ),
+            cast_to=CallGetMetricsResponse,
         )
 
     def get_sentiment_runs(
@@ -167,6 +213,49 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetEvaluationRunsResponse,
         )
 
+    async def get_metrics(
+        self,
+        call_id: str,
+        *,
+        flatten: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetMetricsResponse:
+        """
+        Fetch all call-level metrics for a specific call, including both
+        system-generated and custom metrics. Only returns successfully computed metrics.
+
+        Args:
+          flatten:
+              Whether to return a flat list instead of grouped by metric definition (default:
+              false)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._get(
+            f"/v1/call/{call_id}/metrics",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"flatten": flatten}, call_get_metrics_params.CallGetMetricsParams),
+            ),
+            cast_to=CallGetMetricsResponse,
+        )
+
     async def get_sentiment_runs(
         self,
         call_id: str,
@@ -211,6 +300,9 @@ class CallResourceWithRawResponse:
         self.get_evaluation_runs = to_raw_response_wrapper(
             call.get_evaluation_runs,
         )
+        self.get_metrics = to_raw_response_wrapper(
+            call.get_metrics,
+        )
         self.get_sentiment_runs = to_raw_response_wrapper(
             call.get_sentiment_runs,
         )
@@ -222,6 +314,9 @@ class AsyncCallResourceWithRawResponse:
 
         self.get_evaluation_runs = async_to_raw_response_wrapper(
             call.get_evaluation_runs,
+        )
+        self.get_metrics = async_to_raw_response_wrapper(
+            call.get_metrics,
         )
         self.get_sentiment_runs = async_to_raw_response_wrapper(
             call.get_sentiment_runs,
@@ -235,6 +330,9 @@ class CallResourceWithStreamingResponse:
         self.get_evaluation_runs = to_streamed_response_wrapper(
             call.get_evaluation_runs,
         )
+        self.get_metrics = to_streamed_response_wrapper(
+            call.get_metrics,
+        )
         self.get_sentiment_runs = to_streamed_response_wrapper(
             call.get_sentiment_runs,
         )
@@ -246,6 +344,9 @@ class AsyncCallResourceWithStreamingResponse:
 
         self.get_evaluation_runs = async_to_streamed_response_wrapper(
             call.get_evaluation_runs,
+        )
+        self.get_metrics = async_to_streamed_response_wrapper(
+            call.get_metrics,
         )
         self.get_sentiment_runs = async_to_streamed_response_wrapper(
             call.get_sentiment_runs,
