@@ -26,17 +26,9 @@ class TestPersona:
     def test_method_create(self, client: Roark) -> None:
         persona = client.persona.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         )
         assert_matches_type(PersonaCreateResponse, persona, path=["response"])
 
@@ -44,18 +36,16 @@ class TestPersona:
     def test_method_create_with_all_params(self, client: Roark) -> None:
         persona = client.persona.create(
             accent="US",
+            gender="MALE",
+            language="EN",
+            name="name",
             background_noise="NONE",
+            backstory_prompt="A busy professional calling during lunch break",
             base_emotion="NEUTRAL",
             confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
+            has_disfluencies=True,
             intent_clarity="CLEAR",
-            language="EN",
             memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
-            backstory_prompt="A busy professional calling during lunch break",
             properties={
                 "age": "bar",
                 "zipCode": "bar",
@@ -70,17 +60,9 @@ class TestPersona:
     def test_raw_response_create(self, client: Roark) -> None:
         response = client.persona.with_raw_response.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         )
 
         assert response.is_closed is True
@@ -92,17 +74,9 @@ class TestPersona:
     def test_streaming_response_create(self, client: Roark) -> None:
         with client.persona.with_streaming_response.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -116,18 +90,6 @@ class TestPersona:
     def test_method_update(self, client: Roark) -> None:
         persona = client.persona.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         )
         assert_matches_type(PersonaUpdateResponse, persona, path=["response"])
 
@@ -137,17 +99,15 @@ class TestPersona:
             persona_id="personaId",
             accent="US",
             background_noise="NONE",
+            backstory_prompt="A busy professional calling during lunch break",
             base_emotion="NEUTRAL",
             confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
+            has_disfluencies=True,
             intent_clarity="CLEAR",
             language="EN",
             memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
-            backstory_prompt="A busy professional calling during lunch break",
+            name="name",
             properties={
                 "age": "bar",
                 "zipCode": "bar",
@@ -162,18 +122,6 @@ class TestPersona:
     def test_raw_response_update(self, client: Roark) -> None:
         response = client.persona.with_raw_response.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         )
 
         assert response.is_closed is True
@@ -185,18 +133,6 @@ class TestPersona:
     def test_streaming_response_update(self, client: Roark) -> None:
         with client.persona.with_streaming_response.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -211,18 +147,6 @@ class TestPersona:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `persona_id` but received ''"):
             client.persona.with_raw_response.update(
                 persona_id="",
-                accent="US",
-                background_noise="NONE",
-                base_emotion="NEUTRAL",
-                confirmation_style="EXPLICIT",
-                gender="MALE",
-                has_disfluencies=False,
-                intent_clarity="CLEAR",
-                language="EN",
-                memory_reliability="HIGH",
-                name="Alex Morgan",
-                speech_clarity="CLEAR",
-                speech_pace="NORMAL",
             )
 
     @parametrize
@@ -307,17 +231,9 @@ class TestAsyncPersona:
     async def test_method_create(self, async_client: AsyncRoark) -> None:
         persona = await async_client.persona.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         )
         assert_matches_type(PersonaCreateResponse, persona, path=["response"])
 
@@ -325,18 +241,16 @@ class TestAsyncPersona:
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
         persona = await async_client.persona.create(
             accent="US",
+            gender="MALE",
+            language="EN",
+            name="name",
             background_noise="NONE",
+            backstory_prompt="A busy professional calling during lunch break",
             base_emotion="NEUTRAL",
             confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
+            has_disfluencies=True,
             intent_clarity="CLEAR",
-            language="EN",
             memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
-            backstory_prompt="A busy professional calling during lunch break",
             properties={
                 "age": "bar",
                 "zipCode": "bar",
@@ -351,17 +265,9 @@ class TestAsyncPersona:
     async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
         response = await async_client.persona.with_raw_response.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         )
 
         assert response.is_closed is True
@@ -373,17 +279,9 @@ class TestAsyncPersona:
     async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
         async with async_client.persona.with_streaming_response.create(
             accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
             language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
+            name="name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -397,18 +295,6 @@ class TestAsyncPersona:
     async def test_method_update(self, async_client: AsyncRoark) -> None:
         persona = await async_client.persona.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         )
         assert_matches_type(PersonaUpdateResponse, persona, path=["response"])
 
@@ -418,17 +304,15 @@ class TestAsyncPersona:
             persona_id="personaId",
             accent="US",
             background_noise="NONE",
+            backstory_prompt="A busy professional calling during lunch break",
             base_emotion="NEUTRAL",
             confirmation_style="EXPLICIT",
             gender="MALE",
-            has_disfluencies=False,
+            has_disfluencies=True,
             intent_clarity="CLEAR",
             language="EN",
             memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
-            backstory_prompt="A busy professional calling during lunch break",
+            name="name",
             properties={
                 "age": "bar",
                 "zipCode": "bar",
@@ -443,18 +327,6 @@ class TestAsyncPersona:
     async def test_raw_response_update(self, async_client: AsyncRoark) -> None:
         response = await async_client.persona.with_raw_response.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         )
 
         assert response.is_closed is True
@@ -466,18 +338,6 @@ class TestAsyncPersona:
     async def test_streaming_response_update(self, async_client: AsyncRoark) -> None:
         async with async_client.persona.with_streaming_response.update(
             persona_id="personaId",
-            accent="US",
-            background_noise="NONE",
-            base_emotion="NEUTRAL",
-            confirmation_style="EXPLICIT",
-            gender="MALE",
-            has_disfluencies=False,
-            intent_clarity="CLEAR",
-            language="EN",
-            memory_reliability="HIGH",
-            name="Alex Morgan",
-            speech_clarity="CLEAR",
-            speech_pace="NORMAL",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -492,18 +352,6 @@ class TestAsyncPersona:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `persona_id` but received ''"):
             await async_client.persona.with_raw_response.update(
                 persona_id="",
-                accent="US",
-                background_noise="NONE",
-                base_emotion="NEUTRAL",
-                confirmation_style="EXPLICIT",
-                gender="MALE",
-                has_disfluencies=False,
-                intent_clarity="CLEAR",
-                language="EN",
-                memory_reliability="HIGH",
-                name="Alex Morgan",
-                speech_clarity="CLEAR",
-                speech_pace="NORMAL",
             )
 
     @parametrize
