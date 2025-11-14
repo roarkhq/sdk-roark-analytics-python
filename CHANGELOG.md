@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.7.0 (2025-11-14)
+
+Full Changelog: [v2.6.0...v2.7.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.6.0...v2.7.0)
+
+### Features
+
+* **api:** api update ([e755ecb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e755ecb30a7d353748a21fd4c6c40f002b0c6b81))
+* **api:** api update ([d6f7f9d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d6f7f9d8e3c87fad2eda135a6740af1ba3d89143))
+* **api:** api update ([2f8ba1f](https://github.com/roarkhq/sdk-roark-analytics-python/commit/2f8ba1fe0e7f2b58298a7f94c8bf76be26792ae2))
+* **api:** api update ([a96583d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a96583dc501b8fddaf21d804868060517aecf996))
+* **api:** api update ([1c10901](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1c10901e4336165ba8979d797e6ab59a8220640a))
+* **api:** api update ([a740ceb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a740ceb0a771ee87def6a3d906bc6216b995a7f5))
+* **api:** api update ([428c550](https://github.com/roarkhq/sdk-roark-analytics-python/commit/428c550ecaa3f8ac197dfe7140ce494de8b9fb1c))
+
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([5b4a8e0](https://github.com/roarkhq/sdk-roark-analytics-python/commit/5b4a8e0ee9e4aa7f12683725022ee166a1092d9c))
+* compat with Python 3.14 ([a92c8b7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a92c8b7de52c7f5f6a5d3417e40b484617789e68))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([cd248df](https://github.com/roarkhq/sdk-roark-analytics-python/commit/cd248df97d2762223c5345c1479142742fb24119))
+
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([ef63fbc](https://github.com/roarkhq/sdk-roark-analytics-python/commit/ef63fbcde046122cff56f80b65bfa432346e9264))
+* do not install brew dependencies in ./scripts/bootstrap by default ([c441e13](https://github.com/roarkhq/sdk-roark-analytics-python/commit/c441e137a85f13f22c0d923a3769d4e9f24d1c45))
+* improve example values ([29c8d52](https://github.com/roarkhq/sdk-roark-analytics-python/commit/29c8d52073e7b23f0a523218f2f56ddbfaae6c5c))
+* **internal/tests:** avoid race condition with implicit client cleanup ([c589789](https://github.com/roarkhq/sdk-roark-analytics-python/commit/c58978999fd37611488a909f4d8d52f8c73e352c))
+* **internal:** detect missing future annotations with ruff ([6d48516](https://github.com/roarkhq/sdk-roark-analytics-python/commit/6d48516bb2133f9528a134550711319bda024db5))
+* **internal:** grammar fix (it's -&gt; its) ([30d07eb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/30d07eb42507e31e87c726bfe2d7eddd77de3203))
+* **package:** drop Python 3.8 support ([dd1dc60](https://github.com/roarkhq/sdk-roark-analytics-python/commit/dd1dc60d7ab9574f40a43223da1225728f15489b))
+* **types:** change optional parameter type from NotGiven to Omit ([0234179](https://github.com/roarkhq/sdk-roark-analytics-python/commit/02341790d75a5489a3ac3eed0afdc50852897148))
+
 ## 2.6.0 (2025-09-18)
 
 Full Changelog: [v2.5.2...v2.6.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.5.2...v2.6.0)
