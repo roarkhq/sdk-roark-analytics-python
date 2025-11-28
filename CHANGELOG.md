@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.9.1 (2025-11-28)
+
+Full Changelog: [v2.9.0...v2.9.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.9.0...v2.9.1)
+
+### Bug Fixes
+
+* ensure streams are always closed ([3f2966d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/3f2966d1021a6a8e398b2801de5a2be3ddda87cd))
+
+
+### Chores
+
+* add Python 3.14 classifier and testing ([47dca25](https://github.com/roarkhq/sdk-roark-analytics-python/commit/47dca256fdda1b06991d9d9c8464f610f8a20278))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([cb93c94](https://github.com/roarkhq/sdk-roark-analytics-python/commit/cb93c94986c1c4b81e895528634c5663af33d8c4))
+
 ## 2.9.0 (2025-11-14)
 
 Full Changelog: [v2.8.0...v2.9.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.8.0...v2.9.0)
