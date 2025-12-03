@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.10.0 (2025-12-03)
+
+Full Changelog: [v2.9.1...v2.10.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.9.1...v2.10.0)
+
+### Features
+
+* **api:** api update ([b610558](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b6105583813781ac23849486657eac71441a6bf7))
+
+
+### Chores
+
+* **docs:** use environment variables for authentication in code snippets ([f5cb199](https://github.com/roarkhq/sdk-roark-analytics-python/commit/f5cb19987d0624a64870036c0ae8dd2d063ba06a))
+* update lockfile ([73a6abb](https://github.com/roarkhq/sdk-roark-analytics-python/commit/73a6abb33c7c36b58a1ce8b138764362bb616845))
+
 ## 2.9.1 (2025-11-28)
 
 Full Changelog: [v2.9.0...v2.9.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.9.0...v2.9.1)
