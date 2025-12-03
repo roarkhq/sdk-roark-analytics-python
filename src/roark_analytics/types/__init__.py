@@ -5,6 +5,7 @@ from __future__ import annotations
 from .health_get_response import HealthGetResponse as HealthGetResponse
 from .persona_create_params import PersonaCreateParams as PersonaCreateParams
 from .persona_update_params import PersonaUpdateParams as PersonaUpdateParams
+from .call_get_by_id_response import CallGetByIDResponse as CallGetByIDResponse
 from .call_get_metrics_params import CallGetMetricsParams as CallGetMetricsParams
 from .persona_create_response import PersonaCreateResponse as PersonaCreateResponse
 from .persona_find_all_params import PersonaFindAllParams as PersonaFindAllParams
