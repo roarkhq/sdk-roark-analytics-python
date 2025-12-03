@@ -38,6 +38,7 @@ Types:
 
 ```python
 from roark_analytics.types import (
+    CallGetByIDResponse,
     CallGetEvaluationRunsResponse,
     CallGetMetricsResponse,
     CallGetSentimentRunsResponse,
@@ -46,6 +47,7 @@ from roark_analytics.types import (
 
 Methods:
 
+- <code title="get /v1/call/{callId}">client.call.<a href="./src/roark_analytics/resources/call.py">get_by_id</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_by_id_response.py">CallGetByIDResponse</a></code>
 - <code title="get /v1/call/{callId}/evaluation-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_evaluation_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_evaluation_runs_response.py">CallGetEvaluationRunsResponse</a></code>
 - <code title="get /v1/call/{callId}/metrics">client.call.<a href="./src/roark_analytics/resources/call.py">get_metrics</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_metrics_response.py">CallGetMetricsResponse</a></code>
 - <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">get_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_sentiment_runs_response.py">CallGetSentimentRunsResponse</a></code>
