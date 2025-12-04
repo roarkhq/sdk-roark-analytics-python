@@ -1,13 +1,31 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CallGetByIDResponse", "Data"]
+__all__ = ["CallGetByIDResponse", "Data", "DataAgent", "DataAgentEndpoint", "DataCustomer"]
+
+
+class DataAgentEndpoint(BaseModel):
+    id: str
+
+    environment: str
+
+    phone_number_e164: Optional[str] = FieldInfo(alias="phoneNumberE164", default=None)
+
+
+class DataAgent(BaseModel):
+    id: str
+
+    endpoint: DataAgentEndpoint
+
+
+class DataCustomer(BaseModel):
+    phone_number_e164: Optional[str] = FieldInfo(alias="phoneNumberE164", default=None)
 
 
 class Data(BaseModel):
@@ -23,8 +41,14 @@ class Data(BaseModel):
     started_at: str = FieldInfo(alias="startedAt")
     """Timestamp when the call started"""
 
+    agents: Optional[List[DataAgent]] = None
+    """Agent information"""
+
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
     """Timestamp when the call record was created"""
+
+    customers: Optional[List[DataCustomer]] = None
+    """Customer information"""
 
     duration_ms: Optional[float] = FieldInfo(alias="durationMs", default=None)
     """Duration of the call in milliseconds"""
