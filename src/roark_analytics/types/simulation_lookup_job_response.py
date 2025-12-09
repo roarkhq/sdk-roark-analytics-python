@@ -11,6 +11,8 @@ __all__ = ["SimulationLookupJobResponse", "Data", "DataAgentEndpoint", "DataPers
 
 
 class DataAgentEndpoint(BaseModel):
+    """Agent endpoint used in a simulation"""
+
     id: str
     """Agent endpoint ID"""
 
@@ -90,6 +92,8 @@ class DataPersona(BaseModel):
 
 
 class DataScenario(BaseModel):
+    """Scenario used in a simulation"""
+
     id: str
     """Scenario ID"""
 
@@ -98,6 +102,8 @@ class DataScenario(BaseModel):
 
 
 class Data(BaseModel):
+    """Simulation job with related entities"""
+
     agent_endpoint: DataAgentEndpoint = FieldInfo(alias="agentEndpoint")
     """Agent endpoint used in a simulation"""
 
