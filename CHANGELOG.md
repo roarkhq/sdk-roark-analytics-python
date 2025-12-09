@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.11.1 (2025-12-09)
+
+Full Changelog: [v2.11.0...v2.11.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.0...v2.11.1)
+
+### Bug Fixes
+
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([c8a9fe7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/c8a9fe7542734611997c2fc2e17e1132dcf09dfa))
+
 ## 2.11.0 (2025-12-04)
 
 Full Changelog: [v2.10.0...v2.11.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.10.0...v2.11.0)
