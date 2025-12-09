@@ -8,6 +8,8 @@ __all__ = ["HealthGetResponse", "Data"]
 
 
 class Data(BaseModel):
+    """Health check response payload"""
+
     status: Literal["healthy", "degraded", "unhealthy"]
 
     timestamp: str

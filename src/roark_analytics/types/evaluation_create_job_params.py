@@ -86,6 +86,8 @@ class CallToolInvocation(TypedDict, total=False):
 
 
 class Call(TypedDict, total=False):
+    """Call input to evaluate"""
+
     call_direction: Required[Annotated[Literal["INBOUND", "OUTBOUND"], PropertyInfo(alias="callDirection")]]
     """Direction of the call (INBOUND or OUTBOUND)"""
 
