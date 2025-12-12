@@ -8,6 +8,8 @@ __all__ = ["IntegrationCreateVapiCallResponse", "Data"]
 
 
 class Data(BaseModel):
+    """Vapi call upload response"""
+
     call_id: str = FieldInfo(alias="callId")
     """ID of the uploaded call"""
 

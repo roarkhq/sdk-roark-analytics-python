@@ -11,6 +11,8 @@ __all__ = ["MetricGetDefinitionsResponse", "Data", "DataUnit"]
 
 
 class DataUnit(BaseModel):
+    """Unit information if applicable"""
+
     name: str
     """Name of the unit"""
 
@@ -19,6 +21,8 @@ class DataUnit(BaseModel):
 
 
 class Data(BaseModel):
+    """Metric definition data"""
+
     id: str
     """Unique identifier for the metric definition"""
 

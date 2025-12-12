@@ -10,6 +10,8 @@ __all__ = ["CallGetSentimentRunsResponse", "Data"]
 
 
 class Data(BaseModel):
+    """Sentiment run response payload"""
+
     status: str
     """Status of the sentiment run"""
 

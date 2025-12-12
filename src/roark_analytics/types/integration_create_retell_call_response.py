@@ -8,6 +8,8 @@ __all__ = ["IntegrationCreateRetellCallResponse", "Data"]
 
 
 class Data(BaseModel):
+    """Retell call upload response"""
+
     call_id: str = FieldInfo(alias="callId")
     """ID of the uploaded call"""
 

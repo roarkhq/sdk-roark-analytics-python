@@ -135,6 +135,8 @@ class DataData(BaseModel):
 
 
 class DataPagination(BaseModel):
+    """Pagination information"""
+
     has_more: bool = FieldInfo(alias="hasMore")
     """Whether there are more items to fetch"""
 
@@ -146,6 +148,8 @@ class DataPagination(BaseModel):
 
 
 class Data(BaseModel):
+    """Evaluation job runs response payload"""
+
     data: Optional[List[DataData]] = None
     """Evaluator runs of the evaluation job"""
 

@@ -282,6 +282,8 @@ Block: TypeAlias = Union[
 
 
 class EvaluationGetEvaluatorByIDResponse(BaseModel):
+    """Evaluator with its configured blocks"""
+
     id: str
     """Unique identifier for the evaluator"""
 

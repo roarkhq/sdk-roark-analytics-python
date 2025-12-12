@@ -29,6 +29,8 @@ class DataCustomer(BaseModel):
 
 
 class Data(BaseModel):
+    """Response containing call information"""
+
     id: str
     """Unique identifier for the call"""
 

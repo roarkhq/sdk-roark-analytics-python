@@ -9,6 +9,8 @@ __all__ = ["EvaluationGetJobResponse", "Data", "DataCall", "DataDataset", "DataD
 
 
 class DataCall(BaseModel):
+    """Call being evaluated"""
+
     id: Optional[str] = None
     """ID of the call being evaluated"""
 
@@ -19,6 +21,8 @@ class DataDatasetCall(BaseModel):
 
 
 class DataDataset(BaseModel):
+    """Dataset being evaluated"""
+
     id: Optional[str] = None
     """ID of the dataset"""
 
@@ -27,6 +31,8 @@ class DataDataset(BaseModel):
 
 
 class Data(BaseModel):
+    """Evaluation job response payload"""
+
     id: str
     """ID of the evaluation job"""
 

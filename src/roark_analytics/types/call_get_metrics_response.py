@@ -20,6 +20,8 @@ __all__ = [
 
 
 class DataValueFromSegment(BaseModel):
+    """Starting segment information (for SEGMENT_RANGE context metrics)"""
+
     id: str
     """Starting segment ID"""
 
@@ -34,6 +36,8 @@ class DataValueFromSegment(BaseModel):
 
 
 class DataValueSegment(BaseModel):
+    """Segment information (for SEGMENT context metrics)"""
+
     id: str
     """Segment ID"""
 
@@ -48,6 +52,8 @@ class DataValueSegment(BaseModel):
 
 
 class DataValueToSegment(BaseModel):
+    """Ending segment information (for SEGMENT_RANGE context metrics)"""
+
     id: str
     """Ending segment ID"""
 
@@ -97,6 +103,8 @@ class DataValue(BaseModel):
 
 
 class DataUnit(BaseModel):
+    """Unit information if applicable"""
+
     name: str
     """Name of the unit"""
 
@@ -105,6 +113,8 @@ class DataUnit(BaseModel):
 
 
 class Data(BaseModel):
+    """Call metric data grouped by metric definition"""
+
     description: str
     """Description of what the metric measures"""
 
