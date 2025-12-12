@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.11.2 (2025-12-12)
+
+Full Changelog: [v2.11.1...v2.11.2](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.1...v2.11.2)
+
+### Chores
+
+* add missing docstrings ([d11f1ce](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d11f1ce59ac520eb7e7dab16b0edd91f4b04bb1f))
+
 ## 2.11.1 (2025-12-09)
 
 Full Changelog: [v2.11.0...v2.11.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.0...v2.11.1)
