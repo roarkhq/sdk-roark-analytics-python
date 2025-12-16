@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.11.2 (2025-12-16)
+
+Full Changelog: [v2.11.1...v2.11.2](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.1...v2.11.2)
+
+### Chores
+
+* add missing docstrings ([d11f1ce](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d11f1ce59ac520eb7e7dab16b0edd91f4b04bb1f))
+* **internal:** add missing files argument to base client ([f0d54a7](https://github.com/roarkhq/sdk-roark-analytics-python/commit/f0d54a77d72a30f2a0ac37ab8c3b7ec1361a0ddc))
+
 ## 2.11.1 (2025-12-09)
 
 Full Changelog: [v2.11.0...v2.11.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.0...v2.11.1)
