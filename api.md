@@ -85,13 +85,20 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import SimulationGetJobByIDResponse, SimulationLookupJobResponse
+from roark_analytics.types import (
+    SimulationGetRunPlanJobResponse,
+    SimulationGetSimulationJobByIDResponse,
+    SimulationLookupSimulationJobResponse,
+    SimulationStartRunPlanJobResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /v1/simulation/job/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_job_by_id_response.py">SimulationGetJobByIDResponse</a></code>
-- <code title="get /v1/simulation/job/lookup">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">lookup_job</a>(\*\*<a href="src/roark_analytics/types/simulation_lookup_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_lookup_job_response.py">SimulationLookupJobResponse</a></code>
+- <code title="get /v1/simulation/plan/job/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_run_plan_job</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_run_plan_job_response.py">SimulationGetRunPlanJobResponse</a></code>
+- <code title="get /v1/simulation/job/{jobId}">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">get_simulation_job_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_get_simulation_job_by_id_response.py">SimulationGetSimulationJobByIDResponse</a></code>
+- <code title="get /v1/simulation/job/lookup">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">lookup_simulation_job</a>(\*\*<a href="src/roark_analytics/types/simulation_lookup_simulation_job_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_lookup_simulation_job_response.py">SimulationLookupSimulationJobResponse</a></code>
+- <code title="post /v1/simulation/plan/{planId}/job">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">start_run_plan_job</a>(plan_id) -> <a href="./src/roark_analytics/types/simulation_start_run_plan_job_response.py">SimulationStartRunPlanJobResponse</a></code>
 
 # Persona
 
