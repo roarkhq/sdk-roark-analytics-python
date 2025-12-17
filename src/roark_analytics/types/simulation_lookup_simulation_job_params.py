@@ -6,10 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationLookupJobParams"]
+__all__ = ["SimulationLookupSimulationJobParams"]
 
 
-class SimulationLookupJobParams(TypedDict, total=False):
+class SimulationLookupSimulationJobParams(TypedDict, total=False):
     roark_phone_number: Required[Annotated[object, PropertyInfo(alias="roarkPhoneNumber")]]
     """Phone number provisioned by Roark for the simulation job in E.164 format.
 

@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationGetJobByIDResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataScenario"]
+__all__ = ["SimulationGetSimulationJobByIDResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataScenario"]
 
 
 class DataAgentEndpoint(BaseModel):
@@ -131,6 +131,6 @@ class Data(BaseModel):
     """When the job started"""
 
 
-class SimulationGetJobByIDResponse(BaseModel):
+class SimulationGetSimulationJobByIDResponse(BaseModel):
     data: Data
     """Simulation job with related entities"""
