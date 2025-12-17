@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import simulation_lookup_job_params
+from ..types import simulation_lookup_simulation_job_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -16,8 +16,10 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.simulation_lookup_job_response import SimulationLookupJobResponse
-from ..types.simulation_get_job_by_id_response import SimulationGetJobByIDResponse
+from ..types.simulation_get_run_plan_job_response import SimulationGetRunPlanJobResponse
+from ..types.simulation_start_run_plan_job_response import SimulationStartRunPlanJobResponse
+from ..types.simulation_lookup_simulation_job_response import SimulationLookupSimulationJobResponse
+from ..types.simulation_get_simulation_job_by_id_response import SimulationGetSimulationJobByIDResponse
 
 __all__ = ["SimulationResource", "AsyncSimulationResource"]
 
@@ -42,7 +44,7 @@ class SimulationResource(SyncAPIResource):
         """
         return SimulationResourceWithStreamingResponse(self)
 
-    def get_job_by_id(
+    def get_run_plan_job(
         self,
         job_id: object,
         *,
@@ -52,7 +54,39 @@ class SimulationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationGetJobByIDResponse:
+    ) -> SimulationGetRunPlanJobResponse:
+        """
+        Retrieve details of a simulation plan job including all associated simulation
+        jobs (calls)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            f"/v1/simulation/plan/job/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGetRunPlanJobResponse,
+        )
+
+    def get_simulation_job_by_id(
+        self,
+        job_id: object,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGetSimulationJobByIDResponse:
         """Get a individual simulation run directly by its ID.
 
         This is generally part of a
@@ -72,10 +106,10 @@ class SimulationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SimulationGetJobByIDResponse,
+            cast_to=SimulationGetSimulationJobByIDResponse,
         )
 
-    def lookup_job(
+    def lookup_simulation_job(
         self,
         *,
         roark_phone_number: object,
@@ -86,7 +120,7 @@ class SimulationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationLookupJobResponse:
+    ) -> SimulationLookupSimulationJobResponse:
         """
         Find the matching simulation using the number used by the Roark simulation
         agent.
@@ -120,10 +154,41 @@ class SimulationResource(SyncAPIResource):
                         "roark_phone_number": roark_phone_number,
                         "call_received_at": call_received_at,
                     },
-                    simulation_lookup_job_params.SimulationLookupJobParams,
+                    simulation_lookup_simulation_job_params.SimulationLookupSimulationJobParams,
                 ),
             ),
-            cast_to=SimulationLookupJobResponse,
+            cast_to=SimulationLookupSimulationJobResponse,
+        )
+
+    def start_run_plan_job(
+        self,
+        plan_id: object,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationStartRunPlanJobResponse:
+        """
+        Create and execute a job for an existing simulation run plan
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            f"/v1/simulation/plan/{plan_id}/job",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationStartRunPlanJobResponse,
         )
 
 
@@ -147,7 +212,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         return AsyncSimulationResourceWithStreamingResponse(self)
 
-    async def get_job_by_id(
+    async def get_run_plan_job(
         self,
         job_id: object,
         *,
@@ -157,7 +222,39 @@ class AsyncSimulationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationGetJobByIDResponse:
+    ) -> SimulationGetRunPlanJobResponse:
+        """
+        Retrieve details of a simulation plan job including all associated simulation
+        jobs (calls)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            f"/v1/simulation/plan/job/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGetRunPlanJobResponse,
+        )
+
+    async def get_simulation_job_by_id(
+        self,
+        job_id: object,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGetSimulationJobByIDResponse:
         """Get a individual simulation run directly by its ID.
 
         This is generally part of a
@@ -177,10 +274,10 @@ class AsyncSimulationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SimulationGetJobByIDResponse,
+            cast_to=SimulationGetSimulationJobByIDResponse,
         )
 
-    async def lookup_job(
+    async def lookup_simulation_job(
         self,
         *,
         roark_phone_number: object,
@@ -191,7 +288,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationLookupJobResponse:
+    ) -> SimulationLookupSimulationJobResponse:
         """
         Find the matching simulation using the number used by the Roark simulation
         agent.
@@ -225,10 +322,41 @@ class AsyncSimulationResource(AsyncAPIResource):
                         "roark_phone_number": roark_phone_number,
                         "call_received_at": call_received_at,
                     },
-                    simulation_lookup_job_params.SimulationLookupJobParams,
+                    simulation_lookup_simulation_job_params.SimulationLookupSimulationJobParams,
                 ),
             ),
-            cast_to=SimulationLookupJobResponse,
+            cast_to=SimulationLookupSimulationJobResponse,
+        )
+
+    async def start_run_plan_job(
+        self,
+        plan_id: object,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationStartRunPlanJobResponse:
+        """
+        Create and execute a job for an existing simulation run plan
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            f"/v1/simulation/plan/{plan_id}/job",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationStartRunPlanJobResponse,
         )
 
 
@@ -236,11 +364,17 @@ class SimulationResourceWithRawResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
-        self.get_job_by_id = to_raw_response_wrapper(
-            simulation.get_job_by_id,
+        self.get_run_plan_job = to_raw_response_wrapper(
+            simulation.get_run_plan_job,
         )
-        self.lookup_job = to_raw_response_wrapper(
-            simulation.lookup_job,
+        self.get_simulation_job_by_id = to_raw_response_wrapper(
+            simulation.get_simulation_job_by_id,
+        )
+        self.lookup_simulation_job = to_raw_response_wrapper(
+            simulation.lookup_simulation_job,
+        )
+        self.start_run_plan_job = to_raw_response_wrapper(
+            simulation.start_run_plan_job,
         )
 
 
@@ -248,11 +382,17 @@ class AsyncSimulationResourceWithRawResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
-        self.get_job_by_id = async_to_raw_response_wrapper(
-            simulation.get_job_by_id,
+        self.get_run_plan_job = async_to_raw_response_wrapper(
+            simulation.get_run_plan_job,
         )
-        self.lookup_job = async_to_raw_response_wrapper(
-            simulation.lookup_job,
+        self.get_simulation_job_by_id = async_to_raw_response_wrapper(
+            simulation.get_simulation_job_by_id,
+        )
+        self.lookup_simulation_job = async_to_raw_response_wrapper(
+            simulation.lookup_simulation_job,
+        )
+        self.start_run_plan_job = async_to_raw_response_wrapper(
+            simulation.start_run_plan_job,
         )
 
 
@@ -260,11 +400,17 @@ class SimulationResourceWithStreamingResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
-        self.get_job_by_id = to_streamed_response_wrapper(
-            simulation.get_job_by_id,
+        self.get_run_plan_job = to_streamed_response_wrapper(
+            simulation.get_run_plan_job,
         )
-        self.lookup_job = to_streamed_response_wrapper(
-            simulation.lookup_job,
+        self.get_simulation_job_by_id = to_streamed_response_wrapper(
+            simulation.get_simulation_job_by_id,
+        )
+        self.lookup_simulation_job = to_streamed_response_wrapper(
+            simulation.lookup_simulation_job,
+        )
+        self.start_run_plan_job = to_streamed_response_wrapper(
+            simulation.start_run_plan_job,
         )
 
 
@@ -272,9 +418,15 @@ class AsyncSimulationResourceWithStreamingResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
-        self.get_job_by_id = async_to_streamed_response_wrapper(
-            simulation.get_job_by_id,
+        self.get_run_plan_job = async_to_streamed_response_wrapper(
+            simulation.get_run_plan_job,
         )
-        self.lookup_job = async_to_streamed_response_wrapper(
-            simulation.lookup_job,
+        self.get_simulation_job_by_id = async_to_streamed_response_wrapper(
+            simulation.get_simulation_job_by_id,
+        )
+        self.lookup_simulation_job = async_to_streamed_response_wrapper(
+            simulation.lookup_simulation_job,
+        )
+        self.start_run_plan_job = async_to_streamed_response_wrapper(
+            simulation.start_run_plan_job,
         )
