@@ -284,6 +284,8 @@ DataBlock: TypeAlias = Union[
 
 
 class Data(BaseModel):
+    """Evaluator with its configured blocks"""
+
     id: str
     """Unique identifier for the evaluator"""
 
@@ -307,6 +309,8 @@ class Data(BaseModel):
 
 
 class Pagination(BaseModel):
+    """Pagination information"""
+
     has_more: bool = FieldInfo(alias="hasMore")
     """Whether there are more evaluators to fetch"""
 
@@ -318,6 +322,8 @@ class Pagination(BaseModel):
 
 
 class EvaluationGetEvaluatorsResponse(BaseModel):
+    """Response containing evaluators and pagination info"""
+
     data: List[Data]
     """Array of evaluators with their blocks"""
 
