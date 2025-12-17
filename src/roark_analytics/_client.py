@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import call, health, metric, persona, evaluation, simulation, integrations
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import RoarkError, APIStatusError
 from ._base_client import (
@@ -30,20 +30,20 @@ from ._base_client import (
     AsyncAPIClient,
 )
 
+if TYPE_CHECKING:
+    from .resources import call, health, metric, persona, evaluation, simulation, integrations
+    from .resources.call import CallResource, AsyncCallResource
+    from .resources.health import HealthResource, AsyncHealthResource
+    from .resources.metric import MetricResource, AsyncMetricResource
+    from .resources.persona import PersonaResource, AsyncPersonaResource
+    from .resources.evaluation import EvaluationResource, AsyncEvaluationResource
+    from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.integrations import IntegrationsResource, AsyncIntegrationsResource
+
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Roark", "AsyncRoark", "Client", "AsyncClient"]
 
 
 class Roark(SyncAPIClient):
-    health: health.HealthResource
-    evaluation: evaluation.EvaluationResource
-    call: call.CallResource
-    metric: metric.MetricResource
-    integrations: integrations.IntegrationsResource
-    simulation: simulation.SimulationResource
-    persona: persona.PersonaResource
-    with_raw_response: RoarkWithRawResponse
-    with_streaming_response: RoarkWithStreamedResponse
-
     # client options
     bearer_token: str
 
@@ -98,15 +98,55 @@ class Roark(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.health = health.HealthResource(self)
-        self.evaluation = evaluation.EvaluationResource(self)
-        self.call = call.CallResource(self)
-        self.metric = metric.MetricResource(self)
-        self.integrations = integrations.IntegrationsResource(self)
-        self.simulation = simulation.SimulationResource(self)
-        self.persona = persona.PersonaResource(self)
-        self.with_raw_response = RoarkWithRawResponse(self)
-        self.with_streaming_response = RoarkWithStreamedResponse(self)
+    @cached_property
+    def health(self) -> HealthResource:
+        from .resources.health import HealthResource
+
+        return HealthResource(self)
+
+    @cached_property
+    def evaluation(self) -> EvaluationResource:
+        from .resources.evaluation import EvaluationResource
+
+        return EvaluationResource(self)
+
+    @cached_property
+    def call(self) -> CallResource:
+        from .resources.call import CallResource
+
+        return CallResource(self)
+
+    @cached_property
+    def metric(self) -> MetricResource:
+        from .resources.metric import MetricResource
+
+        return MetricResource(self)
+
+    @cached_property
+    def integrations(self) -> IntegrationsResource:
+        from .resources.integrations import IntegrationsResource
+
+        return IntegrationsResource(self)
+
+    @cached_property
+    def simulation(self) -> SimulationResource:
+        from .resources.simulation import SimulationResource
+
+        return SimulationResource(self)
+
+    @cached_property
+    def persona(self) -> PersonaResource:
+        from .resources.persona import PersonaResource
+
+        return PersonaResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> RoarkWithRawResponse:
+        return RoarkWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> RoarkWithStreamedResponse:
+        return RoarkWithStreamedResponse(self)
 
     @property
     @override
@@ -214,16 +254,6 @@ class Roark(SyncAPIClient):
 
 
 class AsyncRoark(AsyncAPIClient):
-    health: health.AsyncHealthResource
-    evaluation: evaluation.AsyncEvaluationResource
-    call: call.AsyncCallResource
-    metric: metric.AsyncMetricResource
-    integrations: integrations.AsyncIntegrationsResource
-    simulation: simulation.AsyncSimulationResource
-    persona: persona.AsyncPersonaResource
-    with_raw_response: AsyncRoarkWithRawResponse
-    with_streaming_response: AsyncRoarkWithStreamedResponse
-
     # client options
     bearer_token: str
 
@@ -278,15 +308,55 @@ class AsyncRoark(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.health = health.AsyncHealthResource(self)
-        self.evaluation = evaluation.AsyncEvaluationResource(self)
-        self.call = call.AsyncCallResource(self)
-        self.metric = metric.AsyncMetricResource(self)
-        self.integrations = integrations.AsyncIntegrationsResource(self)
-        self.simulation = simulation.AsyncSimulationResource(self)
-        self.persona = persona.AsyncPersonaResource(self)
-        self.with_raw_response = AsyncRoarkWithRawResponse(self)
-        self.with_streaming_response = AsyncRoarkWithStreamedResponse(self)
+    @cached_property
+    def health(self) -> AsyncHealthResource:
+        from .resources.health import AsyncHealthResource
+
+        return AsyncHealthResource(self)
+
+    @cached_property
+    def evaluation(self) -> AsyncEvaluationResource:
+        from .resources.evaluation import AsyncEvaluationResource
+
+        return AsyncEvaluationResource(self)
+
+    @cached_property
+    def call(self) -> AsyncCallResource:
+        from .resources.call import AsyncCallResource
+
+        return AsyncCallResource(self)
+
+    @cached_property
+    def metric(self) -> AsyncMetricResource:
+        from .resources.metric import AsyncMetricResource
+
+        return AsyncMetricResource(self)
+
+    @cached_property
+    def integrations(self) -> AsyncIntegrationsResource:
+        from .resources.integrations import AsyncIntegrationsResource
+
+        return AsyncIntegrationsResource(self)
+
+    @cached_property
+    def simulation(self) -> AsyncSimulationResource:
+        from .resources.simulation import AsyncSimulationResource
+
+        return AsyncSimulationResource(self)
+
+    @cached_property
+    def persona(self) -> AsyncPersonaResource:
+        from .resources.persona import AsyncPersonaResource
+
+        return AsyncPersonaResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncRoarkWithRawResponse:
+        return AsyncRoarkWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncRoarkWithStreamedResponse:
+        return AsyncRoarkWithStreamedResponse(self)
 
     @property
     @override
@@ -394,47 +464,199 @@ class AsyncRoark(AsyncAPIClient):
 
 
 class RoarkWithRawResponse:
+    _client: Roark
+
     def __init__(self, client: Roark) -> None:
-        self.health = health.HealthResourceWithRawResponse(client.health)
-        self.evaluation = evaluation.EvaluationResourceWithRawResponse(client.evaluation)
-        self.call = call.CallResourceWithRawResponse(client.call)
-        self.metric = metric.MetricResourceWithRawResponse(client.metric)
-        self.integrations = integrations.IntegrationsResourceWithRawResponse(client.integrations)
-        self.simulation = simulation.SimulationResourceWithRawResponse(client.simulation)
-        self.persona = persona.PersonaResourceWithRawResponse(client.persona)
+        self._client = client
+
+    @cached_property
+    def health(self) -> health.HealthResourceWithRawResponse:
+        from .resources.health import HealthResourceWithRawResponse
+
+        return HealthResourceWithRawResponse(self._client.health)
+
+    @cached_property
+    def evaluation(self) -> evaluation.EvaluationResourceWithRawResponse:
+        from .resources.evaluation import EvaluationResourceWithRawResponse
+
+        return EvaluationResourceWithRawResponse(self._client.evaluation)
+
+    @cached_property
+    def call(self) -> call.CallResourceWithRawResponse:
+        from .resources.call import CallResourceWithRawResponse
+
+        return CallResourceWithRawResponse(self._client.call)
+
+    @cached_property
+    def metric(self) -> metric.MetricResourceWithRawResponse:
+        from .resources.metric import MetricResourceWithRawResponse
+
+        return MetricResourceWithRawResponse(self._client.metric)
+
+    @cached_property
+    def integrations(self) -> integrations.IntegrationsResourceWithRawResponse:
+        from .resources.integrations import IntegrationsResourceWithRawResponse
+
+        return IntegrationsResourceWithRawResponse(self._client.integrations)
+
+    @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithRawResponse:
+        from .resources.simulation import SimulationResourceWithRawResponse
+
+        return SimulationResourceWithRawResponse(self._client.simulation)
+
+    @cached_property
+    def persona(self) -> persona.PersonaResourceWithRawResponse:
+        from .resources.persona import PersonaResourceWithRawResponse
+
+        return PersonaResourceWithRawResponse(self._client.persona)
 
 
 class AsyncRoarkWithRawResponse:
+    _client: AsyncRoark
+
     def __init__(self, client: AsyncRoark) -> None:
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
-        self.evaluation = evaluation.AsyncEvaluationResourceWithRawResponse(client.evaluation)
-        self.call = call.AsyncCallResourceWithRawResponse(client.call)
-        self.metric = metric.AsyncMetricResourceWithRawResponse(client.metric)
-        self.integrations = integrations.AsyncIntegrationsResourceWithRawResponse(client.integrations)
-        self.simulation = simulation.AsyncSimulationResourceWithRawResponse(client.simulation)
-        self.persona = persona.AsyncPersonaResourceWithRawResponse(client.persona)
+        self._client = client
+
+    @cached_property
+    def health(self) -> health.AsyncHealthResourceWithRawResponse:
+        from .resources.health import AsyncHealthResourceWithRawResponse
+
+        return AsyncHealthResourceWithRawResponse(self._client.health)
+
+    @cached_property
+    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithRawResponse:
+        from .resources.evaluation import AsyncEvaluationResourceWithRawResponse
+
+        return AsyncEvaluationResourceWithRawResponse(self._client.evaluation)
+
+    @cached_property
+    def call(self) -> call.AsyncCallResourceWithRawResponse:
+        from .resources.call import AsyncCallResourceWithRawResponse
+
+        return AsyncCallResourceWithRawResponse(self._client.call)
+
+    @cached_property
+    def metric(self) -> metric.AsyncMetricResourceWithRawResponse:
+        from .resources.metric import AsyncMetricResourceWithRawResponse
+
+        return AsyncMetricResourceWithRawResponse(self._client.metric)
+
+    @cached_property
+    def integrations(self) -> integrations.AsyncIntegrationsResourceWithRawResponse:
+        from .resources.integrations import AsyncIntegrationsResourceWithRawResponse
+
+        return AsyncIntegrationsResourceWithRawResponse(self._client.integrations)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
+        from .resources.simulation import AsyncSimulationResourceWithRawResponse
+
+        return AsyncSimulationResourceWithRawResponse(self._client.simulation)
+
+    @cached_property
+    def persona(self) -> persona.AsyncPersonaResourceWithRawResponse:
+        from .resources.persona import AsyncPersonaResourceWithRawResponse
+
+        return AsyncPersonaResourceWithRawResponse(self._client.persona)
 
 
 class RoarkWithStreamedResponse:
+    _client: Roark
+
     def __init__(self, client: Roark) -> None:
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
-        self.evaluation = evaluation.EvaluationResourceWithStreamingResponse(client.evaluation)
-        self.call = call.CallResourceWithStreamingResponse(client.call)
-        self.metric = metric.MetricResourceWithStreamingResponse(client.metric)
-        self.integrations = integrations.IntegrationsResourceWithStreamingResponse(client.integrations)
-        self.simulation = simulation.SimulationResourceWithStreamingResponse(client.simulation)
-        self.persona = persona.PersonaResourceWithStreamingResponse(client.persona)
+        self._client = client
+
+    @cached_property
+    def health(self) -> health.HealthResourceWithStreamingResponse:
+        from .resources.health import HealthResourceWithStreamingResponse
+
+        return HealthResourceWithStreamingResponse(self._client.health)
+
+    @cached_property
+    def evaluation(self) -> evaluation.EvaluationResourceWithStreamingResponse:
+        from .resources.evaluation import EvaluationResourceWithStreamingResponse
+
+        return EvaluationResourceWithStreamingResponse(self._client.evaluation)
+
+    @cached_property
+    def call(self) -> call.CallResourceWithStreamingResponse:
+        from .resources.call import CallResourceWithStreamingResponse
+
+        return CallResourceWithStreamingResponse(self._client.call)
+
+    @cached_property
+    def metric(self) -> metric.MetricResourceWithStreamingResponse:
+        from .resources.metric import MetricResourceWithStreamingResponse
+
+        return MetricResourceWithStreamingResponse(self._client.metric)
+
+    @cached_property
+    def integrations(self) -> integrations.IntegrationsResourceWithStreamingResponse:
+        from .resources.integrations import IntegrationsResourceWithStreamingResponse
+
+        return IntegrationsResourceWithStreamingResponse(self._client.integrations)
+
+    @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
+        from .resources.simulation import SimulationResourceWithStreamingResponse
+
+        return SimulationResourceWithStreamingResponse(self._client.simulation)
+
+    @cached_property
+    def persona(self) -> persona.PersonaResourceWithStreamingResponse:
+        from .resources.persona import PersonaResourceWithStreamingResponse
+
+        return PersonaResourceWithStreamingResponse(self._client.persona)
 
 
 class AsyncRoarkWithStreamedResponse:
+    _client: AsyncRoark
+
     def __init__(self, client: AsyncRoark) -> None:
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
-        self.evaluation = evaluation.AsyncEvaluationResourceWithStreamingResponse(client.evaluation)
-        self.call = call.AsyncCallResourceWithStreamingResponse(client.call)
-        self.metric = metric.AsyncMetricResourceWithStreamingResponse(client.metric)
-        self.integrations = integrations.AsyncIntegrationsResourceWithStreamingResponse(client.integrations)
-        self.simulation = simulation.AsyncSimulationResourceWithStreamingResponse(client.simulation)
-        self.persona = persona.AsyncPersonaResourceWithStreamingResponse(client.persona)
+        self._client = client
+
+    @cached_property
+    def health(self) -> health.AsyncHealthResourceWithStreamingResponse:
+        from .resources.health import AsyncHealthResourceWithStreamingResponse
+
+        return AsyncHealthResourceWithStreamingResponse(self._client.health)
+
+    @cached_property
+    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithStreamingResponse:
+        from .resources.evaluation import AsyncEvaluationResourceWithStreamingResponse
+
+        return AsyncEvaluationResourceWithStreamingResponse(self._client.evaluation)
+
+    @cached_property
+    def call(self) -> call.AsyncCallResourceWithStreamingResponse:
+        from .resources.call import AsyncCallResourceWithStreamingResponse
+
+        return AsyncCallResourceWithStreamingResponse(self._client.call)
+
+    @cached_property
+    def metric(self) -> metric.AsyncMetricResourceWithStreamingResponse:
+        from .resources.metric import AsyncMetricResourceWithStreamingResponse
+
+        return AsyncMetricResourceWithStreamingResponse(self._client.metric)
+
+    @cached_property
+    def integrations(self) -> integrations.AsyncIntegrationsResourceWithStreamingResponse:
+        from .resources.integrations import AsyncIntegrationsResourceWithStreamingResponse
+
+        return AsyncIntegrationsResourceWithStreamingResponse(self._client.integrations)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
+        from .resources.simulation import AsyncSimulationResourceWithStreamingResponse
+
+        return AsyncSimulationResourceWithStreamingResponse(self._client.simulation)
+
+    @cached_property
+    def persona(self) -> persona.AsyncPersonaResourceWithStreamingResponse:
+        from .resources.persona import AsyncPersonaResourceWithStreamingResponse
+
+        return AsyncPersonaResourceWithStreamingResponse(self._client.persona)
 
 
 Client = Roark
