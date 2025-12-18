@@ -38,7 +38,7 @@ class EvaluationCreateJobParams(TypedDict, total=False):
 
 
 class CallParticipant(TypedDict, total=False):
-    role: Required[Literal["AGENT", "CUSTOMER"]]
+    role: Required[Literal["AGENT", "CUSTOMER", "BACKGROUND_SPEAKER"]]
 
     is_simulated: Annotated[bool, PropertyInfo(alias="isSimulated")]
 
@@ -162,7 +162,7 @@ class Call(TypedDict, total=False):
 
 
 class DatasetCallParticipant(TypedDict, total=False):
-    role: Required[Literal["AGENT", "CUSTOMER"]]
+    role: Required[Literal["AGENT", "CUSTOMER", "BACKGROUND_SPEAKER"]]
 
     is_simulated: Annotated[bool, PropertyInfo(alias="isSimulated")]
 
