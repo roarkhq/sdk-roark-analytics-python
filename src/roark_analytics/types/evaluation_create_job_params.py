@@ -34,6 +34,9 @@ class EvaluationCreateJobParams(TypedDict, total=False):
     call: Call
     """Call input to evaluate"""
 
+    call_id: Annotated[str, PropertyInfo(alias="callId")]
+    """ID of an existing call to evaluate"""
+
     dataset: Dataset
 
 

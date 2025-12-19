@@ -21,7 +21,7 @@ class DataAgentEndpoint(BaseModel):
 class DataAgent(BaseModel):
     id: str
 
-    endpoint: DataAgentEndpoint
+    endpoint: Optional[DataAgentEndpoint] = None
 
 
 class DataCustomer(BaseModel):
