@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.13.0 (2025-12-19)
+
+Full Changelog: [v2.12.0...v2.13.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.12.0...v2.13.0)
+
+### Features
+
+* **api:** api update ([d830d43](https://github.com/roarkhq/sdk-roark-analytics-python/commit/d830d43133e440bd66f48a565c60c1157bdf0e20))
+* **api:** api update ([356090b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/356090b493a34802c416aac1412e93b5c81c5083))
+* **api:** api update ([8bd08e2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8bd08e2af6809b5680a481d2ea75bb857d5f938f))
+
+
+### Bug Fixes
+
+* use async_to_httpx_files in patch method ([e8bb195](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e8bb195c8fd36e1a840a02075d4fc468ac5a8069))
+
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([4d55cd1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4d55cd18e4efa06dfc1c50c996230ee6ed929b13))
+
 ## 2.12.0 (2025-12-17)
 
 Full Changelog: [v2.11.2...v2.12.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.11.2...v2.12.0)
