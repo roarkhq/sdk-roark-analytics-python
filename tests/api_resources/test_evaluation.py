@@ -67,6 +67,7 @@ class TestEvaluation:
                 ],
                 "vapi_call_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             },
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             dataset={
                 "calls": [
                     {
@@ -338,6 +339,7 @@ class TestAsyncEvaluation:
                 ],
                 "vapi_call_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             },
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             dataset={
                 "calls": [
                     {

@@ -10,6 +10,7 @@ import pytest
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
+    CallCreateResponse,
     CallGetByIDResponse,
     CallGetMetricsResponse,
     CallGetSentimentRunsResponse,
@@ -21,6 +22,186 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestCall:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_create_overload_1(self, client: Roark) -> None:
+        call = client.call.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params_overload_1(self, client: Roark) -> None:
+        call = client.call.create(
+            agent={
+                "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "endpoint": {"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                "prompt": {"resolved_prompt": "resolvedPrompt"},
+            },
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+            customer={
+                "phone_number_e164": "phoneNumberE164",
+                "label": "label",
+            },
+            ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            properties={"foo": "bar"},
+            stereo_recording_url="https://example.com",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "value"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            transcript=[
+                {
+                    "end_offset_ms": 0,
+                    "role": "AGENT",
+                    "start_offset_ms": 0,
+                    "text": "x",
+                    "agent": {
+                        "custom_id": "customId",
+                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    "language_code": "languageCode",
+                }
+            ],
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_overload_1(self, client: Roark) -> None:
+        response = client.call.with_raw_response.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_overload_1(self, client: Roark) -> None:
+        with client.call.with_streaming_response.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallCreateResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_create_overload_2(self, client: Roark) -> None:
+        call = client.call.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Roark) -> None:
+        call = client.call.create(
+            agents=[
+                {
+                    "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "endpoint": {"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                    "prompt": {"resolved_prompt": "resolvedPrompt"},
+                }
+            ],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+            customers=[
+                {
+                    "phone_number_e164": "phoneNumberE164",
+                    "label": "label",
+                }
+            ],
+            ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            properties={"foo": "bar"},
+            stereo_recording_url="https://example.com",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "value"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            transcript=[
+                {
+                    "end_offset_ms": 0,
+                    "role": "AGENT",
+                    "start_offset_ms": 0,
+                    "text": "x",
+                    "agent": {
+                        "custom_id": "customId",
+                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    "language_code": "languageCode",
+                }
+            ],
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_overload_2(self, client: Roark) -> None:
+        response = client.call.with_raw_response.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_overload_2(self, client: Roark) -> None:
+        with client.call.with_streaming_response.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallCreateResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
@@ -187,6 +368,186 @@ class TestAsyncCall:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
+
+    @parametrize
+    async def test_method_create_overload_1(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.create(
+            agent={
+                "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "endpoint": {"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                "prompt": {"resolved_prompt": "resolvedPrompt"},
+            },
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+            customer={
+                "phone_number_e164": "phoneNumberE164",
+                "label": "label",
+            },
+            ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            properties={"foo": "bar"},
+            stereo_recording_url="https://example.com",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "value"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            transcript=[
+                {
+                    "end_offset_ms": 0,
+                    "role": "AGENT",
+                    "start_offset_ms": 0,
+                    "text": "x",
+                    "agent": {
+                        "custom_id": "customId",
+                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    "language_code": "languageCode",
+                }
+            ],
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_overload_1(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.create(
+            agent={"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallCreateResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_create_overload_2(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.create(
+            agents=[
+                {
+                    "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "endpoint": {"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                    "prompt": {"resolved_prompt": "resolvedPrompt"},
+                }
+            ],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+            customers=[
+                {
+                    "phone_number_e164": "phoneNumberE164",
+                    "label": "label",
+                }
+            ],
+            ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            properties={"foo": "bar"},
+            stereo_recording_url="https://example.com",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "value"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            transcript=[
+                {
+                    "end_offset_ms": 0,
+                    "role": "AGENT",
+                    "start_offset_ms": 0,
+                    "text": "x",
+                    "agent": {
+                        "custom_id": "customId",
+                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    "language_code": "languageCode",
+                }
+            ],
+        )
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_overload_2(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallCreateResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.create(
+            agents=[{"roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_direction="INBOUND",
+            interface_type="PHONE",
+            recording_url="https://example.com",
+            started_at="startedAt",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallCreateResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:
