@@ -25,6 +25,8 @@ class DataAgent(BaseModel):
 
 
 class DataCustomer(BaseModel):
+    label: Optional[str] = None
+
     phone_number_e164: Optional[str] = FieldInfo(alias="phoneNumberE164", default=None)
 
 
