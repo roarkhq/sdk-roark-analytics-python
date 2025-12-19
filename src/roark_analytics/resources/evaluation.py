@@ -53,6 +53,7 @@ class EvaluationResource(SyncAPIResource):
         *,
         evaluators: Union[SequenceNotStr[str], Literal["all"]],
         call: evaluation_create_job_params.Call | Omit = omit,
+        call_id: str | Omit = omit,
         dataset: evaluation_create_job_params.Dataset | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -70,6 +71,8 @@ class EvaluationResource(SyncAPIResource):
 
           call: Call input to evaluate
 
+          call_id: ID of an existing call to evaluate
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -84,6 +87,7 @@ class EvaluationResource(SyncAPIResource):
                 {
                     "evaluators": evaluators,
                     "call": call,
+                    "call_id": call_id,
                     "dataset": dataset,
                 },
                 evaluation_create_job_params.EvaluationCreateJobParams,
@@ -284,6 +288,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         *,
         evaluators: Union[SequenceNotStr[str], Literal["all"]],
         call: evaluation_create_job_params.Call | Omit = omit,
+        call_id: str | Omit = omit,
         dataset: evaluation_create_job_params.Dataset | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -301,6 +306,8 @@ class AsyncEvaluationResource(AsyncAPIResource):
 
           call: Call input to evaluate
 
+          call_id: ID of an existing call to evaluate
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -315,6 +322,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
                 {
                     "evaluators": evaluators,
                     "call": call,
+                    "call_id": call_id,
                     "dataset": dataset,
                 },
                 evaluation_create_job_params.EvaluationCreateJobParams,

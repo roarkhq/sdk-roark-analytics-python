@@ -16,14 +16,14 @@ class DataAgentEndpoint(BaseModel):
     id: str
     """Agent endpoint ID"""
 
-    endpoint_type: str = FieldInfo(alias="endpointType")
-    """Agent endpoint type"""
-
     name: str
     """Agent endpoint name"""
 
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
     """Agent endpoint phone number"""
+
+    type: str
+    """Agent endpoint type"""
 
 
 class DataPersona(BaseModel):
