@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 
 __all__ = [
-    "EvaluationGetJobRunsResponse",
+    "EvaluationListJobRunsResponse",
     "Data",
     "DataData",
     "DataDataBlockRun",
@@ -157,6 +157,6 @@ class Data(BaseModel):
     """Pagination information"""
 
 
-class EvaluationGetJobRunsResponse(BaseModel):
+class EvaluationListJobRunsResponse(BaseModel):
     data: Data
     """Evaluation job runs response payload"""

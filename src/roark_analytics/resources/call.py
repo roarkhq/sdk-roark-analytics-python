@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import call_create_params, call_get_metrics_params
+from ..types import call_list_params, call_create_params, call_list_metrics_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,11 +19,12 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.call_list_response import CallListResponse
 from ..types.call_create_response import CallCreateResponse
 from ..types.call_get_by_id_response import CallGetByIDResponse
-from ..types.call_get_metrics_response import CallGetMetricsResponse
-from ..types.call_get_sentiment_runs_response import CallGetSentimentRunsResponse
-from ..types.call_get_evaluation_runs_response import CallGetEvaluationRunsResponse
+from ..types.call_list_metrics_response import CallListMetricsResponse
+from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
+from ..types.call_list_evaluation_runs_response import CallListEvaluationRunsResponse
 
 __all__ = ["CallResource", "AsyncCallResource"]
 
@@ -162,6 +163,68 @@ class CallResource(SyncAPIResource):
             cast_to=CallCreateResponse,
         )
 
+    def list(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        search_text: str | Omit = omit,
+        sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
+        sort_direction: Literal["asc", "desc"] | Omit = omit,
+        status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallListResponse:
+        """
+        Returns a paginated list of calls for the authenticated project.
+
+        Args:
+          after: Cursor for pagination - call ID to start after
+
+          limit: Maximum number of calls to return (default: 20, max: 100)
+
+          search_text: Search text to filter calls by title, summary, or transcript
+
+          sort_by: Field to sort by (default: createdAt)
+
+          sort_direction: Sort direction (default: desc)
+
+          status: Filter by call status
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/call",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "search_text": search_text,
+                        "sort_by": sort_by,
+                        "sort_direction": sort_direction,
+                        "status": status,
+                    },
+                    call_list_params.CallListParams,
+                ),
+            ),
+            cast_to=CallListResponse,
+        )
+
     def get_by_id(
         self,
         call_id: str,
@@ -195,7 +258,7 @@ class CallResource(SyncAPIResource):
             cast_to=CallGetByIDResponse,
         )
 
-    def get_evaluation_runs(
+    def list_evaluation_runs(
         self,
         call_id: str,
         *,
@@ -205,7 +268,7 @@ class CallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetEvaluationRunsResponse:
+    ) -> CallListEvaluationRunsResponse:
         """
         Fetch all evaluation run results for a specific call.
 
@@ -227,10 +290,10 @@ class CallResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetEvaluationRunsResponse,
+            cast_to=CallListEvaluationRunsResponse,
         )
 
-    def get_metrics(
+    def list_metrics(
         self,
         call_id: str,
         *,
@@ -241,7 +304,7 @@ class CallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetMetricsResponse:
+    ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
         system-generated and custom metrics. Only returns successfully computed metrics.
@@ -268,12 +331,12 @@ class CallResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"flatten": flatten}, call_get_metrics_params.CallGetMetricsParams),
+                query=maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
             ),
-            cast_to=CallGetMetricsResponse,
+            cast_to=CallListMetricsResponse,
         )
 
-    def get_sentiment_runs(
+    def list_sentiment_runs(
         self,
         call_id: str,
         *,
@@ -283,7 +346,7 @@ class CallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetSentimentRunsResponse:
+    ) -> CallListSentimentRunsResponse:
         """
         Fetch detailed sentiment analysis results for a specific call, including
         emotional tone, key phrases, and sentiment scores.
@@ -306,7 +369,7 @@ class CallResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetSentimentRunsResponse,
+            cast_to=CallListSentimentRunsResponse,
         )
 
 
@@ -444,6 +507,68 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallCreateResponse,
         )
 
+    async def list(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        search_text: str | Omit = omit,
+        sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
+        sort_direction: Literal["asc", "desc"] | Omit = omit,
+        status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallListResponse:
+        """
+        Returns a paginated list of calls for the authenticated project.
+
+        Args:
+          after: Cursor for pagination - call ID to start after
+
+          limit: Maximum number of calls to return (default: 20, max: 100)
+
+          search_text: Search text to filter calls by title, summary, or transcript
+
+          sort_by: Field to sort by (default: createdAt)
+
+          sort_direction: Sort direction (default: desc)
+
+          status: Filter by call status
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/call",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "search_text": search_text,
+                        "sort_by": sort_by,
+                        "sort_direction": sort_direction,
+                        "status": status,
+                    },
+                    call_list_params.CallListParams,
+                ),
+            ),
+            cast_to=CallListResponse,
+        )
+
     async def get_by_id(
         self,
         call_id: str,
@@ -477,7 +602,7 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetByIDResponse,
         )
 
-    async def get_evaluation_runs(
+    async def list_evaluation_runs(
         self,
         call_id: str,
         *,
@@ -487,7 +612,7 @@ class AsyncCallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetEvaluationRunsResponse:
+    ) -> CallListEvaluationRunsResponse:
         """
         Fetch all evaluation run results for a specific call.
 
@@ -509,10 +634,10 @@ class AsyncCallResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetEvaluationRunsResponse,
+            cast_to=CallListEvaluationRunsResponse,
         )
 
-    async def get_metrics(
+    async def list_metrics(
         self,
         call_id: str,
         *,
@@ -523,7 +648,7 @@ class AsyncCallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetMetricsResponse:
+    ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
         system-generated and custom metrics. Only returns successfully computed metrics.
@@ -550,12 +675,12 @@ class AsyncCallResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"flatten": flatten}, call_get_metrics_params.CallGetMetricsParams),
+                query=await async_maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
             ),
-            cast_to=CallGetMetricsResponse,
+            cast_to=CallListMetricsResponse,
         )
 
-    async def get_sentiment_runs(
+    async def list_sentiment_runs(
         self,
         call_id: str,
         *,
@@ -565,7 +690,7 @@ class AsyncCallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallGetSentimentRunsResponse:
+    ) -> CallListSentimentRunsResponse:
         """
         Fetch detailed sentiment analysis results for a specific call, including
         emotional tone, key phrases, and sentiment scores.
@@ -588,7 +713,7 @@ class AsyncCallResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CallGetSentimentRunsResponse,
+            cast_to=CallListSentimentRunsResponse,
         )
 
 
@@ -599,17 +724,20 @@ class CallResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             call.create,
         )
+        self.list = to_raw_response_wrapper(
+            call.list,
+        )
         self.get_by_id = to_raw_response_wrapper(
             call.get_by_id,
         )
-        self.get_evaluation_runs = to_raw_response_wrapper(
-            call.get_evaluation_runs,
+        self.list_evaluation_runs = to_raw_response_wrapper(
+            call.list_evaluation_runs,
         )
-        self.get_metrics = to_raw_response_wrapper(
-            call.get_metrics,
+        self.list_metrics = to_raw_response_wrapper(
+            call.list_metrics,
         )
-        self.get_sentiment_runs = to_raw_response_wrapper(
-            call.get_sentiment_runs,
+        self.list_sentiment_runs = to_raw_response_wrapper(
+            call.list_sentiment_runs,
         )
 
 
@@ -620,17 +748,20 @@ class AsyncCallResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             call.create,
         )
+        self.list = async_to_raw_response_wrapper(
+            call.list,
+        )
         self.get_by_id = async_to_raw_response_wrapper(
             call.get_by_id,
         )
-        self.get_evaluation_runs = async_to_raw_response_wrapper(
-            call.get_evaluation_runs,
+        self.list_evaluation_runs = async_to_raw_response_wrapper(
+            call.list_evaluation_runs,
         )
-        self.get_metrics = async_to_raw_response_wrapper(
-            call.get_metrics,
+        self.list_metrics = async_to_raw_response_wrapper(
+            call.list_metrics,
         )
-        self.get_sentiment_runs = async_to_raw_response_wrapper(
-            call.get_sentiment_runs,
+        self.list_sentiment_runs = async_to_raw_response_wrapper(
+            call.list_sentiment_runs,
         )
 
 
@@ -641,17 +772,20 @@ class CallResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             call.create,
         )
+        self.list = to_streamed_response_wrapper(
+            call.list,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             call.get_by_id,
         )
-        self.get_evaluation_runs = to_streamed_response_wrapper(
-            call.get_evaluation_runs,
+        self.list_evaluation_runs = to_streamed_response_wrapper(
+            call.list_evaluation_runs,
         )
-        self.get_metrics = to_streamed_response_wrapper(
-            call.get_metrics,
+        self.list_metrics = to_streamed_response_wrapper(
+            call.list_metrics,
         )
-        self.get_sentiment_runs = to_streamed_response_wrapper(
-            call.get_sentiment_runs,
+        self.list_sentiment_runs = to_streamed_response_wrapper(
+            call.list_sentiment_runs,
         )
 
 
@@ -662,15 +796,18 @@ class AsyncCallResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             call.create,
         )
+        self.list = async_to_streamed_response_wrapper(
+            call.list,
+        )
         self.get_by_id = async_to_streamed_response_wrapper(
             call.get_by_id,
         )
-        self.get_evaluation_runs = async_to_streamed_response_wrapper(
-            call.get_evaluation_runs,
+        self.list_evaluation_runs = async_to_streamed_response_wrapper(
+            call.list_evaluation_runs,
         )
-        self.get_metrics = async_to_streamed_response_wrapper(
-            call.get_metrics,
+        self.list_metrics = async_to_streamed_response_wrapper(
+            call.list_metrics,
         )
-        self.get_sentiment_runs = async_to_streamed_response_wrapper(
-            call.get_sentiment_runs,
+        self.list_sentiment_runs = async_to_streamed_response_wrapper(
+            call.list_sentiment_runs,
         )
