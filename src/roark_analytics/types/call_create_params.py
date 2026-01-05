@@ -281,8 +281,10 @@ class ToolInvocationAgent(TypedDict, total=False):
     """
 
     custom_id: Annotated[str, PropertyInfo(alias="customId")]
+    """The custom ID set on the agent"""
 
     roark_id: Annotated[str, PropertyInfo(alias="roarkId")]
+    """The Roark ID of the agent"""
 
 
 class ToolInvocation(TypedDict, total=False):
@@ -315,9 +317,15 @@ class ToolInvocation(TypedDict, total=False):
 
 
 class TranscriptUnionMember0Agent(TypedDict, total=False):
+    """
+    Metadata about the agent that spoke this turn - used to match which agent from the `agents` array this transcript entry belongs to
+    """
+
     custom_id: Annotated[str, PropertyInfo(alias="customId")]
+    """The custom ID set on the agent"""
 
     roark_id: Annotated[str, PropertyInfo(alias="roarkId")]
+    """The Roark ID of the agent"""
 
 
 class TranscriptUnionMember0(TypedDict, total=False):
@@ -330,6 +338,10 @@ class TranscriptUnionMember0(TypedDict, total=False):
     text: Required[str]
 
     agent: TranscriptUnionMember0Agent
+    """
+    Metadata about the agent that spoke this turn - used to match which agent from
+    the `agents` array this transcript entry belongs to
+    """
 
     language_code: Annotated[str, PropertyInfo(alias="languageCode")]
 
