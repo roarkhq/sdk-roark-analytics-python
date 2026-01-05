@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import persona_create_params, persona_update_params, persona_find_all_params
+from ..types import persona_list_params, persona_create_params, persona_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,9 +19,9 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.persona_list_response import PersonaListResponse
 from ..types.persona_create_response import PersonaCreateResponse
 from ..types.persona_update_response import PersonaUpdateResponse
-from ..types.persona_find_all_response import PersonaFindAllResponse
 from ..types.persona_get_by_id_response import PersonaGetByIDResponse
 
 __all__ = ["PersonaResource", "AsyncPersonaResource"]
@@ -249,7 +249,7 @@ class PersonaResource(SyncAPIResource):
             cast_to=PersonaUpdateResponse,
         )
 
-    def find_all(
+    def list(
         self,
         *,
         after: str | Omit = omit,
@@ -261,7 +261,7 @@ class PersonaResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PersonaFindAllResponse:
+    ) -> PersonaListResponse:
         """
         Returns a paginated list of personas for the authenticated project.
 
@@ -287,10 +287,10 @@ class PersonaResource(SyncAPIResource):
                         "limit": limit,
                         "search_text": search_text,
                     },
-                    persona_find_all_params.PersonaFindAllParams,
+                    persona_list_params.PersonaListParams,
                 ),
             ),
-            cast_to=PersonaFindAllResponse,
+            cast_to=PersonaListResponse,
         )
 
     def get_by_id(
@@ -549,7 +549,7 @@ class AsyncPersonaResource(AsyncAPIResource):
             cast_to=PersonaUpdateResponse,
         )
 
-    async def find_all(
+    async def list(
         self,
         *,
         after: str | Omit = omit,
@@ -561,7 +561,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PersonaFindAllResponse:
+    ) -> PersonaListResponse:
         """
         Returns a paginated list of personas for the authenticated project.
 
@@ -587,10 +587,10 @@ class AsyncPersonaResource(AsyncAPIResource):
                         "limit": limit,
                         "search_text": search_text,
                     },
-                    persona_find_all_params.PersonaFindAllParams,
+                    persona_list_params.PersonaListParams,
                 ),
             ),
-            cast_to=PersonaFindAllResponse,
+            cast_to=PersonaListResponse,
         )
 
     async def get_by_id(
@@ -637,8 +637,8 @@ class PersonaResourceWithRawResponse:
         self.update = to_raw_response_wrapper(
             persona.update,
         )
-        self.find_all = to_raw_response_wrapper(
-            persona.find_all,
+        self.list = to_raw_response_wrapper(
+            persona.list,
         )
         self.get_by_id = to_raw_response_wrapper(
             persona.get_by_id,
@@ -655,8 +655,8 @@ class AsyncPersonaResourceWithRawResponse:
         self.update = async_to_raw_response_wrapper(
             persona.update,
         )
-        self.find_all = async_to_raw_response_wrapper(
-            persona.find_all,
+        self.list = async_to_raw_response_wrapper(
+            persona.list,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             persona.get_by_id,
@@ -673,8 +673,8 @@ class PersonaResourceWithStreamingResponse:
         self.update = to_streamed_response_wrapper(
             persona.update,
         )
-        self.find_all = to_streamed_response_wrapper(
-            persona.find_all,
+        self.list = to_streamed_response_wrapper(
+            persona.list,
         )
         self.get_by_id = to_streamed_response_wrapper(
             persona.get_by_id,
@@ -691,8 +691,8 @@ class AsyncPersonaResourceWithStreamingResponse:
         self.update = async_to_streamed_response_wrapper(
             persona.update,
         )
-        self.find_all = async_to_streamed_response_wrapper(
-            persona.find_all,
+        self.list = async_to_streamed_response_wrapper(
+            persona.list,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             persona.get_by_id,

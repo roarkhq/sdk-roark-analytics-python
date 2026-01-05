@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["PersonaFindAllResponse", "Data", "Pagination"]
+__all__ = ["PersonaListResponse", "Data", "Pagination"]
 
 
 class Data(BaseModel):
@@ -86,7 +86,7 @@ class Pagination(BaseModel):
     """Total number of items"""
 
 
-class PersonaFindAllResponse(BaseModel):
+class PersonaListResponse(BaseModel):
     data: List[Data]
 
     pagination: Pagination
