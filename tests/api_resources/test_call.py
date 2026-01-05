@@ -10,11 +10,12 @@ import pytest
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
+    CallListResponse,
     CallCreateResponse,
     CallGetByIDResponse,
-    CallGetMetricsResponse,
-    CallGetSentimentRunsResponse,
-    CallGetEvaluationRunsResponse,
+    CallListMetricsResponse,
+    CallListSentimentRunsResponse,
+    CallListEvaluationRunsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -132,6 +133,43 @@ class TestCall:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_method_list(self, client: Roark) -> None:
+        call = client.call.list()
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Roark) -> None:
+        call = client.call.list(
+            after="550e8400-e29b-41d4-a716-446655440000",
+            limit=20,
+            search_text="billing inquiry",
+            sort_by="createdAt",
+            sort_direction="desc",
+            status="ENDED",
+        )
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_list(self, client: Roark) -> None:
+        response = client.call.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list(self, client: Roark) -> None:
+        with client.call.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallListResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
         call = client.call.get_by_id(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -170,124 +208,124 @@ class TestCall:
             )
 
     @parametrize
-    def test_method_get_evaluation_runs(self, client: Roark) -> None:
-        call = client.call.get_evaluation_runs(
+    def test_method_list_evaluation_runs(self, client: Roark) -> None:
+        call = client.call.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
     @parametrize
-    def test_raw_response_get_evaluation_runs(self, client: Roark) -> None:
-        response = client.call.with_raw_response.get_evaluation_runs(
+    def test_raw_response_list_evaluation_runs(self, client: Roark) -> None:
+        response = client.call.with_raw_response.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = response.parse()
-        assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_evaluation_runs(self, client: Roark) -> None:
-        with client.call.with_streaming_response.get_evaluation_runs(
+    def test_streaming_response_list_evaluation_runs(self, client: Roark) -> None:
+        with client.call.with_streaming_response.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = response.parse()
-            assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+            assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_get_evaluation_runs(self, client: Roark) -> None:
+    def test_path_params_list_evaluation_runs(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            client.call.with_raw_response.get_evaluation_runs(
+            client.call.with_raw_response.list_evaluation_runs(
                 "",
             )
 
     @parametrize
-    def test_method_get_metrics(self, client: Roark) -> None:
-        call = client.call.get_metrics(
+    def test_method_list_metrics(self, client: Roark) -> None:
+        call = client.call.list_metrics(
             call_id="callId",
         )
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    def test_method_get_metrics_with_all_params(self, client: Roark) -> None:
-        call = client.call.get_metrics(
+    def test_method_list_metrics_with_all_params(self, client: Roark) -> None:
+        call = client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
         )
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    def test_raw_response_get_metrics(self, client: Roark) -> None:
-        response = client.call.with_raw_response.get_metrics(
+    def test_raw_response_list_metrics(self, client: Roark) -> None:
+        response = client.call.with_raw_response.list_metrics(
             call_id="callId",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = response.parse()
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_metrics(self, client: Roark) -> None:
-        with client.call.with_streaming_response.get_metrics(
+    def test_streaming_response_list_metrics(self, client: Roark) -> None:
+        with client.call.with_streaming_response.list_metrics(
             call_id="callId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = response.parse()
-            assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+            assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_get_metrics(self, client: Roark) -> None:
+    def test_path_params_list_metrics(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            client.call.with_raw_response.get_metrics(
+            client.call.with_raw_response.list_metrics(
                 call_id="",
             )
 
     @parametrize
-    def test_method_get_sentiment_runs(self, client: Roark) -> None:
-        call = client.call.get_sentiment_runs(
+    def test_method_list_sentiment_runs(self, client: Roark) -> None:
+        call = client.call.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+        assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
     @parametrize
-    def test_raw_response_get_sentiment_runs(self, client: Roark) -> None:
-        response = client.call.with_raw_response.get_sentiment_runs(
+    def test_raw_response_list_sentiment_runs(self, client: Roark) -> None:
+        response = client.call.with_raw_response.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = response.parse()
-        assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+        assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_sentiment_runs(self, client: Roark) -> None:
-        with client.call.with_streaming_response.get_sentiment_runs(
+    def test_streaming_response_list_sentiment_runs(self, client: Roark) -> None:
+        with client.call.with_streaming_response.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = response.parse()
-            assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+            assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_get_sentiment_runs(self, client: Roark) -> None:
+    def test_path_params_list_sentiment_runs(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            client.call.with_raw_response.get_sentiment_runs(
+            client.call.with_raw_response.list_sentiment_runs(
                 "",
             )
 
@@ -406,6 +444,43 @@ class TestAsyncCall:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_method_list(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list()
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list(
+            after="550e8400-e29b-41d4-a716-446655440000",
+            limit=20,
+            search_text="billing inquiry",
+            sort_by="createdAt",
+            sort_direction="desc",
+            status="ENDED",
+        )
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallListResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallListResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:
         call = await async_client.call.get_by_id(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -444,123 +519,123 @@ class TestAsyncCall:
             )
 
     @parametrize
-    async def test_method_get_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        call = await async_client.call.get_evaluation_runs(
+    async def test_method_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        response = await async_client.call.with_raw_response.get_evaluation_runs(
+    async def test_raw_response_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = await response.parse()
-        assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        async with async_client.call.with_streaming_response.get_evaluation_runs(
+    async def test_streaming_response_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.list_evaluation_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = await response.parse()
-            assert_matches_type(CallGetEvaluationRunsResponse, call, path=["response"])
+            assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_get_evaluation_runs(self, async_client: AsyncRoark) -> None:
+    async def test_path_params_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            await async_client.call.with_raw_response.get_evaluation_runs(
+            await async_client.call.with_raw_response.list_evaluation_runs(
                 "",
             )
 
     @parametrize
-    async def test_method_get_metrics(self, async_client: AsyncRoark) -> None:
-        call = await async_client.call.get_metrics(
+    async def test_method_list_metrics(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list_metrics(
             call_id="callId",
         )
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    async def test_method_get_metrics_with_all_params(self, async_client: AsyncRoark) -> None:
-        call = await async_client.call.get_metrics(
+    async def test_method_list_metrics_with_all_params(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
         )
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_metrics(self, async_client: AsyncRoark) -> None:
-        response = await async_client.call.with_raw_response.get_metrics(
+    async def test_raw_response_list_metrics(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.list_metrics(
             call_id="callId",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = await response.parse()
-        assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+        assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_metrics(self, async_client: AsyncRoark) -> None:
-        async with async_client.call.with_streaming_response.get_metrics(
+    async def test_streaming_response_list_metrics(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.list_metrics(
             call_id="callId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = await response.parse()
-            assert_matches_type(CallGetMetricsResponse, call, path=["response"])
+            assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_get_metrics(self, async_client: AsyncRoark) -> None:
+    async def test_path_params_list_metrics(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            await async_client.call.with_raw_response.get_metrics(
+            await async_client.call.with_raw_response.list_metrics(
                 call_id="",
             )
 
     @parametrize
-    async def test_method_get_sentiment_runs(self, async_client: AsyncRoark) -> None:
-        call = await async_client.call.get_sentiment_runs(
+    async def test_method_list_sentiment_runs(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+        assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_sentiment_runs(self, async_client: AsyncRoark) -> None:
-        response = await async_client.call.with_raw_response.get_sentiment_runs(
+    async def test_raw_response_list_sentiment_runs(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         call = await response.parse()
-        assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+        assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_sentiment_runs(self, async_client: AsyncRoark) -> None:
-        async with async_client.call.with_streaming_response.get_sentiment_runs(
+    async def test_streaming_response_list_sentiment_runs(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.list_sentiment_runs(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             call = await response.parse()
-            assert_matches_type(CallGetSentimentRunsResponse, call, path=["response"])
+            assert_matches_type(CallListSentimentRunsResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_get_sentiment_runs(self, async_client: AsyncRoark) -> None:
+    async def test_path_params_list_sentiment_runs(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            await async_client.call.with_raw_response.get_sentiment_runs(
+            await async_client.call.with_raw_response.list_sentiment_runs(
                 "",
             )

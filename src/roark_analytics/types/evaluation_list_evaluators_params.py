@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["EvaluationGetEvaluatorsParams"]
+__all__ = ["EvaluationListEvaluatorsParams"]
 
 
-class EvaluationGetEvaluatorsParams(TypedDict, total=False):
+class EvaluationListEvaluatorsParams(TypedDict, total=False):
     after: str
     """Cursor for pagination - evaluator ID to start after"""
 

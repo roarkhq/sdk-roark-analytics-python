@@ -10,9 +10,9 @@ import pytest
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
+    PersonaListResponse,
     PersonaCreateResponse,
     PersonaUpdateResponse,
-    PersonaFindAllResponse,
     PersonaGetByIDResponse,
 )
 
@@ -152,36 +152,36 @@ class TestPersona:
             )
 
     @parametrize
-    def test_method_find_all(self, client: Roark) -> None:
-        persona = client.persona.find_all()
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+    def test_method_list(self, client: Roark) -> None:
+        persona = client.persona.list()
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    def test_method_find_all_with_all_params(self, client: Roark) -> None:
-        persona = client.persona.find_all(
+    def test_method_list_with_all_params(self, client: Roark) -> None:
+        persona = client.persona.list(
             after="after",
             limit=1,
             search_text="searchText",
         )
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    def test_raw_response_find_all(self, client: Roark) -> None:
-        response = client.persona.with_raw_response.find_all()
+    def test_raw_response_list(self, client: Roark) -> None:
+        response = client.persona.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         persona = response.parse()
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    def test_streaming_response_find_all(self, client: Roark) -> None:
-        with client.persona.with_streaming_response.find_all() as response:
+    def test_streaming_response_list(self, client: Roark) -> None:
+        with client.persona.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             persona = response.parse()
-            assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+            assert_matches_type(PersonaListResponse, persona, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -359,36 +359,36 @@ class TestAsyncPersona:
             )
 
     @parametrize
-    async def test_method_find_all(self, async_client: AsyncRoark) -> None:
-        persona = await async_client.persona.find_all()
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+    async def test_method_list(self, async_client: AsyncRoark) -> None:
+        persona = await async_client.persona.list()
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    async def test_method_find_all_with_all_params(self, async_client: AsyncRoark) -> None:
-        persona = await async_client.persona.find_all(
+    async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
+        persona = await async_client.persona.list(
             after="after",
             limit=1,
             search_text="searchText",
         )
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    async def test_raw_response_find_all(self, async_client: AsyncRoark) -> None:
-        response = await async_client.persona.with_raw_response.find_all()
+    async def test_raw_response_list(self, async_client: AsyncRoark) -> None:
+        response = await async_client.persona.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         persona = await response.parse()
-        assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+        assert_matches_type(PersonaListResponse, persona, path=["response"])
 
     @parametrize
-    async def test_streaming_response_find_all(self, async_client: AsyncRoark) -> None:
-        async with async_client.persona.with_streaming_response.find_all() as response:
+    async def test_streaming_response_list(self, async_client: AsyncRoark) -> None:
+        async with async_client.persona.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             persona = await response.parse()
-            assert_matches_type(PersonaFindAllResponse, persona, path=["response"])
+            assert_matches_type(PersonaListResponse, persona, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

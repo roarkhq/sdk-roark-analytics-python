@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CallGetEvaluationRunsResponse", "Data", "DataBlockRun", "DataEvaluator", "DataEvidence", "DataMetric"]
+__all__ = ["CallListEvaluationRunsResponse", "Data", "DataBlockRun", "DataEvaluator", "DataEvidence", "DataMetric"]
 
 
 class DataBlockRun(BaseModel):
@@ -125,6 +125,6 @@ class Data(BaseModel):
     """Summary of the evaluation run"""
 
 
-class CallGetEvaluationRunsResponse(BaseModel):
+class CallListEvaluationRunsResponse(BaseModel):
     data: List[Data]
     """Evaluation run response payload"""
