@@ -10,31 +10,31 @@ from .._utils import PropertyInfo
 __all__ = [
     "CallCreateParams",
     "Agent",
-    "AgentUnionMember0",
-    "AgentUnionMember0Endpoint",
-    "AgentUnionMember0EndpointID",
-    "AgentUnionMember0EndpointUnionMember1",
-    "AgentUnionMember0Prompt",
-    "AgentUnionMember1",
-    "AgentUnionMember1Endpoint",
-    "AgentUnionMember1EndpointID",
-    "AgentUnionMember1EndpointUnionMember1",
-    "AgentUnionMember1Prompt",
-    "AgentUnionMember2",
-    "AgentUnionMember2Endpoint",
-    "AgentUnionMember2EndpointID",
-    "AgentUnionMember2EndpointUnionMember1",
-    "AgentUnionMember2Prompt",
+    "AgentAgentIdentificationByRoarkID",
+    "AgentAgentIdentificationByRoarkIDEndpoint",
+    "AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByID",
+    "AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByValue",
+    "AgentAgentIdentificationByRoarkIDPrompt",
+    "AgentAgentIdentificationByName",
+    "AgentAgentIdentificationByNameEndpoint",
+    "AgentAgentIdentificationByNameEndpointAgentEndpointByID",
+    "AgentAgentIdentificationByNameEndpointAgentEndpointByValue",
+    "AgentAgentIdentificationByNamePrompt",
+    "AgentAgentIdentificationByCustomID",
+    "AgentAgentIdentificationByCustomIDEndpoint",
+    "AgentAgentIdentificationByCustomIDEndpointAgentEndpointByID",
+    "AgentAgentIdentificationByCustomIDEndpointAgentEndpointByValue",
+    "AgentAgentIdentificationByCustomIDPrompt",
     "Customer",
     "ToolInvocation",
     "ToolInvocationParameters",
     "ToolInvocationParametersUnionMember0",
     "ToolInvocationAgent",
     "Transcript",
-    "TranscriptUnionMember0",
-    "TranscriptUnionMember0Agent",
-    "TranscriptUnionMember1",
-    "TranscriptUnionMember1Customer",
+    "TranscriptTranscriptEntryAgent",
+    "TranscriptTranscriptEntryAgentAgent",
+    "TranscriptTranscriptEntryCustomer",
+    "TranscriptTranscriptEntryCustomerCustomer",
 ]
 
 
@@ -120,12 +120,12 @@ class CallCreateParams(TypedDict, total=False):
     """List of transcript entries made during the call"""
 
 
-class AgentUnionMember0EndpointID(TypedDict, total=False):
+class AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByID(TypedDict, total=False):
     id: Required[str]
     """Existing Roark endpoint ID"""
 
 
-class AgentUnionMember0EndpointUnionMember1(TypedDict, total=False):
+class AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByValue(TypedDict, total=False):
     """Lookup or create endpoint if one with these values does not exist"""
 
     type: Required[str]
@@ -138,33 +138,36 @@ class AgentUnionMember0EndpointUnionMember1(TypedDict, total=False):
     """Call direction for this endpoint"""
 
 
-AgentUnionMember0Endpoint: TypeAlias = Union[AgentUnionMember0EndpointID, AgentUnionMember0EndpointUnionMember1]
+AgentAgentIdentificationByRoarkIDEndpoint: TypeAlias = Union[
+    AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByID,
+    AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByValue,
+]
 
 
-class AgentUnionMember0Prompt(TypedDict, total=False):
+class AgentAgentIdentificationByRoarkIDPrompt(TypedDict, total=False):
     """Agent's prompt configuration (optional)"""
 
     resolved_prompt: Required[Annotated[str, PropertyInfo(alias="resolvedPrompt")]]
     """The agent's system prompt used during this call"""
 
 
-class AgentUnionMember0(TypedDict, total=False):
+class AgentAgentIdentificationByRoarkID(TypedDict, total=False):
     roark_id: Required[Annotated[str, PropertyInfo(alias="roarkId")]]
     """Existing Roark agent ID"""
 
-    endpoint: AgentUnionMember0Endpoint
+    endpoint: AgentAgentIdentificationByRoarkIDEndpoint
     """Endpoint configuration for this agent (optional)"""
 
-    prompt: AgentUnionMember0Prompt
+    prompt: AgentAgentIdentificationByRoarkIDPrompt
     """Agent's prompt configuration (optional)"""
 
 
-class AgentUnionMember1EndpointID(TypedDict, total=False):
+class AgentAgentIdentificationByNameEndpointAgentEndpointByID(TypedDict, total=False):
     id: Required[str]
     """Existing Roark endpoint ID"""
 
 
-class AgentUnionMember1EndpointUnionMember1(TypedDict, total=False):
+class AgentAgentIdentificationByNameEndpointAgentEndpointByValue(TypedDict, total=False):
     """Lookup or create endpoint if one with these values does not exist"""
 
     type: Required[str]
@@ -177,17 +180,19 @@ class AgentUnionMember1EndpointUnionMember1(TypedDict, total=False):
     """Call direction for this endpoint"""
 
 
-AgentUnionMember1Endpoint: TypeAlias = Union[AgentUnionMember1EndpointID, AgentUnionMember1EndpointUnionMember1]
+AgentAgentIdentificationByNameEndpoint: TypeAlias = Union[
+    AgentAgentIdentificationByNameEndpointAgentEndpointByID, AgentAgentIdentificationByNameEndpointAgentEndpointByValue
+]
 
 
-class AgentUnionMember1Prompt(TypedDict, total=False):
+class AgentAgentIdentificationByNamePrompt(TypedDict, total=False):
     """Agent's prompt configuration (optional)"""
 
     resolved_prompt: Required[Annotated[str, PropertyInfo(alias="resolvedPrompt")]]
     """The agent's system prompt used during this call"""
 
 
-class AgentUnionMember1(TypedDict, total=False):
+class AgentAgentIdentificationByName(TypedDict, total=False):
     """Create a new agent or find existing by customId if provided"""
 
     name: Required[str]
@@ -199,19 +204,19 @@ class AgentUnionMember1(TypedDict, total=False):
     description: str
     """Agent description"""
 
-    endpoint: AgentUnionMember1Endpoint
+    endpoint: AgentAgentIdentificationByNameEndpoint
     """Endpoint configuration for this agent (optional)"""
 
-    prompt: AgentUnionMember1Prompt
+    prompt: AgentAgentIdentificationByNamePrompt
     """Agent's prompt configuration (optional)"""
 
 
-class AgentUnionMember2EndpointID(TypedDict, total=False):
+class AgentAgentIdentificationByCustomIDEndpointAgentEndpointByID(TypedDict, total=False):
     id: Required[str]
     """Existing Roark endpoint ID"""
 
 
-class AgentUnionMember2EndpointUnionMember1(TypedDict, total=False):
+class AgentAgentIdentificationByCustomIDEndpointAgentEndpointByValue(TypedDict, total=False):
     """Lookup or create endpoint if one with these values does not exist"""
 
     type: Required[str]
@@ -224,28 +229,33 @@ class AgentUnionMember2EndpointUnionMember1(TypedDict, total=False):
     """Call direction for this endpoint"""
 
 
-AgentUnionMember2Endpoint: TypeAlias = Union[AgentUnionMember2EndpointID, AgentUnionMember2EndpointUnionMember1]
+AgentAgentIdentificationByCustomIDEndpoint: TypeAlias = Union[
+    AgentAgentIdentificationByCustomIDEndpointAgentEndpointByID,
+    AgentAgentIdentificationByCustomIDEndpointAgentEndpointByValue,
+]
 
 
-class AgentUnionMember2Prompt(TypedDict, total=False):
+class AgentAgentIdentificationByCustomIDPrompt(TypedDict, total=False):
     """Agent's prompt configuration (optional)"""
 
     resolved_prompt: Required[Annotated[str, PropertyInfo(alias="resolvedPrompt")]]
     """The agent's system prompt used during this call"""
 
 
-class AgentUnionMember2(TypedDict, total=False):
+class AgentAgentIdentificationByCustomID(TypedDict, total=False):
     custom_id: Required[Annotated[str, PropertyInfo(alias="customId")]]
     """Existing custom ID for a Roark agent"""
 
-    endpoint: AgentUnionMember2Endpoint
+    endpoint: AgentAgentIdentificationByCustomIDEndpoint
     """Endpoint configuration for this agent (optional)"""
 
-    prompt: AgentUnionMember2Prompt
+    prompt: AgentAgentIdentificationByCustomIDPrompt
     """Agent's prompt configuration (optional)"""
 
 
-Agent: TypeAlias = Union[AgentUnionMember0, AgentUnionMember1, AgentUnionMember2]
+Agent: TypeAlias = Union[
+    AgentAgentIdentificationByRoarkID, AgentAgentIdentificationByName, AgentAgentIdentificationByCustomID
+]
 
 
 class Customer(TypedDict, total=False):
@@ -316,7 +326,7 @@ class ToolInvocation(TypedDict, total=False):
     """
 
 
-class TranscriptUnionMember0Agent(TypedDict, total=False):
+class TranscriptTranscriptEntryAgentAgent(TypedDict, total=False):
     """
     Metadata about the agent that spoke this turn - used to match which agent from the `agents` array this transcript entry belongs to
     """
@@ -328,7 +338,7 @@ class TranscriptUnionMember0Agent(TypedDict, total=False):
     """The Roark ID of the agent"""
 
 
-class TranscriptUnionMember0(TypedDict, total=False):
+class TranscriptTranscriptEntryAgent(TypedDict, total=False):
     end_offset_ms: Required[Annotated[int, PropertyInfo(alias="endOffsetMs")]]
 
     role: Required[Literal["AGENT"]]
@@ -337,7 +347,7 @@ class TranscriptUnionMember0(TypedDict, total=False):
 
     text: Required[str]
 
-    agent: TranscriptUnionMember0Agent
+    agent: TranscriptTranscriptEntryAgentAgent
     """
     Metadata about the agent that spoke this turn - used to match which agent from
     the `agents` array this transcript entry belongs to
@@ -346,7 +356,7 @@ class TranscriptUnionMember0(TypedDict, total=False):
     language_code: Annotated[str, PropertyInfo(alias="languageCode")]
 
 
-class TranscriptUnionMember1Customer(TypedDict, total=False):
+class TranscriptTranscriptEntryCustomerCustomer(TypedDict, total=False):
     """
     Metadata about the customer that spoke this turn - used to match which customer from the `customers` array this transcript entry belongs to
     """
@@ -363,7 +373,7 @@ class TranscriptUnionMember1Customer(TypedDict, total=False):
     """
 
 
-class TranscriptUnionMember1(TypedDict, total=False):
+class TranscriptTranscriptEntryCustomer(TypedDict, total=False):
     end_offset_ms: Required[Annotated[int, PropertyInfo(alias="endOffsetMs")]]
 
     role: Required[Literal["CUSTOMER"]]
@@ -372,7 +382,7 @@ class TranscriptUnionMember1(TypedDict, total=False):
 
     text: Required[str]
 
-    customer: TranscriptUnionMember1Customer
+    customer: TranscriptTranscriptEntryCustomerCustomer
     """
     Metadata about the customer that spoke this turn - used to match which customer
     from the `customers` array this transcript entry belongs to
@@ -381,4 +391,4 @@ class TranscriptUnionMember1(TypedDict, total=False):
     language_code: Annotated[str, PropertyInfo(alias="languageCode")]
 
 
-Transcript: TypeAlias = Union[TranscriptUnionMember0, TranscriptUnionMember1]
+Transcript: TypeAlias = Union[TranscriptTranscriptEntryAgent, TranscriptTranscriptEntryCustomer]
