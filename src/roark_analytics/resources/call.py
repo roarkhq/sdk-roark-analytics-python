@@ -183,8 +183,7 @@ class CallResource(SyncAPIResource):
         Returns a paginated list of calls for the authenticated project.
 
         Args:
-          after: Cursor for pagination - use the nextCursor value (call ID) from a previous
-              response
+          after: Cursor for pagination - use the nextCursor value from a previous response
 
           limit: Maximum number of calls to return (default: 20, max: 100)
 
@@ -528,8 +527,7 @@ class AsyncCallResource(AsyncAPIResource):
         Returns a paginated list of calls for the authenticated project.
 
         Args:
-          after: Cursor for pagination - use the nextCursor value (call ID) from a previous
-              response
+          after: Cursor for pagination - use the nextCursor value from a previous response
 
           limit: Maximum number of calls to return (default: 20, max: 100)
 
