@@ -140,7 +140,7 @@ class TestCall:
     @parametrize
     def test_method_list_with_all_params(self, client: Roark) -> None:
         call = client.call.list(
-            after="eyJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCIsImNyZWF0ZWRBdCI6IjIwMjQtMDEtMTVUMTA6MDA6MDAuMDAwWiJ9",
+            after="550e8400-e29b-41d4-a716-446655440000",
             limit=20,
             search_text="billing inquiry",
             sort_by="createdAt",
@@ -451,7 +451,7 @@ class TestAsyncCall:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
         call = await async_client.call.list(
-            after="eyJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCIsImNyZWF0ZWRBdCI6IjIwMjQtMDEtMTVUMTA6MDA6MDAuMDAwWiJ9",
+            after="550e8400-e29b-41d4-a716-446655440000",
             limit=20,
             search_text="billing inquiry",
             sort_by="createdAt",
