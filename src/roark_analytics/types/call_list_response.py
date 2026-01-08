@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -84,6 +84,9 @@ class Data(BaseModel):
         ]
     ] = FieldInfo(alias="endedStatus", default=None)
     """Status indicating how the call ended"""
+
+    properties: Optional[Dict[str, object]] = None
+    """Custom properties associated with the call"""
 
     recording_url: Optional[str] = FieldInfo(alias="recordingUrl", default=None)
     """Pre-signed URL to the call recording (expires in 1 hour)"""
