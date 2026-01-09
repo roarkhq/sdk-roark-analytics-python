@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["MetricGetDefinitionsResponse", "Data", "DataUnit"]
+__all__ = ["MetricListDefinitionsResponse", "Data", "DataUnit"]
 
 
 class DataUnit(BaseModel):
@@ -48,6 +48,6 @@ class Data(BaseModel):
     """Unit information if applicable"""
 
 
-class MetricGetDefinitionsResponse(BaseModel):
+class MetricListDefinitionsResponse(BaseModel):
     data: List[Data]
     """Metrics response payload"""

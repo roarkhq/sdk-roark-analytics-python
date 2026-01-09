@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CallGetByIDResponse", "Data", "DataAgent", "DataAgentEndpoint", "DataCustomer"]
+__all__ = ["CallListResponse", "Data", "DataAgent", "DataAgentEndpoint", "DataCustomer", "Pagination"]
 
 
 class DataAgentEndpoint(BaseModel):
@@ -110,6 +110,18 @@ class Data(BaseModel):
     """Timestamp when the call record was last updated"""
 
 
-class CallGetByIDResponse(BaseModel):
-    data: Data
-    """Response containing call information"""
+class Pagination(BaseModel):
+    has_more: bool = FieldInfo(alias="hasMore")
+    """Whether there are more items to fetch"""
+
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
+    """Cursor for the next page of items"""
+
+    total: float
+    """Total number of items"""
+
+
+class CallListResponse(BaseModel):
+    data: List[Data]
+
+    pagination: Pagination

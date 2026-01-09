@@ -9,7 +9,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 
 __all__ = [
-    "CallGetMetricsResponse",
+    "CallListMetricsResponse",
     "Data",
     "DataValue",
     "DataValueFromSegment",
@@ -143,6 +143,6 @@ class Data(BaseModel):
     """Unit information if applicable"""
 
 
-class CallGetMetricsResponse(BaseModel):
+class CallListMetricsResponse(BaseModel):
     data: List[Data]
     """Call metrics response payload grouped by metric definition"""

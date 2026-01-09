@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 
 __all__ = [
-    "EvaluationGetEvaluatorsResponse",
+    "EvaluationListEvaluatorsResponse",
     "Data",
     "DataBlock",
     "DataBlockUnionMember0",
@@ -321,7 +321,7 @@ class Pagination(BaseModel):
     """Total number of evaluators"""
 
 
-class EvaluationGetEvaluatorsResponse(BaseModel):
+class EvaluationListEvaluatorsResponse(BaseModel):
     """Response containing evaluators and pagination info"""
 
     data: List[Data]

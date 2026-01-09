@@ -12,8 +12,8 @@ from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     EvaluationGetJobResponse,
     EvaluationCreateJobResponse,
-    EvaluationGetJobRunsResponse,
-    EvaluationGetEvaluatorsResponse,
+    EvaluationListJobRunsResponse,
+    EvaluationListEvaluatorsResponse,
     EvaluationGetEvaluatorByIDResponse,
 )
 
@@ -172,39 +172,6 @@ class TestEvaluation:
             )
 
     @parametrize
-    def test_method_get_evaluators(self, client: Roark) -> None:
-        evaluation = client.evaluation.get_evaluators()
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    def test_method_get_evaluators_with_all_params(self, client: Roark) -> None:
-        evaluation = client.evaluation.get_evaluators(
-            after="after",
-            limit="20",
-        )
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_evaluators(self, client: Roark) -> None:
-        response = client.evaluation.with_raw_response.get_evaluators()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        evaluation = response.parse()
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_evaluators(self, client: Roark) -> None:
-        with client.evaluation.with_streaming_response.get_evaluators() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            evaluation = response.parse()
-            assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     def test_method_get_job(self, client: Roark) -> None:
         evaluation = client.evaluation.get_job(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -243,49 +210,82 @@ class TestEvaluation:
             )
 
     @parametrize
-    def test_method_get_job_runs(self, client: Roark) -> None:
-        evaluation = client.evaluation.get_job_runs(
-            job_id="jobId",
-        )
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+    def test_method_list_evaluators(self, client: Roark) -> None:
+        evaluation = client.evaluation.list_evaluators()
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
 
     @parametrize
-    def test_method_get_job_runs_with_all_params(self, client: Roark) -> None:
-        evaluation = client.evaluation.get_job_runs(
+    def test_method_list_evaluators_with_all_params(self, client: Roark) -> None:
+        evaluation = client.evaluation.list_evaluators(
+            after="after",
+            limit="20",
+        )
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_raw_response_list_evaluators(self, client: Roark) -> None:
+        response = client.evaluation.with_raw_response.list_evaluators()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = response.parse()
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list_evaluators(self, client: Roark) -> None:
+        with client.evaluation.with_streaming_response.list_evaluators() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = response.parse()
+            assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_list_job_runs(self, client: Roark) -> None:
+        evaluation = client.evaluation.list_job_runs(
+            job_id="jobId",
+        )
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_method_list_job_runs_with_all_params(self, client: Roark) -> None:
+        evaluation = client.evaluation.list_job_runs(
             job_id="jobId",
             limit="10",
             next_cursor="nextCursor",
         )
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
     @parametrize
-    def test_raw_response_get_job_runs(self, client: Roark) -> None:
-        response = client.evaluation.with_raw_response.get_job_runs(
+    def test_raw_response_list_job_runs(self, client: Roark) -> None:
+        response = client.evaluation.with_raw_response.list_job_runs(
             job_id="jobId",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         evaluation = response.parse()
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_job_runs(self, client: Roark) -> None:
-        with client.evaluation.with_streaming_response.get_job_runs(
+    def test_streaming_response_list_job_runs(self, client: Roark) -> None:
+        with client.evaluation.with_streaming_response.list_job_runs(
             job_id="jobId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             evaluation = response.parse()
-            assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+            assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_get_job_runs(self, client: Roark) -> None:
+    def test_path_params_list_job_runs(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            client.evaluation.with_raw_response.get_job_runs(
+            client.evaluation.with_raw_response.list_job_runs(
                 job_id="",
             )
 
@@ -444,39 +444,6 @@ class TestAsyncEvaluation:
             )
 
     @parametrize
-    async def test_method_get_evaluators(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluation.get_evaluators()
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    async def test_method_get_evaluators_with_all_params(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluation.get_evaluators(
-            after="after",
-            limit="20",
-        )
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get_evaluators(self, async_client: AsyncRoark) -> None:
-        response = await async_client.evaluation.with_raw_response.get_evaluators()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        evaluation = await response.parse()
-        assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get_evaluators(self, async_client: AsyncRoark) -> None:
-        async with async_client.evaluation.with_streaming_response.get_evaluators() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            evaluation = await response.parse()
-            assert_matches_type(EvaluationGetEvaluatorsResponse, evaluation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     async def test_method_get_job(self, async_client: AsyncRoark) -> None:
         evaluation = await async_client.evaluation.get_job(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -515,48 +482,81 @@ class TestAsyncEvaluation:
             )
 
     @parametrize
-    async def test_method_get_job_runs(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluation.get_job_runs(
-            job_id="jobId",
-        )
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+    async def test_method_list_evaluators(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.list_evaluators()
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
 
     @parametrize
-    async def test_method_get_job_runs_with_all_params(self, async_client: AsyncRoark) -> None:
-        evaluation = await async_client.evaluation.get_job_runs(
+    async def test_method_list_evaluators_with_all_params(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.list_evaluators(
+            after="after",
+            limit="20",
+        )
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list_evaluators(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluation.with_raw_response.list_evaluators()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = await response.parse()
+        assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list_evaluators(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluation.with_streaming_response.list_evaluators() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = await response.parse()
+            assert_matches_type(EvaluationListEvaluatorsResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_list_job_runs(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.list_job_runs(
+            job_id="jobId",
+        )
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_method_list_job_runs_with_all_params(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.list_job_runs(
             job_id="jobId",
             limit="10",
             next_cursor="nextCursor",
         )
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_job_runs(self, async_client: AsyncRoark) -> None:
-        response = await async_client.evaluation.with_raw_response.get_job_runs(
+    async def test_raw_response_list_job_runs(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluation.with_raw_response.list_job_runs(
             job_id="jobId",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         evaluation = await response.parse()
-        assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+        assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_job_runs(self, async_client: AsyncRoark) -> None:
-        async with async_client.evaluation.with_streaming_response.get_job_runs(
+    async def test_streaming_response_list_job_runs(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluation.with_streaming_response.list_job_runs(
             job_id="jobId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             evaluation = await response.parse()
-            assert_matches_type(EvaluationGetJobRunsResponse, evaluation, path=["response"])
+            assert_matches_type(EvaluationListJobRunsResponse, evaluation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_get_job_runs(self, async_client: AsyncRoark) -> None:
+    async def test_path_params_list_job_runs(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            await async_client.evaluation.with_raw_response.get_job_runs(
+            await async_client.evaluation.with_raw_response.list_job_runs(
                 job_id="",
             )

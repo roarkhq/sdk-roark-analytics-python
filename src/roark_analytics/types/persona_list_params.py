@@ -6,10 +6,10 @@ from typing_extensions import Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["PersonaFindAllParams"]
+__all__ = ["PersonaListParams"]
 
 
-class PersonaFindAllParams(TypedDict, total=False):
+class PersonaListParams(TypedDict, total=False):
     after: str
 
     limit: int

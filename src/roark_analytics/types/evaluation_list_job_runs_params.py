@@ -6,10 +6,10 @@ from typing_extensions import Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["EvaluationGetJobRunsParams"]
+__all__ = ["EvaluationListJobRunsParams"]
 
 
-class EvaluationGetJobRunsParams(TypedDict, total=False):
+class EvaluationListJobRunsParams(TypedDict, total=False):
     limit: str
     """Number of items to return per page"""
 

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["CallGetMetricsParams"]
+__all__ = ["CallListMetricsParams"]
 
 
-class CallGetMetricsParams(TypedDict, total=False):
+class CallListMetricsParams(TypedDict, total=False):
     flatten: str
     """
     Whether to return a flat list instead of grouped by metric definition (default:

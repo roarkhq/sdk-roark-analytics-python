@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
-from roark_analytics.types import MetricGetDefinitionsResponse
+from roark_analytics.types import MetricListDefinitionsResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,27 +18,27 @@ class TestMetric:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_get_definitions(self, client: Roark) -> None:
-        metric = client.metric.get_definitions()
-        assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+    def test_method_list_definitions(self, client: Roark) -> None:
+        metric = client.metric.list_definitions()
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize
-    def test_raw_response_get_definitions(self, client: Roark) -> None:
-        response = client.metric.with_raw_response.get_definitions()
+    def test_raw_response_list_definitions(self, client: Roark) -> None:
+        response = client.metric.with_raw_response.list_definitions()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metric = response.parse()
-        assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_definitions(self, client: Roark) -> None:
-        with client.metric.with_streaming_response.get_definitions() as response:
+    def test_streaming_response_list_definitions(self, client: Roark) -> None:
+        with client.metric.with_streaming_response.list_definitions() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metric = response.parse()
-            assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+            assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -49,26 +49,26 @@ class TestAsyncMetric:
     )
 
     @parametrize
-    async def test_method_get_definitions(self, async_client: AsyncRoark) -> None:
-        metric = await async_client.metric.get_definitions()
-        assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+    async def test_method_list_definitions(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.list_definitions()
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_definitions(self, async_client: AsyncRoark) -> None:
-        response = await async_client.metric.with_raw_response.get_definitions()
+    async def test_raw_response_list_definitions(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric.with_raw_response.list_definitions()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metric = await response.parse()
-        assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_definitions(self, async_client: AsyncRoark) -> None:
-        async with async_client.metric.with_streaming_response.get_definitions() as response:
+    async def test_streaming_response_list_definitions(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric.with_streaming_response.list_definitions() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metric = await response.parse()
-            assert_matches_type(MetricGetDefinitionsResponse, metric, path=["response"])
+            assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
         assert cast(Any, response.is_closed) is True

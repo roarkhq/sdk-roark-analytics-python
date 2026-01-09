@@ -14,7 +14,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.metric_get_definitions_response import MetricGetDefinitionsResponse
+from ..types.metric_list_definitions_response import MetricListDefinitionsResponse
 
 __all__ = ["MetricResource", "AsyncMetricResource"]
 
@@ -39,7 +39,7 @@ class MetricResource(SyncAPIResource):
         """
         return MetricResourceWithStreamingResponse(self)
 
-    def get_definitions(
+    def list_definitions(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -48,7 +48,7 @@ class MetricResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MetricGetDefinitionsResponse:
+    ) -> MetricListDefinitionsResponse:
         """
         Fetch all metric definitions available in the project, including both
         system-generated and custom metrics. Only returns metrics from enabled analysis
@@ -59,7 +59,7 @@ class MetricResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetricGetDefinitionsResponse,
+            cast_to=MetricListDefinitionsResponse,
         )
 
 
@@ -83,7 +83,7 @@ class AsyncMetricResource(AsyncAPIResource):
         """
         return AsyncMetricResourceWithStreamingResponse(self)
 
-    async def get_definitions(
+    async def list_definitions(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -92,7 +92,7 @@ class AsyncMetricResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MetricGetDefinitionsResponse:
+    ) -> MetricListDefinitionsResponse:
         """
         Fetch all metric definitions available in the project, including both
         system-generated and custom metrics. Only returns metrics from enabled analysis
@@ -103,7 +103,7 @@ class AsyncMetricResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetricGetDefinitionsResponse,
+            cast_to=MetricListDefinitionsResponse,
         )
 
 
@@ -111,8 +111,8 @@ class MetricResourceWithRawResponse:
     def __init__(self, metric: MetricResource) -> None:
         self._metric = metric
 
-        self.get_definitions = to_raw_response_wrapper(
-            metric.get_definitions,
+        self.list_definitions = to_raw_response_wrapper(
+            metric.list_definitions,
         )
 
 
@@ -120,8 +120,8 @@ class AsyncMetricResourceWithRawResponse:
     def __init__(self, metric: AsyncMetricResource) -> None:
         self._metric = metric
 
-        self.get_definitions = async_to_raw_response_wrapper(
-            metric.get_definitions,
+        self.list_definitions = async_to_raw_response_wrapper(
+            metric.list_definitions,
         )
 
 
@@ -129,8 +129,8 @@ class MetricResourceWithStreamingResponse:
     def __init__(self, metric: MetricResource) -> None:
         self._metric = metric
 
-        self.get_definitions = to_streamed_response_wrapper(
-            metric.get_definitions,
+        self.list_definitions = to_streamed_response_wrapper(
+            metric.list_definitions,
         )
 
 
@@ -138,6 +138,6 @@ class AsyncMetricResourceWithStreamingResponse:
     def __init__(self, metric: AsyncMetricResource) -> None:
         self._metric = metric
 
-        self.get_definitions = async_to_streamed_response_wrapper(
-            metric.get_definitions,
+        self.list_definitions = async_to_streamed_response_wrapper(
+            metric.list_definitions,
         )

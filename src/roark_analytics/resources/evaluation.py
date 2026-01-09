@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import evaluation_create_job_params, evaluation_get_job_runs_params, evaluation_get_evaluators_params
+from ..types import evaluation_create_job_params, evaluation_list_job_runs_params, evaluation_list_evaluators_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -21,8 +21,8 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.evaluation_get_job_response import EvaluationGetJobResponse
 from ..types.evaluation_create_job_response import EvaluationCreateJobResponse
-from ..types.evaluation_get_job_runs_response import EvaluationGetJobRunsResponse
-from ..types.evaluation_get_evaluators_response import EvaluationGetEvaluatorsResponse
+from ..types.evaluation_list_job_runs_response import EvaluationListJobRunsResponse
+from ..types.evaluation_list_evaluators_response import EvaluationListEvaluatorsResponse
 from ..types.evaluation_get_evaluator_by_id_response import EvaluationGetEvaluatorByIDResponse
 
 __all__ = ["EvaluationResource", "AsyncEvaluationResource"]
@@ -131,53 +131,6 @@ class EvaluationResource(SyncAPIResource):
             cast_to=EvaluationGetEvaluatorByIDResponse,
         )
 
-    def get_evaluators(
-        self,
-        *,
-        after: str | Omit = omit,
-        limit: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EvaluationGetEvaluatorsResponse:
-        """
-        Returns a list of evaluators with their blocks and configuration for the
-        authenticated project.
-
-        Args:
-          after: Cursor for pagination - evaluator ID to start after
-
-          limit: Maximum number of evaluators to return (default: 20, max: 50)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            "/v1/evaluation/evaluators",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "after": after,
-                        "limit": limit,
-                    },
-                    evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
-                ),
-            ),
-            cast_to=EvaluationGetEvaluatorsResponse,
-        )
-
     def get_job(
         self,
         job_id: str,
@@ -213,7 +166,54 @@ class EvaluationResource(SyncAPIResource):
             cast_to=EvaluationGetJobResponse,
         )
 
-    def get_job_runs(
+    def list_evaluators(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationListEvaluatorsResponse:
+        """
+        Returns a list of evaluators with their blocks and configuration for the
+        authenticated project.
+
+        Args:
+          after: Cursor for pagination - evaluator ID to start after
+
+          limit: Maximum number of evaluators to return (default: 20, max: 50)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/evaluation/evaluators",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    evaluation_list_evaluators_params.EvaluationListEvaluatorsParams,
+                ),
+            ),
+            cast_to=EvaluationListEvaluatorsResponse,
+        )
+
+    def list_job_runs(
         self,
         job_id: str,
         *,
@@ -225,7 +225,7 @@ class EvaluationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EvaluationGetJobRunsResponse:
+    ) -> EvaluationListJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs
 
@@ -256,10 +256,10 @@ class EvaluationResource(SyncAPIResource):
                         "limit": limit,
                         "next_cursor": next_cursor,
                     },
-                    evaluation_get_job_runs_params.EvaluationGetJobRunsParams,
+                    evaluation_list_job_runs_params.EvaluationListJobRunsParams,
                 ),
             ),
-            cast_to=EvaluationGetJobRunsResponse,
+            cast_to=EvaluationListJobRunsResponse,
         )
 
 
@@ -366,53 +366,6 @@ class AsyncEvaluationResource(AsyncAPIResource):
             cast_to=EvaluationGetEvaluatorByIDResponse,
         )
 
-    async def get_evaluators(
-        self,
-        *,
-        after: str | Omit = omit,
-        limit: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EvaluationGetEvaluatorsResponse:
-        """
-        Returns a list of evaluators with their blocks and configuration for the
-        authenticated project.
-
-        Args:
-          after: Cursor for pagination - evaluator ID to start after
-
-          limit: Maximum number of evaluators to return (default: 20, max: 50)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            "/v1/evaluation/evaluators",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "after": after,
-                        "limit": limit,
-                    },
-                    evaluation_get_evaluators_params.EvaluationGetEvaluatorsParams,
-                ),
-            ),
-            cast_to=EvaluationGetEvaluatorsResponse,
-        )
-
     async def get_job(
         self,
         job_id: str,
@@ -448,7 +401,54 @@ class AsyncEvaluationResource(AsyncAPIResource):
             cast_to=EvaluationGetJobResponse,
         )
 
-    async def get_job_runs(
+    async def list_evaluators(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationListEvaluatorsResponse:
+        """
+        Returns a list of evaluators with their blocks and configuration for the
+        authenticated project.
+
+        Args:
+          after: Cursor for pagination - evaluator ID to start after
+
+          limit: Maximum number of evaluators to return (default: 20, max: 50)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/evaluation/evaluators",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    evaluation_list_evaluators_params.EvaluationListEvaluatorsParams,
+                ),
+            ),
+            cast_to=EvaluationListEvaluatorsResponse,
+        )
+
+    async def list_job_runs(
         self,
         job_id: str,
         *,
@@ -460,7 +460,7 @@ class AsyncEvaluationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EvaluationGetJobRunsResponse:
+    ) -> EvaluationListJobRunsResponse:
         """
         Retrieve paginated details of a specific evaluation job runs
 
@@ -491,10 +491,10 @@ class AsyncEvaluationResource(AsyncAPIResource):
                         "limit": limit,
                         "next_cursor": next_cursor,
                     },
-                    evaluation_get_job_runs_params.EvaluationGetJobRunsParams,
+                    evaluation_list_job_runs_params.EvaluationListJobRunsParams,
                 ),
             ),
-            cast_to=EvaluationGetJobRunsResponse,
+            cast_to=EvaluationListJobRunsResponse,
         )
 
 
@@ -508,14 +508,14 @@ class EvaluationResourceWithRawResponse:
         self.get_evaluator_by_id = to_raw_response_wrapper(
             evaluation.get_evaluator_by_id,
         )
-        self.get_evaluators = to_raw_response_wrapper(
-            evaluation.get_evaluators,
-        )
         self.get_job = to_raw_response_wrapper(
             evaluation.get_job,
         )
-        self.get_job_runs = to_raw_response_wrapper(
-            evaluation.get_job_runs,
+        self.list_evaluators = to_raw_response_wrapper(
+            evaluation.list_evaluators,
+        )
+        self.list_job_runs = to_raw_response_wrapper(
+            evaluation.list_job_runs,
         )
 
 
@@ -529,14 +529,14 @@ class AsyncEvaluationResourceWithRawResponse:
         self.get_evaluator_by_id = async_to_raw_response_wrapper(
             evaluation.get_evaluator_by_id,
         )
-        self.get_evaluators = async_to_raw_response_wrapper(
-            evaluation.get_evaluators,
-        )
         self.get_job = async_to_raw_response_wrapper(
             evaluation.get_job,
         )
-        self.get_job_runs = async_to_raw_response_wrapper(
-            evaluation.get_job_runs,
+        self.list_evaluators = async_to_raw_response_wrapper(
+            evaluation.list_evaluators,
+        )
+        self.list_job_runs = async_to_raw_response_wrapper(
+            evaluation.list_job_runs,
         )
 
 
@@ -550,14 +550,14 @@ class EvaluationResourceWithStreamingResponse:
         self.get_evaluator_by_id = to_streamed_response_wrapper(
             evaluation.get_evaluator_by_id,
         )
-        self.get_evaluators = to_streamed_response_wrapper(
-            evaluation.get_evaluators,
-        )
         self.get_job = to_streamed_response_wrapper(
             evaluation.get_job,
         )
-        self.get_job_runs = to_streamed_response_wrapper(
-            evaluation.get_job_runs,
+        self.list_evaluators = to_streamed_response_wrapper(
+            evaluation.list_evaluators,
+        )
+        self.list_job_runs = to_streamed_response_wrapper(
+            evaluation.list_job_runs,
         )
 
 
@@ -571,12 +571,12 @@ class AsyncEvaluationResourceWithStreamingResponse:
         self.get_evaluator_by_id = async_to_streamed_response_wrapper(
             evaluation.get_evaluator_by_id,
         )
-        self.get_evaluators = async_to_streamed_response_wrapper(
-            evaluation.get_evaluators,
-        )
         self.get_job = async_to_streamed_response_wrapper(
             evaluation.get_job,
         )
-        self.get_job_runs = async_to_streamed_response_wrapper(
-            evaluation.get_job_runs,
+        self.list_evaluators = async_to_streamed_response_wrapper(
+            evaluation.list_evaluators,
+        )
+        self.list_job_runs = async_to_streamed_response_wrapper(
+            evaluation.list_job_runs,
         )

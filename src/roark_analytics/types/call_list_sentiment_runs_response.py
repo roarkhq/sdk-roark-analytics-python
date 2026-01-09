@@ -6,7 +6,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CallGetSentimentRunsResponse", "Data"]
+__all__ = ["CallListSentimentRunsResponse", "Data"]
 
 
 class Data(BaseModel):
@@ -25,6 +25,6 @@ class Data(BaseModel):
     """Common emotion of the call"""
 
 
-class CallGetSentimentRunsResponse(BaseModel):
+class CallListSentimentRunsResponse(BaseModel):
     data: Data
     """Sentiment run response payload"""
