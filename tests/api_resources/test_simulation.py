@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     SimulationGetRunPlanJobResponse,
+    SimulationListScenariosResponse,
     SimulationStartRunPlanJobResponse,
     SimulationLookupSimulationJobResponse,
     SimulationGetSimulationJobByIDResponse,
@@ -81,6 +82,39 @@ class TestSimulation:
 
             simulation = response.parse()
             assert_matches_type(SimulationGetSimulationJobByIDResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_list_scenarios(self, client: Roark) -> None:
+        simulation = client.simulation.list_scenarios()
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_method_list_scenarios_with_all_params(self, client: Roark) -> None:
+        simulation = client.simulation.list_scenarios(
+            after="after",
+            limit=1,
+        )
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_raw_response_list_scenarios(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.list_scenarios()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = response.parse()
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list_scenarios(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.list_scenarios() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = response.parse()
+            assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -219,6 +253,39 @@ class TestAsyncSimulation:
 
             simulation = await response.parse()
             assert_matches_type(SimulationGetSimulationJobByIDResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_list_scenarios(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.list_scenarios()
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_method_list_scenarios_with_all_params(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.list_scenarios(
+            after="after",
+            limit=1,
+        )
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list_scenarios(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.list_scenarios()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = await response.parse()
+        assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list_scenarios(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.list_scenarios() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = await response.parse()
+            assert_matches_type(SimulationListScenariosResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
