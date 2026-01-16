@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import simulation_lookup_simulation_job_params
+from ..types import simulation_list_scenarios_params, simulation_lookup_simulation_job_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -16,6 +16,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.simulation_list_scenarios_response import SimulationListScenariosResponse
 from ..types.simulation_get_run_plan_job_response import SimulationGetRunPlanJobResponse
 from ..types.simulation_start_run_plan_job_response import SimulationStartRunPlanJobResponse
 from ..types.simulation_lookup_simulation_job_response import SimulationLookupSimulationJobResponse
@@ -107,6 +108,48 @@ class SimulationResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SimulationGetSimulationJobByIDResponse,
+        )
+
+    def list_scenarios(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListScenariosResponse:
+        """
+        Returns a paginated list of simulation scenarios for the authenticated project.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/simulation/scenario",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    simulation_list_scenarios_params.SimulationListScenariosParams,
+                ),
+            ),
+            cast_to=SimulationListScenariosResponse,
         )
 
     def lookup_simulation_job(
@@ -277,6 +320,48 @@ class AsyncSimulationResource(AsyncAPIResource):
             cast_to=SimulationGetSimulationJobByIDResponse,
         )
 
+    async def list_scenarios(
+        self,
+        *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListScenariosResponse:
+        """
+        Returns a paginated list of simulation scenarios for the authenticated project.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/simulation/scenario",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    simulation_list_scenarios_params.SimulationListScenariosParams,
+                ),
+            ),
+            cast_to=SimulationListScenariosResponse,
+        )
+
     async def lookup_simulation_job(
         self,
         *,
@@ -370,6 +455,9 @@ class SimulationResourceWithRawResponse:
         self.get_simulation_job_by_id = to_raw_response_wrapper(
             simulation.get_simulation_job_by_id,
         )
+        self.list_scenarios = to_raw_response_wrapper(
+            simulation.list_scenarios,
+        )
         self.lookup_simulation_job = to_raw_response_wrapper(
             simulation.lookup_simulation_job,
         )
@@ -387,6 +475,9 @@ class AsyncSimulationResourceWithRawResponse:
         )
         self.get_simulation_job_by_id = async_to_raw_response_wrapper(
             simulation.get_simulation_job_by_id,
+        )
+        self.list_scenarios = async_to_raw_response_wrapper(
+            simulation.list_scenarios,
         )
         self.lookup_simulation_job = async_to_raw_response_wrapper(
             simulation.lookup_simulation_job,
@@ -406,6 +497,9 @@ class SimulationResourceWithStreamingResponse:
         self.get_simulation_job_by_id = to_streamed_response_wrapper(
             simulation.get_simulation_job_by_id,
         )
+        self.list_scenarios = to_streamed_response_wrapper(
+            simulation.list_scenarios,
+        )
         self.lookup_simulation_job = to_streamed_response_wrapper(
             simulation.lookup_simulation_job,
         )
@@ -423,6 +517,9 @@ class AsyncSimulationResourceWithStreamingResponse:
         )
         self.get_simulation_job_by_id = async_to_streamed_response_wrapper(
             simulation.get_simulation_job_by_id,
+        )
+        self.list_scenarios = async_to_streamed_response_wrapper(
+            simulation.list_scenarios,
         )
         self.lookup_simulation_job = async_to_streamed_response_wrapper(
             simulation.lookup_simulation_job,
