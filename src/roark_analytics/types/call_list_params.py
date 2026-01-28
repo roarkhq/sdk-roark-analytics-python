@@ -19,6 +19,12 @@ class CallListParams(TypedDict, total=False):
     search_text: Annotated[str, PropertyInfo(alias="searchText")]
     """Search text to filter calls by title, summary, or transcript"""
 
+    simulation_run_plan_job_id: Annotated[str, PropertyInfo(alias="simulationRunPlanJobId")]
+    """
+    Filter by simulation run plan job ID to get all calls from a specific simulation
+    batch
+    """
+
     sort_by: Annotated[
         Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"], PropertyInfo(alias="sortBy")
     ]
