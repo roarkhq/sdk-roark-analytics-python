@@ -31,11 +31,15 @@ from .simulation_list_scenarios_response import SimulationListScenariosResponse 
 from .evaluation_list_evaluators_response import EvaluationListEvaluatorsResponse as EvaluationListEvaluatorsResponse
 from .integration_create_vapi_call_params import IntegrationCreateVapiCallParams as IntegrationCreateVapiCallParams
 from .simulation_get_run_plan_job_response import SimulationGetRunPlanJobResponse as SimulationGetRunPlanJobResponse
+from .simulation_list_run_plan_jobs_params import SimulationListRunPlanJobsParams as SimulationListRunPlanJobsParams
 from .integration_create_retell_call_params import (
     IntegrationCreateRetellCallParams as IntegrationCreateRetellCallParams,
 )
 from .integration_create_vapi_call_response import (
     IntegrationCreateVapiCallResponse as IntegrationCreateVapiCallResponse,
+)
+from .simulation_list_run_plan_jobs_response import (
+    SimulationListRunPlanJobsResponse as SimulationListRunPlanJobsResponse,
 )
 from .simulation_start_run_plan_job_response import (
     SimulationStartRunPlanJobResponse as SimulationStartRunPlanJobResponse,
