@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.14.0 (2026-01-28)
+
+Full Changelog: [v2.13.0...v2.14.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.13.0...v2.14.0)
+
+### Features
+
+* **api:** api update ([7ad4e1c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/7ad4e1ca777dd3efa3ef75b147272aad5d405b68))
+* **api:** api update ([4501af1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4501af18d39cba5819a27a1d9e0874b8849d969e))
+* **api:** api update ([7f5830d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/7f5830d298509e724c0fb3d47eb044ba249d393c))
+* **api:** api update ([6f2fc57](https://github.com/roarkhq/sdk-roark-analytics-python/commit/6f2fc57ee00f1eb1356fbc8195c2c9e2d85a9c0f))
+* **api:** api update ([47ebfd5](https://github.com/roarkhq/sdk-roark-analytics-python/commit/47ebfd5a5f7a3e4c077fd9e54a105a81fafde2b7))
+* **api:** api update ([db15e02](https://github.com/roarkhq/sdk-roark-analytics-python/commit/db15e02d5da071c61cfe660e9feb0f09e6d04668))
+* **api:** api update ([7544814](https://github.com/roarkhq/sdk-roark-analytics-python/commit/7544814bdb07f6c35f1e21befeab950e916a1a1d))
+* **api:** api update ([b3fe927](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b3fe927d6f1a7712cff128683847fd772651c192))
+* **api:** api update ([cf6dee2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/cf6dee2dc3aa1154a40e1338f3c869d86ffc53ca))
+* **api:** api update ([75b6074](https://github.com/roarkhq/sdk-roark-analytics-python/commit/75b607417da551b57536caf7109a82f17b7f9ddd))
+* **api:** api update ([f481ca0](https://github.com/roarkhq/sdk-roark-analytics-python/commit/f481ca0568aafbf107ae9a491de7695df81846d7))
+* **api:** api update ([0e5c074](https://github.com/roarkhq/sdk-roark-analytics-python/commit/0e5c074e0abd9a1adc9cb86812dc47dd975a16c2))
+* **client:** add support for binary request streaming ([bb67a06](https://github.com/roarkhq/sdk-roark-analytics-python/commit/bb67a068524204e2fc229dcf5c8fec821f518d59))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([db42523](https://github.com/roarkhq/sdk-roark-analytics-python/commit/db4252395a6bcc7327f3684facb076eafed53e80))
+* **internal:** update `actions/checkout` version ([3420869](https://github.com/roarkhq/sdk-roark-analytics-python/commit/342086983cc9915440f729d90d4420873a9795a4))
+
 ## 2.13.0 (2025-12-19)
 
 Full Changelog: [v2.12.0...v2.13.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.12.0...v2.13.0)
