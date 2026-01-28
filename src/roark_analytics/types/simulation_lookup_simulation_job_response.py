@@ -124,8 +124,21 @@ class Data(BaseModel):
     status: str
     """Job status"""
 
+    call_id: Optional[str] = FieldInfo(alias="callId", default=None)
+    """ID of the call created for this simulation job.
+
+    Null if the call has not been created yet.
+    """
+
     completed_at: Optional[str] = FieldInfo(alias="completedAt", default=None)
     """When the job completed"""
+
+    roark_phone_number: Optional[str] = FieldInfo(alias="roarkPhoneNumber", default=None)
+    """Phone number provisioned by Roark for this simulation job in E.164 format.
+
+    Null if the simulation job is queued and has not been assigned a phone number
+    yet.
+    """
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the job started"""
