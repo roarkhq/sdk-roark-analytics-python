@@ -169,6 +169,7 @@ class CallResource(SyncAPIResource):
         after: str | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
+        simulation_run_plan_job_id: str | Omit = omit,
         sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
@@ -188,6 +189,9 @@ class CallResource(SyncAPIResource):
           limit: Maximum number of calls to return (default: 20, max: 100)
 
           search_text: Search text to filter calls by title, summary, or transcript
+
+          simulation_run_plan_job_id: Filter by simulation run plan job ID to get all calls from a specific simulation
+              batch
 
           sort_by: Field to sort by (default: createdAt)
 
@@ -215,6 +219,7 @@ class CallResource(SyncAPIResource):
                         "after": after,
                         "limit": limit,
                         "search_text": search_text,
+                        "simulation_run_plan_job_id": simulation_run_plan_job_id,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,
@@ -513,6 +518,7 @@ class AsyncCallResource(AsyncAPIResource):
         after: str | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
+        simulation_run_plan_job_id: str | Omit = omit,
         sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
@@ -532,6 +538,9 @@ class AsyncCallResource(AsyncAPIResource):
           limit: Maximum number of calls to return (default: 20, max: 100)
 
           search_text: Search text to filter calls by title, summary, or transcript
+
+          simulation_run_plan_job_id: Filter by simulation run plan job ID to get all calls from a specific simulation
+              batch
 
           sort_by: Field to sort by (default: createdAt)
 
@@ -559,6 +568,7 @@ class AsyncCallResource(AsyncAPIResource):
                         "after": after,
                         "limit": limit,
                         "search_text": search_text,
+                        "simulation_run_plan_job_id": simulation_run_plan_job_id,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,

@@ -4,7 +4,11 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import simulation_list_scenarios_params, simulation_lookup_simulation_job_params
+from ..types import (
+    simulation_list_scenarios_params,
+    simulation_list_run_plan_jobs_params,
+    simulation_lookup_simulation_job_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,6 +22,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.simulation_list_scenarios_response import SimulationListScenariosResponse
 from ..types.simulation_get_run_plan_job_response import SimulationGetRunPlanJobResponse
+from ..types.simulation_list_run_plan_jobs_response import SimulationListRunPlanJobsResponse
 from ..types.simulation_start_run_plan_job_response import SimulationStartRunPlanJobResponse
 from ..types.simulation_lookup_simulation_job_response import SimulationLookupSimulationJobResponse
 from ..types.simulation_get_simulation_job_by_id_response import SimulationGetSimulationJobByIDResponse
@@ -108,6 +113,72 @@ class SimulationResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SimulationGetSimulationJobByIDResponse,
+        )
+
+    def list_run_plan_jobs(
+        self,
+        *,
+        after: str | Omit = omit,
+        label_id: str | Omit = omit,
+        label_name: str | Omit = omit,
+        limit: int | Omit = omit,
+        simulation_run_plan_id: str | Omit = omit,
+        status: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListRunPlanJobsResponse:
+        """Returns a paginated list of simulation run plan jobs.
+
+        Filter by status, plan ID,
+        or label to find specific simulation batches.
+
+        Args:
+          after: Cursor for pagination - use the nextCursor value from a previous response
+
+          label_id: Filter by label ID attached to the plan job. Use this if you know the label ID.
+
+          label_name: Filter by label name attached to the plan job. More user-friendly alternative to
+              labelId. Case-insensitive.
+
+          limit: Maximum number of plan jobs to return (default: 20, max: 50)
+
+          simulation_run_plan_id: Filter by simulation run plan ID
+
+          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
+              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/simulation/plan/jobs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "label_id": label_id,
+                        "label_name": label_name,
+                        "limit": limit,
+                        "simulation_run_plan_id": simulation_run_plan_id,
+                        "status": status,
+                    },
+                    simulation_list_run_plan_jobs_params.SimulationListRunPlanJobsParams,
+                ),
+            ),
+            cast_to=SimulationListRunPlanJobsResponse,
         )
 
     def list_scenarios(
@@ -320,6 +391,72 @@ class AsyncSimulationResource(AsyncAPIResource):
             cast_to=SimulationGetSimulationJobByIDResponse,
         )
 
+    async def list_run_plan_jobs(
+        self,
+        *,
+        after: str | Omit = omit,
+        label_id: str | Omit = omit,
+        label_name: str | Omit = omit,
+        limit: int | Omit = omit,
+        simulation_run_plan_id: str | Omit = omit,
+        status: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListRunPlanJobsResponse:
+        """Returns a paginated list of simulation run plan jobs.
+
+        Filter by status, plan ID,
+        or label to find specific simulation batches.
+
+        Args:
+          after: Cursor for pagination - use the nextCursor value from a previous response
+
+          label_id: Filter by label ID attached to the plan job. Use this if you know the label ID.
+
+          label_name: Filter by label name attached to the plan job. More user-friendly alternative to
+              labelId. Case-insensitive.
+
+          limit: Maximum number of plan jobs to return (default: 20, max: 50)
+
+          simulation_run_plan_id: Filter by simulation run plan ID
+
+          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
+              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/simulation/plan/jobs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "label_id": label_id,
+                        "label_name": label_name,
+                        "limit": limit,
+                        "simulation_run_plan_id": simulation_run_plan_id,
+                        "status": status,
+                    },
+                    simulation_list_run_plan_jobs_params.SimulationListRunPlanJobsParams,
+                ),
+            ),
+            cast_to=SimulationListRunPlanJobsResponse,
+        )
+
     async def list_scenarios(
         self,
         *,
@@ -455,6 +592,9 @@ class SimulationResourceWithRawResponse:
         self.get_simulation_job_by_id = to_raw_response_wrapper(
             simulation.get_simulation_job_by_id,
         )
+        self.list_run_plan_jobs = to_raw_response_wrapper(
+            simulation.list_run_plan_jobs,
+        )
         self.list_scenarios = to_raw_response_wrapper(
             simulation.list_scenarios,
         )
@@ -475,6 +615,9 @@ class AsyncSimulationResourceWithRawResponse:
         )
         self.get_simulation_job_by_id = async_to_raw_response_wrapper(
             simulation.get_simulation_job_by_id,
+        )
+        self.list_run_plan_jobs = async_to_raw_response_wrapper(
+            simulation.list_run_plan_jobs,
         )
         self.list_scenarios = async_to_raw_response_wrapper(
             simulation.list_scenarios,
@@ -497,6 +640,9 @@ class SimulationResourceWithStreamingResponse:
         self.get_simulation_job_by_id = to_streamed_response_wrapper(
             simulation.get_simulation_job_by_id,
         )
+        self.list_run_plan_jobs = to_streamed_response_wrapper(
+            simulation.list_run_plan_jobs,
+        )
         self.list_scenarios = to_streamed_response_wrapper(
             simulation.list_scenarios,
         )
@@ -517,6 +663,9 @@ class AsyncSimulationResourceWithStreamingResponse:
         )
         self.get_simulation_job_by_id = async_to_streamed_response_wrapper(
             simulation.get_simulation_job_by_id,
+        )
+        self.list_run_plan_jobs = async_to_streamed_response_wrapper(
+            simulation.list_run_plan_jobs,
         )
         self.list_scenarios = async_to_streamed_response_wrapper(
             simulation.list_scenarios,

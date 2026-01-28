@@ -12,6 +12,7 @@ from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     SimulationGetRunPlanJobResponse,
     SimulationListScenariosResponse,
+    SimulationListRunPlanJobsResponse,
     SimulationStartRunPlanJobResponse,
     SimulationLookupSimulationJobResponse,
     SimulationGetSimulationJobByIDResponse,
@@ -82,6 +83,43 @@ class TestSimulation:
 
             simulation = response.parse()
             assert_matches_type(SimulationGetSimulationJobByIDResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_list_run_plan_jobs(self, client: Roark) -> None:
+        simulation = client.simulation.list_run_plan_jobs()
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_method_list_run_plan_jobs_with_all_params(self, client: Roark) -> None:
+        simulation = client.simulation.list_run_plan_jobs(
+            after="550e8400-e29b-41d4-a716-446655440000",
+            label_id="550e8400-e29b-41d4-a716-446655440000",
+            label_name="production-ready",
+            limit=20,
+            simulation_run_plan_id="550e8400-e29b-41d4-a716-446655440000",
+            status="COMPLETED",
+        )
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_raw_response_list_run_plan_jobs(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.list_run_plan_jobs()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = response.parse()
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list_run_plan_jobs(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.list_run_plan_jobs() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = response.parse()
+            assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -253,6 +291,43 @@ class TestAsyncSimulation:
 
             simulation = await response.parse()
             assert_matches_type(SimulationGetSimulationJobByIDResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_list_run_plan_jobs(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.list_run_plan_jobs()
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_method_list_run_plan_jobs_with_all_params(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.list_run_plan_jobs(
+            after="550e8400-e29b-41d4-a716-446655440000",
+            label_id="550e8400-e29b-41d4-a716-446655440000",
+            label_name="production-ready",
+            limit=20,
+            simulation_run_plan_id="550e8400-e29b-41d4-a716-446655440000",
+            status="COMPLETED",
+        )
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list_run_plan_jobs(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.list_run_plan_jobs()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = await response.parse()
+        assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list_run_plan_jobs(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.list_run_plan_jobs() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = await response.parse()
+            assert_matches_type(SimulationListRunPlanJobsResponse, simulation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
