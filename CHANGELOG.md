@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.16.0 (2026-02-09)
+
+Full Changelog: [v2.15.0...v2.16.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.15.0...v2.16.0)
+
+### Features
+
+* **api:** api update ([4ed124e](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4ed124ef9aec99721d8699f3f82f511757b48b88))
+* **client:** add custom JSON encoder for extended type support ([17579a3](https://github.com/roarkhq/sdk-roark-analytics-python/commit/17579a3aa4e2ff15a05630ea95421f459d847561))
+
+
+### Chores
+
+* configure new SDK language ([7f1b3ad](https://github.com/roarkhq/sdk-roark-analytics-python/commit/7f1b3adcada930dbe889ef092865565b7b3efe68))
+
 ## 2.15.0 (2026-01-28)
 
 Full Changelog: [v2.14.0...v2.15.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.14.0...v2.15.0)
