@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -28,7 +28,18 @@ class SimulationListRunPlanJobsParams(TypedDict, total=False):
     simulation_run_plan_id: Annotated[str, PropertyInfo(alias="simulationRunPlanId")]
     """Filter by simulation run plan ID"""
 
-    status: str
+    status: Literal[
+        "PENDING",
+        "QUEUED",
+        "CREATING_SNAPSHOTS",
+        "CREATING_SIMULATIONS",
+        "RUNNING_SIMULATIONS",
+        "COMPLETED",
+        "FAILED",
+        "TIMED_OUT",
+        "CANCELLED",
+        "CANCELLING",
+    ]
     """
     Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
     RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)

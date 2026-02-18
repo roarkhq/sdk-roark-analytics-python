@@ -63,6 +63,7 @@ class PersonaResource(SyncAPIResource):
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -98,6 +99,8 @@ class PersonaResource(SyncAPIResource):
 
           confirmation_style: How the persona confirms information
 
+          description: Human-readable description of the persona
+
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           intent_clarity: How clearly the persona expresses their intentions
@@ -132,6 +135,7 @@ class PersonaResource(SyncAPIResource):
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
+                    "description": description,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
@@ -163,6 +167,7 @@ class PersonaResource(SyncAPIResource):
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        description: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
@@ -194,6 +199,8 @@ class PersonaResource(SyncAPIResource):
           base_emotion: Base emotional state of the persona
 
           confirmation_style: How the persona confirms information
+
+          description: Human-readable description of the persona
 
           gender: Gender of the persona
 
@@ -234,6 +241,7 @@ class PersonaResource(SyncAPIResource):
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
+                    "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,
@@ -367,6 +375,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -402,6 +411,8 @@ class AsyncPersonaResource(AsyncAPIResource):
 
           confirmation_style: How the persona confirms information
 
+          description: Human-readable description of the persona
+
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           intent_clarity: How clearly the persona expresses their intentions
@@ -436,6 +447,7 @@ class AsyncPersonaResource(AsyncAPIResource):
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
+                    "description": description,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
@@ -467,6 +479,7 @@ class AsyncPersonaResource(AsyncAPIResource):
         backstory_prompt: Optional[str] | Omit = omit,
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
+        description: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
@@ -498,6 +511,8 @@ class AsyncPersonaResource(AsyncAPIResource):
           base_emotion: Base emotional state of the persona
 
           confirmation_style: How the persona confirms information
+
+          description: Human-readable description of the persona
 
           gender: Gender of the persona
 
@@ -538,6 +553,7 @@ class AsyncPersonaResource(AsyncAPIResource):
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
+                    "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "intent_clarity": intent_clarity,

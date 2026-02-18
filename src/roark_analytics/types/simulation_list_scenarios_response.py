@@ -14,6 +14,9 @@ class DataStep(BaseModel):
     content: Optional[str] = None
     """Content/text of the step"""
 
+    node_id: str = FieldInfo(alias="nodeId")
+    """Unique identifier of the step node (use this for update/delete operations)"""
+
     type: Literal["START", "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]
     """Type of step in the scenario"""
 
