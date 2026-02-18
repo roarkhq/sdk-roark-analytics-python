@@ -46,6 +46,9 @@ class PersonaCreateParams(TypedDict, total=False):
     confirmation_style: Annotated[Literal["EXPLICIT", "VAGUE"], PropertyInfo(alias="confirmationStyle")]
     """How the persona confirms information"""
 
+    description: Optional[str]
+    """Human-readable description of the persona"""
+
     has_disfluencies: Annotated[bool, PropertyInfo(alias="hasDisfluencies")]
     """Whether the persona uses filler words like "um" and "uh" """
 

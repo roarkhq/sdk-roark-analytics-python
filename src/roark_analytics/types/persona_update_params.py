@@ -35,6 +35,9 @@ class PersonaUpdateParams(TypedDict, total=False):
     confirmation_style: Annotated[Literal["EXPLICIT", "VAGUE"], PropertyInfo(alias="confirmationStyle")]
     """How the persona confirms information"""
 
+    description: Optional[str]
+    """Human-readable description of the persona"""
+
     gender: Literal["MALE", "FEMALE", "NEUTRAL"]
     """Gender of the persona"""
 

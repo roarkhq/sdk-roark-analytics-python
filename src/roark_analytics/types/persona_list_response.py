@@ -69,6 +69,9 @@ class Data(BaseModel):
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
     """Background story and behavioral patterns for the persona"""
 
+    description: Optional[str] = None
+    """Human-readable description of the persona"""
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """
     Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
