@@ -29,7 +29,7 @@ class DataSimulationJobAgentEndpoint(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
     """Agent endpoint phone number"""
 
-    type: str
+    type: Literal["PHONE", "WEBSOCKET"]
     """Agent endpoint type"""
 
 
@@ -92,6 +92,9 @@ class DataSimulationJobPersona(BaseModel):
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
     """Background story and behavioral patterns for the persona"""
 
+    description: Optional[str] = None
+    """Human-readable description of the persona"""
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """
     Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
@@ -117,7 +120,9 @@ class DataSimulationJob(BaseModel):
 
     persona: DataSimulationJobPersona
 
-    processing_status: str = FieldInfo(alias="processingStatus")
+    processing_status: Literal[
+        "CONNECTING", "WAITING_FOR_OUTBOUND_CALL", "SIMULATING", "ANALYZING", "EVALUATING", "COMPLETED"
+    ] = FieldInfo(alias="processingStatus")
     """Processing status"""
 
     scenario: DataSimulationJobScenario
@@ -126,7 +131,7 @@ class DataSimulationJob(BaseModel):
     simulation_job_id: str = FieldInfo(alias="simulationJobId")
     """Simulation job ID"""
 
-    status: str
+    status: Literal["PENDING", "QUEUED", "PROCESSING", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED", "CANCELLING"]
     """Job status"""
 
     call_id: Optional[str] = FieldInfo(alias="callId", default=None)
@@ -164,7 +169,18 @@ class Data(BaseModel):
     simulation_run_plan_job_id: str = FieldInfo(alias="simulationRunPlanJobId")
     """ID of the simulation run plan job"""
 
-    status: str
+    status: Literal[
+        "PENDING",
+        "QUEUED",
+        "CREATING_SNAPSHOTS",
+        "CREATING_SIMULATIONS",
+        "RUNNING_SIMULATIONS",
+        "COMPLETED",
+        "FAILED",
+        "TIMED_OUT",
+        "CANCELLED",
+        "CANCELLING",
+    ]
     """Job status"""
 
     ended_at: Optional[str] = FieldInfo(alias="endedAt", default=None)

@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -19,11 +20,27 @@ class Data(BaseModel):
     simulation_run_plan_job_id: str = FieldInfo(alias="simulationRunPlanJobId")
     """ID of the simulation run plan job"""
 
-    status: str
+    status: Literal[
+        "PENDING",
+        "QUEUED",
+        "CREATING_SNAPSHOTS",
+        "CREATING_SIMULATIONS",
+        "RUNNING_SIMULATIONS",
+        "COMPLETED",
+        "FAILED",
+        "TIMED_OUT",
+        "CANCELLED",
+        "CANCELLING",
+    ]
     """Job status"""
 
-    triggered_by: str = FieldInfo(alias="triggeredBy")
-    """How the job was triggered (SCHEDULED or USER_TRIGGERED_FROM_UI)"""
+    triggered_by: Literal["SCHEDULED", "USER_TRIGGERED_FROM_UI", "RE_RUN", "TRIGGERED_FROM_API"] = FieldInfo(
+        alias="triggeredBy"
+    )
+    """
+    How the job was triggered (SCHEDULED, USER_TRIGGERED_FROM_UI,
+    TRIGGERED_FROM_API, or RE_RUN)
+    """
 
     ended_at: Optional[str] = FieldInfo(alias="endedAt", default=None)
     """When the job ended"""

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from ..types import (
@@ -123,7 +125,19 @@ class SimulationResource(SyncAPIResource):
         label_name: str | Omit = omit,
         limit: int | Omit = omit,
         simulation_run_plan_id: str | Omit = omit,
-        status: str | Omit = omit,
+        status: Literal[
+            "PENDING",
+            "QUEUED",
+            "CREATING_SNAPSHOTS",
+            "CREATING_SIMULATIONS",
+            "RUNNING_SIMULATIONS",
+            "COMPLETED",
+            "FAILED",
+            "TIMED_OUT",
+            "CANCELLED",
+            "CANCELLING",
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -399,7 +413,19 @@ class AsyncSimulationResource(AsyncAPIResource):
         label_name: str | Omit = omit,
         limit: int | Omit = omit,
         simulation_run_plan_id: str | Omit = omit,
-        status: str | Omit = omit,
+        status: Literal[
+            "PENDING",
+            "QUEUED",
+            "CREATING_SNAPSHOTS",
+            "CREATING_SIMULATIONS",
+            "RUNNING_SIMULATIONS",
+            "COMPLETED",
+            "FAILED",
+            "TIMED_OUT",
+            "CANCELLED",
+            "CANCELLING",
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
