@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Iterable
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["SimulationRunPlanCreateParams", "AgentEndpoint", "Evaluator", "Persona", "Scenario"]
@@ -37,6 +38,9 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
 
     description: str
     """Description of the run plan"""
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+    """Phrases that trigger end of call. Empty array disables the feature."""
 
     execution_mode: Annotated[
         Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
