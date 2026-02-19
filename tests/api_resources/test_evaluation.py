@@ -14,6 +14,8 @@ from roark_analytics.types import (
     EvaluationCreateJobResponse,
     EvaluationListJobRunsResponse,
     EvaluationListEvaluatorsResponse,
+    EvaluationCreateEvaluatorResponse,
+    EvaluationUpdateEvaluatorResponse,
     EvaluationGetEvaluatorByIDResponse,
 )
 
@@ -22,6 +24,83 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestEvaluation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_create_evaluator(self, client: Roark) -> None:
+        evaluation = client.evaluation.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        )
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_method_create_evaluator_with_all_params(self, client: Roark) -> None:
+        evaluation = client.evaluation.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                    "description": "description",
+                    "input_dimensions": ["string"],
+                    "order_index": 0,
+                    "skip_condition": "skipCondition",
+                    "threshold": 0,
+                    "weight": 0,
+                }
+            ],
+            name="x",
+            description="description",
+        )
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_evaluator(self, client: Roark) -> None:
+        response = client.evaluation.with_raw_response.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = response.parse()
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_evaluator(self, client: Roark) -> None:
+        with client.evaluation.with_streaming_response.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = response.parse()
+            assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_create_job(self, client: Roark) -> None:
@@ -289,11 +368,150 @@ class TestEvaluation:
                 job_id="",
             )
 
+    @parametrize
+    def test_method_update_evaluator(self, client: Roark) -> None:
+        evaluation = client.evaluation.update_evaluator(
+            evaluator_id="evaluatorId",
+        )
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_method_update_evaluator_with_all_params(self, client: Roark) -> None:
+        evaluation = client.evaluation.update_evaluator(
+            evaluator_id="evaluatorId",
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "description": "description",
+                    "input_dimensions": ["string"],
+                    "order_index": 0,
+                    "skip_condition": "skipCondition",
+                    "threshold": 0,
+                    "weight": 0,
+                }
+            ],
+            description="description",
+            name="x",
+        )
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_raw_response_update_evaluator(self, client: Roark) -> None:
+        response = client.evaluation.with_raw_response.update_evaluator(
+            evaluator_id="evaluatorId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = response.parse()
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_evaluator(self, client: Roark) -> None:
+        with client.evaluation.with_streaming_response.update_evaluator(
+            evaluator_id="evaluatorId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = response.parse()
+            assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update_evaluator(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `evaluator_id` but received ''"):
+            client.evaluation.with_raw_response.update_evaluator(
+                evaluator_id="",
+            )
+
 
 class TestAsyncEvaluation:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
+
+    @parametrize
+    async def test_method_create_evaluator(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        )
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_method_create_evaluator_with_all_params(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                    "description": "description",
+                    "input_dimensions": ["string"],
+                    "order_index": 0,
+                    "skip_condition": "skipCondition",
+                    "threshold": 0,
+                    "weight": 0,
+                }
+            ],
+            name="x",
+            description="description",
+        )
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_evaluator(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluation.with_raw_response.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = await response.parse()
+        assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_evaluator(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluation.with_streaming_response.create_evaluator(
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                }
+            ],
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = await response.parse()
+            assert_matches_type(EvaluationCreateEvaluatorResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_create_job(self, async_client: AsyncRoark) -> None:
@@ -559,4 +777,66 @@ class TestAsyncEvaluation:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.evaluation.with_raw_response.list_job_runs(
                 job_id="",
+            )
+
+    @parametrize
+    async def test_method_update_evaluator(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.update_evaluator(
+            evaluator_id="evaluatorId",
+        )
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_method_update_evaluator_with_all_params(self, async_client: AsyncRoark) -> None:
+        evaluation = await async_client.evaluation.update_evaluator(
+            evaluator_id="evaluatorId",
+            blocks=[
+                {
+                    "block_type": "CUSTOM_PROMPT",
+                    "metric_name": "metricName",
+                    "name": "name",
+                    "prompt": "prompt",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "description": "description",
+                    "input_dimensions": ["string"],
+                    "order_index": 0,
+                    "skip_condition": "skipCondition",
+                    "threshold": 0,
+                    "weight": 0,
+                }
+            ],
+            description="description",
+            name="x",
+        )
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update_evaluator(self, async_client: AsyncRoark) -> None:
+        response = await async_client.evaluation.with_raw_response.update_evaluator(
+            evaluator_id="evaluatorId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        evaluation = await response.parse()
+        assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update_evaluator(self, async_client: AsyncRoark) -> None:
+        async with async_client.evaluation.with_streaming_response.update_evaluator(
+            evaluator_id="evaluatorId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            evaluation = await response.parse()
+            assert_matches_type(EvaluationUpdateEvaluatorResponse, evaluation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update_evaluator(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `evaluator_id` but received ''"):
+            await async_client.evaluation.with_raw_response.update_evaluator(
+                evaluator_id="",
             )
