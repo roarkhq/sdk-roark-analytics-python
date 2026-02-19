@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.22.0 (2026-02-19)
+
+Full Changelog: [v2.21.0...v2.22.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.21.0...v2.22.0)
+
+### Features
+
+* **api:** api update ([9608175](https://github.com/roarkhq/sdk-roark-analytics-python/commit/960817576333ae19debd9130be5247209ac143d3))
+* **api:** api update ([4dd44a8](https://github.com/roarkhq/sdk-roark-analytics-python/commit/4dd44a88a295d948d88ad59f3423e156afa19b31))
+
+
+### Chores
+
+* format all `api.md` files ([e3307cd](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e3307cd3b22fe9a94822ff189d7afb6ee5ca1994))
+* **internal:** fix lint error on Python 3.14 ([46a59d0](https://github.com/roarkhq/sdk-roark-analytics-python/commit/46a59d02a17e409af69679690bc6af9060496cc3))
+
 ## 2.21.0 (2026-02-11)
 
 Full Changelog: [v2.20.0...v2.21.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.20.0...v2.21.0)
