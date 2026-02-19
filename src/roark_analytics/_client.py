@@ -31,14 +31,36 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import call, health, metric, persona, evaluation, simulation, integrations
+    from .resources import (
+        call,
+        agent,
+        health,
+        metric,
+        webhook,
+        evaluation,
+        integrations,
+        agent_endpoint,
+        simulation_job,
+        simulation_persona,
+        simulation_run_plan,
+        simulation_scenario,
+        http_request_definition,
+        simulation_run_plan_job,
+    )
     from .resources.call import CallResource, AsyncCallResource
+    from .resources.agent import AgentResource, AsyncAgentResource
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
-    from .resources.persona import PersonaResource, AsyncPersonaResource
+    from .resources.webhook import WebhookResource, AsyncWebhookResource
     from .resources.evaluation import EvaluationResource, AsyncEvaluationResource
-    from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.integrations import IntegrationsResource, AsyncIntegrationsResource
+    from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
+    from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
+    from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
+    from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
+    from .resources.simulation_scenario import SimulationScenarioResource, AsyncSimulationScenarioResource
+    from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
+    from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
 
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Roark", "AsyncRoark", "Client", "AsyncClient"]
 
@@ -129,16 +151,58 @@ class Roark(SyncAPIClient):
         return IntegrationsResource(self)
 
     @cached_property
-    def simulation(self) -> SimulationResource:
-        from .resources.simulation import SimulationResource
+    def simulation_job(self) -> SimulationJobResource:
+        from .resources.simulation_job import SimulationJobResource
 
-        return SimulationResource(self)
+        return SimulationJobResource(self)
 
     @cached_property
-    def persona(self) -> PersonaResource:
-        from .resources.persona import PersonaResource
+    def simulation_run_plan(self) -> SimulationRunPlanResource:
+        from .resources.simulation_run_plan import SimulationRunPlanResource
 
-        return PersonaResource(self)
+        return SimulationRunPlanResource(self)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> SimulationRunPlanJobResource:
+        from .resources.simulation_run_plan_job import SimulationRunPlanJobResource
+
+        return SimulationRunPlanJobResource(self)
+
+    @cached_property
+    def simulation_scenario(self) -> SimulationScenarioResource:
+        from .resources.simulation_scenario import SimulationScenarioResource
+
+        return SimulationScenarioResource(self)
+
+    @cached_property
+    def simulation_persona(self) -> SimulationPersonaResource:
+        from .resources.simulation_persona import SimulationPersonaResource
+
+        return SimulationPersonaResource(self)
+
+    @cached_property
+    def agent(self) -> AgentResource:
+        from .resources.agent import AgentResource
+
+        return AgentResource(self)
+
+    @cached_property
+    def agent_endpoint(self) -> AgentEndpointResource:
+        from .resources.agent_endpoint import AgentEndpointResource
+
+        return AgentEndpointResource(self)
+
+    @cached_property
+    def http_request_definition(self) -> HTTPRequestDefinitionResource:
+        from .resources.http_request_definition import HTTPRequestDefinitionResource
+
+        return HTTPRequestDefinitionResource(self)
+
+    @cached_property
+    def webhook(self) -> WebhookResource:
+        from .resources.webhook import WebhookResource
+
+        return WebhookResource(self)
 
     @cached_property
     def with_raw_response(self) -> RoarkWithRawResponse:
@@ -339,16 +403,58 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncIntegrationsResource(self)
 
     @cached_property
-    def simulation(self) -> AsyncSimulationResource:
-        from .resources.simulation import AsyncSimulationResource
+    def simulation_job(self) -> AsyncSimulationJobResource:
+        from .resources.simulation_job import AsyncSimulationJobResource
 
-        return AsyncSimulationResource(self)
+        return AsyncSimulationJobResource(self)
 
     @cached_property
-    def persona(self) -> AsyncPersonaResource:
-        from .resources.persona import AsyncPersonaResource
+    def simulation_run_plan(self) -> AsyncSimulationRunPlanResource:
+        from .resources.simulation_run_plan import AsyncSimulationRunPlanResource
 
-        return AsyncPersonaResource(self)
+        return AsyncSimulationRunPlanResource(self)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> AsyncSimulationRunPlanJobResource:
+        from .resources.simulation_run_plan_job import AsyncSimulationRunPlanJobResource
+
+        return AsyncSimulationRunPlanJobResource(self)
+
+    @cached_property
+    def simulation_scenario(self) -> AsyncSimulationScenarioResource:
+        from .resources.simulation_scenario import AsyncSimulationScenarioResource
+
+        return AsyncSimulationScenarioResource(self)
+
+    @cached_property
+    def simulation_persona(self) -> AsyncSimulationPersonaResource:
+        from .resources.simulation_persona import AsyncSimulationPersonaResource
+
+        return AsyncSimulationPersonaResource(self)
+
+    @cached_property
+    def agent(self) -> AsyncAgentResource:
+        from .resources.agent import AsyncAgentResource
+
+        return AsyncAgentResource(self)
+
+    @cached_property
+    def agent_endpoint(self) -> AsyncAgentEndpointResource:
+        from .resources.agent_endpoint import AsyncAgentEndpointResource
+
+        return AsyncAgentEndpointResource(self)
+
+    @cached_property
+    def http_request_definition(self) -> AsyncHTTPRequestDefinitionResource:
+        from .resources.http_request_definition import AsyncHTTPRequestDefinitionResource
+
+        return AsyncHTTPRequestDefinitionResource(self)
+
+    @cached_property
+    def webhook(self) -> AsyncWebhookResource:
+        from .resources.webhook import AsyncWebhookResource
+
+        return AsyncWebhookResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncRoarkWithRawResponse:
@@ -500,16 +606,58 @@ class RoarkWithRawResponse:
         return IntegrationsResourceWithRawResponse(self._client.integrations)
 
     @cached_property
-    def simulation(self) -> simulation.SimulationResourceWithRawResponse:
-        from .resources.simulation import SimulationResourceWithRawResponse
+    def simulation_job(self) -> simulation_job.SimulationJobResourceWithRawResponse:
+        from .resources.simulation_job import SimulationJobResourceWithRawResponse
 
-        return SimulationResourceWithRawResponse(self._client.simulation)
+        return SimulationJobResourceWithRawResponse(self._client.simulation_job)
 
     @cached_property
-    def persona(self) -> persona.PersonaResourceWithRawResponse:
-        from .resources.persona import PersonaResourceWithRawResponse
+    def simulation_run_plan(self) -> simulation_run_plan.SimulationRunPlanResourceWithRawResponse:
+        from .resources.simulation_run_plan import SimulationRunPlanResourceWithRawResponse
 
-        return PersonaResourceWithRawResponse(self._client.persona)
+        return SimulationRunPlanResourceWithRawResponse(self._client.simulation_run_plan)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> simulation_run_plan_job.SimulationRunPlanJobResourceWithRawResponse:
+        from .resources.simulation_run_plan_job import SimulationRunPlanJobResourceWithRawResponse
+
+        return SimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
+
+    @cached_property
+    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithRawResponse:
+        from .resources.simulation_scenario import SimulationScenarioResourceWithRawResponse
+
+        return SimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
+
+    @cached_property
+    def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithRawResponse:
+        from .resources.simulation_persona import SimulationPersonaResourceWithRawResponse
+
+        return SimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
+
+    @cached_property
+    def agent(self) -> agent.AgentResourceWithRawResponse:
+        from .resources.agent import AgentResourceWithRawResponse
+
+        return AgentResourceWithRawResponse(self._client.agent)
+
+    @cached_property
+    def agent_endpoint(self) -> agent_endpoint.AgentEndpointResourceWithRawResponse:
+        from .resources.agent_endpoint import AgentEndpointResourceWithRawResponse
+
+        return AgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithRawResponse:
+        from .resources.http_request_definition import HTTPRequestDefinitionResourceWithRawResponse
+
+        return HTTPRequestDefinitionResourceWithRawResponse(self._client.http_request_definition)
+
+    @cached_property
+    def webhook(self) -> webhook.WebhookResourceWithRawResponse:
+        from .resources.webhook import WebhookResourceWithRawResponse
+
+        return WebhookResourceWithRawResponse(self._client.webhook)
 
 
 class AsyncRoarkWithRawResponse:
@@ -549,16 +697,58 @@ class AsyncRoarkWithRawResponse:
         return AsyncIntegrationsResourceWithRawResponse(self._client.integrations)
 
     @cached_property
-    def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
-        from .resources.simulation import AsyncSimulationResourceWithRawResponse
+    def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithRawResponse:
+        from .resources.simulation_job import AsyncSimulationJobResourceWithRawResponse
 
-        return AsyncSimulationResourceWithRawResponse(self._client.simulation)
+        return AsyncSimulationJobResourceWithRawResponse(self._client.simulation_job)
 
     @cached_property
-    def persona(self) -> persona.AsyncPersonaResourceWithRawResponse:
-        from .resources.persona import AsyncPersonaResourceWithRawResponse
+    def simulation_run_plan(self) -> simulation_run_plan.AsyncSimulationRunPlanResourceWithRawResponse:
+        from .resources.simulation_run_plan import AsyncSimulationRunPlanResourceWithRawResponse
 
-        return AsyncPersonaResourceWithRawResponse(self._client.persona)
+        return AsyncSimulationRunPlanResourceWithRawResponse(self._client.simulation_run_plan)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> simulation_run_plan_job.AsyncSimulationRunPlanJobResourceWithRawResponse:
+        from .resources.simulation_run_plan_job import AsyncSimulationRunPlanJobResourceWithRawResponse
+
+        return AsyncSimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
+
+    @cached_property
+    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithRawResponse:
+        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithRawResponse
+
+        return AsyncSimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
+
+    @cached_property
+    def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithRawResponse:
+        from .resources.simulation_persona import AsyncSimulationPersonaResourceWithRawResponse
+
+        return AsyncSimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
+        from .resources.agent import AsyncAgentResourceWithRawResponse
+
+        return AsyncAgentResourceWithRawResponse(self._client.agent)
+
+    @cached_property
+    def agent_endpoint(self) -> agent_endpoint.AsyncAgentEndpointResourceWithRawResponse:
+        from .resources.agent_endpoint import AsyncAgentEndpointResourceWithRawResponse
+
+        return AsyncAgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def http_request_definition(self) -> http_request_definition.AsyncHTTPRequestDefinitionResourceWithRawResponse:
+        from .resources.http_request_definition import AsyncHTTPRequestDefinitionResourceWithRawResponse
+
+        return AsyncHTTPRequestDefinitionResourceWithRawResponse(self._client.http_request_definition)
+
+    @cached_property
+    def webhook(self) -> webhook.AsyncWebhookResourceWithRawResponse:
+        from .resources.webhook import AsyncWebhookResourceWithRawResponse
+
+        return AsyncWebhookResourceWithRawResponse(self._client.webhook)
 
 
 class RoarkWithStreamedResponse:
@@ -598,16 +788,58 @@ class RoarkWithStreamedResponse:
         return IntegrationsResourceWithStreamingResponse(self._client.integrations)
 
     @cached_property
-    def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
-        from .resources.simulation import SimulationResourceWithStreamingResponse
+    def simulation_job(self) -> simulation_job.SimulationJobResourceWithStreamingResponse:
+        from .resources.simulation_job import SimulationJobResourceWithStreamingResponse
 
-        return SimulationResourceWithStreamingResponse(self._client.simulation)
+        return SimulationJobResourceWithStreamingResponse(self._client.simulation_job)
 
     @cached_property
-    def persona(self) -> persona.PersonaResourceWithStreamingResponse:
-        from .resources.persona import PersonaResourceWithStreamingResponse
+    def simulation_run_plan(self) -> simulation_run_plan.SimulationRunPlanResourceWithStreamingResponse:
+        from .resources.simulation_run_plan import SimulationRunPlanResourceWithStreamingResponse
 
-        return PersonaResourceWithStreamingResponse(self._client.persona)
+        return SimulationRunPlanResourceWithStreamingResponse(self._client.simulation_run_plan)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> simulation_run_plan_job.SimulationRunPlanJobResourceWithStreamingResponse:
+        from .resources.simulation_run_plan_job import SimulationRunPlanJobResourceWithStreamingResponse
+
+        return SimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
+
+    @cached_property
+    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithStreamingResponse:
+        from .resources.simulation_scenario import SimulationScenarioResourceWithStreamingResponse
+
+        return SimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
+
+    @cached_property
+    def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithStreamingResponse:
+        from .resources.simulation_persona import SimulationPersonaResourceWithStreamingResponse
+
+        return SimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def agent(self) -> agent.AgentResourceWithStreamingResponse:
+        from .resources.agent import AgentResourceWithStreamingResponse
+
+        return AgentResourceWithStreamingResponse(self._client.agent)
+
+    @cached_property
+    def agent_endpoint(self) -> agent_endpoint.AgentEndpointResourceWithStreamingResponse:
+        from .resources.agent_endpoint import AgentEndpointResourceWithStreamingResponse
+
+        return AgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithStreamingResponse:
+        from .resources.http_request_definition import HTTPRequestDefinitionResourceWithStreamingResponse
+
+        return HTTPRequestDefinitionResourceWithStreamingResponse(self._client.http_request_definition)
+
+    @cached_property
+    def webhook(self) -> webhook.WebhookResourceWithStreamingResponse:
+        from .resources.webhook import WebhookResourceWithStreamingResponse
+
+        return WebhookResourceWithStreamingResponse(self._client.webhook)
 
 
 class AsyncRoarkWithStreamedResponse:
@@ -647,16 +879,60 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncIntegrationsResourceWithStreamingResponse(self._client.integrations)
 
     @cached_property
-    def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
-        from .resources.simulation import AsyncSimulationResourceWithStreamingResponse
+    def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithStreamingResponse:
+        from .resources.simulation_job import AsyncSimulationJobResourceWithStreamingResponse
 
-        return AsyncSimulationResourceWithStreamingResponse(self._client.simulation)
+        return AsyncSimulationJobResourceWithStreamingResponse(self._client.simulation_job)
 
     @cached_property
-    def persona(self) -> persona.AsyncPersonaResourceWithStreamingResponse:
-        from .resources.persona import AsyncPersonaResourceWithStreamingResponse
+    def simulation_run_plan(self) -> simulation_run_plan.AsyncSimulationRunPlanResourceWithStreamingResponse:
+        from .resources.simulation_run_plan import AsyncSimulationRunPlanResourceWithStreamingResponse
 
-        return AsyncPersonaResourceWithStreamingResponse(self._client.persona)
+        return AsyncSimulationRunPlanResourceWithStreamingResponse(self._client.simulation_run_plan)
+
+    @cached_property
+    def simulation_run_plan_job(self) -> simulation_run_plan_job.AsyncSimulationRunPlanJobResourceWithStreamingResponse:
+        from .resources.simulation_run_plan_job import AsyncSimulationRunPlanJobResourceWithStreamingResponse
+
+        return AsyncSimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
+
+    @cached_property
+    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithStreamingResponse:
+        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithStreamingResponse
+
+        return AsyncSimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
+
+    @cached_property
+    def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithStreamingResponse:
+        from .resources.simulation_persona import AsyncSimulationPersonaResourceWithStreamingResponse
+
+        return AsyncSimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:
+        from .resources.agent import AsyncAgentResourceWithStreamingResponse
+
+        return AsyncAgentResourceWithStreamingResponse(self._client.agent)
+
+    @cached_property
+    def agent_endpoint(self) -> agent_endpoint.AsyncAgentEndpointResourceWithStreamingResponse:
+        from .resources.agent_endpoint import AsyncAgentEndpointResourceWithStreamingResponse
+
+        return AsyncAgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def http_request_definition(
+        self,
+    ) -> http_request_definition.AsyncHTTPRequestDefinitionResourceWithStreamingResponse:
+        from .resources.http_request_definition import AsyncHTTPRequestDefinitionResourceWithStreamingResponse
+
+        return AsyncHTTPRequestDefinitionResourceWithStreamingResponse(self._client.http_request_definition)
+
+    @cached_property
+    def webhook(self) -> webhook.AsyncWebhookResourceWithStreamingResponse:
+        from .resources.webhook import AsyncWebhookResourceWithStreamingResponse
+
+        return AsyncWebhookResourceWithStreamingResponse(self._client.webhook)
 
 
 Client = Roark

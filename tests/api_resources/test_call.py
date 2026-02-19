@@ -14,6 +14,7 @@ from roark_analytics.types import (
     CallCreateResponse,
     CallGetByIDResponse,
     CallListMetricsResponse,
+    CallGetTranscriptResponse,
     CallListSentimentRunsResponse,
     CallListEvaluationRunsResponse,
 )
@@ -206,6 +207,52 @@ class TestCall:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
             client.call.with_raw_response.get_by_id(
                 "",
+            )
+
+    @parametrize
+    def test_method_get_transcript(self, client: Roark) -> None:
+        call = client.call.get_transcript(
+            call_id="callId",
+        )
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_get_transcript_with_all_params(self, client: Roark) -> None:
+        call = client.call.get_transcript(
+            call_id="callId",
+            source="ROARK_POST_CALL",
+        )
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_transcript(self, client: Roark) -> None:
+        response = client.call.with_raw_response.get_transcript(
+            call_id="callId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_transcript(self, client: Roark) -> None:
+        with client.call.with_streaming_response.get_transcript(
+            call_id="callId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_transcript(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            client.call.with_raw_response.get_transcript(
+                call_id="",
             )
 
     @parametrize
@@ -518,6 +565,52 @@ class TestAsyncCall:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
             await async_client.call.with_raw_response.get_by_id(
                 "",
+            )
+
+    @parametrize
+    async def test_method_get_transcript(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.get_transcript(
+            call_id="callId",
+        )
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_get_transcript_with_all_params(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.get_transcript(
+            call_id="callId",
+            source="ROARK_POST_CALL",
+        )
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_transcript(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.get_transcript(
+            call_id="callId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_transcript(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.get_transcript(
+            call_id="callId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallGetTranscriptResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_transcript(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            await async_client.call.with_raw_response.get_transcript(
+                call_id="",
             )
 
     @parametrize

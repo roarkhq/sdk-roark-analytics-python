@@ -1,0 +1,58 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import List, Optional
+from typing_extensions import Literal
+
+from pydantic import Field as FieldInfo
+
+from .._models import BaseModel
+
+__all__ = ["SimulationScenarioListResponse", "Data", "DataStep", "Pagination"]
+
+
+class DataStep(BaseModel):
+    content: Optional[str] = None
+    """Content/text of the step"""
+
+    node_id: str = FieldInfo(alias="nodeId")
+    """Unique identifier of the step node (use this for update/delete operations)"""
+
+    type: Literal["START", "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]
+    """Type of step in the scenario"""
+
+
+class Data(BaseModel):
+    id: str
+    """Unique identifier of the scenario"""
+
+    created_at: str = FieldInfo(alias="createdAt")
+    """Creation timestamp in ISO 8601 format"""
+
+    description: Optional[str] = None
+    """Description of the scenario"""
+
+    name: Optional[str] = None
+    """Name of the scenario (from the start node content)"""
+
+    steps: List[DataStep]
+    """Ordered list of steps in the scenario (excludes the START node)"""
+
+    updated_at: str = FieldInfo(alias="updatedAt")
+    """Last update timestamp in ISO 8601 format"""
+
+
+class Pagination(BaseModel):
+    has_more: bool = FieldInfo(alias="hasMore")
+    """Whether there are more items to fetch"""
+
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
+    """Cursor for the next page of items"""
+
+    total: float
+    """Total number of items"""
+
+
+class SimulationScenarioListResponse(BaseModel):
+    data: List[Data]
+
+    pagination: Pagination
