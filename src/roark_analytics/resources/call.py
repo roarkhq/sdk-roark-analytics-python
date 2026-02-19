@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import call_list_params, call_create_params, call_list_metrics_params
+from ..types import call_list_params, call_create_params, call_list_metrics_params, call_get_transcript_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -23,6 +23,7 @@ from ..types.call_list_response import CallListResponse
 from ..types.call_create_response import CallCreateResponse
 from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
+from ..types.call_get_transcript_response import CallGetTranscriptResponse
 from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
 from ..types.call_list_evaluation_runs_response import CallListEvaluationRunsResponse
 
@@ -261,6 +262,50 @@ class CallResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CallGetByIDResponse,
+        )
+
+    def get_transcript(
+        self,
+        call_id: str,
+        *,
+        source: Literal["ROARK_POST_CALL", "SIMULATION_AGENT_REALTIME", "CUSTOMER_AGENT_REALTIME"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetTranscriptResponse:
+        """Fetch the full transcript for a specific call.
+
+        Optionally specify a
+        transcription source; otherwise the best available source is used automatically.
+
+        Args:
+          source: Transcription source to fetch. When omitted, uses the preferred source based on
+              availability: CUSTOMER_AGENT_REALTIME > SIMULATION_AGENT_REALTIME >
+              ROARK_POST_CALL
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._get(
+            f"/v1/call/{call_id}/transcript",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"source": source}, call_get_transcript_params.CallGetTranscriptParams),
+            ),
+            cast_to=CallGetTranscriptResponse,
         )
 
     def list_evaluation_runs(
@@ -612,6 +657,52 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetByIDResponse,
         )
 
+    async def get_transcript(
+        self,
+        call_id: str,
+        *,
+        source: Literal["ROARK_POST_CALL", "SIMULATION_AGENT_REALTIME", "CUSTOMER_AGENT_REALTIME"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetTranscriptResponse:
+        """Fetch the full transcript for a specific call.
+
+        Optionally specify a
+        transcription source; otherwise the best available source is used automatically.
+
+        Args:
+          source: Transcription source to fetch. When omitted, uses the preferred source based on
+              availability: CUSTOMER_AGENT_REALTIME > SIMULATION_AGENT_REALTIME >
+              ROARK_POST_CALL
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._get(
+            f"/v1/call/{call_id}/transcript",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"source": source}, call_get_transcript_params.CallGetTranscriptParams
+                ),
+            ),
+            cast_to=CallGetTranscriptResponse,
+        )
+
     async def list_evaluation_runs(
         self,
         call_id: str,
@@ -740,6 +831,9 @@ class CallResourceWithRawResponse:
         self.get_by_id = to_raw_response_wrapper(
             call.get_by_id,
         )
+        self.get_transcript = to_raw_response_wrapper(
+            call.get_transcript,
+        )
         self.list_evaluation_runs = to_raw_response_wrapper(
             call.list_evaluation_runs,
         )
@@ -763,6 +857,9 @@ class AsyncCallResourceWithRawResponse:
         )
         self.get_by_id = async_to_raw_response_wrapper(
             call.get_by_id,
+        )
+        self.get_transcript = async_to_raw_response_wrapper(
+            call.get_transcript,
         )
         self.list_evaluation_runs = async_to_raw_response_wrapper(
             call.list_evaluation_runs,
@@ -788,6 +885,9 @@ class CallResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             call.get_by_id,
         )
+        self.get_transcript = to_streamed_response_wrapper(
+            call.get_transcript,
+        )
         self.list_evaluation_runs = to_streamed_response_wrapper(
             call.list_evaluation_runs,
         )
@@ -811,6 +911,9 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             call.get_by_id,
+        )
+        self.get_transcript = async_to_streamed_response_wrapper(
+            call.get_transcript,
         )
         self.list_evaluation_runs = async_to_streamed_response_wrapper(
             call.list_evaluation_runs,

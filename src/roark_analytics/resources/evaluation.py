@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import evaluation_create_job_params, evaluation_list_job_runs_params, evaluation_list_evaluators_params
+from ..types import (
+    evaluation_create_job_params,
+    evaluation_list_job_runs_params,
+    evaluation_list_evaluators_params,
+    evaluation_create_evaluator_params,
+    evaluation_update_evaluator_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -23,6 +29,8 @@ from ..types.evaluation_get_job_response import EvaluationGetJobResponse
 from ..types.evaluation_create_job_response import EvaluationCreateJobResponse
 from ..types.evaluation_list_job_runs_response import EvaluationListJobRunsResponse
 from ..types.evaluation_list_evaluators_response import EvaluationListEvaluatorsResponse
+from ..types.evaluation_create_evaluator_response import EvaluationCreateEvaluatorResponse
+from ..types.evaluation_update_evaluator_response import EvaluationUpdateEvaluatorResponse
 from ..types.evaluation_get_evaluator_by_id_response import EvaluationGetEvaluatorByIDResponse
 
 __all__ = ["EvaluationResource", "AsyncEvaluationResource"]
@@ -47,6 +55,53 @@ class EvaluationResource(SyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return EvaluationResourceWithStreamingResponse(self)
+
+    def create_evaluator(
+        self,
+        *,
+        blocks: Iterable[evaluation_create_evaluator_params.Block],
+        name: str,
+        description: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationCreateEvaluatorResponse:
+        """
+        Creates a new evaluator with the specified blocks and configuration.
+
+        Args:
+          blocks: Array of evaluation blocks (at least one required)
+
+          name: Name of the evaluator
+
+          description: Optional description of the evaluator
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/evaluation/evaluators",
+            body=maybe_transform(
+                {
+                    "blocks": blocks,
+                    "name": name,
+                    "description": description,
+                },
+                evaluation_create_evaluator_params.EvaluationCreateEvaluatorParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluationCreateEvaluatorResponse,
+        )
 
     def create_job(
         self,
@@ -262,6 +317,60 @@ class EvaluationResource(SyncAPIResource):
             cast_to=EvaluationListJobRunsResponse,
         )
 
+    def update_evaluator(
+        self,
+        evaluator_id: str,
+        *,
+        blocks: Iterable[evaluation_update_evaluator_params.Block] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationUpdateEvaluatorResponse:
+        """Updates an existing evaluator.
+
+        When blocks are provided: blocks with an id
+        update existing blocks, blocks without an id create new blocks, and existing
+        blocks not included in the array are deleted.
+
+        Args:
+          blocks: Updated array of evaluation blocks. Include id to update, omit id to create.
+              Existing blocks not in the array will be deleted.
+
+          description: New description for the evaluator
+
+          name: New name for the evaluator
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not evaluator_id:
+            raise ValueError(f"Expected a non-empty value for `evaluator_id` but received {evaluator_id!r}")
+        return self._put(
+            f"/v1/evaluation/evaluators/{evaluator_id}",
+            body=maybe_transform(
+                {
+                    "blocks": blocks,
+                    "description": description,
+                    "name": name,
+                },
+                evaluation_update_evaluator_params.EvaluationUpdateEvaluatorParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluationUpdateEvaluatorResponse,
+        )
+
 
 class AsyncEvaluationResource(AsyncAPIResource):
     @cached_property
@@ -282,6 +391,53 @@ class AsyncEvaluationResource(AsyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return AsyncEvaluationResourceWithStreamingResponse(self)
+
+    async def create_evaluator(
+        self,
+        *,
+        blocks: Iterable[evaluation_create_evaluator_params.Block],
+        name: str,
+        description: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationCreateEvaluatorResponse:
+        """
+        Creates a new evaluator with the specified blocks and configuration.
+
+        Args:
+          blocks: Array of evaluation blocks (at least one required)
+
+          name: Name of the evaluator
+
+          description: Optional description of the evaluator
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/evaluation/evaluators",
+            body=await async_maybe_transform(
+                {
+                    "blocks": blocks,
+                    "name": name,
+                    "description": description,
+                },
+                evaluation_create_evaluator_params.EvaluationCreateEvaluatorParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluationCreateEvaluatorResponse,
+        )
 
     async def create_job(
         self,
@@ -497,11 +653,68 @@ class AsyncEvaluationResource(AsyncAPIResource):
             cast_to=EvaluationListJobRunsResponse,
         )
 
+    async def update_evaluator(
+        self,
+        evaluator_id: str,
+        *,
+        blocks: Iterable[evaluation_update_evaluator_params.Block] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EvaluationUpdateEvaluatorResponse:
+        """Updates an existing evaluator.
+
+        When blocks are provided: blocks with an id
+        update existing blocks, blocks without an id create new blocks, and existing
+        blocks not included in the array are deleted.
+
+        Args:
+          blocks: Updated array of evaluation blocks. Include id to update, omit id to create.
+              Existing blocks not in the array will be deleted.
+
+          description: New description for the evaluator
+
+          name: New name for the evaluator
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not evaluator_id:
+            raise ValueError(f"Expected a non-empty value for `evaluator_id` but received {evaluator_id!r}")
+        return await self._put(
+            f"/v1/evaluation/evaluators/{evaluator_id}",
+            body=await async_maybe_transform(
+                {
+                    "blocks": blocks,
+                    "description": description,
+                    "name": name,
+                },
+                evaluation_update_evaluator_params.EvaluationUpdateEvaluatorParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluationUpdateEvaluatorResponse,
+        )
+
 
 class EvaluationResourceWithRawResponse:
     def __init__(self, evaluation: EvaluationResource) -> None:
         self._evaluation = evaluation
 
+        self.create_evaluator = to_raw_response_wrapper(
+            evaluation.create_evaluator,
+        )
         self.create_job = to_raw_response_wrapper(
             evaluation.create_job,
         )
@@ -517,12 +730,18 @@ class EvaluationResourceWithRawResponse:
         self.list_job_runs = to_raw_response_wrapper(
             evaluation.list_job_runs,
         )
+        self.update_evaluator = to_raw_response_wrapper(
+            evaluation.update_evaluator,
+        )
 
 
 class AsyncEvaluationResourceWithRawResponse:
     def __init__(self, evaluation: AsyncEvaluationResource) -> None:
         self._evaluation = evaluation
 
+        self.create_evaluator = async_to_raw_response_wrapper(
+            evaluation.create_evaluator,
+        )
         self.create_job = async_to_raw_response_wrapper(
             evaluation.create_job,
         )
@@ -538,12 +757,18 @@ class AsyncEvaluationResourceWithRawResponse:
         self.list_job_runs = async_to_raw_response_wrapper(
             evaluation.list_job_runs,
         )
+        self.update_evaluator = async_to_raw_response_wrapper(
+            evaluation.update_evaluator,
+        )
 
 
 class EvaluationResourceWithStreamingResponse:
     def __init__(self, evaluation: EvaluationResource) -> None:
         self._evaluation = evaluation
 
+        self.create_evaluator = to_streamed_response_wrapper(
+            evaluation.create_evaluator,
+        )
         self.create_job = to_streamed_response_wrapper(
             evaluation.create_job,
         )
@@ -559,12 +784,18 @@ class EvaluationResourceWithStreamingResponse:
         self.list_job_runs = to_streamed_response_wrapper(
             evaluation.list_job_runs,
         )
+        self.update_evaluator = to_streamed_response_wrapper(
+            evaluation.update_evaluator,
+        )
 
 
 class AsyncEvaluationResourceWithStreamingResponse:
     def __init__(self, evaluation: AsyncEvaluationResource) -> None:
         self._evaluation = evaluation
 
+        self.create_evaluator = async_to_streamed_response_wrapper(
+            evaluation.create_evaluator,
+        )
         self.create_job = async_to_streamed_response_wrapper(
             evaluation.create_job,
         )
@@ -579,4 +810,7 @@ class AsyncEvaluationResourceWithStreamingResponse:
         )
         self.list_job_runs = async_to_streamed_response_wrapper(
             evaluation.list_job_runs,
+        )
+        self.update_evaluator = async_to_streamed_response_wrapper(
+            evaluation.update_evaluator,
         )
