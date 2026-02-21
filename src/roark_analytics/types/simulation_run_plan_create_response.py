@@ -50,6 +50,9 @@ class DataRunPlan(BaseModel):
     direction: Literal["INBOUND", "OUTBOUND"]
     """Direction of the simulation (INBOUND or OUTBOUND)"""
 
+    end_call_phrases: List[str] = FieldInfo(alias="endCallPhrases")
+    """Phrases that trigger end of call. Empty array means disabled."""
+
     evaluators: List[DataRunPlanEvaluator]
     """Evaluators included in this run plan"""
 

@@ -33,7 +33,11 @@ class StepChangeCreateStepChange(TypedDict, total=False):
     content: Required[str]
     """The content/text of the new step"""
 
-    type: Required[Literal["AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]]
+    type: Required[
+        Literal[
+            "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "CUSTOMER_DTMF", "VOICEMAIL"
+        ]
+    ]
     """The type of the new step"""
 
 
@@ -49,7 +53,9 @@ class StepChangeUpdateStepChange(TypedDict, total=False):
     content: str
     """The new content/text of the step (optional)"""
 
-    type: Literal["AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]
+    type: Literal[
+        "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "CUSTOMER_DTMF", "VOICEMAIL"
+    ]
     """The new type of the step (optional)"""
 
 

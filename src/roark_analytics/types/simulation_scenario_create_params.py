@@ -22,5 +22,9 @@ class Step(TypedDict, total=False):
     content: Required[str]
     """The content/text of the step"""
 
-    type: Required[Literal["AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]]
+    type: Required[
+        Literal[
+            "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "CUSTOMER_DTMF", "VOICEMAIL"
+        ]
+    ]
     """The type of this step"""
