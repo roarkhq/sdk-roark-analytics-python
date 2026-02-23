@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Dict, Union, Iterable
 from typing_extensions import Literal
 
 import httpx
@@ -160,7 +160,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         self,
         plan_id: object,
         *,
-        variables: Union[Dict[str, str], Dict[str, Dict[str, str]]] | Omit = omit,
+        variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -174,9 +175,15 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined variables. Can be a flat key-value
-              object (applies to all scenarios) or keyed by scenario ID for per-scenario
-              overrides.
+          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
+              two formats:
+
+              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
+              "orderNumber": "12345", "environment": "staging" }
+
+              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
+              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
 
           extra_headers: Send extra headers
 
@@ -332,7 +339,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         self,
         plan_id: object,
         *,
-        variables: Union[Dict[str, str], Dict[str, Dict[str, str]]] | Omit = omit,
+        variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -346,9 +354,15 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined variables. Can be a flat key-value
-              object (applies to all scenarios) or keyed by scenario ID for per-scenario
-              overrides.
+          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
+              two formats:
+
+              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
+              "orderNumber": "12345", "environment": "staging" }
+
+              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
+              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
 
           extra_headers: Send extra headers
 
