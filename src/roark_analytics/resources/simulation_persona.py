@@ -68,6 +68,7 @@ class SimulationPersonaResource(SyncAPIResource):
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
@@ -109,6 +110,9 @@ class SimulationPersonaResource(SyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
@@ -140,6 +144,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
@@ -175,6 +180,7 @@ class SimulationPersonaResource(SyncAPIResource):
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
@@ -216,6 +222,9 @@ class SimulationPersonaResource(SyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
@@ -249,6 +258,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "memory_reliability": memory_reliability,
                     "name": name,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
@@ -380,6 +390,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
@@ -421,6 +432,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
@@ -452,6 +466,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
@@ -487,6 +502,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
@@ -528,6 +544,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
@@ -561,6 +580,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "memory_reliability": memory_reliability,
                     "name": name,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,

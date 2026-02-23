@@ -57,6 +57,12 @@ class Data(BaseModel):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
+    response_timing: Literal["RELAXED", "NORMAL", "QUICK"] = FieldInfo(alias="responseTiming")
+    """
+    Controls how quickly the persona responds to pauses in conversation (QUICK,
+    NORMAL, RELAXED)
+    """
+
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
     """Speech clarity of the persona"""
 

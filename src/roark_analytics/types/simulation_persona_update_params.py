@@ -59,6 +59,12 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
+    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK"], PropertyInfo(alias="responseTiming")]
+    """
+    Controls how quickly the persona responds to pauses in conversation (QUICK,
+    NORMAL, RELAXED)
+    """
+
     secondary_language: Annotated[Optional[Literal["EN"]], PropertyInfo(alias="secondaryLanguage")]
     """
     Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
