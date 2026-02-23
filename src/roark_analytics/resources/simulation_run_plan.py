@@ -94,7 +94,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           auto_run: Whether to automatically trigger a job after creating the run plan
 
@@ -197,7 +198,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -422,7 +424,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           auto_run: Whether to automatically trigger a job after creating the run plan
 
@@ -525,7 +528,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
