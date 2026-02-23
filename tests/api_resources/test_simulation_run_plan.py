@@ -45,7 +45,15 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=300,
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {
+                        "customerName": "John Doe",
+                        "appointmentDate": "2024-02-15",
+                    },
+                }
+            ],
             auto_run=False,
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
@@ -114,7 +122,12 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=1,
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                }
+            ],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])
@@ -289,7 +302,15 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=300,
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {
+                        "customerName": "John Doe",
+                        "appointmentDate": "2024-02-15",
+                    },
+                }
+            ],
             auto_run=False,
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
@@ -358,7 +379,12 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=1,
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                }
+            ],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])

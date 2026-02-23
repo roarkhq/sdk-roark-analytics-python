@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
@@ -31,7 +31,10 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     """Personas to include in this run plan"""
 
     scenarios: Required[Iterable[Scenario]]
-    """Scenarios to include in this run plan"""
+    """Scenarios to include in this run plan.
+
+    The same scenario ID can appear multiple times with different variables.
+    """
 
     auto_run: Annotated[bool, PropertyInfo(alias="autoRun")]
     """Whether to automatically trigger a job after creating the run plan"""
@@ -74,3 +77,10 @@ class Persona(TypedDict, total=False):
 
 class Scenario(TypedDict, total=False):
     id: Required[str]
+    """Scenario ID"""
+
+    variables: Dict[str, str]
+    """Template variables for this scenario instance.
+
+    The same scenario can appear multiple times with different variables.
+    """

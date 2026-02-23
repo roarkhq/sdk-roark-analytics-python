@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Dict, Union
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import simulation_run_plan_job_list_params
+from ..types import simulation_run_plan_job_list_params, simulation_run_plan_job_start_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -159,6 +160,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         self,
         plan_id: object,
         *,
+        variables: Union[Dict[str, str], Dict[str, Dict[str, str]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -166,10 +168,16 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """
-        Create and execute a job for an existing simulation run plan
+        """Create and execute a job for an existing simulation run plan.
+
+        Optionally provide
+        runtime variables to override plan-defined variables.
 
         Args:
+          variables: Runtime variables that override plan-defined variables. Can be a flat key-value
+              object (applies to all scenarios) or keyed by scenario ID for per-scenario
+              overrides.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -180,6 +188,9 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         """
         return self._post(
             f"/v1/simulation/plan/{plan_id}/job",
+            body=maybe_transform(
+                {"variables": variables}, simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -321,6 +332,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         self,
         plan_id: object,
         *,
+        variables: Union[Dict[str, str], Dict[str, Dict[str, str]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -328,10 +340,16 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """
-        Create and execute a job for an existing simulation run plan
+        """Create and execute a job for an existing simulation run plan.
+
+        Optionally provide
+        runtime variables to override plan-defined variables.
 
         Args:
+          variables: Runtime variables that override plan-defined variables. Can be a flat key-value
+              object (applies to all scenarios) or keyed by scenario ID for per-scenario
+              overrides.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -342,6 +360,9 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         """
         return await self._post(
             f"/v1/simulation/plan/{plan_id}/job",
+            body=await async_maybe_transform(
+                {"variables": variables}, simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
