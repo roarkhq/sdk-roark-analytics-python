@@ -8,7 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationRunPlanCreateParams", "AgentEndpoint", "Evaluator", "Persona", "Scenario"]
+__all__ = ["SimulationRunPlanCreateParams", "AgentEndpoint", "Metric", "Persona", "Scenario"]
 
 
 class SimulationRunPlanCreateParams(TypedDict, total=False):
@@ -18,11 +18,11 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     direction: Required[Literal["INBOUND", "OUTBOUND"]]
     """Direction of the simulation (INBOUND or OUTBOUND)"""
 
-    evaluators: Required[Iterable[Evaluator]]
-    """Evaluators to include in this run plan"""
-
     max_simulation_duration_seconds: Required[Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]]
     """Maximum duration in seconds for each simulation"""
+
+    metrics: Required[Iterable[Metric]]
+    """Metric definitions to include in this run plan"""
 
     name: Required[str]
     """Name of the run plan"""
@@ -67,7 +67,7 @@ class AgentEndpoint(TypedDict, total=False):
     id: Required[str]
 
 
-class Evaluator(TypedDict, total=False):
+class Metric(TypedDict, total=False):
     id: Required[str]
 
 

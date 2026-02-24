@@ -8,7 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationRunPlanUpdateParams", "AgentEndpoint", "Evaluator", "Persona", "Scenario"]
+__all__ = ["SimulationRunPlanUpdateParams", "AgentEndpoint", "Metric", "Persona", "Scenario"]
 
 
 class SimulationRunPlanUpdateParams(TypedDict, total=False):
@@ -23,9 +23,6 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
     """Phrases that trigger end of call. Empty array disables the feature."""
-
-    evaluators: Iterable[Evaluator]
-    """Evaluators to include in this run plan"""
 
     execution_mode: Annotated[
         Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
@@ -43,6 +40,9 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     max_simulation_duration_seconds: Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]
     """Maximum duration in seconds for each simulation"""
+
+    metrics: Iterable[Metric]
+    """Metric definitions to include in this run plan"""
 
     name: str
     """Name of the run plan"""
@@ -64,7 +64,7 @@ class AgentEndpoint(TypedDict, total=False):
     id: Required[str]
 
 
-class Evaluator(TypedDict, total=False):
+class Metric(TypedDict, total=False):
     id: Required[str]
 
 

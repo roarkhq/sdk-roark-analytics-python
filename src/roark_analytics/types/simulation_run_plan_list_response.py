@@ -12,6 +12,7 @@ __all__ = [
     "Data",
     "DataAgentEndpoint",
     "DataEvaluator",
+    "DataMetric",
     "DataPersona",
     "DataScenario",
     "Pagination",
@@ -23,6 +24,10 @@ class DataAgentEndpoint(BaseModel):
 
 
 class DataEvaluator(BaseModel):
+    id: str
+
+
+class DataMetric(BaseModel):
     id: str
 
 
@@ -53,7 +58,7 @@ class Data(BaseModel):
     """Phrases that trigger end of call. Empty array means disabled."""
 
     evaluators: List[DataEvaluator]
-    """Evaluators included in this run plan"""
+    """Deprecated: Use metrics instead. Evaluators included in this run plan."""
 
     execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] = FieldInfo(
         alias="executionMode"
@@ -68,6 +73,9 @@ class Data(BaseModel):
 
     max_simulation_duration_seconds: int = FieldInfo(alias="maxSimulationDurationSeconds")
     """Maximum duration in seconds for each simulation"""
+
+    metrics: List[DataMetric]
+    """Metric definitions included in this run plan"""
 
     name: str
     """Name of the run plan"""

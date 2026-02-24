@@ -57,8 +57,8 @@ class SimulationRunPlanResource(SyncAPIResource):
         *,
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
-        evaluators: Iterable[simulation_run_plan_create_params.Evaluator],
         max_simulation_duration_seconds: int,
+        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         personas: Iterable[simulation_run_plan_create_params.Persona],
         scenarios: Iterable[simulation_run_plan_create_params.Scenario],
@@ -86,9 +86,9 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
-          evaluators: Evaluators to include in this run plan
-
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan
 
           name: Name of the run plan
 
@@ -126,8 +126,8 @@ class SimulationRunPlanResource(SyncAPIResource):
                 {
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
-                    "evaluators": evaluators,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,
@@ -155,11 +155,11 @@ class SimulationRunPlanResource(SyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
-        evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.Persona] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
@@ -183,8 +183,6 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
-          evaluators: Evaluators to include in this run plan
-
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
@@ -193,6 +191,8 @@ class SimulationRunPlanResource(SyncAPIResource):
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan
 
           name: Name of the run plan
 
@@ -221,11 +221,11 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
-                    "evaluators": evaluators,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,
@@ -387,8 +387,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         *,
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
-        evaluators: Iterable[simulation_run_plan_create_params.Evaluator],
         max_simulation_duration_seconds: int,
+        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         personas: Iterable[simulation_run_plan_create_params.Persona],
         scenarios: Iterable[simulation_run_plan_create_params.Scenario],
@@ -416,9 +416,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
-          evaluators: Evaluators to include in this run plan
-
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan
 
           name: Name of the run plan
 
@@ -456,8 +456,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                 {
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
-                    "evaluators": evaluators,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,
@@ -485,11 +485,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
-        evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.Persona] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
@@ -513,8 +513,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
-          evaluators: Evaluators to include in this run plan
-
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
@@ -523,6 +521,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan
 
           name: Name of the run plan
 
@@ -551,11 +551,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
-                    "evaluators": evaluators,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,
