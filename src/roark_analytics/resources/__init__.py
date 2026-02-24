@@ -40,6 +40,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .metric_policy import (
+    MetricPolicyResource,
+    AsyncMetricPolicyResource,
+    MetricPolicyResourceWithRawResponse,
+    AsyncMetricPolicyResourceWithRawResponse,
+    MetricPolicyResourceWithStreamingResponse,
+    AsyncMetricPolicyResourceWithStreamingResponse,
+)
 from .agent_endpoint import (
     AgentEndpointResource,
     AsyncAgentEndpointResource,
@@ -80,6 +88,14 @@ from .simulation_scenario import (
     SimulationScenarioResourceWithStreamingResponse,
     AsyncSimulationScenarioResourceWithStreamingResponse,
 )
+from .metric_collection_job import (
+    MetricCollectionJobResource,
+    AsyncMetricCollectionJobResource,
+    MetricCollectionJobResourceWithRawResponse,
+    AsyncMetricCollectionJobResourceWithRawResponse,
+    MetricCollectionJobResourceWithStreamingResponse,
+    AsyncMetricCollectionJobResourceWithStreamingResponse,
+)
 from .http_request_definition import (
     HTTPRequestDefinitionResource,
     AsyncHTTPRequestDefinitionResource,
@@ -116,6 +132,18 @@ __all__ = [
     "AsyncMetricResourceWithRawResponse",
     "MetricResourceWithStreamingResponse",
     "AsyncMetricResourceWithStreamingResponse",
+    "MetricPolicyResource",
+    "AsyncMetricPolicyResource",
+    "MetricPolicyResourceWithRawResponse",
+    "AsyncMetricPolicyResourceWithRawResponse",
+    "MetricPolicyResourceWithStreamingResponse",
+    "AsyncMetricPolicyResourceWithStreamingResponse",
+    "MetricCollectionJobResource",
+    "AsyncMetricCollectionJobResource",
+    "MetricCollectionJobResourceWithRawResponse",
+    "AsyncMetricCollectionJobResourceWithRawResponse",
+    "MetricCollectionJobResourceWithStreamingResponse",
+    "AsyncMetricCollectionJobResourceWithStreamingResponse",
     "SimulationJobResource",
     "AsyncSimulationJobResource",
     "SimulationJobResourceWithRawResponse",

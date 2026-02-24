@@ -41,12 +41,53 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import MetricListDefinitionsResponse
+from roark_analytics.types import MetricCreateDefinitionResponse, MetricListDefinitionsResponse
 ```
 
 Methods:
 
+- <code title="post /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">create_definition</a>(\*\*<a href="src/roark_analytics/types/metric_create_definition_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_create_definition_response.py">MetricCreateDefinitionResponse</a></code>
 - <code title="get /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">list_definitions</a>() -> <a href="./src/roark_analytics/types/metric_list_definitions_response.py">MetricListDefinitionsResponse</a></code>
+
+# MetricPolicy
+
+Types:
+
+```python
+from roark_analytics.types import (
+    MetricPolicyCreateResponse,
+    MetricPolicyUpdateResponse,
+    MetricPolicyListResponse,
+    MetricPolicyDeleteResponse,
+    MetricPolicyGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/metric/policies">client.metric_policy.<a href="./src/roark_analytics/resources/metric_policy.py">create</a>(\*\*<a href="src/roark_analytics/types/metric_policy_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_policy_create_response.py">MetricPolicyCreateResponse</a></code>
+- <code title="put /v1/metric/policies/{policyId}">client.metric_policy.<a href="./src/roark_analytics/resources/metric_policy.py">update</a>(policy_id, \*\*<a href="src/roark_analytics/types/metric_policy_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_policy_update_response.py">MetricPolicyUpdateResponse</a></code>
+- <code title="get /v1/metric/policies">client.metric_policy.<a href="./src/roark_analytics/resources/metric_policy.py">list</a>(\*\*<a href="src/roark_analytics/types/metric_policy_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_policy_list_response.py">MetricPolicyListResponse</a></code>
+- <code title="delete /v1/metric/policies/{policyId}">client.metric_policy.<a href="./src/roark_analytics/resources/metric_policy.py">delete</a>(policy_id) -> <a href="./src/roark_analytics/types/metric_policy_delete_response.py">MetricPolicyDeleteResponse</a></code>
+- <code title="get /v1/metric/policies/{policyId}">client.metric_policy.<a href="./src/roark_analytics/resources/metric_policy.py">get_by_id</a>(policy_id) -> <a href="./src/roark_analytics/types/metric_policy_get_by_id_response.py">MetricPolicyGetByIDResponse</a></code>
+
+# MetricCollectionJob
+
+Types:
+
+```python
+from roark_analytics.types import (
+    MetricCollectionJobCreateResponse,
+    MetricCollectionJobListResponse,
+    MetricCollectionJobGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">create</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_create_response.py">MetricCollectionJobCreateResponse</a></code>
+- <code title="get /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">list</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_list_response.py">MetricCollectionJobListResponse</a></code>
+- <code title="get /v1/metric/collection-jobs/{jobId}">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/metric_collection_job_get_by_id_response.py">MetricCollectionJobGetByIDResponse</a></code>
 
 # SimulationJob
 

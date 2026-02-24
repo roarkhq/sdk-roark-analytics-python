@@ -53,7 +53,7 @@ class SimulationPersonaResource(SyncAPIResource):
         accent: Literal[
             "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
         ],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
+        gender: Literal["MALE", "FEMALE"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"],
         name: str,
         background_noise: Literal[
@@ -173,7 +173,7 @@ class SimulationPersonaResource(SyncAPIResource):
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,
@@ -375,7 +375,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         accent: Literal[
             "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
         ],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
+        gender: Literal["MALE", "FEMALE"],
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"],
         name: str,
         background_noise: Literal[
@@ -495,7 +495,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,

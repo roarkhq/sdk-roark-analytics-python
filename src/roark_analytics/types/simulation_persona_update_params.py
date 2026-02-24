@@ -38,7 +38,7 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     description: Optional[str]
     """Human-readable description of the persona"""
 
-    gender: Literal["MALE", "FEMALE", "NEUTRAL"]
+    gender: Literal["MALE", "FEMALE"]
     """Gender of the persona"""
 
     has_disfluencies: Annotated[bool, PropertyInfo(alias="hasDisfluencies")]

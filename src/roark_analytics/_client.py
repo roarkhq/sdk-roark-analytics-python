@@ -37,11 +37,13 @@ if TYPE_CHECKING:
         health,
         metric,
         webhook,
+        metric_policy,
         agent_endpoint,
         simulation_job,
         simulation_persona,
         simulation_run_plan,
         simulation_scenario,
+        metric_collection_job,
         http_request_definition,
         simulation_run_plan_job,
     )
@@ -50,11 +52,13 @@ if TYPE_CHECKING:
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
+    from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
     from .resources.simulation_scenario import SimulationScenarioResource, AsyncSimulationScenarioResource
+    from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
     from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
 
@@ -133,6 +137,18 @@ class Roark(SyncAPIClient):
         from .resources.metric import MetricResource
 
         return MetricResource(self)
+
+    @cached_property
+    def metric_policy(self) -> MetricPolicyResource:
+        from .resources.metric_policy import MetricPolicyResource
+
+        return MetricPolicyResource(self)
+
+    @cached_property
+    def metric_collection_job(self) -> MetricCollectionJobResource:
+        from .resources.metric_collection_job import MetricCollectionJobResource
+
+        return MetricCollectionJobResource(self)
 
     @cached_property
     def simulation_job(self) -> SimulationJobResource:
@@ -375,6 +391,18 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncMetricResource(self)
 
     @cached_property
+    def metric_policy(self) -> AsyncMetricPolicyResource:
+        from .resources.metric_policy import AsyncMetricPolicyResource
+
+        return AsyncMetricPolicyResource(self)
+
+    @cached_property
+    def metric_collection_job(self) -> AsyncMetricCollectionJobResource:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResource
+
+        return AsyncMetricCollectionJobResource(self)
+
+    @cached_property
     def simulation_job(self) -> AsyncSimulationJobResource:
         from .resources.simulation_job import AsyncSimulationJobResource
 
@@ -566,6 +594,18 @@ class RoarkWithRawResponse:
         return MetricResourceWithRawResponse(self._client.metric)
 
     @cached_property
+    def metric_policy(self) -> metric_policy.MetricPolicyResourceWithRawResponse:
+        from .resources.metric_policy import MetricPolicyResourceWithRawResponse
+
+        return MetricPolicyResourceWithRawResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.MetricCollectionJobResourceWithRawResponse:
+        from .resources.metric_collection_job import MetricCollectionJobResourceWithRawResponse
+
+        return MetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
+
+    @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithRawResponse:
         from .resources.simulation_job import SimulationJobResourceWithRawResponse
 
@@ -643,6 +683,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.metric import AsyncMetricResourceWithRawResponse
 
         return AsyncMetricResourceWithRawResponse(self._client.metric)
+
+    @cached_property
+    def metric_policy(self) -> metric_policy.AsyncMetricPolicyResourceWithRawResponse:
+        from .resources.metric_policy import AsyncMetricPolicyResourceWithRawResponse
+
+        return AsyncMetricPolicyResourceWithRawResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.AsyncMetricCollectionJobResourceWithRawResponse:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithRawResponse
+
+        return AsyncMetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithRawResponse:
@@ -724,6 +776,18 @@ class RoarkWithStreamedResponse:
         return MetricResourceWithStreamingResponse(self._client.metric)
 
     @cached_property
+    def metric_policy(self) -> metric_policy.MetricPolicyResourceWithStreamingResponse:
+        from .resources.metric_policy import MetricPolicyResourceWithStreamingResponse
+
+        return MetricPolicyResourceWithStreamingResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.MetricCollectionJobResourceWithStreamingResponse:
+        from .resources.metric_collection_job import MetricCollectionJobResourceWithStreamingResponse
+
+        return MetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
+
+    @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithStreamingResponse:
         from .resources.simulation_job import SimulationJobResourceWithStreamingResponse
 
@@ -801,6 +865,18 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.metric import AsyncMetricResourceWithStreamingResponse
 
         return AsyncMetricResourceWithStreamingResponse(self._client.metric)
+
+    @cached_property
+    def metric_policy(self) -> metric_policy.AsyncMetricPolicyResourceWithStreamingResponse:
+        from .resources.metric_policy import AsyncMetricPolicyResourceWithStreamingResponse
+
+        return AsyncMetricPolicyResourceWithStreamingResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.AsyncMetricCollectionJobResourceWithStreamingResponse:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithStreamingResponse
+
+        return AsyncMetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithStreamingResponse:

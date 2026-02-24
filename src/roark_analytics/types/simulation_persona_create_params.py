@@ -19,7 +19,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     optional variants
     """
 
-    gender: Required[Literal["MALE", "FEMALE", "NEUTRAL"]]
+    gender: Required[Literal["MALE", "FEMALE"]]
     """Gender of the persona"""
 
     language: Required[Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]]

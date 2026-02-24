@@ -59,7 +59,7 @@ class DataSimulationJobPersona(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp"""
 
-    gender: Literal["MALE", "FEMALE", "NEUTRAL"]
+    gender: Literal["MALE", "FEMALE"]
     """Gender of the persona"""
 
     has_disfluencies: bool = FieldInfo(alias="hasDisfluencies")
