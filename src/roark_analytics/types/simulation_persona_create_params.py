@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Dict, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["SimulationPersonaCreateParams"]
@@ -51,6 +52,20 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
 
     has_disfluencies: Annotated[bool, PropertyInfo(alias="hasDisfluencies")]
     """Whether the persona uses filler words like "um" and "uh" """
+
+    idle_message_max_spoken_count: Annotated[int, PropertyInfo(alias="idleMessageMaxSpokenCount")]
+    """Maximum number of idle messages the persona will send before giving up"""
+
+    idle_message_reset_count_on_user_speech_enabled: Annotated[
+        bool, PropertyInfo(alias="idleMessageResetCountOnUserSpeechEnabled")
+    ]
+    """Whether the idle message counter resets when the agent speaks"""
+
+    idle_messages: Annotated[SequenceNotStr[str], PropertyInfo(alias="idleMessages")]
+    """Messages the persona will say when the agent goes silent during a call"""
+
+    idle_timeout_seconds: Annotated[int, PropertyInfo(alias="idleTimeoutSeconds")]
+    """Seconds of silence before the persona sends an idle message"""
 
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
     """How clearly the persona expresses their intentions"""

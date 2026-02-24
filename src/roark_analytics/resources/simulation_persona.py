@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import simulation_persona_list_params, simulation_persona_create_params, simulation_persona_update_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -65,6 +65,10 @@ class SimulationPersonaResource(SyncAPIResource):
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
@@ -104,6 +108,14 @@ class SimulationPersonaResource(SyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           memory_reliability: How reliable the persona's memory is
@@ -141,6 +153,10 @@ class SimulationPersonaResource(SyncAPIResource):
                     "confirmation_style": confirmation_style,
                     "description": description,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
@@ -175,6 +191,10 @@ class SimulationPersonaResource(SyncAPIResource):
         description: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -211,6 +231,14 @@ class SimulationPersonaResource(SyncAPIResource):
           gender: Gender of the persona
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
+
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 
           intent_clarity: How clearly the persona expresses their intentions
 
@@ -253,6 +281,10 @@ class SimulationPersonaResource(SyncAPIResource):
                     "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "language": language,
                     "memory_reliability": memory_reliability,
@@ -387,6 +419,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
@@ -426,6 +462,14 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           memory_reliability: How reliable the persona's memory is
@@ -463,6 +507,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "confirmation_style": confirmation_style,
                     "description": description,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
@@ -497,6 +545,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         description: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -533,6 +585,14 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
           gender: Gender of the persona
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
+
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 
           intent_clarity: How clearly the persona expresses their intentions
 
@@ -575,6 +635,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "language": language,
                     "memory_reliability": memory_reliability,

@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -57,6 +57,18 @@ class DataPersona(BaseModel):
 
     has_disfluencies: bool = FieldInfo(alias="hasDisfluencies")
     """Whether the persona uses filler words like "um" and "uh" """
+
+    idle_message_max_spoken_count: int = FieldInfo(alias="idleMessageMaxSpokenCount")
+    """Maximum number of idle messages the persona will send before giving up"""
+
+    idle_message_reset_count_on_user_speech_enabled: bool = FieldInfo(alias="idleMessageResetCountOnUserSpeechEnabled")
+    """Whether the idle message counter resets when the agent speaks"""
+
+    idle_messages: List[str] = FieldInfo(alias="idleMessages")
+    """Messages the persona will say when the agent goes silent during a call"""
+
+    idle_timeout_seconds: int = FieldInfo(alias="idleTimeoutSeconds")
+    """Seconds of silence before the persona sends an idle message"""
 
     intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] = FieldInfo(alias="intentClarity")
     """How clearly the persona expresses their intentions"""
