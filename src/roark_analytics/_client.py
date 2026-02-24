@@ -37,8 +37,6 @@ if TYPE_CHECKING:
         health,
         metric,
         webhook,
-        evaluation,
-        integrations,
         agent_endpoint,
         simulation_job,
         simulation_persona,
@@ -52,8 +50,6 @@ if TYPE_CHECKING:
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
-    from .resources.evaluation import EvaluationResource, AsyncEvaluationResource
-    from .resources.integrations import IntegrationsResource, AsyncIntegrationsResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
@@ -127,12 +123,6 @@ class Roark(SyncAPIClient):
         return HealthResource(self)
 
     @cached_property
-    def evaluation(self) -> EvaluationResource:
-        from .resources.evaluation import EvaluationResource
-
-        return EvaluationResource(self)
-
-    @cached_property
     def call(self) -> CallResource:
         from .resources.call import CallResource
 
@@ -143,12 +133,6 @@ class Roark(SyncAPIClient):
         from .resources.metric import MetricResource
 
         return MetricResource(self)
-
-    @cached_property
-    def integrations(self) -> IntegrationsResource:
-        from .resources.integrations import IntegrationsResource
-
-        return IntegrationsResource(self)
 
     @cached_property
     def simulation_job(self) -> SimulationJobResource:
@@ -379,12 +363,6 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncHealthResource(self)
 
     @cached_property
-    def evaluation(self) -> AsyncEvaluationResource:
-        from .resources.evaluation import AsyncEvaluationResource
-
-        return AsyncEvaluationResource(self)
-
-    @cached_property
     def call(self) -> AsyncCallResource:
         from .resources.call import AsyncCallResource
 
@@ -395,12 +373,6 @@ class AsyncRoark(AsyncAPIClient):
         from .resources.metric import AsyncMetricResource
 
         return AsyncMetricResource(self)
-
-    @cached_property
-    def integrations(self) -> AsyncIntegrationsResource:
-        from .resources.integrations import AsyncIntegrationsResource
-
-        return AsyncIntegrationsResource(self)
 
     @cached_property
     def simulation_job(self) -> AsyncSimulationJobResource:
@@ -582,12 +554,6 @@ class RoarkWithRawResponse:
         return HealthResourceWithRawResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.EvaluationResourceWithRawResponse:
-        from .resources.evaluation import EvaluationResourceWithRawResponse
-
-        return EvaluationResourceWithRawResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.CallResourceWithRawResponse:
         from .resources.call import CallResourceWithRawResponse
 
@@ -598,12 +564,6 @@ class RoarkWithRawResponse:
         from .resources.metric import MetricResourceWithRawResponse
 
         return MetricResourceWithRawResponse(self._client.metric)
-
-    @cached_property
-    def integrations(self) -> integrations.IntegrationsResourceWithRawResponse:
-        from .resources.integrations import IntegrationsResourceWithRawResponse
-
-        return IntegrationsResourceWithRawResponse(self._client.integrations)
 
     @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithRawResponse:
@@ -673,12 +633,6 @@ class AsyncRoarkWithRawResponse:
         return AsyncHealthResourceWithRawResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithRawResponse:
-        from .resources.evaluation import AsyncEvaluationResourceWithRawResponse
-
-        return AsyncEvaluationResourceWithRawResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.AsyncCallResourceWithRawResponse:
         from .resources.call import AsyncCallResourceWithRawResponse
 
@@ -689,12 +643,6 @@ class AsyncRoarkWithRawResponse:
         from .resources.metric import AsyncMetricResourceWithRawResponse
 
         return AsyncMetricResourceWithRawResponse(self._client.metric)
-
-    @cached_property
-    def integrations(self) -> integrations.AsyncIntegrationsResourceWithRawResponse:
-        from .resources.integrations import AsyncIntegrationsResourceWithRawResponse
-
-        return AsyncIntegrationsResourceWithRawResponse(self._client.integrations)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithRawResponse:
@@ -764,12 +712,6 @@ class RoarkWithStreamedResponse:
         return HealthResourceWithStreamingResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.EvaluationResourceWithStreamingResponse:
-        from .resources.evaluation import EvaluationResourceWithStreamingResponse
-
-        return EvaluationResourceWithStreamingResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.CallResourceWithStreamingResponse:
         from .resources.call import CallResourceWithStreamingResponse
 
@@ -780,12 +722,6 @@ class RoarkWithStreamedResponse:
         from .resources.metric import MetricResourceWithStreamingResponse
 
         return MetricResourceWithStreamingResponse(self._client.metric)
-
-    @cached_property
-    def integrations(self) -> integrations.IntegrationsResourceWithStreamingResponse:
-        from .resources.integrations import IntegrationsResourceWithStreamingResponse
-
-        return IntegrationsResourceWithStreamingResponse(self._client.integrations)
 
     @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithStreamingResponse:
@@ -855,12 +791,6 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncHealthResourceWithStreamingResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithStreamingResponse:
-        from .resources.evaluation import AsyncEvaluationResourceWithStreamingResponse
-
-        return AsyncEvaluationResourceWithStreamingResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.AsyncCallResourceWithStreamingResponse:
         from .resources.call import AsyncCallResourceWithStreamingResponse
 
@@ -871,12 +801,6 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.metric import AsyncMetricResourceWithStreamingResponse
 
         return AsyncMetricResourceWithStreamingResponse(self._client.metric)
-
-    @cached_property
-    def integrations(self) -> integrations.AsyncIntegrationsResourceWithStreamingResponse:
-        from .resources.integrations import AsyncIntegrationsResourceWithStreamingResponse
-
-        return AsyncIntegrationsResourceWithStreamingResponse(self._client.integrations)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithStreamingResponse:

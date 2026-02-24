@@ -40,22 +40,6 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
-from .evaluation import (
-    EvaluationResource,
-    AsyncEvaluationResource,
-    EvaluationResourceWithRawResponse,
-    AsyncEvaluationResourceWithRawResponse,
-    EvaluationResourceWithStreamingResponse,
-    AsyncEvaluationResourceWithStreamingResponse,
-)
-from .integrations import (
-    IntegrationsResource,
-    AsyncIntegrationsResource,
-    IntegrationsResourceWithRawResponse,
-    AsyncIntegrationsResourceWithRawResponse,
-    IntegrationsResourceWithStreamingResponse,
-    AsyncIntegrationsResourceWithStreamingResponse,
-)
 from .agent_endpoint import (
     AgentEndpointResource,
     AsyncAgentEndpointResource,
@@ -120,12 +104,6 @@ __all__ = [
     "AsyncHealthResourceWithRawResponse",
     "HealthResourceWithStreamingResponse",
     "AsyncHealthResourceWithStreamingResponse",
-    "EvaluationResource",
-    "AsyncEvaluationResource",
-    "EvaluationResourceWithRawResponse",
-    "AsyncEvaluationResourceWithRawResponse",
-    "EvaluationResourceWithStreamingResponse",
-    "AsyncEvaluationResourceWithStreamingResponse",
     "CallResource",
     "AsyncCallResource",
     "CallResourceWithRawResponse",
@@ -138,12 +116,6 @@ __all__ = [
     "AsyncMetricResourceWithRawResponse",
     "MetricResourceWithStreamingResponse",
     "AsyncMetricResourceWithStreamingResponse",
-    "IntegrationsResource",
-    "AsyncIntegrationsResource",
-    "IntegrationsResourceWithRawResponse",
-    "AsyncIntegrationsResourceWithRawResponse",
-    "IntegrationsResourceWithStreamingResponse",
-    "AsyncIntegrationsResourceWithStreamingResponse",
     "SimulationJobResource",
     "AsyncSimulationJobResource",
     "SimulationJobResourceWithRawResponse",

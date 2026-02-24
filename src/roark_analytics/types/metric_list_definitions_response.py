@@ -30,7 +30,7 @@ class Data(BaseModel):
     """Description of what the metric measures"""
 
     metric_id: str = FieldInfo(alias="metricId")
-    """Stable metric identifier"""
+    """Stable metric identifier (e.g. "call_reason", "customer_satisfaction")"""
 
     name: str
     """Name of the metric"""

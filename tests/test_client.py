@@ -879,20 +879,20 @@ class TestRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Roark) -> None:
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/health").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.evaluation.with_streaming_response.create_job(evaluators=["string"]).__enter__()
+            client.health.with_streaming_response.get().__enter__()
 
         assert _get_open_connections(client) == 0
 
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Roark) -> None:
-        respx_mock.post("/v1/evaluation/job").mock(return_value=httpx.Response(500))
+        respx_mock.get("/health").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.evaluation.with_streaming_response.create_job(evaluators=["string"]).__enter__()
+            client.health.with_streaming_response.get().__enter__()
         assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -919,9 +919,9 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = client.evaluation.with_raw_response.create_job(evaluators=["string"])
+        response = client.health.with_raw_response.get()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -941,11 +941,9 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = client.evaluation.with_raw_response.create_job(
-            evaluators=["string"], extra_headers={"x-stainless-retry-count": Omit()}
-        )
+        response = client.health.with_raw_response.get(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -966,11 +964,9 @@ class TestRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = client.evaluation.with_raw_response.create_job(
-            evaluators=["string"], extra_headers={"x-stainless-retry-count": "42"}
-        )
+        response = client.health.with_raw_response.get(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1797,20 +1793,20 @@ class TestAsyncRoark:
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncRoark) -> None:
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/health").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.evaluation.with_streaming_response.create_job(evaluators=["string"]).__aenter__()
+            await async_client.health.with_streaming_response.get().__aenter__()
 
         assert _get_open_connections(async_client) == 0
 
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncRoark) -> None:
-        respx_mock.post("/v1/evaluation/job").mock(return_value=httpx.Response(500))
+        respx_mock.get("/health").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.evaluation.with_streaming_response.create_job(evaluators=["string"]).__aenter__()
+            await async_client.health.with_streaming_response.get().__aenter__()
         assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1837,9 +1833,9 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = await client.evaluation.with_raw_response.create_job(evaluators=["string"])
+        response = await client.health.with_raw_response.get()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1861,11 +1857,9 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = await client.evaluation.with_raw_response.create_job(
-            evaluators=["string"], extra_headers={"x-stainless-retry-count": Omit()}
-        )
+        response = await client.health.with_raw_response.get(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -1886,11 +1880,9 @@ class TestAsyncRoark:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v1/evaluation/job").mock(side_effect=retry_handler)
+        respx_mock.get("/health").mock(side_effect=retry_handler)
 
-        response = await client.evaluation.with_raw_response.create_job(
-            evaluators=["string"], extra_headers={"x-stainless-retry-count": "42"}
-        )
+        response = await client.health.with_raw_response.get(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
