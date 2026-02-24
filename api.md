@@ -141,7 +141,7 @@ Methods:
 
 - <code title="get /v1/simulation/plan/jobs">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_run_plan_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_list_response.py">SimulationRunPlanJobListResponse</a></code>
 - <code title="get /v1/simulation/plan/job/{jobId}">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_by_id_response.py">SimulationRunPlanJobGetByIDResponse</a></code>
-- <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
+- <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_start_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
 
 # SimulationScenario
 

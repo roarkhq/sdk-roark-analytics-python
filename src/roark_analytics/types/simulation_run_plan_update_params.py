@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["SimulationRunPlanUpdateParams", "AgentEndpoint", "Evaluator", "Persona", "Scenario"]
@@ -19,6 +20,9 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     direction: Literal["INBOUND", "OUTBOUND"]
     """Direction of the simulation (INBOUND or OUTBOUND)"""
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+    """Phrases that trigger end of call. Empty array disables the feature."""
 
     evaluators: Iterable[Evaluator]
     """Evaluators to include in this run plan"""
@@ -47,7 +51,10 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """Personas to include in this run plan"""
 
     scenarios: Iterable[Scenario]
-    """Scenarios to include in this run plan"""
+    """Scenarios to include in this run plan.
+
+    The same scenario ID can appear multiple times with different variables.
+    """
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
     """Timeout in seconds for silence detection"""
@@ -67,3 +74,10 @@ class Persona(TypedDict, total=False):
 
 class Scenario(TypedDict, total=False):
     id: Required[str]
+    """Scenario ID"""
+
+    variables: Dict[str, str]
+    """Template variables for this scenario instance.
+
+    The same scenario can appear multiple times with different variables.
+    """

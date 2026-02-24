@@ -17,8 +17,22 @@ class DataStep(BaseModel):
     node_id: str = FieldInfo(alias="nodeId")
     """Unique identifier of the step node (use this for update/delete operations)"""
 
-    type: Literal["START", "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "VOICEMAIL"]
+    type: Literal[
+        "START",
+        "AGENT_TURN",
+        "CUSTOMER_TURN",
+        "CUSTOMER_FIRST_MESSAGE",
+        "CUSTOMER_SILENCE",
+        "CUSTOMER_DTMF",
+        "VOICEMAIL",
+    ]
     """Type of step in the scenario"""
+
+    dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
+    """DTMF digits to send during this step (e.g.
+
+    1w2w3#). Valid characters: 0-9, \\**, #, w/W for pauses.
+    """
 
 
 class Data(BaseModel):

@@ -12,7 +12,7 @@ from ..types import (
     simulation_run_plan_create_params,
     simulation_run_plan_update_params,
 )
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -64,6 +64,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         scenarios: Iterable[simulation_run_plan_create_params.Scenario],
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -93,11 +94,14 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           auto_run: Whether to automatically trigger a job after creating the run plan
 
           description: Description of the run plan
+
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -129,6 +133,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "scenarios": scenarios,
                     "auto_run": auto_run,
                     "description": description,
+                    "end_call_phrases": end_call_phrases,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -149,6 +154,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
         evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -175,6 +181,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
           evaluators: Evaluators to include in this run plan
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
@@ -190,7 +198,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -211,6 +220,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "description": description,
                     "direction": direction,
+                    "end_call_phrases": end_call_phrases,
                     "evaluators": evaluators,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
@@ -384,6 +394,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         scenarios: Iterable[simulation_run_plan_create_params.Scenario],
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -413,11 +424,14 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           auto_run: Whether to automatically trigger a job after creating the run plan
 
           description: Description of the run plan
+
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -449,6 +463,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "scenarios": scenarios,
                     "auto_run": auto_run,
                     "description": description,
+                    "end_call_phrases": end_call_phrases,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -469,6 +484,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
         evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -495,6 +511,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
           evaluators: Evaluators to include in this run plan
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
@@ -510,7 +528,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan
+          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
+              times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -531,6 +550,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "description": description,
                     "direction": direction,
+                    "end_call_phrases": end_call_phrases,
                     "evaluators": evaluators,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,

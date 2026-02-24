@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["SimulationRunPlanCreateParams", "AgentEndpoint", "Evaluator", "Persona", "Scenario"]
@@ -30,13 +31,19 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     """Personas to include in this run plan"""
 
     scenarios: Required[Iterable[Scenario]]
-    """Scenarios to include in this run plan"""
+    """Scenarios to include in this run plan.
+
+    The same scenario ID can appear multiple times with different variables.
+    """
 
     auto_run: Annotated[bool, PropertyInfo(alias="autoRun")]
     """Whether to automatically trigger a job after creating the run plan"""
 
     description: str
     """Description of the run plan"""
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+    """Phrases that trigger end of call. Empty array disables the feature."""
 
     execution_mode: Annotated[
         Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
@@ -70,3 +77,10 @@ class Persona(TypedDict, total=False):
 
 class Scenario(TypedDict, total=False):
     id: Required[str]
+    """Scenario ID"""
+
+    variables: Dict[str, str]
+    """Template variables for this scenario instance.
+
+    The same scenario can appear multiple times with different variables.
+    """
