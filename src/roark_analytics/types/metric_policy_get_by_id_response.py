@@ -32,7 +32,7 @@ class DataConditionCondition(BaseModel):
     ] = FieldInfo(alias="conditionOperator", default=None)
     """Comparison operator. Required for CALL_PROPERTY conditions."""
 
-    condition_type: Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY"] = FieldInfo(alias="conditionType")
+    condition_type: Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY", "INTEGRATION"] = FieldInfo(alias="conditionType")
     """Type of condition: AGENT (match by agent ID), CALL_SOURCE (match by source e.g.
 
     VAPI, RETELL), CALL_PROPERTY (match by call property key/value)

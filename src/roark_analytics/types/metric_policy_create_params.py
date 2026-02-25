@@ -37,7 +37,7 @@ class ConditionCondition(TypedDict, total=False):
     """
 
     condition_type: Required[
-        Annotated[Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY"], PropertyInfo(alias="conditionType")]
+        Annotated[Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY", "INTEGRATION"], PropertyInfo(alias="conditionType")]
     ]
     """Type of condition: AGENT (match by agent ID), CALL_SOURCE (match by source e.g.
 
