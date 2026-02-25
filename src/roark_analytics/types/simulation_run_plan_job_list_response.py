@@ -31,6 +31,7 @@ class Data(BaseModel):
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """Job status"""
 

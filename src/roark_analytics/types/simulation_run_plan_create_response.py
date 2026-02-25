@@ -123,6 +123,7 @@ class DataRunPlanJob(BaseModel):
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """Initial status of the job"""
 

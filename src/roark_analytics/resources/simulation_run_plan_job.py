@@ -65,6 +65,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             "TIMED_OUT",
             "CANCELLED",
             "CANCELLING",
+            "ENDING_SIMULATIONS",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -92,7 +93,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
           simulation_run_plan_id: Filter by simulation run plan ID
 
           status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+              RUNNING_SIMULATIONS, ENDING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT,
+              CANCELLED, CANCELLING)
 
           extra_headers: Send extra headers
 
@@ -244,6 +246,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             "TIMED_OUT",
             "CANCELLED",
             "CANCELLING",
+            "ENDING_SIMULATIONS",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -271,7 +274,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
           simulation_run_plan_id: Filter by simulation run plan ID
 
           status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+              RUNNING_SIMULATIONS, ENDING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT,
+              CANCELLED, CANCELLING)
 
           extra_headers: Send extra headers
 

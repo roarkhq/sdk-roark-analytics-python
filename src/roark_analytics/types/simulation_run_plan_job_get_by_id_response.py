@@ -142,6 +142,7 @@ class DataSimulationJob(BaseModel):
         "CONNECTING",
         "WAITING_FOR_OUTBOUND_CALL",
         "SIMULATING",
+        "ENDING",
         "ANALYZING",
         "EVALUATING",
         "COLLECTING_METRICS",
@@ -204,6 +205,7 @@ class Data(BaseModel):
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """Job status"""
 
