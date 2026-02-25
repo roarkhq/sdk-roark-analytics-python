@@ -54,6 +54,7 @@ class WebhookResource(SyncAPIResource):
             Literal[
                 "CALL_ANALYSIS_COMPLETED",
                 "CALL_ANALYSIS_FAILED",
+                "CALL_ANALYSIS_CANCELLED",
                 "CALL_EVALUATION_COMPLETED",
                 "CALL_EVALUATION_FAILED",
                 "SIMULATION_RUN_PLAN_JOB_STARTED",
@@ -255,6 +256,7 @@ class AsyncWebhookResource(AsyncAPIResource):
             Literal[
                 "CALL_ANALYSIS_COMPLETED",
                 "CALL_ANALYSIS_FAILED",
+                "CALL_ANALYSIS_CANCELLED",
                 "CALL_EVALUATION_COMPLETED",
                 "CALL_EVALUATION_FAILED",
                 "SIMULATION_RUN_PLAN_JOB_STARTED",
