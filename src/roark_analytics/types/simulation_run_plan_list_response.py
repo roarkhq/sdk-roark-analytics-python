@@ -57,6 +57,13 @@ class Data(BaseModel):
     end_call_phrases: List[str] = FieldInfo(alias="endCallPhrases")
     """Phrases that trigger end of call. Empty array means disabled."""
 
+    end_call_reasons: List[str] = FieldInfo(alias="endCallReasons")
+    """Semantic conditions that trigger end of call.
+
+    The LLM evaluates the conversation against these conditions. Empty array means
+    disabled.
+    """
+
     evaluators: List[DataEvaluator]
     """Deprecated: Use metrics instead. Evaluators included in this run plan."""
 

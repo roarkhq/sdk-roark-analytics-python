@@ -65,6 +65,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -103,6 +104,9 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
@@ -134,6 +138,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "auto_run": auto_run,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -155,6 +160,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -182,6 +188,9 @@ class SimulationRunPlanResource(SyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -221,6 +230,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -395,6 +405,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -433,6 +444,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
@@ -464,6 +478,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "auto_run": auto_run,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -485,6 +500,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -512,6 +528,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -551,6 +570,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
