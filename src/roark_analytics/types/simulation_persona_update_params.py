@@ -12,7 +12,28 @@ __all__ = ["SimulationPersonaUpdateParams"]
 
 
 class SimulationPersonaUpdateParams(TypedDict, total=False):
-    accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"]
+    accent: Literal[
+        "US",
+        "US_X_SOUTH",
+        "GB",
+        "ES",
+        "DE",
+        "IN",
+        "FR",
+        "NL",
+        "SA",
+        "GR",
+        "AU",
+        "IT",
+        "ID",
+        "TH",
+        "JP",
+        "NZ",
+        "PH",
+        "SG",
+        "MY",
+        "HK",
+    ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
     optional variants
@@ -28,7 +49,7 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     """Background story and behavioral patterns for the persona"""
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
+        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
         PropertyInfo(alias="baseEmotion"),
     ]
     """Base emotional state of the persona"""
@@ -62,7 +83,7 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
     """How clearly the persona expresses their intentions"""
 
-    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]
+    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH"]
     """Primary language ISO 639-1 code for the persona"""
 
     memory_reliability: Annotated[Literal["HIGH", "LOW"], PropertyInfo(alias="memoryReliability")]

@@ -37,7 +37,28 @@ class DataSimulationJobPersona(BaseModel):
     id: str
     """Unique identifier of the persona"""
 
-    accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"]
+    accent: Literal[
+        "US",
+        "US_X_SOUTH",
+        "GB",
+        "ES",
+        "DE",
+        "IN",
+        "FR",
+        "NL",
+        "SA",
+        "GR",
+        "AU",
+        "IT",
+        "ID",
+        "TH",
+        "JP",
+        "NZ",
+        "PH",
+        "SG",
+        "MY",
+        "HK",
+    ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
     optional variants
@@ -48,8 +69,8 @@ class DataSimulationJobPersona(BaseModel):
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] = FieldInfo(
-        alias="baseEmotion"
+    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"] = (
+        FieldInfo(alias="baseEmotion")
     )
     """Base emotional state of the persona"""
 
@@ -80,7 +101,7 @@ class DataSimulationJobPersona(BaseModel):
     intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] = FieldInfo(alias="intentClarity")
     """How clearly the persona expresses their intentions"""
 
-    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]
+    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH"]
     """Primary language ISO 639-1 code for the persona"""
 
     memory_reliability: Literal["HIGH", "LOW"] = FieldInfo(alias="memoryReliability")

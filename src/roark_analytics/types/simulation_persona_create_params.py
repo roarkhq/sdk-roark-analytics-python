@@ -13,7 +13,28 @@ __all__ = ["SimulationPersonaCreateParams"]
 
 class SimulationPersonaCreateParams(TypedDict, total=False):
     accent: Required[
-        Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"]
+        Literal[
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+        ]
     ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
@@ -23,7 +44,9 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     gender: Required[Literal["MALE", "FEMALE"]]
     """Gender of the persona"""
 
-    language: Required[Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]]
+    language: Required[
+        Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH"]
+    ]
     """Primary language ISO 639-1 code for the persona"""
 
     name: Required[str]
@@ -39,7 +62,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     """Background story and behavioral patterns for the persona"""
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
+        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
         PropertyInfo(alias="baseEmotion"),
     ]
     """Base emotional state of the persona"""
