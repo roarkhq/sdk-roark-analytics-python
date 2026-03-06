@@ -35,6 +35,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
             "MY",
             "HK",
             "TR",
+            "PT",
         ]
     ]
     """
@@ -46,7 +47,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     """Gender of the persona"""
 
     language: Required[
-        Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR"]
+        Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"]
     ]
     """Primary language ISO 639-1 code for the persona"""
 

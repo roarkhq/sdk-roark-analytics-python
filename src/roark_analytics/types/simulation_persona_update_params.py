@@ -34,6 +34,7 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
         "MY",
         "HK",
         "TR",
+        "PT",
     ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
@@ -84,7 +85,9 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
     """How clearly the persona expresses their intentions"""
 
-    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR"]
+    language: Literal[
+        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+    ]
     """Primary language ISO 639-1 code for the persona"""
 
     memory_reliability: Annotated[Literal["HIGH", "LOW"], PropertyInfo(alias="memoryReliability")]
