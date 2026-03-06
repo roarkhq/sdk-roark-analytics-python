@@ -37,6 +37,8 @@ class Data(BaseModel):
             "SIMULATION_JOB_COMPLETED",
             "SIMULATION_JOB_FAILED",
             "SIMULATION_JOB_CANCELLED",
+            "METRIC_COLLECTION_JOB_COMPLETED",
+            "METRIC_COLLECTION_JOB_FAILED",
         ]
     ]
     """Event types this webhook is subscribed to"""

@@ -31,6 +31,9 @@ class Data(BaseModel):
     failed_items: int = FieldInfo(alias="failedItems")
     """Number of failed items"""
 
+    policy_ids: List[str] = FieldInfo(alias="policyIds")
+    """IDs of the metric policies that triggered this job"""
+
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the job started processing"""
 

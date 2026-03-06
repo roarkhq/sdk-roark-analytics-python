@@ -92,6 +92,9 @@ class DataValue(BaseModel):
     participant_role: Optional[Literal["agent", "customer"]] = FieldInfo(alias="participantRole", default=None)
     """Role of participant (only for PER_PARTICIPANT metrics)"""
 
+    policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
+    """IDs of metric policies that triggered this metric computation"""
+
     segment: Optional[DataValueSegment] = None
     """Segment information (for SEGMENT context metrics)"""
 

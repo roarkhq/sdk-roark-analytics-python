@@ -85,6 +85,9 @@ class Data(BaseModel):
     ] = FieldInfo(alias="endedStatus", default=None)
     """Status indicating how the call ended"""
 
+    policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
+    """IDs of metric policies that have been applied to this call"""
+
     properties: Optional[Dict[str, object]] = None
     """Custom properties associated with the call"""
 
