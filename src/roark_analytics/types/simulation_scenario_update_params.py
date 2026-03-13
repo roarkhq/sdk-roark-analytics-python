@@ -35,10 +35,25 @@ class StepChangeCreateStepChange(TypedDict, total=False):
 
     type: Required[
         Literal[
-            "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "CUSTOMER_DTMF", "VOICEMAIL"
+            "AGENT_TURN",
+            "CUSTOMER_TURN",
+            "CUSTOMER_FIRST_MESSAGE",
+            "CUSTOMER_SILENCE",
+            "CUSTOMER_DTMF",
+            "VOICEMAIL",
+            "SCENARIO_LINK",
         ]
     ]
     """The type of the new step"""
+
+    dtmf_digits: Annotated[str, PropertyInfo(alias="dtmfDigits")]
+    """DTMF digits to send (for CUSTOMER_DTMF type steps)"""
+
+    linked_scenario_id: Annotated[str, PropertyInfo(alias="linkedScenarioId")]
+    """ID of the scenario to link to (for SCENARIO_LINK type steps)"""
+
+    silence_duration_seconds: Annotated[int, PropertyInfo(alias="silenceDurationSeconds")]
+    """Duration of silence in seconds (for CUSTOMER_SILENCE type steps)"""
 
 
 class StepChangeUpdateStepChange(TypedDict, total=False):
@@ -53,8 +68,23 @@ class StepChangeUpdateStepChange(TypedDict, total=False):
     content: str
     """The new content/text of the step (optional)"""
 
+    dtmf_digits: Annotated[str, PropertyInfo(alias="dtmfDigits")]
+    """DTMF digits to send (for CUSTOMER_DTMF type steps)"""
+
+    linked_scenario_id: Annotated[str, PropertyInfo(alias="linkedScenarioId")]
+    """ID of the scenario to link to (for SCENARIO_LINK type steps)"""
+
+    silence_duration_seconds: Annotated[int, PropertyInfo(alias="silenceDurationSeconds")]
+    """Duration of silence in seconds (for CUSTOMER_SILENCE type steps)"""
+
     type: Literal[
-        "AGENT_TURN", "CUSTOMER_TURN", "CUSTOMER_FIRST_MESSAGE", "CUSTOMER_SILENCE", "CUSTOMER_DTMF", "VOICEMAIL"
+        "AGENT_TURN",
+        "CUSTOMER_TURN",
+        "CUSTOMER_FIRST_MESSAGE",
+        "CUSTOMER_SILENCE",
+        "CUSTOMER_DTMF",
+        "VOICEMAIL",
+        "SCENARIO_LINK",
     ]
     """The new type of the step (optional)"""
 

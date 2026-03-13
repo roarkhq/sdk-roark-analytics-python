@@ -25,6 +25,7 @@ class DataStep(BaseModel):
         "CUSTOMER_SILENCE",
         "CUSTOMER_DTMF",
         "VOICEMAIL",
+        "SCENARIO_LINK",
     ]
     """Type of step in the scenario"""
 
@@ -33,6 +34,12 @@ class DataStep(BaseModel):
 
     1w2w3#). Valid characters: 0-9, \\**, #, w/W for pauses.
     """
+
+    linked_scenario_id: Optional[str] = FieldInfo(alias="linkedScenarioId", default=None)
+    """ID of the linked scenario (only for SCENARIO_LINK type steps)"""
+
+    silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
+    """Duration of silence in seconds (only for CUSTOMER_SILENCE type steps)"""
 
 
 class Data(BaseModel):

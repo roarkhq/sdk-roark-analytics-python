@@ -95,6 +95,9 @@ class TestSimulationScenario:
                     "action": "create",
                     "content": "content",
                     "type": "AGENT_TURN",
+                    "dtmf_digits": "dtmfDigits",
+                    "linked_scenario_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "silence_duration_seconds": 0,
                 }
             ],
             name="x",
@@ -340,6 +343,9 @@ class TestAsyncSimulationScenario:
                     "action": "create",
                     "content": "content",
                     "type": "AGENT_TURN",
+                    "dtmf_digits": "dtmfDigits",
+                    "linked_scenario_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "silence_duration_seconds": 0,
                 }
             ],
             name="x",
