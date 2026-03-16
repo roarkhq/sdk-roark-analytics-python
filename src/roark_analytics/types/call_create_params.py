@@ -46,7 +46,7 @@ class CallCreateParams(TypedDict, total=False):
     """Interface type of the call (PHONE or WEB)"""
 
     recording_url: Required[Annotated[str, PropertyInfo(alias="recordingUrl")]]
-    """URL of source recording (must be an accessible WAV, MP3, or MP4 file).
+    """URL of source recording (must be an accessible WAV, MP3, MP4, or OGG file).
 
     Can be a signed URL.
     """
@@ -110,7 +110,7 @@ class CallCreateParams(TypedDict, total=False):
     stereo_recording_url: Annotated[str, PropertyInfo(alias="stereoRecordingUrl")]
     """URL of source stereo recording.
 
-    Must be accessible. Can be a signed URL. Supported formats: WAV, MP3, MP4.
+    Must be accessible. Can be a signed URL. Supported formats: WAV, MP3, MP4, OGG.
     """
 
     tool_invocations: Annotated[Iterable[ToolInvocation], PropertyInfo(alias="toolInvocations")]

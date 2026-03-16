@@ -102,8 +102,8 @@ class CallResource(SyncAPIResource):
 
           interface_type: Interface type of the call (PHONE or WEB)
 
-          recording_url: URL of source recording (must be an accessible WAV, MP3, or MP4 file). Can be a
-              signed URL.
+          recording_url: URL of source recording (must be an accessible WAV, MP3, MP4, or OGG file). Can
+              be a signed URL.
 
           started_at: When the call started (ISO 8601 format)
 
@@ -124,7 +124,7 @@ class CallResource(SyncAPIResource):
               will show in the call details page
 
           stereo_recording_url: URL of source stereo recording. Must be accessible. Can be a signed URL.
-              Supported formats: WAV, MP3, MP4.
+              Supported formats: WAV, MP3, MP4, OGG.
 
           tool_invocations: List of tool invocations made during the call
 
@@ -495,8 +495,8 @@ class AsyncCallResource(AsyncAPIResource):
 
           interface_type: Interface type of the call (PHONE or WEB)
 
-          recording_url: URL of source recording (must be an accessible WAV, MP3, or MP4 file). Can be a
-              signed URL.
+          recording_url: URL of source recording (must be an accessible WAV, MP3, MP4, or OGG file). Can
+              be a signed URL.
 
           started_at: When the call started (ISO 8601 format)
 
@@ -517,7 +517,7 @@ class AsyncCallResource(AsyncAPIResource):
               will show in the call details page
 
           stereo_recording_url: URL of source stereo recording. Must be accessible. Can be a signed URL.
-              Supported formats: WAV, MP3, MP4.
+              Supported formats: WAV, MP3, MP4, OGG.
 
           tool_invocations: List of tool invocations made during the call
 
