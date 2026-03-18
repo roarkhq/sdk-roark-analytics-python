@@ -59,7 +59,7 @@ class TestSimulationPersona:
             response_timing="RELAXED",
             secondary_language="EN",
             speech_clarity="CLEAR",
-            speech_pace="SLOW",
+            speech_pace="SUPER_SLOW",
         )
         assert_matches_type(SimulationPersonaCreateResponse, simulation_persona, path=["response"])
 
@@ -128,7 +128,7 @@ class TestSimulationPersona:
             response_timing="RELAXED",
             secondary_language="EN",
             speech_clarity="CLEAR",
-            speech_pace="SLOW",
+            speech_pace="SUPER_SLOW",
         )
         assert_matches_type(SimulationPersonaUpdateResponse, simulation_persona, path=["response"])
 
@@ -278,7 +278,7 @@ class TestAsyncSimulationPersona:
             response_timing="RELAXED",
             secondary_language="EN",
             speech_clarity="CLEAR",
-            speech_pace="SLOW",
+            speech_pace="SUPER_SLOW",
         )
         assert_matches_type(SimulationPersonaCreateResponse, simulation_persona, path=["response"])
 
@@ -347,7 +347,7 @@ class TestAsyncSimulationPersona:
             response_timing="RELAXED",
             secondary_language="EN",
             speech_clarity="CLEAR",
-            speech_pace="SLOW",
+            speech_pace="SUPER_SLOW",
         )
         assert_matches_type(SimulationPersonaUpdateResponse, simulation_persona, path=["response"])
 

@@ -99,7 +99,7 @@ class SimulationPersonaResource(SyncAPIResource):
         response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -252,7 +252,7 @@ class SimulationPersonaResource(SyncAPIResource):
         response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -502,7 +502,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -655,7 +655,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

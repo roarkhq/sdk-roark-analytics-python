@@ -119,7 +119,7 @@ class DataPersona(BaseModel):
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
     """Speech clarity of the persona"""
 
-    speech_pace: Literal["SLOW", "NORMAL", "FAST"] = FieldInfo(alias="speechPace")
+    speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] = FieldInfo(alias="speechPace")
     """Speech pace of the persona"""
 
     updated_at: str = FieldInfo(alias="updatedAt")

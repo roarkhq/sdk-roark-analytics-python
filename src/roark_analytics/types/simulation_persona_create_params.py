@@ -115,5 +115,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     speech_clarity: Annotated[Literal["CLEAR", "VAGUE", "RAMBLING"], PropertyInfo(alias="speechClarity")]
     """Speech clarity of the persona"""
 
-    speech_pace: Annotated[Literal["SLOW", "NORMAL", "FAST"], PropertyInfo(alias="speechPace")]
+    speech_pace: Annotated[
+        Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"], PropertyInfo(alias="speechPace")
+    ]
     """Speech pace of the persona"""
