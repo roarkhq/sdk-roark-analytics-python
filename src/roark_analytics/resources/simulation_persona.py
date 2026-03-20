@@ -9,7 +9,7 @@ import httpx
 
 from ..types import simulation_persona_list_params, simulation_persona_create_params, simulation_persona_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -319,7 +319,7 @@ class SimulationPersonaResource(SyncAPIResource):
         if not persona_id:
             raise ValueError(f"Expected a non-empty value for `persona_id` but received {persona_id!r}")
         return self._put(
-            f"/v1/persona/{persona_id}",
+            path_template("/v1/persona/{persona_id}", persona_id=persona_id),
             body=maybe_transform(
                 {
                     "accent": accent,
@@ -422,7 +422,7 @@ class SimulationPersonaResource(SyncAPIResource):
         if not persona_id:
             raise ValueError(f"Expected a non-empty value for `persona_id` but received {persona_id!r}")
         return self._get(
-            f"/v1/persona/{persona_id}",
+            path_template("/v1/persona/{persona_id}", persona_id=persona_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -722,7 +722,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         if not persona_id:
             raise ValueError(f"Expected a non-empty value for `persona_id` but received {persona_id!r}")
         return await self._put(
-            f"/v1/persona/{persona_id}",
+            path_template("/v1/persona/{persona_id}", persona_id=persona_id),
             body=await async_maybe_transform(
                 {
                     "accent": accent,
@@ -825,7 +825,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         if not persona_id:
             raise ValueError(f"Expected a non-empty value for `persona_id` but received {persona_id!r}")
         return await self._get(
-            f"/v1/persona/{persona_id}",
+            path_template("/v1/persona/{persona_id}", persona_id=persona_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

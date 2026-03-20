@@ -9,7 +9,7 @@ import httpx
 
 from ..types import webhook_list_params, webhook_create_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -190,7 +190,7 @@ class WebhookResource(SyncAPIResource):
         if not webhook_id:
             raise ValueError(f"Expected a non-empty value for `webhook_id` but received {webhook_id!r}")
         return self._delete(
-            f"/v1/webhook/{webhook_id}",
+            path_template("/v1/webhook/{webhook_id}", webhook_id=webhook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -223,7 +223,7 @@ class WebhookResource(SyncAPIResource):
         if not webhook_id:
             raise ValueError(f"Expected a non-empty value for `webhook_id` but received {webhook_id!r}")
         return self._get(
-            f"/v1/webhook/{webhook_id}",
+            path_template("/v1/webhook/{webhook_id}", webhook_id=webhook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -394,7 +394,7 @@ class AsyncWebhookResource(AsyncAPIResource):
         if not webhook_id:
             raise ValueError(f"Expected a non-empty value for `webhook_id` but received {webhook_id!r}")
         return await self._delete(
-            f"/v1/webhook/{webhook_id}",
+            path_template("/v1/webhook/{webhook_id}", webhook_id=webhook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -427,7 +427,7 @@ class AsyncWebhookResource(AsyncAPIResource):
         if not webhook_id:
             raise ValueError(f"Expected a non-empty value for `webhook_id` but received {webhook_id!r}")
         return await self._get(
-            f"/v1/webhook/{webhook_id}",
+            path_template("/v1/webhook/{webhook_id}", webhook_id=webhook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

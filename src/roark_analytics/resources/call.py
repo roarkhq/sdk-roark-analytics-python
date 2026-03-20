@@ -9,7 +9,7 @@ import httpx
 
 from ..types import call_list_params, call_create_params, call_list_metrics_params, call_get_transcript_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -257,7 +257,7 @@ class CallResource(SyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{call_id}",
+            path_template("/v1/call/{call_id}", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -297,7 +297,7 @@ class CallResource(SyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{call_id}/transcript",
+            path_template("/v1/call/{call_id}/transcript", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -336,7 +336,7 @@ class CallResource(SyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{call_id}/evaluation-run",
+            path_template("/v1/call/{call_id}/evaluation-run", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -375,7 +375,7 @@ class CallResource(SyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{call_id}/metrics",
+            path_template("/v1/call/{call_id}/metrics", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -415,7 +415,7 @@ class CallResource(SyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return self._get(
-            f"/v1/call/{call_id}/sentiment-run",
+            path_template("/v1/call/{call_id}/sentiment-run", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -650,7 +650,7 @@ class AsyncCallResource(AsyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{call_id}",
+            path_template("/v1/call/{call_id}", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -690,7 +690,7 @@ class AsyncCallResource(AsyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{call_id}/transcript",
+            path_template("/v1/call/{call_id}/transcript", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -731,7 +731,7 @@ class AsyncCallResource(AsyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{call_id}/evaluation-run",
+            path_template("/v1/call/{call_id}/evaluation-run", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -770,7 +770,7 @@ class AsyncCallResource(AsyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{call_id}/metrics",
+            path_template("/v1/call/{call_id}/metrics", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -810,7 +810,7 @@ class AsyncCallResource(AsyncAPIResource):
         if not call_id:
             raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
         return await self._get(
-            f"/v1/call/{call_id}/sentiment-run",
+            path_template("/v1/call/{call_id}/sentiment-run", call_id=call_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
