@@ -157,8 +157,7 @@ class MetricResource(SyncAPIResource):
     ) -> MetricListDefinitionsResponse:
         """
         Fetch all metric definitions available in the project, including both
-        system-generated and custom metrics. Only returns metrics from enabled analysis
-        packages.
+        system-generated and custom metrics.
         """
         return self._get(
             "/v1/metric/definitions",
@@ -301,8 +300,7 @@ class AsyncMetricResource(AsyncAPIResource):
     ) -> MetricListDefinitionsResponse:
         """
         Fetch all metric definitions available in the project, including both
-        system-generated and custom metrics. Only returns metrics from enabled analysis
-        packages.
+        system-generated and custom metrics.
         """
         return await self._get(
             "/v1/metric/definitions",
