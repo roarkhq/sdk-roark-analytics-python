@@ -193,7 +193,9 @@ class AgentAgentIdentificationByNamePrompt(TypedDict, total=False):
 
 
 class AgentAgentIdentificationByName(TypedDict, total=False):
-    """Create a new agent or find existing by customId if provided"""
+    """
+    Find existing by customId if provided, otherwise reuse exact project name match before creating
+    """
 
     name: Required[str]
     """Agent name"""
