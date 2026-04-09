@@ -29,7 +29,7 @@ class DataSimulationJobAgentEndpoint(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
     """Agent endpoint phone number"""
 
-    type: Literal["PHONE", "WEBSOCKET"]
+    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC"]
     """Agent endpoint type"""
 
 
