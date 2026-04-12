@@ -52,6 +52,7 @@ class MetricPolicyResource(SyncAPIResource):
         self,
         *,
         metrics: Iterable[metric_policy_create_params.Metric],
+        modality: Literal["call", "chat"],
         name: str,
         conditions: Iterable[metric_policy_create_params.Condition] | Omit = omit,
         status: Literal["ACTIVE", "INACTIVE"] | Omit = omit,
@@ -69,6 +70,9 @@ class MetricPolicyResource(SyncAPIResource):
 
         Args:
           metrics: Metric definitions to collect when this policy matches
+
+          modality: Modality this policy targets. A policy fires for exactly one modality and can
+              only reference metrics that support that modality.
 
           name: Name of the metric policy
 
@@ -89,6 +93,7 @@ class MetricPolicyResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "metrics": metrics,
+                    "modality": modality,
                     "name": name,
                     "conditions": conditions,
                     "status": status,
@@ -300,6 +305,7 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
         self,
         *,
         metrics: Iterable[metric_policy_create_params.Metric],
+        modality: Literal["call", "chat"],
         name: str,
         conditions: Iterable[metric_policy_create_params.Condition] | Omit = omit,
         status: Literal["ACTIVE", "INACTIVE"] | Omit = omit,
@@ -317,6 +323,9 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
 
         Args:
           metrics: Metric definitions to collect when this policy matches
+
+          modality: Modality this policy targets. A policy fires for exactly one modality and can
+              only reference metrics that support that modality.
 
           name: Name of the metric policy
 
@@ -337,6 +346,7 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "metrics": metrics,
+                    "modality": modality,
                     "name": name,
                     "conditions": conditions,
                     "status": status,

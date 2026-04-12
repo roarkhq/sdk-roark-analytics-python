@@ -14,6 +14,13 @@ class MetricPolicyCreateParams(TypedDict, total=False):
     metrics: Required[Iterable[Metric]]
     """Metric definitions to collect when this policy matches"""
 
+    modality: Required[Literal["call", "chat"]]
+    """Modality this policy targets.
+
+    A policy fires for exactly one modality and can only reference metrics that
+    support that modality.
+    """
+
     name: Required[str]
     """Name of the metric policy"""
 

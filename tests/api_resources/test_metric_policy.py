@@ -27,6 +27,7 @@ class TestMetricPolicy:
     def test_method_create(self, client: Roark) -> None:
         metric_policy = client.metric_policy.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         )
         assert_matches_type(MetricPolicyCreateResponse, metric_policy, path=["response"])
@@ -35,6 +36,7 @@ class TestMetricPolicy:
     def test_method_create_with_all_params(self, client: Roark) -> None:
         metric_policy = client.metric_policy.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
             conditions=[
                 {
@@ -56,6 +58,7 @@ class TestMetricPolicy:
     def test_raw_response_create(self, client: Roark) -> None:
         response = client.metric_policy.with_raw_response.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         )
 
@@ -68,6 +71,7 @@ class TestMetricPolicy:
     def test_streaming_response_create(self, client: Roark) -> None:
         with client.metric_policy.with_streaming_response.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         ) as response:
             assert not response.is_closed
@@ -258,6 +262,7 @@ class TestAsyncMetricPolicy:
     async def test_method_create(self, async_client: AsyncRoark) -> None:
         metric_policy = await async_client.metric_policy.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         )
         assert_matches_type(MetricPolicyCreateResponse, metric_policy, path=["response"])
@@ -266,6 +271,7 @@ class TestAsyncMetricPolicy:
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
         metric_policy = await async_client.metric_policy.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
             conditions=[
                 {
@@ -287,6 +293,7 @@ class TestAsyncMetricPolicy:
     async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric_policy.with_raw_response.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         )
 
@@ -299,6 +306,7 @@ class TestAsyncMetricPolicy:
     async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
         async with async_client.metric_policy.with_streaming_response.create(
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            modality="call",
             name="Evaluate all inbound calls",
         ) as response:
             assert not response.is_closed
