@@ -24,15 +24,22 @@ class TestMetricCollectionJob:
     @parametrize
     def test_method_create(self, client: Roark) -> None:
         metric_collection_job = client.metric_collection_job.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(MetricCollectionJobCreateResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params(self, client: Roark) -> None:
+        metric_collection_job = client.metric_collection_job.create(
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+            chat_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
         )
         assert_matches_type(MetricCollectionJobCreateResponse, metric_collection_job, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Roark) -> None:
         response = client.metric_collection_job.with_raw_response.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
@@ -44,7 +51,6 @@ class TestMetricCollectionJob:
     @parametrize
     def test_streaming_response_create(self, client: Roark) -> None:
         with client.metric_collection_job.with_streaming_response.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed
@@ -136,15 +142,22 @@ class TestAsyncMetricCollectionJob:
     @parametrize
     async def test_method_create(self, async_client: AsyncRoark) -> None:
         metric_collection_job = await async_client.metric_collection_job.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(MetricCollectionJobCreateResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
+        metric_collection_job = await async_client.metric_collection_job.create(
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+            chat_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
         )
         assert_matches_type(MetricCollectionJobCreateResponse, metric_collection_job, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric_collection_job.with_raw_response.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
@@ -156,7 +169,6 @@ class TestAsyncMetricCollectionJob:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
         async with async_client.metric_collection_job.with_streaming_response.create(
-            call_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed

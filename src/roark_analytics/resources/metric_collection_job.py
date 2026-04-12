@@ -49,8 +49,9 @@ class MetricCollectionJobResource(SyncAPIResource):
     def create(
         self,
         *,
-        call_ids: SequenceNotStr[str],
         metrics: Iterable[metric_collection_job_create_params.Metric],
+        call_ids: SequenceNotStr[str] | Omit = omit,
+        chat_ids: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -59,13 +60,15 @@ class MetricCollectionJobResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricCollectionJobCreateResponse:
         """
-        Creates a metric collection job for the specified calls and metrics, then
-        triggers processing.
+        Creates a metric collection job for the specified calls or chats and metrics,
+        then triggers processing. Provide exactly one of callIds or chatIds.
 
         Args:
-          call_ids: Call IDs to collect metrics for
-
           metrics: Metric definitions to collect
+
+          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds.
+
+          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds.
 
           extra_headers: Send extra headers
 
@@ -79,8 +82,9 @@ class MetricCollectionJobResource(SyncAPIResource):
             "/v1/metric/collection-jobs",
             body=maybe_transform(
                 {
-                    "call_ids": call_ids,
                     "metrics": metrics,
+                    "call_ids": call_ids,
+                    "chat_ids": chat_ids,
                 },
                 metric_collection_job_create_params.MetricCollectionJobCreateParams,
             ),
@@ -197,8 +201,9 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        call_ids: SequenceNotStr[str],
         metrics: Iterable[metric_collection_job_create_params.Metric],
+        call_ids: SequenceNotStr[str] | Omit = omit,
+        chat_ids: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -207,13 +212,15 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricCollectionJobCreateResponse:
         """
-        Creates a metric collection job for the specified calls and metrics, then
-        triggers processing.
+        Creates a metric collection job for the specified calls or chats and metrics,
+        then triggers processing. Provide exactly one of callIds or chatIds.
 
         Args:
-          call_ids: Call IDs to collect metrics for
-
           metrics: Metric definitions to collect
+
+          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds.
+
+          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds.
 
           extra_headers: Send extra headers
 
@@ -227,8 +234,9 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
             "/v1/metric/collection-jobs",
             body=await async_maybe_transform(
                 {
-                    "call_ids": call_ids,
                     "metrics": metrics,
+                    "call_ids": call_ids,
+                    "chat_ids": chat_ids,
                 },
                 metric_collection_job_create_params.MetricCollectionJobCreateParams,
             ),

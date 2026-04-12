@@ -12,11 +12,14 @@ __all__ = ["MetricCollectionJobCreateParams", "Metric"]
 
 
 class MetricCollectionJobCreateParams(TypedDict, total=False):
-    call_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="callIds")]]
-    """Call IDs to collect metrics for"""
-
     metrics: Required[Iterable[Metric]]
     """Metric definitions to collect"""
+
+    call_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="callIds")]
+    """Call IDs to collect metrics for. Mutually exclusive with chatIds."""
+
+    chat_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="chatIds")]
+    """Chat IDs to collect metrics for. Mutually exclusive with callIds."""
 
 
 class Metric(TypedDict, total=False):

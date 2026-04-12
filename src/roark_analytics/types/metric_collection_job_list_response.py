@@ -11,7 +11,7 @@ __all__ = ["MetricCollectionJobListResponse", "Data", "Pagination"]
 
 
 class Data(BaseModel):
-    """A metric collection job that processes metrics for calls"""
+    """A metric collection job that processes metrics for calls or chats"""
 
     id: str
     """Unique identifier of the metric collection job"""
