@@ -22,7 +22,7 @@ class DataAgentEndpoint(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
     """Agent endpoint phone number"""
 
-    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS"]
+    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES"]
     """Agent endpoint type"""
 
 
