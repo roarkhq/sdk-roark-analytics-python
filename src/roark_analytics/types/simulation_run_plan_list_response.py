@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -37,6 +37,13 @@ class DataPersona(BaseModel):
 
 class DataScenario(BaseModel):
     id: str
+
+    variables: Optional[Dict[str, str]] = None
+    """Template variables for this scenario instance.
+
+    Absent when no variables are set. The same scenario can appear multiple times
+    with different variables.
+    """
 
 
 class Data(BaseModel):
