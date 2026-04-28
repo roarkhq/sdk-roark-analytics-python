@@ -23,10 +23,10 @@ class DataEntry(BaseModel):
     """A single transcript entry"""
 
     end_offset_ms: int = FieldInfo(alias="endOffsetMs")
-    """End time offset in milliseconds from the start of the call"""
+    """End time offset in milliseconds from the start of the conversation"""
 
     participant_id: Optional[str] = FieldInfo(alias="participantId", default=None)
-    """ID of the conversation participant who spoke this entry.
+    """ID of the conversation participant who produced this entry.
 
     References participants[].id.
     """
@@ -35,7 +35,7 @@ class DataEntry(BaseModel):
     """Convenience role derived from participant type"""
 
     start_offset_ms: int = FieldInfo(alias="startOffsetMs")
-    """Start time offset in milliseconds from the start of the call"""
+    """Start time offset in milliseconds from the start of the conversation"""
 
     text: str
     """Transcript text for this entry"""

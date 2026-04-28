@@ -23,7 +23,7 @@ class DataValueFromSegment(BaseModel):
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
 
     id: str
-    """Starting segment ID"""
+    """Segment ID"""
 
     end_offset_ms: float = FieldInfo(alias="endOffsetMs")
     """End time offset in milliseconds"""
@@ -32,7 +32,7 @@ class DataValueFromSegment(BaseModel):
     """Start time offset in milliseconds"""
 
     text: str
-    """Starting segment text content"""
+    """Segment text content"""
 
 
 class DataValueSegment(BaseModel):
@@ -55,7 +55,7 @@ class DataValueToSegment(BaseModel):
     """Ending segment information (for SEGMENT_RANGE context metrics)"""
 
     id: str
-    """Ending segment ID"""
+    """Segment ID"""
 
     end_offset_ms: float = FieldInfo(alias="endOffsetMs")
     """End time offset in milliseconds"""
@@ -64,7 +64,7 @@ class DataValueToSegment(BaseModel):
     """Start time offset in milliseconds"""
 
     text: str
-    """Ending segment text content"""
+    """Segment text content"""
 
 
 class DataValue(BaseModel):
@@ -79,8 +79,8 @@ class DataValue(BaseModel):
 
     context: Literal["CALL", "SEGMENT", "SEGMENT_RANGE"]
     """
-    Context level: CALL (entire call), SEGMENT (single segment), SEGMENT_RANGE
-    (between/across segments)
+    Context level: CALL (entire conversation), SEGMENT (single segment),
+    SEGMENT_RANGE (between/across segments)
     """
 
     value: Union[float, bool, str]
@@ -116,7 +116,7 @@ class DataUnit(BaseModel):
 
 
 class Data(BaseModel):
-    """Call metric data grouped by metric definition"""
+    """Metric data grouped by metric definition"""
 
     description: str
     """Description of what the metric measures"""
@@ -148,4 +148,4 @@ class Data(BaseModel):
 
 class CallListMetricsResponse(BaseModel):
     data: List[Data]
-    """Call metrics response payload grouped by metric definition"""
+    """Conversation metrics response payload grouped by metric definition"""
