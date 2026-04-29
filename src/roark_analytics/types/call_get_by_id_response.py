@@ -51,12 +51,6 @@ class Data(BaseModel):
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
     """Timestamp when the call record was created"""
 
-    customer_id: Optional[str] = FieldInfo(alias="customerId", default=None)
-    """
-    Customer-supplied correlation ID echoed back from the create request, if any was
-    provided
-    """
-
     customers: Optional[List[DataCustomer]] = None
     """Customer information"""
 
@@ -90,6 +84,12 @@ class Data(BaseModel):
         ]
     ] = FieldInfo(alias="endedStatus", default=None)
     """Status indicating how the call ended"""
+
+    external_id: Optional[str] = FieldInfo(alias="externalId", default=None)
+    """
+    Caller-supplied correlation ID echoed back from the create request, if any was
+    provided
+    """
 
     policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
     """IDs of metric policies that have been applied to this call"""

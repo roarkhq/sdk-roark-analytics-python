@@ -58,7 +58,6 @@ class TestCall:
                 "phone_number_e164": "phoneNumberE164",
                 "label": "label",
             },
-            customer_id="customerId",
             customers=[
                 {
                     "phone_number_e164": "phoneNumberE164",
@@ -66,6 +65,7 @@ class TestCall:
                 }
             ],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            external_id="externalId",
             livekit_room_id="livekitRoomId",
             properties={"foo": "bar"},
             stereo_recording_url="https://example.com",
@@ -419,7 +419,6 @@ class TestAsyncCall:
                 "phone_number_e164": "phoneNumberE164",
                 "label": "label",
             },
-            customer_id="customerId",
             customers=[
                 {
                     "phone_number_e164": "phoneNumberE164",
@@ -427,6 +426,7 @@ class TestAsyncCall:
                 }
             ],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            external_id="externalId",
             livekit_room_id="livekitRoomId",
             properties={"foo": "bar"},
             stereo_recording_url="https://example.com",

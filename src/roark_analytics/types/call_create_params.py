@@ -72,15 +72,6 @@ class CallCreateParams(TypedDict, total=False):
     Use this for simpler API when you have only one customer.
     """
 
-    customer_id: Annotated[str, PropertyInfo(alias="customerId")]
-    """A stable identifier from your own system (e.g.
-
-    session ID, conversation ID) used to correlate this call with OpenTelemetry
-    traces. Set the same value as a `roark.customer_id` span or resource attribute
-    on your traces and the matching trace will be linked automatically. Must be
-    unique within a project.
-    """
-
     customers: Iterable[Customer]
     """Customers participating in the call."""
 
@@ -109,6 +100,15 @@ class CallCreateParams(TypedDict, total=False):
         PropertyInfo(alias="endedStatus"),
     ]
     """High-level call end status, indicating how the call terminated"""
+
+    external_id: Annotated[str, PropertyInfo(alias="externalId")]
+    """A stable identifier from your own system (e.g.
+
+    session ID, conversation ID) used to correlate this call with OpenTelemetry
+    traces. Set the same value as a `roark.external_id` span or resource attribute
+    on your traces and the matching trace will be linked automatically. Must be
+    unique within a project.
+    """
 
     livekit_room_id: Annotated[str, PropertyInfo(alias="livekitRoomId")]
     """

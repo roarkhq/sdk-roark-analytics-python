@@ -60,7 +60,6 @@ class CallResource(SyncAPIResource):
         agent: call_create_params.Agent | Omit = omit,
         agents: Iterable[call_create_params.Agent] | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
-        customer_id: str | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
             "PARTICIPANTS_DID_NOT_SPEAK",
@@ -84,6 +83,7 @@ class CallResource(SyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        external_id: str | Omit = omit,
         livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
@@ -119,14 +119,14 @@ class CallResource(SyncAPIResource):
           customer: Single customer participating in the call. Use this for simpler API when you
               have only one customer.
 
-          customer_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
-              to correlate this call with OpenTelemetry traces. Set the same value as a
-              `roark.customer_id` span or resource attribute on your traces and the matching
-              trace will be linked automatically. Must be unique within a project.
-
           customers: Customers participating in the call.
 
           ended_status: High-level call end status, indicating how the call terminated
+
+          external_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.external_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
 
           livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
               LiveKit. Used for matching calls with OTEL traces.
@@ -163,9 +163,9 @@ class CallResource(SyncAPIResource):
                     "agent": agent,
                     "agents": agents,
                     "customer": customer,
-                    "customer_id": customer_id,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "external_id": external_id,
                     "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
@@ -470,7 +470,6 @@ class AsyncCallResource(AsyncAPIResource):
         agent: call_create_params.Agent | Omit = omit,
         agents: Iterable[call_create_params.Agent] | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
-        customer_id: str | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
             "PARTICIPANTS_DID_NOT_SPEAK",
@@ -494,6 +493,7 @@ class AsyncCallResource(AsyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        external_id: str | Omit = omit,
         livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
@@ -529,14 +529,14 @@ class AsyncCallResource(AsyncAPIResource):
           customer: Single customer participating in the call. Use this for simpler API when you
               have only one customer.
 
-          customer_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
-              to correlate this call with OpenTelemetry traces. Set the same value as a
-              `roark.customer_id` span or resource attribute on your traces and the matching
-              trace will be linked automatically. Must be unique within a project.
-
           customers: Customers participating in the call.
 
           ended_status: High-level call end status, indicating how the call terminated
+
+          external_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.external_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
 
           livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
               LiveKit. Used for matching calls with OTEL traces.
@@ -573,9 +573,9 @@ class AsyncCallResource(AsyncAPIResource):
                     "agent": agent,
                     "agents": agents,
                     "customer": customer,
-                    "customer_id": customer_id,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "external_id": external_id,
                     "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
