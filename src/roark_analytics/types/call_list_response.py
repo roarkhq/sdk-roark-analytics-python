@@ -51,6 +51,12 @@ class Data(BaseModel):
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
     """Timestamp when the call record was created"""
 
+    customer_id: Optional[str] = FieldInfo(alias="customerId", default=None)
+    """
+    Customer-supplied correlation ID echoed back from the create request, if any was
+    provided
+    """
+
     customers: Optional[List[DataCustomer]] = None
     """Customer information"""
 

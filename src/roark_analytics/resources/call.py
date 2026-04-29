@@ -60,6 +60,7 @@ class CallResource(SyncAPIResource):
         agent: call_create_params.Agent | Omit = omit,
         agents: Iterable[call_create_params.Agent] | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
+        customer_id: str | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
             "PARTICIPANTS_DID_NOT_SPEAK",
@@ -83,10 +84,12 @@ class CallResource(SyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
         tool_invocations: Iterable[call_create_params.ToolInvocation] | Omit = omit,
         transcript: Iterable[call_create_params.Transcript] | Omit = omit,
+        vapi_call_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -116,9 +119,17 @@ class CallResource(SyncAPIResource):
           customer: Single customer participating in the call. Use this for simpler API when you
               have only one customer.
 
+          customer_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.customer_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
+
           customers: Customers participating in the call.
 
           ended_status: High-level call end status, indicating how the call terminated
+
+          livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
+              LiveKit. Used for matching calls with OTEL traces.
 
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
@@ -129,6 +140,9 @@ class CallResource(SyncAPIResource):
           tool_invocations: List of tool invocations made during the call
 
           transcript: List of transcript entries made during the call
+
+          vapi_call_id: The Vapi call ID (UUID) to link this call with OpenTelemetry trace data from
+              Vapi. Used for matching calls with OTEL traces.
 
           extra_headers: Send extra headers
 
@@ -149,12 +163,15 @@ class CallResource(SyncAPIResource):
                     "agent": agent,
                     "agents": agents,
                     "customer": customer,
+                    "customer_id": customer_id,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                     "tool_invocations": tool_invocations,
                     "transcript": transcript,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_create_params.CallCreateParams,
             ),
@@ -453,6 +470,7 @@ class AsyncCallResource(AsyncAPIResource):
         agent: call_create_params.Agent | Omit = omit,
         agents: Iterable[call_create_params.Agent] | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
+        customer_id: str | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
             "PARTICIPANTS_DID_NOT_SPEAK",
@@ -476,10 +494,12 @@ class AsyncCallResource(AsyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
         tool_invocations: Iterable[call_create_params.ToolInvocation] | Omit = omit,
         transcript: Iterable[call_create_params.Transcript] | Omit = omit,
+        vapi_call_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -509,9 +529,17 @@ class AsyncCallResource(AsyncAPIResource):
           customer: Single customer participating in the call. Use this for simpler API when you
               have only one customer.
 
+          customer_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.customer_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
+
           customers: Customers participating in the call.
 
           ended_status: High-level call end status, indicating how the call terminated
+
+          livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
+              LiveKit. Used for matching calls with OTEL traces.
 
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
@@ -522,6 +550,9 @@ class AsyncCallResource(AsyncAPIResource):
           tool_invocations: List of tool invocations made during the call
 
           transcript: List of transcript entries made during the call
+
+          vapi_call_id: The Vapi call ID (UUID) to link this call with OpenTelemetry trace data from
+              Vapi. Used for matching calls with OTEL traces.
 
           extra_headers: Send extra headers
 
@@ -542,12 +573,15 @@ class AsyncCallResource(AsyncAPIResource):
                     "agent": agent,
                     "agents": agents,
                     "customer": customer,
+                    "customer_id": customer_id,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                     "tool_invocations": tool_invocations,
                     "transcript": transcript,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_create_params.CallCreateParams,
             ),

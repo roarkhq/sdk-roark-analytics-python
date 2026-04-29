@@ -72,6 +72,15 @@ class CallCreateParams(TypedDict, total=False):
     Use this for simpler API when you have only one customer.
     """
 
+    customer_id: Annotated[str, PropertyInfo(alias="customerId")]
+    """A stable identifier from your own system (e.g.
+
+    session ID, conversation ID) used to correlate this call with OpenTelemetry
+    traces. Set the same value as a `roark.customer_id` span or resource attribute
+    on your traces and the matching trace will be linked automatically. Must be
+    unique within a project.
+    """
+
     customers: Iterable[Customer]
     """Customers participating in the call."""
 
@@ -101,6 +110,12 @@ class CallCreateParams(TypedDict, total=False):
     ]
     """High-level call end status, indicating how the call terminated"""
 
+    livekit_room_id: Annotated[str, PropertyInfo(alias="livekitRoomId")]
+    """
+    The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
+    LiveKit. Used for matching calls with OTEL traces.
+    """
+
     properties: Dict[str, object]
     """Custom properties to include with the call.
 
@@ -118,6 +133,12 @@ class CallCreateParams(TypedDict, total=False):
 
     transcript: Iterable[Transcript]
     """List of transcript entries made during the call"""
+
+    vapi_call_id: Annotated[str, PropertyInfo(alias="vapiCallId")]
+    """
+    The Vapi call ID (UUID) to link this call with OpenTelemetry trace data from
+    Vapi. Used for matching calls with OTEL traces.
+    """
 
 
 class AgentAgentIdentificationByRoarkIDEndpointAgentEndpointByID(TypedDict, total=False):

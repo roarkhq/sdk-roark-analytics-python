@@ -43,6 +43,8 @@ class Data(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
+    customer_id: Optional[str] = FieldInfo(alias="customerId", default=None)
+
     customers: Optional[List[DataCustomer]] = None
 
     project_id: str = FieldInfo(alias="projectId")

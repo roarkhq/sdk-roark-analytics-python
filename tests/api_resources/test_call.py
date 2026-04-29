@@ -58,6 +58,7 @@ class TestCall:
                 "phone_number_e164": "phoneNumberE164",
                 "label": "label",
             },
+            customer_id="customerId",
             customers=[
                 {
                     "phone_number_e164": "phoneNumberE164",
@@ -65,6 +66,7 @@ class TestCall:
                 }
             ],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            livekit_room_id="livekitRoomId",
             properties={"foo": "bar"},
             stereo_recording_url="https://example.com",
             tool_invocations=[
@@ -100,6 +102,7 @@ class TestCall:
                     "language_code": "languageCode",
                 }
             ],
+            vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CallCreateResponse, call, path=["response"])
 
@@ -416,6 +419,7 @@ class TestAsyncCall:
                 "phone_number_e164": "phoneNumberE164",
                 "label": "label",
             },
+            customer_id="customerId",
             customers=[
                 {
                     "phone_number_e164": "phoneNumberE164",
@@ -423,6 +427,7 @@ class TestAsyncCall:
                 }
             ],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
+            livekit_room_id="livekitRoomId",
             properties={"foo": "bar"},
             stereo_recording_url="https://example.com",
             tool_invocations=[
@@ -458,6 +463,7 @@ class TestAsyncCall:
                     "language_code": "languageCode",
                 }
             ],
+            vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CallCreateResponse, call, path=["response"])
 
