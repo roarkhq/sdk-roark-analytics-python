@@ -37,6 +37,7 @@ class Data(BaseModel):
         "HK",
         "TR",
         "PT",
+        "IL",
     ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
@@ -81,7 +82,7 @@ class Data(BaseModel):
     """How clearly the persona expresses their intentions"""
 
     language: Literal[
-        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
     ]
     """Primary language ISO 639-1 code for the persona"""
 

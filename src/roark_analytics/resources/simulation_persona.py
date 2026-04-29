@@ -73,10 +73,11 @@ class SimulationPersonaResource(SyncAPIResource):
             "HK",
             "TR",
             "PT",
+            "IL",
         ],
         gender: Literal["MALE", "FEMALE"],
         language: Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ],
         name: str,
         background_noise: Literal[
@@ -224,6 +225,7 @@ class SimulationPersonaResource(SyncAPIResource):
             "HK",
             "TR",
             "PT",
+            "IL",
         ]
         | Omit = omit,
         background_noise: Literal[
@@ -243,7 +245,7 @@ class SimulationPersonaResource(SyncAPIResource):
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ]
         | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -476,10 +478,11 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
             "HK",
             "TR",
             "PT",
+            "IL",
         ],
         gender: Literal["MALE", "FEMALE"],
         language: Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ],
         name: str,
         background_noise: Literal[
@@ -627,6 +630,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
             "HK",
             "TR",
             "PT",
+            "IL",
         ]
         | Omit = omit,
         background_noise: Literal[
@@ -646,7 +650,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT"
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ]
         | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
