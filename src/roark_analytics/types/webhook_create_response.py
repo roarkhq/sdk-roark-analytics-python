@@ -41,6 +41,8 @@ class Data(BaseModel):
             "METRIC_COLLECTION_JOB_FAILED",
             "CHAT_ANALYSIS_COMPLETED",
             "CHAT_ANALYSIS_FAILED",
+            "ISSUE_OPENED",
+            "ISSUE_RESOLVED",
         ]
     ]
     """Event types this webhook is subscribed to"""

@@ -29,6 +29,8 @@ class WebhookCreateParams(TypedDict, total=False):
                 "METRIC_COLLECTION_JOB_FAILED",
                 "CHAT_ANALYSIS_COMPLETED",
                 "CHAT_ANALYSIS_FAILED",
+                "ISSUE_OPENED",
+                "ISSUE_RESOLVED",
             ]
         ]
     ]

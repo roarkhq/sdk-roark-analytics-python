@@ -69,6 +69,8 @@ class WebhookResource(SyncAPIResource):
                 "METRIC_COLLECTION_JOB_FAILED",
                 "CHAT_ANALYSIS_COMPLETED",
                 "CHAT_ANALYSIS_FAILED",
+                "ISSUE_OPENED",
+                "ISSUE_RESOLVED",
             ]
         ],
         url: str,
@@ -275,6 +277,8 @@ class AsyncWebhookResource(AsyncAPIResource):
                 "METRIC_COLLECTION_JOB_FAILED",
                 "CHAT_ANALYSIS_COMPLETED",
                 "CHAT_ANALYSIS_FAILED",
+                "ISSUE_OPENED",
+                "ISSUE_RESOLVED",
             ]
         ],
         url: str,
