@@ -92,7 +92,7 @@ class SimulationPersonaResource(SyncAPIResource):
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
-        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -137,7 +137,8 @@ class SimulationPersonaResource(SyncAPIResource):
 
           idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
 
-          idle_messages: Messages the persona will say when the agent goes silent during a call
+          idle_messages: Messages the persona will say when the agent goes silent during a call. Defaults
+              to language-appropriate phrases when omitted or sent as null.
 
           idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 
@@ -241,7 +242,7 @@ class SimulationPersonaResource(SyncAPIResource):
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
-        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal[
@@ -287,7 +288,8 @@ class SimulationPersonaResource(SyncAPIResource):
 
           idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
 
-          idle_messages: Messages the persona will say when the agent goes silent during a call
+          idle_messages: Messages the persona will say when the agent goes silent during a call. null =
+              "Automatic": language-appropriate defaults are used at call time.
 
           idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 
@@ -497,7 +499,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
-        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
@@ -542,7 +544,8 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
 
-          idle_messages: Messages the persona will say when the agent goes silent during a call
+          idle_messages: Messages the persona will say when the agent goes silent during a call. Defaults
+              to language-appropriate phrases when omitted or sent as null.
 
           idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 
@@ -646,7 +649,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
-        idle_messages: SequenceNotStr[str] | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         language: Literal[
@@ -692,7 +695,8 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
 
-          idle_messages: Messages the persona will say when the agent goes silent during a call
+          idle_messages: Messages the persona will say when the agent goes silent during a call. null =
+              "Automatic": language-appropriate defaults are used at call time.
 
           idle_timeout_seconds: Seconds of silence before the persona sends an idle message
 

@@ -72,8 +72,11 @@ class Data(BaseModel):
     idle_message_reset_count_on_user_speech_enabled: bool = FieldInfo(alias="idleMessageResetCountOnUserSpeechEnabled")
     """Whether the idle message counter resets when the agent speaks"""
 
-    idle_messages: List[str] = FieldInfo(alias="idleMessages")
-    """Messages the persona will say when the agent goes silent during a call"""
+    idle_messages: Optional[List[str]] = FieldInfo(alias="idleMessages", default=None)
+    """Messages the persona will say when the agent goes silent during a call.
+
+    null = "Automatic": language-appropriate defaults are used at call time.
+    """
 
     idle_timeout_seconds: int = FieldInfo(alias="idleTimeoutSeconds")
     """Seconds of silence before the persona sends an idle message"""

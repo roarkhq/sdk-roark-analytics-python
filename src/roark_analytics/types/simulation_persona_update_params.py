@@ -77,8 +77,11 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     ]
     """Whether the idle message counter resets when the agent speaks"""
 
-    idle_messages: Annotated[SequenceNotStr[str], PropertyInfo(alias="idleMessages")]
-    """Messages the persona will say when the agent goes silent during a call"""
+    idle_messages: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="idleMessages")]
+    """Messages the persona will say when the agent goes silent during a call.
+
+    null = "Automatic": language-appropriate defaults are used at call time.
+    """
 
     idle_timeout_seconds: Annotated[int, PropertyInfo(alias="idleTimeoutSeconds")]
     """Seconds of silence before the persona sends an idle message"""
