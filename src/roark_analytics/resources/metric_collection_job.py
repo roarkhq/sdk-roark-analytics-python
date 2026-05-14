@@ -64,11 +64,13 @@ class MetricCollectionJobResource(SyncAPIResource):
         then triggers processing. Provide exactly one of callIds or chatIds.
 
         Args:
-          metrics: Metric definitions to collect
+          metrics: Metric definitions to collect. Max 20 per request.
 
-          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds.
+          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds. Max 500 per
+              request.
 
-          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds.
+          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds. Max 500 per
+              request.
 
           extra_headers: Send extra headers
 
@@ -216,11 +218,13 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
         then triggers processing. Provide exactly one of callIds or chatIds.
 
         Args:
-          metrics: Metric definitions to collect
+          metrics: Metric definitions to collect. Max 20 per request.
 
-          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds.
+          call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds. Max 500 per
+              request.
 
-          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds.
+          chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds. Max 500 per
+              request.
 
           extra_headers: Send extra headers
 
