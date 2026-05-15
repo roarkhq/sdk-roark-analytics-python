@@ -89,7 +89,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
-          metrics: Metric definitions to include in this run plan
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `metricId` (slug).
 
           name: Name of the run plan
 
@@ -201,7 +202,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
-          metrics: Metric definitions to include in this run plan
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `metricId` (slug).
 
           name: Name of the run plan
 
@@ -429,7 +431,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
-          metrics: Metric definitions to include in this run plan
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `metricId` (slug).
 
           name: Name of the run plan
 
@@ -541,7 +544,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
-          metrics: Metric definitions to include in this run plan
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `metricId` (slug).
 
           name: Name of the run plan
 

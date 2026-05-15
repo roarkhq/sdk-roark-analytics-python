@@ -49,7 +49,10 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """Maximum duration in seconds for each simulation"""
 
     metrics: Iterable[Metric]
-    """Metric definitions to include in this run plan"""
+    """Metric definitions to include in this run plan.
+
+    Reference each by `id` (UUID) or `metricId` (slug).
+    """
 
     name: str
     """Name of the run plan"""
@@ -72,7 +75,14 @@ class AgentEndpoint(TypedDict, total=False):
 
 
 class Metric(TypedDict, total=False):
-    id: Required[str]
+    id: str
+    """Metric definition UUID. Provide either this or `metricId`, not both."""
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Stable metric identifier slug (e.g.
+
+    `customer_satisfaction`). Provide either this or `id`, not both.
+    """
 
 
 class Persona(TypedDict, total=False):

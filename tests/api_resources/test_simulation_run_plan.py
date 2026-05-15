@@ -29,7 +29,7 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -42,7 +42,12 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                }
+            ],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
@@ -71,7 +76,7 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -88,7 +93,7 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -121,7 +126,12 @@ class TestSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                }
+            ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
@@ -288,7 +298,7 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -301,7 +311,12 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                }
+            ],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
@@ -330,7 +345,7 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -347,7 +362,7 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[{}],
             name="My Run Plan",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
@@ -380,7 +395,12 @@ class TestAsyncSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                }
+            ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
