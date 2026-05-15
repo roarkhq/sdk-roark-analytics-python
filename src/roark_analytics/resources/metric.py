@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 from typing import List, Iterable
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
 from ..types import metric_create_definition_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -45,20 +45,22 @@ class MetricResource(SyncAPIResource):
         """
         return MetricResourceWithStreamingResponse(self)
 
+    @overload
     def create_definition(
         self,
         *,
         analysis_package_id: str,
+        calculation_type: Literal["LLM_JUDGE"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
-        classification_options: Iterable[metric_create_definition_params.ClassificationOption] | Omit = omit,
+        classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
-        scale_labels: Iterable[metric_create_definition_params.ScaleLabel] | Omit = omit,
+        scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
@@ -70,32 +72,36 @@ class MetricResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricCreateDefinitionResponse:
-        """Create a new custom metric definition.
+        """Create a new metric definition.
 
-        The metric will be added to the specified
-        analysis package and can be used for evaluating calls.
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: LLM-evaluated metric.
 
           name: Name of the metric
 
           output_type: Type of value this metric produces
 
-          boolean_false_label: Label for the false/negative case (only for BOOLEAN type)
+          boolean_false_label: Label for the false case (only for BOOLEAN type)
 
-          boolean_true_label: Label for the true/positive case (only for BOOLEAN type)
+          boolean_true_label: Label for the true case (only for BOOLEAN type)
 
           classification_options: Options for classification. Required for CLASSIFICATION type.
 
-          llm_prompt: LLM prompt/criteria for evaluating this metric. Used to instruct the model on
-              how to score. Required for BOOLEAN, NUMERIC, TEXT, and SCALE types.
+          llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
+              TEXT, and SCALE types.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
-          metric_id: Unique identifier for the metric (e.g. "customer_satisfaction"). Auto-generated
-              from name if not provided.
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
 
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
@@ -117,11 +123,171 @@ class MetricResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["FORMULA"],
+        formula: str,
+        name: str,
+        output_type: Literal["NUMERIC", "BOOLEAN"],
+        sources: Iterable[metric_create_definition_params.Variant1Source],
+        metric_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
+
+        Args:
+          analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: Metric computed by evaluating a mathematical expression over other metrics.
+
+          formula: Formula expression using `{{id:<uuid>}}` references to source metrics. Operators
+              depend on output type: +, -, \\**, / for NUMERIC; ==, !=, >=, <=, >, < for
+              BOOLEAN.
+
+          name: Name of the metric
+
+          output_type: Output type of the formula. NUMERIC for arithmetic expressions, BOOLEAN for
+              comparison expressions.
+
+          sources: Source metrics referenced by the formula. Minimum 2.
+
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["PATTERN"],
+        name: str,
+        operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
+        outcome: metric_create_definition_params.Variant2Outcome,
+        metric_id: str | Omit = omit,
+        trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
+        trigger_combinator: Literal["AND", "OR"] | Omit = omit,
+        triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
+        window_mode: Literal["seconds", "segments"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
+
+        Args:
+          analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: Metric detecting temporal patterns: a trigger condition followed by an outcome
+              within a window.
+
+          name: Name of the metric
+
+          operation: Pattern operation. PATTERN_EXISTS produces a BOOLEAN; PATTERN_COUNT produces a
+              NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
+
+          outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+
+          trigger: Single trigger condition. Use either trigger or triggers + triggerCombinator.
+
+          trigger_combinator: How to combine multiple triggers. Required when triggers has more than 1 entry.
+
+          triggers: Multiple trigger conditions. Use with triggerCombinator.
+
+          window_mode: Unit for trigger/outcome window values (default: seconds)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["analysis_package_id", "calculation_type", "name", "output_type"],
+        ["analysis_package_id", "calculation_type", "formula", "name", "output_type", "sources"],
+        ["analysis_package_id", "calculation_type", "name", "operation", "outcome"],
+    )
+    def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["LLM_JUDGE"] | Literal["FORMULA"] | Literal["PATTERN"],
+        name: str,
+        output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+        | Literal["NUMERIC", "BOOLEAN"]
+        | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
+        llm_prompt: str | Omit = omit,
+        max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
+        participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
+        scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
+        scale_max: int | Omit = omit,
+        scale_min: int | Omit = omit,
+        scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
+        formula: str | Omit = omit,
+        sources: Iterable[metric_create_definition_params.Variant1Source] | Omit = omit,
+        operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"] | Omit = omit,
+        outcome: metric_create_definition_params.Variant2Outcome | Omit = omit,
+        trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
+        trigger_combinator: Literal["AND", "OR"] | Omit = omit,
+        triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
+        window_mode: Literal["seconds", "segments"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
         return self._post(
             "/v1/metric/definitions",
             body=maybe_transform(
                 {
                     "analysis_package_id": analysis_package_id,
+                    "calculation_type": calculation_type,
                     "name": name,
                     "output_type": output_type,
                     "boolean_false_label": boolean_false_label,
@@ -136,6 +302,14 @@ class MetricResource(SyncAPIResource):
                     "scale_min": scale_min,
                     "scope": scope,
                     "supported_contexts": supported_contexts,
+                    "formula": formula,
+                    "sources": sources,
+                    "operation": operation,
+                    "outcome": outcome,
+                    "trigger": trigger,
+                    "trigger_combinator": trigger_combinator,
+                    "triggers": triggers,
+                    "window_mode": window_mode,
                 },
                 metric_create_definition_params.MetricCreateDefinitionParams,
             ),
@@ -188,20 +362,22 @@ class AsyncMetricResource(AsyncAPIResource):
         """
         return AsyncMetricResourceWithStreamingResponse(self)
 
+    @overload
     async def create_definition(
         self,
         *,
         analysis_package_id: str,
+        calculation_type: Literal["LLM_JUDGE"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
-        classification_options: Iterable[metric_create_definition_params.ClassificationOption] | Omit = omit,
+        classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
-        scale_labels: Iterable[metric_create_definition_params.ScaleLabel] | Omit = omit,
+        scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
@@ -213,32 +389,36 @@ class AsyncMetricResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricCreateDefinitionResponse:
-        """Create a new custom metric definition.
+        """Create a new metric definition.
 
-        The metric will be added to the specified
-        analysis package and can be used for evaluating calls.
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: LLM-evaluated metric.
 
           name: Name of the metric
 
           output_type: Type of value this metric produces
 
-          boolean_false_label: Label for the false/negative case (only for BOOLEAN type)
+          boolean_false_label: Label for the false case (only for BOOLEAN type)
 
-          boolean_true_label: Label for the true/positive case (only for BOOLEAN type)
+          boolean_true_label: Label for the true case (only for BOOLEAN type)
 
           classification_options: Options for classification. Required for CLASSIFICATION type.
 
-          llm_prompt: LLM prompt/criteria for evaluating this metric. Used to instruct the model on
-              how to score. Required for BOOLEAN, NUMERIC, TEXT, and SCALE types.
+          llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
+              TEXT, and SCALE types.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
-          metric_id: Unique identifier for the metric (e.g. "customer_satisfaction"). Auto-generated
-              from name if not provided.
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
 
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
@@ -260,11 +440,171 @@ class AsyncMetricResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["FORMULA"],
+        formula: str,
+        name: str,
+        output_type: Literal["NUMERIC", "BOOLEAN"],
+        sources: Iterable[metric_create_definition_params.Variant1Source],
+        metric_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
+
+        Args:
+          analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: Metric computed by evaluating a mathematical expression over other metrics.
+
+          formula: Formula expression using `{{id:<uuid>}}` references to source metrics. Operators
+              depend on output type: +, -, \\**, / for NUMERIC; ==, !=, >=, <=, >, < for
+              BOOLEAN.
+
+          name: Name of the metric
+
+          output_type: Output type of the formula. NUMERIC for arithmetic expressions, BOOLEAN for
+              comparison expressions.
+
+          sources: Source metrics referenced by the formula. Minimum 2.
+
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["PATTERN"],
+        name: str,
+        operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
+        outcome: metric_create_definition_params.Variant2Outcome,
+        metric_id: str | Omit = omit,
+        trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
+        trigger_combinator: Literal["AND", "OR"] | Omit = omit,
+        triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
+        window_mode: Literal["seconds", "segments"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use
+        `POST /metric/definitions/{metricId}/thresholds` instead.
+
+        Args:
+          analysis_package_id: ID of the analysis package to add this metric to
+
+          calculation_type: Metric detecting temporal patterns: a trigger condition followed by an outcome
+              within a window.
+
+          name: Name of the metric
+
+          operation: Pattern operation. PATTERN_EXISTS produces a BOOLEAN; PATTERN_COUNT produces a
+              NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
+
+          outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+
+          trigger: Single trigger condition. Use either trigger or triggers + triggerCombinator.
+
+          trigger_combinator: How to combine multiple triggers. Required when triggers has more than 1 entry.
+
+          triggers: Multiple trigger conditions. Use with triggerCombinator.
+
+          window_mode: Unit for trigger/outcome window values (default: seconds)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["analysis_package_id", "calculation_type", "name", "output_type"],
+        ["analysis_package_id", "calculation_type", "formula", "name", "output_type", "sources"],
+        ["analysis_package_id", "calculation_type", "name", "operation", "outcome"],
+    )
+    async def create_definition(
+        self,
+        *,
+        analysis_package_id: str,
+        calculation_type: Literal["LLM_JUDGE"] | Literal["FORMULA"] | Literal["PATTERN"],
+        name: str,
+        output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+        | Literal["NUMERIC", "BOOLEAN"]
+        | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
+        llm_prompt: str | Omit = omit,
+        max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
+        participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
+        scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
+        scale_max: int | Omit = omit,
+        scale_min: int | Omit = omit,
+        scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
+        formula: str | Omit = omit,
+        sources: Iterable[metric_create_definition_params.Variant1Source] | Omit = omit,
+        operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"] | Omit = omit,
+        outcome: metric_create_definition_params.Variant2Outcome | Omit = omit,
+        trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
+        trigger_combinator: Literal["AND", "OR"] | Omit = omit,
+        triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
+        window_mode: Literal["seconds", "segments"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
         return await self._post(
             "/v1/metric/definitions",
             body=await async_maybe_transform(
                 {
                     "analysis_package_id": analysis_package_id,
+                    "calculation_type": calculation_type,
                     "name": name,
                     "output_type": output_type,
                     "boolean_false_label": boolean_false_label,
@@ -279,6 +619,14 @@ class AsyncMetricResource(AsyncAPIResource):
                     "scale_min": scale_min,
                     "scope": scope,
                     "supported_contexts": supported_contexts,
+                    "formula": formula,
+                    "sources": sources,
+                    "operation": operation,
+                    "outcome": outcome,
+                    "trigger": trigger,
+                    "trigger_combinator": trigger_combinator,
+                    "triggers": triggers,
+                    "window_mode": window_mode,
                 },
                 metric_create_definition_params.MetricCreateDefinitionParams,
             ),

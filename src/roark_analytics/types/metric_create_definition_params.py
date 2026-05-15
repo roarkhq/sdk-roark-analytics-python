@@ -2,17 +2,30 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import List, Union, Iterable
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["MetricCreateDefinitionParams", "ClassificationOption", "ScaleLabel"]
+__all__ = [
+    "MetricCreateDefinitionParams",
+    "Variant0",
+    "Variant0ClassificationOption",
+    "Variant0ScaleLabel",
+    "Variant1",
+    "Variant1Source",
+    "Variant2",
+    "Variant2Outcome",
+    "Variant2Trigger",
+]
 
 
-class MetricCreateDefinitionParams(TypedDict, total=False):
+class Variant0(TypedDict, total=False):
     analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
     """ID of the analysis package to add this metric to"""
+
+    calculation_type: Required[Annotated[Literal["LLM_JUDGE"], PropertyInfo(alias="calculationType")]]
+    """LLM-evaluated metric."""
 
     name: Required[str]
     """Name of the metric"""
@@ -26,19 +39,20 @@ class MetricCreateDefinitionParams(TypedDict, total=False):
     """Type of value this metric produces"""
 
     boolean_false_label: Annotated[str, PropertyInfo(alias="booleanFalseLabel")]
-    """Label for the false/negative case (only for BOOLEAN type)"""
+    """Label for the false case (only for BOOLEAN type)"""
 
     boolean_true_label: Annotated[str, PropertyInfo(alias="booleanTrueLabel")]
-    """Label for the true/positive case (only for BOOLEAN type)"""
+    """Label for the true case (only for BOOLEAN type)"""
 
-    classification_options: Annotated[Iterable[ClassificationOption], PropertyInfo(alias="classificationOptions")]
+    classification_options: Annotated[
+        Iterable[Variant0ClassificationOption], PropertyInfo(alias="classificationOptions")
+    ]
     """Options for classification. Required for CLASSIFICATION type."""
 
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
     """LLM prompt/criteria for evaluating this metric.
 
-    Used to instruct the model on how to score. Required for BOOLEAN, NUMERIC, TEXT,
-    and SCALE types.
+    Required for BOOLEAN, NUMERIC, TEXT, and SCALE types.
     """
 
     max_classifications: Annotated[int, PropertyInfo(alias="maxClassifications")]
@@ -48,17 +62,14 @@ class MetricCreateDefinitionParams(TypedDict, total=False):
     """
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
-    """Unique identifier for the metric (e.g.
-
-    "customer_satisfaction"). Auto-generated from name if not provided.
-    """
+    """Unique identifier for the metric. Auto-generated from name if omitted."""
 
     participant_role: Annotated[
         Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"], PropertyInfo(alias="participantRole")
     ]
     """Participant role to evaluate. Required when scope is PER_PARTICIPANT."""
 
-    scale_labels: Annotated[Iterable[ScaleLabel], PropertyInfo(alias="scaleLabels")]
+    scale_labels: Annotated[Iterable[Variant0ScaleLabel], PropertyInfo(alias="scaleLabels")]
     """Labels for scale ranges (only for SCALE type)"""
 
     scale_max: Annotated[int, PropertyInfo(alias="scaleMax")]
@@ -74,18 +85,17 @@ class MetricCreateDefinitionParams(TypedDict, total=False):
     """Which levels this metric can produce values at (default: ["CALL"])"""
 
 
-class ClassificationOption(TypedDict, total=False):
+class Variant0ClassificationOption(TypedDict, total=False):
+    """Option for classification metrics."""
+
     description: Required[str]
-    """Description of what this option means"""
 
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
-    """Display order of this option"""
 
     label: Required[str]
-    """Label for this classification option"""
 
 
-class ScaleLabel(TypedDict, total=False):
+class Variant0ScaleLabel(TypedDict, total=False):
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
     """Display order of this label"""
 
@@ -103,3 +113,130 @@ class ScaleLabel(TypedDict, total=False):
 
     description: str
     """Description of what this range means"""
+
+
+class Variant1(TypedDict, total=False):
+    analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
+    """ID of the analysis package to add this metric to"""
+
+    calculation_type: Required[Annotated[Literal["FORMULA"], PropertyInfo(alias="calculationType")]]
+    """Metric computed by evaluating a mathematical expression over other metrics."""
+
+    formula: Required[str]
+    """Formula expression using `{{id:<uuid>}}` references to source metrics.
+
+    Operators depend on output type: +, -, \\**, / for NUMERIC; ==, !=, >=, <=, >, <
+    for BOOLEAN.
+    """
+
+    name: Required[str]
+    """Name of the metric"""
+
+    output_type: Required[Annotated[Literal["NUMERIC", "BOOLEAN"], PropertyInfo(alias="outputType")]]
+    """Output type of the formula.
+
+    NUMERIC for arithmetic expressions, BOOLEAN for comparison expressions.
+    """
+
+    sources: Required[Iterable[Variant1Source]]
+    """Source metrics referenced by the formula. Minimum 2."""
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Unique identifier for the metric. Auto-generated from name if omitted."""
+
+
+class Variant1Source(TypedDict, total=False):
+    source_metric_definition_id: Required[Annotated[str, PropertyInfo(alias="sourceMetricDefinitionId")]]
+    """ID of a metric referenced in the formula"""
+
+    source_variant_id: Annotated[str, PropertyInfo(alias="sourceVariantId")]
+    """Variant of the source metric to use"""
+
+
+class Variant2(TypedDict, total=False):
+    analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
+    """ID of the analysis package to add this metric to"""
+
+    calculation_type: Required[Annotated[Literal["PATTERN"], PropertyInfo(alias="calculationType")]]
+    """
+    Metric detecting temporal patterns: a trigger condition followed by an outcome
+    within a window.
+    """
+
+    name: Required[str]
+    """Name of the metric"""
+
+    operation: Required[Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"]]
+    """Pattern operation.
+
+    PATTERN_EXISTS produces a BOOLEAN; PATTERN_COUNT produces a NUMERIC count;
+    OUTCOME_AGGREGATE aggregates a numeric outcome.
+    """
+
+    outcome: Required[Variant2Outcome]
+    """Outcome condition evaluated within the window relative to the trigger."""
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Unique identifier for the metric. Auto-generated from name if omitted."""
+
+    trigger: Variant2Trigger
+    """Single trigger condition. Use either trigger or triggers + triggerCombinator."""
+
+    trigger_combinator: Annotated[Literal["AND", "OR"], PropertyInfo(alias="triggerCombinator")]
+    """How to combine multiple triggers. Required when triggers has more than 1 entry."""
+
+    triggers: Iterable[Variant2Trigger]
+    """Multiple trigger conditions. Use with triggerCombinator."""
+
+    window_mode: Annotated[Literal["seconds", "segments"], PropertyInfo(alias="windowMode")]
+    """Unit for trigger/outcome window values (default: seconds)"""
+
+
+class Variant2Outcome(TypedDict, total=False):
+    """Outcome condition evaluated within the window relative to the trigger."""
+
+    operator: Required[
+        Literal["GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"]
+    ]
+
+    source_metric_definition_id: Required[Annotated[str, PropertyInfo(alias="sourceMetricDefinitionId")]]
+
+    threshold_value: Required[Annotated[str, PropertyInfo(alias="thresholdValue")]]
+
+    window_after: Required[Annotated[int, PropertyInfo(alias="windowAfter")]]
+    """
+    How far after the trigger to look for the outcome (in seconds or segments, see
+    windowMode)
+    """
+
+    source_participant_role: Annotated[
+        Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"],
+        PropertyInfo(alias="sourceParticipantRole"),
+    ]
+
+    source_variant_id: Annotated[str, PropertyInfo(alias="sourceVariantId")]
+
+    window_before: Annotated[int, PropertyInfo(alias="windowBefore")]
+    """How far before the trigger to look for the outcome (default: 0)"""
+
+
+class Variant2Trigger(TypedDict, total=False):
+    """Single trigger condition. Use either trigger or triggers + triggerCombinator."""
+
+    operator: Required[
+        Literal["GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"]
+    ]
+
+    source_metric_definition_id: Required[Annotated[str, PropertyInfo(alias="sourceMetricDefinitionId")]]
+
+    threshold_value: Required[Annotated[str, PropertyInfo(alias="thresholdValue")]]
+
+    source_participant_role: Annotated[
+        Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"],
+        PropertyInfo(alias="sourceParticipantRole"),
+    ]
+
+    source_variant_id: Annotated[str, PropertyInfo(alias="sourceVariantId")]
+
+
+MetricCreateDefinitionParams: TypeAlias = Union[Variant0, Variant1, Variant2]

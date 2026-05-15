@@ -21,22 +21,24 @@ class TestMetric:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create_definition(self, client: Roark) -> None:
+    def test_method_create_definition_overload_1(self, client: Roark) -> None:
         metric = client.metric.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    def test_method_create_definition_with_all_params(self, client: Roark) -> None:
+    def test_method_create_definition_with_all_params_overload_1(self, client: Roark) -> None:
         metric = client.metric.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
-            boolean_false_label="Not Satisfied",
-            boolean_true_label="Satisfied",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
             classification_options=[
                 {
                     "description": "description",
@@ -58,17 +60,18 @@ class TestMetric:
                     "description": "description",
                 }
             ],
-            scale_max=5,
-            scale_min=1,
+            scale_max=0,
+            scale_min=0,
             scope="GLOBAL",
             supported_contexts=["CALL"],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    def test_raw_response_create_definition(self, client: Roark) -> None:
+    def test_raw_response_create_definition_overload_1(self, client: Roark) -> None:
         response = client.metric.with_raw_response.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
         )
@@ -79,11 +82,185 @@ class TestMetric:
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    def test_streaming_response_create_definition(self, client: Roark) -> None:
+    def test_streaming_response_create_definition_overload_1(self, client: Roark) -> None:
         with client.metric.with_streaming_response.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_create_definition_overload_2(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_method_create_definition_with_all_params_overload_2(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+            ],
+            metric_id="customer_satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_definition_overload_2(self, client: Roark) -> None:
+        response = client.metric.with_raw_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_definition_overload_2(self, client: Roark) -> None:
+        with client.metric.with_streaming_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_create_definition_overload_3(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_method_create_definition_with_all_params_overload_3(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+                "source_participant_role": "AGENT",
+                "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "window_before": 0,
+            },
+            metric_id="customer_satisfaction",
+            trigger={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "source_participant_role": "AGENT",
+                "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            },
+            trigger_combinator="AND",
+            triggers=[
+                {
+                    "operator": "GREATER_THAN",
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "threshold_value": "x",
+                    "source_participant_role": "AGENT",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                }
+            ],
+            window_mode="seconds",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_definition_overload_3(self, client: Roark) -> None:
+        response = client.metric.with_raw_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_definition_overload_3(self, client: Roark) -> None:
+        with client.metric.with_streaming_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -125,22 +302,24 @@ class TestAsyncMetric:
     )
 
     @parametrize
-    async def test_method_create_definition(self, async_client: AsyncRoark) -> None:
+    async def test_method_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    async def test_method_create_definition_with_all_params(self, async_client: AsyncRoark) -> None:
+    async def test_method_create_definition_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
-            boolean_false_label="Not Satisfied",
-            boolean_true_label="Satisfied",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
             classification_options=[
                 {
                     "description": "description",
@@ -162,17 +341,18 @@ class TestAsyncMetric:
                     "description": "description",
                 }
             ],
-            scale_max=5,
-            scale_min=1,
+            scale_max=0,
+            scale_min=0,
             scope="GLOBAL",
             supported_contexts=["CALL"],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    async def test_raw_response_create_definition(self, async_client: AsyncRoark) -> None:
+    async def test_raw_response_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric.with_raw_response.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
         )
@@ -183,11 +363,185 @@ class TestAsyncMetric:
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create_definition(self, async_client: AsyncRoark) -> None:
+    async def test_streaming_response_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.metric.with_streaming_response.create_definition(
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = await response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_method_create_definition_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+            ],
+            metric_id="customer_satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric.with_raw_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = await response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric.with_streaming_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="FORMULA",
+            formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
+            name="Customer Satisfaction",
+            output_type="NUMERIC",
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = await response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_method_create_definition_with_all_params_overload_3(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+                "source_participant_role": "AGENT",
+                "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "window_before": 0,
+            },
+            metric_id="customer_satisfaction",
+            trigger={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "source_participant_role": "AGENT",
+                "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            },
+            trigger_combinator="AND",
+            triggers=[
+                {
+                    "operator": "GREATER_THAN",
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "threshold_value": "x",
+                    "source_participant_role": "AGENT",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                }
+            ],
+            window_mode="seconds",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric.with_raw_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = await response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric.with_streaming_response.create_definition(
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calculation_type="PATTERN",
+            name="Customer Satisfaction",
+            operation="PATTERN_EXISTS",
+            outcome={
+                "operator": "GREATER_THAN",
+                "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "threshold_value": "x",
+                "window_after": 0,
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
