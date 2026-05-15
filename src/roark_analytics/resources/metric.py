@@ -58,12 +58,12 @@ class MetricResource(SyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
-        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        slug: str | Omit = omit,
         supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -78,7 +78,7 @@ class MetricResource(SyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -101,8 +101,6 @@ class MetricResource(SyncAPIResource):
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
-
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
           scale_labels: Labels for scale ranges (only for SCALE type)
@@ -112,6 +110,8 @@ class MetricResource(SyncAPIResource):
           scale_min: Minimum value for scale. Required for SCALE type.
 
           scope: Whether metric is global or per-participant (default: GLOBAL)
+
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           supported_contexts: Which levels this metric can produce values at (default: ["CALL"])
 
@@ -135,7 +135,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.Variant1Source],
-        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -149,7 +149,7 @@ class MetricResource(SyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -167,7 +167,7 @@ class MetricResource(SyncAPIResource):
 
           sources: Source metrics referenced by the formula. Minimum 2.
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           extra_headers: Send extra headers
 
@@ -188,7 +188,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.Variant2Outcome,
-        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
         trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
         triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
@@ -206,7 +206,7 @@ class MetricResource(SyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -221,7 +221,7 @@ class MetricResource(SyncAPIResource):
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           trigger: Single trigger condition. Use either trigger or triggers + triggerCombinator.
 
@@ -260,12 +260,12 @@ class MetricResource(SyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
-        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        slug: str | Omit = omit,
         supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
         formula: str | Omit = omit,
         sources: Iterable[metric_create_definition_params.Variant1Source] | Omit = omit,
@@ -295,12 +295,12 @@ class MetricResource(SyncAPIResource):
                     "classification_options": classification_options,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
-                    "metric_id": metric_id,
                     "participant_role": participant_role,
                     "scale_labels": scale_labels,
                     "scale_max": scale_max,
                     "scale_min": scale_min,
                     "scope": scope,
+                    "slug": slug,
                     "supported_contexts": supported_contexts,
                     "formula": formula,
                     "sources": sources,
@@ -375,12 +375,12 @@ class AsyncMetricResource(AsyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
-        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        slug: str | Omit = omit,
         supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -395,7 +395,7 @@ class AsyncMetricResource(AsyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -418,8 +418,6 @@ class AsyncMetricResource(AsyncAPIResource):
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
-
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
           scale_labels: Labels for scale ranges (only for SCALE type)
@@ -429,6 +427,8 @@ class AsyncMetricResource(AsyncAPIResource):
           scale_min: Minimum value for scale. Required for SCALE type.
 
           scope: Whether metric is global or per-participant (default: GLOBAL)
+
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           supported_contexts: Which levels this metric can produce values at (default: ["CALL"])
 
@@ -452,7 +452,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.Variant1Source],
-        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -466,7 +466,7 @@ class AsyncMetricResource(AsyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -484,7 +484,7 @@ class AsyncMetricResource(AsyncAPIResource):
 
           sources: Source metrics referenced by the formula. Minimum 2.
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           extra_headers: Send extra headers
 
@@ -505,7 +505,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.Variant2Outcome,
-        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
         trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
         triggers: Iterable[metric_create_definition_params.Variant2Trigger] | Omit = omit,
@@ -523,7 +523,7 @@ class AsyncMetricResource(AsyncAPIResource):
         LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
         metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
         create a threshold on top of an existing metric, use
-        `POST /metric/definitions/{idOrMetricId}/thresholds` instead.
+        `POST /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
           analysis_package_id: ID of the analysis package to add this metric to
@@ -538,7 +538,7 @@ class AsyncMetricResource(AsyncAPIResource):
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
 
-          metric_id: Unique identifier for the metric. Auto-generated from name if omitted.
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           trigger: Single trigger condition. Use either trigger or triggers + triggerCombinator.
 
@@ -577,12 +577,12 @@ class AsyncMetricResource(AsyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
-        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
         scale_min: int | Omit = omit,
         scope: Literal["GLOBAL", "PER_PARTICIPANT"] | Omit = omit,
+        slug: str | Omit = omit,
         supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
         formula: str | Omit = omit,
         sources: Iterable[metric_create_definition_params.Variant1Source] | Omit = omit,
@@ -612,12 +612,12 @@ class AsyncMetricResource(AsyncAPIResource):
                     "classification_options": classification_options,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
-                    "metric_id": metric_id,
                     "participant_role": participant_role,
                     "scale_labels": scale_labels,
                     "scale_max": scale_max,
                     "scale_min": scale_min,
                     "scope": scope,
+                    "slug": slug,
                     "supported_contexts": supported_contexts,
                     "formula": formula,
                     "sources": sources,

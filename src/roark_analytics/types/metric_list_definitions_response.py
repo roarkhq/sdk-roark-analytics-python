@@ -137,14 +137,14 @@ class Data(BaseModel):
     description: str
     """Description of what the metric measures"""
 
-    metric_id: str = FieldInfo(alias="metricId")
-    """Stable metric identifier (e.g. "call_reason", "customer_satisfaction")"""
-
     name: str
     """Name of the metric"""
 
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""

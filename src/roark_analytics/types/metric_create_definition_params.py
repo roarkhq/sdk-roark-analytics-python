@@ -61,9 +61,6 @@ class Variant0(TypedDict, total=False):
     type)
     """
 
-    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
-    """Unique identifier for the metric. Auto-generated from name if omitted."""
-
     participant_role: Annotated[
         Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"], PropertyInfo(alias="participantRole")
     ]
@@ -80,6 +77,9 @@ class Variant0(TypedDict, total=False):
 
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant (default: GLOBAL)"""
+
+    slug: str
+    """Stable slug for the metric. Auto-generated from name if omitted."""
 
     supported_contexts: Annotated[List[Literal["CALL", "SEGMENT", "TURN"]], PropertyInfo(alias="supportedContexts")]
     """Which levels this metric can produce values at (default: ["CALL"])"""
@@ -141,8 +141,8 @@ class Variant1(TypedDict, total=False):
     sources: Required[Iterable[Variant1Source]]
     """Source metrics referenced by the formula. Minimum 2."""
 
-    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
-    """Unique identifier for the metric. Auto-generated from name if omitted."""
+    slug: str
+    """Stable slug for the metric. Auto-generated from name if omitted."""
 
 
 class Variant1Source(TypedDict, total=False):
@@ -176,8 +176,8 @@ class Variant2(TypedDict, total=False):
     outcome: Required[Variant2Outcome]
     """Outcome condition evaluated within the window relative to the trigger."""
 
-    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
-    """Unique identifier for the metric. Auto-generated from name if omitted."""
+    slug: str
+    """Stable slug for the metric. Auto-generated from name if omitted."""
 
     trigger: Variant2Trigger
     """Single trigger condition. Use either trigger or triggers + triggerCombinator."""

@@ -124,14 +124,14 @@ class Data(BaseModel):
     metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
     """Unique identifier for the metric definition"""
 
-    metric_id: str = FieldInfo(alias="metricId")
-    """Stable metric identifier"""
-
     name: str
     """Name of the metric"""
 
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug"""
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""

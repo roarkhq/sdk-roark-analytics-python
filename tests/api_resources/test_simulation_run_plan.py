@@ -45,7 +45,7 @@ class TestSimulationRunPlan:
             metrics=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
+                    "slug": "x",
                 }
             ],
             name="My Run Plan",
@@ -129,7 +129,7 @@ class TestSimulationRunPlan:
             metrics=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
+                    "slug": "x",
                 }
             ],
             name="x",
@@ -314,7 +314,7 @@ class TestAsyncSimulationRunPlan:
             metrics=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
+                    "slug": "x",
                 }
             ],
             name="My Run Plan",
@@ -398,7 +398,7 @@ class TestAsyncSimulationRunPlan:
             metrics=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
+                    "slug": "x",
                 }
             ],
             name="x",
