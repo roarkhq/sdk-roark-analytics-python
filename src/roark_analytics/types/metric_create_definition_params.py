@@ -9,18 +9,18 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "MetricCreateDefinitionParams",
-    "Variant0",
-    "Variant0ClassificationOption",
-    "Variant0ScaleLabel",
-    "Variant1",
-    "Variant1Source",
-    "Variant2",
-    "Variant2Outcome",
-    "Variant2Trigger",
+    "PromptMetricInput",
+    "PromptMetricInputClassificationOption",
+    "PromptMetricInputScaleLabel",
+    "FormulaMetricInput",
+    "FormulaMetricInputSource",
+    "PatternMetricInput",
+    "PatternMetricInputOutcome",
+    "PatternMetricInputTrigger",
 ]
 
 
-class Variant0(TypedDict, total=False):
+class PromptMetricInput(TypedDict, total=False):
     analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
     """ID of the analysis package to add this metric to"""
 
@@ -45,7 +45,7 @@ class Variant0(TypedDict, total=False):
     """Label for the true case (only for BOOLEAN type)"""
 
     classification_options: Annotated[
-        Iterable[Variant0ClassificationOption], PropertyInfo(alias="classificationOptions")
+        Iterable[PromptMetricInputClassificationOption], PropertyInfo(alias="classificationOptions")
     ]
     """Options for classification. Required for CLASSIFICATION type."""
 
@@ -72,7 +72,7 @@ class Variant0(TypedDict, total=False):
     ]
     """Participant role to evaluate. Required when scope is PER_PARTICIPANT."""
 
-    scale_labels: Annotated[Iterable[Variant0ScaleLabel], PropertyInfo(alias="scaleLabels")]
+    scale_labels: Annotated[Iterable[PromptMetricInputScaleLabel], PropertyInfo(alias="scaleLabels")]
     """Labels for scale ranges (only for SCALE type)"""
 
     scale_max: Annotated[int, PropertyInfo(alias="scaleMax")]
@@ -91,7 +91,7 @@ class Variant0(TypedDict, total=False):
     """Which levels this metric can produce values at (default: ["CALL"])"""
 
 
-class Variant0ClassificationOption(TypedDict, total=False):
+class PromptMetricInputClassificationOption(TypedDict, total=False):
     """Option for classification metrics."""
 
     description: Required[str]
@@ -101,7 +101,7 @@ class Variant0ClassificationOption(TypedDict, total=False):
     label: Required[str]
 
 
-class Variant0ScaleLabel(TypedDict, total=False):
+class PromptMetricInputScaleLabel(TypedDict, total=False):
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
     """Display order of this label"""
 
@@ -121,7 +121,7 @@ class Variant0ScaleLabel(TypedDict, total=False):
     """Description of what this range means"""
 
 
-class Variant1(TypedDict, total=False):
+class FormulaMetricInput(TypedDict, total=False):
     analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
     """ID of the analysis package to add this metric to"""
 
@@ -144,7 +144,7 @@ class Variant1(TypedDict, total=False):
     NUMERIC for arithmetic expressions, BOOLEAN for comparison expressions.
     """
 
-    sources: Required[Iterable[Variant1Source]]
+    sources: Required[Iterable[FormulaMetricInputSource]]
     """Source metrics referenced by the formula. Minimum 2."""
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
@@ -157,7 +157,7 @@ class Variant1(TypedDict, total=False):
     """Stable slug for the metric. Auto-generated from name if omitted."""
 
 
-class Variant1Source(TypedDict, total=False):
+class FormulaMetricInputSource(TypedDict, total=False):
     source_metric_definition_id: Required[Annotated[str, PropertyInfo(alias="sourceMetricDefinitionId")]]
     """ID of a metric referenced in the formula"""
 
@@ -165,7 +165,7 @@ class Variant1Source(TypedDict, total=False):
     """Variant of the source metric to use"""
 
 
-class Variant2(TypedDict, total=False):
+class PatternMetricInput(TypedDict, total=False):
     analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
     """ID of the analysis package to add this metric to"""
 
@@ -185,7 +185,7 @@ class Variant2(TypedDict, total=False):
     OUTCOME_AGGREGATE aggregates a numeric outcome.
     """
 
-    outcome: Required[Variant2Outcome]
+    outcome: Required[PatternMetricInputOutcome]
     """Outcome condition evaluated within the window relative to the trigger."""
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
@@ -197,20 +197,20 @@ class Variant2(TypedDict, total=False):
     slug: str
     """Stable slug for the metric. Auto-generated from name if omitted."""
 
-    trigger: Variant2Trigger
+    trigger: PatternMetricInputTrigger
     """Single trigger condition. Use either trigger or triggers + triggerCombinator."""
 
     trigger_combinator: Annotated[Literal["AND", "OR"], PropertyInfo(alias="triggerCombinator")]
     """How to combine multiple triggers. Required when triggers has more than 1 entry."""
 
-    triggers: Iterable[Variant2Trigger]
+    triggers: Iterable[PatternMetricInputTrigger]
     """Multiple trigger conditions. Use with triggerCombinator."""
 
     window_mode: Annotated[Literal["seconds", "segments"], PropertyInfo(alias="windowMode")]
     """Unit for trigger/outcome window values (default: seconds)"""
 
 
-class Variant2Outcome(TypedDict, total=False):
+class PatternMetricInputOutcome(TypedDict, total=False):
     """Outcome condition evaluated within the window relative to the trigger."""
 
     operator: Required[
@@ -238,7 +238,7 @@ class Variant2Outcome(TypedDict, total=False):
     """How far before the trigger to look for the outcome (default: 0)"""
 
 
-class Variant2Trigger(TypedDict, total=False):
+class PatternMetricInputTrigger(TypedDict, total=False):
     """Single trigger condition. Use either trigger or triggers + triggerCombinator."""
 
     operator: Required[
@@ -257,4 +257,4 @@ class Variant2Trigger(TypedDict, total=False):
     source_variant_id: Annotated[str, PropertyInfo(alias="sourceVariantId")]
 
 
-MetricCreateDefinitionParams: TypeAlias = Union[Variant0, Variant1, Variant2]
+MetricCreateDefinitionParams: TypeAlias = Union[PromptMetricInput, FormulaMetricInput, PatternMetricInput]
