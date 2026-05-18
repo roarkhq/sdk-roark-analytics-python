@@ -48,6 +48,7 @@ class TestMetric:
             ],
             llm_prompt="Evaluate whether the customer expressed satisfaction with the service provided.",
             max_classifications=1,
+            metric_id="customer_satisfaction",
             participant_role="AGENT",
             scale_labels=[
                 {
@@ -130,6 +131,7 @@ class TestMetric:
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
@@ -206,6 +208,7 @@ class TestMetric:
                 "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "window_before": 0,
             },
+            metric_id="customer_satisfaction",
             slug="customer_satisfaction",
             trigger={
                 "operator": "GREATER_THAN",
@@ -329,6 +332,7 @@ class TestAsyncMetric:
             ],
             llm_prompt="Evaluate whether the customer expressed satisfaction with the service provided.",
             max_classifications=1,
+            metric_id="customer_satisfaction",
             participant_role="AGENT",
             scale_labels=[
                 {
@@ -411,6 +415,7 @@ class TestAsyncMetric:
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
@@ -487,6 +492,7 @@ class TestAsyncMetric:
                 "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "window_before": 0,
             },
+            metric_id="customer_satisfaction",
             slug="customer_satisfaction",
             trigger={
                 "operator": "GREATER_THAN",

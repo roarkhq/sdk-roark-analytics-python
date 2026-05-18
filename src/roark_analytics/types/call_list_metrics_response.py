@@ -124,6 +124,9 @@ class Data(BaseModel):
     metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
     """Unique identifier for the metric definition"""
 
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
     name: str
     """Name of the metric"""
 

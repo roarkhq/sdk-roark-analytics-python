@@ -81,6 +81,12 @@ class Metric(TypedDict, total=False):
     id: str
     """Metric definition UUID. Provide either this or `slug`, not both."""
 
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Alias of `slug` accepted for backwards compatibility.
+
+    Use `slug` for new integrations.
+    """
+
     slug: str
     """Stable metric slug (e.g.
 

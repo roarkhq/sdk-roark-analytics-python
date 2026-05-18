@@ -137,6 +137,9 @@ class Data(BaseModel):
     description: str
     """Description of what the metric measures"""
 
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
     name: str
     """Name of the metric"""
 

@@ -58,6 +58,7 @@ class MetricResource(SyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
@@ -101,6 +102,9 @@ class MetricResource(SyncAPIResource):
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
           scale_labels: Labels for scale ranges (only for SCALE type)
@@ -135,6 +139,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.Variant1Source],
+        metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -167,6 +172,9 @@ class MetricResource(SyncAPIResource):
 
           sources: Source metrics referenced by the formula. Minimum 2.
 
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
           slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           extra_headers: Send extra headers
@@ -188,6 +196,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.Variant2Outcome,
+        metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
@@ -220,6 +229,9 @@ class MetricResource(SyncAPIResource):
               NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
 
           slug: Stable slug for the metric. Auto-generated from name if omitted.
 
@@ -260,6 +272,7 @@ class MetricResource(SyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
@@ -295,6 +308,7 @@ class MetricResource(SyncAPIResource):
                     "classification_options": classification_options,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
+                    "metric_id": metric_id,
                     "participant_role": participant_role,
                     "scale_labels": scale_labels,
                     "scale_max": scale_max,
@@ -375,6 +389,7 @@ class AsyncMetricResource(AsyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
@@ -418,6 +433,9 @@ class AsyncMetricResource(AsyncAPIResource):
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
 
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
           participant_role: Participant role to evaluate. Required when scope is PER_PARTICIPANT.
 
           scale_labels: Labels for scale ranges (only for SCALE type)
@@ -452,6 +470,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.Variant1Source],
+        metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -484,6 +503,9 @@ class AsyncMetricResource(AsyncAPIResource):
 
           sources: Source metrics referenced by the formula. Minimum 2.
 
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
           slug: Stable slug for the metric. Auto-generated from name if omitted.
 
           extra_headers: Send extra headers
@@ -505,6 +527,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.Variant2Outcome,
+        metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         trigger: metric_create_definition_params.Variant2Trigger | Omit = omit,
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
@@ -537,6 +560,9 @@ class AsyncMetricResource(AsyncAPIResource):
               NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
 
           slug: Stable slug for the metric. Auto-generated from name if omitted.
 
@@ -577,6 +603,7 @@ class AsyncMetricResource(AsyncAPIResource):
         classification_options: Iterable[metric_create_definition_params.Variant0ClassificationOption] | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
+        metric_id: str | Omit = omit,
         participant_role: Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"] | Omit = omit,
         scale_labels: Iterable[metric_create_definition_params.Variant0ScaleLabel] | Omit = omit,
         scale_max: int | Omit = omit,
@@ -612,6 +639,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "classification_options": classification_options,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
+                    "metric_id": metric_id,
                     "participant_role": participant_role,
                     "scale_labels": scale_labels,
                     "scale_max": scale_max,

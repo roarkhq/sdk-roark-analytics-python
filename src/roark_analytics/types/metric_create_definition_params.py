@@ -61,6 +61,12 @@ class Variant0(TypedDict, total=False):
     type)
     """
 
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Alias of `slug` accepted for backwards compatibility.
+
+    Use `slug` for new integrations.
+    """
+
     participant_role: Annotated[
         Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"], PropertyInfo(alias="participantRole")
     ]
@@ -141,6 +147,12 @@ class Variant1(TypedDict, total=False):
     sources: Required[Iterable[Variant1Source]]
     """Source metrics referenced by the formula. Minimum 2."""
 
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Alias of `slug` accepted for backwards compatibility.
+
+    Use `slug` for new integrations.
+    """
+
     slug: str
     """Stable slug for the metric. Auto-generated from name if omitted."""
 
@@ -175,6 +187,12 @@ class Variant2(TypedDict, total=False):
 
     outcome: Required[Variant2Outcome]
     """Outcome condition evaluated within the window relative to the trigger."""
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """Alias of `slug` accepted for backwards compatibility.
+
+    Use `slug` for new integrations.
+    """
 
     slug: str
     """Stable slug for the metric. Auto-generated from name if omitted."""
