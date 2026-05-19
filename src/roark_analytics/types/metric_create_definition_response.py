@@ -13,11 +13,6 @@ __all__ = [
     "Data",
     "DataLlmJudgeMetricResponse",
     "DataLlmJudgeMetricResponseUnit",
-    "DataProviderMetricResponse",
-    "DataProviderMetricResponseUnit",
-    "DataThresholdMetricResponse",
-    "DataThresholdMetricResponseThreshold",
-    "DataThresholdMetricResponseUnit",
     "DataFormulaMetricResponse",
     "DataFormulaMetricResponseFormula",
     "DataFormulaMetricResponseFormulaSource",
@@ -83,145 +78,6 @@ class DataLlmJudgeMetricResponse(BaseModel):
     """
 
     unit: Optional[DataLlmJudgeMetricResponseUnit] = None
-    """Unit information if applicable"""
-
-
-class DataProviderMetricResponseUnit(BaseModel):
-    """Unit information if applicable"""
-
-    name: str
-    """Name of the unit"""
-
-    symbol: Optional[str] = None
-    """Symbol for the unit"""
-
-
-class DataProviderMetricResponse(BaseModel):
-    id: str
-    """Unique identifier for the metric definition"""
-
-    calculation_type: Literal["PROVIDER"] = FieldInfo(alias="calculationType")
-    """System-managed metric produced by an analysis provider."""
-
-    description: str
-    """Description of what the metric measures"""
-
-    metric_id: str = FieldInfo(alias="metricId")
-    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
-
-    name: str
-    """Name of the metric"""
-
-    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
-    """Whether metric is global or per-participant"""
-
-    slug: str
-    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
-
-    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
-    """Which levels this metric can produce values at"""
-
-    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
-    """Type of value this metric produces"""
-
-    variant_id: str = FieldInfo(alias="variantId")
-    """
-    The resolved variant this response reflects (org-scoped Default if the org has
-    customized it, otherwise the system Default). Pass this as sourceVariantId when
-    building a derived metric off this one to pin the exact config.
-    """
-
-    version_id: str = FieldInfo(alias="versionId")
-    """The variant's current version.
-
-    Immutable snapshot of the config — editing the metric produces a new versionId.
-    Use it to detect config changes.
-    """
-
-    unit: Optional[DataProviderMetricResponseUnit] = None
-    """Unit information if applicable"""
-
-
-class DataThresholdMetricResponseThreshold(BaseModel):
-    """Threshold configuration."""
-
-    aggregation_mode: Literal["EACH", "COUNT", "AVERAGE", "MIN", "MAX", "MEDIAN", "P95", "P99", "SUM"] = FieldInfo(
-        alias="aggregationMode"
-    )
-
-    count_threshold: Optional[int] = FieldInfo(alias="countThreshold", default=None)
-
-    operator: Literal[
-        "GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"
-    ]
-
-    source_metric_definition_id: str = FieldInfo(alias="sourceMetricDefinitionId")
-
-    source_participant_role: Optional[Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"]] = (
-        FieldInfo(alias="sourceParticipantRole", default=None)
-    )
-
-    source_variant_id: Optional[str] = FieldInfo(alias="sourceVariantId", default=None)
-
-    threshold_value: str = FieldInfo(alias="thresholdValue")
-
-
-class DataThresholdMetricResponseUnit(BaseModel):
-    """Unit information if applicable"""
-
-    name: str
-    """Name of the unit"""
-
-    symbol: Optional[str] = None
-    """Symbol for the unit"""
-
-
-class DataThresholdMetricResponse(BaseModel):
-    id: str
-    """Unique identifier for the metric definition"""
-
-    calculation_type: Literal["THRESHOLD"] = FieldInfo(alias="calculationType")
-    """Boolean metric derived by comparing a source metric against a threshold."""
-
-    description: str
-    """Description of what the metric measures"""
-
-    metric_id: str = FieldInfo(alias="metricId")
-    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
-
-    name: str
-    """Name of the metric"""
-
-    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
-    """Whether metric is global or per-participant"""
-
-    slug: str
-    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
-
-    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
-    """Which levels this metric can produce values at"""
-
-    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
-    """Type of value this metric produces"""
-
-    variant_id: str = FieldInfo(alias="variantId")
-    """
-    The resolved variant this response reflects (org-scoped Default if the org has
-    customized it, otherwise the system Default). Pass this as sourceVariantId when
-    building a derived metric off this one to pin the exact config.
-    """
-
-    version_id: str = FieldInfo(alias="versionId")
-    """The variant's current version.
-
-    Immutable snapshot of the config — editing the metric produces a new versionId.
-    Use it to detect config changes.
-    """
-
-    threshold: Optional[DataThresholdMetricResponseThreshold] = None
-    """Threshold configuration."""
-
-    unit: Optional[DataThresholdMetricResponseUnit] = None
     """Unit information if applicable"""
 
 
@@ -408,17 +264,11 @@ class DataPatternMetricResponse(BaseModel):
 
 
 Data: TypeAlias = Annotated[
-    Union[
-        DataLlmJudgeMetricResponse,
-        DataProviderMetricResponse,
-        DataThresholdMetricResponse,
-        DataFormulaMetricResponse,
-        DataPatternMetricResponse,
-    ],
+    Union[DataLlmJudgeMetricResponse, DataFormulaMetricResponse, DataPatternMetricResponse],
     PropertyInfo(discriminator="calculation_type"),
 ]
 
 
 class MetricCreateDefinitionResponse(BaseModel):
     data: Data
-    """Metric definition data. The variant is selected by `calculationType`."""
+    """The created metric definition. The variant is selected by `calculationType`."""
