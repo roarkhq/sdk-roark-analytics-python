@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationJobGetByIDResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataScenario"]
+__all__ = ["SimulationJobGetByIDResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataRunPlan", "DataScenario"]
 
 
 class DataAgentEndpoint(BaseModel):
@@ -141,6 +141,20 @@ class DataPersona(BaseModel):
     """
 
 
+class DataRunPlan(BaseModel):
+    id: str
+    """Run plan ID"""
+
+    name: str
+    """Run plan name"""
+
+    variables: Dict[str, str]
+    """Run-plan-level variables resolved for this job, keyed by variable name.
+
+    Values are stringified by their declared type.
+    """
+
+
 class DataScenario(BaseModel):
     """Scenario used in a simulation"""
 
@@ -164,6 +178,8 @@ class Data(BaseModel):
 
     processing_status: str = FieldInfo(alias="processingStatus")
     """Processing status"""
+
+    run_plan: DataRunPlan = FieldInfo(alias="runPlan")
 
     scenario: DataScenario
     """Scenario used in a simulation"""
