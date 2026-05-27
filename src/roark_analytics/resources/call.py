@@ -375,10 +375,12 @@ class CallResource(SyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. By default returns only successfully
-        computed metrics; pass `?status=all` to also include rows that resolved as
-        NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted on those
-        entries — check `captureStatus`).
+        system-generated and custom metrics. Only returns rows from the **latest**
+        metric-collection job per metric — if the same metric has been recomputed, prior
+        runs are excluded and remain in the metric history. By default returns only
+        successfully computed metrics; pass `?status=all` to also include rows that
+        resolved as NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted
+        on those entries — check `captureStatus`).
 
         Args:
           flatten:
@@ -803,10 +805,12 @@ class AsyncCallResource(AsyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. By default returns only successfully
-        computed metrics; pass `?status=all` to also include rows that resolved as
-        NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted on those
-        entries — check `captureStatus`).
+        system-generated and custom metrics. Only returns rows from the **latest**
+        metric-collection job per metric — if the same metric has been recomputed, prior
+        runs are excluded and remain in the metric history. By default returns only
+        successfully computed metrics; pass `?status=all` to also include rows that
+        resolved as NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted
+        on those entries — check `captureStatus`).
 
         Args:
           flatten:
