@@ -365,6 +365,7 @@ class CallResource(SyncAPIResource):
         call_id: str,
         *,
         flatten: str | Omit = omit,
+        status: Literal["success", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -374,12 +375,21 @@ class CallResource(SyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. Only returns successfully computed metrics.
+        system-generated and custom metrics. By default returns only successfully
+        computed metrics; pass `?status=all` to also include rows that resolved as
+        NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted on those
+        entries — check `captureStatus`).
 
         Args:
           flatten:
               Whether to return a flat list instead of grouped by metric definition (default:
               false)
+
+          status: Filter metrics by capture status. `success` (default) returns only successfully
+              computed metrics — backwards-compatible with the historical behavior. `all` also
+              returns NOT_APPLICABLE / DATA_MISSING / ERROR rows (with `value` omitted), so
+              clients can distinguish "still computing" from "computed but no value" and exit
+              retry loops correctly.
 
           extra_headers: Send extra headers
 
@@ -398,7 +408,13 @@ class CallResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
+                query=maybe_transform(
+                    {
+                        "flatten": flatten,
+                        "status": status,
+                    },
+                    call_list_metrics_params.CallListMetricsParams,
+                ),
             ),
             cast_to=CallListMetricsResponse,
         )
@@ -777,6 +793,7 @@ class AsyncCallResource(AsyncAPIResource):
         call_id: str,
         *,
         flatten: str | Omit = omit,
+        status: Literal["success", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -786,12 +803,21 @@ class AsyncCallResource(AsyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. Only returns successfully computed metrics.
+        system-generated and custom metrics. By default returns only successfully
+        computed metrics; pass `?status=all` to also include rows that resolved as
+        NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted on those
+        entries — check `captureStatus`).
 
         Args:
           flatten:
               Whether to return a flat list instead of grouped by metric definition (default:
               false)
+
+          status: Filter metrics by capture status. `success` (default) returns only successfully
+              computed metrics — backwards-compatible with the historical behavior. `all` also
+              returns NOT_APPLICABLE / DATA_MISSING / ERROR rows (with `value` omitted), so
+              clients can distinguish "still computing" from "computed but no value" and exit
+              retry loops correctly.
 
           extra_headers: Send extra headers
 
@@ -810,7 +836,13 @@ class AsyncCallResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
+                query=await async_maybe_transform(
+                    {
+                        "flatten": flatten,
+                        "status": status,
+                    },
+                    call_list_metrics_params.CallListMetricsParams,
+                ),
             ),
             cast_to=CallListMetricsResponse,
         )

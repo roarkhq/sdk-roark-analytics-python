@@ -308,6 +308,7 @@ class TestCall:
         call = client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
+            status="success",
         )
         assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
@@ -669,6 +670,7 @@ class TestAsyncCall:
         call = await async_client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
+            status="success",
         )
         assert_matches_type(CallListMetricsResponse, call, path=["response"])
 

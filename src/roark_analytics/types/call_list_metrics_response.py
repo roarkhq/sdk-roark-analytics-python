@@ -68,14 +68,16 @@ class DataValueToSegment(BaseModel):
 
 
 class DataValue(BaseModel):
+    capture_status: Literal["SUCCESS", "NOT_APPLICABLE", "DATA_MISSING", "ERROR"] = FieldInfo(alias="captureStatus")
+    """Result state of this metric computation.
+
+    SUCCESS carries a real `value`; NOT_APPLICABLE / DATA_MISSING / ERROR do not
+    (the `value` field is omitted). Non-SUCCESS rows only appear when the request
+    includes ?status=all.
+    """
+
     computed_at: datetime = FieldInfo(alias="computedAt")
     """ISO 8601 timestamp when the metric was computed"""
-
-    confidence: float
-    """Confidence score (0-1) for the computed value.
-
-    Defaults to 1.0 for deterministic metrics.
-    """
 
     context: Literal["CALL", "SEGMENT", "SEGMENT_RANGE"]
     """
@@ -83,8 +85,31 @@ class DataValue(BaseModel):
     SEGMENT_RANGE (between/across segments)
     """
 
-    value: Union[float, bool, str]
-    """The metric value (type depends on outputType)"""
+    call_id: Optional[str] = FieldInfo(alias="callId", default=None)
+    """ID of the call this value was computed on.
+
+    Only set when the response spans multiple conversations (e.g. job-scoped metric
+    values).
+    """
+
+    chat_id: Optional[str] = FieldInfo(alias="chatId", default=None)
+    """ID of the chat this value was computed on.
+
+    Only set when the response spans multiple conversations (e.g. job-scoped metric
+    values).
+    """
+
+    confidence: Optional[float] = None
+    """Confidence score (0-1) for the computed value.
+
+    Defaults to 1.0 for deterministic metrics. Omitted on non-SUCCESS rows.
+    """
+
+    error_message: Optional[str] = FieldInfo(alias="errorMessage", default=None)
+    """Error detail when captureStatus is ERROR — e.g.
+
+    provider down, LLM timeout. Undefined for other statuses.
+    """
 
     from_segment: Optional[DataValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
@@ -100,6 +125,12 @@ class DataValue(BaseModel):
 
     to_segment: Optional[DataValueToSegment] = FieldInfo(alias="toSegment", default=None)
     """Ending segment information (for SEGMENT_RANGE context metrics)"""
+
+    value: Union[float, bool, str, None] = None
+    """The metric value (type depends on outputType).
+
+    Present only on SUCCESS rows; omitted for NOT_APPLICABLE / DATA_MISSING / ERROR.
+    """
 
     value_reasoning: Optional[str] = FieldInfo(alias="valueReasoning", default=None)
     """Explanation for the metric value (especially useful for AI-computed metrics)"""
