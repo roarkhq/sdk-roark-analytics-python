@@ -168,6 +168,7 @@ class DataSimulationJob(BaseModel):
     persona: DataSimulationJobPersona
 
     processing_status: Literal[
+        "PENDING",
         "CONNECTING",
         "WAITING_FOR_OUTBOUND_CALL",
         "SIMULATING",
@@ -178,7 +179,7 @@ class DataSimulationJob(BaseModel):
         "COLLECTING_METRICS",
         "COMPLETED",
     ] = FieldInfo(alias="processingStatus")
-    """Processing status"""
+    """Processing status. PENDING until the job starts connecting."""
 
     scenario: DataSimulationJobScenario
     """Scenario used in a simulation"""
