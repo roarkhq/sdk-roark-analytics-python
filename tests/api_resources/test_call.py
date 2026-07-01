@@ -94,7 +94,7 @@ class TestCall:
                     "end_offset_ms": 0,
                     "role": "AGENT",
                     "start_offset_ms": 0,
-                    "text": "x",
+                    "text": "text",
                     "agent": {
                         "custom_id": "customId",
                         "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -457,7 +457,7 @@ class TestAsyncCall:
                     "end_offset_ms": 0,
                     "role": "AGENT",
                     "start_offset_ms": 0,
-                    "text": "x",
+                    "text": "text",
                     "agent": {
                         "custom_id": "customId",
                         "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
