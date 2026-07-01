@@ -100,6 +100,7 @@ class TestCall:
                         "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     },
                     "language_code": "languageCode",
+                    "payload": {"foo": "bar"},
                 }
             ],
             vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -462,6 +463,7 @@ class TestAsyncCall:
                         "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     },
                     "language_code": "languageCode",
+                    "payload": {"foo": "bar"},
                 }
             ],
             vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

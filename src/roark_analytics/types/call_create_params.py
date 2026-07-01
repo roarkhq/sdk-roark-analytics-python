@@ -378,6 +378,8 @@ class TranscriptTranscriptEntryAgent(TypedDict, total=False):
 
     language_code: Annotated[str, PropertyInfo(alias="languageCode")]
 
+    payload: Optional[Dict[str, object]]
+
 
 class TranscriptTranscriptEntryCustomerCustomer(TypedDict, total=False):
     """
@@ -412,6 +414,8 @@ class TranscriptTranscriptEntryCustomer(TypedDict, total=False):
     """
 
     language_code: Annotated[str, PropertyInfo(alias="languageCode")]
+
+    payload: Optional[Dict[str, object]]
 
 
 Transcript: TypeAlias = Union[TranscriptTranscriptEntryAgent, TranscriptTranscriptEntryCustomer]
