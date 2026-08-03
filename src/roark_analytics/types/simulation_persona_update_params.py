@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
 from .._types import SequenceNotStr
@@ -121,3 +121,34 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
         Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"], PropertyInfo(alias="speechPace")
     ]
     """Speech pace of the persona"""
+
+    understood_languages: Annotated[
+        List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ],
+        PropertyInfo(alias="understoodLanguages"),
+    ]
+    """Languages the persona can understand.
+
+    Multilingual combinations are limited by multilingual speech recognition
+    support.
+    """

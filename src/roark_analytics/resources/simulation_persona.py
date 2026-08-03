@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -101,6 +101,29 @@ class SimulationPersonaResource(SyncAPIResource):
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -157,6 +180,9 @@ class SimulationPersonaResource(SyncAPIResource):
 
           speech_pace: Speech pace of the persona
 
+          understood_languages: Languages the persona can understand. Defaults to the languages the persona
+              speaks.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -190,6 +216,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_create_params.SimulationPersonaCreateParams,
             ),
@@ -256,6 +283,29 @@ class SimulationPersonaResource(SyncAPIResource):
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -312,6 +362,9 @@ class SimulationPersonaResource(SyncAPIResource):
 
           speech_pace: Speech pace of the persona
 
+          understood_languages: Languages the persona can understand. Multilingual combinations are limited by
+              multilingual speech recognition support.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -347,6 +400,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_update_params.SimulationPersonaUpdateParams,
             ),
@@ -508,6 +562,29 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -564,6 +641,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           speech_pace: Speech pace of the persona
 
+          understood_languages: Languages the persona can understand. Defaults to the languages the persona
+              speaks.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -597,6 +677,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_create_params.SimulationPersonaCreateParams,
             ),
@@ -663,6 +744,29 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -719,6 +823,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           speech_pace: Speech pace of the persona
 
+          understood_languages: Languages the persona can understand. Multilingual combinations are limited by
+              multilingual speech recognition support.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -754,6 +861,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_update_params.SimulationPersonaUpdateParams,
             ),

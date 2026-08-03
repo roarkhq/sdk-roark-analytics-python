@@ -133,6 +133,17 @@ class DataSimulationJobPersona(BaseModel):
     speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] = FieldInfo(alias="speechPace")
     """Speech pace of the persona"""
 
+    understood_languages: List[
+        Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ]
+    ] = FieldInfo(alias="understoodLanguages")
+    """Languages the persona can understand.
+
+    Multilingual combinations are limited by multilingual speech recognition
+    support.
+    """
+
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp"""
 
