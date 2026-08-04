@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.24.0 (2026-08-04)
+
+Full Changelog: [v2.23.0...v2.24.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.23.0...v2.24.0)
+
+### Features
+
+* add pipecat optional dependency ([e9607e2](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e9607e277f66ed30a8efd6c43a795cb50bcceac7))
+* bump pipecat-roark to &gt;=0.1.1 ([8b77d4d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8b77d4dfd2eecc66f8316568f161ff50109db7b4))
+* pin pipecat-roark to ==0.1.2 ([b349023](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b349023d84fa671782d7d8ddc7d62f44046e739a))
+
+
+### Bug Fixes
+
+* gate pipecat extra behind python_version &gt;= 3.10 ([e925a4a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e925a4a1b46ba86215084c6e73a36e8cb0c8f1fc))
+* update pipecat extra to 0.2 ([9876b35](https://github.com/roarkhq/sdk-roark-analytics-python/commit/9876b350cb74c59219059a4d1d9756244687b93c))
+
 ## 2.23.0 (2026-02-23)
 
 Full Changelog: [v2.22.0...v2.23.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.22.0...v2.23.0)
