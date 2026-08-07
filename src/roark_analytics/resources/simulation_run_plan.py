@@ -110,8 +110,7 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
@@ -195,8 +194,7 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
@@ -452,8 +450,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
@@ -537,8 +534,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 

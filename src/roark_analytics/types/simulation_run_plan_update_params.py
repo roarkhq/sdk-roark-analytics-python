@@ -37,10 +37,7 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """Execution mode (PARALLEL or SEQUENTIAL)"""
 
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
-    """Number of iterations to run for each test case.
-
-    Must be 1 for OUTBOUND direction.
-    """
+    """Number of iterations to run for each test case (1-10000)"""
 
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
