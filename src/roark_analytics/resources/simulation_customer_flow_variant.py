@@ -57,7 +57,7 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
         title: str,
         environment_id: Optional[str] | Omit = omit,
         is_default: bool | Omit = omit,
-        persona_id: Optional[str] | Omit = omit,
+        persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
@@ -69,15 +69,18 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationCustomerFlowVariantCreateResponse:
         """
-        Adds a variant to an UNSCRIPTED flow.
+        Adds a variant to an IMPROV flow.
 
         A scripted flow's variants are owned by the path engine, one per path through
         the graph, so they are created by editing the graph through PUT
-        /v1/simulation/customer-flow/{flowId}/steps rather than here.
+        /v1/simulation/customer-flow/{flowId}/graph rather than here.
 
-        Leave personaId or environmentId unset to inherit the default variant's.
+        Leave personaOverrideId or environmentId unset to inherit the default variant's.
 
         Args:
+          persona_override_id: The persona this variant runs as. Omit on a non-default variant to inherit the
+              default variant's.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -95,7 +98,7 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
                     "title": title,
                     "environment_id": environment_id,
                     "is_default": is_default,
-                    "persona_id": persona_id,
+                    "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,
                     "prompt": prompt,
@@ -116,7 +119,7 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
         additional_expectations: Iterable[simulation_customer_flow_variant_update_params.AdditionalExpectation]
         | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
-        persona_id: Optional[str] | Omit = omit,
+        persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
@@ -136,9 +139,12 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
 
         Args:
           additional_expectations: Replaces the expectations that apply to this variant on top of the flow's. Omit
-              to leave them alone, send [] to clear. Unscripted flows only: a scripted
-              variant's expectations come from the agent turns on its path and are rewritten
-              on the next step edit.
+              to leave them alone, send [] to clear. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on the next
+              graph edit.
+
+          persona_override_id: The persona this variant runs as. Null on a non-default variant inherits the
+              default variant's.
 
           extra_headers: Send extra headers
 
@@ -160,7 +166,7 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
-                    "persona_id": persona_id,
+                    "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,
                     "prompt": prompt,
@@ -224,7 +230,7 @@ class SimulationCustomerFlowVariantResource(SyncAPIResource):
         """Soft-deletes a variant.
 
         On a scripted flow the path engine re-creates a variant
-        for any path still in the graph, so remove the path through PUT /steps instead
+        for any path still in the graph, so remove the path through PUT /graph instead
         if that is what you meant.
 
         Args:
@@ -359,7 +365,7 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
         title: str,
         environment_id: Optional[str] | Omit = omit,
         is_default: bool | Omit = omit,
-        persona_id: Optional[str] | Omit = omit,
+        persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
@@ -371,15 +377,18 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationCustomerFlowVariantCreateResponse:
         """
-        Adds a variant to an UNSCRIPTED flow.
+        Adds a variant to an IMPROV flow.
 
         A scripted flow's variants are owned by the path engine, one per path through
         the graph, so they are created by editing the graph through PUT
-        /v1/simulation/customer-flow/{flowId}/steps rather than here.
+        /v1/simulation/customer-flow/{flowId}/graph rather than here.
 
-        Leave personaId or environmentId unset to inherit the default variant's.
+        Leave personaOverrideId or environmentId unset to inherit the default variant's.
 
         Args:
+          persona_override_id: The persona this variant runs as. Omit on a non-default variant to inherit the
+              default variant's.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -397,7 +406,7 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
                     "title": title,
                     "environment_id": environment_id,
                     "is_default": is_default,
-                    "persona_id": persona_id,
+                    "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,
                     "prompt": prompt,
@@ -418,7 +427,7 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
         additional_expectations: Iterable[simulation_customer_flow_variant_update_params.AdditionalExpectation]
         | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
-        persona_id: Optional[str] | Omit = omit,
+        persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
@@ -438,9 +447,12 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
 
         Args:
           additional_expectations: Replaces the expectations that apply to this variant on top of the flow's. Omit
-              to leave them alone, send [] to clear. Unscripted flows only: a scripted
-              variant's expectations come from the agent turns on its path and are rewritten
-              on the next step edit.
+              to leave them alone, send [] to clear. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on the next
+              graph edit.
+
+          persona_override_id: The persona this variant runs as. Null on a non-default variant inherits the
+              default variant's.
 
           extra_headers: Send extra headers
 
@@ -462,7 +474,7 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
-                    "persona_id": persona_id,
+                    "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,
                     "prompt": prompt,
@@ -526,7 +538,7 @@ class AsyncSimulationCustomerFlowVariantResource(AsyncAPIResource):
         """Soft-deletes a variant.
 
         On a scripted flow the path engine re-creates a variant
-        for any path still in the graph, so remove the path through PUT /steps instead
+        for any path still in the graph, so remove the path through PUT /graph instead
         if that is what you meant.
 
         Args:

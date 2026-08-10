@@ -2,46 +2,108 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Union, Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["FlowStepParam"]
+__all__ = [
+    "FlowStepParam",
+    "UnionMember0",
+    "UnionMember1",
+    "UnionMember2",
+    "UnionMember3",
+    "UnionMember4",
+    "UnionMember5",
+    "UnionMember6",
+]
 
 
-class FlowStepParam(TypedDict, total=False):
-    """One step in a scripted flow's conversation.
-
-    `nodeId` is the identity contract: include it to update the existing step, omit it to create a new one.
-    A step continues into `steps` (more than one child is a branch point) and/or `mergeIntoNodeIds`, which
-    names steps elsewhere in the same request that this step rejoins. Branches that come back together are
-    represented that way rather than by repeating the shared step, so reading a flow, editing it and writing
-    it back preserves it exactly.
-
-    A merge target is named by its `nodeId` when it already exists, or by `ref` when it is being created in
-    the same request. `ref` is a label you choose, it is request-local, and it is never stored or returned.
-    Put the shared step inline under the first branch that reaches it and point the others at it: a top-level
-    step is a root wired straight from the start of the flow, so a merge target parked there would also be
-    reachable directly.
-    """
-
-    type: Required[
-        Literal[
-            "AGENT_TURN",
-            "CUSTOMER_TURN",
-            "CUSTOMER_FIRST_MESSAGE",
-            "CUSTOMER_SILENCE",
-            "CUSTOMER_DTMF",
-            "VOICEMAIL",
-            "SCENARIO_LINK",
-        ]
-    ]
+class UnionMember0(TypedDict, total=False):
+    type: Required[Literal["AGENT_TURN"]]
 
     content: Optional[str]
 
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember1(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_TURN"]]
+
+    content: Optional[str]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember2(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_FIRST_MESSAGE"]]
+
+    content: Optional[str]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember3(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_SILENCE"]]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    silence_duration_seconds: Annotated[Optional[int], PropertyInfo(alias="silenceDurationSeconds")]
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember4(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_DTMF"]]
+
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember5(TypedDict, total=False):
+    type: Required[Literal["VOICEMAIL"]]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: Iterable["FlowStepParam"]
+
+
+class UnionMember6(TypedDict, total=False):
+    type: Required[Literal["SCENARIO_LINK"]]
 
     linked_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="linkedCustomerFlowId")]
 
@@ -53,6 +115,9 @@ class FlowStepParam(TypedDict, total=False):
 
     ref: str
 
-    silence_duration_seconds: Annotated[Optional[int], PropertyInfo(alias="silenceDurationSeconds")]
-
     steps: Iterable["FlowStepParam"]
+
+
+FlowStepParam: TypeAlias = Union[
+    UnionMember0, UnionMember1, UnionMember2, UnionMember3, UnionMember4, UnionMember5, UnionMember6
+]

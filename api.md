@@ -89,6 +89,18 @@ Methods:
 - <code title="get /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">list</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_list_response.py">MetricCollectionJobListResponse</a></code>
 - <code title="get /v1/metric/collection-jobs/{jobId}">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/metric_collection_job_get_by_id_response.py">MetricCollectionJobGetByIDResponse</a></code>
 
+# Simulation
+
+Types:
+
+```python
+from roark_analytics.types import SimulationRunResponse
+```
+
+Methods:
+
+- <code title="post /v1/simulation/run">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">run</a>(\*\*<a href="src/roark_analytics/types/simulation_run_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_response.py">SimulationRunResponse</a></code>
+
 # SimulationJob
 
 Types:
@@ -212,6 +224,7 @@ from roark_analytics.types import (
     SimulationCustomerFlowListResponse,
     SimulationCustomerFlowDeleteResponse,
     SimulationCustomerFlowGetByIDResponse,
+    SimulationCustomerFlowReplaceGraphResponse,
 )
 ```
 
@@ -222,6 +235,7 @@ Methods:
 - <code title="get /v1/simulation/customer-flow">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_customer_flow_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_list_response.py">SimulationCustomerFlowListResponse</a></code>
 - <code title="delete /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">delete</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_delete_response.py">SimulationCustomerFlowDeleteResponse</a></code>
 - <code title="get /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">get_by_id</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_get_by_id_response.py">SimulationCustomerFlowGetByIDResponse</a></code>
+- <code title="put /v1/simulation/customer-flow/{flowId}/graph">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">replace_graph</a>(flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_replace_graph_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_replace_graph_response.py">SimulationCustomerFlowReplaceGraphResponse</a></code>
 
 # SimulationCustomerFlowVariant
 

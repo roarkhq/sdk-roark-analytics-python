@@ -17,7 +17,11 @@ class SimulationCustomerFlowVariantCreateParams(TypedDict, total=False):
 
     is_default: Annotated[bool, PropertyInfo(alias="isDefault")]
 
-    persona_id: Annotated[Optional[str], PropertyInfo(alias="personaId")]
+    persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """The persona this variant runs as.
+
+    Omit on a non-default variant to inherit the default variant's.
+    """
 
     preceded_by_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="precededByCustomerFlowId")]
 

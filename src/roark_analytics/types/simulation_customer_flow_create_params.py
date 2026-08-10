@@ -2,62 +2,85 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Union, Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationCustomerFlowCreateParams", "AgentExpectation", "Variant"]
+__all__ = [
+    "SimulationCustomerFlowCreateParams",
+    "CreateScriptedCustomerFlowInput",
+    "CreateScriptedCustomerFlowInputAgentExpectation",
+    "CreateImprovCustomerFlowInput",
+    "CreateImprovCustomerFlowInputVariant",
+    "CreateImprovCustomerFlowInputAgentExpectation",
+]
 
 
-class SimulationCustomerFlowCreateParams(TypedDict, total=False):
+class CreateScriptedCustomerFlowInput(TypedDict, total=False):
     agent_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]]
     """Agents this flow exercises. At least one is required."""
 
-    mode: Required[Literal["UNSCRIPTED", "SCRIPTED"]]
-    """
-    SCRIPTED follows a step graph you author; UNSCRIPTED gives the simulated
-    customer a brief and lets it improvise.
+    graph: Required[Iterable["FlowStepParam"]]
+    """The conversation, as a graph of steps.
+
+    At most 100 steps across at most 25 paths. The variants come from the graph: one
+    per path, so they are not sent here.
     """
 
     title: Required[str]
 
-    agent_expectations: Annotated[Iterable[AgentExpectation], PropertyInfo(alias="agentExpectations")]
+    type: Required[Literal["SCRIPTED"]]
+
+    agent_expectations: Annotated[
+        Iterable[CreateScriptedCustomerFlowInputAgentExpectation], PropertyInfo(alias="agentExpectations")
+    ]
+
+    branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
+    """
+    DETERMINISTIC (the default) runs one variant per path through the graph;
+    ADAPTIVE collapses the paths into one call the simulated customer adapts across.
+    """
 
     description: Optional[str]
 
-    scripted_branching_mode: Annotated[
-        Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="scriptedBranchingMode")
+
+class CreateScriptedCustomerFlowInputAgentExpectation(TypedDict, total=False):
+    prompt: Required[str]
+    """What the agent under test is graded against."""
+
+
+class CreateImprovCustomerFlowInput(TypedDict, total=False):
+    agent_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]]
+    """Agents this flow exercises. At least one is required."""
+
+    title: Required[str]
+
+    type: Required[Literal["IMPROV"]]
+
+    variants: Required[Iterable[CreateImprovCustomerFlowInputVariant]]
+    """The briefs to run. At least one, and one of them is the default."""
+
+    agent_expectations: Annotated[
+        Iterable[CreateImprovCustomerFlowInputAgentExpectation], PropertyInfo(alias="agentExpectations")
     ]
-    """Scripted flows only.
 
-    DETERMINISTIC runs one variant per path through the graph; ADAPTIVE collapses
-    the paths into one call the customer adapts across.
-    """
-
-    steps: Iterable["FlowStepParam"]
-    """Required for SCRIPTED flows. At most 100 steps across at most 25 paths."""
-
-    variants: Iterable[Variant]
-    """Required for UNSCRIPTED flows: the briefs to run.
-
-    Scripted flows get one variant per path from the graph instead.
-    """
+    description: Optional[str]
 
 
-class AgentExpectation(TypedDict, total=False):
-    llm_prompt: Required[Annotated[str, PropertyInfo(alias="llmPrompt")]]
-
-
-class Variant(TypedDict, total=False):
+class CreateImprovCustomerFlowInputVariant(TypedDict, total=False):
     title: Required[str]
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 
     is_default: Annotated[bool, PropertyInfo(alias="isDefault")]
 
-    persona_id: Annotated[Optional[str], PropertyInfo(alias="personaId")]
+    persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """The persona this variant runs as.
+
+    Omit on a non-default variant to inherit the default variant's.
+    """
 
     preceded_by_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="precededByCustomerFlowId")]
 
@@ -67,5 +90,12 @@ class Variant(TypedDict, total=False):
 
     prompt: Optional[str]
 
+
+class CreateImprovCustomerFlowInputAgentExpectation(TypedDict, total=False):
+    prompt: Required[str]
+    """What the agent under test is graded against."""
+
+
+SimulationCustomerFlowCreateParams: TypeAlias = Union[CreateScriptedCustomerFlowInput, CreateImprovCustomerFlowInput]
 
 from .flow_step_param import FlowStepParam

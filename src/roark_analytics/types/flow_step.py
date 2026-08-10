@@ -2,45 +2,109 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-from typing_extensions import Literal
+from typing import List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["FlowStep"]
+__all__ = [
+    "FlowStep",
+    "UnionMember0",
+    "UnionMember1",
+    "UnionMember2",
+    "UnionMember3",
+    "UnionMember4",
+    "UnionMember5",
+    "UnionMember6",
+]
 
 
-class FlowStep(BaseModel):
-    """One step in a scripted flow's conversation.
-
-    `nodeId` is the identity contract: include it to update the existing step, omit it to create a new one.
-    A step continues into `steps` (more than one child is a branch point) and/or `mergeIntoNodeIds`, which
-    names steps elsewhere in the same request that this step rejoins. Branches that come back together are
-    represented that way rather than by repeating the shared step, so reading a flow, editing it and writing
-    it back preserves it exactly.
-
-    A merge target is named by its `nodeId` when it already exists, or by `ref` when it is being created in
-    the same request. `ref` is a label you choose, it is request-local, and it is never stored or returned.
-    Put the shared step inline under the first branch that reaches it and point the others at it: a top-level
-    step is a root wired straight from the start of the flow, so a merge target parked there would also be
-    reachable directly.
-    """
-
-    type: Literal[
-        "AGENT_TURN",
-        "CUSTOMER_TURN",
-        "CUSTOMER_FIRST_MESSAGE",
-        "CUSTOMER_SILENCE",
-        "CUSTOMER_DTMF",
-        "VOICEMAIL",
-        "SCENARIO_LINK",
-    ]
+class UnionMember0(BaseModel):
+    type: Literal["AGENT_TURN"]
 
     content: Optional[str] = None
 
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember1(BaseModel):
+    type: Literal["CUSTOMER_TURN"]
+
+    content: Optional[str] = None
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember2(BaseModel):
+    type: Literal["CUSTOMER_FIRST_MESSAGE"]
+
+    content: Optional[str] = None
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember3(BaseModel):
+    type: Literal["CUSTOMER_SILENCE"]
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember4(BaseModel):
+    type: Literal["CUSTOMER_DTMF"]
+
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember5(BaseModel):
+    type: Literal["VOICEMAIL"]
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class UnionMember6(BaseModel):
+    type: Literal["SCENARIO_LINK"]
 
     linked_customer_flow_id: Optional[str] = FieldInfo(alias="linkedCustomerFlowId", default=None)
 
@@ -52,6 +116,9 @@ class FlowStep(BaseModel):
 
     ref: Optional[str] = None
 
-    silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
-
     steps: Optional[List["FlowStep"]] = None
+
+
+FlowStep: TypeAlias = Union[
+    UnionMember0, UnionMember1, UnionMember2, UnionMember3, UnionMember4, UnionMember5, UnionMember6
+]

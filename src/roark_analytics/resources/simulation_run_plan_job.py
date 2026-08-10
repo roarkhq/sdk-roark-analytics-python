@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import Dict, Union, Iterable
 from typing_extensions import Literal
 
@@ -158,6 +159,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             cast_to=SimulationRunPlanJobGetByIDResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def start(
         self,
         plan_id: object,
@@ -172,10 +174,13 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """Create and execute a job for an existing simulation run plan.
+        """
+        Deprecated: use POST /v1/simulation/run, which does the same thing and can also
+        take the plan configuration inline, so a one-off run does not have to create a
+        plan first.
 
-        Optionally provide
-        runtime variables to override plan-defined variables.
+        Creates and executes a job for an existing simulation run plan. Optionally
+        provide runtime variables to override plan-defined variables.
 
         Args:
           flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
@@ -355,6 +360,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobGetByIDResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def start(
         self,
         plan_id: object,
@@ -369,10 +375,13 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """Create and execute a job for an existing simulation run plan.
+        """
+        Deprecated: use POST /v1/simulation/run, which does the same thing and can also
+        take the plan configuration inline, so a one-off run does not have to create a
+        plan first.
 
-        Optionally provide
-        runtime variables to override plan-defined variables.
+        Creates and executes a job for an existing simulation run plan. Optionally
+        provide runtime variables to override plan-defined variables.
 
         Args:
           flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
@@ -430,8 +439,10 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.get_by_id = to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
-        self.start = to_raw_response_wrapper(
-            simulation_run_plan_job.start,
+        self.start = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_run_plan_job.start,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -445,8 +456,10 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
         self.get_by_id = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
-        self.start = async_to_raw_response_wrapper(
-            simulation_run_plan_job.start,
+        self.start = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_run_plan_job.start,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -460,8 +473,10 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
-        self.start = to_streamed_response_wrapper(
-            simulation_run_plan_job.start,
+        self.start = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_run_plan_job.start,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -475,6 +490,8 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
         self.get_by_id = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
-        self.start = async_to_streamed_response_wrapper(
-            simulation_run_plan_job.start,
+        self.start = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_run_plan_job.start,  # pyright: ignore[reportDeprecated],
+            )
         )

@@ -41,6 +41,7 @@ if TYPE_CHECKING:
         health,
         metric,
         webhook,
+        simulation,
         metric_policy,
         agent_endpoint,
         simulation_job,
@@ -59,6 +60,7 @@ if TYPE_CHECKING:
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
+    from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
@@ -171,6 +173,12 @@ class Roark(SyncAPIClient):
         from .resources.metric_collection_job import MetricCollectionJobResource
 
         return MetricCollectionJobResource(self)
+
+    @cached_property
+    def simulation(self) -> SimulationResource:
+        from .resources.simulation import SimulationResource
+
+        return SimulationResource(self)
 
     @cached_property
     def simulation_job(self) -> SimulationJobResource:
@@ -452,6 +460,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncMetricCollectionJobResource(self)
 
     @cached_property
+    def simulation(self) -> AsyncSimulationResource:
+        from .resources.simulation import AsyncSimulationResource
+
+        return AsyncSimulationResource(self)
+
+    @cached_property
     def simulation_job(self) -> AsyncSimulationJobResource:
         from .resources.simulation_job import AsyncSimulationJobResource
 
@@ -673,6 +687,12 @@ class RoarkWithRawResponse:
         return MetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
 
     @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithRawResponse:
+        from .resources.simulation import SimulationResourceWithRawResponse
+
+        return SimulationResourceWithRawResponse(self._client.simulation)
+
+    @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithRawResponse:
         from .resources.simulation_job import SimulationJobResourceWithRawResponse
 
@@ -782,6 +802,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithRawResponse
 
         return AsyncMetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
+        from .resources.simulation import AsyncSimulationResourceWithRawResponse
+
+        return AsyncSimulationResourceWithRawResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithRawResponse:
@@ -897,6 +923,12 @@ class RoarkWithStreamedResponse:
         return MetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
 
     @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
+        from .resources.simulation import SimulationResourceWithStreamingResponse
+
+        return SimulationResourceWithStreamingResponse(self._client.simulation)
+
+    @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithStreamingResponse:
         from .resources.simulation_job import SimulationJobResourceWithStreamingResponse
 
@@ -1008,6 +1040,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithStreamingResponse
 
         return AsyncMetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
+        from .resources.simulation import AsyncSimulationResourceWithStreamingResponse
+
+        return AsyncSimulationResourceWithStreamingResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithStreamingResponse:

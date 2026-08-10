@@ -12,7 +12,7 @@ __all__ = ["SimulationEnvironmentGetByIDResponse", "Data"]
 
 class Data(BaseModel):
     """
-    A simulation environment: the ambient conditions a customer flow variant runs under. Environments with source SYSTEM are curated by Roark and shared across every project.
+    A simulation environment: the ambient conditions a customer flow variant runs under. The list includes both your own and the ones Roark curates for every project.
     """
 
     id: str
@@ -26,20 +26,16 @@ class Data(BaseModel):
 
     name: str
 
-    source: Literal["SYSTEM", "CUSTOM"]
-
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
 
     description: Optional[str] = None
-
-    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
 class SimulationEnvironmentGetByIDResponse(BaseModel):
     data: Data
     """
     A simulation environment: the ambient conditions a customer flow variant runs
-    under. Environments with source SYSTEM are curated by Roark and shared across
-    every project.
+    under. The list includes both your own and the ones Roark curates for every
+    project.
     """

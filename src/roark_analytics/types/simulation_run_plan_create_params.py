@@ -31,7 +31,10 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     """Name of the run plan"""
 
     auto_run: Annotated[bool, PropertyInfo(alias="autoRun")]
-    """Whether to automatically trigger a job after creating the run plan"""
+    """
+    Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
+    `variables` as well. This flag runs the plan with only the values pinned on it.
+    """
 
     description: str
     """Description of the run plan"""

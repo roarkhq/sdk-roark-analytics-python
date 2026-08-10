@@ -15,6 +15,8 @@ from roark_analytics.types import (
     SimulationRunPlanJobGetByIDResponse,
 )
 
+# pyright: reportDeprecated=false
+
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
@@ -91,39 +93,44 @@ class TestSimulationRunPlanJob:
 
     @parametrize
     def test_method_start(self, client: Roark) -> None:
-        simulation_run_plan_job = client.simulation_run_plan_job.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        )
+        with pytest.warns(DeprecationWarning):
+            simulation_run_plan_job = client.simulation_run_plan_job.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            )
+
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
     @parametrize
     def test_method_start_with_all_params(self, client: Roark) -> None:
-        simulation_run_plan_job = client.simulation_run_plan_job.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-            flow_variables=[
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "12345"},
-                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        with pytest.warns(DeprecationWarning):
+            simulation_run_plan_job = client.simulation_run_plan_job.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+                flow_variables=[
+                    {
+                        "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                        "variables": {"orderNumber": "12345"},
+                        "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    {
+                        "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                        "variables": {"orderNumber": "67890"},
+                        "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
+                    },
+                ],
+                variables={
+                    "orderNumber": "12345",
+                    "environment": "staging",
                 },
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "67890"},
-                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
-                },
-            ],
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
-        )
+            )
+
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
     @parametrize
     def test_raw_response_start(self, client: Roark) -> None:
-        response = client.simulation_run_plan_job.with_raw_response.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        )
+        with pytest.warns(DeprecationWarning):
+            response = client.simulation_run_plan_job.with_raw_response.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -132,14 +139,15 @@ class TestSimulationRunPlanJob:
 
     @parametrize
     def test_streaming_response_start(self, client: Roark) -> None:
-        with client.simulation_run_plan_job.with_streaming_response.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        with pytest.warns(DeprecationWarning):
+            with client.simulation_run_plan_job.with_streaming_response.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            ) as response:
+                assert not response.is_closed
+                assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            simulation_run_plan_job = response.parse()
-            assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
+                simulation_run_plan_job = response.parse()
+                assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -219,39 +227,44 @@ class TestAsyncSimulationRunPlanJob:
 
     @parametrize
     async def test_method_start(self, async_client: AsyncRoark) -> None:
-        simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        )
+        with pytest.warns(DeprecationWarning):
+            simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            )
+
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
     @parametrize
     async def test_method_start_with_all_params(self, async_client: AsyncRoark) -> None:
-        simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-            flow_variables=[
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "12345"},
-                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        with pytest.warns(DeprecationWarning):
+            simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+                flow_variables=[
+                    {
+                        "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                        "variables": {"orderNumber": "12345"},
+                        "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    },
+                    {
+                        "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                        "variables": {"orderNumber": "67890"},
+                        "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
+                    },
+                ],
+                variables={
+                    "orderNumber": "12345",
+                    "environment": "staging",
                 },
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "67890"},
-                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
-                },
-            ],
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
-        )
+            )
+
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
     @parametrize
     async def test_raw_response_start(self, async_client: AsyncRoark) -> None:
-        response = await async_client.simulation_run_plan_job.with_raw_response.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        )
+        with pytest.warns(DeprecationWarning):
+            response = await async_client.simulation_run_plan_job.with_raw_response.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -260,13 +273,14 @@ class TestAsyncSimulationRunPlanJob:
 
     @parametrize
     async def test_streaming_response_start(self, async_client: AsyncRoark) -> None:
-        async with async_client.simulation_run_plan_job.with_streaming_response.start(
-            plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        with pytest.warns(DeprecationWarning):
+            async with async_client.simulation_run_plan_job.with_streaming_response.start(
+                plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            ) as response:
+                assert not response.is_closed
+                assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            simulation_run_plan_job = await response.parse()
-            assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
+                simulation_run_plan_job = await response.parse()
+                assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True

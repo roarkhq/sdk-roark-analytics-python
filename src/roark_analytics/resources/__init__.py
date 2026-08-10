@@ -40,6 +40,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .simulation import (
+    SimulationResource,
+    AsyncSimulationResource,
+    SimulationResourceWithRawResponse,
+    AsyncSimulationResourceWithRawResponse,
+    SimulationResourceWithStreamingResponse,
+    AsyncSimulationResourceWithStreamingResponse,
+)
 from .metric_policy import (
     MetricPolicyResource,
     AsyncMetricPolicyResource,
@@ -168,6 +176,12 @@ __all__ = [
     "AsyncMetricCollectionJobResourceWithRawResponse",
     "MetricCollectionJobResourceWithStreamingResponse",
     "AsyncMetricCollectionJobResourceWithStreamingResponse",
+    "SimulationResource",
+    "AsyncSimulationResource",
+    "SimulationResourceWithRawResponse",
+    "AsyncSimulationResourceWithRawResponse",
+    "SimulationResourceWithStreamingResponse",
+    "AsyncSimulationResourceWithStreamingResponse",
     "SimulationJobResource",
     "AsyncSimulationJobResource",
     "SimulationJobResourceWithRawResponse",

@@ -158,6 +158,7 @@ class TestSimulationRunPlan:
                     "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
+            is_hidden=True,
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
@@ -463,6 +464,7 @@ class TestAsyncSimulationRunPlan:
                     "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
+            is_hidden=True,
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,

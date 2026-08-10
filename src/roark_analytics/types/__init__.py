@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 from . import (
-    flow_step,
     simulation_customer_flow_list_response,
     simulation_customer_flow_create_response,
     simulation_customer_flow_update_response,
     simulation_customer_flow_get_by_id_response,
+    simulation_customer_flow_variant_list_response,
+    simulation_customer_flow_replace_graph_response,
+    simulation_customer_flow_variant_create_response,
+    simulation_customer_flow_variant_update_response,
+    simulation_customer_flow_variant_get_by_id_response,
+    simulation_customer_flow_variant_set_default_response,
 )
 from .. import _compat
 from .flow_step import FlowStep as FlowStep
@@ -24,9 +29,11 @@ from .webhook_list_params import WebhookListParams as WebhookListParams
 from .call_create_response import CallCreateResponse as CallCreateResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
 from .agent_update_response import AgentUpdateResponse as AgentUpdateResponse
+from .simulation_run_params import SimulationRunParams as SimulationRunParams
 from .webhook_create_params import WebhookCreateParams as WebhookCreateParams
 from .webhook_list_response import WebhookListResponse as WebhookListResponse
 from .call_get_by_id_response import CallGetByIDResponse as CallGetByIDResponse
+from .simulation_run_response import SimulationRunResponse as SimulationRunResponse
 from .webhook_create_response import WebhookCreateResponse as WebhookCreateResponse
 from .webhook_delete_response import WebhookDeleteResponse as WebhookDeleteResponse
 from .agent_get_by_id_response import AgentGetByIDResponse as AgentGetByIDResponse
@@ -147,6 +154,9 @@ from .simulation_run_plan_job_get_by_id_response import (
 from .simulation_customer_flow_get_by_id_response import (
     SimulationCustomerFlowGetByIDResponse as SimulationCustomerFlowGetByIDResponse,
 )
+from .simulation_customer_flow_replace_graph_params import (
+    SimulationCustomerFlowReplaceGraphParams as SimulationCustomerFlowReplaceGraphParams,
+)
 from .simulation_customer_flow_variant_create_params import (
     SimulationCustomerFlowVariantCreateParams as SimulationCustomerFlowVariantCreateParams,
 )
@@ -155,6 +165,9 @@ from .simulation_customer_flow_variant_list_response import (
 )
 from .simulation_customer_flow_variant_update_params import (
     SimulationCustomerFlowVariantUpdateParams as SimulationCustomerFlowVariantUpdateParams,
+)
+from .simulation_customer_flow_replace_graph_response import (
+    SimulationCustomerFlowReplaceGraphResponse as SimulationCustomerFlowReplaceGraphResponse,
 )
 from .simulation_customer_flow_variant_create_response import (
     SimulationCustomerFlowVariantCreateResponse as SimulationCustomerFlowVariantCreateResponse,
@@ -177,13 +190,17 @@ from .simulation_customer_flow_variant_set_default_response import (
 # Pydantic can resolve the necessary references.
 # See: https://github.com/pydantic/pydantic/issues/11250 for more context.
 if _compat.PYDANTIC_V1:
-    flow_step.FlowStep.update_forward_refs()  # type: ignore
     simulation_customer_flow_create_response.SimulationCustomerFlowCreateResponse.update_forward_refs()  # type: ignore
     simulation_customer_flow_update_response.SimulationCustomerFlowUpdateResponse.update_forward_refs()  # type: ignore
     simulation_customer_flow_list_response.SimulationCustomerFlowListResponse.update_forward_refs()  # type: ignore
     simulation_customer_flow_get_by_id_response.SimulationCustomerFlowGetByIDResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_replace_graph_response.SimulationCustomerFlowReplaceGraphResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_variant_create_response.SimulationCustomerFlowVariantCreateResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_variant_update_response.SimulationCustomerFlowVariantUpdateResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_variant_list_response.SimulationCustomerFlowVariantListResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_variant_get_by_id_response.SimulationCustomerFlowVariantGetByIDResponse.update_forward_refs()  # type: ignore
+    simulation_customer_flow_variant_set_default_response.SimulationCustomerFlowVariantSetDefaultResponse.update_forward_refs()  # type: ignore
 else:
-    flow_step.FlowStep.model_rebuild(_parent_namespace_depth=0)
     simulation_customer_flow_create_response.SimulationCustomerFlowCreateResponse.model_rebuild(
         _parent_namespace_depth=0
     )
@@ -192,5 +209,23 @@ else:
     )
     simulation_customer_flow_list_response.SimulationCustomerFlowListResponse.model_rebuild(_parent_namespace_depth=0)
     simulation_customer_flow_get_by_id_response.SimulationCustomerFlowGetByIDResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_replace_graph_response.SimulationCustomerFlowReplaceGraphResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_variant_create_response.SimulationCustomerFlowVariantCreateResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_variant_update_response.SimulationCustomerFlowVariantUpdateResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_variant_list_response.SimulationCustomerFlowVariantListResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_variant_get_by_id_response.SimulationCustomerFlowVariantGetByIDResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    simulation_customer_flow_variant_set_default_response.SimulationCustomerFlowVariantSetDefaultResponse.model_rebuild(
         _parent_namespace_depth=0
     )

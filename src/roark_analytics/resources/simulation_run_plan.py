@@ -78,10 +78,12 @@ class SimulationRunPlanResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanCreateResponse:
-        """Creates a new simulation run plan.
+        """
+        Creates a new simulation run plan.
 
-        Optionally triggers a job immediately if
-        autoRun is true.
+        To run a simulation, use POST /v1/simulation/run instead: it starts a run from a
+        plan or from an inline configuration, and takes runtime variables. Create a plan
+        here when you want a reusable, named one to run later.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
@@ -95,7 +97,8 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           name: Name of the run plan
 
-          auto_run: Whether to automatically trigger a job after creating the run plan
+          auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
+              `variables` as well. This flag runs the plan with only the values pinned on it.
 
           description: Description of the run plan
 
@@ -169,6 +172,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
@@ -203,6 +207,12 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          is_hidden: Whether this plan is hidden from GET /v1/simulation/plan.
+
+              A run started without `saveAsPlanName` creates a hidden plan to carry it. Send
+              `{ "name": "...", "isHidden": false }` to keep that configuration as a reusable
+              plan, which is what the app does when you save a one-off run.
 
           iteration_count: Number of iterations to run for each test case (1-10000)
 
@@ -244,6 +254,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
@@ -430,10 +441,12 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanCreateResponse:
-        """Creates a new simulation run plan.
+        """
+        Creates a new simulation run plan.
 
-        Optionally triggers a job immediately if
-        autoRun is true.
+        To run a simulation, use POST /v1/simulation/run instead: it starts a run from a
+        plan or from an inline configuration, and takes runtime variables. Create a plan
+        here when you want a reusable, named one to run later.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
@@ -447,7 +460,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           name: Name of the run plan
 
-          auto_run: Whether to automatically trigger a job after creating the run plan
+          auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
+              `variables` as well. This flag runs the plan with only the values pinned on it.
 
           description: Description of the run plan
 
@@ -521,6 +535,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
@@ -555,6 +570,12 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          is_hidden: Whether this plan is hidden from GET /v1/simulation/plan.
+
+              A run started without `saveAsPlanName` creates a hidden plan to carry it. Send
+              `{ "name": "...", "isHidden": false }` to keep that configuration as a reusable
+              plan, which is what the app does when you save a one-off run.
 
           iteration_count: Number of iterations to run for each test case (1-10000)
 
@@ -596,6 +617,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,

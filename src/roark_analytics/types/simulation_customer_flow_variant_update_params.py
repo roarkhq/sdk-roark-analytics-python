@@ -16,14 +16,18 @@ class SimulationCustomerFlowVariantUpdateParams(TypedDict, total=False):
     additional_expectations: Annotated[Iterable[AdditionalExpectation], PropertyInfo(alias="additionalExpectations")]
     """Replaces the expectations that apply to this variant on top of the flow's.
 
-    Omit to leave them alone, send [] to clear. Unscripted flows only: a scripted
+    Omit to leave them alone, send [] to clear. Improv flows only: a scripted
     variant's expectations come from the agent turns on its path and are rewritten
-    on the next step edit.
+    on the next graph edit.
     """
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 
-    persona_id: Annotated[Optional[str], PropertyInfo(alias="personaId")]
+    persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """The persona this variant runs as.
+
+    Null on a non-default variant inherits the default variant's.
+    """
 
     preceded_by_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="precededByCustomerFlowId")]
 
@@ -37,4 +41,5 @@ class SimulationCustomerFlowVariantUpdateParams(TypedDict, total=False):
 
 
 class AdditionalExpectation(TypedDict, total=False):
-    llm_prompt: Required[Annotated[str, PropertyInfo(alias="llmPrompt")]]
+    prompt: Required[str]
+    """What the agent under test is graded against."""

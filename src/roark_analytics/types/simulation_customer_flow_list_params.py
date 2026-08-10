@@ -16,6 +16,6 @@ class SimulationCustomerFlowListParams(TypedDict, total=False):
 
     limit: int
 
-    mode: Literal["UNSCRIPTED", "SCRIPTED", "VOICEMAIL"]
-
     search_text: Annotated[str, PropertyInfo(alias="searchText")]
+
+    type: Literal["SCRIPTED", "IMPROV", "VOICEMAIL"]

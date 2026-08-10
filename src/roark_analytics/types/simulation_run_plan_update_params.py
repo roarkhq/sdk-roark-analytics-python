@@ -42,6 +42,14 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     Omit to leave them unchanged; send an empty array to detach them all.
     """
 
+    is_hidden: Annotated[bool, PropertyInfo(alias="isHidden")]
+    """Whether this plan is hidden from GET /v1/simulation/plan.
+
+    A run started without `saveAsPlanName` creates a hidden plan to carry it. Send
+    `{ "name": "...", "isHidden": false }` to keep that configuration as a reusable
+    plan, which is what the app does when you save a one-off run.
+    """
+
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
     """Number of iterations to run for each test case (1-10000)"""
 

@@ -18,14 +18,14 @@ class SimulationCustomerFlowUpdateParams(TypedDict, total=False):
     agent_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]
     """Replaces the linked agents. Omit to leave them unchanged."""
 
-    description: Optional[str]
+    branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
+    """Scripted flows only."""
 
-    scripted_branching_mode: Annotated[
-        Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="scriptedBranchingMode")
-    ]
+    description: Optional[str]
 
     title: str
 
 
 class AgentExpectation(TypedDict, total=False):
-    llm_prompt: Required[Annotated[str, PropertyInfo(alias="llmPrompt")]]
+    prompt: Required[str]
+    """What the agent under test is graded against."""

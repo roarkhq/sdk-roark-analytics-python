@@ -11,24 +11,25 @@ from .._utils import PropertyInfo
 from .._models import BaseModel
 
 __all__ = [
-    "SimulationCustomerFlowVariantCreateResponse",
+    "SimulationCustomerFlowReplaceGraphResponse",
     "Data",
-    "DataScriptedFlowVariant",
-    "DataScriptedFlowVariantAdditionalExpectation",
-    "DataScriptedFlowVariantEnvironment",
-    "DataScriptedFlowVariantPersonaOverride",
-    "DataImprovFlowVariant",
-    "DataImprovFlowVariantAdditionalExpectation",
-    "DataImprovFlowVariantEnvironment",
-    "DataImprovFlowVariantPersonaOverride",
-    "DataVoicemailFlowVariant",
-    "DataVoicemailFlowVariantAdditionalExpectation",
-    "DataVoicemailFlowVariantEnvironment",
-    "DataVoicemailFlowVariantPersonaOverride",
+    "DataVariant",
+    "DataVariantScriptedFlowVariant",
+    "DataVariantScriptedFlowVariantAdditionalExpectation",
+    "DataVariantScriptedFlowVariantEnvironment",
+    "DataVariantScriptedFlowVariantPersonaOverride",
+    "DataVariantImprovFlowVariant",
+    "DataVariantImprovFlowVariantAdditionalExpectation",
+    "DataVariantImprovFlowVariantEnvironment",
+    "DataVariantImprovFlowVariantPersonaOverride",
+    "DataVariantVoicemailFlowVariant",
+    "DataVariantVoicemailFlowVariantAdditionalExpectation",
+    "DataVariantVoicemailFlowVariantEnvironment",
+    "DataVariantVoicemailFlowVariantPersonaOverride",
 ]
 
 
-class DataScriptedFlowVariantAdditionalExpectation(BaseModel):
+class DataVariantScriptedFlowVariantAdditionalExpectation(BaseModel):
     """One thing the agent under test is graded against."""
 
     id: str
@@ -37,7 +38,7 @@ class DataScriptedFlowVariantAdditionalExpectation(BaseModel):
     """What the agent under test is graded against."""
 
 
-class DataScriptedFlowVariantEnvironment(BaseModel):
+class DataVariantScriptedFlowVariantEnvironment(BaseModel):
     """
     A simulation environment: the ambient conditions a customer flow variant runs under. The list includes both your own and the ones Roark curates for every project.
     """
@@ -59,7 +60,7 @@ class DataScriptedFlowVariantEnvironment(BaseModel):
     description: Optional[str] = None
 
 
-class DataScriptedFlowVariantPersonaOverride(BaseModel):
+class DataVariantScriptedFlowVariantPersonaOverride(BaseModel):
     """The persona this variant runs as instead of the default variant's.
 
     Null means it inherits.
@@ -190,7 +191,7 @@ class DataScriptedFlowVariantPersonaOverride(BaseModel):
     """
 
 
-class DataScriptedFlowVariant(BaseModel):
+class DataVariantScriptedFlowVariant(BaseModel):
     """One path through a scripted flow.
 
     The path engine owns which paths exist, so editing the graph is what creates and removes these.
@@ -198,7 +199,7 @@ class DataScriptedFlowVariant(BaseModel):
 
     id: str
 
-    additional_expectations: List[DataScriptedFlowVariantAdditionalExpectation] = FieldInfo(
+    additional_expectations: List[DataVariantScriptedFlowVariantAdditionalExpectation] = FieldInfo(
         alias="additionalExpectations"
     )
     """Graded on top of the flow's own expectations, for this variant only."""
@@ -206,7 +207,7 @@ class DataScriptedFlowVariant(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
-    environment: Optional[DataScriptedFlowVariantEnvironment] = None
+    environment: Optional[DataVariantScriptedFlowVariantEnvironment] = None
     """
     A simulation environment: the ambient conditions a customer flow variant runs
     under. The list includes both your own and the ones Roark curates for every
@@ -217,7 +218,7 @@ class DataScriptedFlowVariant(BaseModel):
 
     is_generated: bool = FieldInfo(alias="isGenerated")
 
-    persona_override: Optional[DataScriptedFlowVariantPersonaOverride] = FieldInfo(
+    persona_override: Optional[DataVariantScriptedFlowVariantPersonaOverride] = FieldInfo(
         alias="personaOverride", default=None
     )
     """The persona this variant runs as instead of the default variant's.
@@ -245,7 +246,7 @@ class DataScriptedFlowVariant(BaseModel):
     """Last update timestamp in ISO 8601 format"""
 
 
-class DataImprovFlowVariantAdditionalExpectation(BaseModel):
+class DataVariantImprovFlowVariantAdditionalExpectation(BaseModel):
     """One thing the agent under test is graded against."""
 
     id: str
@@ -254,7 +255,7 @@ class DataImprovFlowVariantAdditionalExpectation(BaseModel):
     """What the agent under test is graded against."""
 
 
-class DataImprovFlowVariantEnvironment(BaseModel):
+class DataVariantImprovFlowVariantEnvironment(BaseModel):
     """
     A simulation environment: the ambient conditions a customer flow variant runs under. The list includes both your own and the ones Roark curates for every project.
     """
@@ -276,7 +277,7 @@ class DataImprovFlowVariantEnvironment(BaseModel):
     description: Optional[str] = None
 
 
-class DataImprovFlowVariantPersonaOverride(BaseModel):
+class DataVariantImprovFlowVariantPersonaOverride(BaseModel):
     """The persona this variant runs as instead of the default variant's.
 
     Null means it inherits.
@@ -407,12 +408,12 @@ class DataImprovFlowVariantPersonaOverride(BaseModel):
     """
 
 
-class DataImprovFlowVariant(BaseModel):
+class DataVariantImprovFlowVariant(BaseModel):
     """One brief to run an improv flow with."""
 
     id: str
 
-    additional_expectations: List[DataImprovFlowVariantAdditionalExpectation] = FieldInfo(
+    additional_expectations: List[DataVariantImprovFlowVariantAdditionalExpectation] = FieldInfo(
         alias="additionalExpectations"
     )
     """Graded on top of the flow's own expectations, for this variant only."""
@@ -420,7 +421,7 @@ class DataImprovFlowVariant(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
-    environment: Optional[DataImprovFlowVariantEnvironment] = None
+    environment: Optional[DataVariantImprovFlowVariantEnvironment] = None
     """
     A simulation environment: the ambient conditions a customer flow variant runs
     under. The list includes both your own and the ones Roark curates for every
@@ -431,7 +432,9 @@ class DataImprovFlowVariant(BaseModel):
 
     is_generated: bool = FieldInfo(alias="isGenerated")
 
-    persona_override: Optional[DataImprovFlowVariantPersonaOverride] = FieldInfo(alias="personaOverride", default=None)
+    persona_override: Optional[DataVariantImprovFlowVariantPersonaOverride] = FieldInfo(
+        alias="personaOverride", default=None
+    )
     """The persona this variant runs as instead of the default variant's.
 
     Null means it inherits.
@@ -454,7 +457,7 @@ class DataImprovFlowVariant(BaseModel):
     """The brief the simulated customer improvises from."""
 
 
-class DataVoicemailFlowVariantAdditionalExpectation(BaseModel):
+class DataVariantVoicemailFlowVariantAdditionalExpectation(BaseModel):
     """One thing the agent under test is graded against."""
 
     id: str
@@ -463,7 +466,7 @@ class DataVoicemailFlowVariantAdditionalExpectation(BaseModel):
     """What the agent under test is graded against."""
 
 
-class DataVoicemailFlowVariantEnvironment(BaseModel):
+class DataVariantVoicemailFlowVariantEnvironment(BaseModel):
     """
     A simulation environment: the ambient conditions a customer flow variant runs under. The list includes both your own and the ones Roark curates for every project.
     """
@@ -485,7 +488,7 @@ class DataVoicemailFlowVariantEnvironment(BaseModel):
     description: Optional[str] = None
 
 
-class DataVoicemailFlowVariantPersonaOverride(BaseModel):
+class DataVariantVoicemailFlowVariantPersonaOverride(BaseModel):
     """The persona this variant runs as instead of the default variant's.
 
     Null means it inherits.
@@ -616,12 +619,12 @@ class DataVoicemailFlowVariantPersonaOverride(BaseModel):
     """
 
 
-class DataVoicemailFlowVariant(BaseModel):
+class DataVariantVoicemailFlowVariant(BaseModel):
     """One voicemail greeting."""
 
     id: str
 
-    additional_expectations: List[DataVoicemailFlowVariantAdditionalExpectation] = FieldInfo(
+    additional_expectations: List[DataVariantVoicemailFlowVariantAdditionalExpectation] = FieldInfo(
         alias="additionalExpectations"
     )
     """Graded on top of the flow's own expectations, for this variant only."""
@@ -629,7 +632,7 @@ class DataVoicemailFlowVariant(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
-    environment: Optional[DataVoicemailFlowVariantEnvironment] = None
+    environment: Optional[DataVariantVoicemailFlowVariantEnvironment] = None
     """
     A simulation environment: the ambient conditions a customer flow variant runs
     under. The list includes both your own and the ones Roark curates for every
@@ -640,7 +643,7 @@ class DataVoicemailFlowVariant(BaseModel):
 
     is_generated: bool = FieldInfo(alias="isGenerated")
 
-    persona_override: Optional[DataVoicemailFlowVariantPersonaOverride] = FieldInfo(
+    persona_override: Optional[DataVariantVoicemailFlowVariantPersonaOverride] = FieldInfo(
         alias="personaOverride", default=None
     )
     """The persona this variant runs as instead of the default variant's.
@@ -662,14 +665,29 @@ class DataVoicemailFlowVariant(BaseModel):
     """Last update timestamp in ISO 8601 format"""
 
 
-Data: TypeAlias = Annotated[
-    Union[DataScriptedFlowVariant, DataImprovFlowVariant, DataVoicemailFlowVariant], PropertyInfo(discriminator="type")
+DataVariant: TypeAlias = Annotated[
+    Union[DataVariantScriptedFlowVariant, DataVariantImprovFlowVariant, DataVariantVoicemailFlowVariant],
+    PropertyInfo(discriminator="type"),
 ]
 
 
-class SimulationCustomerFlowVariantCreateResponse(BaseModel):
+class Data(BaseModel):
+    graph: List["FlowStep"]
+
+    variants: List[DataVariant]
+    """The variants after the write."""
+
+    variants_reshaped: bool = FieldInfo(alias="variantsReshaped")
+    """
+    True when the write changed the set of paths, so the flow's variants were
+    re-seeded and any variant id you were holding may no longer exist.
+    """
+
+    warnings: List[str]
+
+
+class SimulationCustomerFlowReplaceGraphResponse(BaseModel):
     data: Data
-    """One way of running a customer flow."""
 
 
 from .flow_step import FlowStep
