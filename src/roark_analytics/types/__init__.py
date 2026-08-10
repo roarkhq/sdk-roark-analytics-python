@@ -8,7 +8,6 @@ from . import (
     simulation_customer_flow_create_response,
     simulation_customer_flow_update_response,
     simulation_customer_flow_get_by_id_response,
-    simulation_customer_flow_replace_steps_response,
 )
 from .. import _compat
 from .flow_step import FlowStep as FlowStep
@@ -148,9 +147,6 @@ from .simulation_run_plan_job_get_by_id_response import (
 from .simulation_customer_flow_get_by_id_response import (
     SimulationCustomerFlowGetByIDResponse as SimulationCustomerFlowGetByIDResponse,
 )
-from .simulation_customer_flow_replace_steps_params import (
-    SimulationCustomerFlowReplaceStepsParams as SimulationCustomerFlowReplaceStepsParams,
-)
 from .simulation_customer_flow_variant_create_params import (
     SimulationCustomerFlowVariantCreateParams as SimulationCustomerFlowVariantCreateParams,
 )
@@ -159,9 +155,6 @@ from .simulation_customer_flow_variant_list_response import (
 )
 from .simulation_customer_flow_variant_update_params import (
     SimulationCustomerFlowVariantUpdateParams as SimulationCustomerFlowVariantUpdateParams,
-)
-from .simulation_customer_flow_replace_steps_response import (
-    SimulationCustomerFlowReplaceStepsResponse as SimulationCustomerFlowReplaceStepsResponse,
 )
 from .simulation_customer_flow_variant_create_response import (
     SimulationCustomerFlowVariantCreateResponse as SimulationCustomerFlowVariantCreateResponse,
@@ -189,7 +182,6 @@ if _compat.PYDANTIC_V1:
     simulation_customer_flow_update_response.SimulationCustomerFlowUpdateResponse.update_forward_refs()  # type: ignore
     simulation_customer_flow_list_response.SimulationCustomerFlowListResponse.update_forward_refs()  # type: ignore
     simulation_customer_flow_get_by_id_response.SimulationCustomerFlowGetByIDResponse.update_forward_refs()  # type: ignore
-    simulation_customer_flow_replace_steps_response.SimulationCustomerFlowReplaceStepsResponse.update_forward_refs()  # type: ignore
 else:
     flow_step.FlowStep.model_rebuild(_parent_namespace_depth=0)
     simulation_customer_flow_create_response.SimulationCustomerFlowCreateResponse.model_rebuild(
@@ -200,8 +192,5 @@ else:
     )
     simulation_customer_flow_list_response.SimulationCustomerFlowListResponse.model_rebuild(_parent_namespace_depth=0)
     simulation_customer_flow_get_by_id_response.SimulationCustomerFlowGetByIDResponse.model_rebuild(
-        _parent_namespace_depth=0
-    )
-    simulation_customer_flow_replace_steps_response.SimulationCustomerFlowReplaceStepsResponse.model_rebuild(
         _parent_namespace_depth=0
     )

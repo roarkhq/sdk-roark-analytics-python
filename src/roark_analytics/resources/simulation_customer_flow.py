@@ -11,7 +11,6 @@ from ..types import (
     simulation_customer_flow_list_params,
     simulation_customer_flow_create_params,
     simulation_customer_flow_update_params,
-    simulation_customer_flow_replace_steps_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
@@ -30,7 +29,6 @@ from ..types.simulation_customer_flow_create_response import SimulationCustomerF
 from ..types.simulation_customer_flow_delete_response import SimulationCustomerFlowDeleteResponse
 from ..types.simulation_customer_flow_update_response import SimulationCustomerFlowUpdateResponse
 from ..types.simulation_customer_flow_get_by_id_response import SimulationCustomerFlowGetByIDResponse
-from ..types.simulation_customer_flow_replace_steps_response import SimulationCustomerFlowReplaceStepsResponse
 
 __all__ = ["SimulationCustomerFlowResource", "AsyncSimulationCustomerFlowResource"]
 
@@ -295,65 +293,6 @@ class SimulationCustomerFlowResource(SyncAPIResource):
             cast_to=SimulationCustomerFlowGetByIDResponse,
         )
 
-    def replace_steps(
-        self,
-        flow_id: str,
-        *,
-        steps: Iterable[FlowStepParam],
-        allow_unmerge: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationCustomerFlowReplaceStepsResponse:
-        """Replaces a scripted flow's conversation graph with the tree you send.
-
-        This is a
-        full replace, not a merge: a step you omit is removed.
-
-        Include `nodeId` on a step to update the existing one, omit it to create a new
-        step. Where two branches rejoin, keep the `mergeIntoNodeIds` references a read
-        gave you. Dropping them un-merges those branches and is refused unless
-        `allowUnmerge` is set.
-
-        A change to the set of paths re-seeds the flow's variants, which the response
-        reports as `variantsReshaped` along with the resulting variants.
-
-        Args:
-          steps: The complete set of steps. This replaces the flow's existing steps rather than
-              merging into them.
-
-          allow_unmerge: Confirms a write that drops branches which currently rejoin. Only needed when
-              the request omits mergeIntoNodeIds references the flow already had; a faithful
-              round trip never needs it.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not flow_id:
-            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
-        return self._put(
-            path_template("/v1/simulation/customer-flow/{flow_id}/steps", flow_id=flow_id),
-            body=maybe_transform(
-                {
-                    "steps": steps,
-                    "allow_unmerge": allow_unmerge,
-                },
-                simulation_customer_flow_replace_steps_params.SimulationCustomerFlowReplaceStepsParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SimulationCustomerFlowReplaceStepsResponse,
-        )
-
 
 class AsyncSimulationCustomerFlowResource(AsyncAPIResource):
     @cached_property
@@ -615,65 +554,6 @@ class AsyncSimulationCustomerFlowResource(AsyncAPIResource):
             cast_to=SimulationCustomerFlowGetByIDResponse,
         )
 
-    async def replace_steps(
-        self,
-        flow_id: str,
-        *,
-        steps: Iterable[FlowStepParam],
-        allow_unmerge: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SimulationCustomerFlowReplaceStepsResponse:
-        """Replaces a scripted flow's conversation graph with the tree you send.
-
-        This is a
-        full replace, not a merge: a step you omit is removed.
-
-        Include `nodeId` on a step to update the existing one, omit it to create a new
-        step. Where two branches rejoin, keep the `mergeIntoNodeIds` references a read
-        gave you. Dropping them un-merges those branches and is refused unless
-        `allowUnmerge` is set.
-
-        A change to the set of paths re-seeds the flow's variants, which the response
-        reports as `variantsReshaped` along with the resulting variants.
-
-        Args:
-          steps: The complete set of steps. This replaces the flow's existing steps rather than
-              merging into them.
-
-          allow_unmerge: Confirms a write that drops branches which currently rejoin. Only needed when
-              the request omits mergeIntoNodeIds references the flow already had; a faithful
-              round trip never needs it.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not flow_id:
-            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
-        return await self._put(
-            path_template("/v1/simulation/customer-flow/{flow_id}/steps", flow_id=flow_id),
-            body=await async_maybe_transform(
-                {
-                    "steps": steps,
-                    "allow_unmerge": allow_unmerge,
-                },
-                simulation_customer_flow_replace_steps_params.SimulationCustomerFlowReplaceStepsParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SimulationCustomerFlowReplaceStepsResponse,
-        )
-
 
 class SimulationCustomerFlowResourceWithRawResponse:
     def __init__(self, simulation_customer_flow: SimulationCustomerFlowResource) -> None:
@@ -693,9 +573,6 @@ class SimulationCustomerFlowResourceWithRawResponse:
         )
         self.get_by_id = to_raw_response_wrapper(
             simulation_customer_flow.get_by_id,
-        )
-        self.replace_steps = to_raw_response_wrapper(
-            simulation_customer_flow.replace_steps,
         )
 
 
@@ -718,9 +595,6 @@ class AsyncSimulationCustomerFlowResourceWithRawResponse:
         self.get_by_id = async_to_raw_response_wrapper(
             simulation_customer_flow.get_by_id,
         )
-        self.replace_steps = async_to_raw_response_wrapper(
-            simulation_customer_flow.replace_steps,
-        )
 
 
 class SimulationCustomerFlowResourceWithStreamingResponse:
@@ -742,9 +616,6 @@ class SimulationCustomerFlowResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             simulation_customer_flow.get_by_id,
         )
-        self.replace_steps = to_streamed_response_wrapper(
-            simulation_customer_flow.replace_steps,
-        )
 
 
 class AsyncSimulationCustomerFlowResourceWithStreamingResponse:
@@ -765,7 +636,4 @@ class AsyncSimulationCustomerFlowResourceWithStreamingResponse:
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             simulation_customer_flow.get_by_id,
-        )
-        self.replace_steps = async_to_streamed_response_wrapper(
-            simulation_customer_flow.replace_steps,
         )

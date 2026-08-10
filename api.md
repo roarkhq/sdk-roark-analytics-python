@@ -212,7 +212,6 @@ from roark_analytics.types import (
     SimulationCustomerFlowListResponse,
     SimulationCustomerFlowDeleteResponse,
     SimulationCustomerFlowGetByIDResponse,
-    SimulationCustomerFlowReplaceStepsResponse,
 )
 ```
 
@@ -223,7 +222,6 @@ Methods:
 - <code title="get /v1/simulation/customer-flow">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_customer_flow_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_list_response.py">SimulationCustomerFlowListResponse</a></code>
 - <code title="delete /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">delete</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_delete_response.py">SimulationCustomerFlowDeleteResponse</a></code>
 - <code title="get /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">get_by_id</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_get_by_id_response.py">SimulationCustomerFlowGetByIDResponse</a></code>
-- <code title="put /v1/simulation/customer-flow/{flowId}/steps">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">replace_steps</a>(flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_replace_steps_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_replace_steps_response.py">SimulationCustomerFlowReplaceStepsResponse</a></code>
 
 # SimulationCustomerFlowVariant
 
