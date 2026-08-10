@@ -184,6 +184,71 @@ Methods:
 - <code title="get /v1/persona">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_persona_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_persona_list_response.py">SimulationPersonaListResponse</a></code>
 - <code title="get /v1/persona/{personaId}">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">get_by_id</a>(persona_id) -> <a href="./src/roark_analytics/types/simulation_persona_get_by_id_response.py">SimulationPersonaGetByIDResponse</a></code>
 
+# SimulationEnvironment
+
+Types:
+
+```python
+from roark_analytics.types import (
+    SimulationEnvironmentListResponse,
+    SimulationEnvironmentGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/simulation/environment">client.simulation_environment.<a href="./src/roark_analytics/resources/simulation_environment.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_environment_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_environment_list_response.py">SimulationEnvironmentListResponse</a></code>
+- <code title="get /v1/simulation/environment/{environmentId}">client.simulation_environment.<a href="./src/roark_analytics/resources/simulation_environment.py">get_by_id</a>(environment_id) -> <a href="./src/roark_analytics/types/simulation_environment_get_by_id_response.py">SimulationEnvironmentGetByIDResponse</a></code>
+
+# SimulationCustomerFlow
+
+Types:
+
+```python
+from roark_analytics.types import (
+    FlowStep,
+    SimulationCustomerFlowCreateResponse,
+    SimulationCustomerFlowUpdateResponse,
+    SimulationCustomerFlowListResponse,
+    SimulationCustomerFlowDeleteResponse,
+    SimulationCustomerFlowGetByIDResponse,
+    SimulationCustomerFlowReplaceStepsResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/simulation/customer-flow">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">create</a>(\*\*<a href="src/roark_analytics/types/simulation_customer_flow_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_create_response.py">SimulationCustomerFlowCreateResponse</a></code>
+- <code title="put /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">update</a>(flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_update_response.py">SimulationCustomerFlowUpdateResponse</a></code>
+- <code title="get /v1/simulation/customer-flow">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_customer_flow_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_list_response.py">SimulationCustomerFlowListResponse</a></code>
+- <code title="delete /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">delete</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_delete_response.py">SimulationCustomerFlowDeleteResponse</a></code>
+- <code title="get /v1/simulation/customer-flow/{flowId}">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">get_by_id</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_get_by_id_response.py">SimulationCustomerFlowGetByIDResponse</a></code>
+- <code title="put /v1/simulation/customer-flow/{flowId}/steps">client.simulation_customer_flow.<a href="./src/roark_analytics/resources/simulation_customer_flow.py">replace_steps</a>(flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_replace_steps_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_replace_steps_response.py">SimulationCustomerFlowReplaceStepsResponse</a></code>
+
+# SimulationCustomerFlowVariant
+
+Types:
+
+```python
+from roark_analytics.types import (
+    SimulationCustomerFlowVariantCreateResponse,
+    SimulationCustomerFlowVariantUpdateResponse,
+    SimulationCustomerFlowVariantListResponse,
+    SimulationCustomerFlowVariantDeleteResponse,
+    SimulationCustomerFlowVariantGetByIDResponse,
+    SimulationCustomerFlowVariantSetDefaultResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/simulation/customer-flow/{flowId}/variant">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">create</a>(flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_variant_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_create_response.py">SimulationCustomerFlowVariantCreateResponse</a></code>
+- <code title="put /v1/simulation/customer-flow/{flowId}/variant/{variantId}">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">update</a>(variant_id, \*, flow_id, \*\*<a href="src/roark_analytics/types/simulation_customer_flow_variant_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_update_response.py">SimulationCustomerFlowVariantUpdateResponse</a></code>
+- <code title="get /v1/simulation/customer-flow/{flowId}/variant">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">list</a>(flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_list_response.py">SimulationCustomerFlowVariantListResponse</a></code>
+- <code title="delete /v1/simulation/customer-flow/{flowId}/variant/{variantId}">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">delete</a>(variant_id, \*, flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_delete_response.py">SimulationCustomerFlowVariantDeleteResponse</a></code>
+- <code title="get /v1/simulation/customer-flow/{flowId}/variant/{variantId}">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">get_by_id</a>(variant_id, \*, flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_get_by_id_response.py">SimulationCustomerFlowVariantGetByIDResponse</a></code>
+- <code title="post /v1/simulation/customer-flow/{flowId}/variant/{variantId}/default">client.simulation_customer_flow_variant.<a href="./src/roark_analytics/resources/simulation_customer_flow_variant.py">set_default</a>(variant_id, \*, flow_id) -> <a href="./src/roark_analytics/types/simulation_customer_flow_variant_set_default_response.py">SimulationCustomerFlowVariantSetDefaultResponse</a></code>
+
 # Agent
 
 Types:

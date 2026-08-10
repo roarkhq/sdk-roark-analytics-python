@@ -96,6 +96,14 @@ from .metric_collection_job import (
     MetricCollectionJobResourceWithStreamingResponse,
     AsyncMetricCollectionJobResourceWithStreamingResponse,
 )
+from .simulation_environment import (
+    SimulationEnvironmentResource,
+    AsyncSimulationEnvironmentResource,
+    SimulationEnvironmentResourceWithRawResponse,
+    AsyncSimulationEnvironmentResourceWithRawResponse,
+    SimulationEnvironmentResourceWithStreamingResponse,
+    AsyncSimulationEnvironmentResourceWithStreamingResponse,
+)
 from .http_request_definition import (
     HTTPRequestDefinitionResource,
     AsyncHTTPRequestDefinitionResource,
@@ -111,6 +119,22 @@ from .simulation_run_plan_job import (
     AsyncSimulationRunPlanJobResourceWithRawResponse,
     SimulationRunPlanJobResourceWithStreamingResponse,
     AsyncSimulationRunPlanJobResourceWithStreamingResponse,
+)
+from .simulation_customer_flow import (
+    SimulationCustomerFlowResource,
+    AsyncSimulationCustomerFlowResource,
+    SimulationCustomerFlowResourceWithRawResponse,
+    AsyncSimulationCustomerFlowResourceWithRawResponse,
+    SimulationCustomerFlowResourceWithStreamingResponse,
+    AsyncSimulationCustomerFlowResourceWithStreamingResponse,
+)
+from .simulation_customer_flow_variant import (
+    SimulationCustomerFlowVariantResource,
+    AsyncSimulationCustomerFlowVariantResource,
+    SimulationCustomerFlowVariantResourceWithRawResponse,
+    AsyncSimulationCustomerFlowVariantResourceWithRawResponse,
+    SimulationCustomerFlowVariantResourceWithStreamingResponse,
+    AsyncSimulationCustomerFlowVariantResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -174,6 +198,24 @@ __all__ = [
     "AsyncSimulationPersonaResourceWithRawResponse",
     "SimulationPersonaResourceWithStreamingResponse",
     "AsyncSimulationPersonaResourceWithStreamingResponse",
+    "SimulationEnvironmentResource",
+    "AsyncSimulationEnvironmentResource",
+    "SimulationEnvironmentResourceWithRawResponse",
+    "AsyncSimulationEnvironmentResourceWithRawResponse",
+    "SimulationEnvironmentResourceWithStreamingResponse",
+    "AsyncSimulationEnvironmentResourceWithStreamingResponse",
+    "SimulationCustomerFlowResource",
+    "AsyncSimulationCustomerFlowResource",
+    "SimulationCustomerFlowResourceWithRawResponse",
+    "AsyncSimulationCustomerFlowResourceWithRawResponse",
+    "SimulationCustomerFlowResourceWithStreamingResponse",
+    "AsyncSimulationCustomerFlowResourceWithStreamingResponse",
+    "SimulationCustomerFlowVariantResource",
+    "AsyncSimulationCustomerFlowVariantResource",
+    "SimulationCustomerFlowVariantResourceWithRawResponse",
+    "AsyncSimulationCustomerFlowVariantResourceWithRawResponse",
+    "SimulationCustomerFlowVariantResourceWithStreamingResponse",
+    "AsyncSimulationCustomerFlowVariantResourceWithStreamingResponse",
     "AgentResource",
     "AsyncAgentResource",
     "AgentResourceWithRawResponse",

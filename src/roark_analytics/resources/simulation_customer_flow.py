@@ -1,0 +1,771 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Iterable, Optional
+from typing_extensions import Literal
+
+import httpx
+
+from ..types import (
+    simulation_customer_flow_list_params,
+    simulation_customer_flow_create_params,
+    simulation_customer_flow_update_params,
+    simulation_customer_flow_replace_steps_params,
+)
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from .._utils import path_template, maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import make_request_options
+from ..types.flow_step_param import FlowStepParam
+from ..types.simulation_customer_flow_list_response import SimulationCustomerFlowListResponse
+from ..types.simulation_customer_flow_create_response import SimulationCustomerFlowCreateResponse
+from ..types.simulation_customer_flow_delete_response import SimulationCustomerFlowDeleteResponse
+from ..types.simulation_customer_flow_update_response import SimulationCustomerFlowUpdateResponse
+from ..types.simulation_customer_flow_get_by_id_response import SimulationCustomerFlowGetByIDResponse
+from ..types.simulation_customer_flow_replace_steps_response import SimulationCustomerFlowReplaceStepsResponse
+
+__all__ = ["SimulationCustomerFlowResource", "AsyncSimulationCustomerFlowResource"]
+
+
+class SimulationCustomerFlowResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> SimulationCustomerFlowResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
+        """
+        return SimulationCustomerFlowResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> SimulationCustomerFlowResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
+        """
+        return SimulationCustomerFlowResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        agent_ids: SequenceNotStr[str],
+        mode: Literal["UNSCRIPTED", "SCRIPTED"],
+        title: str,
+        agent_expectations: Iterable[simulation_customer_flow_create_params.AgentExpectation] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        scripted_branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
+        steps: Iterable[FlowStepParam] | Omit = omit,
+        variants: Iterable[simulation_customer_flow_create_params.Variant] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowCreateResponse:
+        """Creates a customer flow.
+
+        A SCRIPTED flow carries a step graph and gets one
+        variant per path through it; an UNSCRIPTED flow carries briefs and gets the
+        variants you send.
+
+        Args:
+          agent_ids: Agents this flow exercises. At least one is required.
+
+          mode: SCRIPTED follows a step graph you author; UNSCRIPTED gives the simulated
+              customer a brief and lets it improvise.
+
+          scripted_branching_mode: Scripted flows only. DETERMINISTIC runs one variant per path through the graph;
+              ADAPTIVE collapses the paths into one call the customer adapts across.
+
+          steps: Required for SCRIPTED flows. At most 100 steps across at most 25 paths.
+
+          variants: Required for UNSCRIPTED flows: the briefs to run. Scripted flows get one variant
+              per path from the graph instead.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/simulation/customer-flow",
+            body=maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "mode": mode,
+                    "title": title,
+                    "agent_expectations": agent_expectations,
+                    "description": description,
+                    "scripted_branching_mode": scripted_branching_mode,
+                    "steps": steps,
+                    "variants": variants,
+                },
+                simulation_customer_flow_create_params.SimulationCustomerFlowCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowCreateResponse,
+        )
+
+    def update(
+        self,
+        flow_id: str,
+        *,
+        agent_expectations: Iterable[simulation_customer_flow_update_params.AgentExpectation] | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        scripted_branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
+        title: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowUpdateResponse:
+        """
+        Updates a flow's title, description, branching mode, linked agents or flow-level
+        expectations. The step graph is replaced through PUT /steps.
+
+        Args:
+          agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
+
+          agent_ids: Replaces the linked agents. Omit to leave them unchanged.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._put(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            body=maybe_transform(
+                {
+                    "agent_expectations": agent_expectations,
+                    "agent_ids": agent_ids,
+                    "description": description,
+                    "scripted_branching_mode": scripted_branching_mode,
+                    "title": title,
+                },
+                simulation_customer_flow_update_params.SimulationCustomerFlowUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowUpdateResponse,
+        )
+
+    def list(
+        self,
+        *,
+        after: str | Omit = omit,
+        include_system: Literal["true", "false"] | Omit = omit,
+        limit: int | Omit = omit,
+        mode: Literal["UNSCRIPTED", "SCRIPTED", "VOICEMAIL"] | Omit = omit,
+        search_text: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowListResponse:
+        """
+        Returns a paginated list of customer flows with their agents, expectations and
+        variants. The step graph is the one field omitted: reading it walks the
+        project's whole step graph, so it comes back from the single-flow endpoint
+        instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/simulation/customer-flow",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "include_system": include_system,
+                        "limit": limit,
+                        "mode": mode,
+                        "search_text": search_text,
+                    },
+                    simulation_customer_flow_list_params.SimulationCustomerFlowListParams,
+                ),
+            ),
+            cast_to=SimulationCustomerFlowListResponse,
+        )
+
+    def delete(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowDeleteResponse:
+        """
+        Soft-deletes a customer flow along with its variants, expectations and (for
+        scripted flows) its step graph. Run plans that linked it drop it from their test
+        cases.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._delete(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowDeleteResponse,
+        )
+
+    def get_by_id(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowGetByIDResponse:
+        """
+        Returns a customer flow with its variants, expectations and linked agents.
+        Scripted flows also carry their step graph.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._get(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowGetByIDResponse,
+        )
+
+    def replace_steps(
+        self,
+        flow_id: str,
+        *,
+        steps: Iterable[FlowStepParam],
+        allow_unmerge: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowReplaceStepsResponse:
+        """Replaces a scripted flow's conversation graph with the tree you send.
+
+        This is a
+        full replace, not a merge: a step you omit is removed.
+
+        Include `nodeId` on a step to update the existing one, omit it to create a new
+        step. Where two branches rejoin, keep the `mergeIntoNodeIds` references a read
+        gave you. Dropping them un-merges those branches and is refused unless
+        `allowUnmerge` is set.
+
+        A change to the set of paths re-seeds the flow's variants, which the response
+        reports as `variantsReshaped` along with the resulting variants.
+
+        Args:
+          steps: The complete set of steps. This replaces the flow's existing steps rather than
+              merging into them.
+
+          allow_unmerge: Confirms a write that drops branches which currently rejoin. Only needed when
+              the request omits mergeIntoNodeIds references the flow already had; a faithful
+              round trip never needs it.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._put(
+            path_template("/v1/simulation/customer-flow/{flow_id}/steps", flow_id=flow_id),
+            body=maybe_transform(
+                {
+                    "steps": steps,
+                    "allow_unmerge": allow_unmerge,
+                },
+                simulation_customer_flow_replace_steps_params.SimulationCustomerFlowReplaceStepsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowReplaceStepsResponse,
+        )
+
+
+class AsyncSimulationCustomerFlowResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncSimulationCustomerFlowResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncSimulationCustomerFlowResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncSimulationCustomerFlowResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
+        """
+        return AsyncSimulationCustomerFlowResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        agent_ids: SequenceNotStr[str],
+        mode: Literal["UNSCRIPTED", "SCRIPTED"],
+        title: str,
+        agent_expectations: Iterable[simulation_customer_flow_create_params.AgentExpectation] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        scripted_branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
+        steps: Iterable[FlowStepParam] | Omit = omit,
+        variants: Iterable[simulation_customer_flow_create_params.Variant] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowCreateResponse:
+        """Creates a customer flow.
+
+        A SCRIPTED flow carries a step graph and gets one
+        variant per path through it; an UNSCRIPTED flow carries briefs and gets the
+        variants you send.
+
+        Args:
+          agent_ids: Agents this flow exercises. At least one is required.
+
+          mode: SCRIPTED follows a step graph you author; UNSCRIPTED gives the simulated
+              customer a brief and lets it improvise.
+
+          scripted_branching_mode: Scripted flows only. DETERMINISTIC runs one variant per path through the graph;
+              ADAPTIVE collapses the paths into one call the customer adapts across.
+
+          steps: Required for SCRIPTED flows. At most 100 steps across at most 25 paths.
+
+          variants: Required for UNSCRIPTED flows: the briefs to run. Scripted flows get one variant
+              per path from the graph instead.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/simulation/customer-flow",
+            body=await async_maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "mode": mode,
+                    "title": title,
+                    "agent_expectations": agent_expectations,
+                    "description": description,
+                    "scripted_branching_mode": scripted_branching_mode,
+                    "steps": steps,
+                    "variants": variants,
+                },
+                simulation_customer_flow_create_params.SimulationCustomerFlowCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowCreateResponse,
+        )
+
+    async def update(
+        self,
+        flow_id: str,
+        *,
+        agent_expectations: Iterable[simulation_customer_flow_update_params.AgentExpectation] | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        scripted_branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
+        title: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowUpdateResponse:
+        """
+        Updates a flow's title, description, branching mode, linked agents or flow-level
+        expectations. The step graph is replaced through PUT /steps.
+
+        Args:
+          agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
+
+          agent_ids: Replaces the linked agents. Omit to leave them unchanged.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._put(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            body=await async_maybe_transform(
+                {
+                    "agent_expectations": agent_expectations,
+                    "agent_ids": agent_ids,
+                    "description": description,
+                    "scripted_branching_mode": scripted_branching_mode,
+                    "title": title,
+                },
+                simulation_customer_flow_update_params.SimulationCustomerFlowUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowUpdateResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        after: str | Omit = omit,
+        include_system: Literal["true", "false"] | Omit = omit,
+        limit: int | Omit = omit,
+        mode: Literal["UNSCRIPTED", "SCRIPTED", "VOICEMAIL"] | Omit = omit,
+        search_text: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowListResponse:
+        """
+        Returns a paginated list of customer flows with their agents, expectations and
+        variants. The step graph is the one field omitted: reading it walks the
+        project's whole step graph, so it comes back from the single-flow endpoint
+        instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/simulation/customer-flow",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "include_system": include_system,
+                        "limit": limit,
+                        "mode": mode,
+                        "search_text": search_text,
+                    },
+                    simulation_customer_flow_list_params.SimulationCustomerFlowListParams,
+                ),
+            ),
+            cast_to=SimulationCustomerFlowListResponse,
+        )
+
+    async def delete(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowDeleteResponse:
+        """
+        Soft-deletes a customer flow along with its variants, expectations and (for
+        scripted flows) its step graph. Run plans that linked it drop it from their test
+        cases.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._delete(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowDeleteResponse,
+        )
+
+    async def get_by_id(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowGetByIDResponse:
+        """
+        Returns a customer flow with its variants, expectations and linked agents.
+        Scripted flows also carry their step graph.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._get(
+            path_template("/v1/simulation/customer-flow/{flow_id}", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowGetByIDResponse,
+        )
+
+    async def replace_steps(
+        self,
+        flow_id: str,
+        *,
+        steps: Iterable[FlowStepParam],
+        allow_unmerge: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCustomerFlowReplaceStepsResponse:
+        """Replaces a scripted flow's conversation graph with the tree you send.
+
+        This is a
+        full replace, not a merge: a step you omit is removed.
+
+        Include `nodeId` on a step to update the existing one, omit it to create a new
+        step. Where two branches rejoin, keep the `mergeIntoNodeIds` references a read
+        gave you. Dropping them un-merges those branches and is refused unless
+        `allowUnmerge` is set.
+
+        A change to the set of paths re-seeds the flow's variants, which the response
+        reports as `variantsReshaped` along with the resulting variants.
+
+        Args:
+          steps: The complete set of steps. This replaces the flow's existing steps rather than
+              merging into them.
+
+          allow_unmerge: Confirms a write that drops branches which currently rejoin. Only needed when
+              the request omits mergeIntoNodeIds references the flow already had; a faithful
+              round trip never needs it.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._put(
+            path_template("/v1/simulation/customer-flow/{flow_id}/steps", flow_id=flow_id),
+            body=await async_maybe_transform(
+                {
+                    "steps": steps,
+                    "allow_unmerge": allow_unmerge,
+                },
+                simulation_customer_flow_replace_steps_params.SimulationCustomerFlowReplaceStepsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCustomerFlowReplaceStepsResponse,
+        )
+
+
+class SimulationCustomerFlowResourceWithRawResponse:
+    def __init__(self, simulation_customer_flow: SimulationCustomerFlowResource) -> None:
+        self._simulation_customer_flow = simulation_customer_flow
+
+        self.create = to_raw_response_wrapper(
+            simulation_customer_flow.create,
+        )
+        self.update = to_raw_response_wrapper(
+            simulation_customer_flow.update,
+        )
+        self.list = to_raw_response_wrapper(
+            simulation_customer_flow.list,
+        )
+        self.delete = to_raw_response_wrapper(
+            simulation_customer_flow.delete,
+        )
+        self.get_by_id = to_raw_response_wrapper(
+            simulation_customer_flow.get_by_id,
+        )
+        self.replace_steps = to_raw_response_wrapper(
+            simulation_customer_flow.replace_steps,
+        )
+
+
+class AsyncSimulationCustomerFlowResourceWithRawResponse:
+    def __init__(self, simulation_customer_flow: AsyncSimulationCustomerFlowResource) -> None:
+        self._simulation_customer_flow = simulation_customer_flow
+
+        self.create = async_to_raw_response_wrapper(
+            simulation_customer_flow.create,
+        )
+        self.update = async_to_raw_response_wrapper(
+            simulation_customer_flow.update,
+        )
+        self.list = async_to_raw_response_wrapper(
+            simulation_customer_flow.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            simulation_customer_flow.delete,
+        )
+        self.get_by_id = async_to_raw_response_wrapper(
+            simulation_customer_flow.get_by_id,
+        )
+        self.replace_steps = async_to_raw_response_wrapper(
+            simulation_customer_flow.replace_steps,
+        )
+
+
+class SimulationCustomerFlowResourceWithStreamingResponse:
+    def __init__(self, simulation_customer_flow: SimulationCustomerFlowResource) -> None:
+        self._simulation_customer_flow = simulation_customer_flow
+
+        self.create = to_streamed_response_wrapper(
+            simulation_customer_flow.create,
+        )
+        self.update = to_streamed_response_wrapper(
+            simulation_customer_flow.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            simulation_customer_flow.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            simulation_customer_flow.delete,
+        )
+        self.get_by_id = to_streamed_response_wrapper(
+            simulation_customer_flow.get_by_id,
+        )
+        self.replace_steps = to_streamed_response_wrapper(
+            simulation_customer_flow.replace_steps,
+        )
+
+
+class AsyncSimulationCustomerFlowResourceWithStreamingResponse:
+    def __init__(self, simulation_customer_flow: AsyncSimulationCustomerFlowResource) -> None:
+        self._simulation_customer_flow = simulation_customer_flow
+
+        self.create = async_to_streamed_response_wrapper(
+            simulation_customer_flow.create,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            simulation_customer_flow.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            simulation_customer_flow.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            simulation_customer_flow.delete,
+        )
+        self.get_by_id = async_to_streamed_response_wrapper(
+            simulation_customer_flow.get_by_id,
+        )
+        self.replace_steps = async_to_streamed_response_wrapper(
+            simulation_customer_flow.replace_steps,
+        )
