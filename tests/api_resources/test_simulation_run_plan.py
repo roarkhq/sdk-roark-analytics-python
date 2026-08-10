@@ -31,8 +31,6 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
@@ -50,6 +48,33 @@ class TestSimulationRunPlan:
                 }
             ],
             name="My Run Plan",
+            auto_run=False,
+            description="A run plan for testing inbound calls",
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
+            execution_mode="PARALLEL",
+            flows=[
+                {
+                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variants": [
+                        {
+                            "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "premium"},
+                        },
+                        {
+                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "basic"},
+                        },
+                    ],
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                    "variant_selection_mode": "ALL_VARIANTS",
+                }
+            ],
+            iteration_count=1,
+            max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -60,13 +85,6 @@ class TestSimulationRunPlan:
                     },
                 }
             ],
-            auto_run=False,
-            description="A run plan for testing inbound calls",
-            end_call_phrases=["goodbye"],
-            end_call_reasons=["Order has been confirmed by the agent"],
-            execution_mode="PARALLEL",
-            iteration_count=1,
-            max_concurrent_jobs=5,
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -79,8 +97,6 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
         assert response.is_closed is True
@@ -96,8 +112,6 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -124,6 +138,26 @@ class TestSimulationRunPlan:
             end_call_phrases=["string"],
             end_call_reasons=["string"],
             execution_mode="PARALLEL",
+            flows=[
+                {
+                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variants": [
+                        {
+                            "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "premium"},
+                        },
+                        {
+                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "basic"},
+                        },
+                    ],
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                    "variant_selection_mode": "ALL_VARIANTS",
+                }
+            ],
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
@@ -302,8 +336,6 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
@@ -321,6 +353,33 @@ class TestAsyncSimulationRunPlan:
                 }
             ],
             name="My Run Plan",
+            auto_run=False,
+            description="A run plan for testing inbound calls",
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
+            execution_mode="PARALLEL",
+            flows=[
+                {
+                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variants": [
+                        {
+                            "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "premium"},
+                        },
+                        {
+                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "basic"},
+                        },
+                    ],
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                    "variant_selection_mode": "ALL_VARIANTS",
+                }
+            ],
+            iteration_count=1,
+            max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -331,13 +390,6 @@ class TestAsyncSimulationRunPlan:
                     },
                 }
             ],
-            auto_run=False,
-            description="A run plan for testing inbound calls",
-            end_call_phrases=["goodbye"],
-            end_call_reasons=["Order has been confirmed by the agent"],
-            execution_mode="PARALLEL",
-            iteration_count=1,
-            max_concurrent_jobs=5,
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -350,8 +402,6 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
         assert response.is_closed is True
@@ -367,8 +417,6 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=300,
             metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -395,6 +443,26 @@ class TestAsyncSimulationRunPlan:
             end_call_phrases=["string"],
             end_call_reasons=["string"],
             execution_mode="PARALLEL",
+            flows=[
+                {
+                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variants": [
+                        {
+                            "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "premium"},
+                        },
+                        {
+                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
+                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "variables": {"tier": "basic"},
+                        },
+                    ],
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                    "variant_selection_mode": "ALL_VARIANTS",
+                }
+            ],
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,

@@ -13,6 +13,8 @@ __all__ = [
     "DataRunPlan",
     "DataRunPlanAgentEndpoint",
     "DataRunPlanEvaluator",
+    "DataRunPlanFlow",
+    "DataRunPlanFlowVariant",
     "DataRunPlanMetric",
     "DataRunPlanPersona",
     "DataRunPlanScenario",
@@ -26,6 +28,51 @@ class DataRunPlanAgentEndpoint(BaseModel):
 
 class DataRunPlanEvaluator(BaseModel):
     id: str
+
+
+class DataRunPlanFlowVariant(BaseModel):
+    id: str
+
+    persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
+
+    variables: Optional[Dict[str, str]] = None
+
+
+class DataRunPlanFlow(BaseModel):
+    """One customer flow attached to a run plan.
+
+    To run specific variants, list them in `variants`. Each entry may carry its own
+    `personaOverrideId` and `variables`, so pinning two variants of one flow at different
+    values is a single attachment.
+
+    To let the run resolve the variants instead, leave `variants` out and set
+    `variantSelectionMode`:
+      ALL_VARIANTS: every variant the flow has when the run starts
+      DEFAULT_VARIANT: only its default, so it follows the flow as the default moves
+
+    There is no default mode. Each variant is a separate simulated call, so a forgotten
+    field would quietly change how many calls a run places.
+
+    `personaOverrideId` runs a variant as that persona instead of its own. Set it on the
+    attachment to apply to every variant it resolves, or on a `variants` entry for one.
+    The entry wins. Attaching the same flow more than once with different overrides is how
+    you fan it out across personas.
+
+    `variables` pins {{variable}} values the same way. Anything left unset is asked for
+    when the run starts.
+    """
+
+    customer_flow_id: str = FieldInfo(alias="customerFlowId")
+
+    variants: List[DataRunPlanFlowVariant]
+
+    persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
+
+    variables: Optional[Dict[str, str]] = None
+
+    variant_selection_mode: Optional[Literal["ALL_VARIANTS", "DEFAULT_VARIANT", "SPECIFIC_VARIANT"]] = FieldInfo(
+        alias="variantSelectionMode", default=None
+    )
 
 
 class DataRunPlanMetric(BaseModel):
@@ -80,6 +127,9 @@ class DataRunPlan(BaseModel):
     )
     """Execution mode (PARALLEL or SEQUENTIAL)"""
 
+    flows: List[DataRunPlanFlow]
+    """Customer flows included in this run plan"""
+
     iteration_count: int = FieldInfo(alias="iterationCount")
     """Number of iterations to run for each test case"""
 
@@ -96,10 +146,10 @@ class DataRunPlan(BaseModel):
     """Name of the run plan"""
 
     personas: List[DataRunPlanPersona]
-    """Personas included in this run plan"""
+    """Personas included in this run plan. Only meaningful alongside `scenarios`."""
 
     scenarios: List[DataRunPlanScenario]
-    """Scenarios included in this run plan"""
+    """Deprecated: use `flows` instead. Scenarios included in this run plan."""
 
     silence_timeout_seconds: int = FieldInfo(alias="silenceTimeoutSeconds")
     """Timeout in seconds for silence detection"""

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import Iterable
 
 import httpx
@@ -51,6 +52,7 @@ class SimulationScenarioResource(SyncAPIResource):
         """
         return SimulationScenarioResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     def create(
         self,
         *,
@@ -63,8 +65,11 @@ class SimulationScenarioResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioCreateResponse:
-        """
-        Creates a new simulation scenario for the authenticated project.
+        """Creates a new simulation scenario for the authenticated project.
+
+        Deprecated:
+        customer flows replace scenarios. Use the /v1/customer-flow endpoints instead.
+        This endpoint keeps working and is not scheduled for removal.
 
         Args:
           name: Name of the scenario (used as the START node content)
@@ -94,6 +99,7 @@ class SimulationScenarioResource(SyncAPIResource):
             cast_to=SimulationScenarioCreateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def update(
         self,
         scenario_id: str,
@@ -107,8 +113,11 @@ class SimulationScenarioResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioUpdateResponse:
-        """
-        Updates an existing simulation scenario by its ID.
+        """Updates an existing simulation scenario by its ID.
+
+        Deprecated: customer flows
+        replace scenarios. Use the /v1/customer-flow endpoints instead. This endpoint
+        keeps working and is not scheduled for removal.
 
         Args:
           step_changes: List of step changes to apply to the scenario
@@ -140,6 +149,7 @@ class SimulationScenarioResource(SyncAPIResource):
             cast_to=SimulationScenarioUpdateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def list(
         self,
         *,
@@ -154,6 +164,8 @@ class SimulationScenarioResource(SyncAPIResource):
     ) -> SimulationScenarioListResponse:
         """
         Returns a paginated list of simulation scenarios for the authenticated project.
+        Deprecated: customer flows replace scenarios. Use the /v1/customer-flow
+        endpoints instead. This endpoint keeps working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -182,6 +194,7 @@ class SimulationScenarioResource(SyncAPIResource):
             cast_to=SimulationScenarioListResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def delete(
         self,
         scenario_id: str,
@@ -193,8 +206,11 @@ class SimulationScenarioResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioDeleteResponse:
-        """
-        Deletes a simulation scenario by its ID.
+        """Deletes a simulation scenario by its ID.
+
+        Deprecated: customer flows replace
+        scenarios. Use the /v1/customer-flow endpoints instead. This endpoint keeps
+        working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -215,6 +231,7 @@ class SimulationScenarioResource(SyncAPIResource):
             cast_to=SimulationScenarioDeleteResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def get_by_id(
         self,
         scenario_id: str,
@@ -226,8 +243,11 @@ class SimulationScenarioResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioGetByIDResponse:
-        """
-        Returns a specific simulation scenario by its ID.
+        """Returns a specific simulation scenario by its ID.
+
+        Deprecated: customer flows
+        replace scenarios. Use the /v1/customer-flow endpoints instead. This endpoint
+        keeps working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -269,6 +289,7 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
         """
         return AsyncSimulationScenarioResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     async def create(
         self,
         *,
@@ -281,8 +302,11 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioCreateResponse:
-        """
-        Creates a new simulation scenario for the authenticated project.
+        """Creates a new simulation scenario for the authenticated project.
+
+        Deprecated:
+        customer flows replace scenarios. Use the /v1/customer-flow endpoints instead.
+        This endpoint keeps working and is not scheduled for removal.
 
         Args:
           name: Name of the scenario (used as the START node content)
@@ -312,6 +336,7 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
             cast_to=SimulationScenarioCreateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def update(
         self,
         scenario_id: str,
@@ -325,8 +350,11 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioUpdateResponse:
-        """
-        Updates an existing simulation scenario by its ID.
+        """Updates an existing simulation scenario by its ID.
+
+        Deprecated: customer flows
+        replace scenarios. Use the /v1/customer-flow endpoints instead. This endpoint
+        keeps working and is not scheduled for removal.
 
         Args:
           step_changes: List of step changes to apply to the scenario
@@ -358,6 +386,7 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
             cast_to=SimulationScenarioUpdateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def list(
         self,
         *,
@@ -372,6 +401,8 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
     ) -> SimulationScenarioListResponse:
         """
         Returns a paginated list of simulation scenarios for the authenticated project.
+        Deprecated: customer flows replace scenarios. Use the /v1/customer-flow
+        endpoints instead. This endpoint keeps working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -400,6 +431,7 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
             cast_to=SimulationScenarioListResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def delete(
         self,
         scenario_id: str,
@@ -411,8 +443,11 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioDeleteResponse:
-        """
-        Deletes a simulation scenario by its ID.
+        """Deletes a simulation scenario by its ID.
+
+        Deprecated: customer flows replace
+        scenarios. Use the /v1/customer-flow endpoints instead. This endpoint keeps
+        working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -433,6 +468,7 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
             cast_to=SimulationScenarioDeleteResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def get_by_id(
         self,
         scenario_id: str,
@@ -444,8 +480,11 @@ class AsyncSimulationScenarioResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationScenarioGetByIDResponse:
-        """
-        Returns a specific simulation scenario by its ID.
+        """Returns a specific simulation scenario by its ID.
+
+        Deprecated: customer flows
+        replace scenarios. Use the /v1/customer-flow endpoints instead. This endpoint
+        keeps working and is not scheduled for removal.
 
         Args:
           extra_headers: Send extra headers
@@ -471,20 +510,30 @@ class SimulationScenarioResourceWithRawResponse:
     def __init__(self, simulation_scenario: SimulationScenarioResource) -> None:
         self._simulation_scenario = simulation_scenario
 
-        self.create = to_raw_response_wrapper(
-            simulation_scenario.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_scenario.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.update = to_raw_response_wrapper(
-            simulation_scenario.update,
+        self.update = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_scenario.update,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = to_raw_response_wrapper(
-            simulation_scenario.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_scenario.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = to_raw_response_wrapper(
-            simulation_scenario.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_scenario.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_by_id = to_raw_response_wrapper(
-            simulation_scenario.get_by_id,
+        self.get_by_id = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                simulation_scenario.get_by_id,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -492,20 +541,30 @@ class AsyncSimulationScenarioResourceWithRawResponse:
     def __init__(self, simulation_scenario: AsyncSimulationScenarioResource) -> None:
         self._simulation_scenario = simulation_scenario
 
-        self.create = async_to_raw_response_wrapper(
-            simulation_scenario.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_scenario.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.update = async_to_raw_response_wrapper(
-            simulation_scenario.update,
+        self.update = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_scenario.update,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = async_to_raw_response_wrapper(
-            simulation_scenario.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_scenario.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = async_to_raw_response_wrapper(
-            simulation_scenario.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_scenario.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_by_id = async_to_raw_response_wrapper(
-            simulation_scenario.get_by_id,
+        self.get_by_id = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                simulation_scenario.get_by_id,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -513,20 +572,30 @@ class SimulationScenarioResourceWithStreamingResponse:
     def __init__(self, simulation_scenario: SimulationScenarioResource) -> None:
         self._simulation_scenario = simulation_scenario
 
-        self.create = to_streamed_response_wrapper(
-            simulation_scenario.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_scenario.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.update = to_streamed_response_wrapper(
-            simulation_scenario.update,
+        self.update = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_scenario.update,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = to_streamed_response_wrapper(
-            simulation_scenario.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_scenario.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = to_streamed_response_wrapper(
-            simulation_scenario.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_scenario.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_by_id = to_streamed_response_wrapper(
-            simulation_scenario.get_by_id,
+        self.get_by_id = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                simulation_scenario.get_by_id,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -534,18 +603,28 @@ class AsyncSimulationScenarioResourceWithStreamingResponse:
     def __init__(self, simulation_scenario: AsyncSimulationScenarioResource) -> None:
         self._simulation_scenario = simulation_scenario
 
-        self.create = async_to_streamed_response_wrapper(
-            simulation_scenario.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_scenario.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.update = async_to_streamed_response_wrapper(
-            simulation_scenario.update,
+        self.update = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_scenario.update,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = async_to_streamed_response_wrapper(
-            simulation_scenario.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_scenario.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = async_to_streamed_response_wrapper(
-            simulation_scenario.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_scenario.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_by_id = async_to_streamed_response_wrapper(
-            simulation_scenario.get_by_id,
+        self.get_by_id = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                simulation_scenario.get_by_id,  # pyright: ignore[reportDeprecated],
+            )
         )

@@ -100,6 +100,18 @@ class TestSimulationRunPlanJob:
     def test_method_start_with_all_params(self, client: Roark) -> None:
         simulation_run_plan_job = client.simulation_run_plan_job.start(
             plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            flow_variables=[
+                {
+                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variables": {"orderNumber": "12345"},
+                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+                {
+                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variables": {"orderNumber": "67890"},
+                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
+                },
+            ],
             variables={
                 "orderNumber": "12345",
                 "environment": "staging",
@@ -216,6 +228,18 @@ class TestAsyncSimulationRunPlanJob:
     async def test_method_start_with_all_params(self, async_client: AsyncRoark) -> None:
         simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
             plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+            flow_variables=[
+                {
+                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variables": {"orderNumber": "12345"},
+                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
+                {
+                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "variables": {"orderNumber": "67890"},
+                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
+                },
+            ],
             variables={
                 "orderNumber": "12345",
                 "environment": "staging",

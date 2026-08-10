@@ -162,6 +162,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         self,
         plan_id: object,
         *,
+        flow_variables: Iterable[simulation_run_plan_job_start_params.FlowVariable] | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -177,15 +178,26 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
+          flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
+              precedence over the values pinned on the flow attachment.
+
+              An entry without `variantId` applies to every variant the attachment resolves. A
+              flow that is not attached to this plan, or a variant that does not belong to the
+              flow, is rejected rather than ignored.
+
+          variables: Runtime variables that override the values defined on the plan. Accepts one of
               two formats:
 
-              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
-              "orderNumber": "12345", "environment": "staging" }
+              Option 1, global (a flat key-value object): { "orderNumber": "12345",
+              "environment": "staging" }
 
-              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
+              Option 2, per-scenario (an array of objects with scenarioId + variables): [ {
               "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
               "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+
+              On a flow-based plan the global format applies to every variant the run
+              resolves. The per-scenario format targets scenarios, so use `flowVariables` to
+              override a specific flow or variant instead.
 
           extra_headers: Send extra headers
 
@@ -198,7 +210,11 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         return self._post(
             path_template("/v1/simulation/plan/{plan_id}/job", plan_id=plan_id),
             body=maybe_transform(
-                {"variables": variables}, simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams
+                {
+                    "flow_variables": flow_variables,
+                    "variables": variables,
+                },
+                simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -343,6 +359,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         self,
         plan_id: object,
         *,
+        flow_variables: Iterable[simulation_run_plan_job_start_params.FlowVariable] | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -358,15 +375,26 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
+          flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
+              precedence over the values pinned on the flow attachment.
+
+              An entry without `variantId` applies to every variant the attachment resolves. A
+              flow that is not attached to this plan, or a variant that does not belong to the
+              flow, is rejected rather than ignored.
+
+          variables: Runtime variables that override the values defined on the plan. Accepts one of
               two formats:
 
-              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
-              "orderNumber": "12345", "environment": "staging" }
+              Option 1, global (a flat key-value object): { "orderNumber": "12345",
+              "environment": "staging" }
 
-              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
+              Option 2, per-scenario (an array of objects with scenarioId + variables): [ {
               "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
               "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+
+              On a flow-based plan the global format applies to every variant the run
+              resolves. The per-scenario format targets scenarios, so use `flowVariables` to
+              override a specific flow or variant instead.
 
           extra_headers: Send extra headers
 
@@ -379,7 +407,11 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         return await self._post(
             path_template("/v1/simulation/plan/{plan_id}/job", plan_id=plan_id),
             body=await async_maybe_transform(
-                {"variables": variables}, simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams
+                {
+                    "flow_variables": flow_variables,
+                    "variables": variables,
+                },
+                simulation_run_plan_job_start_params.SimulationRunPlanJobStartParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
