@@ -128,22 +128,6 @@ from .simulation_run_plan_job import (
     SimulationRunPlanJobResourceWithStreamingResponse,
     AsyncSimulationRunPlanJobResourceWithStreamingResponse,
 )
-from .simulation_customer_flow import (
-    SimulationCustomerFlowResource,
-    AsyncSimulationCustomerFlowResource,
-    SimulationCustomerFlowResourceWithRawResponse,
-    AsyncSimulationCustomerFlowResourceWithRawResponse,
-    SimulationCustomerFlowResourceWithStreamingResponse,
-    AsyncSimulationCustomerFlowResourceWithStreamingResponse,
-)
-from .simulation_customer_flow_variant import (
-    SimulationCustomerFlowVariantResource,
-    AsyncSimulationCustomerFlowVariantResource,
-    SimulationCustomerFlowVariantResourceWithRawResponse,
-    AsyncSimulationCustomerFlowVariantResourceWithRawResponse,
-    SimulationCustomerFlowVariantResourceWithStreamingResponse,
-    AsyncSimulationCustomerFlowVariantResourceWithStreamingResponse,
-)
 
 __all__ = [
     "HealthResource",
@@ -218,18 +202,6 @@ __all__ = [
     "AsyncSimulationEnvironmentResourceWithRawResponse",
     "SimulationEnvironmentResourceWithStreamingResponse",
     "AsyncSimulationEnvironmentResourceWithStreamingResponse",
-    "SimulationCustomerFlowResource",
-    "AsyncSimulationCustomerFlowResource",
-    "SimulationCustomerFlowResourceWithRawResponse",
-    "AsyncSimulationCustomerFlowResourceWithRawResponse",
-    "SimulationCustomerFlowResourceWithStreamingResponse",
-    "AsyncSimulationCustomerFlowResourceWithStreamingResponse",
-    "SimulationCustomerFlowVariantResource",
-    "AsyncSimulationCustomerFlowVariantResource",
-    "SimulationCustomerFlowVariantResourceWithRawResponse",
-    "AsyncSimulationCustomerFlowVariantResourceWithRawResponse",
-    "SimulationCustomerFlowVariantResourceWithStreamingResponse",
-    "AsyncSimulationCustomerFlowVariantResourceWithStreamingResponse",
     "AgentResource",
     "AsyncAgentResource",
     "AgentResourceWithRawResponse",
