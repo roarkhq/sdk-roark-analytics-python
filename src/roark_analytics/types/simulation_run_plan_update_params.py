@@ -45,7 +45,7 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     is_hidden: Annotated[bool, PropertyInfo(alias="isHidden")]
     """Whether this plan is hidden from GET /v1/simulation/plan.
 
-    A run started without `saveAsPlanName` creates a hidden plan to carry it. Send
+    A run started without `savePlanAs` creates a hidden plan to carry it. Send
     `{ "name": "...", "isHidden": false }` to keep that configuration as a reusable
     plan, which is what the app does when you save a one-off run.
     """

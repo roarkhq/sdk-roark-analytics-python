@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
+from typing_extensions import overload
 
 import httpx
 
 from ..types import simulation_run_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -43,14 +44,18 @@ class SimulationResource(SyncAPIResource):
         """
         return SimulationResourceWithStreamingResponse(self)
 
+    @overload
     def run(
         self,
         *,
-        flow_variables: Iterable[simulation_run_params.FlowVariable] | Omit = omit,
-        plan: simulation_run_params.Plan | Omit = omit,
-        plan_id: str | Omit = omit,
-        save_as_plan_name: str | Omit = omit,
-        variables: Union[Dict[str, str], Iterable[simulation_run_params.VariablesUnionMember1]] | Omit = omit,
+        plan: simulation_run_params.RunSimulationFromConfigPlan,
+        save_plan_as: str | Omit = omit,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember2],
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -59,49 +64,43 @@ class SimulationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunResponse:
         """
-        Runs a simulation and returns the run that was started.
+        Starts a simulation and returns the run.
 
-        Describe the simulation in `plan`, or name an existing one with `planId`. Every
-        run is backed by a run plan, but you only get one you can see and re-use if you
-        ask for it with `saveAsPlanName`; otherwise the plan is created hidden and
-        simply carries the run.
-
-        This replaces creating a plan and then starting a job against it. The response
-        carries `simulationJobCount`, the number of calls the run places, each of which
-        is billed.
+        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        that configuration as a reusable run plan. Send `planId` instead to run a plan
+        you already have.
 
         Args:
-          flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
-              precedence over the values pinned on the flow attachment.
+          plan: The simulation to run: what to call, who calls it, and what to measure.
 
-              An entry without `variantId` applies to every variant the attachment resolves. A
-              flow that is not attached to this plan, or a variant that does not belong to the
-              flow, is rejected rather than ignored.
+          save_plan_as: Keeps this configuration as a run plan under this name, listed by GET
+              /v1/simulation/plan and re-runnable with `planId`.
 
-          plan: The simulation to run. A run plan is created for it behind the scenes.
+              Omit it for a one-off. The run still needs a plan to execute, so one is created
+              either way, but an unnamed one is hidden: it carries this run and nothing else.
 
-          plan_id: Run a plan that already exists instead of describing one. Mutually exclusive
-              with `plan`.
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned.
 
-          save_as_plan_name: Keep this run as a reusable plan under this name.
+              An object applies them to the whole run:
 
-              Left unset, the run still needs a plan to execute, but it is created hidden: it
-              does not appear in GET /v1/simulation/plan and exists only to carry the run.
-              Applies only alongside `plan`, since `planId` names a plan that already exists.
+              { "orderNumber": "12345", "tier": "gold" }
 
-          variables: Runtime variables that override the values defined on the plan. Accepts one of
-              two formats:
+              An array applies them per flow, or per variant of one, when a single set will
+              not do. Each entry carries what it applies to:
 
-              Option 1, global (a flat key-value object): { "orderNumber": "12345",
-              "environment": "staging" }
+              [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
+              "orderNumber": "67890" } } ]
 
-              Option 2, per-scenario (an array of objects with scenarioId + variables): [ {
-              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+              An entry without `variantId` covers every variant that flow resolves. A flow
+              this plan does not attach, or a variant that does not belong to the flow, is
+              rejected rather than ignored.
 
-              On a flow-based plan the global format applies to every variant the run
-              resolves. The per-scenario format targets scenarios, so use `flowVariables` to
-              override a specific flow or variant instead.
+              A plan built on scenarios rather than customer flows targets them the same way,
+              with `scenarioId` in place of `flowId`. That form is deprecated alongside
+              scenarios themselves, and still accepted so runs against those plans keep
+              working.
 
           extra_headers: Send extra headers
 
@@ -111,15 +110,103 @@ class SimulationResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def run(
+        self,
+        *,
+        plan_id: str,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember2],
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
+        """
+        Starts a simulation and returns the run.
+
+        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        that configuration as a reusable run plan. Send `planId` instead to run a plan
+        you already have.
+
+        Args:
+          plan_id: The run plan to run, saved or hidden. Rename or unhide it with PUT
+              /v1/simulation/plan/{planId}.
+
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned.
+
+              An object applies them to the whole run:
+
+              { "orderNumber": "12345", "tier": "gold" }
+
+              An array applies them per flow, or per variant of one, when a single set will
+              not do. Each entry carries what it applies to:
+
+              [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
+              "orderNumber": "67890" } } ]
+
+              An entry without `variantId` covers every variant that flow resolves. A flow
+              this plan does not attach, or a variant that does not belong to the flow, is
+              rejected rather than ignored.
+
+              A plan built on scenarios rather than customer flows targets them the same way,
+              with `scenarioId` in place of `flowId`. That form is deprecated alongside
+              scenarios themselves, and still accepted so runs against those plans keep
+              working.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["plan"], ["plan_id"])
+    def run(
+        self,
+        *,
+        plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
+        save_plan_as: str | Omit = omit,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember2],
+        ]
+        | Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember2],
+        ]
+        | Omit = omit,
+        plan_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
         return self._post(
             "/v1/simulation/run",
             body=maybe_transform(
                 {
-                    "flow_variables": flow_variables,
                     "plan": plan,
-                    "plan_id": plan_id,
-                    "save_as_plan_name": save_as_plan_name,
+                    "save_plan_as": save_plan_as,
                     "variables": variables,
+                    "plan_id": plan_id,
                 },
                 simulation_run_params.SimulationRunParams,
             ),
@@ -150,14 +237,18 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         return AsyncSimulationResourceWithStreamingResponse(self)
 
+    @overload
     async def run(
         self,
         *,
-        flow_variables: Iterable[simulation_run_params.FlowVariable] | Omit = omit,
-        plan: simulation_run_params.Plan | Omit = omit,
-        plan_id: str | Omit = omit,
-        save_as_plan_name: str | Omit = omit,
-        variables: Union[Dict[str, str], Iterable[simulation_run_params.VariablesUnionMember1]] | Omit = omit,
+        plan: simulation_run_params.RunSimulationFromConfigPlan,
+        save_plan_as: str | Omit = omit,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember2],
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -166,49 +257,43 @@ class AsyncSimulationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunResponse:
         """
-        Runs a simulation and returns the run that was started.
+        Starts a simulation and returns the run.
 
-        Describe the simulation in `plan`, or name an existing one with `planId`. Every
-        run is backed by a run plan, but you only get one you can see and re-use if you
-        ask for it with `saveAsPlanName`; otherwise the plan is created hidden and
-        simply carries the run.
-
-        This replaces creating a plan and then starting a job against it. The response
-        carries `simulationJobCount`, the number of calls the run places, each of which
-        is billed.
+        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        that configuration as a reusable run plan. Send `planId` instead to run a plan
+        you already have.
 
         Args:
-          flow_variables: Runtime variable overrides targeted at the plan’s customer flows, taking
-              precedence over the values pinned on the flow attachment.
+          plan: The simulation to run: what to call, who calls it, and what to measure.
 
-              An entry without `variantId` applies to every variant the attachment resolves. A
-              flow that is not attached to this plan, or a variant that does not belong to the
-              flow, is rejected rather than ignored.
+          save_plan_as: Keeps this configuration as a run plan under this name, listed by GET
+              /v1/simulation/plan and re-runnable with `planId`.
 
-          plan: The simulation to run. A run plan is created for it behind the scenes.
+              Omit it for a one-off. The run still needs a plan to execute, so one is created
+              either way, but an unnamed one is hidden: it carries this run and nothing else.
 
-          plan_id: Run a plan that already exists instead of describing one. Mutually exclusive
-              with `plan`.
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned.
 
-          save_as_plan_name: Keep this run as a reusable plan under this name.
+              An object applies them to the whole run:
 
-              Left unset, the run still needs a plan to execute, but it is created hidden: it
-              does not appear in GET /v1/simulation/plan and exists only to carry the run.
-              Applies only alongside `plan`, since `planId` names a plan that already exists.
+              { "orderNumber": "12345", "tier": "gold" }
 
-          variables: Runtime variables that override the values defined on the plan. Accepts one of
-              two formats:
+              An array applies them per flow, or per variant of one, when a single set will
+              not do. Each entry carries what it applies to:
 
-              Option 1, global (a flat key-value object): { "orderNumber": "12345",
-              "environment": "staging" }
+              [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
+              "orderNumber": "67890" } } ]
 
-              Option 2, per-scenario (an array of objects with scenarioId + variables): [ {
-              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+              An entry without `variantId` covers every variant that flow resolves. A flow
+              this plan does not attach, or a variant that does not belong to the flow, is
+              rejected rather than ignored.
 
-              On a flow-based plan the global format applies to every variant the run
-              resolves. The per-scenario format targets scenarios, so use `flowVariables` to
-              override a specific flow or variant instead.
+              A plan built on scenarios rather than customer flows targets them the same way,
+              with `scenarioId` in place of `flowId`. That form is deprecated alongside
+              scenarios themselves, and still accepted so runs against those plans keep
+              working.
 
           extra_headers: Send extra headers
 
@@ -218,15 +303,103 @@ class AsyncSimulationResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def run(
+        self,
+        *,
+        plan_id: str,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember2],
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
+        """
+        Starts a simulation and returns the run.
+
+        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        that configuration as a reusable run plan. Send `planId` instead to run a plan
+        you already have.
+
+        Args:
+          plan_id: The run plan to run, saved or hidden. Rename or unhide it with PUT
+              /v1/simulation/plan/{planId}.
+
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned.
+
+              An object applies them to the whole run:
+
+              { "orderNumber": "12345", "tier": "gold" }
+
+              An array applies them per flow, or per variant of one, when a single set will
+              not do. Each entry carries what it applies to:
+
+              [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
+              "orderNumber": "67890" } } ]
+
+              An entry without `variantId` covers every variant that flow resolves. A flow
+              this plan does not attach, or a variant that does not belong to the flow, is
+              rejected rather than ignored.
+
+              A plan built on scenarios rather than customer flows targets them the same way,
+              with `scenarioId` in place of `flowId`. That form is deprecated alongside
+              scenarios themselves, and still accepted so runs against those plans keep
+              working.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["plan"], ["plan_id"])
+    async def run(
+        self,
+        *,
+        plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
+        save_plan_as: str | Omit = omit,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember2],
+        ]
+        | Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromPlanIDVariablesUnionMember2],
+        ]
+        | Omit = omit,
+        plan_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
         return await self._post(
             "/v1/simulation/run",
             body=await async_maybe_transform(
                 {
-                    "flow_variables": flow_variables,
                     "plan": plan,
-                    "plan_id": plan_id,
-                    "save_as_plan_name": save_as_plan_name,
+                    "save_plan_as": save_plan_as,
                     "variables": variables,
+                    "plan_id": plan_id,
                 },
                 simulation_run_params.SimulationRunParams,
             ),

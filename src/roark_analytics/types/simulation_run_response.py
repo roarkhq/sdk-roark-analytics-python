@@ -22,7 +22,7 @@ class Data(BaseModel):
     """
 
     simulation_job_count: int = FieldInfo(alias="simulationJobCount")
-    """How many simulated calls this run places. Each is billed."""
+    """How many simulated calls this run places."""
 
     simulation_run_plan_id: str = FieldInfo(alias="simulationRunPlanId")
     """The run plan behind this run, present whether or not it was saved.

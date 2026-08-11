@@ -18,25 +18,20 @@ class TestSimulation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_run(self, client: Roark) -> None:
-        simulation = client.simulation.run()
+    def test_method_run_overload_1(self, client: Roark) -> None:
+        simulation = client.simulation.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    def test_method_run_with_all_params(self, client: Roark) -> None:
+    def test_method_run_with_all_params_overload_1(self, client: Roark) -> None:
         simulation = client.simulation.run(
-            flow_variables=[
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "12345"},
-                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "67890"},
-                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
-                },
-            ],
             plan={
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
@@ -86,8 +81,7 @@ class TestSimulation:
                 ],
                 "silence_timeout_seconds": 30,
             },
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            save_as_plan_name="Billing regression",
+            save_plan_as="Billing regression",
             variables={
                 "orderNumber": "12345",
                 "environment": "staging",
@@ -96,8 +90,15 @@ class TestSimulation:
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    def test_raw_response_run(self, client: Roark) -> None:
-        response = client.simulation.with_raw_response.run()
+    def test_raw_response_run_overload_1(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -105,8 +106,57 @@ class TestSimulation:
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    def test_streaming_response_run(self, client: Roark) -> None:
-        with client.simulation.with_streaming_response.run() as response:
+    def test_streaming_response_run_overload_1(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = response.parse()
+            assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_run_overload_2(self, client: Roark) -> None:
+        simulation = client.simulation.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_method_run_with_all_params_overload_2(self, client: Roark) -> None:
+        simulation = client.simulation.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            variables={
+                "orderNumber": "12345",
+                "environment": "staging",
+            },
+        )
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_raw_response_run_overload_2(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = response.parse()
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_run_overload_2(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -122,25 +172,20 @@ class TestAsyncSimulation:
     )
 
     @parametrize
-    async def test_method_run(self, async_client: AsyncRoark) -> None:
-        simulation = await async_client.simulation.run()
+    async def test_method_run_overload_1(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_method_run_with_all_params(self, async_client: AsyncRoark) -> None:
+    async def test_method_run_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.run(
-            flow_variables=[
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "12345"},
-                    "variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variables": {"orderNumber": "67890"},
-                    "variant_id": "7a3d2e1f-c4b5-6a89-0d1e-2f3a4b5c6d7e",
-                },
-            ],
             plan={
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
@@ -190,8 +235,7 @@ class TestAsyncSimulation:
                 ],
                 "silence_timeout_seconds": 30,
             },
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            save_as_plan_name="Billing regression",
+            save_plan_as="Billing regression",
             variables={
                 "orderNumber": "12345",
                 "environment": "staging",
@@ -200,8 +244,15 @@ class TestAsyncSimulation:
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_raw_response_run(self, async_client: AsyncRoark) -> None:
-        response = await async_client.simulation.with_raw_response.run()
+    async def test_raw_response_run_overload_1(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -209,8 +260,57 @@ class TestAsyncSimulation:
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
-    async def test_streaming_response_run(self, async_client: AsyncRoark) -> None:
-        async with async_client.simulation.with_streaming_response.run() as response:
+    async def test_streaming_response_run_overload_1(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.run(
+            plan={
+                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+                "direction": "INBOUND",
+                "max_simulation_duration_seconds": 300,
+                "metrics": [{}],
+            },
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = await response.parse()
+            assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_run_overload_2(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_method_run_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            variables={
+                "orderNumber": "12345",
+                "environment": "staging",
+            },
+        )
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_run_overload_2(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = await response.parse()
+        assert_matches_type(SimulationRunResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_run_overload_2(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.run(
+            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
