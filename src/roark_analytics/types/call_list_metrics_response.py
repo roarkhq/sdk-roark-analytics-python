@@ -13,6 +13,8 @@ __all__ = [
     "Data",
     "DataValue",
     "DataValueFromSegment",
+    "DataValuePropertyVerdict",
+    "DataValuePropertyVerdictSegment",
     "DataValueSegment",
     "DataValueToSegment",
     "DataUnit",
@@ -33,6 +35,51 @@ class DataValueFromSegment(BaseModel):
 
     text: str
     """Segment text content"""
+
+
+class DataValuePropertyVerdictSegment(BaseModel):
+    """
+    The transcript segment this property was referred to in: the conflicting value for MISMATCH, the confirming reference for MATCH. Omitted for NOT_MENTIONED and when the verdict could not be anchored.
+    """
+
+    id: str
+    """Segment ID"""
+
+    end_offset_ms: float = FieldInfo(alias="endOffsetMs")
+    """End time offset in milliseconds"""
+
+    start_offset_ms: float = FieldInfo(alias="startOffsetMs")
+    """Start time offset in milliseconds"""
+
+    text: str
+    """Segment text content"""
+
+
+class DataValuePropertyVerdict(BaseModel):
+    expected_value: str = FieldInfo(alias="expectedValue")
+    """The value supplied at ingest, frozen at scoring time"""
+
+    property_name: str = FieldInfo(alias="propertyName")
+    """The call property checked, as sent at ingest"""
+
+    verdict: Literal["MATCH", "MISMATCH", "NOT_MENTIONED"]
+    """How this property resolved against the transcript.
+
+    NOT_MENTIONED means the subject never came up and is not a mismatch.
+    """
+
+    observed_value: Optional[str] = FieldInfo(alias="observedValue", default=None)
+    """What the transcript said instead. Only present when verdict is MISMATCH."""
+
+    reasoning: Optional[str] = None
+    """Judge reasoning for this verdict"""
+
+    segment: Optional[DataValuePropertyVerdictSegment] = None
+    """
+    The transcript segment this property was referred to in: the conflicting value
+    for MISMATCH, the confirming reference for MATCH. Omitted for NOT_MENTIONED and
+    when the verdict could not be anchored.
+    """
 
 
 class DataValueSegment(BaseModel):
@@ -119,6 +166,12 @@ class DataValue(BaseModel):
 
     policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
     """IDs of metric policies that triggered this metric computation"""
+
+    property_verdicts: Optional[List[DataValuePropertyVerdict]] = FieldInfo(alias="propertyVerdicts", default=None)
+    """
+    Per-property verdicts for the Property Mismatch metric, in the order the
+    properties were checked. Omitted for every other metric.
+    """
 
     segment: Optional[DataValueSegment] = None
     """Segment information (for SEGMENT context metrics)"""
