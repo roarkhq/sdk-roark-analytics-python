@@ -21,8 +21,8 @@ class TestSimulation:
     def test_method_run_overload_1(self, client: Roark) -> None:
         simulation = client.simulation.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -33,14 +33,14 @@ class TestSimulation:
     def test_method_run_with_all_params_overload_1(self, client: Roark) -> None:
         simulation = client.simulation.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [
                     {
                         "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                         "metric_id": "x",
-                        "slug": "x",
+                        "slug": "customer_satisfaction",
                     }
                 ],
                 "description": "A run plan for testing inbound calls",
@@ -49,26 +49,16 @@ class TestSimulation:
                 "execution_mode": "PARALLEL",
                 "flows": [
                     {
-                        "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                        "variants": [
-                            {
-                                "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
-                                "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                                "variables": {"tier": "premium"},
-                            },
-                            {
-                                "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                                "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                                "variables": {"tier": "basic"},
-                            },
-                        ],
+                        "id": "550e8400-e29b-41d4-a716-446655440000",
+                        "edge_cases": "ALL",
+                        "happy_path": True,
                         "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                         "variables": {"foo": "string"},
-                        "variant_selection_mode": "ALL_VARIANTS",
                     }
                 ],
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
+                "name": "Billing regression",
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "scenarios": [
                     {
@@ -81,11 +71,8 @@ class TestSimulation:
                 ],
                 "silence_timeout_seconds": 30,
             },
-            save_plan_as="Billing regression",
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
+            save_as_plan=True,
+            variables={"orderNumber": "12345"},
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
@@ -93,8 +80,8 @@ class TestSimulation:
     def test_raw_response_run_overload_1(self, client: Roark) -> None:
         response = client.simulation.with_raw_response.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -109,8 +96,8 @@ class TestSimulation:
     def test_streaming_response_run_overload_1(self, client: Roark) -> None:
         with client.simulation.with_streaming_response.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -126,25 +113,22 @@ class TestSimulation:
     @parametrize
     def test_method_run_overload_2(self, client: Roark) -> None:
         simulation = client.simulation.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
     def test_method_run_with_all_params_overload_2(self, client: Roark) -> None:
         simulation = client.simulation.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
+            variables={"orderNumber": "99887"},
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
     def test_raw_response_run_overload_2(self, client: Roark) -> None:
         response = client.simulation.with_raw_response.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         )
 
         assert response.is_closed is True
@@ -155,7 +139,7 @@ class TestSimulation:
     @parametrize
     def test_streaming_response_run_overload_2(self, client: Roark) -> None:
         with client.simulation.with_streaming_response.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -175,8 +159,8 @@ class TestAsyncSimulation:
     async def test_method_run_overload_1(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -187,14 +171,14 @@ class TestAsyncSimulation:
     async def test_method_run_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [
                     {
                         "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                         "metric_id": "x",
-                        "slug": "x",
+                        "slug": "customer_satisfaction",
                     }
                 ],
                 "description": "A run plan for testing inbound calls",
@@ -203,26 +187,16 @@ class TestAsyncSimulation:
                 "execution_mode": "PARALLEL",
                 "flows": [
                     {
-                        "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                        "variants": [
-                            {
-                                "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
-                                "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                                "variables": {"tier": "premium"},
-                            },
-                            {
-                                "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                                "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                                "variables": {"tier": "basic"},
-                            },
-                        ],
+                        "id": "550e8400-e29b-41d4-a716-446655440000",
+                        "edge_cases": "ALL",
+                        "happy_path": True,
                         "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                         "variables": {"foo": "string"},
-                        "variant_selection_mode": "ALL_VARIANTS",
                     }
                 ],
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
+                "name": "Billing regression",
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "scenarios": [
                     {
@@ -235,11 +209,8 @@ class TestAsyncSimulation:
                 ],
                 "silence_timeout_seconds": 30,
             },
-            save_plan_as="Billing regression",
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
+            save_as_plan=True,
+            variables={"orderNumber": "12345"},
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
@@ -247,8 +218,8 @@ class TestAsyncSimulation:
     async def test_raw_response_run_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.simulation.with_raw_response.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -263,8 +234,8 @@ class TestAsyncSimulation:
     async def test_streaming_response_run_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.simulation.with_streaming_response.run(
             plan={
-                "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "direction": "INBOUND",
+                "agent_endpoints": [{"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"}],
+                "direction": "OUTBOUND",
                 "max_simulation_duration_seconds": 300,
                 "metrics": [{}],
             },
@@ -280,25 +251,22 @@ class TestAsyncSimulation:
     @parametrize
     async def test_method_run_overload_2(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
     async def test_method_run_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
         simulation = await async_client.simulation.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            variables={
-                "orderNumber": "12345",
-                "environment": "staging",
-            },
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
+            variables={"orderNumber": "99887"},
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
 
     @parametrize
     async def test_raw_response_run_overload_2(self, async_client: AsyncRoark) -> None:
         response = await async_client.simulation.with_raw_response.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         )
 
         assert response.is_closed is True
@@ -309,7 +277,7 @@ class TestAsyncSimulation:
     @parametrize
     async def test_streaming_response_run_overload_2(self, async_client: AsyncRoark) -> None:
         async with async_client.simulation.with_streaming_response.run(
-            plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            plan_id="3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

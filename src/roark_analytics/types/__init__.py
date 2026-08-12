@@ -2,6 +2,20 @@
 
 from __future__ import annotations
 
+from . import (
+    customer_flow_list_response,
+    customer_flow_create_response,
+    customer_flow_update_response,
+    customer_flow_get_by_id_response,
+    customer_flow_edge_case_add_response,
+    customer_flow_replace_graph_response,
+    customer_flow_edge_case_update_response,
+    customer_flow_edge_case_promote_response,
+    customer_flow_update_happy_path_response,
+)
+from .. import _compat
+from .flow_step import FlowStep as FlowStep
+from .flow_step_param import FlowStepParam as FlowStepParam
 from .call_list_params import CallListParams as CallListParams
 from .agent_list_params import AgentListParams as AgentListParams
 from .call_create_params import CallCreateParams as CallCreateParams
@@ -23,11 +37,15 @@ from .webhook_create_response import WebhookCreateResponse as WebhookCreateRespo
 from .webhook_delete_response import WebhookDeleteResponse as WebhookDeleteResponse
 from .agent_get_by_id_response import AgentGetByIDResponse as AgentGetByIDResponse
 from .call_list_metrics_params import CallListMetricsParams as CallListMetricsParams
+from .customer_flow_list_params import CustomerFlowListParams as CustomerFlowListParams
 from .metric_policy_list_params import MetricPolicyListParams as MetricPolicyListParams
 from .agent_endpoint_list_params import AgentEndpointListParams as AgentEndpointListParams
 from .call_get_transcript_params import CallGetTranscriptParams as CallGetTranscriptParams
 from .call_list_metrics_response import CallListMetricsResponse as CallListMetricsResponse
 from .webhook_get_by_id_response import WebhookGetByIDResponse as WebhookGetByIDResponse
+from .customer_flow_create_params import CustomerFlowCreateParams as CustomerFlowCreateParams
+from .customer_flow_list_response import CustomerFlowListResponse as CustomerFlowListResponse
+from .customer_flow_update_params import CustomerFlowUpdateParams as CustomerFlowUpdateParams
 from .metric_policy_create_params import MetricPolicyCreateParams as MetricPolicyCreateParams
 from .metric_policy_list_response import MetricPolicyListResponse as MetricPolicyListResponse
 from .metric_policy_update_params import MetricPolicyUpdateParams as MetricPolicyUpdateParams
@@ -36,6 +54,9 @@ from .agent_endpoint_list_response import AgentEndpointListResponse as AgentEndp
 from .agent_endpoint_update_params import AgentEndpointUpdateParams as AgentEndpointUpdateParams
 from .call_get_transcript_response import CallGetTranscriptResponse as CallGetTranscriptResponse
 from .simulation_job_lookup_params import SimulationJobLookupParams as SimulationJobLookupParams
+from .customer_flow_create_response import CustomerFlowCreateResponse as CustomerFlowCreateResponse
+from .customer_flow_delete_response import CustomerFlowDeleteResponse as CustomerFlowDeleteResponse
+from .customer_flow_update_response import CustomerFlowUpdateResponse as CustomerFlowUpdateResponse
 from .metric_policy_create_response import MetricPolicyCreateResponse as MetricPolicyCreateResponse
 from .metric_policy_delete_response import MetricPolicyDeleteResponse as MetricPolicyDeleteResponse
 from .metric_policy_update_response import MetricPolicyUpdateResponse as MetricPolicyUpdateResponse
@@ -46,6 +67,7 @@ from .simulation_persona_list_params import SimulationPersonaListParams as Simul
 from .metric_create_definition_params import MetricCreateDefinitionParams as MetricCreateDefinitionParams
 from .simulation_run_plan_list_params import SimulationRunPlanListParams as SimulationRunPlanListParams
 from .simulation_scenario_list_params import SimulationScenarioListParams as SimulationScenarioListParams
+from .customer_flow_get_by_id_response import CustomerFlowGetByIDResponse as CustomerFlowGetByIDResponse
 from .metric_list_definitions_response import MetricListDefinitionsResponse as MetricListDefinitionsResponse
 from .metric_policy_get_by_id_response import MetricPolicyGetByIDResponse as MetricPolicyGetByIDResponse
 from .simulation_persona_create_params import SimulationPersonaCreateParams as SimulationPersonaCreateParams
@@ -63,6 +85,8 @@ from .simulation_scenario_create_params import SimulationScenarioCreateParams as
 from .simulation_scenario_list_response import SimulationScenarioListResponse as SimulationScenarioListResponse
 from .simulation_scenario_update_params import SimulationScenarioUpdateParams as SimulationScenarioUpdateParams
 from .call_list_evaluation_runs_response import CallListEvaluationRunsResponse as CallListEvaluationRunsResponse
+from .customer_flow_edge_case_add_params import CustomerFlowEdgeCaseAddParams as CustomerFlowEdgeCaseAddParams
+from .customer_flow_replace_graph_params import CustomerFlowReplaceGraphParams as CustomerFlowReplaceGraphParams
 from .simulation_environment_list_params import SimulationEnvironmentListParams as SimulationEnvironmentListParams
 from .simulation_persona_create_response import SimulationPersonaCreateResponse as SimulationPersonaCreateResponse
 from .simulation_persona_update_response import SimulationPersonaUpdateResponse as SimulationPersonaUpdateResponse
@@ -76,8 +100,11 @@ from .simulation_run_plan_update_response import SimulationRunPlanUpdateResponse
 from .simulation_scenario_create_response import SimulationScenarioCreateResponse as SimulationScenarioCreateResponse
 from .simulation_scenario_delete_response import SimulationScenarioDeleteResponse as SimulationScenarioDeleteResponse
 from .simulation_scenario_update_response import SimulationScenarioUpdateResponse as SimulationScenarioUpdateResponse
+from .customer_flow_edge_case_add_response import CustomerFlowEdgeCaseAddResponse as CustomerFlowEdgeCaseAddResponse
+from .customer_flow_replace_graph_response import CustomerFlowReplaceGraphResponse as CustomerFlowReplaceGraphResponse
 from .simulation_environment_list_response import SimulationEnvironmentListResponse as SimulationEnvironmentListResponse
 from .simulation_run_plan_job_start_params import SimulationRunPlanJobStartParams as SimulationRunPlanJobStartParams
+from .customer_flow_edge_case_update_params import CustomerFlowEdgeCaseUpdateParams as CustomerFlowEdgeCaseUpdateParams
 from .http_request_definition_create_params import (
     HTTPRequestDefinitionCreateParams as HTTPRequestDefinitionCreateParams,
 )
@@ -92,6 +119,9 @@ from .metric_collection_job_create_response import (
 )
 from .simulation_persona_get_by_id_response import SimulationPersonaGetByIDResponse as SimulationPersonaGetByIDResponse
 from .simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse as SimulationRunPlanJobListResponse
+from .customer_flow_update_happy_path_params import (
+    CustomerFlowUpdateHappyPathParams as CustomerFlowUpdateHappyPathParams,
+)
 from .simulation_run_plan_get_by_id_response import SimulationRunPlanGetByIDResponse as SimulationRunPlanGetByIDResponse
 from .simulation_run_plan_job_start_response import (
     SimulationRunPlanJobStartResponse as SimulationRunPlanJobStartResponse,
@@ -99,11 +129,23 @@ from .simulation_run_plan_job_start_response import (
 from .simulation_scenario_get_by_id_response import (
     SimulationScenarioGetByIDResponse as SimulationScenarioGetByIDResponse,
 )
+from .customer_flow_edge_case_remove_response import (
+    CustomerFlowEdgeCaseRemoveResponse as CustomerFlowEdgeCaseRemoveResponse,
+)
+from .customer_flow_edge_case_update_response import (
+    CustomerFlowEdgeCaseUpdateResponse as CustomerFlowEdgeCaseUpdateResponse,
+)
 from .http_request_definition_create_response import (
     HTTPRequestDefinitionCreateResponse as HTTPRequestDefinitionCreateResponse,
 )
 from .http_request_definition_update_response import (
     HTTPRequestDefinitionUpdateResponse as HTTPRequestDefinitionUpdateResponse,
+)
+from .customer_flow_edge_case_promote_response import (
+    CustomerFlowEdgeCasePromoteResponse as CustomerFlowEdgeCasePromoteResponse,
+)
+from .customer_flow_update_happy_path_response import (
+    CustomerFlowUpdateHappyPathResponse as CustomerFlowUpdateHappyPathResponse,
 )
 from .metric_collection_job_get_by_id_response import (
     MetricCollectionJobGetByIDResponse as MetricCollectionJobGetByIDResponse,
@@ -117,3 +159,32 @@ from .http_request_definition_get_by_id_response import (
 from .simulation_run_plan_job_get_by_id_response import (
     SimulationRunPlanJobGetByIDResponse as SimulationRunPlanJobGetByIDResponse,
 )
+
+# Rebuild cyclical models only after all modules are imported.
+# This ensures that, when building the deferred (due to cyclical references) model schema,
+# Pydantic can resolve the necessary references.
+# See: https://github.com/pydantic/pydantic/issues/11250 for more context.
+if _compat.PYDANTIC_V1:
+    customer_flow_create_response.CustomerFlowCreateResponse.update_forward_refs()  # type: ignore
+    customer_flow_update_response.CustomerFlowUpdateResponse.update_forward_refs()  # type: ignore
+    customer_flow_list_response.CustomerFlowListResponse.update_forward_refs()  # type: ignore
+    customer_flow_get_by_id_response.CustomerFlowGetByIDResponse.update_forward_refs()  # type: ignore
+    customer_flow_replace_graph_response.CustomerFlowReplaceGraphResponse.update_forward_refs()  # type: ignore
+    customer_flow_update_happy_path_response.CustomerFlowUpdateHappyPathResponse.update_forward_refs()  # type: ignore
+    customer_flow_edge_case_update_response.CustomerFlowEdgeCaseUpdateResponse.update_forward_refs()  # type: ignore
+    customer_flow_edge_case_add_response.CustomerFlowEdgeCaseAddResponse.update_forward_refs()  # type: ignore
+    customer_flow_edge_case_promote_response.CustomerFlowEdgeCasePromoteResponse.update_forward_refs()  # type: ignore
+else:
+    customer_flow_create_response.CustomerFlowCreateResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_update_response.CustomerFlowUpdateResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_list_response.CustomerFlowListResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_get_by_id_response.CustomerFlowGetByIDResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_replace_graph_response.CustomerFlowReplaceGraphResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_update_happy_path_response.CustomerFlowUpdateHappyPathResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )
+    customer_flow_edge_case_update_response.CustomerFlowEdgeCaseUpdateResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_edge_case_add_response.CustomerFlowEdgeCaseAddResponse.model_rebuild(_parent_namespace_depth=0)
+    customer_flow_edge_case_promote_response.CustomerFlowEdgeCasePromoteResponse.model_rebuild(
+        _parent_namespace_depth=0
+    )

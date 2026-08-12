@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -13,7 +13,7 @@ __all__ = [
     "DataAgentEndpoint",
     "DataEvaluator",
     "DataFlow",
-    "DataFlowVariant",
+    "DataFlowEdgeCasesUnionMember1",
     "DataMetric",
     "DataPersona",
     "DataScenario",
@@ -29,49 +29,48 @@ class DataEvaluator(BaseModel):
     id: str
 
 
-class DataFlowVariant(BaseModel):
+class DataFlowEdgeCasesUnionMember1(BaseModel):
     id: str
+    """The edge case to run."""
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
+    """Run this one as that persona instead of its own."""
 
     variables: Optional[Dict[str, str]] = None
+    """Values for this one only."""
 
 
 class DataFlow(BaseModel):
-    """One customer flow attached to a run plan.
+    """
+    One customer flow attached to a run plan, and which of its ways of running you cover.
 
-    To run specific variants, list them in `variants`. Each entry may carry its own
-    `personaOverrideId` and `variables`, so pinning two variants of one flow at different
-    values is a single attachment.
-
-    To let the run resolve the variants instead, leave `variants` out and set
-    `variantSelectionMode`:
-      ALL_VARIANTS: every variant the flow has when the run starts
-      DEFAULT_VARIANT: only its default, so it follows the flow as the default moves
-
-    There is no default mode. Each variant is a separate simulated call, so a forgotten
-    field would quietly change how many calls a run places.
-
-    `personaOverrideId` runs a variant as that persona instead of its own. Set it on the
-    attachment to apply to every variant it resolves, or on a `variants` entry for one.
-    The entry wins. Attaching the same flow more than once with different overrides is how
-    you fan it out across personas.
-
-    `variables` pins {{variable}} values the same way. Anything left unset is asked for
-    when the run starts.
+    Attaching the same flow more than once with different overrides is how you fan it out across
+    personas or values.
     """
 
-    customer_flow_id: str = FieldInfo(alias="customerFlowId")
+    id: str
+    """The customer flow to run."""
 
-    variants: List[DataFlowVariant]
+    edge_cases: Union[Literal["ALL"], List[DataFlowEdgeCasesUnionMember1], None] = FieldInfo(
+        alias="edgeCases", default=None
+    )
+    """
+    `"ALL"` runs every edge case the flow has when the run starts, so one added
+    later is covered. An array runs only the ones you name, each able to carry its
+    own persona override and values.
+    """
+
+    happy_path: Optional[bool] = FieldInfo(alias="happyPath", default=None)
+    """Run the flow's happy path.
+
+    Resolved when the run starts, so it follows the flow.
+    """
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
+    """Runs everything this attachment resolves as that persona instead of its own."""
 
     variables: Optional[Dict[str, str]] = None
-
-    variant_selection_mode: Optional[Literal["ALL_VARIANTS", "DEFAULT_VARIANT", "SPECIFIC_VARIANT"]] = FieldInfo(
-        alias="variantSelectionMode", default=None
-    )
+    """Values for everything it resolves."""
 
 
 class DataMetric(BaseModel):

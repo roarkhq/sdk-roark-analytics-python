@@ -2,13 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationRunPlanUpdateParams", "AgentEndpoint", "Flow", "FlowVariant", "Metric", "Persona", "Scenario"]
+__all__ = [
+    "SimulationRunPlanUpdateParams",
+    "AgentEndpoint",
+    "Flow",
+    "FlowEdgeCasesUnionMember1",
+    "Metric",
+    "Persona",
+    "Scenario",
+]
 
 
 class SimulationRunPlanUpdateParams(TypedDict, total=False):
@@ -45,7 +53,7 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     is_hidden: Annotated[bool, PropertyInfo(alias="isHidden")]
     """Whether this plan is hidden from GET /v1/simulation/plan.
 
-    A run started without `savePlanAs` creates a hidden plan to carry it. Send
+    A run started without `saveAsPlan` creates a hidden plan to carry it. Send
     `{ "name": "...", "isHidden": false }` to keep that configuration as a reusable
     plan, which is what the app does when you save a one-off run.
     """
@@ -87,49 +95,46 @@ class AgentEndpoint(TypedDict, total=False):
     id: Required[str]
 
 
-class FlowVariant(TypedDict, total=False):
+class FlowEdgeCasesUnionMember1(TypedDict, total=False):
     id: Required[str]
+    """The edge case to run."""
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """Run this one as that persona instead of its own."""
 
     variables: Dict[str, str]
+    """Values for this one only."""
 
 
 class Flow(TypedDict, total=False):
-    """One customer flow attached to a run plan.
+    """
+    One customer flow attached to a run plan, and which of its ways of running you cover.
 
-    To run specific variants, list them in `variants`. Each entry may carry its own
-    `personaOverrideId` and `variables`, so pinning two variants of one flow at different
-    values is a single attachment.
-
-    To let the run resolve the variants instead, leave `variants` out and set
-    `variantSelectionMode`:
-      ALL_VARIANTS: every variant the flow has when the run starts
-      DEFAULT_VARIANT: only its default, so it follows the flow as the default moves
-
-    There is no default mode. Each variant is a separate simulated call, so a forgotten
-    field would quietly change how many calls a run places.
-
-    `personaOverrideId` runs a variant as that persona instead of its own. Set it on the
-    attachment to apply to every variant it resolves, or on a `variants` entry for one.
-    The entry wins. Attaching the same flow more than once with different overrides is how
-    you fan it out across personas.
-
-    `variables` pins {{variable}} values the same way. Anything left unset is asked for
-    when the run starts.
+    Attaching the same flow more than once with different overrides is how you fan it out across
+    personas or values.
     """
 
-    customer_flow_id: Required[Annotated[str, PropertyInfo(alias="customerFlowId")]]
+    id: Required[str]
+    """The customer flow to run."""
 
-    variants: Required[Iterable[FlowVariant]]
+    edge_cases: Annotated[Union[Literal["ALL"], Iterable[FlowEdgeCasesUnionMember1]], PropertyInfo(alias="edgeCases")]
+    """
+    `"ALL"` runs every edge case the flow has when the run starts, so one added
+    later is covered. An array runs only the ones you name, each able to carry its
+    own persona override and values.
+    """
+
+    happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
+    """Run the flow's happy path.
+
+    Resolved when the run starts, so it follows the flow.
+    """
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """Runs everything this attachment resolves as that persona instead of its own."""
 
     variables: Dict[str, str]
-
-    variant_selection_mode: Annotated[
-        Literal["ALL_VARIANTS", "DEFAULT_VARIANT", "SPECIFIC_VARIANT"], PropertyInfo(alias="variantSelectionMode")
-    ]
+    """Values for everything it resolves."""
 
 
 class Metric(TypedDict, total=False):

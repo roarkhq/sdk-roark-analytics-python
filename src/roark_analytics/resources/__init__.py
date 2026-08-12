@@ -48,6 +48,14 @@ from .simulation import (
     SimulationResourceWithStreamingResponse,
     AsyncSimulationResourceWithStreamingResponse,
 )
+from .customer_flow import (
+    CustomerFlowResource,
+    AsyncCustomerFlowResource,
+    CustomerFlowResourceWithRawResponse,
+    AsyncCustomerFlowResourceWithRawResponse,
+    CustomerFlowResourceWithStreamingResponse,
+    AsyncCustomerFlowResourceWithStreamingResponse,
+)
 from .metric_policy import (
     MetricPolicyResource,
     AsyncMetricPolicyResource,
@@ -111,6 +119,14 @@ from .simulation_environment import (
     AsyncSimulationEnvironmentResourceWithRawResponse,
     SimulationEnvironmentResourceWithStreamingResponse,
     AsyncSimulationEnvironmentResourceWithStreamingResponse,
+)
+from .customer_flow_edge_case import (
+    CustomerFlowEdgeCaseResource,
+    AsyncCustomerFlowEdgeCaseResource,
+    CustomerFlowEdgeCaseResourceWithRawResponse,
+    AsyncCustomerFlowEdgeCaseResourceWithRawResponse,
+    CustomerFlowEdgeCaseResourceWithStreamingResponse,
+    AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse,
 )
 from .http_request_definition import (
     HTTPRequestDefinitionResource,
@@ -202,6 +218,18 @@ __all__ = [
     "AsyncSimulationEnvironmentResourceWithRawResponse",
     "SimulationEnvironmentResourceWithStreamingResponse",
     "AsyncSimulationEnvironmentResourceWithStreamingResponse",
+    "CustomerFlowResource",
+    "AsyncCustomerFlowResource",
+    "CustomerFlowResourceWithRawResponse",
+    "AsyncCustomerFlowResourceWithRawResponse",
+    "CustomerFlowResourceWithStreamingResponse",
+    "AsyncCustomerFlowResourceWithStreamingResponse",
+    "CustomerFlowEdgeCaseResource",
+    "AsyncCustomerFlowEdgeCaseResource",
+    "CustomerFlowEdgeCaseResourceWithRawResponse",
+    "AsyncCustomerFlowEdgeCaseResourceWithRawResponse",
+    "CustomerFlowEdgeCaseResourceWithStreamingResponse",
+    "AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse",
     "AgentResource",
     "AsyncAgentResource",
     "AgentResourceWithRawResponse",

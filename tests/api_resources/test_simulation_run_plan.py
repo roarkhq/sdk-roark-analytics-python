@@ -55,22 +55,17 @@ class TestSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variants": [
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "edge_cases": [
                         {
                             "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
                             "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "variables": {"tier": "premium"},
-                        },
-                        {
-                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                            "variables": {"tier": "basic"},
-                        },
+                        }
                     ],
+                    "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
-                    "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
             iteration_count=1,
@@ -140,22 +135,17 @@ class TestSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variants": [
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "edge_cases": [
                         {
                             "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
                             "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "variables": {"tier": "premium"},
-                        },
-                        {
-                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                            "variables": {"tier": "basic"},
-                        },
+                        }
                     ],
+                    "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
-                    "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
             is_hidden=True,
@@ -361,22 +351,17 @@ class TestAsyncSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variants": [
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "edge_cases": [
                         {
                             "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
                             "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "variables": {"tier": "premium"},
-                        },
-                        {
-                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                            "variables": {"tier": "basic"},
-                        },
+                        }
                     ],
+                    "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
-                    "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
             iteration_count=1,
@@ -446,22 +431,17 @@ class TestAsyncSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "customer_flow_id": "550e8400-e29b-41d4-a716-446655440000",
-                    "variants": [
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "edge_cases": [
                         {
                             "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
                             "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "variables": {"tier": "premium"},
-                        },
-                        {
-                            "id": "9f8c7b6a-5d4e-4c3b-8a29-1e0f2d3c4b5a",
-                            "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                            "variables": {"tier": "basic"},
-                        },
+                        }
                     ],
+                    "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
-                    "variant_selection_mode": "ALL_VARIANTS",
                 }
             ],
             is_hidden=True,

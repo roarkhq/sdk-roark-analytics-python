@@ -15,7 +15,7 @@ __all__ = [
     "RunSimulationFromConfigPlanAgentEndpoint",
     "RunSimulationFromConfigPlanMetric",
     "RunSimulationFromConfigPlanFlow",
-    "RunSimulationFromConfigPlanFlowVariant",
+    "RunSimulationFromConfigPlanFlowEdgeCasesUnionMember1",
     "RunSimulationFromConfigPlanPersona",
     "RunSimulationFromConfigPlanScenario",
     "RunSimulationFromConfigVariablesUnionMember1",
@@ -30,13 +30,14 @@ class RunSimulationFromConfig(TypedDict, total=False):
     plan: Required[RunSimulationFromConfigPlan]
     """The simulation to run: what to call, who calls it, and what to measure."""
 
-    save_plan_as: Annotated[str, PropertyInfo(alias="savePlanAs")]
+    save_as_plan: Annotated[bool, PropertyInfo(alias="saveAsPlan")]
     """
-    Keeps this configuration as a run plan under this name, listed by GET
-    /v1/simulation/plan and re-runnable with `planId`.
+    Keeps this configuration as a run plan, listed by GET /v1/simulation/plan and
+    re-runnable with `planId`. Requires `plan.name`, since a plan you meant to keep
+    should not be filed under a generated one.
 
-    Omit it for a one-off. The run still needs a plan to execute, so one is created
-    either way, but an unnamed one is hidden: it carries this run and nothing else.
+    Omitted or false gives a one-off. The run still needs a plan to execute, so one
+    is created either way, but it is hidden: it carries this run and nothing else.
     """
 
     variables: Union[
@@ -52,15 +53,16 @@ class RunSimulationFromConfig(TypedDict, total=False):
 
     { "orderNumber": "12345", "tier": "gold" }
 
-    An array applies them per flow, or per variant of one, when a single set will
-    not do. Each entry carries what it applies to:
+    An array applies them per flow, or to just its happy path or one of its edge
+    cases, when a single set will not do. Each entry carries what it applies to:
 
     [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-    "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-    "orderNumber": "67890" } } ]
+    "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+    "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+    "variables": { "orderNumber": "67890" } } ]
 
-    An entry without `variantId` covers every variant that flow resolves. A flow
-    this plan does not attach, or a variant that does not belong to the flow, is
+    An entry that narrows to neither covers everything that flow resolves. A flow
+    this plan does not attach, or an edge case that does not belong to the flow, is
     rejected rather than ignored.
 
     A plan built on scenarios rather than customer flows targets them the same way,
@@ -91,49 +93,49 @@ class RunSimulationFromConfigPlanMetric(TypedDict, total=False):
     """
 
 
-class RunSimulationFromConfigPlanFlowVariant(TypedDict, total=False):
+class RunSimulationFromConfigPlanFlowEdgeCasesUnionMember1(TypedDict, total=False):
     id: Required[str]
+    """The edge case to run."""
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """Run this one as that persona instead of its own."""
 
     variables: Dict[str, str]
+    """Values for this one only."""
 
 
 class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
-    """One customer flow attached to a run plan.
+    """
+    One customer flow attached to a run plan, and which of its ways of running you cover.
 
-    To run specific variants, list them in `variants`. Each entry may carry its own
-    `personaOverrideId` and `variables`, so pinning two variants of one flow at different
-    values is a single attachment.
-
-    To let the run resolve the variants instead, leave `variants` out and set
-    `variantSelectionMode`:
-      ALL_VARIANTS: every variant the flow has when the run starts
-      DEFAULT_VARIANT: only its default, so it follows the flow as the default moves
-
-    There is no default mode. Each variant is a separate simulated call, so a forgotten
-    field would quietly change how many calls a run places.
-
-    `personaOverrideId` runs a variant as that persona instead of its own. Set it on the
-    attachment to apply to every variant it resolves, or on a `variants` entry for one.
-    The entry wins. Attaching the same flow more than once with different overrides is how
-    you fan it out across personas.
-
-    `variables` pins {{variable}} values the same way. Anything left unset is asked for
-    when the run starts.
+    Attaching the same flow more than once with different overrides is how you fan it out across
+    personas or values.
     """
 
-    customer_flow_id: Required[Annotated[str, PropertyInfo(alias="customerFlowId")]]
+    id: Required[str]
+    """The customer flow to run."""
 
-    variants: Required[Iterable[RunSimulationFromConfigPlanFlowVariant]]
+    edge_cases: Annotated[
+        Union[Literal["ALL"], Iterable[RunSimulationFromConfigPlanFlowEdgeCasesUnionMember1]],
+        PropertyInfo(alias="edgeCases"),
+    ]
+    """
+    `"ALL"` runs every edge case the flow has when the run starts, so one added
+    later is covered. An array runs only the ones you name, each able to carry its
+    own persona override and values.
+    """
+
+    happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
+    """Run the flow's happy path.
+
+    Resolved when the run starts, so it follows the flow.
+    """
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
+    """Runs everything this attachment resolves as that persona instead of its own."""
 
     variables: Dict[str, str]
-
-    variant_selection_mode: Annotated[
-        Literal["ALL_VARIANTS", "DEFAULT_VARIANT", "SPECIFIC_VARIANT"], PropertyInfo(alias="variantSelectionMode")
-    ]
+    """Values for everything it resolves."""
 
 
 class RunSimulationFromConfigPlanPersona(TypedDict, total=False):
@@ -202,6 +204,12 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
 
+    name: str
+    """What to call this.
+
+    Generated from the date when omitted, and required with `saveAsPlan`.
+    """
+
     personas: Iterable[RunSimulationFromConfigPlanPersona]
     """Personas to include in this run plan.
 
@@ -222,16 +230,16 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
 
 class RunSimulationFromConfigVariablesUnionMember1(TypedDict, total=False):
     flow_id: Required[Annotated[str, PropertyInfo(alias="flowId")]]
-    """ID of a customer flow attached to this plan"""
+    """A customer flow this plan runs."""
 
     variables: Required[Dict[str, str]]
-    """Key-value pairs to apply"""
+    """The values to apply."""
 
-    variant_id: Annotated[str, PropertyInfo(alias="variantId")]
-    """Target a single variant.
+    edge_case_id: Annotated[str, PropertyInfo(alias="edgeCaseId")]
+    """Narrow to one edge case of that flow."""
 
-    Omit to apply to every variant this plan runs for the flow.
-    """
+    happy_path: Annotated[Literal[True], PropertyInfo(alias="happyPath")]
+    """Narrow to the flow's happy path."""
 
 
 class RunSimulationFromConfigVariablesUnionMember2(TypedDict, total=False):
@@ -262,15 +270,16 @@ class RunSimulationFromPlanID(TypedDict, total=False):
 
     { "orderNumber": "12345", "tier": "gold" }
 
-    An array applies them per flow, or per variant of one, when a single set will
-    not do. Each entry carries what it applies to:
+    An array applies them per flow, or to just its happy path or one of its edge
+    cases, when a single set will not do. Each entry carries what it applies to:
 
     [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-    "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-    "orderNumber": "67890" } } ]
+    "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+    "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+    "variables": { "orderNumber": "67890" } } ]
 
-    An entry without `variantId` covers every variant that flow resolves. A flow
-    this plan does not attach, or a variant that does not belong to the flow, is
+    An entry that narrows to neither covers everything that flow resolves. A flow
+    this plan does not attach, or an edge case that does not belong to the flow, is
     rejected rather than ignored.
 
     A plan built on scenarios rather than customer flows targets them the same way,
@@ -282,16 +291,16 @@ class RunSimulationFromPlanID(TypedDict, total=False):
 
 class RunSimulationFromPlanIDVariablesUnionMember1(TypedDict, total=False):
     flow_id: Required[Annotated[str, PropertyInfo(alias="flowId")]]
-    """ID of a customer flow attached to this plan"""
+    """A customer flow this plan runs."""
 
     variables: Required[Dict[str, str]]
-    """Key-value pairs to apply"""
+    """The values to apply."""
 
-    variant_id: Annotated[str, PropertyInfo(alias="variantId")]
-    """Target a single variant.
+    edge_case_id: Annotated[str, PropertyInfo(alias="edgeCaseId")]
+    """Narrow to one edge case of that flow."""
 
-    Omit to apply to every variant this plan runs for the flow.
-    """
+    happy_path: Annotated[Literal[True], PropertyInfo(alias="happyPath")]
+    """Narrow to the flow's happy path."""
 
 
 class RunSimulationFromPlanIDVariablesUnionMember2(TypedDict, total=False):

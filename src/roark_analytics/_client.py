@@ -42,6 +42,7 @@ if TYPE_CHECKING:
         metric,
         webhook,
         simulation,
+        customer_flow,
         metric_policy,
         agent_endpoint,
         simulation_job,
@@ -50,6 +51,7 @@ if TYPE_CHECKING:
         simulation_scenario,
         metric_collection_job,
         simulation_environment,
+        customer_flow_edge_case,
         http_request_definition,
         simulation_run_plan_job,
     )
@@ -59,6 +61,7 @@ if TYPE_CHECKING:
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
@@ -67,6 +70,7 @@ if TYPE_CHECKING:
     from .resources.simulation_scenario import SimulationScenarioResource, AsyncSimulationScenarioResource
     from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
     from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
+    from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
     from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
 
@@ -208,6 +212,18 @@ class Roark(SyncAPIClient):
         from .resources.simulation_environment import SimulationEnvironmentResource
 
         return SimulationEnvironmentResource(self)
+
+    @cached_property
+    def customer_flow(self) -> CustomerFlowResource:
+        from .resources.customer_flow import CustomerFlowResource
+
+        return CustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> CustomerFlowEdgeCaseResource:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource
+
+        return CustomerFlowEdgeCaseResource(self)
 
     @cached_property
     def agent(self) -> AgentResource:
@@ -483,6 +499,18 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationEnvironmentResource(self)
 
     @cached_property
+    def customer_flow(self) -> AsyncCustomerFlowResource:
+        from .resources.customer_flow import AsyncCustomerFlowResource
+
+        return AsyncCustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> AsyncCustomerFlowEdgeCaseResource:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResource
+
+        return AsyncCustomerFlowEdgeCaseResource(self)
+
+    @cached_property
     def agent(self) -> AsyncAgentResource:
         from .resources.agent import AsyncAgentResource
 
@@ -698,6 +726,18 @@ class RoarkWithRawResponse:
         return SimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
 
     @cached_property
+    def customer_flow(self) -> customer_flow.CustomerFlowResourceWithRawResponse:
+        from .resources.customer_flow import CustomerFlowResourceWithRawResponse
+
+        return CustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithRawResponse:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResourceWithRawResponse
+
+        return CustomerFlowEdgeCaseResourceWithRawResponse(self._client.customer_flow_edge_case)
+
+    @cached_property
     def agent(self) -> agent.AgentResourceWithRawResponse:
         from .resources.agent import AgentResourceWithRawResponse
 
@@ -799,6 +839,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithRawResponse
 
         return AsyncSimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithRawResponse:
+        from .resources.customer_flow import AsyncCustomerFlowResourceWithRawResponse
+
+        return AsyncCustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithRawResponse:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResourceWithRawResponse
+
+        return AsyncCustomerFlowEdgeCaseResourceWithRawResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
@@ -904,6 +956,18 @@ class RoarkWithStreamedResponse:
         return SimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
 
     @cached_property
+    def customer_flow(self) -> customer_flow.CustomerFlowResourceWithStreamingResponse:
+        from .resources.customer_flow import CustomerFlowResourceWithStreamingResponse
+
+        return CustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithStreamingResponse:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResourceWithStreamingResponse
+
+        return CustomerFlowEdgeCaseResourceWithStreamingResponse(self._client.customer_flow_edge_case)
+
+    @cached_property
     def agent(self) -> agent.AgentResourceWithStreamingResponse:
         from .resources.agent import AgentResourceWithStreamingResponse
 
@@ -1005,6 +1069,18 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithStreamingResponse
 
         return AsyncSimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithStreamingResponse:
+        from .resources.customer_flow import AsyncCustomerFlowResourceWithStreamingResponse
+
+        return AsyncCustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse
+
+        return AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:

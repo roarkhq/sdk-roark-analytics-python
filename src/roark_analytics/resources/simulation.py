@@ -49,7 +49,7 @@ class SimulationResource(SyncAPIResource):
         self,
         *,
         plan: simulation_run_params.RunSimulationFromConfigPlan,
-        save_plan_as: str | Omit = omit,
+        save_as_plan: bool | Omit = omit,
         variables: Union[
             Dict[str, str],
             Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
@@ -66,18 +66,19 @@ class SimulationResource(SyncAPIResource):
         """
         Starts a simulation and returns the run.
 
-        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        Send `plan` to describe a simulation and run it once. Add `saveAsPlan` to keep
         that configuration as a reusable run plan. Send `planId` instead to run a plan
         you already have.
 
         Args:
           plan: The simulation to run: what to call, who calls it, and what to measure.
 
-          save_plan_as: Keeps this configuration as a run plan under this name, listed by GET
-              /v1/simulation/plan and re-runnable with `planId`.
+          save_as_plan: Keeps this configuration as a run plan, listed by GET /v1/simulation/plan and
+              re-runnable with `planId`. Requires `plan.name`, since a plan you meant to keep
+              should not be filed under a generated one.
 
-              Omit it for a one-off. The run still needs a plan to execute, so one is created
-              either way, but an unnamed one is hidden: it carries this run and nothing else.
+              Omitted or false gives a one-off. The run still needs a plan to execute, so one
+              is created either way, but it is hidden: it carries this run and nothing else.
 
           variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
               pinned.
@@ -86,15 +87,16 @@ class SimulationResource(SyncAPIResource):
 
               { "orderNumber": "12345", "tier": "gold" }
 
-              An array applies them per flow, or per variant of one, when a single set will
-              not do. Each entry carries what it applies to:
+              An array applies them per flow, or to just its happy path or one of its edge
+              cases, when a single set will not do. Each entry carries what it applies to:
 
               [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-              "orderNumber": "67890" } } ]
+              "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+              "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+              "variables": { "orderNumber": "67890" } } ]
 
-              An entry without `variantId` covers every variant that flow resolves. A flow
-              this plan does not attach, or a variant that does not belong to the flow, is
+              An entry that narrows to neither covers everything that flow resolves. A flow
+              this plan does not attach, or an edge case that does not belong to the flow, is
               rejected rather than ignored.
 
               A plan built on scenarios rather than customer flows targets them the same way,
@@ -133,7 +135,7 @@ class SimulationResource(SyncAPIResource):
         """
         Starts a simulation and returns the run.
 
-        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        Send `plan` to describe a simulation and run it once. Add `saveAsPlan` to keep
         that configuration as a reusable run plan. Send `planId` instead to run a plan
         you already have.
 
@@ -148,15 +150,16 @@ class SimulationResource(SyncAPIResource):
 
               { "orderNumber": "12345", "tier": "gold" }
 
-              An array applies them per flow, or per variant of one, when a single set will
-              not do. Each entry carries what it applies to:
+              An array applies them per flow, or to just its happy path or one of its edge
+              cases, when a single set will not do. Each entry carries what it applies to:
 
               [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-              "orderNumber": "67890" } } ]
+              "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+              "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+              "variables": { "orderNumber": "67890" } } ]
 
-              An entry without `variantId` covers every variant that flow resolves. A flow
-              this plan does not attach, or a variant that does not belong to the flow, is
+              An entry that narrows to neither covers everything that flow resolves. A flow
+              this plan does not attach, or an edge case that does not belong to the flow, is
               rejected rather than ignored.
 
               A plan built on scenarios rather than customer flows targets them the same way,
@@ -179,7 +182,7 @@ class SimulationResource(SyncAPIResource):
         self,
         *,
         plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
-        save_plan_as: str | Omit = omit,
+        save_as_plan: bool | Omit = omit,
         variables: Union[
             Dict[str, str],
             Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
@@ -204,7 +207,7 @@ class SimulationResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "plan": plan,
-                    "save_plan_as": save_plan_as,
+                    "save_as_plan": save_as_plan,
                     "variables": variables,
                     "plan_id": plan_id,
                 },
@@ -242,7 +245,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         self,
         *,
         plan: simulation_run_params.RunSimulationFromConfigPlan,
-        save_plan_as: str | Omit = omit,
+        save_as_plan: bool | Omit = omit,
         variables: Union[
             Dict[str, str],
             Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
@@ -259,18 +262,19 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         Starts a simulation and returns the run.
 
-        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        Send `plan` to describe a simulation and run it once. Add `saveAsPlan` to keep
         that configuration as a reusable run plan. Send `planId` instead to run a plan
         you already have.
 
         Args:
           plan: The simulation to run: what to call, who calls it, and what to measure.
 
-          save_plan_as: Keeps this configuration as a run plan under this name, listed by GET
-              /v1/simulation/plan and re-runnable with `planId`.
+          save_as_plan: Keeps this configuration as a run plan, listed by GET /v1/simulation/plan and
+              re-runnable with `planId`. Requires `plan.name`, since a plan you meant to keep
+              should not be filed under a generated one.
 
-              Omit it for a one-off. The run still needs a plan to execute, so one is created
-              either way, but an unnamed one is hidden: it carries this run and nothing else.
+              Omitted or false gives a one-off. The run still needs a plan to execute, so one
+              is created either way, but it is hidden: it carries this run and nothing else.
 
           variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
               pinned.
@@ -279,15 +283,16 @@ class AsyncSimulationResource(AsyncAPIResource):
 
               { "orderNumber": "12345", "tier": "gold" }
 
-              An array applies them per flow, or per variant of one, when a single set will
-              not do. Each entry carries what it applies to:
+              An array applies them per flow, or to just its happy path or one of its edge
+              cases, when a single set will not do. Each entry carries what it applies to:
 
               [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-              "orderNumber": "67890" } } ]
+              "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+              "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+              "variables": { "orderNumber": "67890" } } ]
 
-              An entry without `variantId` covers every variant that flow resolves. A flow
-              this plan does not attach, or a variant that does not belong to the flow, is
+              An entry that narrows to neither covers everything that flow resolves. A flow
+              this plan does not attach, or an edge case that does not belong to the flow, is
               rejected rather than ignored.
 
               A plan built on scenarios rather than customer flows targets them the same way,
@@ -326,7 +331,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         Starts a simulation and returns the run.
 
-        Send `plan` to describe a simulation and run it once. Add `savePlanAs` to keep
+        Send `plan` to describe a simulation and run it once. Add `saveAsPlan` to keep
         that configuration as a reusable run plan. Send `planId` instead to run a plan
         you already have.
 
@@ -341,15 +346,16 @@ class AsyncSimulationResource(AsyncAPIResource):
 
               { "orderNumber": "12345", "tier": "gold" }
 
-              An array applies them per flow, or per variant of one, when a single set will
-              not do. Each entry carries what it applies to:
+              An array applies them per flow, or to just its happy path or one of its edge
+              cases, when a single set will not do. Each entry carries what it applies to:
 
               [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "flowId": "550e8400-...", "variantId": "7a3d2e1f-...", "variables": {
-              "orderNumber": "67890" } } ]
+              "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+              "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+              "variables": { "orderNumber": "67890" } } ]
 
-              An entry without `variantId` covers every variant that flow resolves. A flow
-              this plan does not attach, or a variant that does not belong to the flow, is
+              An entry that narrows to neither covers everything that flow resolves. A flow
+              this plan does not attach, or an edge case that does not belong to the flow, is
               rejected rather than ignored.
 
               A plan built on scenarios rather than customer flows targets them the same way,
@@ -372,7 +378,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         self,
         *,
         plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
-        save_plan_as: str | Omit = omit,
+        save_as_plan: bool | Omit = omit,
         variables: Union[
             Dict[str, str],
             Iterable[simulation_run_params.RunSimulationFromConfigVariablesUnionMember1],
@@ -397,7 +403,7 @@ class AsyncSimulationResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "plan": plan,
-                    "save_plan_as": save_plan_as,
+                    "save_as_plan": save_as_plan,
                     "variables": variables,
                     "plan_id": plan_id,
                 },

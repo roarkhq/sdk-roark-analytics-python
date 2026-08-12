@@ -217,8 +217,47 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import FlowStep
+from roark_analytics.types import (
+    FlowStep,
+    CustomerFlowCreateResponse,
+    CustomerFlowUpdateResponse,
+    CustomerFlowListResponse,
+    CustomerFlowDeleteResponse,
+    CustomerFlowGetByIDResponse,
+    CustomerFlowReplaceGraphResponse,
+    CustomerFlowUpdateHappyPathResponse,
+)
 ```
+
+Methods:
+
+- <code title="post /v1/customer-flow">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">create</a>(\*\*<a href="src/roark_analytics/types/customer_flow_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_create_response.py">CustomerFlowCreateResponse</a></code>
+- <code title="put /v1/customer-flow/{flowId}">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">update</a>(flow_id, \*\*<a href="src/roark_analytics/types/customer_flow_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_update_response.py">CustomerFlowUpdateResponse</a></code>
+- <code title="get /v1/customer-flow">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">list</a>(\*\*<a href="src/roark_analytics/types/customer_flow_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_list_response.py">CustomerFlowListResponse</a></code>
+- <code title="delete /v1/customer-flow/{flowId}">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">delete</a>(flow_id) -> <a href="./src/roark_analytics/types/customer_flow_delete_response.py">CustomerFlowDeleteResponse</a></code>
+- <code title="get /v1/customer-flow/{flowId}">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">get_by_id</a>(flow_id) -> <a href="./src/roark_analytics/types/customer_flow_get_by_id_response.py">CustomerFlowGetByIDResponse</a></code>
+- <code title="put /v1/customer-flow/{flowId}/graph">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">replace_graph</a>(flow_id, \*\*<a href="src/roark_analytics/types/customer_flow_replace_graph_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_replace_graph_response.py">CustomerFlowReplaceGraphResponse</a></code>
+- <code title="put /v1/customer-flow/{flowId}/happy-path">client.customer_flow.<a href="./src/roark_analytics/resources/customer_flow.py">update_happy_path</a>(flow_id, \*\*<a href="src/roark_analytics/types/customer_flow_update_happy_path_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_update_happy_path_response.py">CustomerFlowUpdateHappyPathResponse</a></code>
+
+# CustomerFlowEdgeCase
+
+Types:
+
+```python
+from roark_analytics.types import (
+    CustomerFlowEdgeCaseUpdateResponse,
+    CustomerFlowEdgeCaseAddResponse,
+    CustomerFlowEdgeCasePromoteResponse,
+    CustomerFlowEdgeCaseRemoveResponse,
+)
+```
+
+Methods:
+
+- <code title="put /v1/customer-flow/{flowId}/edge-case/{edgeCaseId}">client.customer_flow_edge_case.<a href="./src/roark_analytics/resources/customer_flow_edge_case.py">update</a>(edge_case_id, \*, flow_id, \*\*<a href="src/roark_analytics/types/customer_flow_edge_case_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_edge_case_update_response.py">CustomerFlowEdgeCaseUpdateResponse</a></code>
+- <code title="post /v1/customer-flow/{flowId}/edge-case">client.customer_flow_edge_case.<a href="./src/roark_analytics/resources/customer_flow_edge_case.py">add</a>(flow_id, \*\*<a href="src/roark_analytics/types/customer_flow_edge_case_add_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_flow_edge_case_add_response.py">CustomerFlowEdgeCaseAddResponse</a></code>
+- <code title="post /v1/customer-flow/{flowId}/edge-case/{edgeCaseId}/promote">client.customer_flow_edge_case.<a href="./src/roark_analytics/resources/customer_flow_edge_case.py">promote</a>(edge_case_id, \*, flow_id) -> <a href="./src/roark_analytics/types/customer_flow_edge_case_promote_response.py">CustomerFlowEdgeCasePromoteResponse</a></code>
+- <code title="delete /v1/customer-flow/{flowId}/edge-case/{edgeCaseId}">client.customer_flow_edge_case.<a href="./src/roark_analytics/resources/customer_flow_edge_case.py">remove</a>(edge_case_id, \*, flow_id) -> <a href="./src/roark_analytics/types/customer_flow_edge_case_remove_response.py">CustomerFlowEdgeCaseRemoveResponse</a></code>
 
 # Agent
 
