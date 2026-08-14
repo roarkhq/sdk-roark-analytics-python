@@ -154,28 +154,6 @@ Methods:
 - <code title="get /v1/simulation/plan/job/{jobId}">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_by_id_response.py">SimulationRunPlanJobGetByIDResponse</a></code>
 - <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_start_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
 
-# SimulationScenario
-
-Types:
-
-```python
-from roark_analytics.types import (
-    SimulationScenarioCreateResponse,
-    SimulationScenarioUpdateResponse,
-    SimulationScenarioListResponse,
-    SimulationScenarioDeleteResponse,
-    SimulationScenarioGetByIDResponse,
-)
-```
-
-Methods:
-
-- <code title="post /v1/simulation/scenario">client.simulation_scenario.<a href="./src/roark_analytics/resources/simulation_scenario.py">create</a>(\*\*<a href="src/roark_analytics/types/simulation_scenario_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_scenario_create_response.py">SimulationScenarioCreateResponse</a></code>
-- <code title="put /v1/simulation/scenario/{scenarioId}">client.simulation_scenario.<a href="./src/roark_analytics/resources/simulation_scenario.py">update</a>(scenario_id, \*\*<a href="src/roark_analytics/types/simulation_scenario_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_scenario_update_response.py">SimulationScenarioUpdateResponse</a></code>
-- <code title="get /v1/simulation/scenario">client.simulation_scenario.<a href="./src/roark_analytics/resources/simulation_scenario.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_scenario_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_scenario_list_response.py">SimulationScenarioListResponse</a></code>
-- <code title="delete /v1/simulation/scenario/{scenarioId}">client.simulation_scenario.<a href="./src/roark_analytics/resources/simulation_scenario.py">delete</a>(scenario_id) -> <a href="./src/roark_analytics/types/simulation_scenario_delete_response.py">SimulationScenarioDeleteResponse</a></code>
-- <code title="get /v1/simulation/scenario/{scenarioId}">client.simulation_scenario.<a href="./src/roark_analytics/resources/simulation_scenario.py">get_by_id</a>(scenario_id) -> <a href="./src/roark_analytics/types/simulation_scenario_get_by_id_response.py">SimulationScenarioGetByIDResponse</a></code>
-
 # SimulationPersona
 
 Types:

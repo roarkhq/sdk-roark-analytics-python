@@ -48,7 +48,6 @@ if TYPE_CHECKING:
         simulation_job,
         simulation_persona,
         simulation_run_plan,
-        simulation_scenario,
         metric_collection_job,
         simulation_environment,
         customer_flow_edge_case,
@@ -67,7 +66,6 @@ if TYPE_CHECKING:
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
-    from .resources.simulation_scenario import SimulationScenarioResource, AsyncSimulationScenarioResource
     from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
     from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
     from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
@@ -194,12 +192,6 @@ class Roark(SyncAPIClient):
         from .resources.simulation_run_plan_job import SimulationRunPlanJobResource
 
         return SimulationRunPlanJobResource(self)
-
-    @cached_property
-    def simulation_scenario(self) -> SimulationScenarioResource:
-        from .resources.simulation_scenario import SimulationScenarioResource
-
-        return SimulationScenarioResource(self)
 
     @cached_property
     def simulation_persona(self) -> SimulationPersonaResource:
@@ -481,12 +473,6 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationRunPlanJobResource(self)
 
     @cached_property
-    def simulation_scenario(self) -> AsyncSimulationScenarioResource:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResource
-
-        return AsyncSimulationScenarioResource(self)
-
-    @cached_property
     def simulation_persona(self) -> AsyncSimulationPersonaResource:
         from .resources.simulation_persona import AsyncSimulationPersonaResource
 
@@ -708,12 +694,6 @@ class RoarkWithRawResponse:
         return SimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithRawResponse:
-        from .resources.simulation_scenario import SimulationScenarioResourceWithRawResponse
-
-        return SimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithRawResponse:
         from .resources.simulation_persona import SimulationPersonaResourceWithRawResponse
 
@@ -821,12 +801,6 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_run_plan_job import AsyncSimulationRunPlanJobResourceWithRawResponse
 
         return AsyncSimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
-
-    @cached_property
-    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithRawResponse:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithRawResponse
-
-        return AsyncSimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
 
     @cached_property
     def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithRawResponse:
@@ -938,12 +912,6 @@ class RoarkWithStreamedResponse:
         return SimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithStreamingResponse:
-        from .resources.simulation_scenario import SimulationScenarioResourceWithStreamingResponse
-
-        return SimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithStreamingResponse:
         from .resources.simulation_persona import SimulationPersonaResourceWithStreamingResponse
 
@@ -1051,12 +1019,6 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_run_plan_job import AsyncSimulationRunPlanJobResourceWithStreamingResponse
 
         return AsyncSimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
-
-    @cached_property
-    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithStreamingResponse:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithStreamingResponse
-
-        return AsyncSimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
 
     @cached_property
     def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithStreamingResponse:
