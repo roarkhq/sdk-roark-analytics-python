@@ -80,7 +80,8 @@ class CustomerFlowResource(SyncAPIResource):
 
         A SCRIPTED flow carries a step graph and gets one way
         of running it per path through the graph; an IMPROV flow carries the briefs you
-        send.
+        send. Customer flows replace the older simulation scenarios, so build a flow for
+        anything new.
 
         Args:
           agent_ids: Agents this flow exercises. At least one is required.
@@ -125,7 +126,8 @@ class CustomerFlowResource(SyncAPIResource):
 
         A SCRIPTED flow carries a step graph and gets one way
         of running it per path through the graph; an IMPROV flow carries the briefs you
-        send.
+        send. Customer flows replace the older simulation scenarios, so build a flow for
+        anything new.
 
         Args:
           agent_ids: Agents this flow exercises. At least one is required.
@@ -263,7 +265,8 @@ class CustomerFlowResource(SyncAPIResource):
         Returns a paginated list of customer flows with their agents, expectations,
         happy path and edge cases. The step graph is the one field omitted: reading it
         walks the project's whole step graph, so it comes back from the single-flow
-        endpoint instead.
+        endpoint instead. Customer flows are how a project describes what to test; they
+        replace the older simulation scenarios.
 
         Args:
           extra_headers: Send extra headers
@@ -532,7 +535,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
 
         A SCRIPTED flow carries a step graph and gets one way
         of running it per path through the graph; an IMPROV flow carries the briefs you
-        send.
+        send. Customer flows replace the older simulation scenarios, so build a flow for
+        anything new.
 
         Args:
           agent_ids: Agents this flow exercises. At least one is required.
@@ -577,7 +581,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
 
         A SCRIPTED flow carries a step graph and gets one way
         of running it per path through the graph; an IMPROV flow carries the briefs you
-        send.
+        send. Customer flows replace the older simulation scenarios, so build a flow for
+        anything new.
 
         Args:
           agent_ids: Agents this flow exercises. At least one is required.
@@ -715,7 +720,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         Returns a paginated list of customer flows with their agents, expectations,
         happy path and edge cases. The step graph is the one field omitted: reading it
         walks the project's whole step graph, so it comes back from the single-flow
-        endpoint instead.
+        endpoint instead. Customer flows are how a project describes what to test; they
+        replace the older simulation scenarios.
 
         Args:
           extra_headers: Send extra headers
