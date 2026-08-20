@@ -180,6 +180,7 @@ class DataRunPlanJob(BaseModel):
         "QUEUED",
         "CREATING_SNAPSHOTS",
         "CREATING_SIMULATIONS",
+        "PREPARING_CAPACITY",
         "RUNNING_SIMULATIONS",
         "COMPLETED",
         "FAILED",

@@ -60,6 +60,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             "QUEUED",
             "CREATING_SNAPSHOTS",
             "CREATING_SIMULATIONS",
+            "PREPARING_CAPACITY",
             "RUNNING_SIMULATIONS",
             "COMPLETED",
             "FAILED",
@@ -93,9 +94,9 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           simulation_run_plan_id: Filter by simulation run plan ID
 
-          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, ENDING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT,
-              CANCELLED, CANCELLING)
+          status: Filter by plan job status (PENDING, QUEUED, CREATING_SNAPSHOTS,
+              CREATING_SIMULATIONS, PREPARING_CAPACITY, RUNNING_SIMULATIONS, COMPLETED,
+              FAILED, TIMED_OUT, CANCELLED, CANCELLING, ENDING_SIMULATIONS)
 
           extra_headers: Send extra headers
 
@@ -263,6 +264,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             "QUEUED",
             "CREATING_SNAPSHOTS",
             "CREATING_SIMULATIONS",
+            "PREPARING_CAPACITY",
             "RUNNING_SIMULATIONS",
             "COMPLETED",
             "FAILED",
@@ -296,9 +298,9 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           simulation_run_plan_id: Filter by simulation run plan ID
 
-          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, ENDING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT,
-              CANCELLED, CANCELLING)
+          status: Filter by plan job status (PENDING, QUEUED, CREATING_SNAPSHOTS,
+              CREATING_SIMULATIONS, PREPARING_CAPACITY, RUNNING_SIMULATIONS, COMPLETED,
+              FAILED, TIMED_OUT, CANCELLED, CANCELLING, ENDING_SIMULATIONS)
 
           extra_headers: Send extra headers
 
