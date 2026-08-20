@@ -25,7 +25,6 @@ from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
 from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
-from ..types.call_list_evaluation_runs_response import CallListEvaluationRunsResponse
 
 __all__ = ["CallResource", "AsyncCallResource"]
 
@@ -323,41 +322,6 @@ class CallResource(SyncAPIResource):
                 query=maybe_transform({"source": source}, call_get_transcript_params.CallGetTranscriptParams),
             ),
             cast_to=CallGetTranscriptResponse,
-        )
-
-    def list_evaluation_runs(
-        self,
-        call_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallListEvaluationRunsResponse:
-        """
-        Fetch all evaluation run results for a specific call.
-
-        Args:
-          call_id: ID of the call to fetch evaluation run for
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not call_id:
-            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
-        return self._get(
-            path_template("/v1/call/{call_id}/evaluation-run", call_id=call_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CallListEvaluationRunsResponse,
         )
 
     def list_metrics(
@@ -755,41 +719,6 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetTranscriptResponse,
         )
 
-    async def list_evaluation_runs(
-        self,
-        call_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallListEvaluationRunsResponse:
-        """
-        Fetch all evaluation run results for a specific call.
-
-        Args:
-          call_id: ID of the call to fetch evaluation run for
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not call_id:
-            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
-        return await self._get(
-            path_template("/v1/call/{call_id}/evaluation-run", call_id=call_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CallListEvaluationRunsResponse,
-        )
-
     async def list_metrics(
         self,
         call_id: str,
@@ -904,9 +833,6 @@ class CallResourceWithRawResponse:
         self.get_transcript = to_raw_response_wrapper(
             call.get_transcript,
         )
-        self.list_evaluation_runs = to_raw_response_wrapper(
-            call.list_evaluation_runs,
-        )
         self.list_metrics = to_raw_response_wrapper(
             call.list_metrics,
         )
@@ -930,9 +856,6 @@ class AsyncCallResourceWithRawResponse:
         )
         self.get_transcript = async_to_raw_response_wrapper(
             call.get_transcript,
-        )
-        self.list_evaluation_runs = async_to_raw_response_wrapper(
-            call.list_evaluation_runs,
         )
         self.list_metrics = async_to_raw_response_wrapper(
             call.list_metrics,
@@ -958,9 +881,6 @@ class CallResourceWithStreamingResponse:
         self.get_transcript = to_streamed_response_wrapper(
             call.get_transcript,
         )
-        self.list_evaluation_runs = to_streamed_response_wrapper(
-            call.list_evaluation_runs,
-        )
         self.list_metrics = to_streamed_response_wrapper(
             call.list_metrics,
         )
@@ -984,9 +904,6 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.get_transcript = async_to_streamed_response_wrapper(
             call.get_transcript,
-        )
-        self.list_evaluation_runs = async_to_streamed_response_wrapper(
-            call.list_evaluation_runs,
         )
         self.list_metrics = async_to_streamed_response_wrapper(
             call.list_metrics,
