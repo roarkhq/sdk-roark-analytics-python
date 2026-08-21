@@ -16,7 +16,11 @@ class CustomerFlowUpdateParams(TypedDict, total=False):
     """Replaces the flow-level expectations. Omit to leave them unchanged."""
 
     agent_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]
-    """Replaces the linked agents. Omit to leave them unchanged."""
+    """Replaces the linked agents.
+
+    Omit to leave them unchanged. An improv flow must keep at least one; a scripted
+    flow can be left with none.
+    """
 
     branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
     """Scripted flows only."""

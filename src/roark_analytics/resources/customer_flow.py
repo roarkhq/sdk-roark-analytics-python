@@ -61,12 +61,12 @@ class CustomerFlowResource(SyncAPIResource):
     def create(
         self,
         *,
-        agent_ids: SequenceNotStr[str],
         graph: Iterable[FlowStepParam],
         title: str,
         type: Literal["SCRIPTED"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -84,11 +84,11 @@ class CustomerFlowResource(SyncAPIResource):
         anything new.
 
         Args:
-          agent_ids: Agents this flow exercises. At least one is required.
-
           graph: The conversation, as a graph of steps. At most 100 steps across at most 25
               paths. The variants come from the graph: one per path, so they are not sent
               here.
+
+          agent_ids: Agents this flow exercises. Optional for scripted flows.
 
           branching_mode: DETERMINISTIC (the default) runs one variant per path through the graph;
               ADAPTIVE collapses the paths into one call the simulated customer adapts across.
@@ -130,7 +130,7 @@ class CustomerFlowResource(SyncAPIResource):
         anything new.
 
         Args:
-          agent_ids: Agents this flow exercises. At least one is required.
+          agent_ids: Agents this flow exercises. At least one is required for improv flows.
 
           happy_path: The way this flow is meant to go.
 
@@ -147,17 +147,17 @@ class CustomerFlowResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["agent_ids", "graph", "title", "type"], ["agent_ids", "happy_path", "title", "type"])
+    @required_args(["graph", "title", "type"], ["agent_ids", "happy_path", "title", "type"])
     def create(
         self,
         *,
-        agent_ids: SequenceNotStr[str],
         graph: Iterable[FlowStepParam] | Omit = omit,
         title: str,
         type: Literal["SCRIPTED"] | Literal["IMPROV"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation]
         | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath | Omit = omit,
@@ -173,11 +173,11 @@ class CustomerFlowResource(SyncAPIResource):
             "/v1/customer-flow",
             body=maybe_transform(
                 {
-                    "agent_ids": agent_ids,
                     "graph": graph,
                     "title": title,
                     "type": type,
                     "agent_expectations": agent_expectations,
+                    "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
                     "happy_path": happy_path,
@@ -214,7 +214,8 @@ class CustomerFlowResource(SyncAPIResource):
         Args:
           agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
 
-          agent_ids: Replaces the linked agents. Omit to leave them unchanged.
+          agent_ids: Replaces the linked agents. Omit to leave them unchanged. An improv flow must
+              keep at least one; a scripted flow can be left with none.
 
           branching_mode: Scripted flows only.
 
@@ -516,12 +517,12 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        agent_ids: SequenceNotStr[str],
         graph: Iterable[FlowStepParam],
         title: str,
         type: Literal["SCRIPTED"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -539,11 +540,11 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         anything new.
 
         Args:
-          agent_ids: Agents this flow exercises. At least one is required.
-
           graph: The conversation, as a graph of steps. At most 100 steps across at most 25
               paths. The variants come from the graph: one per path, so they are not sent
               here.
+
+          agent_ids: Agents this flow exercises. Optional for scripted flows.
 
           branching_mode: DETERMINISTIC (the default) runs one variant per path through the graph;
               ADAPTIVE collapses the paths into one call the simulated customer adapts across.
@@ -585,7 +586,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         anything new.
 
         Args:
-          agent_ids: Agents this flow exercises. At least one is required.
+          agent_ids: Agents this flow exercises. At least one is required for improv flows.
 
           happy_path: The way this flow is meant to go.
 
@@ -602,17 +603,17 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["agent_ids", "graph", "title", "type"], ["agent_ids", "happy_path", "title", "type"])
+    @required_args(["graph", "title", "type"], ["agent_ids", "happy_path", "title", "type"])
     async def create(
         self,
         *,
-        agent_ids: SequenceNotStr[str],
         graph: Iterable[FlowStepParam] | Omit = omit,
         title: str,
         type: Literal["SCRIPTED"] | Literal["IMPROV"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation]
         | Omit = omit,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath | Omit = omit,
@@ -628,11 +629,11 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
             "/v1/customer-flow",
             body=await async_maybe_transform(
                 {
-                    "agent_ids": agent_ids,
                     "graph": graph,
                     "title": title,
                     "type": type,
                     "agent_expectations": agent_expectations,
+                    "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
                     "happy_path": happy_path,
@@ -669,7 +670,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         Args:
           agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
 
-          agent_ids: Replaces the linked agents. Omit to leave them unchanged.
+          agent_ids: Replaces the linked agents. Omit to leave them unchanged. An improv flow must
+              keep at least one; a scripted flow can be left with none.
 
           branching_mode: Scripted flows only.
 

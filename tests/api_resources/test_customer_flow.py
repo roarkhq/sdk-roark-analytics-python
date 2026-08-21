@@ -28,7 +28,6 @@ class TestCustomerFlow:
     @parametrize
     def test_method_create_overload_1(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",
@@ -38,7 +37,6 @@ class TestCustomerFlow:
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[
                 {
                     "type": "CUSTOMER_FIRST_MESSAGE",
@@ -52,6 +50,7 @@ class TestCustomerFlow:
             title="Reschedule an appointment",
             type="SCRIPTED",
             agent_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
+            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             branching_mode="DETERMINISTIC",
             description="description",
         )
@@ -60,7 +59,6 @@ class TestCustomerFlow:
     @parametrize
     def test_raw_response_create_overload_1(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",
@@ -74,7 +72,6 @@ class TestCustomerFlow:
     @parametrize
     def test_streaming_response_create_overload_1(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",
@@ -451,7 +448,6 @@ class TestAsyncCustomerFlow:
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",
@@ -461,7 +457,6 @@ class TestAsyncCustomerFlow:
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[
                 {
                     "type": "CUSTOMER_FIRST_MESSAGE",
@@ -475,6 +470,7 @@ class TestAsyncCustomerFlow:
             title="Reschedule an appointment",
             type="SCRIPTED",
             agent_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
+            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             branching_mode="DETERMINISTIC",
             description="description",
         )
@@ -483,7 +479,6 @@ class TestAsyncCustomerFlow:
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",
@@ -497,7 +492,6 @@ class TestAsyncCustomerFlow:
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.create(
-            agent_ids=["7c9e6679-7425-40de-944b-e07fc1f90ae7"],
             graph=[{"type": "CUSTOMER_FIRST_MESSAGE"}],
             title="Reschedule an appointment",
             type="SCRIPTED",

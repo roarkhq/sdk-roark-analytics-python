@@ -20,9 +20,6 @@ __all__ = [
 
 
 class CreateScriptedCustomerFlowInput(TypedDict, total=False):
-    agent_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]]
-    """Agents this flow exercises. At least one is required."""
-
     graph: Required[Iterable["FlowStepParam"]]
     """The conversation, as a graph of steps.
 
@@ -37,6 +34,9 @@ class CreateScriptedCustomerFlowInput(TypedDict, total=False):
     agent_expectations: Annotated[
         Iterable[CreateScriptedCustomerFlowInputAgentExpectation], PropertyInfo(alias="agentExpectations")
     ]
+
+    agent_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]
+    """Agents this flow exercises. Optional for scripted flows."""
 
     branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
     """
@@ -54,7 +54,7 @@ class CreateScriptedCustomerFlowInputAgentExpectation(TypedDict, total=False):
 
 class CreateImprovCustomerFlowInput(TypedDict, total=False):
     agent_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="agentIds")]]
-    """Agents this flow exercises. At least one is required."""
+    """Agents this flow exercises. At least one is required for improv flows."""
 
     happy_path: Required[Annotated[CreateImprovCustomerFlowInputHappyPath, PropertyInfo(alias="happyPath")]]
     """The way this flow is meant to go."""
