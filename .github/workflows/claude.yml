@@ -34,6 +34,9 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Release and regeneration PRs are opened by the Stainless app, so the
+          # review job must accept that bot actor while still rejecting others.
+          allowed_bots: "stainless-app"
           track_progress: true
           prompt: |
             REPO: ${{ github.repository }}
