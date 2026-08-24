@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.24.1 (2026-08-24)
+
+Full Changelog: [v2.24.0...v2.24.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.0...v2.24.1)
+
+### Bug Fixes
+
+* **ci:** allow stainless-app bot to trigger Claude PR review ([ad60a57](https://github.com/roarkhq/sdk-roark-analytics-python/commit/ad60a573da243344f8f7805ac2c007f6e73f8360))
+
+
+### Chores
+
+* add claude ([1bbc38f](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1bbc38f882213605135bb496c557bee5ebbc973c))
+* **ci:** expand Claude Code review workflow ([b25caa5](https://github.com/roarkhq/sdk-roark-analytics-python/commit/b25caa5a9f263d36171f224bd363cb5d0eb7d595))
+
 ## 2.24.0 (2026-08-04)
 
 Full Changelog: [v2.23.0...v2.24.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.23.0...v2.24.0)
