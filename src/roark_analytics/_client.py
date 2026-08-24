@@ -38,6 +38,7 @@ if TYPE_CHECKING:
     from .resources import (
         call,
         agent,
+        config,
         health,
         metric,
         webhook,
@@ -56,6 +57,7 @@ if TYPE_CHECKING:
     )
     from .resources.call import CallResource, AsyncCallResource
     from .resources.agent import AgentResource, AsyncAgentResource
+    from .resources.config import ConfigResource, AsyncConfigResource
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
@@ -240,6 +242,12 @@ class Roark(SyncAPIClient):
         from .resources.webhook import WebhookResource
 
         return WebhookResource(self)
+
+    @cached_property
+    def config(self) -> ConfigResource:
+        from .resources.config import ConfigResource
+
+        return ConfigResource(self)
 
     @cached_property
     def with_raw_response(self) -> RoarkWithRawResponse:
@@ -521,6 +529,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncWebhookResource(self)
 
     @cached_property
+    def config(self) -> AsyncConfigResource:
+        from .resources.config import AsyncConfigResource
+
+        return AsyncConfigResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncRoarkWithRawResponse:
         return AsyncRoarkWithRawResponse(self)
 
@@ -741,6 +755,12 @@ class RoarkWithRawResponse:
 
         return WebhookResourceWithRawResponse(self._client.webhook)
 
+    @cached_property
+    def config(self) -> config.ConfigResourceWithRawResponse:
+        from .resources.config import ConfigResourceWithRawResponse
+
+        return ConfigResourceWithRawResponse(self._client.config)
+
 
 class AsyncRoarkWithRawResponse:
     _client: AsyncRoark
@@ -850,6 +870,12 @@ class AsyncRoarkWithRawResponse:
 
         return AsyncWebhookResourceWithRawResponse(self._client.webhook)
 
+    @cached_property
+    def config(self) -> config.AsyncConfigResourceWithRawResponse:
+        from .resources.config import AsyncConfigResourceWithRawResponse
+
+        return AsyncConfigResourceWithRawResponse(self._client.config)
+
 
 class RoarkWithStreamedResponse:
     _client: Roark
@@ -958,6 +984,12 @@ class RoarkWithStreamedResponse:
         from .resources.webhook import WebhookResourceWithStreamingResponse
 
         return WebhookResourceWithStreamingResponse(self._client.webhook)
+
+    @cached_property
+    def config(self) -> config.ConfigResourceWithStreamingResponse:
+        from .resources.config import ConfigResourceWithStreamingResponse
+
+        return ConfigResourceWithStreamingResponse(self._client.config)
 
 
 class AsyncRoarkWithStreamedResponse:
@@ -1069,6 +1101,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.webhook import AsyncWebhookResourceWithStreamingResponse
 
         return AsyncWebhookResourceWithStreamingResponse(self._client.webhook)
+
+    @cached_property
+    def config(self) -> config.AsyncConfigResourceWithStreamingResponse:
+        from .resources.config import AsyncConfigResourceWithStreamingResponse
+
+        return AsyncConfigResourceWithStreamingResponse(self._client.config)
 
 
 Client = Roark

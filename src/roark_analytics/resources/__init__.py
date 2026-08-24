@@ -16,6 +16,14 @@ from .agent import (
     AgentResourceWithStreamingResponse,
     AsyncAgentResourceWithStreamingResponse,
 )
+from .config import (
+    ConfigResource,
+    AsyncConfigResource,
+    ConfigResourceWithRawResponse,
+    AsyncConfigResourceWithRawResponse,
+    ConfigResourceWithStreamingResponse,
+    AsyncConfigResourceWithStreamingResponse,
+)
 from .health import (
     HealthResource,
     AsyncHealthResource,
@@ -240,4 +248,10 @@ __all__ = [
     "AsyncWebhookResourceWithRawResponse",
     "WebhookResourceWithStreamingResponse",
     "AsyncWebhookResourceWithStreamingResponse",
+    "ConfigResource",
+    "AsyncConfigResource",
+    "ConfigResourceWithRawResponse",
+    "AsyncConfigResourceWithRawResponse",
+    "ConfigResourceWithStreamingResponse",
+    "AsyncConfigResourceWithStreamingResponse",
 ]

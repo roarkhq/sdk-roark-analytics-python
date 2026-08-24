@@ -314,3 +314,15 @@ Methods:
 - <code title="get /v1/webhook">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">list</a>(\*\*<a href="src/roark_analytics/types/webhook_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/webhook_list_response.py">WebhookListResponse</a></code>
 - <code title="delete /v1/webhook/{webhookId}">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">delete</a>(webhook_id) -> <a href="./src/roark_analytics/types/webhook_delete_response.py">WebhookDeleteResponse</a></code>
 - <code title="get /v1/webhook/{webhookId}">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">get_by_id</a>(webhook_id) -> <a href="./src/roark_analytics/types/webhook_get_by_id_response.py">WebhookGetByIDResponse</a></code>
+
+# Config
+
+Types:
+
+```python
+from roark_analytics.types import Bundle, ConfigApplyResponse
+```
+
+Methods:
+
+- <code title="post /v1/config/apply">client.config.<a href="./src/roark_analytics/resources/config.py">apply</a>(\*\*<a href="src/roark_analytics/types/config_apply_params.py">params</a>) -> <a href="./src/roark_analytics/types/config_apply_response.py">ConfigApplyResponse</a></code>
