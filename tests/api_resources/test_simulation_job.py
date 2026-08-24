@@ -13,6 +13,7 @@ from roark_analytics.types import (
     SimulationJobLookupResponse,
     SimulationJobGetByIDResponse,
 )
+from roark_analytics._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -52,24 +53,31 @@ class TestSimulationJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_path_params_get_by_id(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
     def test_method_lookup(self, client: Roark) -> None:
         simulation_job = client.simulation_job.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         )
         assert_matches_type(SimulationJobLookupResponse, simulation_job, path=["response"])
 
     @parametrize
     def test_method_lookup_with_all_params(self, client: Roark) -> None:
         simulation_job = client.simulation_job.lookup(
-            roark_phone_number={},
-            call_received_at={},
+            roark_phone_number="roarkPhoneNumber",
+            call_received_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(SimulationJobLookupResponse, simulation_job, path=["response"])
 
     @parametrize
     def test_raw_response_lookup(self, client: Roark) -> None:
         response = client.simulation_job.with_raw_response.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         )
 
         assert response.is_closed is True
@@ -80,7 +88,7 @@ class TestSimulationJob:
     @parametrize
     def test_streaming_response_lookup(self, client: Roark) -> None:
         with client.simulation_job.with_streaming_response.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -128,24 +136,31 @@ class TestAsyncSimulationJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_path_params_get_by_id(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
     async def test_method_lookup(self, async_client: AsyncRoark) -> None:
         simulation_job = await async_client.simulation_job.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         )
         assert_matches_type(SimulationJobLookupResponse, simulation_job, path=["response"])
 
     @parametrize
     async def test_method_lookup_with_all_params(self, async_client: AsyncRoark) -> None:
         simulation_job = await async_client.simulation_job.lookup(
-            roark_phone_number={},
-            call_received_at={},
+            roark_phone_number="roarkPhoneNumber",
+            call_received_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(SimulationJobLookupResponse, simulation_job, path=["response"])
 
     @parametrize
     async def test_raw_response_lookup(self, async_client: AsyncRoark) -> None:
         response = await async_client.simulation_job.with_raw_response.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         )
 
         assert response.is_closed is True
@@ -156,7 +171,7 @@ class TestAsyncSimulationJob:
     @parametrize
     async def test_streaming_response_lookup(self, async_client: AsyncRoark) -> None:
         async with async_client.simulation_job.with_streaming_response.lookup(
-            roark_phone_number={},
+            roark_phone_number="roarkPhoneNumber",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

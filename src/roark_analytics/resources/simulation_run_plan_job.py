@@ -130,7 +130,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
     def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -152,6 +152,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return self._get(
             path_template("/v1/simulation/plan/job/{job_id}", job_id=job_id),
             options=make_request_options(
@@ -163,7 +165,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
     @typing_extensions.deprecated("deprecated")
     def start(
         self,
-        plan_id: object,
+        plan_id: str,
         *,
         variables: Union[
             Dict[str, str],
@@ -219,6 +221,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not plan_id:
+            raise ValueError(f"Expected a non-empty value for `plan_id` but received {plan_id!r}")
         return self._post(
             path_template("/v1/simulation/plan/{plan_id}/job", plan_id=plan_id),
             body=maybe_transform(
@@ -334,7 +338,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
     async def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -356,6 +360,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return await self._get(
             path_template("/v1/simulation/plan/job/{job_id}", job_id=job_id),
             options=make_request_options(
@@ -367,7 +373,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
     @typing_extensions.deprecated("deprecated")
     async def start(
         self,
-        plan_id: object,
+        plan_id: str,
         *,
         variables: Union[
             Dict[str, str],
@@ -423,6 +429,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not plan_id:
+            raise ValueError(f"Expected a non-empty value for `plan_id` but received {plan_id!r}")
         return await self._post(
             path_template("/v1/simulation/plan/{plan_id}/job", plan_id=plan_id),
             body=await async_maybe_transform(

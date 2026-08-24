@@ -92,6 +92,13 @@ class TestSimulationRunPlanJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_path_params_get_by_id(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_run_plan_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
     def test_method_start(self, client: Roark) -> None:
         with pytest.warns(DeprecationWarning):
             simulation_run_plan_job = client.simulation_run_plan_job.start(
@@ -138,6 +145,14 @@ class TestSimulationRunPlanJob:
                 assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_start(self, client: Roark) -> None:
+        with pytest.warns(DeprecationWarning):
+            with pytest.raises(ValueError, match=r"Expected a non-empty value for `plan_id` but received ''"):
+                client.simulation_run_plan_job.with_raw_response.start(
+                    plan_id="",
+                )
 
 
 class TestAsyncSimulationRunPlanJob:
@@ -214,6 +229,13 @@ class TestAsyncSimulationRunPlanJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_path_params_get_by_id(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_run_plan_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
     async def test_method_start(self, async_client: AsyncRoark) -> None:
         with pytest.warns(DeprecationWarning):
             simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
@@ -260,3 +282,11 @@ class TestAsyncSimulationRunPlanJob:
                 assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_start(self, async_client: AsyncRoark) -> None:
+        with pytest.warns(DeprecationWarning):
+            with pytest.raises(ValueError, match=r"Expected a non-empty value for `plan_id` but received ''"):
+                await async_client.simulation_run_plan_job.with_raw_response.start(
+                    plan_id="",
+                )
