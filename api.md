@@ -320,9 +320,10 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import Bundle, ConfigApplyResponse
+from roark_analytics.types import Bundle, ConfigApplyResponse, ConfigDiffResponse
 ```
 
 Methods:
 
 - <code title="post /v1/config/apply">client.config.<a href="./src/roark_analytics/resources/config.py">apply</a>(\*\*<a href="src/roark_analytics/types/config_apply_params.py">params</a>) -> <a href="./src/roark_analytics/types/config_apply_response.py">ConfigApplyResponse</a></code>
+- <code title="post /v1/config/diff">client.config.<a href="./src/roark_analytics/resources/config.py">diff</a>(\*\*<a href="src/roark_analytics/types/config_diff_params.py">params</a>) -> <a href="./src/roark_analytics/types/config_diff_response.py">ConfigDiffResponse</a></code>

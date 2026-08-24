@@ -6,7 +6,7 @@ from typing import Iterable
 
 import httpx
 
-from ..types import config_apply_params
+from ..types import config_diff_params, config_apply_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,6 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.config_diff_response import ConfigDiffResponse
 from ..types.config_apply_response import ConfigApplyResponse
 
 __all__ = ["ConfigResource", "AsyncConfigResource"]
@@ -86,6 +87,49 @@ class ConfigResource(SyncAPIResource):
             cast_to=ConfigApplyResponse,
         )
 
+    def diff(
+        self,
+        *,
+        resources: Iterable[config_diff_params.Resource],
+        prune: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigDiffResponse:
+        """
+        Dry run: returns the changes reconcile a config-as-code bundle into the project.
+        Submit the full desired set of resources; resources already managed by config
+        are updated, new ones created, and (unless prune is false) config-managed
+        resources absent from the bundle are deleted. Identity is by name — no ids in
+        the bundle. No writes are performed.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/config/diff",
+            body=maybe_transform(
+                {
+                    "resources": resources,
+                    "prune": prune,
+                },
+                config_diff_params.ConfigDiffParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConfigDiffResponse,
+        )
+
 
 class AsyncConfigResource(AsyncAPIResource):
     @cached_property
@@ -150,6 +194,49 @@ class AsyncConfigResource(AsyncAPIResource):
             cast_to=ConfigApplyResponse,
         )
 
+    async def diff(
+        self,
+        *,
+        resources: Iterable[config_diff_params.Resource],
+        prune: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigDiffResponse:
+        """
+        Dry run: returns the changes reconcile a config-as-code bundle into the project.
+        Submit the full desired set of resources; resources already managed by config
+        are updated, new ones created, and (unless prune is false) config-managed
+        resources absent from the bundle are deleted. Identity is by name — no ids in
+        the bundle. No writes are performed.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/config/diff",
+            body=await async_maybe_transform(
+                {
+                    "resources": resources,
+                    "prune": prune,
+                },
+                config_diff_params.ConfigDiffParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConfigDiffResponse,
+        )
+
 
 class ConfigResourceWithRawResponse:
     def __init__(self, config: ConfigResource) -> None:
@@ -157,6 +244,9 @@ class ConfigResourceWithRawResponse:
 
         self.apply = to_raw_response_wrapper(
             config.apply,
+        )
+        self.diff = to_raw_response_wrapper(
+            config.diff,
         )
 
 
@@ -167,6 +257,9 @@ class AsyncConfigResourceWithRawResponse:
         self.apply = async_to_raw_response_wrapper(
             config.apply,
         )
+        self.diff = async_to_raw_response_wrapper(
+            config.diff,
+        )
 
 
 class ConfigResourceWithStreamingResponse:
@@ -176,6 +269,9 @@ class ConfigResourceWithStreamingResponse:
         self.apply = to_streamed_response_wrapper(
             config.apply,
         )
+        self.diff = to_streamed_response_wrapper(
+            config.diff,
+        )
 
 
 class AsyncConfigResourceWithStreamingResponse:
@@ -184,4 +280,7 @@ class AsyncConfigResourceWithStreamingResponse:
 
         self.apply = async_to_streamed_response_wrapper(
             config.apply,
+        )
+        self.diff = async_to_streamed_response_wrapper(
+            config.diff,
         )

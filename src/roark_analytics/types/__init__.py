@@ -20,6 +20,7 @@ from .call_list_params import CallListParams as CallListParams
 from .agent_list_params import AgentListParams as AgentListParams
 from .call_create_params import CallCreateParams as CallCreateParams
 from .call_list_response import CallListResponse as CallListResponse
+from .config_diff_params import ConfigDiffParams as ConfigDiffParams
 from .agent_create_params import AgentCreateParams as AgentCreateParams
 from .agent_list_response import AgentListResponse as AgentListResponse
 from .agent_update_params import AgentUpdateParams as AgentUpdateParams
@@ -27,6 +28,7 @@ from .config_apply_params import ConfigApplyParams as ConfigApplyParams
 from .health_get_response import HealthGetResponse as HealthGetResponse
 from .webhook_list_params import WebhookListParams as WebhookListParams
 from .call_create_response import CallCreateResponse as CallCreateResponse
+from .config_diff_response import ConfigDiffResponse as ConfigDiffResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
 from .agent_update_response import AgentUpdateResponse as AgentUpdateResponse
 from .config_apply_response import ConfigApplyResponse as ConfigApplyResponse

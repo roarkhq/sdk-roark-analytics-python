@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
-from roark_analytics.types import ConfigApplyResponse
+from roark_analytics.types import ConfigDiffResponse, ConfigApplyResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -86,6 +86,75 @@ class TestConfig:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    def test_method_diff(self, client: Roark) -> None:
+        config = client.config.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        )
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    def test_method_diff_with_all_params(self, client: Roark) -> None:
+        config = client.config.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                    "custom_id": "customId",
+                    "description": "description",
+                    "endpoints": [
+                        {
+                            "direction": "INCOMING",
+                            "name": "name",
+                            "value": "x",
+                            "environment": "environment",
+                        }
+                    ],
+                }
+            ],
+            prune=True,
+        )
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    def test_raw_response_diff(self, client: Roark) -> None:
+        response = client.config.with_raw_response.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        config = response.parse()
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    def test_streaming_response_diff(self, client: Roark) -> None:
+        with client.config.with_streaming_response.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            config = response.parse()
+            assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncConfig:
     parametrize = pytest.mark.parametrize(
@@ -158,5 +227,74 @@ class TestAsyncConfig:
 
             config = await response.parse()
             assert_matches_type(ConfigApplyResponse, config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_diff(self, async_client: AsyncRoark) -> None:
+        config = await async_client.config.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        )
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    async def test_method_diff_with_all_params(self, async_client: AsyncRoark) -> None:
+        config = await async_client.config.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                    "custom_id": "customId",
+                    "description": "description",
+                    "endpoints": [
+                        {
+                            "direction": "INCOMING",
+                            "name": "name",
+                            "value": "x",
+                            "environment": "environment",
+                        }
+                    ],
+                }
+            ],
+            prune=True,
+        )
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    async def test_raw_response_diff(self, async_client: AsyncRoark) -> None:
+        response = await async_client.config.with_raw_response.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        config = await response.parse()
+        assert_matches_type(ConfigDiffResponse, config, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_diff(self, async_client: AsyncRoark) -> None:
+        async with async_client.config.with_streaming_response.diff(
+            resources=[
+                {
+                    "kind": "agent",
+                    "name": "name",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            config = await response.parse()
+            assert_matches_type(ConfigDiffResponse, config, path=["response"])
 
         assert cast(Any, response.is_closed) is True
