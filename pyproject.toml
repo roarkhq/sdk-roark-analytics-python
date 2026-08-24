@@ -43,6 +43,7 @@ Repository = "https://github.com/roarkhq/sdk-roark-analytics-python"
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
 pipecat = ["pipecat-roark>=0.2,<0.3; python_version >= '3.10'"]
+livekit = ["roark-analytics-python-livekit==0.1.0; python_version >= '3.10'"]
 
 [tool.rye]
 managed = true
