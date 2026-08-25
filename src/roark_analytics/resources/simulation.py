@@ -109,8 +109,8 @@ class SimulationResource(SyncAPIResource):
         plan_id: str,
         variables: Union[
             Dict[str, str],
-            Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember1],
-            Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember2],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -162,16 +162,9 @@ class SimulationResource(SyncAPIResource):
         plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
         save_as_plan: bool | Omit = omit,
         variables: Union[
-            Union[
-                Dict[str, str],
-                Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
-                Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
-            ],
-            Union[
-                Dict[str, str],
-                Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember1],
-                Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember2],
-            ],
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
         ]
         | Omit = omit,
         plan_id: str | Omit = omit,
@@ -286,8 +279,8 @@ class AsyncSimulationResource(AsyncAPIResource):
         plan_id: str,
         variables: Union[
             Dict[str, str],
-            Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember1],
-            Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember2],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -339,16 +332,9 @@ class AsyncSimulationResource(AsyncAPIResource):
         plan: simulation_run_params.RunSimulationFromConfigPlan | Omit = omit,
         save_as_plan: bool | Omit = omit,
         variables: Union[
-            Union[
-                Dict[str, str],
-                Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
-                Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
-            ],
-            Union[
-                Dict[str, str],
-                Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember1],
-                Iterable[simulation_run_params.RunSimulationFromPlanIDVariableUnionMember2],
-            ],
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
         ]
         | Omit = omit,
         plan_id: str | Omit = omit,

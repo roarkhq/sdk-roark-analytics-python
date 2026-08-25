@@ -25,6 +25,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestCustomerFlow:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_create_overload_1(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
@@ -34,6 +35,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
@@ -83,6 +85,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_create_overload_1(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.create(
@@ -96,6 +99,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_create_overload_1(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.create(
@@ -111,6 +115,7 @@ class TestCustomerFlow:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_create_overload_2(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
@@ -125,6 +130,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_create_with_all_params_overload_2(self, client: Roark) -> None:
         customer_flow = client.customer_flow.create(
@@ -154,6 +160,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_create_overload_2(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.create(
@@ -172,6 +179,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_create_overload_2(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.create(
@@ -192,6 +200,7 @@ class TestCustomerFlow:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update(self, client: Roark) -> None:
         customer_flow = client.customer_flow.update(
@@ -199,6 +208,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.update(
@@ -211,6 +221,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_update(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.update(
@@ -222,6 +233,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_update(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.update(
@@ -242,11 +254,13 @@ class TestCustomerFlow:
                 flow_id="",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_list(self, client: Roark) -> None:
         customer_flow = client.customer_flow.list()
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_list_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.list(
@@ -258,6 +272,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_list(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.list()
@@ -267,6 +282,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_list(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.list() as response:
@@ -316,6 +332,7 @@ class TestCustomerFlow:
                 "",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
         customer_flow = client.customer_flow.get_by_id(
@@ -323,6 +340,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowGetByIDResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_get_by_id(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.get_by_id(
@@ -334,6 +352,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowGetByIDResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_get_by_id(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.get_by_id(
@@ -354,6 +373,7 @@ class TestCustomerFlow:
                 "",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_replace_graph(self, client: Roark) -> None:
         customer_flow = client.customer_flow.replace_graph(
@@ -362,6 +382,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_replace_graph_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.replace_graph(
@@ -407,6 +428,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_replace_graph(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.replace_graph(
@@ -419,6 +441,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_replace_graph(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.replace_graph(
@@ -441,6 +464,7 @@ class TestCustomerFlow:
                 graph=[{"type": "AGENT_TURN"}],
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update_happy_path(self, client: Roark) -> None:
         customer_flow = client.customer_flow.update_happy_path(
@@ -448,6 +472,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update_happy_path_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.update_happy_path(
@@ -462,6 +487,7 @@ class TestCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_update_happy_path(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.update_happy_path(
@@ -473,6 +499,7 @@ class TestCustomerFlow:
         customer_flow = response.parse()
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_update_happy_path(self, client: Roark) -> None:
         with client.customer_flow.with_streaming_response.update_happy_path(
@@ -499,6 +526,7 @@ class TestAsyncCustomerFlow:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
@@ -508,6 +536,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
@@ -557,6 +586,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.create(
@@ -570,6 +600,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.create(
@@ -585,6 +616,7 @@ class TestAsyncCustomerFlow:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
@@ -599,6 +631,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_create_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.create(
@@ -628,6 +661,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.create(
@@ -646,6 +680,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.create(
@@ -666,6 +701,7 @@ class TestAsyncCustomerFlow:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.update(
@@ -673,6 +709,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.update(
@@ -685,6 +722,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.update(
@@ -696,6 +734,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.update(
@@ -716,11 +755,13 @@ class TestAsyncCustomerFlow:
                 flow_id="",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_list(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.list()
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.list(
@@ -732,6 +773,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.list()
@@ -741,6 +783,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowListResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.list() as response:
@@ -790,6 +833,7 @@ class TestAsyncCustomerFlow:
                 "",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.get_by_id(
@@ -797,6 +841,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowGetByIDResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_get_by_id(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.get_by_id(
@@ -808,6 +853,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowGetByIDResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_get_by_id(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.get_by_id(
@@ -828,6 +874,7 @@ class TestAsyncCustomerFlow:
                 "",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_replace_graph(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.replace_graph(
@@ -836,6 +883,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_replace_graph_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.replace_graph(
@@ -881,6 +929,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_replace_graph(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.replace_graph(
@@ -893,6 +942,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowReplaceGraphResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_replace_graph(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.replace_graph(
@@ -915,6 +965,7 @@ class TestAsyncCustomerFlow:
                 graph=[{"type": "AGENT_TURN"}],
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update_happy_path(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.update_happy_path(
@@ -922,6 +973,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update_happy_path_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.update_happy_path(
@@ -936,6 +988,7 @@ class TestAsyncCustomerFlow:
         )
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_update_happy_path(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow.with_raw_response.update_happy_path(
@@ -947,6 +1000,7 @@ class TestAsyncCustomerFlow:
         customer_flow = await response.parse()
         assert_matches_type(CustomerFlowUpdateHappyPathResponse, customer_flow, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_update_happy_path(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow.with_streaming_response.update_happy_path(

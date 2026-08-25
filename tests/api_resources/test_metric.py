@@ -100,7 +100,10 @@ class TestMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
@@ -116,7 +119,11 @@ class TestMetric:
                 {
                     "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                }
+                },
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
             ],
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
@@ -131,7 +138,10 @@ class TestMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         )
 
         assert response.is_closed is True
@@ -147,7 +157,10 @@ class TestMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -365,7 +378,10 @@ class TestAsyncMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
@@ -381,7 +397,11 @@ class TestAsyncMetric:
                 {
                     "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                }
+                },
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                },
             ],
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
@@ -396,7 +416,10 @@ class TestAsyncMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         )
 
         assert response.is_closed is True
@@ -412,7 +435,10 @@ class TestAsyncMetric:
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
             output_type="NUMERIC",
-            sources=[{"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            sources=[
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                {"source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+            ],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

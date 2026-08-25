@@ -7,7 +7,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .config_flow_step import ConfigFlowStep
+from .config_flow_step_param import ConfigFlowStepParam
 
 __all__ = [
     "ConfigDiffParams",
@@ -210,7 +210,7 @@ class ResourceUnionMember2(TypedDict, total=False):
 
 
 class ResourceUnionMember3(TypedDict, total=False):
-    graph: Required[List[ConfigFlowStep]]
+    graph: Required[List[ConfigFlowStepParam]]
 
     kind: Required[Literal["flow"]]
 

@@ -10,7 +10,7 @@ from .._utils import PropertyInfo
 from .config_flow_step_param import ConfigFlowStepParam
 
 __all__ = [
-    "ConfigApplyParams",
+    "BundleParam",
     "ResourceUnionMember0",
     "ResourceUnionMember0Endpoint",
     "ResourceUnionMember1",
@@ -320,7 +320,7 @@ class ResourceUnionMember5(TypedDict, total=False):
     true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
 
 
-class ConfigApplyParams(TypedDict, total=False):
+class BundleParam(TypedDict, total=False):
     resources: Required[
         List[
             Union[

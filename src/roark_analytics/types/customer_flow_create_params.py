@@ -7,7 +7,7 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .flow_step import FlowStep
+from .flow_step_param import FlowStepParam
 
 __all__ = [
     "CustomerFlowCreateParams",
@@ -25,7 +25,7 @@ class CreateScriptedCustomerFlowInputAgentExpectation(TypedDict, total=False):
 
 
 class CreateScriptedCustomerFlowInput(TypedDict, total=False):
-    graph: Required[List[FlowStep]]
+    graph: Required[List[FlowStepParam]]
     """
     The conversation, as a graph of steps. At most 100 steps across at most 25
     paths. The variants come from the graph: one per path, so they are not sent
