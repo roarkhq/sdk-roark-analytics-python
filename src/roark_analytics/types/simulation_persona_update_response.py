@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -14,7 +14,31 @@ class Data(BaseModel):
     id: str
     """Unique identifier of the persona"""
 
-    accent: Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"]
+    accent: Literal[
+        "US",
+        "US_X_SOUTH",
+        "GB",
+        "ES",
+        "DE",
+        "IN",
+        "FR",
+        "NL",
+        "SA",
+        "GR",
+        "AU",
+        "IT",
+        "ID",
+        "TH",
+        "JP",
+        "NZ",
+        "PH",
+        "SG",
+        "MY",
+        "HK",
+        "TR",
+        "PT",
+        "IL",
+    ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
     optional variants
@@ -25,8 +49,8 @@ class Data(BaseModel):
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] = FieldInfo(
-        alias="baseEmotion"
+    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"] = (
+        FieldInfo(alias="baseEmotion")
     )
     """Base emotional state of the persona"""
 
@@ -36,16 +60,35 @@ class Data(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp"""
 
-    gender: Literal["MALE", "FEMALE", "NEUTRAL"]
+    gender: Literal["MALE", "FEMALE"]
     """Gender of the persona"""
 
     has_disfluencies: bool = FieldInfo(alias="hasDisfluencies")
-    """Whether the persona uses filler words like "um" and "uh" """
+    """
+    Whether the persona uses filler words like "um" and "uh"
+    """
+
+    idle_message_max_spoken_count: int = FieldInfo(alias="idleMessageMaxSpokenCount")
+    """Maximum number of idle messages the persona will send before giving up"""
+
+    idle_message_reset_count_on_user_speech_enabled: bool = FieldInfo(alias="idleMessageResetCountOnUserSpeechEnabled")
+    """Whether the idle message counter resets when the agent speaks"""
+
+    idle_messages: Optional[List[str]] = FieldInfo(alias="idleMessages")
+    """
+    Messages the persona will say when the agent goes silent during a call. null =
+    "Automatic": language-appropriate defaults are used at call time.
+    """
+
+    idle_timeout_seconds: int = FieldInfo(alias="idleTimeoutSeconds")
+    """Seconds of silence before the persona sends an idle message"""
 
     intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] = FieldInfo(alias="intentClarity")
     """How clearly the persona expresses their intentions"""
 
-    language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]
+    language: Literal[
+        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+    ]
     """Primary language ISO 639-1 code for the persona"""
 
     memory_reliability: Literal["HIGH", "LOW"] = FieldInfo(alias="memoryReliability")
@@ -57,11 +100,27 @@ class Data(BaseModel):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
+    response_timing: Literal["RELAXED", "NORMAL", "QUICK"] = FieldInfo(alias="responseTiming")
+    """
+    Controls how quickly the persona responds to pauses in conversation (QUICK,
+    NORMAL, RELAXED)
+    """
+
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
     """Speech clarity of the persona"""
 
-    speech_pace: Literal["SLOW", "NORMAL", "FAST"] = FieldInfo(alias="speechPace")
+    speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] = FieldInfo(alias="speechPace")
     """Speech pace of the persona"""
+
+    understood_languages: List[
+        Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ]
+    ] = FieldInfo(alias="understoodLanguages")
+    """
+    Languages the persona can understand. Multilingual combinations are limited by
+    multilingual speech recognition support.
+    """
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp"""
@@ -73,9 +132,7 @@ class Data(BaseModel):
     """Human-readable description of the persona"""
 
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
-    """
-    Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
-    """
+    """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
 
 class SimulationPersonaUpdateResponse(BaseModel):

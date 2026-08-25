@@ -57,17 +57,19 @@ class SimulationRunPlanResource(SyncAPIResource):
         *,
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
-        evaluators: Iterable[simulation_run_plan_create_params.Evaluator],
         max_simulation_duration_seconds: int,
+        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
-        personas: Iterable[simulation_run_plan_create_params.Persona],
-        scenarios: Iterable[simulation_run_plan_create_params.Scenario],
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -78,37 +80,47 @@ class SimulationRunPlanResource(SyncAPIResource):
     ) -> SimulationRunPlanCreateResponse:
         """Creates a new simulation run plan.
 
-        Optionally triggers a job immediately if
-        autoRun is true.
+        To run a simulation, use POST
+        /v1/simulation/run instead: it starts a run from a plan or from an inline
+        configuration, and takes runtime variables. Create a plan here when you want a
+        reusable, named one to run later.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
-          evaluators: Evaluators to include in this run plan
-
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`.
 
           name: Name of the run plan
 
-          personas: Personas to include in this run plan
-
-          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
-              times with different variables.
-
-          auto_run: Whether to automatically trigger a job after creating the run plan
+          auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
+              `variables` as well. This flag runs the plan with only the values pinned on it.
 
           description: Description of the run plan
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          flows: Customer flows to include in this run plan. The same flow can appear more than
+              once with a different persona override or different variables.
+
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
+
+          personas: Personas to include in this run plan. Required with `scenarios`; ignored with
+              `flows`, where each variant carries its own persona.
+
+          scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
+              scenario ID can appear multiple times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -126,17 +138,19 @@ class SimulationRunPlanResource(SyncAPIResource):
                 {
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
-                    "evaluators": evaluators,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
-                    "personas": personas,
-                    "scenarios": scenarios,
                     "auto_run": auto_run,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
+                    "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "personas": personas,
+                    "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_plan_create_params.SimulationRunPlanCreateParams,
@@ -155,13 +169,16 @@ class SimulationRunPlanResource(SyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
-        evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
-        personas: Iterable[simulation_run_plan_update_params.Persona] | Omit = omit,
+        personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -183,23 +200,35 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
-          evaluators: Evaluators to include in this run plan
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          flows: Replaces the customer flows attached to this run plan. Omit to leave them
+              unchanged; send an empty array to detach them all.
+
+          is_hidden: Whether this plan is hidden from GET /v1/simulation/plan. A run started without
+              `saveAsPlan` creates a hidden plan to carry it. Send `{ "name": "...",
+              "isHidden": false }` to keep that configuration as a reusable plan, which is
+              what the app does when you save a one-off run.
+
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`.
+
           name: Name of the run plan
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
-              times with different variables.
+          scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
+              to leave them unchanged; send an empty array to detach them all, which is how a
+              scenario-based plan is moved over to flows.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -221,11 +250,14 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
-                    "evaluators": evaluators,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
+                    "flows": flows,
+                    "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,
@@ -387,17 +419,19 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         *,
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
-        evaluators: Iterable[simulation_run_plan_create_params.Evaluator],
         max_simulation_duration_seconds: int,
+        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
-        personas: Iterable[simulation_run_plan_create_params.Persona],
-        scenarios: Iterable[simulation_run_plan_create_params.Scenario],
         auto_run: bool | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -408,37 +442,47 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
     ) -> SimulationRunPlanCreateResponse:
         """Creates a new simulation run plan.
 
-        Optionally triggers a job immediately if
-        autoRun is true.
+        To run a simulation, use POST
+        /v1/simulation/run instead: it starts a run from a plan or from an inline
+        configuration, and takes runtime variables. Create a plan here when you want a
+        reusable, named one to run later.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
 
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
-          evaluators: Evaluators to include in this run plan
-
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
+
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`.
 
           name: Name of the run plan
 
-          personas: Personas to include in this run plan
-
-          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
-              times with different variables.
-
-          auto_run: Whether to automatically trigger a job after creating the run plan
+          auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
+              `variables` as well. This flag runs the plan with only the values pinned on it.
 
           description: Description of the run plan
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          flows: Customer flows to include in this run plan. The same flow can appear more than
+              once with a different persona override or different variables.
+
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
+
+          personas: Personas to include in this run plan. Required with `scenarios`; ignored with
+              `flows`, where each variant carries its own persona.
+
+          scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
+              scenario ID can appear multiple times with different variables.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -456,17 +500,19 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                 {
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
-                    "evaluators": evaluators,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
-                    "personas": personas,
-                    "scenarios": scenarios,
                     "auto_run": auto_run,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
+                    "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "personas": personas,
+                    "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_plan_create_params.SimulationRunPlanCreateParams,
@@ -485,13 +531,16 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
-        evaluators: Iterable[simulation_run_plan_update_params.Evaluator] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
-        personas: Iterable[simulation_run_plan_update_params.Persona] | Omit = omit,
+        personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -513,23 +562,35 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
-          evaluators: Evaluators to include in this run plan
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Empty array disables the feature.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
-          iteration_count: Number of iterations to run for each test case. Must be 1 for OUTBOUND
-              direction.
+          flows: Replaces the customer flows attached to this run plan. Omit to leave them
+              unchanged; send an empty array to detach them all.
+
+          is_hidden: Whether this plan is hidden from GET /v1/simulation/plan. A run started without
+              `saveAsPlan` creates a hidden plan to carry it. Send `{ "name": "...",
+              "isHidden": false }` to keep that configuration as a reusable plan, which is
+              what the app does when you save a one-off run.
+
+          iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`.
+
           name: Name of the run plan
 
           personas: Personas to include in this run plan
 
-          scenarios: Scenarios to include in this run plan. The same scenario ID can appear multiple
-              times with different variables.
+          scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
+              to leave them unchanged; send an empty array to detach them all, which is how a
+              scenario-based plan is moved over to flows.
 
           silence_timeout_seconds: Timeout in seconds for silence detection
 
@@ -551,11 +612,14 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
-                    "evaluators": evaluators,
+                    "end_call_reasons": end_call_reasons,
                     "execution_mode": execution_mode,
+                    "flows": flows,
+                    "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
+                    "metrics": metrics,
                     "name": name,
                     "personas": personas,
                     "scenarios": scenarios,

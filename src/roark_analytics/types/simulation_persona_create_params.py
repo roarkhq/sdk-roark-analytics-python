@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["SimulationPersonaCreateParams"]
@@ -12,17 +13,45 @@ __all__ = ["SimulationPersonaCreateParams"]
 
 class SimulationPersonaCreateParams(TypedDict, total=False):
     accent: Required[
-        Literal["US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"]
+        Literal[
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+            "TR",
+            "PT",
+            "IL",
+        ]
     ]
     """
     Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
     optional variants
     """
 
-    gender: Required[Literal["MALE", "FEMALE", "NEUTRAL"]]
+    gender: Required[Literal["MALE", "FEMALE"]]
     """Gender of the persona"""
 
-    language: Required[Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"]]
+    language: Required[
+        Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ]
+    ]
     """Primary language ISO 639-1 code for the persona"""
 
     name: Required[str]
@@ -38,7 +67,7 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     """Background story and behavioral patterns for the persona"""
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"],
+        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
         PropertyInfo(alias="baseEmotion"),
     ]
     """Base emotional state of the persona"""
@@ -50,7 +79,26 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     """Human-readable description of the persona"""
 
     has_disfluencies: Annotated[bool, PropertyInfo(alias="hasDisfluencies")]
-    """Whether the persona uses filler words like "um" and "uh" """
+    """
+    Whether the persona uses filler words like "um" and "uh"
+    """
+
+    idle_message_max_spoken_count: Annotated[int, PropertyInfo(alias="idleMessageMaxSpokenCount")]
+    """Maximum number of idle messages the persona will send before giving up"""
+
+    idle_message_reset_count_on_user_speech_enabled: Annotated[
+        bool, PropertyInfo(alias="idleMessageResetCountOnUserSpeechEnabled")
+    ]
+    """Whether the idle message counter resets when the agent speaks"""
+
+    idle_messages: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="idleMessages")]
+    """
+    Messages the persona will say when the agent goes silent during a call. Defaults
+    to language-appropriate phrases when omitted or sent as null.
+    """
+
+    idle_timeout_seconds: Annotated[int, PropertyInfo(alias="idleTimeoutSeconds")]
+    """Seconds of silence before the persona sends an idle message"""
 
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
     """How clearly the persona expresses their intentions"""
@@ -61,13 +109,49 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
+    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK"], PropertyInfo(alias="responseTiming")]
+    """
+    Controls how quickly the persona responds to pauses in conversation (QUICK,
+    NORMAL, RELAXED)
+    """
+
     secondary_language: Annotated[Optional[Literal["EN"]], PropertyInfo(alias="secondaryLanguage")]
-    """
-    Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
-    """
+    """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
     speech_clarity: Annotated[Literal["CLEAR", "VAGUE", "RAMBLING"], PropertyInfo(alias="speechClarity")]
     """Speech clarity of the persona"""
 
-    speech_pace: Annotated[Literal["SLOW", "NORMAL", "FAST"], PropertyInfo(alias="speechPace")]
+    speech_pace: Annotated[
+        Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"], PropertyInfo(alias="speechPace")
+    ]
     """Speech pace of the persona"""
+
+    understood_languages: Annotated[
+        List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ],
+        PropertyInfo(alias="understoodLanguages"),
+    ]
+    """
+    Languages the persona can understand. Defaults to the languages the persona
+    speaks.
+    """

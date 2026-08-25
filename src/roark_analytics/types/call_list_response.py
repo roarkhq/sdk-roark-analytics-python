@@ -42,6 +42,14 @@ class Data(BaseModel):
     project_id: str = FieldInfo(alias="projectId")
     """ID of the project this call belongs to"""
 
+    recording_url_access: Literal["AVAILABLE", "NOT_AVAILABLE", "RESTRICTED"] = FieldInfo(alias="recordingUrlAccess")
+    """
+    Indicates the status of `recordingUrl`. `AVAILABLE`: signed URL returned.
+    `NOT_AVAILABLE`: no recording on file yet (e.g. still processing). `RESTRICTED`:
+    the calling API key does not have the `recording:read` permission and the URL
+    has been withheld.
+    """
+
     started_at: str = FieldInfo(alias="startedAt")
     """Timestamp when the call started"""
 
@@ -85,6 +93,15 @@ class Data(BaseModel):
     ] = FieldInfo(alias="endedStatus", default=None)
     """Status indicating how the call ended"""
 
+    external_id: Optional[str] = FieldInfo(alias="externalId", default=None)
+    """
+    Caller-supplied correlation ID echoed back from the create request, if any was
+    provided
+    """
+
+    policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
+    """IDs of metric policies that have been applied to this call"""
+
     properties: Optional[Dict[str, object]] = None
     """Custom properties associated with the call"""
 
@@ -114,7 +131,7 @@ class Pagination(BaseModel):
     has_more: bool = FieldInfo(alias="hasMore")
     """Whether there are more items to fetch"""
 
-    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor")
     """Cursor for the next page of items"""
 
     total: float

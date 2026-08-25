@@ -14,6 +14,7 @@ class WebhookCreateParams(TypedDict, total=False):
             Literal[
                 "CALL_ANALYSIS_COMPLETED",
                 "CALL_ANALYSIS_FAILED",
+                "CALL_ANALYSIS_CANCELLED",
                 "CALL_EVALUATION_COMPLETED",
                 "CALL_EVALUATION_FAILED",
                 "SIMULATION_RUN_PLAN_JOB_STARTED",
@@ -24,6 +25,12 @@ class WebhookCreateParams(TypedDict, total=False):
                 "SIMULATION_JOB_COMPLETED",
                 "SIMULATION_JOB_FAILED",
                 "SIMULATION_JOB_CANCELLED",
+                "METRIC_COLLECTION_JOB_COMPLETED",
+                "METRIC_COLLECTION_JOB_FAILED",
+                "CHAT_ANALYSIS_COMPLETED",
+                "CHAT_ANALYSIS_FAILED",
+                "ISSUE_OPENED",
+                "ISSUE_RESOLVED",
             ]
         ]
     ]

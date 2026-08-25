@@ -10,10 +10,9 @@ __all__ = ["HTTPRequestDefinitionUpdateParams"]
 
 class HTTPRequestDefinitionUpdateParams(TypedDict, total=False):
     body: Union[str, Dict[str, object], None]
-    """Request body template.
-
-    Accepts a JSON object or a string with placeholders like {{phoneNumberToDial}}.
-    Objects are serialized to JSON for storage.
+    """
+    Request body template. Accepts a JSON object or a string with placeholders like
+    {{phoneNumberToDial}}. Objects are serialized to JSON for storage.
     """
 
     description: Optional[str]

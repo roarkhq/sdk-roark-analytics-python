@@ -28,11 +28,9 @@ class TestSimulationRunPlan:
         simulation_run_plan = client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
@@ -41,25 +39,27 @@ class TestSimulationRunPlan:
         simulation_run_plan = client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[
-                {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {
-                        "customerName": "John Doe",
-                        "appointmentDate": "2024-02-15",
-                    },
-                }
-            ],
             auto_run=False,
             description="A run plan for testing inbound calls",
-            end_call_phrases=["goodbye"],
+            end_call_phrases=["endCallPhrases"],
+            end_call_reasons=["endCallReasons"],
             execution_mode="PARALLEL",
+            flows=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "edge_cases": "ALL",
+                    "happy_path": True,
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                }
+            ],
             iteration_count=1,
             max_concurrent_jobs=5,
+            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -69,11 +69,9 @@ class TestSimulationRunPlan:
         response = client.simulation_run_plan.with_raw_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
         assert response.is_closed is True
@@ -86,11 +84,9 @@ class TestSimulationRunPlan:
         with client.simulation_run_plan.with_streaming_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -114,20 +110,26 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             description="description",
             direction="INBOUND",
-            end_call_phrases=["string"],
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            end_call_phrases=["endCallPhrases"],
+            end_call_reasons=["endCallReasons"],
             execution_mode="PARALLEL",
-            iteration_count=1,
-            max_concurrent_jobs=1,
-            max_simulation_duration_seconds=1,
-            name="x",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[
+            flows=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "edge_cases": "ALL",
+                    "happy_path": True,
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
                 }
             ],
+            is_hidden=True,
+            iteration_count=1,
+            max_concurrent_jobs=1,
+            max_simulation_duration_seconds=1,
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            name="x",
+            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])
@@ -285,11 +287,9 @@ class TestAsyncSimulationRunPlan:
         simulation_run_plan = await async_client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
@@ -298,25 +298,27 @@ class TestAsyncSimulationRunPlan:
         simulation_run_plan = await async_client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[
-                {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {
-                        "customerName": "John Doe",
-                        "appointmentDate": "2024-02-15",
-                    },
-                }
-            ],
             auto_run=False,
             description="A run plan for testing inbound calls",
-            end_call_phrases=["goodbye"],
+            end_call_phrases=["endCallPhrases"],
+            end_call_reasons=["endCallReasons"],
             execution_mode="PARALLEL",
+            flows=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "edge_cases": "ALL",
+                    "happy_path": True,
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"foo": "string"},
+                }
+            ],
             iteration_count=1,
             max_concurrent_jobs=5,
+            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -326,11 +328,9 @@ class TestAsyncSimulationRunPlan:
         response = await async_client.simulation_run_plan.with_raw_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         )
 
         assert response.is_closed is True
@@ -343,11 +343,9 @@ class TestAsyncSimulationRunPlan:
         async with async_client.simulation_run_plan.with_streaming_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             max_simulation_duration_seconds=300,
+            metrics=[{}],
             name="My Run Plan",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -371,20 +369,26 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             description="description",
             direction="INBOUND",
-            end_call_phrases=["string"],
-            evaluators=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            end_call_phrases=["endCallPhrases"],
+            end_call_reasons=["endCallReasons"],
             execution_mode="PARALLEL",
-            iteration_count=1,
-            max_concurrent_jobs=1,
-            max_simulation_duration_seconds=1,
-            name="x",
-            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[
+            flows=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "edge_cases": "ALL",
+                    "happy_path": True,
+                    "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "variables": {"foo": "string"},
                 }
             ],
+            is_hidden=True,
+            iteration_count=1,
+            max_concurrent_jobs=1,
+            max_simulation_duration_seconds=1,
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            name="x",
+            personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])

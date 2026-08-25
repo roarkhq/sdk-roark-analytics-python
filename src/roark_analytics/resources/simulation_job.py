@@ -44,7 +44,7 @@ class SimulationJobResource(SyncAPIResource):
 
     def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -67,6 +67,8 @@ class SimulationJobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return self._get(
             f"/v1/simulation/job/{job_id}",
             options=make_request_options(
@@ -78,8 +80,8 @@ class SimulationJobResource(SyncAPIResource):
     def lookup(
         self,
         *,
-        roark_phone_number: object,
-        call_received_at: object | Omit = omit,
+        roark_phone_number: str,
+        call_received_at: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -149,7 +151,7 @@ class AsyncSimulationJobResource(AsyncAPIResource):
 
     async def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -172,6 +174,8 @@ class AsyncSimulationJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return await self._get(
             f"/v1/simulation/job/{job_id}",
             options=make_request_options(
@@ -183,8 +187,8 @@ class AsyncSimulationJobResource(AsyncAPIResource):
     async def lookup(
         self,
         *,
-        roark_phone_number: object,
-        call_received_at: object | Omit = omit,
+        roark_phone_number: str,
+        call_received_at: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
