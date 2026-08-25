@@ -22,6 +22,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestCustomerFlowEdgeCase:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update(self, client: Roark) -> None:
         customer_flow_edge_case = client.customer_flow_edge_case.update(
@@ -30,6 +31,7 @@ class TestCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_update_with_all_params(self, client: Roark) -> None:
         customer_flow_edge_case = client.customer_flow_edge_case.update(
@@ -45,6 +47,7 @@ class TestCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_update(self, client: Roark) -> None:
         response = client.customer_flow_edge_case.with_raw_response.update(
@@ -57,6 +60,7 @@ class TestCustomerFlowEdgeCase:
         customer_flow_edge_case = response.parse()
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_update(self, client: Roark) -> None:
         with client.customer_flow_edge_case.with_streaming_response.update(
@@ -85,6 +89,7 @@ class TestCustomerFlowEdgeCase:
                 flow_id="",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_add(self, client: Roark) -> None:
         customer_flow_edge_case = client.customer_flow_edge_case.add(
@@ -93,6 +98,7 @@ class TestCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_add_with_all_params(self, client: Roark) -> None:
         customer_flow_edge_case = client.customer_flow_edge_case.add(
@@ -106,6 +112,7 @@ class TestCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_add(self, client: Roark) -> None:
         response = client.customer_flow_edge_case.with_raw_response.add(
@@ -118,6 +125,7 @@ class TestCustomerFlowEdgeCase:
         customer_flow_edge_case = response.parse()
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_add(self, client: Roark) -> None:
         with client.customer_flow_edge_case.with_streaming_response.add(
@@ -140,6 +148,7 @@ class TestCustomerFlowEdgeCase:
                 title="x",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_method_promote(self, client: Roark) -> None:
         customer_flow_edge_case = client.customer_flow_edge_case.promote(
@@ -148,6 +157,7 @@ class TestCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCasePromoteResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_raw_response_promote(self, client: Roark) -> None:
         response = client.customer_flow_edge_case.with_raw_response.promote(
@@ -160,6 +170,7 @@ class TestCustomerFlowEdgeCase:
         customer_flow_edge_case = response.parse()
         assert_matches_type(CustomerFlowEdgeCasePromoteResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     def test_streaming_response_promote(self, client: Roark) -> None:
         with client.customer_flow_edge_case.with_streaming_response.promote(
@@ -242,6 +253,7 @@ class TestAsyncCustomerFlowEdgeCase:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update(self, async_client: AsyncRoark) -> None:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.update(
@@ -250,6 +262,7 @@ class TestAsyncCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.update(
@@ -265,6 +278,7 @@ class TestAsyncCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow_edge_case.with_raw_response.update(
@@ -277,6 +291,7 @@ class TestAsyncCustomerFlowEdgeCase:
         customer_flow_edge_case = await response.parse()
         assert_matches_type(CustomerFlowEdgeCaseUpdateResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow_edge_case.with_streaming_response.update(
@@ -305,6 +320,7 @@ class TestAsyncCustomerFlowEdgeCase:
                 flow_id="",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_add(self, async_client: AsyncRoark) -> None:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.add(
@@ -313,6 +329,7 @@ class TestAsyncCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_add_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.add(
@@ -326,6 +343,7 @@ class TestAsyncCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_add(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow_edge_case.with_raw_response.add(
@@ -338,6 +356,7 @@ class TestAsyncCustomerFlowEdgeCase:
         customer_flow_edge_case = await response.parse()
         assert_matches_type(CustomerFlowEdgeCaseAddResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_add(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow_edge_case.with_streaming_response.add(
@@ -360,6 +379,7 @@ class TestAsyncCustomerFlowEdgeCase:
                 title="x",
             )
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_method_promote(self, async_client: AsyncRoark) -> None:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.promote(
@@ -368,6 +388,7 @@ class TestAsyncCustomerFlowEdgeCase:
         )
         assert_matches_type(CustomerFlowEdgeCasePromoteResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_raw_response_promote(self, async_client: AsyncRoark) -> None:
         response = await async_client.customer_flow_edge_case.with_raw_response.promote(
@@ -380,6 +401,7 @@ class TestAsyncCustomerFlowEdgeCase:
         customer_flow_edge_case = await response.parse()
         assert_matches_type(CustomerFlowEdgeCasePromoteResponse, customer_flow_edge_case, path=["response"])
 
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
     async def test_streaming_response_promote(self, async_client: AsyncRoark) -> None:
         async with async_client.customer_flow_edge_case.with_streaming_response.promote(

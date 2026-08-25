@@ -6,13 +6,13 @@ from typing import List
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .flow_step import FlowStep
+from .flow_step_param import FlowStepParam
 
 __all__ = ["CustomerFlowReplaceGraphParams"]
 
 
 class CustomerFlowReplaceGraphParams(TypedDict, total=False):
-    graph: Required[List[FlowStep]]
+    graph: Required[List[FlowStepParam]]
     """
     The complete graph. This replaces the flow's existing steps rather than merging
     into them.
