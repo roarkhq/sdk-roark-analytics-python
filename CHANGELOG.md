@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.24.2 (2026-08-25)
+
+Full Changelog: [v2.24.1...v2.24.2](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.1...v2.24.2)
+
 ## 2.24.1 (2026-08-24)
 
 Full Changelog: [v2.24.0...v2.24.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.0...v2.24.1)
