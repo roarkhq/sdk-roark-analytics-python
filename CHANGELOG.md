@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0 (2026-08-25)
+
+Full Changelog: [v2.24.1...v3.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.1...v3.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes methods or types from the public surface.
+
+### Features
+
+* **api:** api update ([1566394](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1566394f920f3976ffd8073f02ed80a234510ceb))
+
 ## 2.24.1 (2026-08-24)
 
 Full Changelog: [v2.24.0...v2.24.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.0...v2.24.1)
