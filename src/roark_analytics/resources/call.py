@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal
 
 import httpx
@@ -25,7 +25,6 @@ from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
 from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
-from ..types.call_list_evaluation_runs_response import CallListEvaluationRunsResponse
 
 __all__ = ["CallResource", "AsyncCallResource"]
 
@@ -57,8 +56,20 @@ class CallResource(SyncAPIResource):
         interface_type: Literal["PHONE", "WEB"],
         recording_url: str,
         started_at: str,
-        agent: call_create_params.Agent | Omit = omit,
-        agents: Iterable[call_create_params.Agent] | Omit = omit,
+        agent: Union[
+            call_create_params.AgentIdentificationByRoarkID,
+            call_create_params.AgentIdentificationByName,
+            call_create_params.AgentIdentificationByCustomID,
+        ]
+        | Omit = omit,
+        agents: List[
+            Union[
+                call_create_params.AgentIdentificationByRoarkID,
+                call_create_params.AgentIdentificationByName,
+                call_create_params.AgentIdentificationByCustomID,
+            ]
+        ]
+        | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
@@ -83,10 +94,14 @@ class CallResource(SyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        external_id: str | Omit = omit,
+        livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
         tool_invocations: Iterable[call_create_params.ToolInvocation] | Omit = omit,
-        transcript: Iterable[call_create_params.Transcript] | Omit = omit,
+        transcript: List[Union[call_create_params.TranscriptEntryAgent, call_create_params.TranscriptEntryCustomer]]
+        | Omit = omit,
+        vapi_call_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -102,8 +117,8 @@ class CallResource(SyncAPIResource):
 
           interface_type: Interface type of the call (PHONE or WEB)
 
-          recording_url: URL of source recording (must be an accessible WAV, MP3, or MP4 file). Can be a
-              signed URL.
+          recording_url: URL of source recording (must be an accessible WAV, MP3, MP4, or OGG file). Can
+              be a signed URL.
 
           started_at: When the call started (ISO 8601 format)
 
@@ -120,15 +135,26 @@ class CallResource(SyncAPIResource):
 
           ended_status: High-level call end status, indicating how the call terminated
 
+          external_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.external_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
+
+          livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
+              LiveKit. Used for matching calls with OTEL traces.
+
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
 
           stereo_recording_url: URL of source stereo recording. Must be accessible. Can be a signed URL.
-              Supported formats: WAV, MP3, MP4.
+              Supported formats: WAV, MP3, MP4, OGG.
 
           tool_invocations: List of tool invocations made during the call
 
           transcript: List of transcript entries made during the call
+
+          vapi_call_id: The Vapi call ID (UUID) to link this call with OpenTelemetry trace data from
+              Vapi. Used for matching calls with OTEL traces.
 
           extra_headers: Send extra headers
 
@@ -151,10 +177,13 @@ class CallResource(SyncAPIResource):
                     "customer": customer,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "external_id": external_id,
+                    "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                     "tool_invocations": tool_invocations,
                     "transcript": transcript,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_create_params.CallCreateParams,
             ),
@@ -308,46 +337,12 @@ class CallResource(SyncAPIResource):
             cast_to=CallGetTranscriptResponse,
         )
 
-    def list_evaluation_runs(
-        self,
-        call_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallListEvaluationRunsResponse:
-        """
-        Fetch all evaluation run results for a specific call.
-
-        Args:
-          call_id: ID of the call to fetch evaluation run for
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not call_id:
-            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
-        return self._get(
-            f"/v1/call/{call_id}/evaluation-run",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CallListEvaluationRunsResponse,
-        )
-
     def list_metrics(
         self,
         call_id: str,
         *,
         flatten: str | Omit = omit,
+        status: Literal["success", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -357,12 +352,22 @@ class CallResource(SyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. Only returns successfully computed metrics.
+        system-generated and custom metrics. Only returns rows from the **latest**
+        metric-collection job per metric — if the same metric has been recomputed, prior
+        runs are excluded and remain in the metric history. By default returns only
+        successfully computed metrics; pass `?status=all` to also include rows that
+        resolved as NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted
+        on those entries — check `captureStatus`).
 
         Args:
-          flatten:
-              Whether to return a flat list instead of grouped by metric definition (default:
+          flatten: Whether to return a flat list instead of grouped by metric definition (default:
               false)
+
+          status: Filter metrics by capture status. `success` (default) returns only successfully
+              computed metrics — backwards-compatible with the historical behavior. `all` also
+              returns NOT_APPLICABLE / DATA_MISSING / ERROR rows (with `value` omitted), so
+              clients can distinguish "still computing" from "computed but no value" and exit
+              retry loops correctly.
 
           extra_headers: Send extra headers
 
@@ -381,7 +386,13 @@ class CallResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
+                query=maybe_transform(
+                    {
+                        "flatten": flatten,
+                        "status": status,
+                    },
+                    call_list_metrics_params.CallListMetricsParams,
+                ),
             ),
             cast_to=CallListMetricsResponse,
         )
@@ -402,8 +413,6 @@ class CallResource(SyncAPIResource):
         emotional tone, key phrases, and sentiment scores.
 
         Args:
-          call_id: ID of the call to fetch sentiment run for
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -450,8 +459,20 @@ class AsyncCallResource(AsyncAPIResource):
         interface_type: Literal["PHONE", "WEB"],
         recording_url: str,
         started_at: str,
-        agent: call_create_params.Agent | Omit = omit,
-        agents: Iterable[call_create_params.Agent] | Omit = omit,
+        agent: Union[
+            call_create_params.AgentIdentificationByRoarkID,
+            call_create_params.AgentIdentificationByName,
+            call_create_params.AgentIdentificationByCustomID,
+        ]
+        | Omit = omit,
+        agents: List[
+            Union[
+                call_create_params.AgentIdentificationByRoarkID,
+                call_create_params.AgentIdentificationByName,
+                call_create_params.AgentIdentificationByCustomID,
+            ]
+        ]
+        | Omit = omit,
         customer: call_create_params.Customer | Omit = omit,
         customers: Iterable[call_create_params.Customer] | Omit = omit,
         ended_status: Literal[
@@ -476,10 +497,14 @@ class AsyncCallResource(AsyncAPIResource):
             "UNKNOWN",
         ]
         | Omit = omit,
+        external_id: str | Omit = omit,
+        livekit_room_id: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         stereo_recording_url: str | Omit = omit,
         tool_invocations: Iterable[call_create_params.ToolInvocation] | Omit = omit,
-        transcript: Iterable[call_create_params.Transcript] | Omit = omit,
+        transcript: List[Union[call_create_params.TranscriptEntryAgent, call_create_params.TranscriptEntryCustomer]]
+        | Omit = omit,
+        vapi_call_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -495,8 +520,8 @@ class AsyncCallResource(AsyncAPIResource):
 
           interface_type: Interface type of the call (PHONE or WEB)
 
-          recording_url: URL of source recording (must be an accessible WAV, MP3, or MP4 file). Can be a
-              signed URL.
+          recording_url: URL of source recording (must be an accessible WAV, MP3, MP4, or OGG file). Can
+              be a signed URL.
 
           started_at: When the call started (ISO 8601 format)
 
@@ -513,15 +538,26 @@ class AsyncCallResource(AsyncAPIResource):
 
           ended_status: High-level call end status, indicating how the call terminated
 
+          external_id: A stable identifier from your own system (e.g. session ID, conversation ID) used
+              to correlate this call with OpenTelemetry traces. Set the same value as a
+              `roark.external_id` span or resource attribute on your traces and the matching
+              trace will be linked automatically. Must be unique within a project.
+
+          livekit_room_id: The LiveKit Cloud room ID to link this call with OpenTelemetry trace data from
+              LiveKit. Used for matching calls with OTEL traces.
+
           properties: Custom properties to include with the call. These can be used for filtering and
               will show in the call details page
 
           stereo_recording_url: URL of source stereo recording. Must be accessible. Can be a signed URL.
-              Supported formats: WAV, MP3, MP4.
+              Supported formats: WAV, MP3, MP4, OGG.
 
           tool_invocations: List of tool invocations made during the call
 
           transcript: List of transcript entries made during the call
+
+          vapi_call_id: The Vapi call ID (UUID) to link this call with OpenTelemetry trace data from
+              Vapi. Used for matching calls with OTEL traces.
 
           extra_headers: Send extra headers
 
@@ -544,10 +580,13 @@ class AsyncCallResource(AsyncAPIResource):
                     "customer": customer,
                     "customers": customers,
                     "ended_status": ended_status,
+                    "external_id": external_id,
+                    "livekit_room_id": livekit_room_id,
                     "properties": properties,
                     "stereo_recording_url": stereo_recording_url,
                     "tool_invocations": tool_invocations,
                     "transcript": transcript,
+                    "vapi_call_id": vapi_call_id,
                 },
                 call_create_params.CallCreateParams,
             ),
@@ -703,46 +742,12 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetTranscriptResponse,
         )
 
-    async def list_evaluation_runs(
-        self,
-        call_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CallListEvaluationRunsResponse:
-        """
-        Fetch all evaluation run results for a specific call.
-
-        Args:
-          call_id: ID of the call to fetch evaluation run for
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not call_id:
-            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
-        return await self._get(
-            f"/v1/call/{call_id}/evaluation-run",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CallListEvaluationRunsResponse,
-        )
-
     async def list_metrics(
         self,
         call_id: str,
         *,
         flatten: str | Omit = omit,
+        status: Literal["success", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -752,12 +757,22 @@ class AsyncCallResource(AsyncAPIResource):
     ) -> CallListMetricsResponse:
         """
         Fetch all call-level metrics for a specific call, including both
-        system-generated and custom metrics. Only returns successfully computed metrics.
+        system-generated and custom metrics. Only returns rows from the **latest**
+        metric-collection job per metric — if the same metric has been recomputed, prior
+        runs are excluded and remain in the metric history. By default returns only
+        successfully computed metrics; pass `?status=all` to also include rows that
+        resolved as NOT_APPLICABLE / DATA_MISSING / ERROR (the `value` field is omitted
+        on those entries — check `captureStatus`).
 
         Args:
-          flatten:
-              Whether to return a flat list instead of grouped by metric definition (default:
+          flatten: Whether to return a flat list instead of grouped by metric definition (default:
               false)
+
+          status: Filter metrics by capture status. `success` (default) returns only successfully
+              computed metrics — backwards-compatible with the historical behavior. `all` also
+              returns NOT_APPLICABLE / DATA_MISSING / ERROR rows (with `value` omitted), so
+              clients can distinguish "still computing" from "computed but no value" and exit
+              retry loops correctly.
 
           extra_headers: Send extra headers
 
@@ -776,7 +791,13 @@ class AsyncCallResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"flatten": flatten}, call_list_metrics_params.CallListMetricsParams),
+                query=await async_maybe_transform(
+                    {
+                        "flatten": flatten,
+                        "status": status,
+                    },
+                    call_list_metrics_params.CallListMetricsParams,
+                ),
             ),
             cast_to=CallListMetricsResponse,
         )
@@ -797,8 +818,6 @@ class AsyncCallResource(AsyncAPIResource):
         emotional tone, key phrases, and sentiment scores.
 
         Args:
-          call_id: ID of the call to fetch sentiment run for
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -834,9 +853,6 @@ class CallResourceWithRawResponse:
         self.get_transcript = to_raw_response_wrapper(
             call.get_transcript,
         )
-        self.list_evaluation_runs = to_raw_response_wrapper(
-            call.list_evaluation_runs,
-        )
         self.list_metrics = to_raw_response_wrapper(
             call.list_metrics,
         )
@@ -860,9 +876,6 @@ class AsyncCallResourceWithRawResponse:
         )
         self.get_transcript = async_to_raw_response_wrapper(
             call.get_transcript,
-        )
-        self.list_evaluation_runs = async_to_raw_response_wrapper(
-            call.list_evaluation_runs,
         )
         self.list_metrics = async_to_raw_response_wrapper(
             call.list_metrics,
@@ -888,9 +901,6 @@ class CallResourceWithStreamingResponse:
         self.get_transcript = to_streamed_response_wrapper(
             call.get_transcript,
         )
-        self.list_evaluation_runs = to_streamed_response_wrapper(
-            call.list_evaluation_runs,
-        )
         self.list_metrics = to_streamed_response_wrapper(
             call.list_metrics,
         )
@@ -914,9 +924,6 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.get_transcript = async_to_streamed_response_wrapper(
             call.get_transcript,
-        )
-        self.list_evaluation_runs = async_to_streamed_response_wrapper(
-            call.list_evaluation_runs,
         )
         self.list_metrics = async_to_streamed_response_wrapper(
             call.list_metrics,

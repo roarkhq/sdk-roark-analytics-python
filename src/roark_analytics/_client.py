@@ -34,31 +34,39 @@ if TYPE_CHECKING:
     from .resources import (
         call,
         agent,
+        config,
         health,
         metric,
         webhook,
-        evaluation,
-        integrations,
+        simulation,
+        customer_flow,
+        metric_policy,
         agent_endpoint,
         simulation_job,
         simulation_persona,
         simulation_run_plan,
-        simulation_scenario,
+        metric_collection_job,
+        simulation_environment,
+        customer_flow_edge_case,
         http_request_definition,
         simulation_run_plan_job,
     )
     from .resources.call import CallResource, AsyncCallResource
     from .resources.agent import AgentResource, AsyncAgentResource
+    from .resources.config import ConfigResource, AsyncConfigResource
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
-    from .resources.evaluation import EvaluationResource, AsyncEvaluationResource
-    from .resources.integrations import IntegrationsResource, AsyncIntegrationsResource
+    from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
+    from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
-    from .resources.simulation_scenario import SimulationScenarioResource, AsyncSimulationScenarioResource
+    from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
+    from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
+    from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
     from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
 
@@ -127,12 +135,6 @@ class Roark(SyncAPIClient):
         return HealthResource(self)
 
     @cached_property
-    def evaluation(self) -> EvaluationResource:
-        from .resources.evaluation import EvaluationResource
-
-        return EvaluationResource(self)
-
-    @cached_property
     def call(self) -> CallResource:
         from .resources.call import CallResource
 
@@ -145,10 +147,22 @@ class Roark(SyncAPIClient):
         return MetricResource(self)
 
     @cached_property
-    def integrations(self) -> IntegrationsResource:
-        from .resources.integrations import IntegrationsResource
+    def metric_policy(self) -> MetricPolicyResource:
+        from .resources.metric_policy import MetricPolicyResource
 
-        return IntegrationsResource(self)
+        return MetricPolicyResource(self)
+
+    @cached_property
+    def metric_collection_job(self) -> MetricCollectionJobResource:
+        from .resources.metric_collection_job import MetricCollectionJobResource
+
+        return MetricCollectionJobResource(self)
+
+    @cached_property
+    def simulation(self) -> SimulationResource:
+        from .resources.simulation import SimulationResource
+
+        return SimulationResource(self)
 
     @cached_property
     def simulation_job(self) -> SimulationJobResource:
@@ -169,16 +183,28 @@ class Roark(SyncAPIClient):
         return SimulationRunPlanJobResource(self)
 
     @cached_property
-    def simulation_scenario(self) -> SimulationScenarioResource:
-        from .resources.simulation_scenario import SimulationScenarioResource
-
-        return SimulationScenarioResource(self)
-
-    @cached_property
     def simulation_persona(self) -> SimulationPersonaResource:
         from .resources.simulation_persona import SimulationPersonaResource
 
         return SimulationPersonaResource(self)
+
+    @cached_property
+    def simulation_environment(self) -> SimulationEnvironmentResource:
+        from .resources.simulation_environment import SimulationEnvironmentResource
+
+        return SimulationEnvironmentResource(self)
+
+    @cached_property
+    def customer_flow(self) -> CustomerFlowResource:
+        from .resources.customer_flow import CustomerFlowResource
+
+        return CustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> CustomerFlowEdgeCaseResource:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource
+
+        return CustomerFlowEdgeCaseResource(self)
 
     @cached_property
     def agent(self) -> AgentResource:
@@ -203,6 +229,12 @@ class Roark(SyncAPIClient):
         from .resources.webhook import WebhookResource
 
         return WebhookResource(self)
+
+    @cached_property
+    def config(self) -> ConfigResource:
+        from .resources.config import ConfigResource
+
+        return ConfigResource(self)
 
     @cached_property
     def with_raw_response(self) -> RoarkWithRawResponse:
@@ -379,12 +411,6 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncHealthResource(self)
 
     @cached_property
-    def evaluation(self) -> AsyncEvaluationResource:
-        from .resources.evaluation import AsyncEvaluationResource
-
-        return AsyncEvaluationResource(self)
-
-    @cached_property
     def call(self) -> AsyncCallResource:
         from .resources.call import AsyncCallResource
 
@@ -397,10 +423,22 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncMetricResource(self)
 
     @cached_property
-    def integrations(self) -> AsyncIntegrationsResource:
-        from .resources.integrations import AsyncIntegrationsResource
+    def metric_policy(self) -> AsyncMetricPolicyResource:
+        from .resources.metric_policy import AsyncMetricPolicyResource
 
-        return AsyncIntegrationsResource(self)
+        return AsyncMetricPolicyResource(self)
+
+    @cached_property
+    def metric_collection_job(self) -> AsyncMetricCollectionJobResource:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResource
+
+        return AsyncMetricCollectionJobResource(self)
+
+    @cached_property
+    def simulation(self) -> AsyncSimulationResource:
+        from .resources.simulation import AsyncSimulationResource
+
+        return AsyncSimulationResource(self)
 
     @cached_property
     def simulation_job(self) -> AsyncSimulationJobResource:
@@ -421,16 +459,28 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationRunPlanJobResource(self)
 
     @cached_property
-    def simulation_scenario(self) -> AsyncSimulationScenarioResource:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResource
-
-        return AsyncSimulationScenarioResource(self)
-
-    @cached_property
     def simulation_persona(self) -> AsyncSimulationPersonaResource:
         from .resources.simulation_persona import AsyncSimulationPersonaResource
 
         return AsyncSimulationPersonaResource(self)
+
+    @cached_property
+    def simulation_environment(self) -> AsyncSimulationEnvironmentResource:
+        from .resources.simulation_environment import AsyncSimulationEnvironmentResource
+
+        return AsyncSimulationEnvironmentResource(self)
+
+    @cached_property
+    def customer_flow(self) -> AsyncCustomerFlowResource:
+        from .resources.customer_flow import AsyncCustomerFlowResource
+
+        return AsyncCustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> AsyncCustomerFlowEdgeCaseResource:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResource
+
+        return AsyncCustomerFlowEdgeCaseResource(self)
 
     @cached_property
     def agent(self) -> AsyncAgentResource:
@@ -455,6 +505,12 @@ class AsyncRoark(AsyncAPIClient):
         from .resources.webhook import AsyncWebhookResource
 
         return AsyncWebhookResource(self)
+
+    @cached_property
+    def config(self) -> AsyncConfigResource:
+        from .resources.config import AsyncConfigResource
+
+        return AsyncConfigResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncRoarkWithRawResponse:
@@ -582,12 +638,6 @@ class RoarkWithRawResponse:
         return HealthResourceWithRawResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.EvaluationResourceWithRawResponse:
-        from .resources.evaluation import EvaluationResourceWithRawResponse
-
-        return EvaluationResourceWithRawResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.CallResourceWithRawResponse:
         from .resources.call import CallResourceWithRawResponse
 
@@ -600,10 +650,22 @@ class RoarkWithRawResponse:
         return MetricResourceWithRawResponse(self._client.metric)
 
     @cached_property
-    def integrations(self) -> integrations.IntegrationsResourceWithRawResponse:
-        from .resources.integrations import IntegrationsResourceWithRawResponse
+    def metric_policy(self) -> metric_policy.MetricPolicyResourceWithRawResponse:
+        from .resources.metric_policy import MetricPolicyResourceWithRawResponse
 
-        return IntegrationsResourceWithRawResponse(self._client.integrations)
+        return MetricPolicyResourceWithRawResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.MetricCollectionJobResourceWithRawResponse:
+        from .resources.metric_collection_job import MetricCollectionJobResourceWithRawResponse
+
+        return MetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithRawResponse:
+        from .resources.simulation import SimulationResourceWithRawResponse
+
+        return SimulationResourceWithRawResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithRawResponse:
@@ -624,16 +686,28 @@ class RoarkWithRawResponse:
         return SimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithRawResponse:
-        from .resources.simulation_scenario import SimulationScenarioResourceWithRawResponse
-
-        return SimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithRawResponse:
         from .resources.simulation_persona import SimulationPersonaResourceWithRawResponse
 
         return SimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
+
+    @cached_property
+    def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithRawResponse:
+        from .resources.simulation_environment import SimulationEnvironmentResourceWithRawResponse
+
+        return SimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.CustomerFlowResourceWithRawResponse:
+        from .resources.customer_flow import CustomerFlowResourceWithRawResponse
+
+        return CustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithRawResponse:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResourceWithRawResponse
+
+        return CustomerFlowEdgeCaseResourceWithRawResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AgentResourceWithRawResponse:
@@ -659,6 +733,12 @@ class RoarkWithRawResponse:
 
         return WebhookResourceWithRawResponse(self._client.webhook)
 
+    @cached_property
+    def config(self) -> config.ConfigResourceWithRawResponse:
+        from .resources.config import ConfigResourceWithRawResponse
+
+        return ConfigResourceWithRawResponse(self._client.config)
+
 
 class AsyncRoarkWithRawResponse:
     _client: AsyncRoark
@@ -673,12 +753,6 @@ class AsyncRoarkWithRawResponse:
         return AsyncHealthResourceWithRawResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithRawResponse:
-        from .resources.evaluation import AsyncEvaluationResourceWithRawResponse
-
-        return AsyncEvaluationResourceWithRawResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.AsyncCallResourceWithRawResponse:
         from .resources.call import AsyncCallResourceWithRawResponse
 
@@ -691,10 +765,22 @@ class AsyncRoarkWithRawResponse:
         return AsyncMetricResourceWithRawResponse(self._client.metric)
 
     @cached_property
-    def integrations(self) -> integrations.AsyncIntegrationsResourceWithRawResponse:
-        from .resources.integrations import AsyncIntegrationsResourceWithRawResponse
+    def metric_policy(self) -> metric_policy.AsyncMetricPolicyResourceWithRawResponse:
+        from .resources.metric_policy import AsyncMetricPolicyResourceWithRawResponse
 
-        return AsyncIntegrationsResourceWithRawResponse(self._client.integrations)
+        return AsyncMetricPolicyResourceWithRawResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.AsyncMetricCollectionJobResourceWithRawResponse:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithRawResponse
+
+        return AsyncMetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
+        from .resources.simulation import AsyncSimulationResourceWithRawResponse
+
+        return AsyncSimulationResourceWithRawResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithRawResponse:
@@ -715,16 +801,28 @@ class AsyncRoarkWithRawResponse:
         return AsyncSimulationRunPlanJobResourceWithRawResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithRawResponse:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithRawResponse
-
-        return AsyncSimulationScenarioResourceWithRawResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithRawResponse:
         from .resources.simulation_persona import AsyncSimulationPersonaResourceWithRawResponse
 
         return AsyncSimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
+
+    @cached_property
+    def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithRawResponse:
+        from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithRawResponse
+
+        return AsyncSimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithRawResponse:
+        from .resources.customer_flow import AsyncCustomerFlowResourceWithRawResponse
+
+        return AsyncCustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithRawResponse:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResourceWithRawResponse
+
+        return AsyncCustomerFlowEdgeCaseResourceWithRawResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
@@ -750,6 +848,12 @@ class AsyncRoarkWithRawResponse:
 
         return AsyncWebhookResourceWithRawResponse(self._client.webhook)
 
+    @cached_property
+    def config(self) -> config.AsyncConfigResourceWithRawResponse:
+        from .resources.config import AsyncConfigResourceWithRawResponse
+
+        return AsyncConfigResourceWithRawResponse(self._client.config)
+
 
 class RoarkWithStreamedResponse:
     _client: Roark
@@ -764,12 +868,6 @@ class RoarkWithStreamedResponse:
         return HealthResourceWithStreamingResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.EvaluationResourceWithStreamingResponse:
-        from .resources.evaluation import EvaluationResourceWithStreamingResponse
-
-        return EvaluationResourceWithStreamingResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.CallResourceWithStreamingResponse:
         from .resources.call import CallResourceWithStreamingResponse
 
@@ -782,10 +880,22 @@ class RoarkWithStreamedResponse:
         return MetricResourceWithStreamingResponse(self._client.metric)
 
     @cached_property
-    def integrations(self) -> integrations.IntegrationsResourceWithStreamingResponse:
-        from .resources.integrations import IntegrationsResourceWithStreamingResponse
+    def metric_policy(self) -> metric_policy.MetricPolicyResourceWithStreamingResponse:
+        from .resources.metric_policy import MetricPolicyResourceWithStreamingResponse
 
-        return IntegrationsResourceWithStreamingResponse(self._client.integrations)
+        return MetricPolicyResourceWithStreamingResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.MetricCollectionJobResourceWithStreamingResponse:
+        from .resources.metric_collection_job import MetricCollectionJobResourceWithStreamingResponse
+
+        return MetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
+        from .resources.simulation import SimulationResourceWithStreamingResponse
+
+        return SimulationResourceWithStreamingResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.SimulationJobResourceWithStreamingResponse:
@@ -806,16 +916,28 @@ class RoarkWithStreamedResponse:
         return SimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.SimulationScenarioResourceWithStreamingResponse:
-        from .resources.simulation_scenario import SimulationScenarioResourceWithStreamingResponse
-
-        return SimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.SimulationPersonaResourceWithStreamingResponse:
         from .resources.simulation_persona import SimulationPersonaResourceWithStreamingResponse
 
         return SimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithStreamingResponse:
+        from .resources.simulation_environment import SimulationEnvironmentResourceWithStreamingResponse
+
+        return SimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.CustomerFlowResourceWithStreamingResponse:
+        from .resources.customer_flow import CustomerFlowResourceWithStreamingResponse
+
+        return CustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithStreamingResponse:
+        from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResourceWithStreamingResponse
+
+        return CustomerFlowEdgeCaseResourceWithStreamingResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AgentResourceWithStreamingResponse:
@@ -841,6 +963,12 @@ class RoarkWithStreamedResponse:
 
         return WebhookResourceWithStreamingResponse(self._client.webhook)
 
+    @cached_property
+    def config(self) -> config.ConfigResourceWithStreamingResponse:
+        from .resources.config import ConfigResourceWithStreamingResponse
+
+        return ConfigResourceWithStreamingResponse(self._client.config)
+
 
 class AsyncRoarkWithStreamedResponse:
     _client: AsyncRoark
@@ -855,12 +983,6 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncHealthResourceWithStreamingResponse(self._client.health)
 
     @cached_property
-    def evaluation(self) -> evaluation.AsyncEvaluationResourceWithStreamingResponse:
-        from .resources.evaluation import AsyncEvaluationResourceWithStreamingResponse
-
-        return AsyncEvaluationResourceWithStreamingResponse(self._client.evaluation)
-
-    @cached_property
     def call(self) -> call.AsyncCallResourceWithStreamingResponse:
         from .resources.call import AsyncCallResourceWithStreamingResponse
 
@@ -873,10 +995,22 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncMetricResourceWithStreamingResponse(self._client.metric)
 
     @cached_property
-    def integrations(self) -> integrations.AsyncIntegrationsResourceWithStreamingResponse:
-        from .resources.integrations import AsyncIntegrationsResourceWithStreamingResponse
+    def metric_policy(self) -> metric_policy.AsyncMetricPolicyResourceWithStreamingResponse:
+        from .resources.metric_policy import AsyncMetricPolicyResourceWithStreamingResponse
 
-        return AsyncIntegrationsResourceWithStreamingResponse(self._client.integrations)
+        return AsyncMetricPolicyResourceWithStreamingResponse(self._client.metric_policy)
+
+    @cached_property
+    def metric_collection_job(self) -> metric_collection_job.AsyncMetricCollectionJobResourceWithStreamingResponse:
+        from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithStreamingResponse
+
+        return AsyncMetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
+        from .resources.simulation import AsyncSimulationResourceWithStreamingResponse
+
+        return AsyncSimulationResourceWithStreamingResponse(self._client.simulation)
 
     @cached_property
     def simulation_job(self) -> simulation_job.AsyncSimulationJobResourceWithStreamingResponse:
@@ -897,16 +1031,28 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncSimulationRunPlanJobResourceWithStreamingResponse(self._client.simulation_run_plan_job)
 
     @cached_property
-    def simulation_scenario(self) -> simulation_scenario.AsyncSimulationScenarioResourceWithStreamingResponse:
-        from .resources.simulation_scenario import AsyncSimulationScenarioResourceWithStreamingResponse
-
-        return AsyncSimulationScenarioResourceWithStreamingResponse(self._client.simulation_scenario)
-
-    @cached_property
     def simulation_persona(self) -> simulation_persona.AsyncSimulationPersonaResourceWithStreamingResponse:
         from .resources.simulation_persona import AsyncSimulationPersonaResourceWithStreamingResponse
 
         return AsyncSimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithStreamingResponse:
+        from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithStreamingResponse
+
+        return AsyncSimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
+
+    @cached_property
+    def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithStreamingResponse:
+        from .resources.customer_flow import AsyncCustomerFlowResourceWithStreamingResponse
+
+        return AsyncCustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse:
+        from .resources.customer_flow_edge_case import AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse
+
+        return AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse(self._client.customer_flow_edge_case)
 
     @cached_property
     def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:
@@ -933,6 +1079,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.webhook import AsyncWebhookResourceWithStreamingResponse
 
         return AsyncWebhookResourceWithStreamingResponse(self._client.webhook)
+
+    @cached_property
+    def config(self) -> config.AsyncConfigResourceWithStreamingResponse:
+        from .resources.config import AsyncConfigResourceWithStreamingResponse
+
+        return AsyncConfigResourceWithStreamingResponse(self._client.config)
 
 
 Client = Roark

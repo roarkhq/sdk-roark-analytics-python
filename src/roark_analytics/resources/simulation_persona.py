@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import simulation_persona_list_params, simulation_persona_create_params, simulation_persona_update_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -51,26 +51,79 @@ class SimulationPersonaResource(SyncAPIResource):
         self,
         *,
         accent: Literal[
-            "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+            "TR",
+            "PT",
+            "IL",
         ],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"],
+        gender: Literal["MALE", "FEMALE"],
+        language: Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ],
         name: str,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -103,17 +156,32 @@ class SimulationPersonaResource(SyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call. Defaults
+              to language-appropriate phrases when omitted or sent as null.
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           memory_reliability: How reliable the persona's memory is
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
+
+          understood_languages: Languages the persona can understand. Defaults to the languages the persona
+              speaks.
 
           extra_headers: Send extra headers
 
@@ -137,12 +205,18 @@ class SimulationPersonaResource(SyncAPIResource):
                     "confirmation_style": confirmation_style,
                     "description": description,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_create_params.SimulationPersonaCreateParams,
             ),
@@ -157,7 +231,29 @@ class SimulationPersonaResource(SyncAPIResource):
         persona_id: str,
         *,
         accent: Literal[
-            "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+            "TR",
+            "PT",
+            "IL",
         ]
         | Omit = omit,
         background_noise: Literal[
@@ -165,19 +261,51 @@ class SimulationPersonaResource(SyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,
+        language: Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ]
+        | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -206,6 +334,15 @@ class SimulationPersonaResource(SyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call. null =
+              "Automatic": language-appropriate defaults are used at call time.
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           language: Primary language ISO 639-1 code for the persona
@@ -216,11 +353,17 @@ class SimulationPersonaResource(SyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
+
+          understood_languages: Languages the persona can understand. Multilingual combinations are limited by
+              multilingual speech recognition support.
 
           extra_headers: Send extra headers
 
@@ -244,14 +387,20 @@ class SimulationPersonaResource(SyncAPIResource):
                     "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_update_params.SimulationPersonaUpdateParams,
             ),
@@ -363,26 +512,79 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         self,
         *,
         accent: Literal[
-            "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+            "TR",
+            "PT",
+            "IL",
         ],
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"],
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"],
+        gender: Literal["MALE", "FEMALE"],
+        language: Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ],
         name: str,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -415,17 +617,32 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call. Defaults
+              to language-appropriate phrases when omitted or sent as null.
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           memory_reliability: How reliable the persona's memory is
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
+
+          understood_languages: Languages the persona can understand. Defaults to the languages the persona
+              speaks.
 
           extra_headers: Send extra headers
 
@@ -449,12 +666,18 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "confirmation_style": confirmation_style,
                     "description": description,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_create_params.SimulationPersonaCreateParams,
             ),
@@ -469,7 +692,29 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         persona_id: str,
         *,
         accent: Literal[
-            "US", "US_X_SOUTH", "GB", "ES", "DE", "IN", "FR", "NL", "SA", "GR", "AU", "IT", "ID", "TH", "JP"
+            "US",
+            "US_X_SOUTH",
+            "GB",
+            "ES",
+            "DE",
+            "IN",
+            "FR",
+            "NL",
+            "SA",
+            "GR",
+            "AU",
+            "IT",
+            "ID",
+            "TH",
+            "JP",
+            "NZ",
+            "PH",
+            "SG",
+            "MY",
+            "HK",
+            "TR",
+            "PT",
+            "IL",
         ]
         | Omit = omit,
         background_noise: Literal[
@@ -477,19 +722,51 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED"] | Omit = omit,
+        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        gender: Literal["MALE", "FEMALE", "NEUTRAL"] | Omit = omit,
+        gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
+        idle_message_max_spoken_count: int | Omit = omit,
+        idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
+        idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
+        idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
-        language: Literal["EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA"] | Omit = omit,
+        language: Literal[
+            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        ]
+        | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
-        speech_pace: Literal["SLOW", "NORMAL", "FAST"] | Omit = omit,
+        speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
+        understood_languages: List[
+            Literal[
+                "EN",
+                "ES",
+                "DE",
+                "HI",
+                "FR",
+                "NL",
+                "AR",
+                "EL",
+                "IT",
+                "ID",
+                "TH",
+                "JA",
+                "TL",
+                "MS",
+                "ZH",
+                "TR",
+                "PT",
+                "HE",
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -518,6 +795,15 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
+          idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
+
+          idle_message_reset_count_on_user_speech_enabled: Whether the idle message counter resets when the agent speaks
+
+          idle_messages: Messages the persona will say when the agent goes silent during a call. null =
+              "Automatic": language-appropriate defaults are used at call time.
+
+          idle_timeout_seconds: Seconds of silence before the persona sends an idle message
+
           intent_clarity: How clearly the persona expresses their intentions
 
           language: Primary language ISO 639-1 code for the persona
@@ -528,11 +814,17 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           properties: Additional custom properties about the persona
 
+          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
+              NORMAL, RELAXED)
+
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
           speech_clarity: Speech clarity of the persona
 
           speech_pace: Speech pace of the persona
+
+          understood_languages: Languages the persona can understand. Multilingual combinations are limited by
+              multilingual speech recognition support.
 
           extra_headers: Send extra headers
 
@@ -556,14 +848,20 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "description": description,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
+                    "idle_message_max_spoken_count": idle_message_max_spoken_count,
+                    "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
+                    "idle_messages": idle_messages,
+                    "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,
                     "properties": properties,
+                    "response_timing": response_timing,
                     "secondary_language": secondary_language,
                     "speech_clarity": speech_clarity,
                     "speech_pace": speech_pace,
+                    "understood_languages": understood_languages,
                 },
                 simulation_persona_update_params.SimulationPersonaUpdateParams,
             ),

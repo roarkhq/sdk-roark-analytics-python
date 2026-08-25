@@ -16,10 +16,9 @@ class HTTPRequestDefinitionCreateParams(TypedDict, total=False):
     """URL for the HTTP request"""
 
     body: Union[str, Dict[str, object], None]
-    """Request body template.
-
-    Accepts a JSON object or a string with placeholders like {{phoneNumberToDial}}.
-    Objects are serialized to JSON for storage.
+    """
+    Request body template. Accepts a JSON object or a string with placeholders like
+    {{phoneNumberToDial}}. Objects are serialized to JSON for storage.
     """
 
     description: Optional[str]

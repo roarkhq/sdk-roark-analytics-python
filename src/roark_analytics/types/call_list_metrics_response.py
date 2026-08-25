@@ -1,7 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
-from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -11,32 +10,16 @@ from .._models import BaseModel
 __all__ = [
     "CallListMetricsResponse",
     "Data",
-    "DataValue",
-    "DataValueFromSegment",
-    "DataValueSegment",
-    "DataValueToSegment",
     "DataUnit",
+    "PropertyVerificationMetricValue",
+    "PropertyVerificationMetricValuePropertyVerdict",
+    "StandardMetricValue",
+    "StandardMetricValueFromSegment",
 ]
 
 
-class DataValueFromSegment(BaseModel):
+class StandardMetricValueFromSegment(BaseModel):
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
-
-    id: str
-    """Starting segment ID"""
-
-    end_offset_ms: float = FieldInfo(alias="endOffsetMs")
-    """End time offset in milliseconds"""
-
-    start_offset_ms: float = FieldInfo(alias="startOffsetMs")
-    """Start time offset in milliseconds"""
-
-    text: str
-    """Starting segment text content"""
-
-
-class DataValueSegment(BaseModel):
-    """Segment information (for SEGMENT context metrics)"""
 
     id: str
     """Segment ID"""
@@ -51,52 +34,175 @@ class DataValueSegment(BaseModel):
     """Segment text content"""
 
 
-class DataValueToSegment(BaseModel):
-    """Ending segment information (for SEGMENT_RANGE context metrics)"""
+class StandardMetricValue(BaseModel):
+    """A metric value entry. Applies to every metric."""
 
-    id: str
-    """Ending segment ID"""
-
-    end_offset_ms: float = FieldInfo(alias="endOffsetMs")
-    """End time offset in milliseconds"""
-
-    start_offset_ms: float = FieldInfo(alias="startOffsetMs")
-    """Start time offset in milliseconds"""
-
-    text: str
-    """Ending segment text content"""
-
-
-class DataValue(BaseModel):
-    computed_at: datetime = FieldInfo(alias="computedAt")
-    """ISO 8601 timestamp when the metric was computed"""
-
-    confidence: float
-    """Confidence score (0-1) for the computed value.
-
-    Defaults to 1.0 for deterministic metrics.
+    capture_status: Literal["SUCCESS", "NOT_APPLICABLE", "DATA_MISSING", "ERROR"] = FieldInfo(alias="captureStatus")
     """
+    Result state of this metric computation. SUCCESS carries a real `value`;
+    NOT_APPLICABLE / DATA_MISSING / ERROR do not (the `value` field is omitted).
+    Non-SUCCESS rows only appear when the request includes ?status=all.
+    """
+
+    computed_at: str = FieldInfo(alias="computedAt")
+    """ISO 8601 timestamp when the metric was computed"""
 
     context: Literal["CALL", "SEGMENT", "SEGMENT_RANGE"]
     """
-    Context level: CALL (entire call), SEGMENT (single segment), SEGMENT_RANGE
-    (between/across segments)
+    Context level: CALL (entire conversation), SEGMENT (single segment),
+    SEGMENT_RANGE (between/across segments)
     """
 
-    value: Union[float, bool, str]
-    """The metric value (type depends on outputType)"""
+    call_id: Optional[str] = FieldInfo(alias="callId", default=None)
+    """
+    ID of the call this value was computed on. Only set when the response spans
+    multiple conversations (e.g. job-scoped metric values).
+    """
 
-    from_segment: Optional[DataValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
+    chat_id: Optional[str] = FieldInfo(alias="chatId", default=None)
+    """
+    ID of the chat this value was computed on. Only set when the response spans
+    multiple conversations (e.g. job-scoped metric values).
+    """
+
+    confidence: Optional[float] = None
+    """
+    Confidence score (0-1) for the computed value. Defaults to 1.0 for deterministic
+    metrics. Omitted on non-SUCCESS rows.
+    """
+
+    error_message: Optional[str] = FieldInfo(alias="errorMessage", default=None)
+    """
+    Error detail when captureStatus is ERROR — e.g. provider down, LLM timeout.
+    Undefined for other statuses.
+    """
+
+    from_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
 
     participant_role: Optional[Literal["agent", "customer"]] = FieldInfo(alias="participantRole", default=None)
     """Role of participant (only for PER_PARTICIPANT metrics)"""
 
-    segment: Optional[DataValueSegment] = None
+    policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
+    """IDs of metric policies that triggered this metric computation"""
+
+    segment: Optional[StandardMetricValueFromSegment] = None
     """Segment information (for SEGMENT context metrics)"""
 
-    to_segment: Optional[DataValueToSegment] = FieldInfo(alias="toSegment", default=None)
+    to_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="toSegment", default=None)
     """Ending segment information (for SEGMENT_RANGE context metrics)"""
+
+    value: Optional[Union[float, bool, str]] = None
+    """
+    The metric value (type depends on outputType). Present only on SUCCESS rows;
+    omitted for NOT_APPLICABLE / DATA_MISSING / ERROR.
+    """
+
+    value_reasoning: Optional[str] = FieldInfo(alias="valueReasoning", default=None)
+    """Explanation for the metric value (especially useful for AI-computed metrics)"""
+
+
+class PropertyVerificationMetricValuePropertyVerdict(BaseModel):
+    expected_value: str = FieldInfo(alias="expectedValue")
+    """The value supplied at ingest, frozen at scoring time"""
+
+    property_name: str = FieldInfo(alias="propertyName")
+    """The call property checked, as sent at ingest"""
+
+    verdict: Literal["MATCH", "MISMATCH", "NOT_MENTIONED"]
+    """
+    How this property resolved against the transcript. NOT_MENTIONED means the
+    subject never came up and is not a mismatch.
+    """
+
+    observed_value: Optional[str] = FieldInfo(alias="observedValue", default=None)
+    """What the transcript said instead. Only present when verdict is MISMATCH."""
+
+    reasoning: Optional[str] = None
+    """Judge reasoning for this verdict"""
+
+    segment: Optional[StandardMetricValueFromSegment] = None
+    """
+    The transcript segment this property was referred to in: the conflicting value
+    for MISMATCH, the confirming reference for MATCH. Omitted for NOT_MENTIONED and
+    when the verdict could not be anchored.
+    """
+
+
+class PropertyVerificationMetricValue(BaseModel):
+    """
+    Returned for the Property Mismatch metric (`property_transcript_mismatch`): the
+    standard entry plus the per-property verdict breakdown.
+    """
+
+    capture_status: Literal["SUCCESS", "NOT_APPLICABLE", "DATA_MISSING", "ERROR"] = FieldInfo(alias="captureStatus")
+    """
+    Result state of this metric computation. SUCCESS carries a real `value`;
+    NOT_APPLICABLE / DATA_MISSING / ERROR do not (the `value` field is omitted).
+    Non-SUCCESS rows only appear when the request includes ?status=all.
+    """
+
+    computed_at: str = FieldInfo(alias="computedAt")
+    """ISO 8601 timestamp when the metric was computed"""
+
+    context: Literal["CALL", "SEGMENT", "SEGMENT_RANGE"]
+    """
+    Context level: CALL (entire conversation), SEGMENT (single segment),
+    SEGMENT_RANGE (between/across segments)
+    """
+
+    call_id: Optional[str] = FieldInfo(alias="callId", default=None)
+    """
+    ID of the call this value was computed on. Only set when the response spans
+    multiple conversations (e.g. job-scoped metric values).
+    """
+
+    chat_id: Optional[str] = FieldInfo(alias="chatId", default=None)
+    """
+    ID of the chat this value was computed on. Only set when the response spans
+    multiple conversations (e.g. job-scoped metric values).
+    """
+
+    confidence: Optional[float] = None
+    """
+    Confidence score (0-1) for the computed value. Defaults to 1.0 for deterministic
+    metrics. Omitted on non-SUCCESS rows.
+    """
+
+    error_message: Optional[str] = FieldInfo(alias="errorMessage", default=None)
+    """
+    Error detail when captureStatus is ERROR — e.g. provider down, LLM timeout.
+    Undefined for other statuses.
+    """
+
+    from_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
+    """Starting segment information (for SEGMENT_RANGE context metrics)"""
+
+    participant_role: Optional[Literal["agent", "customer"]] = FieldInfo(alias="participantRole", default=None)
+    """Role of participant (only for PER_PARTICIPANT metrics)"""
+
+    policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
+    """IDs of metric policies that triggered this metric computation"""
+
+    property_verdicts: Optional[List[PropertyVerificationMetricValuePropertyVerdict]] = FieldInfo(
+        alias="propertyVerdicts", default=None
+    )
+    """
+    Per-property verdicts for the Property Mismatch metric, in the order the
+    properties were checked. Omitted for every other metric.
+    """
+
+    segment: Optional[StandardMetricValueFromSegment] = None
+    """Segment information (for SEGMENT context metrics)"""
+
+    to_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="toSegment", default=None)
+    """Ending segment information (for SEGMENT_RANGE context metrics)"""
+
+    value: Optional[Union[float, bool, str]] = None
+    """
+    The metric value (type depends on outputType). Present only on SUCCESS rows;
+    omitted for NOT_APPLICABLE / DATA_MISSING / ERROR.
+    """
 
     value_reasoning: Optional[str] = FieldInfo(alias="valueReasoning", default=None)
     """Explanation for the metric value (especially useful for AI-computed metrics)"""
@@ -108,12 +214,12 @@ class DataUnit(BaseModel):
     name: str
     """Name of the unit"""
 
-    symbol: Optional[str] = None
+    symbol: Optional[str]
     """Symbol for the unit"""
 
 
 class Data(BaseModel):
-    """Call metric data grouped by metric definition"""
+    """Metric data grouped by metric definition"""
 
     description: str
     """Description of what the metric measures"""
@@ -122,7 +228,7 @@ class Data(BaseModel):
     """Unique identifier for the metric definition"""
 
     metric_id: str = FieldInfo(alias="metricId")
-    """Stable metric identifier"""
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
     name: str
     """Name of the metric"""
@@ -130,10 +236,13 @@ class Data(BaseModel):
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
+    slug: str
+    """Stable metric slug"""
+
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
 
-    values: List[DataValue]
+    values: List[Union[StandardMetricValue, PropertyVerificationMetricValue]]
     """
     Array of metric values (multiple for PER_PARTICIPANT metrics, or multiple
     segments/turns)
@@ -145,4 +254,4 @@ class Data(BaseModel):
 
 class CallListMetricsResponse(BaseModel):
     data: List[Data]
-    """Call metrics response payload grouped by metric definition"""
+    """Conversation metrics response payload grouped by metric definition"""

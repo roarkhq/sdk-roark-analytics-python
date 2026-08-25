@@ -26,12 +26,14 @@ class Data(BaseModel):
         "QUEUED",
         "CREATING_SNAPSHOTS",
         "CREATING_SIMULATIONS",
+        "PREPARING_CAPACITY",
         "RUNNING_SIMULATIONS",
         "COMPLETED",
         "FAILED",
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """Initial status of the job"""
 

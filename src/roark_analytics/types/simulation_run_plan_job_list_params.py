@@ -17,9 +17,9 @@ class SimulationRunPlanJobListParams(TypedDict, total=False):
     """Filter by label ID attached to the plan job. Use this if you know the label ID."""
 
     label_name: Annotated[str, PropertyInfo(alias="labelName")]
-    """Filter by label name attached to the plan job.
-
-    More user-friendly alternative to labelId. Case-insensitive.
+    """
+    Filter by label name attached to the plan job. More user-friendly alternative to
+    labelId. Case-insensitive.
     """
 
     limit: int
@@ -33,14 +33,17 @@ class SimulationRunPlanJobListParams(TypedDict, total=False):
         "QUEUED",
         "CREATING_SNAPSHOTS",
         "CREATING_SIMULATIONS",
+        "PREPARING_CAPACITY",
         "RUNNING_SIMULATIONS",
         "COMPLETED",
         "FAILED",
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """
-    Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-    RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+    Filter by plan job status (PENDING, QUEUED, CREATING_SNAPSHOTS,
+    CREATING_SIMULATIONS, PREPARING_CAPACITY, RUNNING_SIMULATIONS, COMPLETED,
+    FAILED, TIMED_OUT, CANCELLED, CANCELLING, ENDING_SIMULATIONS)
     """

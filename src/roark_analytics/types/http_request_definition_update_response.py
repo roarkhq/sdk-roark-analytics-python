@@ -16,13 +16,13 @@ class Data(BaseModel):
     id: str
     """HTTP request definition ID"""
 
-    body: Optional[str] = None
+    body: Optional[str]
     """Request body as a string"""
 
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp"""
 
-    description: Optional[str] = None
+    description: Optional[str]
     """Description of the HTTP request definition"""
 
     headers: Dict[str, str]
@@ -31,7 +31,7 @@ class Data(BaseModel):
     method: Literal["POST", "PUT", "PATCH", "GET"]
     """HTTP method: POST, PUT, PATCH, or GET"""
 
-    parsed_body: Union[Dict[str, object], str, None] = FieldInfo(alias="parsedBody", default=None)
+    parsed_body: Union[Dict[str, object], str, None] = FieldInfo(alias="parsedBody")
     """Parsed body as a JSON object if valid JSON, otherwise the raw string"""
 
     scope: Literal["AGENT_OUTBOUND_DIAL"]
