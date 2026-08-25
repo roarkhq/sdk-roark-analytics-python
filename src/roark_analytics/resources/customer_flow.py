@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable, Optional, overload
+from typing import List, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
@@ -25,7 +25,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.flow_step import FlowStep
+from ..types.flow_step_param import FlowStepParam
 from ..types.customer_flow_list_response import CustomerFlowListResponse
 from ..types.customer_flow_create_response import CustomerFlowCreateResponse
 from ..types.customer_flow_delete_response import CustomerFlowDeleteResponse
@@ -61,7 +61,7 @@ class CustomerFlowResource(SyncAPIResource):
     def create(
         self,
         *,
-        graph: List[FlowStep],
+        graph: List[FlowStepParam],
         title: str,
         type: Literal["SCRIPTED"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
@@ -111,7 +111,7 @@ class CustomerFlowResource(SyncAPIResource):
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath,
         title: str,
         type: Literal["IMPROV"],
-        agent_expectations: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation]
+        agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
         description: Optional[str] | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
@@ -153,11 +153,8 @@ class CustomerFlowResource(SyncAPIResource):
         *,
         title: str,
         type: Literal["SCRIPTED", "IMPROV"],
-        graph: List[FlowStep] | Omit = omit,
-        agent_expectations: Union[
-            Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation],
-            Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation],
-        ]
+        graph: List[FlowStepParam] | Omit = omit,
+        agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
@@ -374,7 +371,7 @@ class CustomerFlowResource(SyncAPIResource):
         self,
         flow_id: str,
         *,
-        graph: List[FlowStep],
+        graph: List[FlowStepParam],
         allow_unmerge: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -515,7 +512,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        graph: List[FlowStep],
+        graph: List[FlowStepParam],
         title: str,
         type: Literal["SCRIPTED"],
         agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
@@ -565,7 +562,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath,
         title: str,
         type: Literal["IMPROV"],
-        agent_expectations: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation]
+        agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
         description: Optional[str] | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
@@ -607,11 +604,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         *,
         title: str,
         type: Literal["SCRIPTED", "IMPROV"],
-        graph: List[FlowStep] | Omit = omit,
-        agent_expectations: Union[
-            Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation],
-            Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputAgentExpectation],
-        ]
+        graph: List[FlowStepParam] | Omit = omit,
+        agent_expectations: Iterable[customer_flow_create_params.CreateScriptedCustomerFlowInputAgentExpectation]
         | Omit = omit,
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
@@ -828,7 +822,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         self,
         flow_id: str,
         *,
-        graph: List[FlowStep],
+        graph: List[FlowStepParam],
         allow_unmerge: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
