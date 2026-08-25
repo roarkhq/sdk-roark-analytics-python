@@ -25,21 +25,25 @@ class Data(BaseModel):
         "QUEUED",
         "CREATING_SNAPSHOTS",
         "CREATING_SIMULATIONS",
+        "PREPARING_CAPACITY",
         "RUNNING_SIMULATIONS",
         "COMPLETED",
         "FAILED",
         "TIMED_OUT",
         "CANCELLED",
         "CANCELLING",
+        "ENDING_SIMULATIONS",
     ]
     """Job status"""
 
-    triggered_by: Literal["SCHEDULED", "USER_TRIGGERED_FROM_UI", "RE_RUN", "TRIGGERED_FROM_API"] = FieldInfo(
+    triggered_by: Literal["SCHEDULED", "USER_TRIGGERED_FROM_UI", "RE_RUN", "TRIGGERED_FROM_API", "SYSTEM"] = FieldInfo(
         alias="triggeredBy"
     )
     """
     How the job was triggered (SCHEDULED, USER_TRIGGERED_FROM_UI,
-    TRIGGERED_FROM_API, or RE_RUN)
+    TRIGGERED_FROM_API, RE_RUN, or SYSTEM). SYSTEM is used when the job was started
+    by an internal admin acting on behalf of the project (the original user identity
+    is not exposed).
     """
 
     ended_at: Optional[str] = FieldInfo(alias="endedAt", default=None)

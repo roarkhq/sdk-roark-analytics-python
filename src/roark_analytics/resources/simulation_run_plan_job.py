@@ -59,12 +59,14 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             "QUEUED",
             "CREATING_SNAPSHOTS",
             "CREATING_SIMULATIONS",
+            "PREPARING_CAPACITY",
             "RUNNING_SIMULATIONS",
             "COMPLETED",
             "FAILED",
             "TIMED_OUT",
             "CANCELLED",
             "CANCELLING",
+            "ENDING_SIMULATIONS",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -91,8 +93,9 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           simulation_run_plan_id: Filter by simulation run plan ID
 
-          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+          status: Filter by plan job status (PENDING, QUEUED, CREATING_SNAPSHOTS,
+              CREATING_SIMULATIONS, PREPARING_CAPACITY, RUNNING_SIMULATIONS, COMPLETED,
+              FAILED, TIMED_OUT, CANCELLED, CANCELLING, ENDING_SIMULATIONS)
 
           extra_headers: Send extra headers
 
@@ -126,7 +129,7 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
     def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -148,6 +151,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return self._get(
             f"/v1/simulation/plan/job/{job_id}",
             options=make_request_options(
@@ -158,9 +163,13 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
     def start(
         self,
-        plan_id: object,
+        plan_id: str,
         *,
-        variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_plan_job_start_params.VariableUnionMember1],
+            Iterable[simulation_run_plan_job_start_params.VariableUnionMember2],
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -169,21 +178,27 @@ class SimulationRunPlanJobResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """Create and execute a job for an existing simulation run plan.
-
-        Optionally provide
-        runtime variables to override plan-defined variables.
+        """
+        Deprecated: use POST /v1/simulation/run, which does the same thing and can also
+        take the plan configuration inline, so a one-off run does not have to create a
+        plan first. Creates and executes a job for an existing simulation run plan.
+        Optionally provide runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
-              two formats:
-
-              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
-              "orderNumber": "12345", "environment": "staging" }
-
-              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
-              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned. An object applies them to the whole run: { "orderNumber": "12345",
+              "tier": "gold" } An array applies them per flow, or to just its happy path or
+              one of its edge cases, when a single set will not do. Each entry carries what it
+              applies to: [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345"
+              } }, { "flowId": "550e8400-...", "happyPath": true, "variables": {
+              "orderNumber": "55555" } }, { "flowId": "550e8400-...", "edgeCaseId":
+              "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ] An entry that
+              narrows to neither covers everything that flow resolves. A flow this plan does
+              not attach, or an edge case that does not belong to the flow, is rejected rather
+              than ignored. A plan built on scenarios rather than customer flows targets them
+              the same way, with `scenarioId` in place of `flowId`. That form is deprecated
+              alongside scenarios themselves, and still accepted so runs against those plans
+              keep working.
 
           extra_headers: Send extra headers
 
@@ -193,6 +208,8 @@ class SimulationRunPlanJobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not plan_id:
+            raise ValueError(f"Expected a non-empty value for `plan_id` but received {plan_id!r}")
         return self._post(
             f"/v1/simulation/plan/{plan_id}/job",
             body=maybe_transform(
@@ -238,12 +255,14 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             "QUEUED",
             "CREATING_SNAPSHOTS",
             "CREATING_SIMULATIONS",
+            "PREPARING_CAPACITY",
             "RUNNING_SIMULATIONS",
             "COMPLETED",
             "FAILED",
             "TIMED_OUT",
             "CANCELLED",
             "CANCELLING",
+            "ENDING_SIMULATIONS",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -270,8 +289,9 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           simulation_run_plan_id: Filter by simulation run plan ID
 
-          status: Filter by plan job status (PENDING, CREATING_SNAPSHOTS, CREATING_SIMULATIONS,
-              RUNNING_SIMULATIONS, COMPLETED, FAILED, TIMED_OUT, CANCELLED, CANCELLING)
+          status: Filter by plan job status (PENDING, QUEUED, CREATING_SNAPSHOTS,
+              CREATING_SIMULATIONS, PREPARING_CAPACITY, RUNNING_SIMULATIONS, COMPLETED,
+              FAILED, TIMED_OUT, CANCELLED, CANCELLING, ENDING_SIMULATIONS)
 
           extra_headers: Send extra headers
 
@@ -305,7 +325,7 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
     async def get_by_id(
         self,
-        job_id: object,
+        job_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -327,6 +347,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         return await self._get(
             f"/v1/simulation/plan/job/{job_id}",
             options=make_request_options(
@@ -337,9 +359,13 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
     async def start(
         self,
-        plan_id: object,
+        plan_id: str,
         *,
-        variables: Union[Dict[str, str], Iterable[simulation_run_plan_job_start_params.VariablesUnionMember1]]
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_plan_job_start_params.VariableUnionMember1],
+            Iterable[simulation_run_plan_job_start_params.VariableUnionMember2],
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -348,21 +374,27 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SimulationRunPlanJobStartResponse:
-        """Create and execute a job for an existing simulation run plan.
-
-        Optionally provide
-        runtime variables to override plan-defined variables.
+        """
+        Deprecated: use POST /v1/simulation/run, which does the same thing and can also
+        take the plan configuration inline, so a one-off run does not have to create a
+        plan first. Creates and executes a job for an existing simulation run plan.
+        Optionally provide runtime variables to override plan-defined variables.
 
         Args:
-          variables: Runtime variables that override plan-defined scenario variables. Accepts one of
-              two formats:
-
-              Option 1 — Global (flat key-value object, applies to ALL scenarios): {
-              "orderNumber": "12345", "environment": "staging" }
-
-              Option 2 — Per-scenario (array of objects with scenarioId + variables): [ {
-              "scenarioId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
-              "scenarioId": "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ]
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned. An object applies them to the whole run: { "orderNumber": "12345",
+              "tier": "gold" } An array applies them per flow, or to just its happy path or
+              one of its edge cases, when a single set will not do. Each entry carries what it
+              applies to: [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345"
+              } }, { "flowId": "550e8400-...", "happyPath": true, "variables": {
+              "orderNumber": "55555" } }, { "flowId": "550e8400-...", "edgeCaseId":
+              "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ] An entry that
+              narrows to neither covers everything that flow resolves. A flow this plan does
+              not attach, or an edge case that does not belong to the flow, is rejected rather
+              than ignored. A plan built on scenarios rather than customer flows targets them
+              the same way, with `scenarioId` in place of `flowId`. That form is deprecated
+              alongside scenarios themselves, and still accepted so runs against those plans
+              keep working.
 
           extra_headers: Send extra headers
 
@@ -372,6 +404,8 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not plan_id:
+            raise ValueError(f"Expected a non-empty value for `plan_id` but received {plan_id!r}")
         return await self._post(
             f"/v1/simulation/plan/{plan_id}/job",
             body=await async_maybe_transform(

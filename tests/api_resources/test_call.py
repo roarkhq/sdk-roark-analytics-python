@@ -16,7 +16,6 @@ from roark_analytics.types import (
     CallListMetricsResponse,
     CallGetTranscriptResponse,
     CallListSentimentRunsResponse,
-    CallListEvaluationRunsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -54,35 +53,20 @@ class TestCall:
                     "prompt": {"resolved_prompt": "resolvedPrompt"},
                 }
             ],
-            customer={
-                "phone_number_e164": "phoneNumberE164",
-                "label": "label",
-            },
-            customers=[
-                {
-                    "phone_number_e164": "phoneNumberE164",
-                    "label": "label",
-                }
-            ],
+            customer={"phone_number_e164": "phoneNumberE164", "label": "label"},
+            customers=[{"phone_number_e164": "phoneNumberE164", "label": "label"}],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
-            properties={"foo": "bar"},
+            external_id="externalId",
+            livekit_room_id="livekitRoomId",
+            properties={"foo": "string"},
             stereo_recording_url="https://example.com",
             tool_invocations=[
                 {
                     "name": "name",
-                    "parameters": {
-                        "foo": {
-                            "description": "description",
-                            "type": "string",
-                            "value": {},
-                        }
-                    },
+                    "parameters": {"foo": "string"},
                     "result": "string",
                     "start_offset_ms": 0,
-                    "agent": {
-                        "custom_id": "customId",
-                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    },
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
                     "description": "description",
                     "end_offset_ms": 0,
                 }
@@ -92,14 +76,13 @@ class TestCall:
                     "end_offset_ms": 0,
                     "role": "AGENT",
                     "start_offset_ms": 0,
-                    "text": "x",
-                    "agent": {
-                        "custom_id": "customId",
-                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    },
+                    "text": "text",
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
                     "language_code": "languageCode",
+                    "payload": {"foo": "string"},
                 }
             ],
+            vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CallCreateResponse, call, path=["response"])
 
@@ -256,44 +239,6 @@ class TestCall:
             )
 
     @parametrize
-    def test_method_list_evaluation_runs(self, client: Roark) -> None:
-        call = client.call.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-    @parametrize
-    def test_raw_response_list_evaluation_runs(self, client: Roark) -> None:
-        response = client.call.with_raw_response.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        call = response.parse()
-        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-    @parametrize
-    def test_streaming_response_list_evaluation_runs(self, client: Roark) -> None:
-        with client.call.with_streaming_response.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            call = response.parse()
-            assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_list_evaluation_runs(self, client: Roark) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            client.call.with_raw_response.list_evaluation_runs(
-                "",
-            )
-
-    @parametrize
     def test_method_list_metrics(self, client: Roark) -> None:
         call = client.call.list_metrics(
             call_id="callId",
@@ -305,6 +250,7 @@ class TestCall:
         call = client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
+            status="success",
         )
         assert_matches_type(CallListMetricsResponse, call, path=["response"])
 
@@ -412,35 +358,20 @@ class TestAsyncCall:
                     "prompt": {"resolved_prompt": "resolvedPrompt"},
                 }
             ],
-            customer={
-                "phone_number_e164": "phoneNumberE164",
-                "label": "label",
-            },
-            customers=[
-                {
-                    "phone_number_e164": "phoneNumberE164",
-                    "label": "label",
-                }
-            ],
+            customer={"phone_number_e164": "phoneNumberE164", "label": "label"},
+            customers=[{"phone_number_e164": "phoneNumberE164", "label": "label"}],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
-            properties={"foo": "bar"},
+            external_id="externalId",
+            livekit_room_id="livekitRoomId",
+            properties={"foo": "string"},
             stereo_recording_url="https://example.com",
             tool_invocations=[
                 {
                     "name": "name",
-                    "parameters": {
-                        "foo": {
-                            "description": "description",
-                            "type": "string",
-                            "value": {},
-                        }
-                    },
+                    "parameters": {"foo": "string"},
                     "result": "string",
                     "start_offset_ms": 0,
-                    "agent": {
-                        "custom_id": "customId",
-                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    },
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
                     "description": "description",
                     "end_offset_ms": 0,
                 }
@@ -450,14 +381,13 @@ class TestAsyncCall:
                     "end_offset_ms": 0,
                     "role": "AGENT",
                     "start_offset_ms": 0,
-                    "text": "x",
-                    "agent": {
-                        "custom_id": "customId",
-                        "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    },
+                    "text": "text",
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
                     "language_code": "languageCode",
+                    "payload": {"foo": "string"},
                 }
             ],
+            vapi_call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CallCreateResponse, call, path=["response"])
 
@@ -614,44 +544,6 @@ class TestAsyncCall:
             )
 
     @parametrize
-    async def test_method_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        call = await async_client.call.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-    @parametrize
-    async def test_raw_response_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        response = await async_client.call.with_raw_response.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        call = await response.parse()
-        assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        async with async_client.call.with_streaming_response.list_evaluation_runs(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            call = await response.parse()
-            assert_matches_type(CallListEvaluationRunsResponse, call, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_list_evaluation_runs(self, async_client: AsyncRoark) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
-            await async_client.call.with_raw_response.list_evaluation_runs(
-                "",
-            )
-
-    @parametrize
     async def test_method_list_metrics(self, async_client: AsyncRoark) -> None:
         call = await async_client.call.list_metrics(
             call_id="callId",
@@ -663,6 +555,7 @@ class TestAsyncCall:
         call = await async_client.call.list_metrics(
             call_id="callId",
             flatten="flatten",
+            status="success",
         )
         assert_matches_type(CallListMetricsResponse, call, path=["response"])
 

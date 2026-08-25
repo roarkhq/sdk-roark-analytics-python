@@ -16,10 +16,10 @@ class Data(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
-    custom_id: Optional[str] = FieldInfo(alias="customId", default=None)
+    custom_id: Optional[str] = FieldInfo(alias="customId")
     """Custom identifier for the agent"""
 
-    description: Optional[str] = None
+    description: Optional[str]
     """Description of the agent"""
 
     name: str
@@ -33,7 +33,7 @@ class Pagination(BaseModel):
     has_more: bool = FieldInfo(alias="hasMore")
     """Whether there are more items to fetch"""
 
-    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor")
     """Cursor for the next page of items"""
 
     total: float

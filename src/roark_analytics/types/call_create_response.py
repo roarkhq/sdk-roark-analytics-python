@@ -36,14 +36,16 @@ class Data(BaseModel):
     id: str
     """Unique identifier for the call"""
 
-    agents: Optional[List[DataAgent]] = None
+    agents: Optional[List[DataAgent]]
 
     call_direction: Literal["INBOUND", "OUTBOUND"] = FieldInfo(alias="callDirection")
     """Direction of the call (inbound or outbound)"""
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[str] = FieldInfo(alias="createdAt")
 
-    customers: Optional[List[DataCustomer]] = None
+    customers: Optional[List[DataCustomer]]
+
+    external_id: Optional[str] = FieldInfo(alias="externalId")
 
     project_id: str = FieldInfo(alias="projectId")
     """ID of the project this call belongs to"""
@@ -51,7 +53,7 @@ class Data(BaseModel):
     started_at: str = FieldInfo(alias="startedAt")
     """Timestamp when the call started"""
 
-    status: Optional[Literal["RINGING", "IN_PROGRESS", "ENDED"]] = None
+    status: Optional[Literal["RINGING", "IN_PROGRESS", "ENDED"]]
 
 
 class CallCreateResponse(BaseModel):

@@ -45,15 +45,18 @@ class TestSimulationPersona:
             confirmation_style="EXPLICIT",
             description="description",
             has_disfluencies=True,
+            idle_message_max_spoken_count=1,
+            idle_message_reset_count_on_user_speech_enabled=True,
+            idle_messages=["idleMessages"],
+            idle_timeout_seconds=5,
             intent_clarity="CLEAR",
             memory_reliability="HIGH",
-            properties={
-                "age": "bar",
-                "zipCode": "bar",
-                "occupation": "bar",
-            },
-            # TODO: Uncomment when Prism correctly handles null values for nullable enums
-            # secondary_language=None,
+            properties={"foo": "string"},
+            response_timing="RELAXED",
+            secondary_language="EN",
+            speech_clarity="CLEAR",
+            speech_pace="SUPER_SLOW",
+            understood_languages=["EN"],
         )
         assert_matches_type(SimulationPersonaCreateResponse, simulation_persona, path=["response"])
 
@@ -106,17 +109,20 @@ class TestSimulationPersona:
             description="description",
             gender="MALE",
             has_disfluencies=True,
+            idle_message_max_spoken_count=1,
+            idle_message_reset_count_on_user_speech_enabled=True,
+            idle_messages=["idleMessages"],
+            idle_timeout_seconds=5,
             intent_clarity="CLEAR",
             language="EN",
             memory_reliability="HIGH",
             name="name",
-            properties={
-                "age": "bar",
-                "zipCode": "bar",
-                "occupation": "bar",
-            },
-            # TODO: Uncomment when Prism correctly handles null values for nullable enums
-            # secondary_language=None,
+            properties={"foo": "string"},
+            response_timing="RELAXED",
+            secondary_language="EN",
+            speech_clarity="CLEAR",
+            speech_pace="SUPER_SLOW",
+            understood_languages=["EN"],
         )
         assert_matches_type(SimulationPersonaUpdateResponse, simulation_persona, path=["response"])
 
@@ -252,15 +258,18 @@ class TestAsyncSimulationPersona:
             confirmation_style="EXPLICIT",
             description="description",
             has_disfluencies=True,
+            idle_message_max_spoken_count=1,
+            idle_message_reset_count_on_user_speech_enabled=True,
+            idle_messages=["idleMessages"],
+            idle_timeout_seconds=5,
             intent_clarity="CLEAR",
             memory_reliability="HIGH",
-            properties={
-                "age": "bar",
-                "zipCode": "bar",
-                "occupation": "bar",
-            },
-            # TODO: Uncomment when Prism correctly handles null values for nullable enums
-            # secondary_language=None,
+            properties={"foo": "string"},
+            response_timing="RELAXED",
+            secondary_language="EN",
+            speech_clarity="CLEAR",
+            speech_pace="SUPER_SLOW",
+            understood_languages=["EN"],
         )
         assert_matches_type(SimulationPersonaCreateResponse, simulation_persona, path=["response"])
 
@@ -313,17 +322,20 @@ class TestAsyncSimulationPersona:
             description="description",
             gender="MALE",
             has_disfluencies=True,
+            idle_message_max_spoken_count=1,
+            idle_message_reset_count_on_user_speech_enabled=True,
+            idle_messages=["idleMessages"],
+            idle_timeout_seconds=5,
             intent_clarity="CLEAR",
             language="EN",
             memory_reliability="HIGH",
             name="name",
-            properties={
-                "age": "bar",
-                "zipCode": "bar",
-                "occupation": "bar",
-            },
-            # TODO: Uncomment when Prism correctly handles null values for nullable enums
-            # secondary_language=None,
+            properties={"foo": "string"},
+            response_timing="RELAXED",
+            secondary_language="EN",
+            speech_clarity="CLEAR",
+            speech_pace="SUPER_SLOW",
+            understood_languages=["EN"],
         )
         assert_matches_type(SimulationPersonaUpdateResponse, simulation_persona, path=["response"])
 

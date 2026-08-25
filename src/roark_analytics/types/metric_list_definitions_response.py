@@ -1,36 +1,51 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["MetricListDefinitionsResponse", "Data", "DataUnit"]
+__all__ = [
+    "MetricListDefinitionsResponse",
+    "FormulaMetricResponse",
+    "FormulaMetricResponseFormula",
+    "FormulaMetricResponseFormulaSource",
+    "LlmJudgeMetricResponse",
+    "LlmJudgeMetricResponseUnit",
+    "PatternMetricResponse",
+    "PatternMetricResponsePattern",
+    "PatternMetricResponsePatternOutcome",
+    "PatternMetricResponsePatternTrigger",
+    "ProviderMetricResponse",
+    "ThresholdMetricResponse",
+    "ThresholdMetricResponseThreshold",
+]
 
 
-class DataUnit(BaseModel):
+class LlmJudgeMetricResponseUnit(BaseModel):
     """Unit information if applicable"""
 
     name: str
     """Name of the unit"""
 
-    symbol: Optional[str] = None
+    symbol: Optional[str]
     """Symbol for the unit"""
 
 
-class Data(BaseModel):
-    """Metric definition data"""
-
+class LlmJudgeMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
+
+    calculation_type: Literal["LLM_JUDGE"] = FieldInfo(alias="calculationType")
+    """Metric evaluated by an LLM against a prompt."""
 
     description: str
     """Description of what the metric measures"""
 
     metric_id: str = FieldInfo(alias="metricId")
-    """Stable metric identifier"""
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
     name: str
     """Name of the metric"""
@@ -38,16 +53,311 @@ class Data(BaseModel):
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
 
-    unit: Optional[DataUnit] = None
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
+    """Unit information if applicable"""
+
+
+class ProviderMetricResponse(BaseModel):
+    id: str
+    """Unique identifier for the metric definition"""
+
+    calculation_type: Literal["PROVIDER"] = FieldInfo(alias="calculationType")
+    """System-managed metric produced by an analysis provider."""
+
+    description: str
+    """Description of what the metric measures"""
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
+    name: str
+    """Name of the metric"""
+
+    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
+    """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
+    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
+    """Which levels this metric can produce values at"""
+
+    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+    """Type of value this metric produces"""
+
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
+    """Unit information if applicable"""
+
+
+class ThresholdMetricResponseThreshold(BaseModel):
+    aggregation_mode: Literal["EACH", "COUNT", "AVERAGE", "MIN", "MAX", "MEDIAN", "P95", "P99", "SUM"] = FieldInfo(
+        alias="aggregationMode"
+    )
+
+    count_threshold: Optional[int] = FieldInfo(alias="countThreshold")
+
+    operator: Literal[
+        "GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"
+    ]
+
+    source_metric_definition_id: str = FieldInfo(alias="sourceMetricDefinitionId")
+
+    source_participant_role: Optional[Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"]] = (
+        FieldInfo(alias="sourceParticipantRole")
+    )
+
+    source_variant_id: Optional[str] = FieldInfo(alias="sourceVariantId")
+
+    threshold_value: str = FieldInfo(alias="thresholdValue")
+
+
+class ThresholdMetricResponse(BaseModel):
+    id: str
+    """Unique identifier for the metric definition"""
+
+    calculation_type: Literal["THRESHOLD"] = FieldInfo(alias="calculationType")
+    """Boolean metric derived by comparing a source metric against a threshold."""
+
+    description: str
+    """Description of what the metric measures"""
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
+    name: str
+    """Name of the metric"""
+
+    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
+    """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
+    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
+    """Which levels this metric can produce values at"""
+
+    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+    """Type of value this metric produces"""
+
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    threshold: Optional[ThresholdMetricResponseThreshold] = None
+    """Threshold configuration."""
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
+    """Unit information if applicable"""
+
+
+class FormulaMetricResponseFormulaSource(BaseModel):
+    source_metric_definition_id: str = FieldInfo(alias="sourceMetricDefinitionId")
+
+    source_variant_id: Optional[str] = FieldInfo(alias="sourceVariantId")
+
+
+class FormulaMetricResponseFormula(BaseModel):
+    expression: str
+
+    sources: List[FormulaMetricResponseFormulaSource]
+
+
+class FormulaMetricResponse(BaseModel):
+    id: str
+    """Unique identifier for the metric definition"""
+
+    calculation_type: Literal["FORMULA"] = FieldInfo(alias="calculationType")
+    """Metric computed by evaluating an expression over other metrics."""
+
+    description: str
+    """Description of what the metric measures"""
+
+    formula: FormulaMetricResponseFormula
+    """Formula configuration."""
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
+    name: str
+    """Name of the metric"""
+
+    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
+    """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
+    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
+    """Which levels this metric can produce values at"""
+
+    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+    """Type of value this metric produces"""
+
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
+    """Unit information if applicable"""
+
+
+class PatternMetricResponsePatternOutcome(BaseModel):
+    operator: Literal[
+        "GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"
+    ]
+
+    source_metric_definition_id: str = FieldInfo(alias="sourceMetricDefinitionId")
+
+    source_participant_role: Optional[Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"]] = (
+        FieldInfo(alias="sourceParticipantRole")
+    )
+
+    source_variant_id: Optional[str] = FieldInfo(alias="sourceVariantId")
+
+    threshold_value: str = FieldInfo(alias="thresholdValue")
+
+    window_after: Optional[int] = FieldInfo(alias="windowAfter")
+
+    window_before: Optional[int] = FieldInfo(alias="windowBefore")
+
+
+class PatternMetricResponsePatternTrigger(BaseModel):
+    operator: Literal[
+        "GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"
+    ]
+
+    source_metric_definition_id: str = FieldInfo(alias="sourceMetricDefinitionId")
+
+    source_participant_role: Optional[Literal["AGENT", "CUSTOMER", "SIMULATED_CUSTOMER", "BACKGROUND_SPEAKER"]] = (
+        FieldInfo(alias="sourceParticipantRole")
+    )
+
+    source_variant_id: Optional[str] = FieldInfo(alias="sourceVariantId")
+
+    threshold_value: str = FieldInfo(alias="thresholdValue")
+
+
+class PatternMetricResponsePattern(BaseModel):
+    operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"]
+
+    outcome: Optional[PatternMetricResponsePatternOutcome]
+
+    trigger_combinator: Optional[Literal["AND", "OR"]] = FieldInfo(alias="triggerCombinator")
+
+    triggers: List[PatternMetricResponsePatternTrigger]
+
+    window_mode: Optional[str] = FieldInfo(alias="windowMode")
+
+
+class PatternMetricResponse(BaseModel):
+    id: str
+    """Unique identifier for the metric definition"""
+
+    calculation_type: Literal["PATTERN"] = FieldInfo(alias="calculationType")
+    """Metric detecting a trigger condition followed by an outcome within a window."""
+
+    description: str
+    """Description of what the metric measures"""
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
+    name: str
+    """Name of the metric"""
+
+    pattern: PatternMetricResponsePattern
+    """Pattern configuration."""
+
+    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
+    """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
+    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
+    """Which levels this metric can produce values at"""
+
+    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+    """Type of value this metric produces"""
+
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
     """Unit information if applicable"""
 
 
 class MetricListDefinitionsResponse(BaseModel):
-    data: List[Data]
+    data: List[
+        Union[
+            LlmJudgeMetricResponse,
+            ProviderMetricResponse,
+            ThresholdMetricResponse,
+            FormulaMetricResponse,
+            PatternMetricResponse,
+        ]
+    ]
     """Metrics response payload"""
