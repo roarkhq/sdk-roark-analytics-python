@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.1...v3.0.0) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes methods or types from the public surface.
+
+### Features
+
+* **api:** api update ([bdeffb6](https://github.com/roarkhq/sdk-roark-analytics-python/commit/bdeffb6e72ea7f8ba4830a7980230f7d1d83d976))
+* **api:** api update ([590aa2a](https://github.com/roarkhq/sdk-roark-analytics-python/commit/590aa2abc2b2348984d3933fc053244cf598a75a))
+* **api:** api update ([874ed15](https://github.com/roarkhq/sdk-roark-analytics-python/commit/874ed15e8dcf45c99f10ad6994aeaf3f8a373461))
+* **api:** api update ([1566394](https://github.com/roarkhq/sdk-roark-analytics-python/commit/1566394f920f3976ffd8073f02ed80a234510ceb))
+
+
+### Bug Fixes
+
+* **tests:** point the client tests at an endpoint that still exists ([a207d0c](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a207d0cde3609b4ff93f663fa748372c981599a3))
+* **tests:** point the client tests at an endpoint that still exists ([e0d6f3b](https://github.com/roarkhq/sdk-roark-analytics-python/commit/e0d6f3b5ac2149c3990b18a721266921dd7e96f7))
+
 ## 2.24.1 (2026-08-24)
 
 Full Changelog: [v2.24.0...v2.24.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v2.24.0...v2.24.1)
