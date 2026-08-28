@@ -49,10 +49,10 @@ class MetricResource(SyncAPIResource):
     def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["LLM_JUDGE"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
+        analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -83,13 +83,15 @@ class MetricResource(SyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: LLM-evaluated metric.
 
           name: Name of the metric
 
           output_type: Type of value this metric produces
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           boolean_false_label: Label for the false case (only for BOOLEAN type)
 
@@ -134,12 +136,12 @@ class MetricResource(SyncAPIResource):
     def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["FORMULA"],
         formula: str,
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.FormulaMetricInputSource],
+        analysis_package_id: str | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -158,8 +160,6 @@ class MetricResource(SyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: Metric computed by evaluating a mathematical expression over other metrics.
 
           formula: Formula expression using `{{id:<uuid>}}` references to source metrics. Operators
@@ -171,6 +171,10 @@ class MetricResource(SyncAPIResource):
               comparison expressions.
 
           sources: Source metrics referenced by the formula. Minimum 2.
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
@@ -191,11 +195,11 @@ class MetricResource(SyncAPIResource):
     def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["PATTERN"],
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.PatternMetricInputOutcome,
+        analysis_package_id: str | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         trigger: metric_create_definition_params.PatternMetricInputTrigger | Omit = omit,
@@ -218,8 +222,6 @@ class MetricResource(SyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: Metric detecting temporal patterns: a trigger condition followed by an outcome
               within a window.
 
@@ -229,6 +231,10 @@ class MetricResource(SyncAPIResource):
               NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
@@ -254,17 +260,17 @@ class MetricResource(SyncAPIResource):
         ...
 
     @required_args(
-        ["analysis_package_id", "calculation_type", "name", "output_type"],
-        ["analysis_package_id", "calculation_type", "formula", "name", "output_type", "sources"],
-        ["analysis_package_id", "calculation_type", "name", "operation", "outcome"],
+        ["calculation_type", "name", "output_type"],
+        ["calculation_type", "formula", "name", "output_type", "sources"],
+        ["calculation_type", "name", "operation", "outcome"],
     )
     def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
+        analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -298,10 +304,10 @@ class MetricResource(SyncAPIResource):
             "/v1/metric/definitions",
             body=maybe_transform(
                 {
-                    "analysis_package_id": analysis_package_id,
                     "calculation_type": calculation_type,
                     "name": name,
                     "output_type": output_type,
+                    "analysis_package_id": analysis_package_id,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,
@@ -388,10 +394,10 @@ class AsyncMetricResource(AsyncAPIResource):
     async def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["LLM_JUDGE"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
+        analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -422,13 +428,15 @@ class AsyncMetricResource(AsyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: LLM-evaluated metric.
 
           name: Name of the metric
 
           output_type: Type of value this metric produces
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           boolean_false_label: Label for the false case (only for BOOLEAN type)
 
@@ -473,12 +481,12 @@ class AsyncMetricResource(AsyncAPIResource):
     async def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["FORMULA"],
         formula: str,
         name: str,
         output_type: Literal["NUMERIC", "BOOLEAN"],
         sources: Iterable[metric_create_definition_params.FormulaMetricInputSource],
+        analysis_package_id: str | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -497,8 +505,6 @@ class AsyncMetricResource(AsyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: Metric computed by evaluating a mathematical expression over other metrics.
 
           formula: Formula expression using `{{id:<uuid>}}` references to source metrics. Operators
@@ -510,6 +516,10 @@ class AsyncMetricResource(AsyncAPIResource):
               comparison expressions.
 
           sources: Source metrics referenced by the formula. Minimum 2.
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
@@ -530,11 +540,11 @@ class AsyncMetricResource(AsyncAPIResource):
     async def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["PATTERN"],
         name: str,
         operation: Literal["PATTERN_EXISTS", "PATTERN_COUNT", "OUTCOME_AGGREGATE"],
         outcome: metric_create_definition_params.PatternMetricInputOutcome,
+        analysis_package_id: str | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         trigger: metric_create_definition_params.PatternMetricInputTrigger | Omit = omit,
@@ -557,8 +567,6 @@ class AsyncMetricResource(AsyncAPIResource):
         /metric/definitions/{idOrSlug}/thresholds` instead.
 
         Args:
-          analysis_package_id: ID of the analysis package to add this metric to
-
           calculation_type: Metric detecting temporal patterns: a trigger condition followed by an outcome
               within a window.
 
@@ -568,6 +576,10 @@ class AsyncMetricResource(AsyncAPIResource):
               NUMERIC count; OUTCOME_AGGREGATE aggregates a numeric outcome.
 
           outcome: Outcome condition evaluated within the window relative to the trigger.
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
 
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
@@ -593,17 +605,17 @@ class AsyncMetricResource(AsyncAPIResource):
         ...
 
     @required_args(
-        ["analysis_package_id", "calculation_type", "name", "output_type"],
-        ["analysis_package_id", "calculation_type", "formula", "name", "output_type", "sources"],
-        ["analysis_package_id", "calculation_type", "name", "operation", "outcome"],
+        ["calculation_type", "name", "output_type"],
+        ["calculation_type", "formula", "name", "output_type", "sources"],
+        ["calculation_type", "name", "operation", "outcome"],
     )
     async def create_definition(
         self,
         *,
-        analysis_package_id: str,
         calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
+        analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -637,10 +649,10 @@ class AsyncMetricResource(AsyncAPIResource):
             "/v1/metric/definitions",
             body=await async_maybe_transform(
                 {
-                    "analysis_package_id": analysis_package_id,
                     "calculation_type": calculation_type,
                     "name": name,
                     "output_type": output_type,
+                    "analysis_package_id": analysis_package_id,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,

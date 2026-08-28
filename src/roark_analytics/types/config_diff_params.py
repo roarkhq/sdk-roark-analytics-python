@@ -11,23 +11,23 @@ from .config_flow_step_param import ConfigFlowStepParam
 
 __all__ = [
     "ConfigDiffParams",
-    "ResourceUnionMember0",
-    "ResourceUnionMember0Endpoint",
-    "ResourceUnionMember1",
-    "ResourceUnionMember2",
-    "ResourceUnionMember2EdgeCase",
-    "ResourceUnionMember2HappyPath",
-    "ResourceUnionMember3",
-    "ResourceUnionMember4",
-    "ResourceUnionMember4Filter",
-    "ResourceUnionMember4FilterCondition",
-    "ResourceUnionMember5",
-    "ResourceUnionMember5Option",
-    "ResourceUnionMember5ScaleLabel",
+    "AgentConfig",
+    "AgentConfigEndpoint",
+    "CollectorConfig",
+    "CollectorConfigFilter",
+    "CollectorConfigFilterCondition",
+    "ImprovFlowConfig",
+    "ImprovFlowConfigEdgeCase",
+    "ImprovFlowConfigHappyPath",
+    "MetricConfig",
+    "MetricConfigOption",
+    "MetricConfigScaleLabel",
+    "PersonaConfig",
+    "ScriptedFlowConfig",
 ]
 
 
-class ResourceUnionMember0Endpoint(TypedDict, total=False):
+class AgentConfigEndpoint(TypedDict, total=False):
     direction: Required[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]]
 
     name: Required[str]
@@ -37,7 +37,7 @@ class ResourceUnionMember0Endpoint(TypedDict, total=False):
     environment: str
 
 
-class ResourceUnionMember0(TypedDict, total=False):
+class AgentConfig(TypedDict, total=False):
     kind: Required[Literal["agent"]]
 
     name: Required[str]
@@ -46,10 +46,10 @@ class ResourceUnionMember0(TypedDict, total=False):
 
     description: Optional[str]
 
-    endpoints: Iterable[ResourceUnionMember0Endpoint]
+    endpoints: Iterable[AgentConfigEndpoint]
 
 
-class ResourceUnionMember1(TypedDict, total=False):
+class PersonaConfig(TypedDict, total=False):
     accent: Required[
         Literal[
             "US",
@@ -89,6 +89,8 @@ class ResourceUnionMember1(TypedDict, total=False):
     ]
 
     name: Required[str]
+
+    age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"]
 
     background_noise: Annotated[
         Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
@@ -163,7 +165,7 @@ class ResourceUnionMember1(TypedDict, total=False):
     ]
 
 
-class ResourceUnionMember2HappyPath(TypedDict, total=False):
+class ImprovFlowConfigHappyPath(TypedDict, total=False):
     environment: Required[str]
 
     persona: Required[str]
@@ -175,7 +177,7 @@ class ResourceUnionMember2HappyPath(TypedDict, total=False):
     title: str
 
 
-class ResourceUnionMember2EdgeCase(TypedDict, total=False):
+class ImprovFlowConfigEdgeCase(TypedDict, total=False):
     name: Required[str]
 
     environment: str
@@ -189,10 +191,10 @@ class ResourceUnionMember2EdgeCase(TypedDict, total=False):
     title: str
 
 
-class ResourceUnionMember2(TypedDict, total=False):
+class ImprovFlowConfig(TypedDict, total=False):
     agents: Required[SequenceNotStr[str]]
 
-    happy_path: Required[Annotated[ResourceUnionMember2HappyPath, PropertyInfo(alias="happyPath")]]
+    happy_path: Required[Annotated[ImprovFlowConfigHappyPath, PropertyInfo(alias="happyPath")]]
 
     kind: Required[Literal["flow"]]
 
@@ -202,14 +204,14 @@ class ResourceUnionMember2(TypedDict, total=False):
 
     description: Optional[str]
 
-    edge_cases: Annotated[Iterable[ResourceUnionMember2EdgeCase], PropertyInfo(alias="edgeCases")]
+    edge_cases: Annotated[Iterable[ImprovFlowConfigEdgeCase], PropertyInfo(alias="edgeCases")]
 
     expectations: SequenceNotStr[str]
 
     title: str
 
 
-class ResourceUnionMember3(TypedDict, total=False):
+class ScriptedFlowConfig(TypedDict, total=False):
     graph: Required[List[ConfigFlowStepParam]]
 
     kind: Required[Literal["flow"]]
@@ -229,7 +231,7 @@ class ResourceUnionMember3(TypedDict, total=False):
     title: str
 
 
-class ResourceUnionMember4FilterCondition(TypedDict, total=False):
+class CollectorConfigFilterCondition(TypedDict, total=False):
     key: Required[str]
 
     type: Required[Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY", "INTEGRATION"]]
@@ -248,11 +250,11 @@ class ResourceUnionMember4FilterCondition(TypedDict, total=False):
     value: str
 
 
-class ResourceUnionMember4Filter(TypedDict, total=False):
-    conditions: Required[Iterable[ResourceUnionMember4FilterCondition]]
+class CollectorConfigFilter(TypedDict, total=False):
+    conditions: Required[Iterable[CollectorConfigFilterCondition]]
 
 
-class ResourceUnionMember4(TypedDict, total=False):
+class CollectorConfig(TypedDict, total=False):
     kind: Required[Literal["collector"]]
 
     metrics: Required[SequenceNotStr[str]]
@@ -261,12 +263,12 @@ class ResourceUnionMember4(TypedDict, total=False):
 
     name: Required[str]
 
-    filters: Iterable[ResourceUnionMember4Filter]
+    filters: Iterable[CollectorConfigFilter]
 
     status: Literal["ACTIVE", "INACTIVE"]
 
 
-class ResourceUnionMember5Option(TypedDict, total=False):
+class MetricConfigOption(TypedDict, total=False):
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
 
     label: Required[str]
@@ -274,7 +276,7 @@ class ResourceUnionMember5Option(TypedDict, total=False):
     description: str
 
 
-class ResourceUnionMember5ScaleLabel(TypedDict, total=False):
+class MetricConfigScaleLabel(TypedDict, total=False):
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
 
     label: Required[str]
@@ -288,7 +290,7 @@ class ResourceUnionMember5ScaleLabel(TypedDict, total=False):
     description: str
 
 
-class ResourceUnionMember5(TypedDict, total=False):
+class MetricConfig(TypedDict, total=False):
     kind: Required[Literal["metric"]]
 
     name: Required[str]
@@ -305,11 +307,11 @@ class ResourceUnionMember5(TypedDict, total=False):
 
     max_selections: Annotated[int, PropertyInfo(alias="maxSelections")]
 
-    options: Iterable[ResourceUnionMember5Option]
+    options: Iterable[MetricConfigOption]
 
     participant_role: Annotated[Literal["AGENT", "CUSTOMER"], PropertyInfo(alias="participantRole")]
 
-    scale_labels: Annotated[Iterable[ResourceUnionMember5ScaleLabel], PropertyInfo(alias="scaleLabels")]
+    scale_labels: Annotated[Iterable[MetricConfigScaleLabel], PropertyInfo(alias="scaleLabels")]
 
     scale_max: Annotated[int, PropertyInfo(alias="scaleMax")]
 
@@ -322,16 +324,7 @@ class ResourceUnionMember5(TypedDict, total=False):
 
 class ConfigDiffParams(TypedDict, total=False):
     resources: Required[
-        List[
-            Union[
-                ResourceUnionMember0,
-                ResourceUnionMember1,
-                ResourceUnionMember2,
-                ResourceUnionMember3,
-                ResourceUnionMember4,
-                ResourceUnionMember5,
-            ]
-        ]
+        List[Union[AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig]]
     ]
 
     prune: bool

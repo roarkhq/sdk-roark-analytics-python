@@ -107,7 +107,7 @@ class TestSimulationRunPlanJob:
     def test_method_start_with_all_params(self, client: Roark) -> None:
         simulation_run_plan_job = client.simulation_run_plan_job.start(
             plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-            variables={"foo": "string"},
+            variables={"order_number": "12345", "environment": "staging"},
         )
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 
@@ -234,7 +234,7 @@ class TestAsyncSimulationRunPlanJob:
     async def test_method_start_with_all_params(self, async_client: AsyncRoark) -> None:
         simulation_run_plan_job = await async_client.simulation_run_plan_job.start(
             plan_id="7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
-            variables={"foo": "string"},
+            variables={"order_number": "12345", "environment": "staging"},
         )
         assert_matches_type(SimulationRunPlanJobStartResponse, simulation_run_plan_job, path=["response"])
 

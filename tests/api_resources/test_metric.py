@@ -23,7 +23,6 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_overload_1(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -33,10 +32,10 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_with_all_params_overload_1(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
@@ -65,7 +64,6 @@ class TestMetric:
     @parametrize
     def test_raw_response_create_definition_overload_1(self, client: Roark) -> None:
         response = client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -79,7 +77,6 @@ class TestMetric:
     @parametrize
     def test_streaming_response_create_definition_overload_1(self, client: Roark) -> None:
         with client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -95,7 +92,6 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_overload_2(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -110,7 +106,6 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_with_all_params_overload_2(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -125,6 +120,7 @@ class TestMetric:
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
@@ -133,7 +129,6 @@ class TestMetric:
     @parametrize
     def test_raw_response_create_definition_overload_2(self, client: Roark) -> None:
         response = client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -152,7 +147,6 @@ class TestMetric:
     @parametrize
     def test_streaming_response_create_definition_overload_2(self, client: Roark) -> None:
         with client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -173,7 +167,6 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_overload_3(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -189,7 +182,6 @@ class TestMetric:
     @parametrize
     def test_method_create_definition_with_all_params_overload_3(self, client: Roark) -> None:
         metric = client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -202,6 +194,7 @@ class TestMetric:
                 "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "window_before": 0,
             },
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
             trigger={
@@ -228,7 +221,6 @@ class TestMetric:
     @parametrize
     def test_raw_response_create_definition_overload_3(self, client: Roark) -> None:
         response = client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -248,7 +240,6 @@ class TestMetric:
     @parametrize
     def test_streaming_response_create_definition_overload_3(self, client: Roark) -> None:
         with client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -301,7 +292,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -311,10 +301,10 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
@@ -343,7 +333,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_raw_response_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -357,7 +346,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_streaming_response_create_definition_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="LLM_JUDGE",
             name="Customer Satisfaction",
             output_type="BOOLEAN",
@@ -373,7 +361,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -388,7 +375,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -403,6 +389,7 @@ class TestAsyncMetric:
                     "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
@@ -411,7 +398,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_raw_response_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -430,7 +416,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_streaming_response_create_definition_overload_2(self, async_client: AsyncRoark) -> None:
         async with async_client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="FORMULA",
             formula="{{id:00000000-0000-0000-0000-000000000001}} / {{id:00000000-0000-0000-0000-000000000002}}",
             name="Customer Satisfaction",
@@ -451,7 +436,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -467,7 +451,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_create_definition_with_all_params_overload_3(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -480,6 +463,7 @@ class TestAsyncMetric:
                 "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "window_before": 0,
             },
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
             trigger={
@@ -506,7 +490,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_raw_response_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
         response = await async_client.metric.with_raw_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
@@ -526,7 +509,6 @@ class TestAsyncMetric:
     @parametrize
     async def test_streaming_response_create_definition_overload_3(self, async_client: AsyncRoark) -> None:
         async with async_client.metric.with_streaming_response.create_definition(
-            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             calculation_type="PATTERN",
             name="Customer Satisfaction",
             operation="PATTERN_EXISTS",
