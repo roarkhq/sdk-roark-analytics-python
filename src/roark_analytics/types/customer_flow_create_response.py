@@ -112,6 +112,12 @@ class ScriptedCustomerFlowEdgeCasePersonaOverride(BaseModel):
     optional variants
     """
 
+    age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"]
+    """
+    How old the caller sounds and behaves. Only ages the persona's accent has a
+    voice for are accepted; defaults to ADULT, which every accent supports.
+    """
+
     background_noise: Literal[
         "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
     ] = FieldInfo(alias="backgroundNoise")

@@ -51,9 +51,6 @@ class PromptMetricInputScaleLabel(TypedDict, total=False):
 
 
 class PromptMetricInput(TypedDict, total=False):
-    analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
-    """ID of the analysis package to add this metric to"""
-
     calculation_type: Required[Annotated[Literal["LLM_JUDGE"], PropertyInfo(alias="calculationType")]]
     """LLM-evaluated metric."""
 
@@ -67,6 +64,13 @@ class PromptMetricInput(TypedDict, total=False):
         ]
     ]
     """Type of value this metric produces"""
+
+    analysis_package_id: Annotated[str, PropertyInfo(alias="analysisPackageId")]
+    """
+    ID of the analysis package to add this metric to. Optional: when omitted, the
+    metric is added to a default "Custom Metrics" package for your project (created
+    automatically the first time).
+    """
 
     boolean_false_label: Annotated[str, PropertyInfo(alias="booleanFalseLabel")]
     """Label for the false case (only for BOOLEAN type)"""
@@ -130,9 +134,6 @@ class FormulaMetricInputSource(TypedDict, total=False):
 
 
 class FormulaMetricInput(TypedDict, total=False):
-    analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
-    """ID of the analysis package to add this metric to"""
-
     calculation_type: Required[Annotated[Literal["FORMULA"], PropertyInfo(alias="calculationType")]]
     """Metric computed by evaluating a mathematical expression over other metrics."""
 
@@ -153,6 +154,13 @@ class FormulaMetricInput(TypedDict, total=False):
 
     sources: Required[Iterable[FormulaMetricInputSource]]
     """Source metrics referenced by the formula. Minimum 2."""
+
+    analysis_package_id: Annotated[str, PropertyInfo(alias="analysisPackageId")]
+    """
+    ID of the analysis package to add this metric to. Optional: when omitted, the
+    metric is added to a default "Custom Metrics" package for your project (created
+    automatically the first time).
+    """
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
     """
@@ -212,9 +220,6 @@ class PatternMetricInputTrigger(TypedDict, total=False):
 
 
 class PatternMetricInput(TypedDict, total=False):
-    analysis_package_id: Required[Annotated[str, PropertyInfo(alias="analysisPackageId")]]
-    """ID of the analysis package to add this metric to"""
-
     calculation_type: Required[Annotated[Literal["PATTERN"], PropertyInfo(alias="calculationType")]]
     """
     Metric detecting temporal patterns: a trigger condition followed by an outcome
@@ -232,6 +237,13 @@ class PatternMetricInput(TypedDict, total=False):
 
     outcome: Required[PatternMetricInputOutcome]
     """Outcome condition evaluated within the window relative to the trigger."""
+
+    analysis_package_id: Annotated[str, PropertyInfo(alias="analysisPackageId")]
+    """
+    ID of the analysis package to add this metric to. Optional: when omitted, the
+    metric is added to a default "Custom Metrics" package for your project (created
+    automatically the first time).
+    """
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
     """

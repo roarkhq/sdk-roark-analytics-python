@@ -57,6 +57,12 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     name: Required[str]
     """The name the agent will identify as during conversations"""
 
+    age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"]
+    """
+    How old the caller sounds and behaves. Only ages the persona's accent has a
+    voice for are accepted; defaults to ADULT, which every accent supports.
+    """
+
     background_noise: Annotated[
         Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
         PropertyInfo(alias="backgroundNoise"),

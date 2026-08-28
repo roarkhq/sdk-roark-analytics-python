@@ -80,6 +80,7 @@ class SimulationPersonaResource(SyncAPIResource):
             "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ],
         name: str,
+        age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -144,6 +145,9 @@ class SimulationPersonaResource(SyncAPIResource):
 
           name: The name the agent will identify as during conversations
 
+          age: How old the caller sounds and behaves. Only ages the persona's accent has a
+              voice for are accepted; defaults to ADULT, which every accent supports.
+
           background_noise: Background noise setting
 
           backstory_prompt: Background story and behavioral patterns for the persona
@@ -199,6 +203,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "gender": gender,
                     "language": language,
                     "name": name,
+                    "age": age,
                     "background_noise": background_noise,
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
@@ -256,6 +261,7 @@ class SimulationPersonaResource(SyncAPIResource):
             "IL",
         ]
         | Omit = omit,
+        age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -320,6 +326,9 @@ class SimulationPersonaResource(SyncAPIResource):
           accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
               optional variants
 
+          age: How old the caller sounds and behaves. Only ages the persona's accent has a
+              voice for are accepted; defaults to ADULT, which every accent supports.
+
           background_noise: Background noise setting
 
           backstory_prompt: Background story and behavioral patterns for the persona
@@ -380,6 +389,7 @@ class SimulationPersonaResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "accent": accent,
+                    "age": age,
                     "background_noise": background_noise,
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
@@ -541,6 +551,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
             "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ],
         name: str,
+        age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -605,6 +616,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           name: The name the agent will identify as during conversations
 
+          age: How old the caller sounds and behaves. Only ages the persona's accent has a
+              voice for are accepted; defaults to ADULT, which every accent supports.
+
           background_noise: Background noise setting
 
           backstory_prompt: Background story and behavioral patterns for the persona
@@ -660,6 +674,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "gender": gender,
                     "language": language,
                     "name": name,
+                    "age": age,
                     "background_noise": background_noise,
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,
@@ -717,6 +732,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
             "IL",
         ]
         | Omit = omit,
+        age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
             "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
         ]
@@ -781,6 +797,9 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
           accent: Accent of the persona, defined using ISO 3166-1 alpha-2 country codes with
               optional variants
 
+          age: How old the caller sounds and behaves. Only ages the persona's accent has a
+              voice for are accepted; defaults to ADULT, which every accent supports.
+
           background_noise: Background noise setting
 
           backstory_prompt: Background story and behavioral patterns for the persona
@@ -841,6 +860,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "accent": accent,
+                    "age": age,
                     "background_noise": background_noise,
                     "backstory_prompt": backstory_prompt,
                     "base_emotion": base_emotion,

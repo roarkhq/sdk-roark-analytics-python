@@ -49,12 +49,12 @@ class ConfigResource(SyncAPIResource):
         *,
         resources: List[
             Union[
-                config_apply_params.ResourceUnionMember0,
-                config_apply_params.ResourceUnionMember1,
-                config_apply_params.ResourceUnionMember2,
-                config_apply_params.ResourceUnionMember3,
-                config_apply_params.ResourceUnionMember4,
-                config_apply_params.ResourceUnionMember5,
+                config_apply_params.AgentConfig,
+                config_apply_params.PersonaConfig,
+                config_apply_params.ImprovFlowConfig,
+                config_apply_params.ScriptedFlowConfig,
+                config_apply_params.CollectorConfig,
+                config_apply_params.MetricConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -101,12 +101,12 @@ class ConfigResource(SyncAPIResource):
         *,
         resources: List[
             Union[
-                config_diff_params.ResourceUnionMember0,
-                config_diff_params.ResourceUnionMember1,
-                config_diff_params.ResourceUnionMember2,
-                config_diff_params.ResourceUnionMember3,
-                config_diff_params.ResourceUnionMember4,
-                config_diff_params.ResourceUnionMember5,
+                config_diff_params.AgentConfig,
+                config_diff_params.PersonaConfig,
+                config_diff_params.ImprovFlowConfig,
+                config_diff_params.ScriptedFlowConfig,
+                config_diff_params.CollectorConfig,
+                config_diff_params.MetricConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -118,11 +118,10 @@ class ConfigResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigDiffResponse:
         """
-        Dry run: returns the changes reconcile a config-as-code bundle into the project.
-        Submit the full desired set of resources; resources already managed by config
-        are updated, new ones created, and (unless prune is false) config-managed
-        resources absent from the bundle are deleted. Identity is by name — no ids in
-        the bundle. No writes are performed.
+        Dry run for a config-as-code apply: returns the projected changes (create /
+        update / delete) for the submitted bundle without writing anything. Submit the
+        full desired set of resources; identity is by name — no ids in the bundle. Run
+        this before apply to preview what would change.
 
         Args:
           extra_headers: Send extra headers
@@ -174,12 +173,12 @@ class AsyncConfigResource(AsyncAPIResource):
         *,
         resources: List[
             Union[
-                config_apply_params.ResourceUnionMember0,
-                config_apply_params.ResourceUnionMember1,
-                config_apply_params.ResourceUnionMember2,
-                config_apply_params.ResourceUnionMember3,
-                config_apply_params.ResourceUnionMember4,
-                config_apply_params.ResourceUnionMember5,
+                config_apply_params.AgentConfig,
+                config_apply_params.PersonaConfig,
+                config_apply_params.ImprovFlowConfig,
+                config_apply_params.ScriptedFlowConfig,
+                config_apply_params.CollectorConfig,
+                config_apply_params.MetricConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -226,12 +225,12 @@ class AsyncConfigResource(AsyncAPIResource):
         *,
         resources: List[
             Union[
-                config_diff_params.ResourceUnionMember0,
-                config_diff_params.ResourceUnionMember1,
-                config_diff_params.ResourceUnionMember2,
-                config_diff_params.ResourceUnionMember3,
-                config_diff_params.ResourceUnionMember4,
-                config_diff_params.ResourceUnionMember5,
+                config_diff_params.AgentConfig,
+                config_diff_params.PersonaConfig,
+                config_diff_params.ImprovFlowConfig,
+                config_diff_params.ScriptedFlowConfig,
+                config_diff_params.CollectorConfig,
+                config_diff_params.MetricConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -243,11 +242,10 @@ class AsyncConfigResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigDiffResponse:
         """
-        Dry run: returns the changes reconcile a config-as-code bundle into the project.
-        Submit the full desired set of resources; resources already managed by config
-        are updated, new ones created, and (unless prune is false) config-managed
-        resources absent from the bundle are deleted. Identity is by name — no ids in
-        the bundle. No writes are performed.
+        Dry run for a config-as-code apply: returns the projected changes (create /
+        update / delete) for the submitted bundle without writing anything. Submit the
+        full desired set of resources; identity is by name — no ids in the bundle. Run
+        this before apply to preview what would change.
 
         Args:
           extra_headers: Send extra headers
