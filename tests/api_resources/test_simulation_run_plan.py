@@ -44,8 +44,8 @@ class TestSimulationRunPlan:
             name="My Run Plan",
             auto_run=False,
             description="A run plan for testing inbound calls",
-            end_call_phrases=["endCallPhrases"],
-            end_call_reasons=["endCallReasons"],
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -53,13 +53,18 @@ class TestSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {"foo": "string"},
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
+                }
+            ],
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -119,7 +124,7 @@ class TestSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {"foo": "string"},
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
             is_hidden=True,
@@ -129,7 +134,12 @@ class TestSimulationRunPlan:
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
+                }
+            ],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])
@@ -303,8 +313,8 @@ class TestAsyncSimulationRunPlan:
             name="My Run Plan",
             auto_run=False,
             description="A run plan for testing inbound calls",
-            end_call_phrases=["endCallPhrases"],
-            end_call_reasons=["endCallReasons"],
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -312,13 +322,18 @@ class TestAsyncSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {"foo": "string"},
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
+                }
+            ],
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -378,7 +393,7 @@ class TestAsyncSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "variables": {"foo": "string"},
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
             is_hidden=True,
@@ -388,7 +403,12 @@ class TestAsyncSimulationRunPlan:
             metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            scenarios=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "variables": {"foo": "string"}}],
+            scenarios=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
+                }
+            ],
             silence_timeout_seconds=1,
         )
         assert_matches_type(SimulationRunPlanUpdateResponse, simulation_run_plan, path=["response"])

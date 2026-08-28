@@ -10,23 +10,23 @@ from .config_flow_step import ConfigFlowStep
 
 __all__ = [
     "Bundle",
-    "ResourceUnionMember0",
-    "ResourceUnionMember0Endpoint",
-    "ResourceUnionMember1",
-    "ResourceUnionMember2",
-    "ResourceUnionMember2EdgeCase",
-    "ResourceUnionMember2HappyPath",
-    "ResourceUnionMember3",
-    "ResourceUnionMember4",
-    "ResourceUnionMember4Filter",
-    "ResourceUnionMember4FilterCondition",
-    "ResourceUnionMember5",
-    "ResourceUnionMember5Option",
-    "ResourceUnionMember5ScaleLabel",
+    "AgentConfig",
+    "AgentConfigEndpoint",
+    "CollectorConfig",
+    "CollectorConfigFilter",
+    "CollectorConfigFilterCondition",
+    "ImprovFlowConfig",
+    "ImprovFlowConfigEdgeCase",
+    "ImprovFlowConfigHappyPath",
+    "MetricConfig",
+    "MetricConfigOption",
+    "MetricConfigScaleLabel",
+    "PersonaConfig",
+    "ScriptedFlowConfig",
 ]
 
 
-class ResourceUnionMember0Endpoint(BaseModel):
+class AgentConfigEndpoint(BaseModel):
     direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
 
     name: str
@@ -36,7 +36,7 @@ class ResourceUnionMember0Endpoint(BaseModel):
     environment: Optional[str] = None
 
 
-class ResourceUnionMember0(BaseModel):
+class AgentConfig(BaseModel):
     kind: Literal["agent"]
 
     name: str
@@ -45,10 +45,10 @@ class ResourceUnionMember0(BaseModel):
 
     description: Optional[str] = None
 
-    endpoints: Optional[List[ResourceUnionMember0Endpoint]] = None
+    endpoints: Optional[List[AgentConfigEndpoint]] = None
 
 
-class ResourceUnionMember1(BaseModel):
+class PersonaConfig(BaseModel):
     accent: Literal[
         "US",
         "US_X_SOUTH",
@@ -84,6 +84,8 @@ class ResourceUnionMember1(BaseModel):
     ]
 
     name: str
+
+    age: Optional[Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"]] = None
 
     background_noise: Optional[
         Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"]
@@ -155,7 +157,7 @@ class ResourceUnionMember1(BaseModel):
     ] = FieldInfo(alias="understoodLanguages", default=None)
 
 
-class ResourceUnionMember2HappyPath(BaseModel):
+class ImprovFlowConfigHappyPath(BaseModel):
     environment: str
 
     persona: str
@@ -167,7 +169,7 @@ class ResourceUnionMember2HappyPath(BaseModel):
     title: Optional[str] = None
 
 
-class ResourceUnionMember2EdgeCase(BaseModel):
+class ImprovFlowConfigEdgeCase(BaseModel):
     name: str
 
     environment: Optional[str] = None
@@ -181,10 +183,10 @@ class ResourceUnionMember2EdgeCase(BaseModel):
     title: Optional[str] = None
 
 
-class ResourceUnionMember2(BaseModel):
+class ImprovFlowConfig(BaseModel):
     agents: List[str]
 
-    happy_path: ResourceUnionMember2HappyPath = FieldInfo(alias="happyPath")
+    happy_path: ImprovFlowConfigHappyPath = FieldInfo(alias="happyPath")
 
     kind: Literal["flow"]
 
@@ -194,14 +196,14 @@ class ResourceUnionMember2(BaseModel):
 
     description: Optional[str] = None
 
-    edge_cases: Optional[List[ResourceUnionMember2EdgeCase]] = FieldInfo(alias="edgeCases", default=None)
+    edge_cases: Optional[List[ImprovFlowConfigEdgeCase]] = FieldInfo(alias="edgeCases", default=None)
 
     expectations: Optional[List[str]] = None
 
     title: Optional[str] = None
 
 
-class ResourceUnionMember3(BaseModel):
+class ScriptedFlowConfig(BaseModel):
     graph: List[ConfigFlowStep]
 
     kind: Literal["flow"]
@@ -221,7 +223,7 @@ class ResourceUnionMember3(BaseModel):
     title: Optional[str] = None
 
 
-class ResourceUnionMember4FilterCondition(BaseModel):
+class CollectorConfigFilterCondition(BaseModel):
     key: str
 
     type: Literal["AGENT", "CALL_SOURCE", "CALL_PROPERTY", "INTEGRATION"]
@@ -242,11 +244,11 @@ class ResourceUnionMember4FilterCondition(BaseModel):
     value: Optional[str] = None
 
 
-class ResourceUnionMember4Filter(BaseModel):
-    conditions: List[ResourceUnionMember4FilterCondition]
+class CollectorConfigFilter(BaseModel):
+    conditions: List[CollectorConfigFilterCondition]
 
 
-class ResourceUnionMember4(BaseModel):
+class CollectorConfig(BaseModel):
     kind: Literal["collector"]
 
     metrics: List[str]
@@ -255,12 +257,12 @@ class ResourceUnionMember4(BaseModel):
 
     name: str
 
-    filters: Optional[List[ResourceUnionMember4Filter]] = None
+    filters: Optional[List[CollectorConfigFilter]] = None
 
     status: Optional[Literal["ACTIVE", "INACTIVE"]] = None
 
 
-class ResourceUnionMember5Option(BaseModel):
+class MetricConfigOption(BaseModel):
     display_order: int = FieldInfo(alias="displayOrder")
 
     label: str
@@ -268,7 +270,7 @@ class ResourceUnionMember5Option(BaseModel):
     description: Optional[str] = None
 
 
-class ResourceUnionMember5ScaleLabel(BaseModel):
+class MetricConfigScaleLabel(BaseModel):
     display_order: int = FieldInfo(alias="displayOrder")
 
     label: str
@@ -282,7 +284,7 @@ class ResourceUnionMember5ScaleLabel(BaseModel):
     description: Optional[str] = None
 
 
-class ResourceUnionMember5(BaseModel):
+class MetricConfig(BaseModel):
     kind: Literal["metric"]
 
     name: str
@@ -299,11 +301,11 @@ class ResourceUnionMember5(BaseModel):
 
     max_selections: Optional[int] = FieldInfo(alias="maxSelections", default=None)
 
-    options: Optional[List[ResourceUnionMember5Option]] = None
+    options: Optional[List[MetricConfigOption]] = None
 
     participant_role: Optional[Literal["AGENT", "CUSTOMER"]] = FieldInfo(alias="participantRole", default=None)
 
-    scale_labels: Optional[List[ResourceUnionMember5ScaleLabel]] = FieldInfo(alias="scaleLabels", default=None)
+    scale_labels: Optional[List[MetricConfigScaleLabel]] = FieldInfo(alias="scaleLabels", default=None)
 
     scale_max: Optional[int] = FieldInfo(alias="scaleMax", default=None)
 
@@ -316,14 +318,7 @@ class ResourceUnionMember5(BaseModel):
 
 class Bundle(BaseModel):
     resources: List[
-        Union[
-            ResourceUnionMember0,
-            ResourceUnionMember1,
-            ResourceUnionMember2,
-            ResourceUnionMember3,
-            ResourceUnionMember4,
-            ResourceUnionMember5,
-        ]
+        Union[AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig]
     ]
 
     prune: Optional[bool] = None
