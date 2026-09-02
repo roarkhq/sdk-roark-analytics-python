@@ -32,6 +32,7 @@ jobs:
     # 'true' in the same change that lands #2905, not before.
     if: vars.RELEASE_PLEASE_ENABLED == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
       pull-requests: write
