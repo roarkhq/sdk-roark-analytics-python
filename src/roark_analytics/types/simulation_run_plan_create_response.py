@@ -15,6 +15,7 @@ __all__ = [
     "DataRunPlanFlow",
     "DataRunPlanFlowEdgeCaseUnionMember1",
     "DataRunPlanJob",
+    "DataRunPlanMetric",
     "DataRunPlanScenario",
 ]
 
@@ -64,6 +65,16 @@ class DataRunPlanFlow(BaseModel):
     """Values for everything it resolves."""
 
 
+class DataRunPlanMetric(BaseModel):
+    id: str
+
+    conversation_source: Optional[Literal["SIMULATED", "LIVE"]] = FieldInfo(alias="conversationSource")
+    """
+    Which side of an enriched run this metric is scored on. `null` means the
+    default, SIMULATED.
+    """
+
+
 class DataRunPlanScenario(BaseModel):
     id: str
 
@@ -98,6 +109,9 @@ class DataRunPlan(BaseModel):
     against these conditions. Empty array means disabled.
     """
 
+    enrich_with_live_conversation: bool = FieldInfo(alias="enrichWithLiveConversation")
+    """Whether this plan merges the customer's own live recording into each simulation."""
+
     evaluators: List[DataRunPlanAgentEndpoint]
     """Deprecated: Use metrics instead. Evaluators included in this run plan."""
 
@@ -118,7 +132,7 @@ class DataRunPlan(BaseModel):
     max_simulation_duration_seconds: int = FieldInfo(alias="maxSimulationDurationSeconds")
     """Maximum duration in seconds for each simulation"""
 
-    metrics: List[DataRunPlanAgentEndpoint]
+    metrics: List[DataRunPlanMetric]
     """Metric definitions included in this run plan"""
 
     name: str
