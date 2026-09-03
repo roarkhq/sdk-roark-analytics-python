@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import metric_create_definition_params
+from ..types import metric_list_definitions_params, metric_create_definition_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -341,6 +341,8 @@ class MetricResource(SyncAPIResource):
     def list_definitions(
         self,
         *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -349,8 +351,9 @@ class MetricResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricListDefinitionsResponse:
         """
-        Fetch all metric definitions available in the project, including both
-        system-generated and custom metrics.
+        Fetch metric definitions available in the project, including both
+        system-generated and custom metrics. Results are ordered by immutable definition
+        ID; pass `nextCursor` to retrieve the following page.
 
         Args:
           extra_headers: Send extra headers
@@ -364,7 +367,17 @@ class MetricResource(SyncAPIResource):
         return self._get(
             "/v1/metric/definitions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    metric_list_definitions_params.MetricListDefinitionsParams,
+                ),
             ),
             cast_to=MetricListDefinitionsResponse,
         )
@@ -686,6 +699,8 @@ class AsyncMetricResource(AsyncAPIResource):
     async def list_definitions(
         self,
         *,
+        after: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -694,8 +709,9 @@ class AsyncMetricResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MetricListDefinitionsResponse:
         """
-        Fetch all metric definitions available in the project, including both
-        system-generated and custom metrics.
+        Fetch metric definitions available in the project, including both
+        system-generated and custom metrics. Results are ordered by immutable definition
+        ID; pass `nextCursor` to retrieve the following page.
 
         Args:
           extra_headers: Send extra headers
@@ -709,7 +725,17 @@ class AsyncMetricResource(AsyncAPIResource):
         return await self._get(
             "/v1/metric/definitions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                    },
+                    metric_list_definitions_params.MetricListDefinitionsParams,
+                ),
             ),
             cast_to=MetricListDefinitionsResponse,
         )
