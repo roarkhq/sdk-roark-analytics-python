@@ -64,6 +64,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -107,6 +108,16 @@ class SimulationRunPlanResource(SyncAPIResource):
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
               against these conditions. Empty array disables the feature.
 
+          enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
+              metrics can be scored against the live leg as well as the simulated one. This is
+              the API equivalent of the dashboard's live-enrichment toggle. With this on, the
+              run provisions a phone number and holds each call open for up to 15 minutes
+              waiting for a matching call to be posted to POST /v1/call. A call matches on the
+              provisioned number (`roarkPhoneNumber` on the job) with a start time inside the
+              simulation window. If nothing arrives, the simulation still completes and any
+              `LIVE`-sourced metric produces no value. Required by any metric whose
+              `requiresLiveConversation` is true: without it that metric is silently skipped.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: Customer flows to include in this run plan. The same flow can appear more than
@@ -145,6 +156,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
+                    "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "iteration_count": iteration_count,
@@ -170,6 +182,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
         is_hidden: bool | Omit = omit,
@@ -202,6 +215,9 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
               against these conditions. Empty array disables the feature.
+
+          enrich_with_live_conversation: Whether to merge the customer's own live recording into each simulation of this
+              plan.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -251,6 +267,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
+                    "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "is_hidden": is_hidden,
@@ -426,6 +443,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -469,6 +487,16 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
               against these conditions. Empty array disables the feature.
 
+          enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
+              metrics can be scored against the live leg as well as the simulated one. This is
+              the API equivalent of the dashboard's live-enrichment toggle. With this on, the
+              run provisions a phone number and holds each call open for up to 15 minutes
+              waiting for a matching call to be posted to POST /v1/call. A call matches on the
+              provisioned number (`roarkPhoneNumber` on the job) with a start time inside the
+              simulation window. If nothing arrives, the simulation still completes and any
+              `LIVE`-sourced metric produces no value. Required by any metric whose
+              `requiresLiveConversation` is true: without it that metric is silently skipped.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: Customer flows to include in this run plan. The same flow can appear more than
@@ -507,6 +535,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
+                    "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "iteration_count": iteration_count,
@@ -532,6 +561,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
         is_hidden: bool | Omit = omit,
@@ -564,6 +594,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
               against these conditions. Empty array disables the feature.
+
+          enrich_with_live_conversation: Whether to merge the customer's own live recording into each simulation of this
+              plan.
 
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
@@ -613,6 +646,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
+                    "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "is_hidden": is_hidden,

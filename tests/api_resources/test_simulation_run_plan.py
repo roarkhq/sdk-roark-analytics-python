@@ -40,12 +40,20 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "slug": "x",
+                }
+            ],
             name="My Run Plan",
             auto_run=False,
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
+            enrich_with_live_conversation=False,
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -117,6 +125,7 @@ class TestSimulationRunPlan:
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
             end_call_reasons=["endCallReasons"],
+            enrich_with_live_conversation=True,
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -131,7 +140,14 @@ class TestSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "slug": "x",
+                }
+            ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
@@ -309,12 +325,20 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "slug": "x",
+                }
+            ],
             name="My Run Plan",
             auto_run=False,
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
+            enrich_with_live_conversation=False,
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -386,6 +410,7 @@ class TestAsyncSimulationRunPlan:
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
             end_call_reasons=["endCallReasons"],
+            enrich_with_live_conversation=True,
             execution_mode="PARALLEL",
             flows=[
                 {
@@ -400,7 +425,14 @@ class TestAsyncSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=1,
             max_simulation_duration_seconds=1,
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "slug": "x",
+                }
+            ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
