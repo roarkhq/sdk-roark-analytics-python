@@ -264,6 +264,14 @@ class TestMetric:
         assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize
+    def test_method_list_definitions_with_all_params(self, client: Roark) -> None:
+        metric = client.metric.list_definitions(
+            after="after",
+            limit=1,
+        )
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
+
+    @parametrize
     def test_raw_response_list_definitions(self, client: Roark) -> None:
         response = client.metric.with_raw_response.list_definitions()
 
@@ -530,6 +538,14 @@ class TestAsyncMetric:
     @parametrize
     async def test_method_list_definitions(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.list_definitions()
+        assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_method_list_definitions_with_all_params(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.list_definitions(
+            after="after",
+            limit=1,
+        )
         assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
     @parametrize

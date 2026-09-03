@@ -14,6 +14,7 @@ __all__ = [
     "FormulaMetricResponseFormulaSource",
     "LlmJudgeMetricResponse",
     "LlmJudgeMetricResponseUnit",
+    "Pagination",
     "PatternMetricResponse",
     "PatternMetricResponsePattern",
     "PatternMetricResponsePatternOutcome",
@@ -350,7 +351,17 @@ class PatternMetricResponse(BaseModel):
     """Unit information if applicable"""
 
 
+class Pagination(BaseModel):
+    has_more: bool = FieldInfo(alias="hasMore")
+
+    limit: int
+
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor")
+
+
 class MetricListDefinitionsResponse(BaseModel):
+    """Cursor-paginated metric definitions available in the project"""
+
     data: List[
         Union[
             LlmJudgeMetricResponse,
@@ -360,4 +371,5 @@ class MetricListDefinitionsResponse(BaseModel):
             PatternMetricResponse,
         ]
     ]
-    """Metrics response payload"""
+
+    pagination: Pagination

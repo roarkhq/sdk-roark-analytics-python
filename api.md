@@ -45,7 +45,7 @@ from roark_analytics.types import MetricCreateDefinitionResponse, MetricListDefi
 Methods:
 
 - <code title="post /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">create_definition</a>(\*\*<a href="src/roark_analytics/types/metric_create_definition_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_create_definition_response.py">MetricCreateDefinitionResponse</a></code>
-- <code title="get /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">list_definitions</a>() -> <a href="./src/roark_analytics/types/metric_list_definitions_response.py">MetricListDefinitionsResponse</a></code>
+- <code title="get /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">list_definitions</a>(\*\*<a href="src/roark_analytics/types/metric_list_definitions_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_list_definitions_response.py">MetricListDefinitionsResponse</a></code>
 
 # MetricPolicy
 
