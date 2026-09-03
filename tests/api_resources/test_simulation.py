@@ -36,10 +36,18 @@ class TestSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+                "metrics": [
+                    {
+                        "conversation_source": "SIMULATED",
+                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "metric_id": "x",
+                        "slug": "x",
+                    }
+                ],
                 "description": "A run plan for testing inbound calls",
                 "end_call_phrases": ["goodbye"],
                 "end_call_reasons": ["Order has been confirmed by the agent"],
+                "enrich_with_live_conversation": False,
                 "execution_mode": "PARALLEL",
                 "flows": [
                     {
@@ -165,10 +173,18 @@ class TestAsyncSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", "metric_id": "x", "slug": "x"}],
+                "metrics": [
+                    {
+                        "conversation_source": "SIMULATED",
+                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "metric_id": "x",
+                        "slug": "x",
+                    }
+                ],
                 "description": "A run plan for testing inbound calls",
                 "end_call_phrases": ["goodbye"],
                 "end_call_reasons": ["Order has been confirmed by the agent"],
+                "enrich_with_live_conversation": False,
                 "execution_mode": "PARALLEL",
                 "flows": [
                     {

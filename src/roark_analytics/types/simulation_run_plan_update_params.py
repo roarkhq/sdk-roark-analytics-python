@@ -58,6 +58,17 @@ class Metric(TypedDict, total=False):
     id: str
     """Metric definition UUID. Provide either this or `slug`, not both."""
 
+    conversation_source: Annotated[Optional[Literal["SIMULATED", "LIVE"]], PropertyInfo(alias="conversationSource")]
+    """
+    Which side of an enriched run this metric is scored on. Only meaningful with
+    `enrichWithLiveConversation: true`, where a run has both a simulated
+    conversation and the customer's own live recording of it.
+    Defaults to `SIMULATED`. Use `LIVE` for a metric that must be measured against
+    the real recording (audio quality, provider latency) rather than the simulated
+    leg. `null` means the same as omitting it, so a plan read back from GET can be
+    sent straight to PUT.
+    """
+
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
     """
     Alias of `slug` accepted for backwards compatibility. Use `slug` for new
@@ -99,6 +110,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """
     Semantic conditions that trigger end of call. The LLM evaluates the conversation
     against these conditions. Empty array disables the feature.
+    """
+
+    enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]
+    """
+    Whether to merge the customer's own live recording into each simulation of this
+    plan.
     """
 
     execution_mode: Annotated[
