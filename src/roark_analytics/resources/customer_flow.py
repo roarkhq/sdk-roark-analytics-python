@@ -90,8 +90,12 @@ class CustomerFlowResource(SyncAPIResource):
 
           agent_ids: Agents this flow exercises. Optional for scripted flows.
 
-          branching_mode: DETERMINISTIC (the default) runs one variant per path through the graph;
-              ADAPTIVE collapses the paths into one call the simulated customer adapts across.
+          branching_mode: How a run walks the graph. DETERMINISTIC ("Simulate every path" in the app)
+              places one call per variant, each following its path exactly whatever the agent
+              says. ADAPTIVE ("Adapt to your agent") collapses the paths into one call PER
+              PERSONA, on which the simulated customer picks a branch from what the agent
+              actually said. Both modes speak the exact authored lines, and neither changes
+              how metrics or expectations grade. (DETERMINISTIC is the default.)
 
           extra_headers: Send extra headers
 
@@ -216,7 +220,12 @@ class CustomerFlowResource(SyncAPIResource):
           agent_ids: Replaces the linked agents. Omit to leave them unchanged. An improv flow must
               keep at least one; a scripted flow can be left with none.
 
-          branching_mode: Scripted flows only.
+          branching_mode: Scripted flows only. How a run walks the graph. DETERMINISTIC ("Simulate every
+              path" in the app) places one call per variant, each following its path exactly
+              whatever the agent says. ADAPTIVE ("Adapt to your agent") collapses the paths
+              into one call PER PERSONA, on which the simulated customer picks a branch from
+              what the agent actually said. Both modes speak the exact authored lines, and
+              neither changes how metrics or expectations grade.
 
           extra_headers: Send extra headers
 
@@ -541,8 +550,12 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
 
           agent_ids: Agents this flow exercises. Optional for scripted flows.
 
-          branching_mode: DETERMINISTIC (the default) runs one variant per path through the graph;
-              ADAPTIVE collapses the paths into one call the simulated customer adapts across.
+          branching_mode: How a run walks the graph. DETERMINISTIC ("Simulate every path" in the app)
+              places one call per variant, each following its path exactly whatever the agent
+              says. ADAPTIVE ("Adapt to your agent") collapses the paths into one call PER
+              PERSONA, on which the simulated customer picks a branch from what the agent
+              actually said. Both modes speak the exact authored lines, and neither changes
+              how metrics or expectations grade. (DETERMINISTIC is the default.)
 
           extra_headers: Send extra headers
 
@@ -667,7 +680,12 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
           agent_ids: Replaces the linked agents. Omit to leave them unchanged. An improv flow must
               keep at least one; a scripted flow can be left with none.
 
-          branching_mode: Scripted flows only.
+          branching_mode: Scripted flows only. How a run walks the graph. DETERMINISTIC ("Simulate every
+              path" in the app) places one call per variant, each following its path exactly
+              whatever the agent says. ADAPTIVE ("Adapt to your agent") collapses the paths
+              into one call PER PERSONA, on which the simulated customer picks a branch from
+              what the agent actually said. Both modes speak the exact authored lines, and
+              neither changes how metrics or expectations grade.
 
           extra_headers: Send extra headers
 

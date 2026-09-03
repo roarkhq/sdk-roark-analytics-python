@@ -261,8 +261,12 @@ class ScriptedCustomerFlow(BaseModel):
 
     branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] = FieldInfo(alias="branchingMode")
     """
-    DETERMINISTIC runs one variant per path through the graph. ADAPTIVE collapses
-    the paths into a single variant the simulated customer adapts across.
+    How a run walks the graph. DETERMINISTIC ("Simulate every path" in the app)
+    places one call per variant, each following its path exactly whatever the agent
+    says. ADAPTIVE ("Adapt to your agent") collapses the paths into one call PER
+    PERSONA, on which the simulated customer picks a branch from what the agent
+    actually said. Both modes speak the exact authored lines, and neither changes
+    how metrics or expectations grade.
     """
 
     created_at: str = FieldInfo(alias="createdAt")

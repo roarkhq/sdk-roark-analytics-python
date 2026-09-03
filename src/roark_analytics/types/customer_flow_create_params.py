@@ -45,8 +45,12 @@ class CreateScriptedCustomerFlowInput(TypedDict, total=False):
 
     branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
     """
-    DETERMINISTIC (the default) runs one variant per path through the graph;
-    ADAPTIVE collapses the paths into one call the simulated customer adapts across.
+    How a run walks the graph. DETERMINISTIC ("Simulate every path" in the app)
+    places one call per variant, each following its path exactly whatever the agent
+    says. ADAPTIVE ("Adapt to your agent") collapses the paths into one call PER
+    PERSONA, on which the simulated customer picks a branch from what the agent
+    actually said. Both modes speak the exact authored lines, and neither changes
+    how metrics or expectations grade. (DETERMINISTIC is the default.)
     """
 
     description: Optional[str]
