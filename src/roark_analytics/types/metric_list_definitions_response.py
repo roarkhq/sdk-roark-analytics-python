@@ -39,17 +39,44 @@ class LlmJudgeMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
 
+    boolean_false_label: Optional[str] = FieldInfo(alias="booleanFalseLabel")
+    """
+    For a BOOLEAN metric, what a `false` value means. Also given to the judge as its
+    polarity rule.
+    """
+
+    boolean_true_label: Optional[str] = FieldInfo(alias="booleanTrueLabel")
+    """
+    For a BOOLEAN metric, what a `true` value means. Also given to the judge as its
+    polarity rule.
+    """
+
     calculation_type: Literal["LLM_JUDGE"] = FieldInfo(alias="calculationType")
     """Metric evaluated by an LLM against a prompt."""
 
     description: str
     """Description of what the metric measures"""
 
+    llm_prompt: Optional[str] = FieldInfo(alias="llmPrompt")
+    """
+    The rubric this judge applies, as stored. Read it back to confirm which criteria
+    are live after a create or update.
+    """
+
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
     name: str
     """Name of the metric"""
+
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
 
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
@@ -59,6 +86,15 @@ class LlmJudgeMetricResponse(BaseModel):
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
@@ -96,6 +132,15 @@ class ProviderMetricResponse(BaseModel):
     name: str
     """Name of the metric"""
 
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
+
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
@@ -104,6 +149,15 @@ class ProviderMetricResponse(BaseModel):
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
@@ -163,6 +217,15 @@ class ThresholdMetricResponse(BaseModel):
     name: str
     """Name of the metric"""
 
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
+
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
@@ -171,6 +234,15 @@ class ThresholdMetricResponse(BaseModel):
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
@@ -226,6 +298,15 @@ class FormulaMetricResponse(BaseModel):
     name: str
     """Name of the metric"""
 
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
+
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
@@ -234,6 +315,15 @@ class FormulaMetricResponse(BaseModel):
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
@@ -322,6 +412,15 @@ class PatternMetricResponse(BaseModel):
     pattern: PatternMetricResponsePattern
     """Pattern configuration."""
 
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
+
     scope: Literal["GLOBAL", "PER_PARTICIPANT"]
     """Whether metric is global or per-participant"""
 
@@ -330,6 +429,15 @@ class PatternMetricResponse(BaseModel):
 
     supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
     """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
