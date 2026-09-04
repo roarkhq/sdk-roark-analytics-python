@@ -94,6 +94,16 @@ class LlmJudgeMetricResponse(BaseModel):
     real call, and `["SIMULATED"]` one that only applies to simulations.
     """
 
+    supports_variants: bool = FieldInfo(alias="supportsVariants")
+    """
+    Whether you can create a variant of this metric with POST
+    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    configuration comes from the metric they derive from), for provider-computed
+    metrics whose calculation lives in the collector rather than an editable prompt,
+    and for metrics in a package that manages its own variants. Most of Roark’s own
+    metrics are false, so read this rather than discovering it from a 403.
+    """
+
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
 
@@ -170,6 +180,16 @@ class FormulaMetricResponse(BaseModel):
     Which kinds of conversation this metric can be scored on. `null` means both.
     `["LIVE"]` marks a metric that can only be scored from your own recording of a
     real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
+
+    supports_variants: bool = FieldInfo(alias="supportsVariants")
+    """
+    Whether you can create a variant of this metric with POST
+    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    configuration comes from the metric they derive from), for provider-computed
+    metrics whose calculation lives in the collector rather than an editable prompt,
+    and for metrics in a package that manages its own variants. Most of Roark’s own
+    metrics are false, so read this rather than discovering it from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
@@ -286,6 +306,16 @@ class PatternMetricResponse(BaseModel):
     real call, and `["SIMULATED"]` one that only applies to simulations.
     """
 
+    supports_variants: bool = FieldInfo(alias="supportsVariants")
+    """
+    Whether you can create a variant of this metric with POST
+    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    configuration comes from the metric they derive from), for provider-computed
+    metrics whose calculation lives in the collector rather than an editable prompt,
+    and for metrics in a package that manages its own variants. Most of Roark’s own
+    metrics are false, so read this rather than discovering it from a 403.
+    """
+
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
     """Type of value this metric produces"""
 
@@ -369,6 +399,16 @@ class ThresholdMetricResponse(BaseModel):
     Which kinds of conversation this metric can be scored on. `null` means both.
     `["LIVE"]` marks a metric that can only be scored from your own recording of a
     real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
+
+    supports_variants: bool = FieldInfo(alias="supportsVariants")
+    """
+    Whether you can create a variant of this metric with POST
+    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    configuration comes from the metric they derive from), for provider-computed
+    metrics whose calculation lives in the collector rather than an editable prompt,
+    and for metrics in a package that manages its own variants. Most of Roark’s own
+    metrics are false, so read this rather than discovering it from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
