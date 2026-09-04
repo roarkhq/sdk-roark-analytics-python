@@ -17,6 +17,7 @@ class ConfigFlowStep(BaseModel):
         "CUSTOMER_FIRST_MESSAGE",
         "CUSTOMER_SILENCE",
         "CUSTOMER_DTMF",
+        "AGENT_DTMF",
         "VOICEMAIL",
         "SCENARIO_LINK",
     ]

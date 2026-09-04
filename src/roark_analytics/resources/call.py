@@ -7,7 +7,13 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import call_list_params, call_create_params, call_list_metrics_params, call_get_transcript_params
+from ..types import (
+    call_list_params,
+    call_create_params,
+    call_list_metrics_params,
+    call_get_transcript_params,
+    call_append_tool_invocations_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -25,6 +31,7 @@ from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
 from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
+from ..types.call_append_tool_invocations_response import CallAppendToolInvocationsResponse
 
 __all__ = ["CallResource", "AsyncCallResource"]
 
@@ -258,6 +265,64 @@ class CallResource(SyncAPIResource):
                 ),
             ),
             cast_to=CallListResponse,
+        )
+
+    def append_tool_invocations(
+        self,
+        call_id: str,
+        *,
+        tool_invocations: Iterable[call_append_tool_invocations_params.ToolInvocation],
+        metrics: Iterable[call_append_tool_invocations_params.Metric] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallAppendToolInvocationsResponse:
+        """
+        Attach tool invocations that fired during a call to an already-existing call,
+        asynchronously after the call was created. Use this when the tool-call data
+        becomes available later than the call itself (e.g. a Roark simulation, or a call
+        submitted via POST /v1/call before its tools were ready). Writes are idempotent:
+        re-sending an invocation already present on the call (same tool name and timing)
+        is skipped, so retries converge instead of double-counting. Optionally pass
+        `metrics` to (re)score metrics over the newly attached tools, which triggers a
+        billed metric collection job and requires the `metric:create` permission.
+
+        Args:
+          tool_invocations: Tool invocations that fired during the call, to attach to it. Max 500 per
+              request. Re-sending an invocation already present on the call (same tool name
+              and timing) is skipped, so retries are safe.
+
+          metrics: Optional. Metric definitions to (re)score on this call after the tool
+              invocations are attached, e.g. the Tool Invocation Analysis metrics. Triggers a
+              metric collection job (billed, credit-gated) and requires the 'metric:create'
+              permission. Omit to attach tools without scoring. Max 20.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._post(
+            f"/v1/call/{call_id}/tool-invocations",
+            body=maybe_transform(
+                {
+                    "tool_invocations": tool_invocations,
+                    "metrics": metrics,
+                },
+                call_append_tool_invocations_params.CallAppendToolInvocationsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallAppendToolInvocationsResponse,
         )
 
     def get_by_id(
@@ -663,6 +728,64 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallListResponse,
         )
 
+    async def append_tool_invocations(
+        self,
+        call_id: str,
+        *,
+        tool_invocations: Iterable[call_append_tool_invocations_params.ToolInvocation],
+        metrics: Iterable[call_append_tool_invocations_params.Metric] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallAppendToolInvocationsResponse:
+        """
+        Attach tool invocations that fired during a call to an already-existing call,
+        asynchronously after the call was created. Use this when the tool-call data
+        becomes available later than the call itself (e.g. a Roark simulation, or a call
+        submitted via POST /v1/call before its tools were ready). Writes are idempotent:
+        re-sending an invocation already present on the call (same tool name and timing)
+        is skipped, so retries converge instead of double-counting. Optionally pass
+        `metrics` to (re)score metrics over the newly attached tools, which triggers a
+        billed metric collection job and requires the `metric:create` permission.
+
+        Args:
+          tool_invocations: Tool invocations that fired during the call, to attach to it. Max 500 per
+              request. Re-sending an invocation already present on the call (same tool name
+              and timing) is skipped, so retries are safe.
+
+          metrics: Optional. Metric definitions to (re)score on this call after the tool
+              invocations are attached, e.g. the Tool Invocation Analysis metrics. Triggers a
+              metric collection job (billed, credit-gated) and requires the 'metric:create'
+              permission. Omit to attach tools without scoring. Max 20.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._post(
+            f"/v1/call/{call_id}/tool-invocations",
+            body=await async_maybe_transform(
+                {
+                    "tool_invocations": tool_invocations,
+                    "metrics": metrics,
+                },
+                call_append_tool_invocations_params.CallAppendToolInvocationsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallAppendToolInvocationsResponse,
+        )
+
     async def get_by_id(
         self,
         call_id: str,
@@ -847,6 +970,9 @@ class CallResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             call.list,
         )
+        self.append_tool_invocations = to_raw_response_wrapper(
+            call.append_tool_invocations,
+        )
         self.get_by_id = to_raw_response_wrapper(
             call.get_by_id,
         )
@@ -870,6 +996,9 @@ class AsyncCallResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             call.list,
+        )
+        self.append_tool_invocations = async_to_raw_response_wrapper(
+            call.append_tool_invocations,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             call.get_by_id,
@@ -895,6 +1024,9 @@ class CallResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             call.list,
         )
+        self.append_tool_invocations = to_streamed_response_wrapper(
+            call.append_tool_invocations,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             call.get_by_id,
         )
@@ -918,6 +1050,9 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             call.list,
+        )
+        self.append_tool_invocations = async_to_streamed_response_wrapper(
+            call.append_tool_invocations,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             call.get_by_id,
