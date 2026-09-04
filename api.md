@@ -18,6 +18,7 @@ Types:
 from roark_analytics.types import (
     CallCreateResponse,
     CallListResponse,
+    CallAppendToolInvocationsResponse,
     CallGetByIDResponse,
     CallGetTranscriptResponse,
     CallListMetricsResponse,
@@ -29,6 +30,7 @@ Methods:
 
 - <code title="post /v1/call">client.call.<a href="./src/roark_analytics/resources/call.py">create</a>(\*\*<a href="src/roark_analytics/types/call_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_create_response.py">CallCreateResponse</a></code>
 - <code title="get /v1/call">client.call.<a href="./src/roark_analytics/resources/call.py">list</a>(\*\*<a href="src/roark_analytics/types/call_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_response.py">CallListResponse</a></code>
+- <code title="post /v1/call/{callId}/tool-invocations">client.call.<a href="./src/roark_analytics/resources/call.py">append_tool_invocations</a>(call_id, \*\*<a href="src/roark_analytics/types/call_append_tool_invocations_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_append_tool_invocations_response.py">CallAppendToolInvocationsResponse</a></code>
 - <code title="get /v1/call/{callId}">client.call.<a href="./src/roark_analytics/resources/call.py">get_by_id</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_by_id_response.py">CallGetByIDResponse</a></code>
 - <code title="get /v1/call/{callId}/transcript">client.call.<a href="./src/roark_analytics/resources/call.py">get_transcript</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_transcript_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_transcript_response.py">CallGetTranscriptResponse</a></code>
 - <code title="get /v1/call/{callId}/metrics">client.call.<a href="./src/roark_analytics/resources/call.py">list_metrics</a>(call_id, \*\*<a href="src/roark_analytics/types/call_list_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_metrics_response.py">CallListMetricsResponse</a></code>
@@ -39,13 +41,18 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import MetricCreateDefinitionResponse, MetricListDefinitionsResponse
+from roark_analytics.types import (
+    MetricCreateDefinitionResponse,
+    MetricListDefinitionsResponse,
+    MetricUpdateDefinitionResponse,
+)
 ```
 
 Methods:
 
 - <code title="post /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">create_definition</a>(\*\*<a href="src/roark_analytics/types/metric_create_definition_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_create_definition_response.py">MetricCreateDefinitionResponse</a></code>
 - <code title="get /v1/metric/definitions">client.metric.<a href="./src/roark_analytics/resources/metric.py">list_definitions</a>(\*\*<a href="src/roark_analytics/types/metric_list_definitions_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_list_definitions_response.py">MetricListDefinitionsResponse</a></code>
+- <code title="put /v1/metric/definitions/{idOrSlug}">client.metric.<a href="./src/roark_analytics/resources/metric.py">update_definition</a>(id_or_slug, \*\*<a href="src/roark_analytics/types/metric_update_definition_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_update_definition_response.py">MetricUpdateDefinitionResponse</a></code>
 
 # MetricPolicy
 
@@ -86,6 +93,28 @@ Methods:
 - <code title="post /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">create</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_create_response.py">MetricCollectionJobCreateResponse</a></code>
 - <code title="get /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">list</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_list_response.py">MetricCollectionJobListResponse</a></code>
 - <code title="get /v1/metric/collection-jobs/{jobId}">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/metric_collection_job_get_by_id_response.py">MetricCollectionJobGetByIDResponse</a></code>
+
+# MetricVariant
+
+Types:
+
+```python
+from roark_analytics.types import (
+    MetricVariantCreateResponse,
+    MetricVariantUpdateResponse,
+    MetricVariantListResponse,
+    MetricVariantDeleteResponse,
+    MetricVariantGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/metric/definitions/{idOrSlug}/variants">client.metric_variant.<a href="./src/roark_analytics/resources/metric_variant.py">create</a>(id_or_slug, \*\*<a href="src/roark_analytics/types/metric_variant_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_variant_create_response.py">MetricVariantCreateResponse</a></code>
+- <code title="put /v1/metric/definitions/{idOrSlug}/variants/{variantId}">client.metric_variant.<a href="./src/roark_analytics/resources/metric_variant.py">update</a>(variant_id, \*\*<a href="src/roark_analytics/types/metric_variant_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_variant_update_response.py">MetricVariantUpdateResponse</a></code>
+- <code title="get /v1/metric/definitions/{idOrSlug}/variants">client.metric_variant.<a href="./src/roark_analytics/resources/metric_variant.py">list</a>(id_or_slug) -> <a href="./src/roark_analytics/types/metric_variant_list_response.py">MetricVariantListResponse</a></code>
+- <code title="delete /v1/metric/definitions/{idOrSlug}/variants/{variantId}">client.metric_variant.<a href="./src/roark_analytics/resources/metric_variant.py">delete</a>(variant_id, \*\*<a href="src/roark_analytics/types/metric_variant_delete_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_variant_delete_response.py">MetricVariantDeleteResponse</a></code>
+- <code title="get /v1/metric/definitions/{idOrSlug}/variants/{variantId}">client.metric_variant.<a href="./src/roark_analytics/resources/metric_variant.py">get_by_id</a>(variant_id, \*\*<a href="src/roark_analytics/types/metric_variant_get_by_id_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_variant_get_by_id_response.py">MetricVariantGetByIDResponse</a></code>
 
 # Simulation
 

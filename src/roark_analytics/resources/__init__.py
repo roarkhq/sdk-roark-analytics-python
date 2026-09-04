@@ -80,6 +80,14 @@ from .agent_endpoint import (
     AgentEndpointResourceWithStreamingResponse,
     AsyncAgentEndpointResourceWithStreamingResponse,
 )
+from .metric_variant import (
+    MetricVariantResource,
+    AsyncMetricVariantResource,
+    MetricVariantResourceWithRawResponse,
+    AsyncMetricVariantResourceWithRawResponse,
+    MetricVariantResourceWithStreamingResponse,
+    AsyncMetricVariantResourceWithStreamingResponse,
+)
 from .simulation_job import (
     SimulationJobResource,
     AsyncSimulationJobResource,
@@ -176,6 +184,12 @@ __all__ = [
     "AsyncMetricCollectionJobResourceWithRawResponse",
     "MetricCollectionJobResourceWithStreamingResponse",
     "AsyncMetricCollectionJobResourceWithStreamingResponse",
+    "MetricVariantResource",
+    "AsyncMetricVariantResource",
+    "MetricVariantResourceWithRawResponse",
+    "AsyncMetricVariantResourceWithRawResponse",
+    "MetricVariantResourceWithStreamingResponse",
+    "AsyncMetricVariantResourceWithStreamingResponse",
     "SimulationResource",
     "AsyncSimulationResource",
     "SimulationResourceWithRawResponse",

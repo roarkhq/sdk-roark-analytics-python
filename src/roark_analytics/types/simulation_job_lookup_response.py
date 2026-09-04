@@ -7,7 +7,15 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationJobLookupResponse", "Data", "DataAgentEndpoint", "DataPersona", "DataRunPlan", "DataScenario"]
+__all__ = [
+    "SimulationJobLookupResponse",
+    "Data",
+    "DataAgentEndpoint",
+    "DataEnrichment",
+    "DataPersona",
+    "DataRunPlan",
+    "DataScenario",
+]
 
 
 class DataAgentEndpoint(BaseModel):
@@ -24,6 +32,55 @@ class DataAgentEndpoint(BaseModel):
 
     type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
     """Agent endpoint type"""
+
+
+class DataEnrichment(BaseModel):
+    """
+    What happened to this run's live-conversation enrichment, and what scoring fell
+    back to when none arrived.
+    """
+
+    outcome: Literal["NOT_REQUESTED", "WAITING", "MERGED", "TIMED_OUT", "SKIPPED", "UNKNOWN"]
+    """
+    How the wait for the live conversation resolved. `WAITING` means the run is
+    holding open for it right now. `MERGED` means it arrived and live-sourced
+    metrics were scored against it. `TIMED_OUT` and `SKIPPED` both mean it never
+    arrived, so scoring fell back to the simulated side: read
+    `metricsScoredOnSimulationInstead` and `metricsNotCollected` for what that cost.
+    `UNKNOWN` is a run that finished before Roark started recording this.
+    """
+
+    requested: bool
+    """
+    Whether the run plan asked for the customer's live conversation to be merged
+    into this run.
+    """
+
+    metrics_not_collected: Optional[int] = FieldInfo(alias="metricsNotCollected", default=None)
+    """
+    Metrics that only support the live side and so were not scored at all. Null on
+    runs that predate this recording.
+    """
+
+    metrics_scored_on_simulation_instead: Optional[int] = FieldInfo(
+        alias="metricsScoredOnSimulationInstead", default=None
+    )
+    """
+    Metrics that asked for the live side and were scored against the simulated side
+    because no live conversation arrived. Null on runs that predate this recording.
+    """
+
+    wait_ended_at: Optional[str] = FieldInfo(alias="waitEndedAt", default=None)
+    """
+    When the wait ended, however it ended. Null if it never waited or is still
+    waiting.
+    """
+
+    wait_started_at: Optional[str] = FieldInfo(alias="waitStartedAt", default=None)
+    """
+    When the run began holding open for the live conversation. Null if it never
+    waited.
+    """
 
 
 class DataPersona(BaseModel):
@@ -189,6 +246,12 @@ class Data(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
     """When the job was created"""
+
+    enrichment: DataEnrichment
+    """
+    What happened to this run's live-conversation enrichment, and what scoring fell
+    back to when none arrived.
+    """
 
     persona: DataPersona
 

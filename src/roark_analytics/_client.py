@@ -42,6 +42,7 @@ if TYPE_CHECKING:
         customer_flow,
         metric_policy,
         agent_endpoint,
+        metric_variant,
         simulation_job,
         simulation_persona,
         simulation_run_plan,
@@ -61,6 +62,7 @@ if TYPE_CHECKING:
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
+    from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
@@ -157,6 +159,12 @@ class Roark(SyncAPIClient):
         from .resources.metric_collection_job import MetricCollectionJobResource
 
         return MetricCollectionJobResource(self)
+
+    @cached_property
+    def metric_variant(self) -> MetricVariantResource:
+        from .resources.metric_variant import MetricVariantResource
+
+        return MetricVariantResource(self)
 
     @cached_property
     def simulation(self) -> SimulationResource:
@@ -435,6 +443,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncMetricCollectionJobResource(self)
 
     @cached_property
+    def metric_variant(self) -> AsyncMetricVariantResource:
+        from .resources.metric_variant import AsyncMetricVariantResource
+
+        return AsyncMetricVariantResource(self)
+
+    @cached_property
     def simulation(self) -> AsyncSimulationResource:
         from .resources.simulation import AsyncSimulationResource
 
@@ -662,6 +676,12 @@ class RoarkWithRawResponse:
         return MetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.MetricVariantResourceWithRawResponse:
+        from .resources.metric_variant import MetricVariantResourceWithRawResponse
+
+        return MetricVariantResourceWithRawResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.SimulationResourceWithRawResponse:
         from .resources.simulation import SimulationResourceWithRawResponse
 
@@ -775,6 +795,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithRawResponse
 
         return AsyncMetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def metric_variant(self) -> metric_variant.AsyncMetricVariantResourceWithRawResponse:
+        from .resources.metric_variant import AsyncMetricVariantResourceWithRawResponse
+
+        return AsyncMetricVariantResourceWithRawResponse(self._client.metric_variant)
 
     @cached_property
     def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
@@ -892,6 +918,12 @@ class RoarkWithStreamedResponse:
         return MetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.MetricVariantResourceWithStreamingResponse:
+        from .resources.metric_variant import MetricVariantResourceWithStreamingResponse
+
+        return MetricVariantResourceWithStreamingResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
         from .resources.simulation import SimulationResourceWithStreamingResponse
 
@@ -1005,6 +1037,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.metric_collection_job import AsyncMetricCollectionJobResourceWithStreamingResponse
 
         return AsyncMetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
+
+    @cached_property
+    def metric_variant(self) -> metric_variant.AsyncMetricVariantResourceWithStreamingResponse:
+        from .resources.metric_variant import AsyncMetricVariantResourceWithStreamingResponse
+
+        return AsyncMetricVariantResourceWithStreamingResponse(self._client.metric_variant)
 
     @cached_property
     def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
