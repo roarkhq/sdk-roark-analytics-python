@@ -12,6 +12,12 @@ __all__ = [
     "Bundle",
     "AgentConfig",
     "AgentConfigEndpoint",
+    "AlertConfig",
+    "AlertConfigAction",
+    "AlertConfigActionSlack",
+    "AlertEventTrigger",
+    "AlertSimulationTrigger",
+    "AlertThresholdTrigger",
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
@@ -316,9 +322,95 @@ class MetricConfig(BaseModel):
     true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
 
 
+class AlertThresholdTrigger(BaseModel):
+    aggregation: Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]
+
+    metric: str
+
+    operator: Literal["GT", "GTE", "LT", "LTE"]
+
+    threshold_value: float = FieldInfo(alias="thresholdValue")
+
+    type: Literal["threshold"]
+
+    window_minutes: int = FieldInfo(alias="windowMinutes")
+
+    consecutive_open: Optional[int] = FieldInfo(alias="consecutiveOpen", default=None)
+
+    consecutive_resolve: Optional[int] = FieldInfo(alias="consecutiveResolve", default=None)
+
+    grouping: Optional[Literal["NONE", "BY_AGENT"]] = None
+
+    metric_variant: Optional[str] = FieldInfo(alias="metricVariant", default=None)
+
+    min_sample_size: Optional[int] = FieldInfo(alias="minSampleSize", default=None)
+
+
+class AlertEventTrigger(BaseModel):
+    events: List[
+        Literal[
+            "CALL_ANALYSIS_COMPLETED",
+            "CALL_ANALYSIS_FAILED",
+            "CALL_ANALYSIS_CANCELLED",
+            "SIMULATION_RUN_PLAN_JOB_STARTED",
+            "SIMULATION_RUN_PLAN_JOB_COMPLETED",
+            "SIMULATION_RUN_PLAN_JOB_FAILED",
+            "SIMULATION_RUN_PLAN_JOB_CANCELLED",
+            "SIMULATION_JOB_STARTED",
+            "SIMULATION_JOB_COMPLETED",
+            "SIMULATION_JOB_FAILED",
+            "SIMULATION_JOB_CANCELLED",
+            "METRIC_COLLECTION_JOB_COMPLETED",
+            "METRIC_COLLECTION_JOB_FAILED",
+            "CHAT_ANALYSIS_COMPLETED",
+            "CHAT_ANALYSIS_FAILED",
+            "ISSUE_OPENED",
+            "ISSUE_RESOLVED",
+        ]
+    ]
+
+    type: Literal["event"]
+
+
+class AlertSimulationTrigger(BaseModel):
+    conditions: List[Literal["SUCCESS", "FAILURE", "THRESHOLD_FAILED"]]
+
+    type: Literal["simulation"]
+
+    delivery_format: Optional[Literal["MESSAGE", "PDF"]] = FieldInfo(alias="deliveryFormat", default=None)
+
+    run_plan: Optional[str] = FieldInfo(alias="runPlan", default=None)
+
+
+class AlertConfigActionSlack(BaseModel):
+    channel_id: str = FieldInfo(alias="channelId")
+
+    channel_name: str = FieldInfo(alias="channelName")
+
+
+class AlertConfigAction(BaseModel):
+    slack: Optional[List[AlertConfigActionSlack]] = None
+
+    webhooks: Optional[List[str]] = None
+
+
+class AlertConfig(BaseModel):
+    kind: Literal["alert"]
+
+    name: str
+
+    trigger: Union[AlertThresholdTrigger, AlertEventTrigger, AlertSimulationTrigger]
+
+    actions: Optional[AlertConfigAction] = None
+
+    enabled: Optional[bool] = None
+
+
 class Bundle(BaseModel):
     resources: List[
-        Union[AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig]
+        Union[
+            AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig, AlertConfig
+        ]
     ]
 
     prune: Optional[bool] = None
