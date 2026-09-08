@@ -165,6 +165,18 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     once with a different persona override or different variables.
     """
 
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+    """
+    Also collect each attached flow's own metrics, on top of the `metrics` named
+    here.
+    Default true, which is what you want when you brought your own flows and their
+    graders. Set false for a run whose metric list is meant to be exhaustive: a
+    template like Load Testing or Voicemail deliberately grades a narrow set, and
+    inheriting every flow metric on top multiplies analysis cost across the volume
+    without adding signal.
+    GET /v1/simulation/template returns the value each template expects.
+    """
+
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
     """Number of iterations to run for each test case (1-10000)"""
 

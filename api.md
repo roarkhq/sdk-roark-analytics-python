@@ -217,6 +217,18 @@ Methods:
 - <code title="get /v1/simulation/environment">client.simulation_environment.<a href="./src/roark_analytics/resources/simulation_environment.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_environment_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_environment_list_response.py">SimulationEnvironmentListResponse</a></code>
 - <code title="get /v1/simulation/environment/{environmentId}">client.simulation_environment.<a href="./src/roark_analytics/resources/simulation_environment.py">get_by_id</a>(environment_id) -> <a href="./src/roark_analytics/types/simulation_environment_get_by_id_response.py">SimulationEnvironmentGetByIDResponse</a></code>
 
+# SimulationTemplate
+
+Types:
+
+```python
+from roark_analytics.types import SimulationTemplateListResponse
+```
+
+Methods:
+
+- <code title="get /v1/simulation/template">client.simulation_template.<a href="./src/roark_analytics/resources/simulation_template.py">list</a>() -> <a href="./src/roark_analytics/types/simulation_template_list_response.py">SimulationTemplateListResponse</a></code>
+
 # CustomerFlow
 
 Types:

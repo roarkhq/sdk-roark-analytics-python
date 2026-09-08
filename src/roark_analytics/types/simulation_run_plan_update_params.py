@@ -129,6 +129,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     unchanged; send an empty array to detach them all.
     """
 
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+    """
+    Whether to also collect each attached flow's own metrics, on top of this plan's
+    list.
+    """
+
     is_hidden: Annotated[bool, PropertyInfo(alias="isHidden")]
     """
     Whether this plan is hidden from GET /v1/simulation/plan.
