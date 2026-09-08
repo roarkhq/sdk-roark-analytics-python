@@ -57,10 +57,11 @@ class TestSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "edge_cases": "ALL",
                     "happy_path": True,
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
@@ -130,10 +131,11 @@ class TestSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "edge_cases": "ALL",
                     "happy_path": True,
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
@@ -344,10 +346,11 @@ class TestAsyncSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "edge_cases": "ALL",
                     "happy_path": True,
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
@@ -417,10 +420,11 @@ class TestAsyncSimulationRunPlan:
             execution_mode="PARALLEL",
             flows=[
                 {
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "edge_cases": "ALL",
                     "happy_path": True,
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],

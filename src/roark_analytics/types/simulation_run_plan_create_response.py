@@ -25,11 +25,19 @@ class DataRunPlanAgentEndpoint(BaseModel):
 
 
 class DataRunPlanFlowEdgeCaseUnionMember1(BaseModel):
-    id: str
+    id: Optional[str] = None
     """The edge case to run."""
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
     """Run this one as that persona instead of its own."""
+
+    slug: Optional[str] = None
+    """
+    The edge case to run, by its stable slug, matched within this flow. Use instead
+    of `id` for a run you keep in version control: a curated edge case’s id differs
+    between deployments and changes outright if it is renamed. Your own edge cases
+    have no slug and are named by `id`.
+    """
 
     variables: Optional[Dict[str, str]] = None
     """Values for this one only."""
@@ -43,7 +51,7 @@ class DataRunPlanFlow(BaseModel):
     it out across personas or values.
     """
 
-    id: str
+    id: Optional[str] = None
     """The customer flow to run."""
 
     edge_cases: Optional[Union[Literal["ALL"], List[DataRunPlanFlowEdgeCaseUnionMember1]]] = FieldInfo(
@@ -60,6 +68,13 @@ class DataRunPlanFlow(BaseModel):
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
     """Runs everything this attachment resolves as that persona instead of its own."""
+
+    slug: Optional[str] = None
+    """
+    The Roark-curated flow to run, by its stable slug. Use instead of `id` for a run
+    you keep in version control: a curated flow’s id differs between deployments,
+    its slug does not. Your own flows have no slug and are named by `id`.
+    """
 
     variables: Optional[Dict[str, str]] = None
     """Values for everything it resolves."""
