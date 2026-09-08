@@ -224,6 +224,8 @@ class ScriptedFlowVariant(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
 
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
+
 
 class ImprovFlowVariant(BaseModel):
     """One brief to run an improv flow with."""
@@ -258,6 +260,8 @@ class ImprovFlowVariant(BaseModel):
     prompt: Optional[str] = None
     """The brief the simulated customer improvises from."""
 
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
+
 
 class VoicemailFlowVariant(BaseModel):
     """One voicemail greeting."""
@@ -288,6 +292,8 @@ class VoicemailFlowVariant(BaseModel):
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
+
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
 class CustomerFlowEdgeCaseUpdateResponse(BaseModel):

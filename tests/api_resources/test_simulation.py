@@ -58,6 +58,7 @@ class TestSimulation:
                         "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                     }
                 ],
+                "include_flow_metrics": True,
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
                 "name": "Billing regression",
@@ -195,6 +196,7 @@ class TestAsyncSimulation:
                         "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                     }
                 ],
+                "include_flow_metrics": True,
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
                 "name": "Billing regression",

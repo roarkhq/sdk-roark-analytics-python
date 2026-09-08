@@ -121,6 +121,12 @@ class Data(BaseModel):
     flows: List[DataFlow]
     """Customer flows included in this run plan"""
 
+    include_flow_metrics: bool = FieldInfo(alias="includeFlowMetrics")
+    """
+    Whether this plan also collects each attached flow's own metrics, on top of its
+    own list.
+    """
+
     iteration_count: int = FieldInfo(alias="iterationCount")
     """Number of iterations to run for each test case"""
 

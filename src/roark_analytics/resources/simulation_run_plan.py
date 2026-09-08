@@ -67,6 +67,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
@@ -123,6 +124,14 @@ class SimulationRunPlanResource(SyncAPIResource):
           flows: Customer flows to include in this run plan. The same flow can appear more than
               once with a different persona override or different variables.
 
+          include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
+              here. Default true, which is what you want when you brought your own flows and
+              their graders. Set false for a run whose metric list is meant to be exhaustive:
+              a template like Load Testing or Voicemail deliberately grades a narrow set, and
+              inheriting every flow metric on top multiplies analysis cost across the volume
+              without adding signal. GET /v1/simulation/template returns the value each
+              template expects.
+
           iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
@@ -159,6 +168,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
@@ -185,6 +195,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -223,6 +234,9 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          include_flow_metrics: Whether to also collect each attached flow's own metrics, on top of this plan's
+              list.
 
           is_hidden: Whether this plan is hidden from GET /v1/simulation/plan. A run started without
               `saveAsPlan` creates a hidden plan to carry it. Send `{ "name": "...",
@@ -270,6 +284,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_flow_metrics": include_flow_metrics,
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -446,6 +461,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
@@ -502,6 +518,14 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           flows: Customer flows to include in this run plan. The same flow can appear more than
               once with a different persona override or different variables.
 
+          include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
+              here. Default true, which is what you want when you brought your own flows and
+              their graders. Set false for a run whose metric list is meant to be exhaustive:
+              a template like Load Testing or Voicemail deliberately grades a narrow set, and
+              inheriting every flow metric on top multiplies analysis cost across the volume
+              without adding signal. GET /v1/simulation/template returns the value each
+              template expects.
+
           iteration_count: Number of iterations to run for each test case (1-10000)
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
@@ -538,6 +562,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
@@ -564,6 +589,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -602,6 +628,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          include_flow_metrics: Whether to also collect each attached flow's own metrics, on top of this plan's
+              list.
 
           is_hidden: Whether this plan is hidden from GET /v1/simulation/plan. A run started without
               `saveAsPlan` creates a hidden plan to carry it. Send `{ "name": "...",
@@ -649,6 +678,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_flow_metrics": include_flow_metrics,
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
