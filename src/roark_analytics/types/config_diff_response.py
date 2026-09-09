@@ -13,7 +13,7 @@ __all__ = ["ConfigDiffResponse", "Data", "DataChange", "DataSummary"]
 class DataChange(BaseModel):
     config_key: str = FieldInfo(alias="configKey")
 
-    kind: Literal["agent", "persona", "flow", "collector", "metric"]
+    kind: Literal["agent", "persona", "flow", "collector", "metric", "alert"]
 
     name: str
 

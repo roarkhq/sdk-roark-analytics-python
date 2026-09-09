@@ -16,11 +16,19 @@ class AgentEndpoint(TypedDict, total=False):
 
 
 class FlowEdgeCaseUnionMember1(TypedDict, total=False):
-    id: Required[str]
+    id: str
     """The edge case to run."""
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Run this one as that persona instead of its own."""
+
+    slug: str
+    """
+    The edge case to run, by its stable slug, matched within this flow. Use instead
+    of `id` for a run you keep in version control: a curated edge case’s id differs
+    between deployments and changes outright if it is renamed. Your own edge cases
+    have no slug and are named by `id`.
+    """
 
     variables: Dict[str, str]
     """Values for this one only."""
@@ -34,7 +42,7 @@ class Flow(TypedDict, total=False):
     it out across personas or values.
     """
 
-    id: Required[str]
+    id: str
     """The customer flow to run."""
 
     edge_cases: Annotated[Union[Literal["ALL"], Iterable[FlowEdgeCaseUnionMember1]], PropertyInfo(alias="edgeCases")]
@@ -49,6 +57,13 @@ class Flow(TypedDict, total=False):
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Runs everything this attachment resolves as that persona instead of its own."""
+
+    slug: str
+    """
+    The Roark-curated flow to run, by its stable slug. Use instead of `id` for a run
+    you keep in version control: a curated flow’s id differs between deployments,
+    its slug does not. Your own flows have no slug and are named by `id`.
+    """
 
     variables: Dict[str, str]
     """Values for everything it resolves."""
@@ -127,6 +142,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """
     Replaces the customer flows attached to this run plan. Omit to leave them
     unchanged; send an empty array to detach them all.
+    """
+
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+    """
+    Whether to also collect each attached flow's own metrics, on top of this plan's
+    list.
     """
 
     is_hidden: Annotated[bool, PropertyInfo(alias="isHidden")]

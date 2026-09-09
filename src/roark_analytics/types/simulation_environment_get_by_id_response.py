@@ -23,6 +23,8 @@ class Data(BaseModel):
         "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
     ] = FieldInfo(alias="backgroundNoise")
 
+    background_noise_volume: float = FieldInfo(alias="backgroundNoiseVolume")
+
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 

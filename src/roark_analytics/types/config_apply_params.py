@@ -13,6 +13,12 @@ __all__ = [
     "ConfigApplyParams",
     "AgentConfig",
     "AgentConfigEndpoint",
+    "AlertConfig",
+    "AlertConfigAction",
+    "AlertConfigActionSlack",
+    "AlertEventTrigger",
+    "AlertSimulationTrigger",
+    "AlertThresholdTrigger",
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
@@ -322,9 +328,105 @@ class MetricConfig(TypedDict, total=False):
     true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
 
 
+class AlertThresholdTrigger(TypedDict, total=False):
+    aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]]
+
+    metric: Required[str]
+
+    operator: Required[Literal["GT", "GTE", "LT", "LTE"]]
+
+    threshold_value: Required[Annotated[float, PropertyInfo(alias="thresholdValue")]]
+
+    type: Required[Literal["threshold"]]
+
+    window_minutes: Required[Annotated[int, PropertyInfo(alias="windowMinutes")]]
+
+    consecutive_open: Annotated[int, PropertyInfo(alias="consecutiveOpen")]
+
+    consecutive_resolve: Annotated[int, PropertyInfo(alias="consecutiveResolve")]
+
+    grouping: Literal["NONE", "BY_AGENT"]
+
+    metric_variant: Annotated[str, PropertyInfo(alias="metricVariant")]
+
+    min_sample_size: Annotated[int, PropertyInfo(alias="minSampleSize")]
+
+
+class AlertEventTrigger(TypedDict, total=False):
+    events: Required[
+        List[
+            Literal[
+                "CALL_ANALYSIS_COMPLETED",
+                "CALL_ANALYSIS_FAILED",
+                "CALL_ANALYSIS_CANCELLED",
+                "SIMULATION_RUN_PLAN_JOB_STARTED",
+                "SIMULATION_RUN_PLAN_JOB_COMPLETED",
+                "SIMULATION_RUN_PLAN_JOB_FAILED",
+                "SIMULATION_RUN_PLAN_JOB_CANCELLED",
+                "SIMULATION_JOB_STARTED",
+                "SIMULATION_JOB_COMPLETED",
+                "SIMULATION_JOB_FAILED",
+                "SIMULATION_JOB_CANCELLED",
+                "METRIC_COLLECTION_JOB_COMPLETED",
+                "METRIC_COLLECTION_JOB_FAILED",
+                "CHAT_ANALYSIS_COMPLETED",
+                "CHAT_ANALYSIS_FAILED",
+                "ISSUE_OPENED",
+                "ISSUE_RESOLVED",
+            ]
+        ]
+    ]
+
+    type: Required[Literal["event"]]
+
+
+class AlertSimulationTrigger(TypedDict, total=False):
+    conditions: Required[List[Literal["SUCCESS", "FAILURE", "THRESHOLD_FAILED"]]]
+
+    type: Required[Literal["simulation"]]
+
+    delivery_format: Annotated[Literal["MESSAGE", "PDF"], PropertyInfo(alias="deliveryFormat")]
+
+    run_plan: Annotated[str, PropertyInfo(alias="runPlan")]
+
+
+class AlertConfigActionSlack(TypedDict, total=False):
+    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
+
+    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
+
+
+class AlertConfigAction(TypedDict, total=False):
+    slack: Iterable[AlertConfigActionSlack]
+
+    webhooks: SequenceNotStr[str]
+
+
+class AlertConfig(TypedDict, total=False):
+    kind: Required[Literal["alert"]]
+
+    name: Required[str]
+
+    trigger: Required[Union[AlertThresholdTrigger, AlertEventTrigger, AlertSimulationTrigger]]
+
+    actions: AlertConfigAction
+
+    enabled: bool
+
+
 class ConfigApplyParams(TypedDict, total=False):
     resources: Required[
-        List[Union[AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig]]
+        List[
+            Union[
+                AgentConfig,
+                PersonaConfig,
+                ImprovFlowConfig,
+                ScriptedFlowConfig,
+                CollectorConfig,
+                MetricConfig,
+                AlertConfig,
+            ]
+        ]
     ]
 
     prune: bool

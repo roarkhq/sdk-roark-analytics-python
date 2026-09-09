@@ -20,6 +20,7 @@ __all__ = [
     "RunSimulationFromConfigVariableUnionMember1",
     "RunSimulationFromConfigVariableUnionMember2",
     "RunSimulationFromPlanID",
+    "RunSimulationFromTemplate",
 ]
 
 
@@ -56,11 +57,19 @@ class RunSimulationFromConfigPlanMetric(TypedDict, total=False):
 
 
 class RunSimulationFromConfigPlanFlowEdgeCaseUnionMember1(TypedDict, total=False):
-    id: Required[str]
+    id: str
     """The edge case to run."""
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Run this one as that persona instead of its own."""
+
+    slug: str
+    """
+    The edge case to run, by its stable slug, matched within this flow. Use instead
+    of `id` for a run you keep in version control: a curated edge case’s id differs
+    between deployments and changes outright if it is renamed. Your own edge cases
+    have no slug and are named by `id`.
+    """
 
     variables: Dict[str, str]
     """Values for this one only."""
@@ -74,7 +83,7 @@ class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
     it out across personas or values.
     """
 
-    id: Required[str]
+    id: str
     """The customer flow to run."""
 
     edge_cases: Annotated[
@@ -92,6 +101,13 @@ class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Runs everything this attachment resolves as that persona instead of its own."""
+
+    slug: str
+    """
+    The Roark-curated flow to run, by its stable slug. Use instead of `id` for a run
+    you keep in version control: a curated flow’s id differs between deployments,
+    its slug does not. Your own flows have no slug and are named by `id`.
+    """
 
     variables: Dict[str, str]
     """Values for everything it resolves."""
@@ -163,6 +179,18 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     """
     Customer flows to include in this run plan. The same flow can appear more than
     once with a different persona override or different variables.
+    """
+
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+    """
+    Also collect each attached flow's own metrics, on top of the `metrics` named
+    here.
+    Default true, which is what you want when you brought your own flows and their
+    graders. Set false for a run whose metric list is meant to be exhaustive: a
+    template like Load Testing or Voicemail deliberately grades a narrow set, and
+    inheriting every flow metric on top multiplies analysis cost across the volume
+    without adding signal.
+    GET /v1/simulation/template returns the value each template expects.
     """
 
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
@@ -294,4 +322,94 @@ class RunSimulationFromPlanID(TypedDict, total=False):
     """
 
 
-SimulationRunParams: TypeAlias = Union[RunSimulationFromConfig, RunSimulationFromPlanID]
+class RunSimulationFromTemplate(TypedDict, total=False):
+    """Run one of the built-in templates against your agent."""
+
+    agent_endpoints: Required[
+        Annotated[Iterable[RunSimulationFromConfigPlanAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
+    ]
+    """The agent endpoints to call. No template can know these."""
+
+    direction: Required[Literal["INBOUND", "OUTBOUND"]]
+    """Direction of the simulation (INBOUND or OUTBOUND)"""
+
+    template: Required[str]
+    """The template to run, as listed by GET /v1/simulation/template."""
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+    """Phrases that trigger end of call. Empty array disables the feature."""
+
+    end_call_reasons: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallReasons")]
+    """
+    Semantic conditions that trigger end of call. The LLM evaluates the conversation
+    against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+    returned by GET /v1/simulation/template. Pass an empty array to run with none.
+    """
+
+    enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]
+    """
+    Merge the customer's own recording of the real call into each simulation, so
+    metrics can be scored against the live leg as well as the simulated one. This is
+    the API equivalent of the dashboard's live-enrichment toggle.
+    With this on, the run provisions a phone number and holds each call open for up
+    to 15 minutes waiting for a matching call to be posted to POST /v1/call. A call
+    matches on the provisioned number (`roarkPhoneNumber` on the job) with a start
+    time inside the simulation window. If nothing arrives, the simulation still
+    completes and any `LIVE`-sourced metric produces no value.
+    Required by any metric whose `requiresLiveConversation` is true: without it that
+    metric is silently skipped.
+    """
+
+    execution_mode: Annotated[
+        Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
+    ]
+    """Execution mode (PARALLEL or SEQUENTIAL)"""
+
+    flows: Iterable[RunSimulationFromConfigPlanFlow]
+    """
+    The flows to run, in the same shape a run plan takes them.
+    Required when the template lists no flows of its own: it presets what to
+    measure, and this says what to measure it on. Optional when it does, where these
+    REPLACE the ones it would have run, so you can narrow a suite to the cases you
+    care about. Either way, GET /v1/simulation/template lists the flows and variant
+    ids each template covers.
+    """
+
+    iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
+    """Number of iterations to run for each test case (1-10000)"""
+
+    max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
+    """Maximum number of concurrent simulation jobs"""
+
+    max_simulation_duration_seconds: Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]
+    """
+    Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
+    GET /v1/simulation/template.
+    """
+
+    name: str
+    """
+    What to call this. Defaults to the template's name and the date, and required
+    with `saveAsPlan`.
+    """
+
+    save_as_plan: Annotated[bool, PropertyInfo(alias="saveAsPlan")]
+    """
+    Keeps the resolved configuration as a run plan, listed by GET
+    /v1/simulation/plan and re-runnable with `planId`. Requires `name`.
+    """
+
+    silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
+    """Timeout in seconds for silence detection"""
+
+    variables: Union[Dict[str, str], Iterable[RunSimulationFromConfigVariableUnionMember1]]
+    """
+    Values for the {{variables}} the run resolves. An object applies them
+    everywhere; an array targets a flow, its happy path, or one of its edge cases
+    with `flowId`.
+    The scenario-scoped form the other variants accept is not valid here: a template
+    run is always flow-based, so there would be no scenario for it to reach.
+    """
+
+
+SimulationRunParams: TypeAlias = Union[RunSimulationFromConfig, RunSimulationFromPlanID, RunSimulationFromTemplate]

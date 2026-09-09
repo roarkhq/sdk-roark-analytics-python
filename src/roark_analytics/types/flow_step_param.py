@@ -17,6 +17,8 @@ __all__ = [
     "FlowStepParamUnionMember4",
     "FlowStepParamUnionMember5",
     "FlowStepParamUnionMember6",
+    "FlowStepParamUnionMember7",
+    "FlowStepParamUnionMember8",
 ]
 
 
@@ -63,6 +65,20 @@ class FlowStepParamUnionMember2(TypedDict, total=False):
 
 
 class FlowStepParamUnionMember3(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_VERBATIM_TURN"]]
+
+    content: Optional[str]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: List["FlowStepParam"]
+
+
+class FlowStepParamUnionMember4(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_SILENCE"]]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
@@ -76,7 +92,7 @@ class FlowStepParamUnionMember3(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember4(TypedDict, total=False):
+class FlowStepParamUnionMember5(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_DTMF"]]
 
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
@@ -90,7 +106,21 @@ class FlowStepParamUnionMember4(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember5(TypedDict, total=False):
+class FlowStepParamUnionMember6(TypedDict, total=False):
+    type: Required[Literal["AGENT_DTMF"]]
+
+    dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: List["FlowStepParam"]
+
+
+class FlowStepParamUnionMember7(TypedDict, total=False):
     type: Required[Literal["VOICEMAIL"]]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
@@ -102,7 +132,7 @@ class FlowStepParamUnionMember5(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember6(TypedDict, total=False):
+class FlowStepParamUnionMember8(TypedDict, total=False):
     type: Required[Literal["SCENARIO_LINK"]]
 
     linked_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="linkedCustomerFlowId")]
@@ -126,4 +156,6 @@ FlowStepParam: TypeAlias = Union[
     FlowStepParamUnionMember4,
     FlowStepParamUnionMember5,
     FlowStepParamUnionMember6,
+    FlowStepParamUnionMember7,
+    FlowStepParamUnionMember8,
 ]

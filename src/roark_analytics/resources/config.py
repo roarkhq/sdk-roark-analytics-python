@@ -55,6 +55,7 @@ class ConfigResource(SyncAPIResource):
                 config_apply_params.ScriptedFlowConfig,
                 config_apply_params.CollectorConfig,
                 config_apply_params.MetricConfig,
+                config_apply_params.AlertConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -107,6 +108,7 @@ class ConfigResource(SyncAPIResource):
                 config_diff_params.ScriptedFlowConfig,
                 config_diff_params.CollectorConfig,
                 config_diff_params.MetricConfig,
+                config_diff_params.AlertConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -179,6 +181,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_apply_params.ScriptedFlowConfig,
                 config_apply_params.CollectorConfig,
                 config_apply_params.MetricConfig,
+                config_apply_params.AlertConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -231,6 +234,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_diff_params.ScriptedFlowConfig,
                 config_diff_params.CollectorConfig,
                 config_diff_params.MetricConfig,
+                config_diff_params.AlertConfig,
             ]
         ],
         prune: bool | Omit = omit,

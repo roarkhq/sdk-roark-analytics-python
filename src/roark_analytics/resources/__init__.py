@@ -80,6 +80,14 @@ from .agent_endpoint import (
     AgentEndpointResourceWithStreamingResponse,
     AsyncAgentEndpointResourceWithStreamingResponse,
 )
+from .metric_variant import (
+    MetricVariantResource,
+    AsyncMetricVariantResource,
+    MetricVariantResourceWithRawResponse,
+    AsyncMetricVariantResourceWithRawResponse,
+    MetricVariantResourceWithStreamingResponse,
+    AsyncMetricVariantResourceWithStreamingResponse,
+)
 from .simulation_job import (
     SimulationJobResource,
     AsyncSimulationJobResource,
@@ -103,6 +111,14 @@ from .simulation_run_plan import (
     AsyncSimulationRunPlanResourceWithRawResponse,
     SimulationRunPlanResourceWithStreamingResponse,
     AsyncSimulationRunPlanResourceWithStreamingResponse,
+)
+from .simulation_template import (
+    SimulationTemplateResource,
+    AsyncSimulationTemplateResource,
+    SimulationTemplateResourceWithRawResponse,
+    AsyncSimulationTemplateResourceWithRawResponse,
+    SimulationTemplateResourceWithStreamingResponse,
+    AsyncSimulationTemplateResourceWithStreamingResponse,
 )
 from .metric_collection_job import (
     MetricCollectionJobResource,
@@ -176,6 +192,12 @@ __all__ = [
     "AsyncMetricCollectionJobResourceWithRawResponse",
     "MetricCollectionJobResourceWithStreamingResponse",
     "AsyncMetricCollectionJobResourceWithStreamingResponse",
+    "MetricVariantResource",
+    "AsyncMetricVariantResource",
+    "MetricVariantResourceWithRawResponse",
+    "AsyncMetricVariantResourceWithRawResponse",
+    "MetricVariantResourceWithStreamingResponse",
+    "AsyncMetricVariantResourceWithStreamingResponse",
     "SimulationResource",
     "AsyncSimulationResource",
     "SimulationResourceWithRawResponse",
@@ -212,6 +234,12 @@ __all__ = [
     "AsyncSimulationEnvironmentResourceWithRawResponse",
     "SimulationEnvironmentResourceWithStreamingResponse",
     "AsyncSimulationEnvironmentResourceWithStreamingResponse",
+    "SimulationTemplateResource",
+    "AsyncSimulationTemplateResource",
+    "SimulationTemplateResourceWithRawResponse",
+    "AsyncSimulationTemplateResourceWithRawResponse",
+    "SimulationTemplateResourceWithStreamingResponse",
+    "AsyncSimulationTemplateResourceWithStreamingResponse",
     "CustomerFlowResource",
     "AsyncCustomerFlowResource",
     "CustomerFlowResourceWithRawResponse",

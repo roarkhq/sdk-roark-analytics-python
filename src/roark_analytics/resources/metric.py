@@ -7,8 +7,8 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import metric_list_definitions_params, metric_create_definition_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..types import metric_list_definitions_params, metric_create_definition_params, metric_update_definition_params
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -21,6 +21,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.metric_list_definitions_response import MetricListDefinitionsResponse
 from ..types.metric_create_definition_response import MetricCreateDefinitionResponse
+from ..types.metric_update_definition_response import MetricUpdateDefinitionResponse
 
 __all__ = ["MetricResource", "AsyncMetricResource"]
 
@@ -382,6 +383,134 @@ class MetricResource(SyncAPIResource):
             cast_to=MetricListDefinitionsResponse,
         )
 
+    def update_definition(
+        self,
+        id_or_slug: str,
+        *,
+        analysis_package_id: object | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        calc_type: object | Omit = omit,
+        change_reason: str | Omit = omit,
+        classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
+        formula: str | Omit = omit,
+        llm_prompt: str | Omit = omit,
+        max_classifications: int | Omit = omit,
+        metric_id: object | Omit = omit,
+        name: str | Omit = omit,
+        organization_id: object | Omit = omit,
+        output_type: object | Omit = omit,
+        participant_role: object | Omit = omit,
+        project_id: object | Omit = omit,
+        scale_labels: Iterable[metric_update_definition_params.ScaleLabel] | Omit = omit,
+        scale_max: int | Omit = omit,
+        scale_min: int | Omit = omit,
+        scope: object | Omit = omit,
+        slug: object | Omit = omit,
+        source: object | Omit = omit,
+        sources: Iterable[metric_update_definition_params.Source] | Omit = omit,
+        supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
+        supports_multiple_variants: object | Omit = omit,
+        tool_definition_ids: SequenceNotStr[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricUpdateDefinitionResponse:
+        """
+        Update the editable subset of a custom metric definition, addressed by its UUID
+        or its stable `slug`. Only the supplied fields are changed; omitted fields are
+        left unchanged. Every update creates a new immutable version; the response
+        carries the advanced `versionId`. Immutable fields (scope, outputType, calcType,
+        …) are rejected, and which fields are editable depends on the metric (e.g.
+        derived metrics only allow `name`). Roark's own metrics are rejected here: this
+        endpoint edits the shared definition, which every workspace sees. To change one
+        for your workspace alone, edit its variant with PUT
+        /v1/metric/definitions/{idOrSlug}/variants/{variantId}, which forks it for you
+        and leaves every other workspace on the original.
+
+        Args:
+          boolean_false_label: New label for the false case (BOOLEAN output only)
+
+          boolean_true_label: New label for the true case (BOOLEAN output only)
+
+          change_reason: Optional free-text audit note recorded on the new version.
+
+          classification_options: Replacement set of classification options (CLASSIFICATION output only)
+
+          formula: New formula expression (FORMULA only). Pass `sources` alongside if the
+              referenced metrics change.
+
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+
+          max_classifications: New maximum number of classifications (CLASSIFICATION output only)
+
+          name: New name (only for metrics whose name is editable)
+
+          scale_labels: Replacement set of scale-range labels (SCALE output only)
+
+          scale_max: New scale maximum (SCALE output only)
+
+          scale_min: New scale minimum (SCALE output only)
+
+          sources: Replacement formula sources, required when `formula` changes the referenced
+              metrics (FORMULA only).
+
+          supported_contexts: Replacement set of supported contexts. Omit to leave unchanged.
+
+          tool_definition_ids: Replacement set of scoped tool-definition ids (only for metrics whose tool
+              scoping is editable)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_slug:
+            raise ValueError(f"Expected a non-empty value for `id_or_slug` but received {id_or_slug!r}")
+        return self._put(
+            f"/v1/metric/definitions/{id_or_slug}",
+            body=maybe_transform(
+                {
+                    "analysis_package_id": analysis_package_id,
+                    "boolean_false_label": boolean_false_label,
+                    "boolean_true_label": boolean_true_label,
+                    "calc_type": calc_type,
+                    "change_reason": change_reason,
+                    "classification_options": classification_options,
+                    "formula": formula,
+                    "llm_prompt": llm_prompt,
+                    "max_classifications": max_classifications,
+                    "metric_id": metric_id,
+                    "name": name,
+                    "organization_id": organization_id,
+                    "output_type": output_type,
+                    "participant_role": participant_role,
+                    "project_id": project_id,
+                    "scale_labels": scale_labels,
+                    "scale_max": scale_max,
+                    "scale_min": scale_min,
+                    "scope": scope,
+                    "slug": slug,
+                    "source": source,
+                    "sources": sources,
+                    "supported_contexts": supported_contexts,
+                    "supports_multiple_variants": supports_multiple_variants,
+                    "tool_definition_ids": tool_definition_ids,
+                },
+                metric_update_definition_params.MetricUpdateDefinitionParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MetricUpdateDefinitionResponse,
+        )
+
 
 class AsyncMetricResource(AsyncAPIResource):
     @cached_property
@@ -740,6 +869,134 @@ class AsyncMetricResource(AsyncAPIResource):
             cast_to=MetricListDefinitionsResponse,
         )
 
+    async def update_definition(
+        self,
+        id_or_slug: str,
+        *,
+        analysis_package_id: object | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        calc_type: object | Omit = omit,
+        change_reason: str | Omit = omit,
+        classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
+        formula: str | Omit = omit,
+        llm_prompt: str | Omit = omit,
+        max_classifications: int | Omit = omit,
+        metric_id: object | Omit = omit,
+        name: str | Omit = omit,
+        organization_id: object | Omit = omit,
+        output_type: object | Omit = omit,
+        participant_role: object | Omit = omit,
+        project_id: object | Omit = omit,
+        scale_labels: Iterable[metric_update_definition_params.ScaleLabel] | Omit = omit,
+        scale_max: int | Omit = omit,
+        scale_min: int | Omit = omit,
+        scope: object | Omit = omit,
+        slug: object | Omit = omit,
+        source: object | Omit = omit,
+        sources: Iterable[metric_update_definition_params.Source] | Omit = omit,
+        supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] | Omit = omit,
+        supports_multiple_variants: object | Omit = omit,
+        tool_definition_ids: SequenceNotStr[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricUpdateDefinitionResponse:
+        """
+        Update the editable subset of a custom metric definition, addressed by its UUID
+        or its stable `slug`. Only the supplied fields are changed; omitted fields are
+        left unchanged. Every update creates a new immutable version; the response
+        carries the advanced `versionId`. Immutable fields (scope, outputType, calcType,
+        …) are rejected, and which fields are editable depends on the metric (e.g.
+        derived metrics only allow `name`). Roark's own metrics are rejected here: this
+        endpoint edits the shared definition, which every workspace sees. To change one
+        for your workspace alone, edit its variant with PUT
+        /v1/metric/definitions/{idOrSlug}/variants/{variantId}, which forks it for you
+        and leaves every other workspace on the original.
+
+        Args:
+          boolean_false_label: New label for the false case (BOOLEAN output only)
+
+          boolean_true_label: New label for the true case (BOOLEAN output only)
+
+          change_reason: Optional free-text audit note recorded on the new version.
+
+          classification_options: Replacement set of classification options (CLASSIFICATION output only)
+
+          formula: New formula expression (FORMULA only). Pass `sources` alongside if the
+              referenced metrics change.
+
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+
+          max_classifications: New maximum number of classifications (CLASSIFICATION output only)
+
+          name: New name (only for metrics whose name is editable)
+
+          scale_labels: Replacement set of scale-range labels (SCALE output only)
+
+          scale_max: New scale maximum (SCALE output only)
+
+          scale_min: New scale minimum (SCALE output only)
+
+          sources: Replacement formula sources, required when `formula` changes the referenced
+              metrics (FORMULA only).
+
+          supported_contexts: Replacement set of supported contexts. Omit to leave unchanged.
+
+          tool_definition_ids: Replacement set of scoped tool-definition ids (only for metrics whose tool
+              scoping is editable)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_slug:
+            raise ValueError(f"Expected a non-empty value for `id_or_slug` but received {id_or_slug!r}")
+        return await self._put(
+            f"/v1/metric/definitions/{id_or_slug}",
+            body=await async_maybe_transform(
+                {
+                    "analysis_package_id": analysis_package_id,
+                    "boolean_false_label": boolean_false_label,
+                    "boolean_true_label": boolean_true_label,
+                    "calc_type": calc_type,
+                    "change_reason": change_reason,
+                    "classification_options": classification_options,
+                    "formula": formula,
+                    "llm_prompt": llm_prompt,
+                    "max_classifications": max_classifications,
+                    "metric_id": metric_id,
+                    "name": name,
+                    "organization_id": organization_id,
+                    "output_type": output_type,
+                    "participant_role": participant_role,
+                    "project_id": project_id,
+                    "scale_labels": scale_labels,
+                    "scale_max": scale_max,
+                    "scale_min": scale_min,
+                    "scope": scope,
+                    "slug": slug,
+                    "source": source,
+                    "sources": sources,
+                    "supported_contexts": supported_contexts,
+                    "supports_multiple_variants": supports_multiple_variants,
+                    "tool_definition_ids": tool_definition_ids,
+                },
+                metric_update_definition_params.MetricUpdateDefinitionParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MetricUpdateDefinitionResponse,
+        )
+
 
 class MetricResourceWithRawResponse:
     def __init__(self, metric: MetricResource) -> None:
@@ -750,6 +1007,9 @@ class MetricResourceWithRawResponse:
         )
         self.list_definitions = to_raw_response_wrapper(
             metric.list_definitions,
+        )
+        self.update_definition = to_raw_response_wrapper(
+            metric.update_definition,
         )
 
 
@@ -763,6 +1023,9 @@ class AsyncMetricResourceWithRawResponse:
         self.list_definitions = async_to_raw_response_wrapper(
             metric.list_definitions,
         )
+        self.update_definition = async_to_raw_response_wrapper(
+            metric.update_definition,
+        )
 
 
 class MetricResourceWithStreamingResponse:
@@ -775,6 +1038,9 @@ class MetricResourceWithStreamingResponse:
         self.list_definitions = to_streamed_response_wrapper(
             metric.list_definitions,
         )
+        self.update_definition = to_streamed_response_wrapper(
+            metric.update_definition,
+        )
 
 
 class AsyncMetricResourceWithStreamingResponse:
@@ -786,4 +1052,7 @@ class AsyncMetricResourceWithStreamingResponse:
         )
         self.list_definitions = async_to_streamed_response_wrapper(
             metric.list_definitions,
+        )
+        self.update_definition = async_to_streamed_response_wrapper(
+            metric.update_definition,
         )

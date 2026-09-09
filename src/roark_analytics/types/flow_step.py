@@ -16,6 +16,8 @@ __all__ = [
     "FlowStepUnionMember4",
     "FlowStepUnionMember5",
     "FlowStepUnionMember6",
+    "FlowStepUnionMember7",
+    "FlowStepUnionMember8",
 ]
 
 
@@ -62,6 +64,20 @@ class FlowStepUnionMember2(BaseModel):
 
 
 class FlowStepUnionMember3(BaseModel):
+    type: Literal["CUSTOMER_VERBATIM_TURN"]
+
+    content: Optional[str] = None
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class FlowStepUnionMember4(BaseModel):
     type: Literal["CUSTOMER_SILENCE"]
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
@@ -75,7 +91,7 @@ class FlowStepUnionMember3(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember4(BaseModel):
+class FlowStepUnionMember5(BaseModel):
     type: Literal["CUSTOMER_DTMF"]
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
@@ -89,7 +105,21 @@ class FlowStepUnionMember4(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember5(BaseModel):
+class FlowStepUnionMember6(BaseModel):
+    type: Literal["AGENT_DTMF"]
+
+    dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class FlowStepUnionMember7(BaseModel):
     type: Literal["VOICEMAIL"]
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
@@ -101,7 +131,7 @@ class FlowStepUnionMember5(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember6(BaseModel):
+class FlowStepUnionMember8(BaseModel):
     type: Literal["SCENARIO_LINK"]
 
     linked_customer_flow_id: Optional[str] = FieldInfo(alias="linkedCustomerFlowId", default=None)
@@ -125,4 +155,6 @@ FlowStep: TypeAlias = Union[
     FlowStepUnionMember4,
     FlowStepUnionMember5,
     FlowStepUnionMember6,
+    FlowStepUnionMember7,
+    FlowStepUnionMember8,
 ]

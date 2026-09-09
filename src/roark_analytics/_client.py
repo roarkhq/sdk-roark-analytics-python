@@ -42,9 +42,11 @@ if TYPE_CHECKING:
         customer_flow,
         metric_policy,
         agent_endpoint,
+        metric_variant,
         simulation_job,
         simulation_persona,
         simulation_run_plan,
+        simulation_template,
         metric_collection_job,
         simulation_environment,
         customer_flow_edge_case,
@@ -61,9 +63,11 @@ if TYPE_CHECKING:
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
+    from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
+    from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
     from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
     from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
     from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
@@ -159,6 +163,12 @@ class Roark(SyncAPIClient):
         return MetricCollectionJobResource(self)
 
     @cached_property
+    def metric_variant(self) -> MetricVariantResource:
+        from .resources.metric_variant import MetricVariantResource
+
+        return MetricVariantResource(self)
+
+    @cached_property
     def simulation(self) -> SimulationResource:
         from .resources.simulation import SimulationResource
 
@@ -193,6 +203,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_environment import SimulationEnvironmentResource
 
         return SimulationEnvironmentResource(self)
+
+    @cached_property
+    def simulation_template(self) -> SimulationTemplateResource:
+        from .resources.simulation_template import SimulationTemplateResource
+
+        return SimulationTemplateResource(self)
 
     @cached_property
     def customer_flow(self) -> CustomerFlowResource:
@@ -435,6 +451,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncMetricCollectionJobResource(self)
 
     @cached_property
+    def metric_variant(self) -> AsyncMetricVariantResource:
+        from .resources.metric_variant import AsyncMetricVariantResource
+
+        return AsyncMetricVariantResource(self)
+
+    @cached_property
     def simulation(self) -> AsyncSimulationResource:
         from .resources.simulation import AsyncSimulationResource
 
@@ -469,6 +491,12 @@ class AsyncRoark(AsyncAPIClient):
         from .resources.simulation_environment import AsyncSimulationEnvironmentResource
 
         return AsyncSimulationEnvironmentResource(self)
+
+    @cached_property
+    def simulation_template(self) -> AsyncSimulationTemplateResource:
+        from .resources.simulation_template import AsyncSimulationTemplateResource
+
+        return AsyncSimulationTemplateResource(self)
 
     @cached_property
     def customer_flow(self) -> AsyncCustomerFlowResource:
@@ -662,6 +690,12 @@ class RoarkWithRawResponse:
         return MetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.MetricVariantResourceWithRawResponse:
+        from .resources.metric_variant import MetricVariantResourceWithRawResponse
+
+        return MetricVariantResourceWithRawResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.SimulationResourceWithRawResponse:
         from .resources.simulation import SimulationResourceWithRawResponse
 
@@ -696,6 +730,12 @@ class RoarkWithRawResponse:
         from .resources.simulation_environment import SimulationEnvironmentResourceWithRawResponse
 
         return SimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
+
+    @cached_property
+    def simulation_template(self) -> simulation_template.SimulationTemplateResourceWithRawResponse:
+        from .resources.simulation_template import SimulationTemplateResourceWithRawResponse
+
+        return SimulationTemplateResourceWithRawResponse(self._client.simulation_template)
 
     @cached_property
     def customer_flow(self) -> customer_flow.CustomerFlowResourceWithRawResponse:
@@ -777,6 +817,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncMetricCollectionJobResourceWithRawResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.AsyncMetricVariantResourceWithRawResponse:
+        from .resources.metric_variant import AsyncMetricVariantResourceWithRawResponse
+
+        return AsyncMetricVariantResourceWithRawResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.AsyncSimulationResourceWithRawResponse:
         from .resources.simulation import AsyncSimulationResourceWithRawResponse
 
@@ -811,6 +857,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithRawResponse
 
         return AsyncSimulationEnvironmentResourceWithRawResponse(self._client.simulation_environment)
+
+    @cached_property
+    def simulation_template(self) -> simulation_template.AsyncSimulationTemplateResourceWithRawResponse:
+        from .resources.simulation_template import AsyncSimulationTemplateResourceWithRawResponse
+
+        return AsyncSimulationTemplateResourceWithRawResponse(self._client.simulation_template)
 
     @cached_property
     def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithRawResponse:
@@ -892,6 +944,12 @@ class RoarkWithStreamedResponse:
         return MetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.MetricVariantResourceWithStreamingResponse:
+        from .resources.metric_variant import MetricVariantResourceWithStreamingResponse
+
+        return MetricVariantResourceWithStreamingResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.SimulationResourceWithStreamingResponse:
         from .resources.simulation import SimulationResourceWithStreamingResponse
 
@@ -926,6 +984,12 @@ class RoarkWithStreamedResponse:
         from .resources.simulation_environment import SimulationEnvironmentResourceWithStreamingResponse
 
         return SimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
+
+    @cached_property
+    def simulation_template(self) -> simulation_template.SimulationTemplateResourceWithStreamingResponse:
+        from .resources.simulation_template import SimulationTemplateResourceWithStreamingResponse
+
+        return SimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
 
     @cached_property
     def customer_flow(self) -> customer_flow.CustomerFlowResourceWithStreamingResponse:
@@ -1007,6 +1071,12 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncMetricCollectionJobResourceWithStreamingResponse(self._client.metric_collection_job)
 
     @cached_property
+    def metric_variant(self) -> metric_variant.AsyncMetricVariantResourceWithStreamingResponse:
+        from .resources.metric_variant import AsyncMetricVariantResourceWithStreamingResponse
+
+        return AsyncMetricVariantResourceWithStreamingResponse(self._client.metric_variant)
+
+    @cached_property
     def simulation(self) -> simulation.AsyncSimulationResourceWithStreamingResponse:
         from .resources.simulation import AsyncSimulationResourceWithStreamingResponse
 
@@ -1041,6 +1111,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithStreamingResponse
 
         return AsyncSimulationEnvironmentResourceWithStreamingResponse(self._client.simulation_environment)
+
+    @cached_property
+    def simulation_template(self) -> simulation_template.AsyncSimulationTemplateResourceWithStreamingResponse:
+        from .resources.simulation_template import AsyncSimulationTemplateResourceWithStreamingResponse
+
+        return AsyncSimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
 
     @cached_property
     def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithStreamingResponse:

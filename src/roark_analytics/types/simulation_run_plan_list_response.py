@@ -24,11 +24,19 @@ class DataAgentEndpoint(BaseModel):
 
 
 class DataFlowEdgeCaseUnionMember1(BaseModel):
-    id: str
+    id: Optional[str] = None
     """The edge case to run."""
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
     """Run this one as that persona instead of its own."""
+
+    slug: Optional[str] = None
+    """
+    The edge case to run, by its stable slug, matched within this flow. Use instead
+    of `id` for a run you keep in version control: a curated edge case’s id differs
+    between deployments and changes outright if it is renamed. Your own edge cases
+    have no slug and are named by `id`.
+    """
 
     variables: Optional[Dict[str, str]] = None
     """Values for this one only."""
@@ -42,7 +50,7 @@ class DataFlow(BaseModel):
     it out across personas or values.
     """
 
-    id: str
+    id: Optional[str] = None
     """The customer flow to run."""
 
     edge_cases: Optional[Union[Literal["ALL"], List[DataFlowEdgeCaseUnionMember1]]] = FieldInfo(
@@ -59,6 +67,13 @@ class DataFlow(BaseModel):
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
     """Runs everything this attachment resolves as that persona instead of its own."""
+
+    slug: Optional[str] = None
+    """
+    The Roark-curated flow to run, by its stable slug. Use instead of `id` for a run
+    you keep in version control: a curated flow’s id differs between deployments,
+    its slug does not. Your own flows have no slug and are named by `id`.
+    """
 
     variables: Optional[Dict[str, str]] = None
     """Values for everything it resolves."""
@@ -121,6 +136,12 @@ class Data(BaseModel):
 
     flows: List[DataFlow]
     """Customer flows included in this run plan"""
+
+    include_flow_metrics: bool = FieldInfo(alias="includeFlowMetrics")
+    """
+    Whether this plan also collects each attached flow's own metrics, on top of its
+    own list.
+    """
 
     iteration_count: int = FieldInfo(alias="iterationCount")
     """Number of iterations to run for each test case"""

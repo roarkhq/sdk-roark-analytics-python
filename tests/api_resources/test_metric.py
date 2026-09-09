@@ -12,6 +12,7 @@ from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     MetricListDefinitionsResponse,
     MetricCreateDefinitionResponse,
+    MetricUpdateDefinitionResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -291,6 +292,90 @@ class TestMetric:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    def test_method_update_definition(self, client: Roark) -> None:
+        metric = client.metric.update_definition(
+            id_or_slug="idOrSlug",
+        )
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_method_update_definition_with_all_params(self, client: Roark) -> None:
+        metric = client.metric.update_definition(
+            id_or_slug="idOrSlug",
+            analysis_package_id="analysisPackageId",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
+            calc_type="calcType",
+            change_reason="changeReason",
+            classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
+            formula="x",
+            llm_prompt="llmPrompt",
+            max_classifications=1,
+            metric_id="metricId",
+            name="x",
+            organization_id="organizationId",
+            output_type="outputType",
+            participant_role="participantRole",
+            project_id="projectId",
+            scale_labels=[
+                {
+                    "display_order": 0,
+                    "label": "label",
+                    "range_max": 0,
+                    "range_min": 0,
+                    "color_hex": "colorHex",
+                    "description": "description",
+                }
+            ],
+            scale_max=0,
+            scale_min=0,
+            scope="scope",
+            slug="slug",
+            source="source",
+            sources=[
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                }
+            ],
+            supported_contexts=["CALL"],
+            supports_multiple_variants="supportsMultipleVariants",
+            tool_definition_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+        )
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_raw_response_update_definition(self, client: Roark) -> None:
+        response = client.metric.with_raw_response.update_definition(
+            id_or_slug="idOrSlug",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = response.parse()
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_definition(self, client: Roark) -> None:
+        with client.metric.with_streaming_response.update_definition(
+            id_or_slug="idOrSlug",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = response.parse()
+            assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update_definition(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_slug` but received ''"):
+            client.metric.with_raw_response.update_definition(
+                id_or_slug="",
+            )
+
 
 class TestAsyncMetric:
     parametrize = pytest.mark.parametrize(
@@ -567,3 +652,87 @@ class TestAsyncMetric:
             assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_update_definition(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.update_definition(
+            id_or_slug="idOrSlug",
+        )
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_method_update_definition_with_all_params(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.update_definition(
+            id_or_slug="idOrSlug",
+            analysis_package_id="analysisPackageId",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
+            calc_type="calcType",
+            change_reason="changeReason",
+            classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
+            formula="x",
+            llm_prompt="llmPrompt",
+            max_classifications=1,
+            metric_id="metricId",
+            name="x",
+            organization_id="organizationId",
+            output_type="outputType",
+            participant_role="participantRole",
+            project_id="projectId",
+            scale_labels=[
+                {
+                    "display_order": 0,
+                    "label": "label",
+                    "range_max": 0,
+                    "range_min": 0,
+                    "color_hex": "colorHex",
+                    "description": "description",
+                }
+            ],
+            scale_max=0,
+            scale_min=0,
+            scope="scope",
+            slug="slug",
+            source="source",
+            sources=[
+                {
+                    "source_metric_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "source_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                }
+            ],
+            supported_contexts=["CALL"],
+            supports_multiple_variants="supportsMultipleVariants",
+            tool_definition_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+        )
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update_definition(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric.with_raw_response.update_definition(
+            id_or_slug="idOrSlug",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = await response.parse()
+        assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update_definition(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric.with_streaming_response.update_definition(
+            id_or_slug="idOrSlug",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = await response.parse()
+            assert_matches_type(MetricUpdateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update_definition(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_slug` but received ''"):
+            await async_client.metric.with_raw_response.update_definition(
+                id_or_slug="",
+            )

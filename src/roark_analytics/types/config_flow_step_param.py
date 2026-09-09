@@ -19,6 +19,7 @@ class ConfigFlowStepParam(TypedDict, total=False):
             "CUSTOMER_FIRST_MESSAGE",
             "CUSTOMER_SILENCE",
             "CUSTOMER_DTMF",
+            "AGENT_DTMF",
             "VOICEMAIL",
             "SCENARIO_LINK",
         ]

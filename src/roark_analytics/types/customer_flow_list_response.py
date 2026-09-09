@@ -66,6 +66,8 @@ class ScriptedCustomerFlowEdgeCaseEnvironment(BaseModel):
         "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
     ] = FieldInfo(alias="backgroundNoise")
 
+    background_noise_volume: float = FieldInfo(alias="backgroundNoiseVolume")
+
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
@@ -249,6 +251,8 @@ class ScriptedCustomerFlowEdgeCase(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
 
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
+
 
 class ScriptedCustomerFlow(BaseModel):
     """A flow whose conversation is written out as a graph of turns."""
@@ -334,6 +338,8 @@ class ImprovCustomerFlowEdgeCase(BaseModel):
     prompt: Optional[str] = None
     """The brief the simulated customer improvises from."""
 
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
+
 
 class ImprovCustomerFlow(BaseModel):
     """
@@ -401,6 +407,8 @@ class VoicemailCustomerFlowEdgeCase(BaseModel):
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
+
+    system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
 class VoicemailCustomerFlow(BaseModel):

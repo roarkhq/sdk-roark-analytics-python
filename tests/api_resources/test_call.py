@@ -16,6 +16,7 @@ from roark_analytics.types import (
     CallListMetricsResponse,
     CallGetTranscriptResponse,
     CallListSentimentRunsResponse,
+    CallAppendToolInvocationsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -153,6 +154,75 @@ class TestCall:
             assert_matches_type(CallListResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_append_tool_invocations(self, client: Roark) -> None:
+        call = client.call.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        )
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_append_tool_invocations_with_all_params(self, client: Roark) -> None:
+        call = client.call.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "string"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_append_tool_invocations(self, client: Roark) -> None:
+        response = client.call.with_raw_response.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_append_tool_invocations(self, client: Roark) -> None:
+        with client.call.with_streaming_response.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_append_tool_invocations(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            client.call.with_raw_response.append_tool_invocations(
+                call_id="",
+                tool_invocations=[
+                    {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+                ],
+            )
 
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
@@ -458,6 +528,75 @@ class TestAsyncCall:
             assert_matches_type(CallListResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_append_tool_invocations(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        )
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_append_tool_invocations_with_all_params(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {
+                    "name": "name",
+                    "parameters": {"foo": "string"},
+                    "result": "string",
+                    "start_offset_ms": 0,
+                    "agent": {"custom_id": "customId", "roark_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+                    "description": "description",
+                    "end_offset_ms": 0,
+                }
+            ],
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_append_tool_invocations(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_append_tool_invocations(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.append_tool_invocations(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_invocations=[
+                {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallAppendToolInvocationsResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_append_tool_invocations(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            await async_client.call.with_raw_response.append_tool_invocations(
+                call_id="",
+                tool_invocations=[
+                    {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
+                ],
+            )
 
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:
