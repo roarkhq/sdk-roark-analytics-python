@@ -87,7 +87,8 @@ class CustomerFlowResource(SyncAPIResource):
         Args:
           graph: The conversation, as a graph of steps. At most 100 steps across at most 25
               paths. The variants come from the graph: one per path, so they are not sent
-              here.
+              here. A CUSTOMER_TURN describes what the simulated customer says and the persona
+              phrases it; a CUSTOMER_VERBATIM_TURN is said word for word.
 
           agent_ids: Agents this flow exercises. Optional for scripted flows.
 
@@ -586,7 +587,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         Args:
           graph: The conversation, as a graph of steps. At most 100 steps across at most 25
               paths. The variants come from the graph: one per path, so they are not sent
-              here.
+              here. A CUSTOMER_TURN describes what the simulated customer says and the persona
+              phrases it; a CUSTOMER_VERBATIM_TURN is said word for word.
 
           agent_ids: Agents this flow exercises. Optional for scripted flows.
 

@@ -17,6 +17,7 @@ class ConfigFlowStepParam(TypedDict, total=False):
             "AGENT_TURN",
             "CUSTOMER_TURN",
             "CUSTOMER_FIRST_MESSAGE",
+            "CUSTOMER_VERBATIM_TURN",
             "CUSTOMER_SILENCE",
             "CUSTOMER_DTMF",
             "AGENT_DTMF",
