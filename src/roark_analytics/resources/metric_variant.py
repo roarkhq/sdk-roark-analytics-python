@@ -157,7 +157,6 @@ class MetricVariantResource(SyncAPIResource):
             f"/v1/metric/definitions/{id_or_slug}/variants/{variant_id}",
             body=maybe_transform(
                 {
-                    "id_or_slug": id_or_slug,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,
@@ -426,7 +425,6 @@ class AsyncMetricVariantResource(AsyncAPIResource):
             f"/v1/metric/definitions/{id_or_slug}/variants/{variant_id}",
             body=await async_maybe_transform(
                 {
-                    "id_or_slug": id_or_slug,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,

@@ -95,7 +95,6 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
             f"/v1/customer-flow/{flow_id}/edge-case/{edge_case_id}",
             body=maybe_transform(
                 {
-                    "flow_id": flow_id,
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
                     "persona_override_id": persona_override_id,
@@ -315,7 +314,6 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
             f"/v1/customer-flow/{flow_id}/edge-case/{edge_case_id}",
             body=await async_maybe_transform(
                 {
-                    "flow_id": flow_id,
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
                     "persona_override_id": persona_override_id,
