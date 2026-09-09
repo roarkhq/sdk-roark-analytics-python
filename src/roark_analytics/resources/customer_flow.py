@@ -30,6 +30,7 @@ from ..types.customer_flow_list_response import CustomerFlowListResponse
 from ..types.customer_flow_create_response import CustomerFlowCreateResponse
 from ..types.customer_flow_delete_response import CustomerFlowDeleteResponse
 from ..types.customer_flow_update_response import CustomerFlowUpdateResponse
+from ..types.customer_flow_duplicate_response import CustomerFlowDuplicateResponse
 from ..types.customer_flow_get_by_id_response import CustomerFlowGetByIDResponse
 from ..types.customer_flow_replace_graph_response import CustomerFlowReplaceGraphResponse
 from ..types.customer_flow_update_happy_path_response import CustomerFlowUpdateHappyPathResponse
@@ -340,6 +341,45 @@ class CustomerFlowResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CustomerFlowDeleteResponse,
+        )
+
+    def duplicate(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerFlowDuplicateResponse:
+        """Deep-copies a flow into a new project-owned flow.
+
+        The copy carries the source's
+        description, branching mode, linked agents, flow-level expectations and
+        flow-owned metrics. A scripted flow copies its whole step graph; an improv flow
+        copies its variants (personas, briefs, expectations). Duplicating a
+        Roark-managed flow is how you customise it. Voicemail flows are Roark-managed
+        and cannot be duplicated.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._post(
+            f"/v1/customer-flow/{flow_id}/duplicate",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerFlowDuplicateResponse,
         )
 
     def get_by_id(
@@ -802,6 +842,45 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
             cast_to=CustomerFlowDeleteResponse,
         )
 
+    async def duplicate(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerFlowDuplicateResponse:
+        """Deep-copies a flow into a new project-owned flow.
+
+        The copy carries the source's
+        description, branching mode, linked agents, flow-level expectations and
+        flow-owned metrics. A scripted flow copies its whole step graph; an improv flow
+        copies its variants (personas, briefs, expectations). Duplicating a
+        Roark-managed flow is how you customise it. Voicemail flows are Roark-managed
+        and cannot be duplicated.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._post(
+            f"/v1/customer-flow/{flow_id}/duplicate",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerFlowDuplicateResponse,
+        )
+
     async def get_by_id(
         self,
         flow_id: str,
@@ -973,6 +1052,9 @@ class CustomerFlowResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             customer_flow.delete,
         )
+        self.duplicate = to_raw_response_wrapper(
+            customer_flow.duplicate,
+        )
         self.get_by_id = to_raw_response_wrapper(
             customer_flow.get_by_id,
         )
@@ -999,6 +1081,9 @@ class AsyncCustomerFlowResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             customer_flow.delete,
+        )
+        self.duplicate = async_to_raw_response_wrapper(
+            customer_flow.duplicate,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             customer_flow.get_by_id,
@@ -1027,6 +1112,9 @@ class CustomerFlowResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             customer_flow.delete,
         )
+        self.duplicate = to_streamed_response_wrapper(
+            customer_flow.duplicate,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             customer_flow.get_by_id,
         )
@@ -1053,6 +1141,9 @@ class AsyncCustomerFlowResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             customer_flow.delete,
+        )
+        self.duplicate = async_to_streamed_response_wrapper(
+            customer_flow.duplicate,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             customer_flow.get_by_id,

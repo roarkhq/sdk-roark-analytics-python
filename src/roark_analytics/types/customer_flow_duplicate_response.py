@@ -9,10 +9,9 @@ from .._models import BaseModel
 from .flow_step import FlowStep
 
 __all__ = [
-    "CustomerFlowListResponse",
+    "CustomerFlowDuplicateResponse",
     "ImprovCustomerFlow",
     "ImprovCustomerFlowEdgeCase",
-    "Pagination",
     "ScriptedCustomerFlow",
     "ScriptedCustomerFlowAgent",
     "ScriptedCustomerFlowAgentExpectation",
@@ -445,20 +444,6 @@ class VoicemailCustomerFlow(BaseModel):
     description: Optional[str] = None
 
 
-class Pagination(BaseModel):
-    has_more: bool = FieldInfo(alias="hasMore")
-    """Whether there are more items to fetch"""
-
-    next_cursor: Optional[str] = FieldInfo(alias="nextCursor")
-    """Cursor for the next page of items"""
-
-    total: float
-    """Total number of items"""
-
-
-class CustomerFlowListResponse(BaseModel):
-    """Paginated list of customer flows"""
-
-    data: List[Union[ScriptedCustomerFlow, ImprovCustomerFlow, VoicemailCustomerFlow]]
-
-    pagination: Pagination
+class CustomerFlowDuplicateResponse(BaseModel):
+    data: Union[ScriptedCustomerFlow, ImprovCustomerFlow, VoicemailCustomerFlow]
+    """The conversation a simulated customer has with the agent under test."""

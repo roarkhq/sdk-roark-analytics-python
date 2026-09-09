@@ -72,6 +72,7 @@ from .metric_create_definition_params import MetricCreateDefinitionParams as Met
 from .metric_update_definition_params import MetricUpdateDefinitionParams as MetricUpdateDefinitionParams
 from .metric_variant_get_by_id_params import MetricVariantGetByIDParams as MetricVariantGetByIDParams
 from .simulation_run_plan_list_params import SimulationRunPlanListParams as SimulationRunPlanListParams
+from .customer_flow_duplicate_response import CustomerFlowDuplicateResponse as CustomerFlowDuplicateResponse
 from .customer_flow_get_by_id_response import CustomerFlowGetByIDResponse as CustomerFlowGetByIDResponse
 from .metric_list_definitions_response import MetricListDefinitionsResponse as MetricListDefinitionsResponse
 from .metric_policy_get_by_id_response import MetricPolicyGetByIDResponse as MetricPolicyGetByIDResponse
@@ -104,7 +105,9 @@ from .simulation_run_plan_job_list_params import SimulationRunPlanJobListParams 
 from .simulation_run_plan_update_response import SimulationRunPlanUpdateResponse as SimulationRunPlanUpdateResponse
 from .customer_flow_edge_case_add_response import CustomerFlowEdgeCaseAddResponse as CustomerFlowEdgeCaseAddResponse
 from .customer_flow_replace_graph_response import CustomerFlowReplaceGraphResponse as CustomerFlowReplaceGraphResponse
+from .simulation_environment_create_params import SimulationEnvironmentCreateParams as SimulationEnvironmentCreateParams
 from .simulation_environment_list_response import SimulationEnvironmentListResponse as SimulationEnvironmentListResponse
+from .simulation_environment_update_params import SimulationEnvironmentUpdateParams as SimulationEnvironmentUpdateParams
 from .simulation_run_plan_job_start_params import SimulationRunPlanJobStartParams as SimulationRunPlanJobStartParams
 from .call_append_tool_invocations_response import (
     CallAppendToolInvocationsResponse as CallAppendToolInvocationsResponse,
@@ -130,6 +133,15 @@ from .customer_flow_edge_case_promote_params import (
 )
 from .customer_flow_update_happy_path_params import (
     CustomerFlowUpdateHappyPathParams as CustomerFlowUpdateHappyPathParams,
+)
+from .simulation_environment_create_response import (
+    SimulationEnvironmentCreateResponse as SimulationEnvironmentCreateResponse,
+)
+from .simulation_environment_delete_response import (
+    SimulationEnvironmentDeleteResponse as SimulationEnvironmentDeleteResponse,
+)
+from .simulation_environment_update_response import (
+    SimulationEnvironmentUpdateResponse as SimulationEnvironmentUpdateResponse,
 )
 from .simulation_run_plan_get_by_id_response import SimulationRunPlanGetByIDResponse as SimulationRunPlanGetByIDResponse
 from .simulation_run_plan_job_start_response import (

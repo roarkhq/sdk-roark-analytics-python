@@ -109,7 +109,7 @@ class PropertyVerificationMetricValuePropertyVerdict(BaseModel):
     property_name: str = FieldInfo(alias="propertyName")
     """The call property checked, as sent at ingest"""
 
-    verdict: Literal["MATCH", "MISMATCH", "NOT_MENTIONED"]
+    verdict: Literal["MATCH", "MISMATCH", "TRANSCRIPTION_ERROR", "NOT_MENTIONED"]
     """
     How this property resolved against the transcript. NOT_MENTIONED means the
     subject never came up and is not a mismatch.
