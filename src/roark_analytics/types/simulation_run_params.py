@@ -342,7 +342,8 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     end_call_reasons: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallReasons")]
     """
     Semantic conditions that trigger end of call. The LLM evaluates the conversation
-    against these conditions. Empty array disables the feature.
+    against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+    returned by GET /v1/simulation/template. Pass an empty array to run with none.
     """
 
     enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]

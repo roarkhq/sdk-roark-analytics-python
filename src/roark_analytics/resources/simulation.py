@@ -217,7 +217,8 @@ class SimulationResource(SyncAPIResource):
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
-              against these conditions. Empty array disables the feature.
+              against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+              returned by GET /v1/simulation/template. Pass an empty array to run with none.
 
           enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
               metrics can be scored against the live leg as well as the simulated one. This is
@@ -529,7 +530,8 @@ class AsyncSimulationResource(AsyncAPIResource):
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
           end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
-              against these conditions. Empty array disables the feature.
+              against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+              returned by GET /v1/simulation/template. Pass an empty array to run with none.
 
           enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
               metrics can be scored against the live leg as well as the simulated one. This is
