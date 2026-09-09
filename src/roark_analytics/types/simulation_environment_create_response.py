@@ -1,13 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationEnvironmentListResponse", "Data", "Pagination"]
+__all__ = ["SimulationEnvironmentCreateResponse", "Data"]
 
 
 class Data(BaseModel):
@@ -36,23 +36,10 @@ class Data(BaseModel):
     description: Optional[str] = None
 
 
-class Pagination(BaseModel):
-    has_more: bool = FieldInfo(alias="hasMore")
-    """Whether there are more items to fetch"""
-
-    next_cursor: Optional[str] = FieldInfo(alias="nextCursor")
-    """Cursor for the next page of items"""
-
-    total: float
-    """Total number of items"""
-
-
-class SimulationEnvironmentListResponse(BaseModel):
+class SimulationEnvironmentCreateResponse(BaseModel):
+    data: Data
     """
-    Paginated list of environments: the project's own plus the shared Roark-curated
-    ones
+    A simulation environment: the ambient conditions a customer flow variant runs
+    under. The list includes both your own and the ones Roark curates for every
+    project.
     """
-
-    data: List[Data]
-
-    pagination: Pagination

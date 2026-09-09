@@ -15,6 +15,7 @@ from roark_analytics.types import (
     CustomerFlowDeleteResponse,
     CustomerFlowUpdateResponse,
     CustomerFlowGetByIDResponse,
+    CustomerFlowDuplicateResponse,
     CustomerFlowReplaceGraphResponse,
     CustomerFlowUpdateHappyPathResponse,
 )
@@ -330,6 +331,47 @@ class TestCustomerFlow:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
             client.customer_flow.with_raw_response.delete(
                 "",
+            )
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    def test_method_duplicate(self, client: Roark) -> None:
+        customer_flow = client.customer_flow.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    def test_raw_response_duplicate(self, client: Roark) -> None:
+        response = client.customer_flow.with_raw_response.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        customer_flow = response.parse()
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    def test_streaming_response_duplicate(self, client: Roark) -> None:
+        with client.customer_flow.with_streaming_response.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            customer_flow = response.parse()
+            assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_duplicate(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            client.customer_flow.with_raw_response.duplicate(
+                flow_id="",
             )
 
     @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
@@ -831,6 +873,47 @@ class TestAsyncCustomerFlow:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
             await async_client.customer_flow.with_raw_response.delete(
                 "",
+            )
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    async def test_method_duplicate(self, async_client: AsyncRoark) -> None:
+        customer_flow = await async_client.customer_flow.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    async def test_raw_response_duplicate(self, async_client: AsyncRoark) -> None:
+        response = await async_client.customer_flow.with_raw_response.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        customer_flow = await response.parse()
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    async def test_streaming_response_duplicate(self, async_client: AsyncRoark) -> None:
+        async with async_client.customer_flow.with_streaming_response.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            customer_flow = await response.parse()
+            assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_duplicate(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            await async_client.customer_flow.with_raw_response.duplicate(
+                flow_id="",
             )
 
     @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
