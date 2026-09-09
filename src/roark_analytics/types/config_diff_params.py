@@ -30,6 +30,9 @@ __all__ = [
     "MetricConfigScaleLabel",
     "PersonaConfig",
     "ScriptedFlowConfig",
+    "SimulationPlanConfig",
+    "SimulationPlanConfigAgentEndpoint",
+    "SimulationPlanConfigFlow",
 ]
 
 
@@ -328,6 +331,62 @@ class MetricConfig(TypedDict, total=False):
     true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
 
 
+class SimulationPlanConfigAgentEndpoint(TypedDict, total=False):
+    agent: Required[str]
+
+    value: str
+
+
+class SimulationPlanConfigFlow(TypedDict, total=False):
+    edge_cases: Annotated[SequenceNotStr[str], PropertyInfo(alias="edgeCases")]
+
+    flow: str
+
+    happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
+
+    persona_override: Annotated[str, PropertyInfo(alias="personaOverride")]
+
+    system: str
+
+
+class SimulationPlanConfig(TypedDict, total=False):
+    agent_endpoints: Required[
+        Annotated[Iterable[SimulationPlanConfigAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
+    ]
+
+    direction: Required[Literal["INBOUND", "OUTBOUND"]]
+
+    flows: Required[Iterable[SimulationPlanConfigFlow]]
+
+    kind: Required[Literal["simulationPlan"]]
+
+    max_duration_seconds: Required[Annotated[int, PropertyInfo(alias="maxDurationSeconds")]]
+
+    metrics: Required[SequenceNotStr[str]]
+
+    name: Required[str]
+
+    description: Optional[str]
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+
+    end_call_reasons: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallReasons")]
+
+    enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]
+
+    execution_mode: Annotated[
+        Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
+    ]
+
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+
+    iterations: int
+
+    max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
+
+    silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
+
+
 class AlertThresholdTrigger(TypedDict, total=False):
     aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]]
 
@@ -387,7 +446,7 @@ class AlertSimulationTrigger(TypedDict, total=False):
 
     delivery_format: Annotated[Literal["MESSAGE", "PDF"], PropertyInfo(alias="deliveryFormat")]
 
-    run_plan: Annotated[str, PropertyInfo(alias="runPlan")]
+    plan: str
 
 
 class AlertConfigActionSlack(TypedDict, total=False):
@@ -424,6 +483,7 @@ class ConfigDiffParams(TypedDict, total=False):
                 ScriptedFlowConfig,
                 CollectorConfig,
                 MetricConfig,
+                SimulationPlanConfig,
                 AlertConfig,
             ]
         ]
