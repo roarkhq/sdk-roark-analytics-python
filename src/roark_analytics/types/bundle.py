@@ -29,6 +29,9 @@ __all__ = [
     "MetricConfigScaleLabel",
     "PersonaConfig",
     "ScriptedFlowConfig",
+    "SimulationPlanConfig",
+    "SimulationPlanConfigAgentEndpoint",
+    "SimulationPlanConfigFlow",
 ]
 
 
@@ -322,6 +325,60 @@ class MetricConfig(BaseModel):
     true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
 
 
+class SimulationPlanConfigAgentEndpoint(BaseModel):
+    agent: str
+
+    value: Optional[str] = None
+
+
+class SimulationPlanConfigFlow(BaseModel):
+    edge_cases: Optional[List[str]] = FieldInfo(alias="edgeCases", default=None)
+
+    flow: Optional[str] = None
+
+    happy_path: Optional[bool] = FieldInfo(alias="happyPath", default=None)
+
+    persona_override: Optional[str] = FieldInfo(alias="personaOverride", default=None)
+
+    system: Optional[str] = None
+
+
+class SimulationPlanConfig(BaseModel):
+    agent_endpoints: List[SimulationPlanConfigAgentEndpoint] = FieldInfo(alias="agentEndpoints")
+
+    direction: Literal["INBOUND", "OUTBOUND"]
+
+    flows: List[SimulationPlanConfigFlow]
+
+    kind: Literal["simulationPlan"]
+
+    max_duration_seconds: int = FieldInfo(alias="maxDurationSeconds")
+
+    metrics: List[str]
+
+    name: str
+
+    description: Optional[str] = None
+
+    end_call_phrases: Optional[List[str]] = FieldInfo(alias="endCallPhrases", default=None)
+
+    end_call_reasons: Optional[List[str]] = FieldInfo(alias="endCallReasons", default=None)
+
+    enrich_with_live_conversation: Optional[bool] = FieldInfo(alias="enrichWithLiveConversation", default=None)
+
+    execution_mode: Optional[Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"]] = FieldInfo(
+        alias="executionMode", default=None
+    )
+
+    include_flow_metrics: Optional[bool] = FieldInfo(alias="includeFlowMetrics", default=None)
+
+    iterations: Optional[int] = None
+
+    max_concurrent_jobs: Optional[int] = FieldInfo(alias="maxConcurrentJobs", default=None)
+
+    silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
+
+
 class AlertThresholdTrigger(BaseModel):
     aggregation: Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]
 
@@ -379,7 +436,7 @@ class AlertSimulationTrigger(BaseModel):
 
     delivery_format: Optional[Literal["MESSAGE", "PDF"]] = FieldInfo(alias="deliveryFormat", default=None)
 
-    run_plan: Optional[str] = FieldInfo(alias="runPlan", default=None)
+    plan: Optional[str] = None
 
 
 class AlertConfigActionSlack(BaseModel):
@@ -409,7 +466,14 @@ class AlertConfig(BaseModel):
 class Bundle(BaseModel):
     resources: List[
         Union[
-            AgentConfig, PersonaConfig, ImprovFlowConfig, ScriptedFlowConfig, CollectorConfig, MetricConfig, AlertConfig
+            AgentConfig,
+            PersonaConfig,
+            ImprovFlowConfig,
+            ScriptedFlowConfig,
+            CollectorConfig,
+            MetricConfig,
+            SimulationPlanConfig,
+            AlertConfig,
         ]
     ]
 

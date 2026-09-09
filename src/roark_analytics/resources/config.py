@@ -55,6 +55,7 @@ class ConfigResource(SyncAPIResource):
                 config_apply_params.ScriptedFlowConfig,
                 config_apply_params.CollectorConfig,
                 config_apply_params.MetricConfig,
+                config_apply_params.SimulationPlanConfig,
                 config_apply_params.AlertConfig,
             ]
         ],
@@ -108,6 +109,7 @@ class ConfigResource(SyncAPIResource):
                 config_diff_params.ScriptedFlowConfig,
                 config_diff_params.CollectorConfig,
                 config_diff_params.MetricConfig,
+                config_diff_params.SimulationPlanConfig,
                 config_diff_params.AlertConfig,
             ]
         ],
@@ -181,6 +183,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_apply_params.ScriptedFlowConfig,
                 config_apply_params.CollectorConfig,
                 config_apply_params.MetricConfig,
+                config_apply_params.SimulationPlanConfig,
                 config_apply_params.AlertConfig,
             ]
         ],
@@ -234,6 +237,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_diff_params.ScriptedFlowConfig,
                 config_diff_params.CollectorConfig,
                 config_diff_params.MetricConfig,
+                config_diff_params.SimulationPlanConfig,
                 config_diff_params.AlertConfig,
             ]
         ],
