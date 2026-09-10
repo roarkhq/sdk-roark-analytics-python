@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import httpx
 
+from ..types import agent_prompt_update_params
 from .._types import Body, Query, Headers, NotGiven, not_given
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -15,6 +17,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.agent_prompt_list_response import AgentPromptListResponse
+from ..types.agent_prompt_update_response import AgentPromptUpdateResponse
 from ..types.agent_prompt_list_versions_response import AgentPromptListVersionsResponse
 
 __all__ = ["AgentPromptResource", "AsyncAgentPromptResource"]
@@ -39,6 +42,48 @@ class AgentPromptResource(SyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return AgentPromptResourceWithStreamingResponse(self)
+
+    def update(
+        self,
+        agent_id: str,
+        *,
+        prompt: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentPromptUpdateResponse:
+        """Sets the agent's API-managed prompt.
+
+        This is its own version history (`source:
+        API_MANAGED`), separate from prompts observed on calls, edited in the app, or
+        managed by config-as-code. Setting the same content twice is a no-op (no new
+        version). Roark does not run your agent and no metric reads this prompt: it is
+        stored and versioned for your reference.
+
+        Args:
+          prompt: The prompt content to set.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return self._put(
+            f"/v1/agent/{agent_id}/prompts",
+            body=maybe_transform({"prompt": prompt}, agent_prompt_update_params.AgentPromptUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentPromptUpdateResponse,
+        )
 
     def list(
         self,
@@ -133,6 +178,48 @@ class AsyncAgentPromptResource(AsyncAPIResource):
         """
         return AsyncAgentPromptResourceWithStreamingResponse(self)
 
+    async def update(
+        self,
+        agent_id: str,
+        *,
+        prompt: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentPromptUpdateResponse:
+        """Sets the agent's API-managed prompt.
+
+        This is its own version history (`source:
+        API_MANAGED`), separate from prompts observed on calls, edited in the app, or
+        managed by config-as-code. Setting the same content twice is a no-op (no new
+        version). Roark does not run your agent and no metric reads this prompt: it is
+        stored and versioned for your reference.
+
+        Args:
+          prompt: The prompt content to set.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        return await self._put(
+            f"/v1/agent/{agent_id}/prompts",
+            body=await async_maybe_transform({"prompt": prompt}, agent_prompt_update_params.AgentPromptUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentPromptUpdateResponse,
+        )
+
     async def list(
         self,
         agent_id: str,
@@ -210,6 +297,9 @@ class AgentPromptResourceWithRawResponse:
     def __init__(self, agent_prompt: AgentPromptResource) -> None:
         self._agent_prompt = agent_prompt
 
+        self.update = to_raw_response_wrapper(
+            agent_prompt.update,
+        )
         self.list = to_raw_response_wrapper(
             agent_prompt.list,
         )
@@ -222,6 +312,9 @@ class AsyncAgentPromptResourceWithRawResponse:
     def __init__(self, agent_prompt: AsyncAgentPromptResource) -> None:
         self._agent_prompt = agent_prompt
 
+        self.update = async_to_raw_response_wrapper(
+            agent_prompt.update,
+        )
         self.list = async_to_raw_response_wrapper(
             agent_prompt.list,
         )
@@ -234,6 +327,9 @@ class AgentPromptResourceWithStreamingResponse:
     def __init__(self, agent_prompt: AgentPromptResource) -> None:
         self._agent_prompt = agent_prompt
 
+        self.update = to_streamed_response_wrapper(
+            agent_prompt.update,
+        )
         self.list = to_streamed_response_wrapper(
             agent_prompt.list,
         )
@@ -246,6 +342,9 @@ class AsyncAgentPromptResourceWithStreamingResponse:
     def __init__(self, agent_prompt: AsyncAgentPromptResource) -> None:
         self._agent_prompt = agent_prompt
 
+        self.update = async_to_streamed_response_wrapper(
+            agent_prompt.update,
+        )
         self.list = async_to_streamed_response_wrapper(
             agent_prompt.list,
         )
