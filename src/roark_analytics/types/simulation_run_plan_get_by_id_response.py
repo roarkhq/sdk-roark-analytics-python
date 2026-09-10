@@ -142,6 +142,13 @@ class Data(BaseModel):
     own list.
     """
 
+    is_config_managed: bool = FieldInfo(alias="isConfigManaged")
+    """
+    Whether this plan is managed by config as code. A managed plan is reconciled
+    from your config: PUT and DELETE on it return 409, and changes belong in the
+    config file.
+    """
+
     iteration_count: int = FieldInfo(alias="iterationCount")
     """Number of iterations to run for each test case"""
 
