@@ -324,6 +324,19 @@ Methods:
 - <code title="get /v1/agent/endpoint">client.agent_endpoint.<a href="./src/roark_analytics/resources/agent_endpoint.py">list</a>(\*\*<a href="src/roark_analytics/types/agent_endpoint_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_endpoint_list_response.py">AgentEndpointListResponse</a></code>
 - <code title="get /v1/agent/endpoint/{endpointId}">client.agent_endpoint.<a href="./src/roark_analytics/resources/agent_endpoint.py">get_by_id</a>(endpoint_id) -> <a href="./src/roark_analytics/types/agent_endpoint_get_by_id_response.py">AgentEndpointGetByIDResponse</a></code>
 
+# AgentPrompt
+
+Types:
+
+```python
+from roark_analytics.types import AgentPromptListResponse, AgentPromptListVersionsResponse
+```
+
+Methods:
+
+- <code title="get /v1/agent/{agentId}/prompts">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_prompt_list_response.py">AgentPromptListResponse</a></code>
+- <code title="get /v1/agent/{agentId}/prompts/{promptId}/versions">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list_versions</a>(prompt_id, \*\*<a href="src/roark_analytics/types/agent_prompt_list_versions_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_prompt_list_versions_response.py">AgentPromptListVersionsResponse</a></code>
+
 # HTTPRequestDefinition
 
 Types:
