@@ -334,6 +334,8 @@ class MetricConfig(TypedDict, total=False):
 class SimulationPlanConfigAgentEndpoint(TypedDict, total=False):
     agent: Required[str]
 
+    direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
+
     value: str
 
 

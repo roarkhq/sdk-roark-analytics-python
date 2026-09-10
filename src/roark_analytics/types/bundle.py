@@ -328,6 +328,8 @@ class MetricConfig(BaseModel):
 class SimulationPlanConfigAgentEndpoint(BaseModel):
     agent: str
 
+    direction: Optional[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]] = None
+
     value: Optional[str] = None
 
 
