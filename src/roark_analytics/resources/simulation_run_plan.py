@@ -67,6 +67,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -124,6 +125,16 @@ class SimulationRunPlanResource(SyncAPIResource):
           flows: Customer flows to include in this run plan. The same flow can appear more than
               once with a different persona override or different variables.
 
+          include_automatic_metrics: Let the run add metrics by itself off the attached flows, on top of the
+              `metrics` named here. Two attach this way today: Agent Expectations wherever an
+              attached flow has agent expectations written on it, and Keypad Entry wherever
+              one has steps where the agent is expected to press keys. Both grade something
+              authored on the flow that nothing else measures, which is why it is on by
+              default. Set false when the `metrics` list is meant to be exhaustive: a plan
+              testing only whether the caller can complete the flow may not want the agent
+              graded on its expectations as well. False also pins the plan against any
+              automatic metric Roark adds later.
+
           include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
               here. Default true, which is what you want when you brought your own flows and
               their graders. Set false for a run whose metric list is meant to be exhaustive:
@@ -168,6 +179,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_automatic_metrics": include_automatic_metrics,
                     "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -195,6 +207,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -234,6 +247,9 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          include_automatic_metrics: Whether to let the run add metrics by itself off the attached flows. See `POST
+              /v1/simulation/plan`.
 
           include_flow_metrics: Whether to also collect each attached flow's own metrics, on top of this plan's
               list.
@@ -284,6 +300,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_automatic_metrics": include_automatic_metrics,
                     "include_flow_metrics": include_flow_metrics,
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
@@ -461,6 +478,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
@@ -518,6 +536,16 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           flows: Customer flows to include in this run plan. The same flow can appear more than
               once with a different persona override or different variables.
 
+          include_automatic_metrics: Let the run add metrics by itself off the attached flows, on top of the
+              `metrics` named here. Two attach this way today: Agent Expectations wherever an
+              attached flow has agent expectations written on it, and Keypad Entry wherever
+              one has steps where the agent is expected to press keys. Both grade something
+              authored on the flow that nothing else measures, which is why it is on by
+              default. Set false when the `metrics` list is meant to be exhaustive: a plan
+              testing only whether the caller can complete the flow may not want the agent
+              graded on its expectations as well. False also pins the plan against any
+              automatic metric Roark adds later.
+
           include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
               here. Default true, which is what you want when you brought your own flows and
               their graders. Set false for a run whose metric list is meant to be exhaustive:
@@ -562,6 +590,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_automatic_metrics": include_automatic_metrics,
                     "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
@@ -589,6 +618,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_plan_update_params.Flow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
@@ -628,6 +658,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           flows: Replaces the customer flows attached to this run plan. Omit to leave them
               unchanged; send an empty array to detach them all.
+
+          include_automatic_metrics: Whether to let the run add metrics by itself off the attached flows. See `POST
+              /v1/simulation/plan`.
 
           include_flow_metrics: Whether to also collect each attached flow's own metrics, on top of this plan's
               list.
@@ -678,6 +711,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "enrich_with_live_conversation": enrich_with_live_conversation,
                     "execution_mode": execution_mode,
                     "flows": flows,
+                    "include_automatic_metrics": include_automatic_metrics,
                     "include_flow_metrics": include_flow_metrics,
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,

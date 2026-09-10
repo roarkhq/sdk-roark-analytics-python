@@ -36,13 +36,13 @@ __all__ = [
 
 
 class AgentConfigEndpoint(BaseModel):
-    direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
-
-    name: str
-
     value: str
 
+    direction: Optional[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]] = None
+
     environment: Optional[str] = None
+
+    type: Optional[Literal["PHONE", "WEBSOCKET"]] = None
 
 
 class AgentConfig(BaseModel):
@@ -371,6 +371,8 @@ class SimulationPlanConfig(BaseModel):
     execution_mode: Optional[Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"]] = FieldInfo(
         alias="executionMode", default=None
     )
+
+    include_automatic_metrics: Optional[bool] = FieldInfo(alias="includeAutomaticMetrics", default=None)
 
     include_flow_metrics: Optional[bool] = FieldInfo(alias="includeFlowMetrics", default=None)
 

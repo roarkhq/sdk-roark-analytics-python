@@ -36,7 +36,9 @@ class TestConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
-                    "endpoints": [{"direction": "INCOMING", "name": "x", "value": "x", "environment": "environment"}],
+                    "endpoints": [
+                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                    ],
                 }
             ],
             prune=True,
@@ -83,7 +85,9 @@ class TestConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
-                    "endpoints": [{"direction": "INCOMING", "name": "x", "value": "x", "environment": "environment"}],
+                    "endpoints": [
+                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                    ],
                 }
             ],
             prune=True,
@@ -136,7 +140,9 @@ class TestAsyncConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
-                    "endpoints": [{"direction": "INCOMING", "name": "x", "value": "x", "environment": "environment"}],
+                    "endpoints": [
+                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                    ],
                 }
             ],
             prune=True,
@@ -183,7 +189,9 @@ class TestAsyncConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
-                    "endpoints": [{"direction": "INCOMING", "name": "x", "value": "x", "environment": "environment"}],
+                    "endpoints": [
+                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                    ],
                 }
             ],
             prune=True,
