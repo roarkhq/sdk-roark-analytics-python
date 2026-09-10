@@ -65,6 +65,7 @@ class TestSimulationRunPlan:
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
+            include_automatic_metrics=True,
             include_flow_metrics=True,
             iteration_count=1,
             max_concurrent_jobs=5,
@@ -139,6 +140,7 @@ class TestSimulationRunPlan:
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
+            include_automatic_metrics=True,
             include_flow_metrics=True,
             is_hidden=True,
             iteration_count=1,
@@ -354,6 +356,7 @@ class TestAsyncSimulationRunPlan:
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
+            include_automatic_metrics=True,
             include_flow_metrics=True,
             iteration_count=1,
             max_concurrent_jobs=5,
@@ -428,6 +431,7 @@ class TestAsyncSimulationRunPlan:
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
                 }
             ],
+            include_automatic_metrics=True,
             include_flow_metrics=True,
             is_hidden=True,
             iteration_count=1,

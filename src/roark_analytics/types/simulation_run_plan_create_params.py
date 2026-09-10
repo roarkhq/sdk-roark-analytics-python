@@ -170,6 +170,20 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     once with a different persona override or different variables.
     """
 
+    include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]
+    """
+    Let the run add metrics by itself off the attached flows, on top of the
+    `metrics` named here.
+    Two attach this way today: Agent Expectations wherever an attached flow has
+    agent expectations written on it, and Keypad Entry wherever one has steps where
+    the agent is expected to press keys. Both grade something authored on the flow
+    that nothing else measures, which is why it is on by default.
+    Set false when the `metrics` list is meant to be exhaustive: a plan testing only
+    whether the caller can complete the flow may not want the agent graded on its
+    expectations as well. False also pins the plan against any automatic metric
+    Roark adds later.
+    """
+
     include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
     """
     Also collect each attached flow's own metrics, on top of the `metrics` named

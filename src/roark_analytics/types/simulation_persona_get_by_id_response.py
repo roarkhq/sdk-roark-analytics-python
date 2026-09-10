@@ -137,6 +137,13 @@ class Data(BaseModel):
     description: Optional[str] = None
     """Human-readable description of the persona"""
 
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+    """
+    Label shown in place of the name across the dashboard (e.g. a short descriptor
+    like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+    or set null to display the name itself.
+    """
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 

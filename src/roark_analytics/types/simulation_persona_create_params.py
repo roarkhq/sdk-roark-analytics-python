@@ -84,6 +84,13 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     description: Optional[str]
     """Human-readable description of the persona"""
 
+    display_name: Annotated[Optional[str], PropertyInfo(alias="displayName")]
+    """
+    Label shown in place of the name across the dashboard (e.g. a short descriptor
+    like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+    or set null to display the name itself.
+    """
+
     has_disfluencies: Annotated[bool, PropertyInfo(alias="hasDisfluencies")]
     """
     Whether the persona uses filler words like "um" and "uh"
