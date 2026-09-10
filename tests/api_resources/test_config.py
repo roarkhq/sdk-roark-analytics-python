@@ -39,6 +39,7 @@ class TestConfig:
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
+                    "prompt": "prompt",
                 }
             ],
             prune=True,
@@ -88,6 +89,7 @@ class TestConfig:
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
+                    "prompt": "prompt",
                 }
             ],
             prune=True,
@@ -143,6 +145,7 @@ class TestAsyncConfig:
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
+                    "prompt": "prompt",
                 }
             ],
             prune=True,
@@ -192,6 +195,7 @@ class TestAsyncConfig:
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
+                    "prompt": "prompt",
                 }
             ],
             prune=True,

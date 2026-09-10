@@ -56,6 +56,8 @@ class AgentConfig(BaseModel):
 
     endpoints: Optional[List[AgentConfigEndpoint]] = None
 
+    prompt: Optional[str] = None
+
 
 class PersonaConfig(BaseModel):
     accent: Literal[
