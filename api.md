@@ -329,11 +329,16 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import AgentPromptListResponse, AgentPromptListVersionsResponse
+from roark_analytics.types import (
+    AgentPromptUpdateResponse,
+    AgentPromptListResponse,
+    AgentPromptListVersionsResponse,
+)
 ```
 
 Methods:
 
+- <code title="put /v1/agent/{agentId}/prompts">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">update</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_prompt_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_prompt_update_response.py">AgentPromptUpdateResponse</a></code>
 - <code title="get /v1/agent/{agentId}/prompts">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_prompt_list_response.py">AgentPromptListResponse</a></code>
 - <code title="get /v1/agent/{agentId}/prompts/{promptId}/versions">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list_versions</a>(prompt_id, \*\*<a href="src/roark_analytics/types/agent_prompt_list_versions_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_prompt_list_versions_response.py">AgentPromptListVersionsResponse</a></code>
 
