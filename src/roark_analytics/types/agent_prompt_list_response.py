@@ -33,6 +33,7 @@ class Data(BaseModel):
         "LIVEKIT_SELF_HOSTED_INTEGRATION",
         "API",
         "CONFIG",
+        "API_MANAGED",
     ]
     """
     Where this prompt came from: USER (edited in the app), API (provided via the API

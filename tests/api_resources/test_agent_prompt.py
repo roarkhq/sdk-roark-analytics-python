@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     AgentPromptListResponse,
+    AgentPromptUpdateResponse,
     AgentPromptListVersionsResponse,
 )
 
@@ -19,6 +20,48 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestAgentPrompt:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_update(self, client: Roark) -> None:
+        agent_prompt = client.agent_prompt.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        )
+        assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+    @parametrize
+    def test_raw_response_update(self, client: Roark) -> None:
+        response = client.agent_prompt.with_raw_response.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent_prompt = response.parse()
+        assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update(self, client: Roark) -> None:
+        with client.agent_prompt.with_streaming_response.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent_prompt = response.parse()
+            assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agent_prompt.with_raw_response.update(
+                agent_id="",
+                prompt="x",
+            )
 
     @parametrize
     def test_method_list(self, client: Roark) -> None:
@@ -111,6 +154,48 @@ class TestAsyncAgentPrompt:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
+
+    @parametrize
+    async def test_method_update(self, async_client: AsyncRoark) -> None:
+        agent_prompt = await async_client.agent_prompt.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        )
+        assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncRoark) -> None:
+        response = await async_client.agent_prompt.with_raw_response.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent_prompt = await response.parse()
+        assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncRoark) -> None:
+        async with async_client.agent_prompt.with_streaming_response.update(
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            prompt="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent_prompt = await response.parse()
+            assert_matches_type(AgentPromptUpdateResponse, agent_prompt, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agent_prompt.with_raw_response.update(
+                agent_id="",
+                prompt="x",
+            )
 
     @parametrize
     async def test_method_list(self, async_client: AsyncRoark) -> None:
