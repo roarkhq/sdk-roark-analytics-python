@@ -37,13 +37,13 @@ __all__ = [
 
 
 class AgentConfigEndpoint(TypedDict, total=False):
-    direction: Required[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]]
-
-    name: Required[str]
-
     value: Required[str]
 
+    direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
+
     environment: str
+
+    type: Literal["PHONE", "WEBSOCKET"]
 
 
 class AgentConfig(TypedDict, total=False):
@@ -379,6 +379,8 @@ class SimulationPlanConfig(TypedDict, total=False):
     execution_mode: Annotated[
         Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
     ]
+
+    include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]
 
     include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
 

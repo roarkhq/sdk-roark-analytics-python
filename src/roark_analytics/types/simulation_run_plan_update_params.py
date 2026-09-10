@@ -144,6 +144,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     unchanged; send an empty array to detach them all.
     """
 
+    include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]
+    """
+    Whether to let the run add metrics by itself off the attached flows. See `POST
+    /v1/simulation/plan`.
+    """
+
     include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
     """
     Whether to also collect each attached flow's own metrics, on top of this plan's

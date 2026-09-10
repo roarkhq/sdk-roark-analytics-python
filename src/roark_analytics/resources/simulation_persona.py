@@ -90,6 +90,7 @@ class SimulationPersonaResource(SyncAPIResource):
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        display_name: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
@@ -158,6 +159,10 @@ class SimulationPersonaResource(SyncAPIResource):
 
           description: Human-readable description of the persona
 
+          display_name: Label shown in place of the name across the dashboard (e.g. a short descriptor
+              like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+              or set null to display the name itself.
+
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
@@ -209,6 +214,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "description": description,
+                    "display_name": display_name,
                     "has_disfluencies": has_disfluencies,
                     "idle_message_max_spoken_count": idle_message_max_spoken_count,
                     "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
@@ -271,6 +277,7 @@ class SimulationPersonaResource(SyncAPIResource):
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        display_name: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
@@ -339,6 +346,10 @@ class SimulationPersonaResource(SyncAPIResource):
 
           description: Human-readable description of the persona
 
+          display_name: Label shown in place of the name across the dashboard (e.g. a short descriptor
+              like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+              or set null to display the name itself.
+
           gender: Gender of the persona
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
@@ -395,6 +406,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "description": description,
+                    "display_name": display_name,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "idle_message_max_spoken_count": idle_message_max_spoken_count,
@@ -561,6 +573,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        display_name: Optional[str] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
         idle_message_reset_count_on_user_speech_enabled: bool | Omit = omit,
@@ -629,6 +642,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           description: Human-readable description of the persona
 
+          display_name: Label shown in place of the name across the dashboard (e.g. a short descriptor
+              like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+              or set null to display the name itself.
+
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
 
           idle_message_max_spoken_count: Maximum number of idle messages the persona will send before giving up
@@ -680,6 +697,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "description": description,
+                    "display_name": display_name,
                     "has_disfluencies": has_disfluencies,
                     "idle_message_max_spoken_count": idle_message_max_spoken_count,
                     "idle_message_reset_count_on_user_speech_enabled": idle_message_reset_count_on_user_speech_enabled,
@@ -742,6 +760,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        display_name: Optional[str] | Omit = omit,
         gender: Literal["MALE", "FEMALE"] | Omit = omit,
         has_disfluencies: bool | Omit = omit,
         idle_message_max_spoken_count: int | Omit = omit,
@@ -810,6 +829,10 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           description: Human-readable description of the persona
 
+          display_name: Label shown in place of the name across the dashboard (e.g. a short descriptor
+              like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
+              or set null to display the name itself.
+
           gender: Gender of the persona
 
           has_disfluencies: Whether the persona uses filler words like "um" and "uh"
@@ -866,6 +889,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "base_emotion": base_emotion,
                     "confirmation_style": confirmation_style,
                     "description": description,
+                    "display_name": display_name,
                     "gender": gender,
                     "has_disfluencies": has_disfluencies,
                     "idle_message_max_spoken_count": idle_message_max_spoken_count,
