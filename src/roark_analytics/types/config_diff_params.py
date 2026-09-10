@@ -57,6 +57,8 @@ class AgentConfig(TypedDict, total=False):
 
     endpoints: Iterable[AgentConfigEndpoint]
 
+    prompt: Optional[str]
+
 
 class PersonaConfig(TypedDict, total=False):
     accent: Required[

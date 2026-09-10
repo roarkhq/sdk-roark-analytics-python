@@ -39,6 +39,7 @@ if TYPE_CHECKING:
         metric,
         webhook,
         simulation,
+        agent_prompt,
         customer_flow,
         metric_policy,
         agent_endpoint,
@@ -60,6 +61,7 @@ if TYPE_CHECKING:
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
@@ -233,6 +235,12 @@ class Roark(SyncAPIClient):
         from .resources.agent_endpoint import AgentEndpointResource
 
         return AgentEndpointResource(self)
+
+    @cached_property
+    def agent_prompt(self) -> AgentPromptResource:
+        from .resources.agent_prompt import AgentPromptResource
+
+        return AgentPromptResource(self)
 
     @cached_property
     def http_request_definition(self) -> HTTPRequestDefinitionResource:
@@ -523,6 +531,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncAgentEndpointResource(self)
 
     @cached_property
+    def agent_prompt(self) -> AsyncAgentPromptResource:
+        from .resources.agent_prompt import AsyncAgentPromptResource
+
+        return AsyncAgentPromptResource(self)
+
+    @cached_property
     def http_request_definition(self) -> AsyncHTTPRequestDefinitionResource:
         from .resources.http_request_definition import AsyncHTTPRequestDefinitionResource
 
@@ -762,6 +776,12 @@ class RoarkWithRawResponse:
         return AgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
 
     @cached_property
+    def agent_prompt(self) -> agent_prompt.AgentPromptResourceWithRawResponse:
+        from .resources.agent_prompt import AgentPromptResourceWithRawResponse
+
+        return AgentPromptResourceWithRawResponse(self._client.agent_prompt)
+
+    @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithRawResponse:
         from .resources.http_request_definition import HTTPRequestDefinitionResourceWithRawResponse
 
@@ -887,6 +907,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.agent_endpoint import AsyncAgentEndpointResourceWithRawResponse
 
         return AsyncAgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def agent_prompt(self) -> agent_prompt.AsyncAgentPromptResourceWithRawResponse:
+        from .resources.agent_prompt import AsyncAgentPromptResourceWithRawResponse
+
+        return AsyncAgentPromptResourceWithRawResponse(self._client.agent_prompt)
 
     @cached_property
     def http_request_definition(self) -> http_request_definition.AsyncHTTPRequestDefinitionResourceWithRawResponse:
@@ -1016,6 +1042,12 @@ class RoarkWithStreamedResponse:
         return AgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
 
     @cached_property
+    def agent_prompt(self) -> agent_prompt.AgentPromptResourceWithStreamingResponse:
+        from .resources.agent_prompt import AgentPromptResourceWithStreamingResponse
+
+        return AgentPromptResourceWithStreamingResponse(self._client.agent_prompt)
+
+    @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithStreamingResponse:
         from .resources.http_request_definition import HTTPRequestDefinitionResourceWithStreamingResponse
 
@@ -1141,6 +1173,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.agent_endpoint import AsyncAgentEndpointResourceWithStreamingResponse
 
         return AsyncAgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
+
+    @cached_property
+    def agent_prompt(self) -> agent_prompt.AsyncAgentPromptResourceWithStreamingResponse:
+        from .resources.agent_prompt import AsyncAgentPromptResourceWithStreamingResponse
+
+        return AsyncAgentPromptResourceWithStreamingResponse(self._client.agent_prompt)
 
     @cached_property
     def http_request_definition(

@@ -56,6 +56,14 @@ from .simulation import (
     SimulationResourceWithStreamingResponse,
     AsyncSimulationResourceWithStreamingResponse,
 )
+from .agent_prompt import (
+    AgentPromptResource,
+    AsyncAgentPromptResource,
+    AgentPromptResourceWithRawResponse,
+    AsyncAgentPromptResourceWithRawResponse,
+    AgentPromptResourceWithStreamingResponse,
+    AsyncAgentPromptResourceWithStreamingResponse,
+)
 from .customer_flow import (
     CustomerFlowResource,
     AsyncCustomerFlowResource,
@@ -264,6 +272,12 @@ __all__ = [
     "AsyncAgentEndpointResourceWithRawResponse",
     "AgentEndpointResourceWithStreamingResponse",
     "AsyncAgentEndpointResourceWithStreamingResponse",
+    "AgentPromptResource",
+    "AsyncAgentPromptResource",
+    "AgentPromptResourceWithRawResponse",
+    "AsyncAgentPromptResourceWithRawResponse",
+    "AgentPromptResourceWithStreamingResponse",
+    "AsyncAgentPromptResourceWithStreamingResponse",
     "HTTPRequestDefinitionResource",
     "AsyncHTTPRequestDefinitionResource",
     "HTTPRequestDefinitionResourceWithRawResponse",
