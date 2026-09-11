@@ -29,6 +29,7 @@ __all__ = [
     "MetricConfigScaleLabel",
     "PersonaConfig",
     "ScriptedFlowConfig",
+    "ScriptedFlowConfigOffScript",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
@@ -214,6 +215,18 @@ class ImprovFlowConfig(BaseModel):
     title: Optional[str] = None
 
 
+class ScriptedFlowConfigOffScript(BaseModel):
+    max_attempts: Optional[int] = FieldInfo(alias="maxAttempts", default=None)
+
+    reaction: Optional[Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]] = None
+
+    say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
+
+    then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT"]] = None
+
+    wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
+
+
 class ScriptedFlowConfig(BaseModel):
     graph: List[ConfigFlowStep]
 
@@ -223,6 +236,8 @@ class ScriptedFlowConfig(BaseModel):
 
     type: Literal["scripted"]
 
+    adherence: Optional[Literal["LOOSE", "STRICT"]] = None
+
     agents: Optional[List[str]] = None
 
     branching_mode: Optional[Literal["DETERMINISTIC", "ADAPTIVE"]] = FieldInfo(alias="branchingMode", default=None)
@@ -230,6 +245,8 @@ class ScriptedFlowConfig(BaseModel):
     description: Optional[str] = None
 
     expectations: Optional[List[str]] = None
+
+    off_script: Optional[ScriptedFlowConfigOffScript] = FieldInfo(alias="offScript", default=None)
 
     title: Optional[str] = None
 
