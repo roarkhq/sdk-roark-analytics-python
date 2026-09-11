@@ -70,6 +70,9 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
+        | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -98,6 +101,14 @@ class CustomerFlowResource(SyncAPIResource):
               PERSONA, on which the simulated customer picks a branch from what the agent
               actually said. Both modes speak the exact authored lines, and neither changes
               how metrics or expectations grade. (DETERMINISTIC is the default.)
+
+          script_adherence: How closely a run follows the script. LOOSE (default) hands the whole script to
+              the simulated customer as one prompt; it keeps the call moving whatever your
+              agent says. STRICT runs the script as a state machine on the agent service: at
+              every agent step the simulated customer waits, silent, until your agent has said
+              the expected line, and only then moves on. Scripted flows only; STRICT needs the
+              agent-service transport and is not available on realtime models. (LOOSE is the
+              default.)
 
           extra_headers: Send extra headers
 
@@ -165,6 +176,9 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
+        | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -185,6 +199,8 @@ class CustomerFlowResource(SyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "off_script_policy": off_script_policy,
+                    "script_adherence": script_adherence,
                     "happy_path": happy_path,
                     "edge_cases": edge_cases,
                 },
@@ -204,6 +220,8 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_update_params.OffScriptPolicy] | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         title: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -229,6 +247,14 @@ class CustomerFlowResource(SyncAPIResource):
               what the agent actually said. Both modes speak the exact authored lines, and
               neither changes how metrics or expectations grade.
 
+          script_adherence: Scripted flows only. How closely a run follows the script. LOOSE (default) hands
+              the whole script to the simulated customer as one prompt; it keeps the call
+              moving whatever your agent says. STRICT runs the script as a state machine on
+              the agent service: at every agent step the simulated customer waits, silent,
+              until your agent has said the expected line, and only then moves on. Scripted
+              flows only; STRICT needs the agent-service transport and is not available on
+              realtime models.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -247,6 +273,8 @@ class CustomerFlowResource(SyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "off_script_policy": off_script_policy,
+                    "script_adherence": script_adherence,
                     "title": title,
                 },
                 customer_flow_update_params.CustomerFlowUpdateParams,
@@ -570,6 +598,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
+        | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -598,6 +629,14 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               PERSONA, on which the simulated customer picks a branch from what the agent
               actually said. Both modes speak the exact authored lines, and neither changes
               how metrics or expectations grade. (DETERMINISTIC is the default.)
+
+          script_adherence: How closely a run follows the script. LOOSE (default) hands the whole script to
+              the simulated customer as one prompt; it keeps the call moving whatever your
+              agent says. STRICT runs the script as a state machine on the agent service: at
+              every agent step the simulated customer waits, silent, until your agent has said
+              the expected line, and only then moves on. Scripted flows only; STRICT needs the
+              agent-service transport and is not available on realtime models. (LOOSE is the
+              default.)
 
           extra_headers: Send extra headers
 
@@ -665,6 +704,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
+        | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         happy_path: customer_flow_create_params.CreateImprovCustomerFlowInputHappyPath | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -685,6 +727,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "off_script_policy": off_script_policy,
+                    "script_adherence": script_adherence,
                     "happy_path": happy_path,
                     "edge_cases": edge_cases,
                 },
@@ -704,6 +748,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        off_script_policy: Optional[customer_flow_update_params.OffScriptPolicy] | Omit = omit,
+        script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         title: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -729,6 +775,14 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               what the agent actually said. Both modes speak the exact authored lines, and
               neither changes how metrics or expectations grade.
 
+          script_adherence: Scripted flows only. How closely a run follows the script. LOOSE (default) hands
+              the whole script to the simulated customer as one prompt; it keeps the call
+              moving whatever your agent says. STRICT runs the script as a state machine on
+              the agent service: at every agent step the simulated customer waits, silent,
+              until your agent has said the expected line, and only then moves on. Scripted
+              flows only; STRICT needs the agent-service transport and is not available on
+              realtime models.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -747,6 +801,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "off_script_policy": off_script_policy,
+                    "script_adherence": script_adherence,
                     "title": title,
                 },
                 customer_flow_update_params.CustomerFlowUpdateParams,

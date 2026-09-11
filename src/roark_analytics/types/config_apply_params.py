@@ -30,6 +30,7 @@ __all__ = [
     "MetricConfigScaleLabel",
     "PersonaConfig",
     "ScriptedFlowConfig",
+    "ScriptedFlowConfigOffScript",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
@@ -222,6 +223,18 @@ class ImprovFlowConfig(TypedDict, total=False):
     title: str
 
 
+class ScriptedFlowConfigOffScript(TypedDict, total=False):
+    max_attempts: Annotated[int, PropertyInfo(alias="maxAttempts")]
+
+    reaction: Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]
+
+    say_line: Annotated[str, PropertyInfo(alias="sayLine")]
+
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT"]
+
+    wait_seconds: Annotated[int, PropertyInfo(alias="waitSeconds")]
+
+
 class ScriptedFlowConfig(TypedDict, total=False):
     graph: Required[List[ConfigFlowStepParam]]
 
@@ -231,6 +244,8 @@ class ScriptedFlowConfig(TypedDict, total=False):
 
     type: Required[Literal["scripted"]]
 
+    adherence: Literal["LOOSE", "STRICT"]
+
     agents: SequenceNotStr[str]
 
     branching_mode: Annotated[Literal["DETERMINISTIC", "ADAPTIVE"], PropertyInfo(alias="branchingMode")]
@@ -238,6 +253,8 @@ class ScriptedFlowConfig(TypedDict, total=False):
     description: Optional[str]
 
     expectations: SequenceNotStr[str]
+
+    off_script: Annotated[ScriptedFlowConfigOffScript, PropertyInfo(alias="offScript")]
 
     title: str
 

@@ -8,12 +8,34 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["CustomerFlowUpdateParams", "AgentExpectation"]
+__all__ = ["CustomerFlowUpdateParams", "AgentExpectation", "OffScriptPolicy"]
 
 
 class AgentExpectation(TypedDict, total=False):
     prompt: Required[str]
     """What the agent under test is graded against."""
+
+
+class OffScriptPolicy(TypedDict, total=False):
+    """
+    STRICT only. What the simulated customer does when your agent does not say the
+    expected line. Each unmatched agent utterance is a strike: `reaction` runs per
+    strike (STAY_SILENT, REPEAT its last scripted line, RESPOND once in character
+    without moving on, or SAY `sayLine`), and `then` runs when strikes reach
+    `maxAttempts` or your agent stays silent for `waitSeconds` (HANG_UP ends the
+    call with ended reason SCRIPT_DIVERGED, MOVE_ON advances anyway, ADAPT hands the
+    rest of the call to loose behaviour). Null: stay silent, 3 attempts, hang up.
+    """
+
+    max_attempts: Required[Annotated[int, PropertyInfo(alias="maxAttempts")]]
+
+    reaction: Required[Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]]
+
+    then: Required[Literal["HANG_UP", "MOVE_ON", "ADAPT"]]
+
+    say_line: Annotated[Optional[str], PropertyInfo(alias="sayLine")]
+
+    wait_seconds: Annotated[Optional[int], PropertyInfo(alias="waitSeconds")]
 
 
 class CustomerFlowUpdateParams(TypedDict, total=False):
@@ -37,5 +59,18 @@ class CustomerFlowUpdateParams(TypedDict, total=False):
     """
 
     description: Optional[str]
+
+    off_script_policy: Annotated[Optional[OffScriptPolicy], PropertyInfo(alias="offScriptPolicy")]
+
+    script_adherence: Annotated[Literal["LOOSE", "STRICT"], PropertyInfo(alias="scriptAdherence")]
+    """
+    Scripted flows only. How closely a run follows the script. LOOSE (default) hands
+    the whole script to the simulated customer as one prompt; it keeps the call
+    moving whatever your agent says. STRICT runs the script as a state machine on
+    the agent service: at every agent step the simulated customer waits, silent,
+    until your agent has said the expected line, and only then moves on. Scripted
+    flows only; STRICT needs the agent-service transport and is not available on
+    realtime models.
+    """
 
     title: str

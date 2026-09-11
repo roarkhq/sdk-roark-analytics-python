@@ -19,6 +19,7 @@ __all__ = [
     "ScriptedCustomerFlowEdgeCase",
     "ScriptedCustomerFlowEdgeCaseEnvironment",
     "ScriptedCustomerFlowEdgeCasePersonaOverride",
+    "ScriptedCustomerFlowOffScriptPolicy",
     "VoicemailCustomerFlow",
     "VoicemailCustomerFlowEdgeCase",
 ]
@@ -261,6 +262,28 @@ class ScriptedCustomerFlowEdgeCase(BaseModel):
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
+class ScriptedCustomerFlowOffScriptPolicy(BaseModel):
+    """
+    STRICT only. What the simulated customer does when your agent does not say the
+    expected line. Each unmatched agent utterance is a strike: `reaction` runs per
+    strike (STAY_SILENT, REPEAT its last scripted line, RESPOND once in character
+    without moving on, or SAY `sayLine`), and `then` runs when strikes reach
+    `maxAttempts` or your agent stays silent for `waitSeconds` (HANG_UP ends the
+    call with ended reason SCRIPT_DIVERGED, MOVE_ON advances anyway, ADAPT hands the
+    rest of the call to loose behaviour). Null: stay silent, 3 attempts, hang up.
+    """
+
+    max_attempts: int = FieldInfo(alias="maxAttempts")
+
+    reaction: Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]
+
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT"]
+
+    say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
+
+    wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
+
+
 class ScriptedCustomerFlow(BaseModel):
     """A flow whose conversation is written out as a graph of turns."""
 
@@ -291,6 +314,18 @@ class ScriptedCustomerFlow(BaseModel):
     """
     The way this flow is meant to go. Null when the flow has none, and then every
     way is an edge case.
+    """
+
+    off_script_policy: Optional[ScriptedCustomerFlowOffScriptPolicy] = FieldInfo(alias="offScriptPolicy")
+
+    script_adherence: Literal["LOOSE", "STRICT"] = FieldInfo(alias="scriptAdherence")
+    """
+    How closely a run follows the script. LOOSE (default) hands the whole script to
+    the simulated customer as one prompt; it keeps the call moving whatever your
+    agent says. STRICT runs the script as a state machine on the agent service: at
+    every agent step the simulated customer waits, silent, until your agent has said
+    the expected line, and only then moves on. Scripted flows only; STRICT needs the
+    agent-service transport and is not available on realtime models.
     """
 
     source: Literal["SYSTEM", "CUSTOM"]
