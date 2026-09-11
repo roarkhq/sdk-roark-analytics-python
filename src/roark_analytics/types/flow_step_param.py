@@ -11,6 +11,7 @@ from .._utils import PropertyInfo
 __all__ = [
     "FlowStepParam",
     "FlowStepParamUnionMember0",
+    "FlowStepParamUnionMember0OffScriptPolicy",
     "FlowStepParamUnionMember1",
     "FlowStepParamUnionMember2",
     "FlowStepParamUnionMember3",
@@ -22,6 +23,18 @@ __all__ = [
 ]
 
 
+class FlowStepParamUnionMember0OffScriptPolicy(TypedDict, total=False):
+    max_attempts: Required[Annotated[int, PropertyInfo(alias="maxAttempts")]]
+
+    reaction: Required[Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]]
+
+    then: Required[Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]]
+
+    say_line: Annotated[Optional[str], PropertyInfo(alias="sayLine")]
+
+    wait_seconds: Annotated[Optional[int], PropertyInfo(alias="waitSeconds")]
+
+
 class FlowStepParamUnionMember0(TypedDict, total=False):
     type: Required[Literal["AGENT_TURN"]]
 
@@ -30,6 +43,10 @@ class FlowStepParamUnionMember0(TypedDict, total=False):
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    off_script_policy: Annotated[
+        Optional[FlowStepParamUnionMember0OffScriptPolicy], PropertyInfo(alias="offScriptPolicy")
+    ]
 
     ref: str
 

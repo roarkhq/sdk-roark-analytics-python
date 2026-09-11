@@ -222,7 +222,7 @@ class ScriptedFlowConfigOffScript(BaseModel):
 
     say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
 
-    then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT"]] = None
+    then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]] = None
 
     wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
 

@@ -10,6 +10,7 @@ from .._models import BaseModel
 __all__ = [
     "FlowStep",
     "FlowStepUnionMember0",
+    "FlowStepUnionMember0OffScriptPolicy",
     "FlowStepUnionMember1",
     "FlowStepUnionMember2",
     "FlowStepUnionMember3",
@@ -21,6 +22,18 @@ __all__ = [
 ]
 
 
+class FlowStepUnionMember0OffScriptPolicy(BaseModel):
+    max_attempts: int = FieldInfo(alias="maxAttempts")
+
+    reaction: Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]
+
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
+
+    say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
+
+    wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
+
+
 class FlowStepUnionMember0(BaseModel):
     type: Literal["AGENT_TURN"]
 
@@ -29,6 +42,8 @@ class FlowStepUnionMember0(BaseModel):
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    off_script_policy: Optional[FlowStepUnionMember0OffScriptPolicy] = FieldInfo(alias="offScriptPolicy", default=None)
 
     ref: Optional[str] = None
 

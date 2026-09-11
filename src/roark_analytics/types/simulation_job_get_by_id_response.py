@@ -12,6 +12,7 @@ __all__ = [
     "Data",
     "DataAgentEndpoint",
     "DataEnrichment",
+    "DataInvalidation",
     "DataPersona",
     "DataRunPlan",
     "DataScenario",
@@ -81,6 +82,25 @@ class DataEnrichment(BaseModel):
     When the run began holding open for the live conversation. Null if it never
     waited.
     """
+
+
+class DataInvalidation(BaseModel):
+    """
+    Present when the run was invalidated: it keeps its transcript and recording, but
+    nothing scored it and it is excluded from every run total.
+    """
+
+    invalidated_at: str = FieldInfo(alias="invalidatedAt")
+    """When the run was invalidated."""
+
+    reason: Literal["SCRIPT_DIVERGED"]
+    """
+    Why the result does not count. `SCRIPT_DIVERGED`: a strict flow went off script
+    at a step whose off-script policy is HANG_UP_INVALIDATE.
+    """
+
+    detail: Optional[str] = None
+    """One sentence: where the script was left and what your agent did instead."""
 
 
 class DataPersona(BaseModel):
@@ -259,6 +279,9 @@ class Data(BaseModel):
     What happened to this run's live-conversation enrichment, and what scoring fell
     back to when none arrived.
     """
+
+    invalidation: Optional[DataInvalidation]
+    """Null while the result counts. See SimulationJobInvalidation."""
 
     persona: DataPersona
 
