@@ -8,7 +8,19 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["ConfigFlowStepParam"]
+__all__ = ["ConfigFlowStepParam", "OffScript"]
+
+
+class OffScript(TypedDict, total=False):
+    max_attempts: Annotated[int, PropertyInfo(alias="maxAttempts")]
+
+    reaction: Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]
+
+    say_line: Annotated[str, PropertyInfo(alias="sayLine")]
+
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
+
+    wait_seconds: Annotated[int, PropertyInfo(alias="waitSeconds")]
 
 
 class ConfigFlowStepParam(TypedDict, total=False):
@@ -33,6 +45,8 @@ class ConfigFlowStepParam(TypedDict, total=False):
     flow: str
 
     merge_into: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeInto")]
+
+    off_script: Annotated[OffScript, PropertyInfo(alias="offScript")]
 
     ref: str
 

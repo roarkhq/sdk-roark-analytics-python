@@ -12,6 +12,7 @@ __all__ = [
     "Data",
     "DataSimulationJob",
     "DataSimulationJobAgentEndpoint",
+    "DataSimulationJobInvalidation",
     "DataSimulationJobPersona",
     "DataSimulationJobScenario",
 ]
@@ -31,6 +32,25 @@ class DataSimulationJobAgentEndpoint(BaseModel):
 
     type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
     """Agent endpoint type"""
+
+
+class DataSimulationJobInvalidation(BaseModel):
+    """
+    Present when the run was invalidated: it keeps its transcript and recording, but
+    nothing scored it and it is excluded from every run total.
+    """
+
+    invalidated_at: str = FieldInfo(alias="invalidatedAt")
+    """When the run was invalidated."""
+
+    reason: Literal["SCRIPT_DIVERGED"]
+    """
+    Why the result does not count. `SCRIPT_DIVERGED`: a strict flow went off script
+    at a step whose off-script policy is HANG_UP_INVALIDATE.
+    """
+
+    detail: Optional[str] = None
+    """One sentence: where the script was left and what your agent did instead."""
 
 
 class DataSimulationJobPersona(BaseModel):
@@ -187,6 +207,12 @@ class DataSimulationJob(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
     """When the simulation job was created"""
+
+    invalidation: Optional[DataSimulationJobInvalidation]
+    """
+    Present when the result does not count (a strict flow went off script and its
+    policy invalidated the run); null otherwise.
+    """
 
     persona: DataSimulationJobPersona
 

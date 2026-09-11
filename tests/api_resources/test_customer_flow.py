@@ -46,6 +46,13 @@ class TestCustomerFlow:
                     "content": "content",
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "off_script_policy": {
+                        "max_attempts": 1,
+                        "reaction": "STAY_SILENT",
+                        "then": "HANG_UP",
+                        "say_line": "x",
+                        "wait_seconds": 1,
+                    },
                     "ref": "x",
                     "steps": [
                         {
@@ -53,6 +60,13 @@ class TestCustomerFlow:
                             "content": "content",
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "off_script_policy": {
+                                "max_attempts": 1,
+                                "reaction": "STAY_SILENT",
+                                "then": "HANG_UP",
+                                "say_line": "x",
+                                "wait_seconds": 1,
+                            },
                             "ref": "x",
                             "steps": [
                                 {
@@ -60,6 +74,13 @@ class TestCustomerFlow:
                                     "content": "content",
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                    "off_script_policy": {
+                                        "max_attempts": 1,
+                                        "reaction": "STAY_SILENT",
+                                        "then": "HANG_UP",
+                                        "say_line": "x",
+                                        "wait_seconds": 1,
+                                    },
                                     "ref": "x",
                                     "steps": [
                                         {
@@ -67,6 +88,7 @@ class TestCustomerFlow:
                                             "content": "content",
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                            "off_script_policy": {},
                                             "ref": "x",
                                             "steps": [],
                                         }
@@ -451,6 +473,13 @@ class TestCustomerFlow:
                     "content": "content",
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "off_script_policy": {
+                        "max_attempts": 1,
+                        "reaction": "STAY_SILENT",
+                        "then": "HANG_UP",
+                        "say_line": "x",
+                        "wait_seconds": 1,
+                    },
                     "ref": "x",
                     "steps": [
                         {
@@ -458,6 +487,13 @@ class TestCustomerFlow:
                             "content": "content",
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "off_script_policy": {
+                                "max_attempts": 1,
+                                "reaction": "STAY_SILENT",
+                                "then": "HANG_UP",
+                                "say_line": "x",
+                                "wait_seconds": 1,
+                            },
                             "ref": "x",
                             "steps": [
                                 {
@@ -465,6 +501,13 @@ class TestCustomerFlow:
                                     "content": "content",
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                    "off_script_policy": {
+                                        "max_attempts": 1,
+                                        "reaction": "STAY_SILENT",
+                                        "then": "HANG_UP",
+                                        "say_line": "x",
+                                        "wait_seconds": 1,
+                                    },
                                     "ref": "x",
                                     "steps": [
                                         {
@@ -472,6 +515,7 @@ class TestCustomerFlow:
                                             "content": "content",
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                            "off_script_policy": {},
                                             "ref": "x",
                                             "steps": [],
                                         }
@@ -604,6 +648,13 @@ class TestAsyncCustomerFlow:
                     "content": "content",
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "off_script_policy": {
+                        "max_attempts": 1,
+                        "reaction": "STAY_SILENT",
+                        "then": "HANG_UP",
+                        "say_line": "x",
+                        "wait_seconds": 1,
+                    },
                     "ref": "x",
                     "steps": [
                         {
@@ -611,6 +662,13 @@ class TestAsyncCustomerFlow:
                             "content": "content",
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "off_script_policy": {
+                                "max_attempts": 1,
+                                "reaction": "STAY_SILENT",
+                                "then": "HANG_UP",
+                                "say_line": "x",
+                                "wait_seconds": 1,
+                            },
                             "ref": "x",
                             "steps": [
                                 {
@@ -618,6 +676,13 @@ class TestAsyncCustomerFlow:
                                     "content": "content",
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                    "off_script_policy": {
+                                        "max_attempts": 1,
+                                        "reaction": "STAY_SILENT",
+                                        "then": "HANG_UP",
+                                        "say_line": "x",
+                                        "wait_seconds": 1,
+                                    },
                                     "ref": "x",
                                     "steps": [
                                         {
@@ -625,6 +690,7 @@ class TestAsyncCustomerFlow:
                                             "content": "content",
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                            "off_script_policy": {},
                                             "ref": "x",
                                             "steps": [],
                                         }
@@ -1009,6 +1075,13 @@ class TestAsyncCustomerFlow:
                     "content": "content",
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "off_script_policy": {
+                        "max_attempts": 1,
+                        "reaction": "STAY_SILENT",
+                        "then": "HANG_UP",
+                        "say_line": "x",
+                        "wait_seconds": 1,
+                    },
                     "ref": "x",
                     "steps": [
                         {
@@ -1016,6 +1089,13 @@ class TestAsyncCustomerFlow:
                             "content": "content",
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                            "off_script_policy": {
+                                "max_attempts": 1,
+                                "reaction": "STAY_SILENT",
+                                "then": "HANG_UP",
+                                "say_line": "x",
+                                "wait_seconds": 1,
+                            },
                             "ref": "x",
                             "steps": [
                                 {
@@ -1023,6 +1103,13 @@ class TestAsyncCustomerFlow:
                                     "content": "content",
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                    "off_script_policy": {
+                                        "max_attempts": 1,
+                                        "reaction": "STAY_SILENT",
+                                        "then": "HANG_UP",
+                                        "say_line": "x",
+                                        "wait_seconds": 1,
+                                    },
                                     "ref": "x",
                                     "steps": [
                                         {
@@ -1030,6 +1117,7 @@ class TestAsyncCustomerFlow:
                                             "content": "content",
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                                            "off_script_policy": {},
                                             "ref": "x",
                                             "steps": [],
                                         }

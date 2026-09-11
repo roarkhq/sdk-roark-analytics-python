@@ -230,7 +230,7 @@ class ScriptedFlowConfigOffScript(TypedDict, total=False):
 
     say_line: Annotated[str, PropertyInfo(alias="sayLine")]
 
-    then: Literal["HANG_UP", "MOVE_ON", "ADAPT"]
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
 
     wait_seconds: Annotated[int, PropertyInfo(alias="waitSeconds")]
 
