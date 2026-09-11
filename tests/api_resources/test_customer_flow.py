@@ -83,6 +83,14 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            off_script_policy={
+                "max_attempts": 1,
+                "reaction": "STAY_SILENT",
+                "then": "HANG_UP",
+                "say_line": "x",
+                "wait_seconds": 1,
+            },
+            script_adherence="LOOSE",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -218,6 +226,14 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            off_script_policy={
+                "max_attempts": 1,
+                "reaction": "STAY_SILENT",
+                "then": "HANG_UP",
+                "say_line": "x",
+                "wait_seconds": 1,
+            },
+            script_adherence="LOOSE",
             title="x",
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
@@ -625,6 +641,14 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            off_script_policy={
+                "max_attempts": 1,
+                "reaction": "STAY_SILENT",
+                "then": "HANG_UP",
+                "say_line": "x",
+                "wait_seconds": 1,
+            },
+            script_adherence="LOOSE",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -760,6 +784,14 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            off_script_policy={
+                "max_attempts": 1,
+                "reaction": "STAY_SILENT",
+                "then": "HANG_UP",
+                "say_line": "x",
+                "wait_seconds": 1,
+            },
+            script_adherence="LOOSE",
             title="x",
         )
         assert_matches_type(CustomerFlowUpdateResponse, customer_flow, path=["response"])
