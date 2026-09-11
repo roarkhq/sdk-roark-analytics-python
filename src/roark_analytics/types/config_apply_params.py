@@ -56,6 +56,8 @@ class AgentConfig(TypedDict, total=False):
 
     description: Optional[str]
 
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
     endpoints: Iterable[AgentConfigEndpoint]
 
     prompt: Optional[str]

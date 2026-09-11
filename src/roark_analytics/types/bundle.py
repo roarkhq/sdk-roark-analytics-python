@@ -55,6 +55,8 @@ class AgentConfig(BaseModel):
 
     description: Optional[str] = None
 
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
     endpoints: Optional[List[AgentConfigEndpoint]] = None
 
     prompt: Optional[str] = None
