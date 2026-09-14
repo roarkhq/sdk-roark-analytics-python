@@ -58,7 +58,18 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     """Background story and behavioral patterns for the persona"""
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
+        Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ],
         PropertyInfo(alias="baseEmotion"),
     ]
     """Base emotional state of the persona"""
