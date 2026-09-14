@@ -114,7 +114,18 @@ class PersonaConfig(TypedDict, total=False):
     backstory_prompt: Annotated[Optional[str], PropertyInfo(alias="backstoryPrompt")]
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
+        Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ],
         PropertyInfo(alias="baseEmotion"),
     ]
 

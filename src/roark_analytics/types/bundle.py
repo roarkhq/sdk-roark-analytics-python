@@ -108,7 +108,18 @@ class PersonaConfig(BaseModel):
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
 
     base_emotion: Optional[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
     ] = FieldInfo(alias="baseEmotion", default=None)
 
     confirmation_style: Optional[Literal["EXPLICIT", "VAGUE"]] = FieldInfo(alias="confirmationStyle", default=None)

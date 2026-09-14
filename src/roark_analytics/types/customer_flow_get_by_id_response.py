@@ -126,9 +126,9 @@ class ScriptedCustomerFlowEdgeCasePersonaOverride(BaseModel):
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"] = (
-        FieldInfo(alias="baseEmotion")
-    )
+    base_emotion: Literal[
+        "NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED", "ANGRY", "ANXIOUS", "SAD"
+    ] = FieldInfo(alias="baseEmotion")
     """Base emotional state of the persona"""
 
     confirmation_style: Literal["EXPLICIT", "VAGUE"] = FieldInfo(alias="confirmationStyle")
