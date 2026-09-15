@@ -12,6 +12,7 @@ __all__ = [
     "Data",
     "DataAgentEndpoint",
     "DataEnrichment",
+    "DataInvalidation",
     "DataPersona",
     "DataRunPlan",
     "DataScenario",
@@ -83,6 +84,25 @@ class DataEnrichment(BaseModel):
     """
 
 
+class DataInvalidation(BaseModel):
+    """
+    Present when the run was invalidated: it keeps its transcript and recording, but
+    nothing scored it and it is excluded from every run total.
+    """
+
+    invalidated_at: str = FieldInfo(alias="invalidatedAt")
+    """When the run was invalidated."""
+
+    reason: Literal["SCRIPT_DIVERGED"]
+    """
+    Why the result does not count. `SCRIPT_DIVERGED`: a strict flow went off script
+    at a step whose off-script policy is HANG_UP_INVALIDATE.
+    """
+
+    detail: Optional[str] = None
+    """One sentence: where the script was left and what your agent did instead."""
+
+
 class DataPersona(BaseModel):
     id: str
     """Unique identifier of the persona"""
@@ -128,9 +148,9 @@ class DataPersona(BaseModel):
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"] = (
-        FieldInfo(alias="baseEmotion")
-    )
+    base_emotion: Literal[
+        "NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED", "ANGRY", "ANXIOUS", "SAD"
+    ] = FieldInfo(alias="baseEmotion")
     """Base emotional state of the persona"""
 
     confirmation_style: Literal["EXPLICIT", "VAGUE"] = FieldInfo(alias="confirmationStyle")
@@ -259,6 +279,9 @@ class Data(BaseModel):
     What happened to this run's live-conversation enrichment, and what scoring fell
     back to when none arrived.
     """
+
+    invalidation: Optional[DataInvalidation]
+    """Null while the result counts. See SimulationJobInvalidation."""
 
     persona: DataPersona
 

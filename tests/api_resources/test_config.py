@@ -36,6 +36,7 @@ class TestConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
+                    "display_name": "displayName",
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
@@ -86,6 +87,7 @@ class TestConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
+                    "display_name": "displayName",
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
@@ -142,6 +144,7 @@ class TestAsyncConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
+                    "display_name": "displayName",
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],
@@ -192,6 +195,7 @@ class TestAsyncConfig:
                     "name": "x",
                     "custom_id": "customId",
                     "description": "description",
+                    "display_name": "displayName",
                     "endpoints": [
                         {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
                     ],

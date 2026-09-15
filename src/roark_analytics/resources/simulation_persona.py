@@ -86,7 +86,18 @@ class SimulationPersonaResource(SyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        base_emotion: Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
@@ -273,7 +284,18 @@ class SimulationPersonaResource(SyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        base_emotion: Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
@@ -569,7 +591,18 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        base_emotion: Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
@@ -756,7 +789,18 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
-        base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        base_emotion: Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
         | Omit = omit,
         confirmation_style: Literal["EXPLICIT", "VAGUE"] | Omit = omit,
         description: Optional[str] | Omit = omit,

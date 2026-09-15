@@ -127,9 +127,9 @@ class ScriptedCustomerFlowEdgeCasePersonaOverride(BaseModel):
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
-    base_emotion: Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"] = (
-        FieldInfo(alias="baseEmotion")
-    )
+    base_emotion: Literal[
+        "NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED", "ANGRY", "ANXIOUS", "SAD"
+    ] = FieldInfo(alias="baseEmotion")
     """Base emotional state of the persona"""
 
     confirmation_style: Literal["EXPLICIT", "VAGUE"] = FieldInfo(alias="confirmationStyle")
@@ -269,15 +269,18 @@ class ScriptedCustomerFlowOffScriptPolicy(BaseModel):
     attempt (STAY_SILENT, REPEAT its last scripted line, RESPOND once in character
     without moving on, or SAY `sayLine`), and `then` runs when attempts reach
     `maxAttempts` or your agent stays silent for `waitSeconds` (HANG_UP ends the
-    call with ended reason SCRIPT_DIVERGED, MOVE_ON advances anyway, ADAPT hands the
-    rest of the call to loose behaviour). Null: stay silent, 3 attempts, hang up.
+    call with ended reason SCRIPT_DIVERGED, HANG_UP_INVALIDATE ends it the same way
+    and invalidates the run so it is scored by nothing and counted nowhere, MOVE_ON
+    advances anyway, ADAPT hands the rest of the call to loose behaviour). Null:
+    stay silent, 3 attempts, hang up. The default for every agent step; an
+    AGENT_TURN step can carry its own.
     """
 
     max_attempts: int = FieldInfo(alias="maxAttempts")
 
     reaction: Literal["STAY_SILENT", "REPEAT", "RESPOND", "SAY"]
 
-    then: Literal["HANG_UP", "MOVE_ON", "ADAPT"]
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
 
     say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
 

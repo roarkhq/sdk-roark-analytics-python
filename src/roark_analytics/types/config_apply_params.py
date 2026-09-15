@@ -56,6 +56,8 @@ class AgentConfig(TypedDict, total=False):
 
     description: Optional[str]
 
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
     endpoints: Iterable[AgentConfigEndpoint]
 
     prompt: Optional[str]
@@ -112,7 +114,18 @@ class PersonaConfig(TypedDict, total=False):
     backstory_prompt: Annotated[Optional[str], PropertyInfo(alias="backstoryPrompt")]
 
     base_emotion: Annotated[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"],
+        Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ],
         PropertyInfo(alias="baseEmotion"),
     ]
 
@@ -230,7 +243,7 @@ class ScriptedFlowConfigOffScript(TypedDict, total=False):
 
     say_line: Annotated[str, PropertyInfo(alias="sayLine")]
 
-    then: Literal["HANG_UP", "MOVE_ON", "ADAPT"]
+    then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
 
     wait_seconds: Annotated[int, PropertyInfo(alias="waitSeconds")]
 

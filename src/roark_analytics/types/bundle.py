@@ -55,6 +55,8 @@ class AgentConfig(BaseModel):
 
     description: Optional[str] = None
 
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
     endpoints: Optional[List[AgentConfigEndpoint]] = None
 
     prompt: Optional[str] = None
@@ -106,7 +108,18 @@ class PersonaConfig(BaseModel):
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
 
     base_emotion: Optional[
-        Literal["NEUTRAL", "CHEERFUL", "CONFUSED", "FRUSTRATED", "SKEPTICAL", "RUSHED", "DISTRACTED"]
+        Literal[
+            "NEUTRAL",
+            "CHEERFUL",
+            "CONFUSED",
+            "FRUSTRATED",
+            "SKEPTICAL",
+            "RUSHED",
+            "DISTRACTED",
+            "ANGRY",
+            "ANXIOUS",
+            "SAD",
+        ]
     ] = FieldInfo(alias="baseEmotion", default=None)
 
     confirmation_style: Optional[Literal["EXPLICIT", "VAGUE"]] = FieldInfo(alias="confirmationStyle", default=None)
@@ -222,7 +235,7 @@ class ScriptedFlowConfigOffScript(BaseModel):
 
     say_line: Optional[str] = FieldInfo(alias="sayLine", default=None)
 
-    then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT"]] = None
+    then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]] = None
 
     wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
 
