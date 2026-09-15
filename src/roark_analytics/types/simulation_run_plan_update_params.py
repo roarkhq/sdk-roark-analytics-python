@@ -90,6 +90,15 @@ class Metric(TypedDict, total=False):
     integrations.
     """
 
+    min_pass_rate: Annotated[Optional[float], PropertyInfo(alias="minPassRate")]
+    """
+    THE BAR, and the only thing that decides pass/fail. The share of the run's
+    simulations that must pass this check, 0-100.
+    Applied to this check alone and never pooled: silence duration at 40 and word
+    count at 80 means the run fails unless 40% of sims clear silence AND 80% clear
+    word count. Omit or `null` for the 80% default.
+    """
+
     slug: str
     """
     Stable metric slug (e.g. `customer_satisfaction`). Provide either this or `id`,

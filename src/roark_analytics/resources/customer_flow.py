@@ -11,6 +11,7 @@ from ..types import (
     customer_flow_list_params,
     customer_flow_create_params,
     customer_flow_update_params,
+    customer_flow_duplicate_params,
     customer_flow_replace_graph_params,
     customer_flow_update_happy_path_params,
 )
@@ -376,6 +377,8 @@ class CustomerFlowResource(SyncAPIResource):
         self,
         flow_id: str,
         *,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
+        title: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -393,6 +396,11 @@ class CustomerFlowResource(SyncAPIResource):
         and cannot be duplicated.
 
         Args:
+          agent_ids: Agents to link on the copy. Omit to carry the source flow's agents over.
+              Required when the source is a Roark-managed flow with no agents of its own.
+
+          title: Title for the copy. Defaults to "Copy of" the source flow.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -405,6 +413,13 @@ class CustomerFlowResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return self._post(
             f"/v1/customer-flow/{flow_id}/duplicate",
+            body=maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "title": title,
+                },
+                customer_flow_duplicate_params.CustomerFlowDuplicateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -904,6 +919,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         self,
         flow_id: str,
         *,
+        agent_ids: SequenceNotStr[str] | Omit = omit,
+        title: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -921,6 +938,11 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         and cannot be duplicated.
 
         Args:
+          agent_ids: Agents to link on the copy. Omit to carry the source flow's agents over.
+              Required when the source is a Roark-managed flow with no agents of its own.
+
+          title: Title for the copy. Defaults to "Copy of" the source flow.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -933,6 +955,13 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return await self._post(
             f"/v1/customer-flow/{flow_id}/duplicate",
+            body=await async_maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "title": title,
+                },
+                customer_flow_duplicate_params.CustomerFlowDuplicateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

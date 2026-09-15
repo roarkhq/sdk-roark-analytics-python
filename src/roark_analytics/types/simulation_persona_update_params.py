@@ -129,10 +129,11 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
-    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK"], PropertyInfo(alias="responseTiming")]
+    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"], PropertyInfo(alias="responseTiming")]
     """
     Controls how quickly the persona responds to pauses in conversation (QUICK,
-    NORMAL, RELAXED)
+    NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+    for several seconds.
     """
 
     secondary_language: Annotated[Optional[Literal["EN"]], PropertyInfo(alias="secondaryLanguage")]

@@ -21,6 +21,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse
 from ..types.simulation_run_plan_job_start_response import SimulationRunPlanJobStartResponse
+from ..types.simulation_run_plan_job_cancel_response import SimulationRunPlanJobCancelResponse
 from ..types.simulation_run_plan_job_get_by_id_response import SimulationRunPlanJobGetByIDResponse
 
 __all__ = ["SimulationRunPlanJobResource", "AsyncSimulationRunPlanJobResource"]
@@ -125,6 +126,42 @@ class SimulationRunPlanJobResource(SyncAPIResource):
                 ),
             ),
             cast_to=SimulationRunPlanJobListResponse,
+        )
+
+    def cancel(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobCancelResponse:
+        """Stops a run that has not finished yet.
+
+        Already-finished runs are left alone.
+        Intended for CI: when a pipeline is cancelled or superseded, cancelling the run
+        stops it placing calls you no longer need. Safe to call more than once.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._post(
+            f"/v1/simulation/plan/job/{job_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobCancelResponse,
         )
 
     def get_by_id(
@@ -323,6 +360,42 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobListResponse,
         )
 
+    async def cancel(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobCancelResponse:
+        """Stops a run that has not finished yet.
+
+        Already-finished runs are left alone.
+        Intended for CI: when a pipeline is cancelled or superseded, cancelling the run
+        stops it placing calls you no longer need. Safe to call more than once.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._post(
+            f"/v1/simulation/plan/job/{job_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobCancelResponse,
+        )
+
     async def get_by_id(
         self,
         job_id: str,
@@ -425,6 +498,9 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             simulation_run_plan_job.list,
         )
+        self.cancel = to_raw_response_wrapper(
+            simulation_run_plan_job.cancel,
+        )
         self.get_by_id = to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
@@ -439,6 +515,9 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
 
         self.list = async_to_raw_response_wrapper(
             simulation_run_plan_job.list,
+        )
+        self.cancel = async_to_raw_response_wrapper(
+            simulation_run_plan_job.cancel,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
@@ -455,6 +534,9 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             simulation_run_plan_job.list,
         )
+        self.cancel = to_streamed_response_wrapper(
+            simulation_run_plan_job.cancel,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
@@ -469,6 +551,9 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             simulation_run_plan_job.list,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.cancel,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,

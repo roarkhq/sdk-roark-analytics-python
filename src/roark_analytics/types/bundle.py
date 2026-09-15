@@ -146,7 +146,9 @@ class PersonaConfig(BaseModel):
 
     properties: Optional[Dict[str, object]] = None
 
-    response_timing: Optional[Literal["RELAXED", "NORMAL", "QUICK"]] = FieldInfo(alias="responseTiming", default=None)
+    response_timing: Optional[Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"]] = FieldInfo(
+        alias="responseTiming", default=None
+    )
 
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
 

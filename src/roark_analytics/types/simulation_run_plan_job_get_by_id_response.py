@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -15,6 +15,12 @@ __all__ = [
     "DataSimulationJobInvalidation",
     "DataSimulationJobPersona",
     "DataSimulationJobScenario",
+    "DataVerdict",
+    "DataVerdictCheck",
+    "DataVerdictFailureUnionMember0",
+    "DataVerdictFailureUnionMember1",
+    "DataVerdictFailureUnionMember2",
+    "DataVerdictFailureUnionMember3",
 ]
 
 
@@ -149,10 +155,11 @@ class DataSimulationJobPersona(BaseModel):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
-    response_timing: Literal["RELAXED", "NORMAL", "QUICK"] = FieldInfo(alias="responseTiming")
+    response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] = FieldInfo(alias="responseTiming")
     """
     Controls how quickly the persona responds to pauses in conversation (QUICK,
-    NORMAL, RELAXED)
+    NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+    for several seconds.
     """
 
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
@@ -258,6 +265,131 @@ class DataSimulationJob(BaseModel):
     """When the simulation job started"""
 
 
+class DataVerdictCheck(BaseModel):
+    """How one pass/fail metric did. Present for every check, passing or not."""
+
+    evaluated_sims: int = FieldInfo(alias="evaluatedSims")
+
+    inherited: bool
+    """
+    Whether `minPassRate` is the 80% default (`true`) or a minimum this metric set
+    for itself.
+    """
+
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+    min_pass_rate: float = FieldInfo(alias="minPassRate")
+    """
+    THE BAR it was judged against: the share of the run's simulations it had to
+    pass.
+    """
+
+    pass_rate: Optional[float] = FieldInfo(alias="passRate")
+    """
+    This check's own pass rate, 0-100: the share of sims it evaluated that passed
+    it. Null when it evaluated nothing.
+    """
+
+    passed: bool
+    """`passRate >= minPassRate`."""
+
+    passed_sims: int = FieldInfo(alias="passedSims")
+
+    metric_name: Optional[str] = FieldInfo(alias="metricName", default=None)
+
+
+class DataVerdictFailureUnionMember0(BaseModel):
+    status: Literal[
+        "PENDING",
+        "QUEUED",
+        "CREATING_SNAPSHOTS",
+        "CREATING_SIMULATIONS",
+        "PREPARING_CAPACITY",
+        "RUNNING_SIMULATIONS",
+        "COMPLETED",
+        "FAILED",
+        "TIMED_OUT",
+        "CANCELLED",
+        "CANCELLING",
+        "ENDING_SIMULATIONS",
+    ]
+    """The status the run actually ended in."""
+
+    type: Literal["RUN_NOT_COMPLETED"]
+
+
+class DataVerdictFailureUnionMember1(BaseModel):
+    evaluated_calls: int = FieldInfo(alias="evaluatedCalls")
+
+    expected_calls: int = FieldInfo(alias="expectedCalls")
+
+    type: Literal["INCOMPLETE_COVERAGE"]
+
+
+class DataVerdictFailureUnionMember2(BaseModel):
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+    type: Literal["METRIC_NOT_EVALUATED"]
+
+    metric_name: Optional[str] = FieldInfo(alias="metricName", default=None)
+    """The check’s name, for rendering the failure."""
+
+
+class DataVerdictFailureUnionMember3(BaseModel):
+    inherited: bool
+    """Whether the missed minimum was the 80% default (`true`) or this metric's own."""
+
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+    min_pass_rate: float = FieldInfo(alias="minPassRate")
+
+    pass_rate: float = FieldInfo(alias="passRate")
+
+    type: Literal["METRIC_BELOW_MIN_PASS_RATE"]
+
+    metric_name: Optional[str] = FieldInfo(alias="metricName", default=None)
+    """The check’s name, for rendering the failure."""
+
+
+class DataVerdict(BaseModel):
+    """
+    Pass/fail verdict for the run, judged against the success criteria pinned on the
+    run plan when the run started.
+    """
+
+    checks: List[DataVerdictCheck]
+    """
+    Every check the run was judged on, with its rate and the minimum it had to
+    reach.
+    """
+
+    failures: List[
+        Union[
+            DataVerdictFailureUnionMember0,
+            DataVerdictFailureUnionMember1,
+            DataVerdictFailureUnionMember2,
+            DataVerdictFailureUnionMember3,
+        ]
+    ]
+    """Every criterion the run missed. Empty when it passed."""
+
+    passed: bool
+    """
+    Whether every check cleared its own `minPassRate` (and the run completed with
+    full coverage). Use this as the CI exit status.
+    Never derived from `score`: a run can score 95 and still fail, or score 40 and
+    still pass.
+    """
+
+    score: Optional[float]
+    """
+    The run's headline quality number, 0-100: the mean of each check's own pass
+    rate.
+    REPORTING ONLY, for dashboards and trend lines. Nothing is judged against it.
+    Null when nothing was evaluated.
+    """
+
+
 class Data(BaseModel):
     """Simulation run plan job with all associated simulation jobs"""
 
@@ -294,6 +426,12 @@ class Data(BaseModel):
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the job started"""
+
+    verdict: Optional[DataVerdict] = None
+    """
+    Pass/fail verdict for this run. Null when the plan carried no pass/fail metric
+    to judge, so an absent verdict means "nothing to judge", never a pass.
+    """
 
 
 class SimulationRunPlanJobGetByIDResponse(BaseModel):
