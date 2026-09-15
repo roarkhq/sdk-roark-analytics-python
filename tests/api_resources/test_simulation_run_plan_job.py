@@ -12,6 +12,7 @@ from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     SimulationRunPlanJobListResponse,
     SimulationRunPlanJobStartResponse,
+    SimulationRunPlanJobCancelResponse,
     SimulationRunPlanJobGetByIDResponse,
 )
 
@@ -57,6 +58,44 @@ class TestSimulationRunPlanJob:
             assert_matches_type(SimulationRunPlanJobListResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_cancel(self, client: Roark) -> None:
+        simulation_run_plan_job = client.simulation_run_plan_job.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        )
+        assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_raw_response_cancel(self, client: Roark) -> None:
+        response = client.simulation_run_plan_job.with_raw_response.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = response.parse()
+        assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_streaming_response_cancel(self, client: Roark) -> None:
+        with client.simulation_run_plan_job.with_streaming_response.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = response.parse()
+            assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_cancel(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_run_plan_job.with_raw_response.cancel(
+                "",
+            )
 
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
@@ -184,6 +223,44 @@ class TestAsyncSimulationRunPlanJob:
             assert_matches_type(SimulationRunPlanJobListResponse, simulation_run_plan_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan_job = await async_client.simulation_run_plan_job.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        )
+        assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation_run_plan_job.with_raw_response.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = await response.parse()
+        assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation_run_plan_job.with_streaming_response.cancel(
+            "7f3e4d2c-8a91-4b5c-9e6f-1a2b3c4d5e6f",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = await response.parse()
+            assert_matches_type(SimulationRunPlanJobCancelResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_run_plan_job.with_raw_response.cancel(
+                "",
+            )
 
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:

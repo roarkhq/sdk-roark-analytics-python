@@ -385,6 +385,16 @@ class TestCustomerFlow:
 
     @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
     @parametrize
+    def test_method_duplicate_with_all_params(self, client: Roark) -> None:
+        customer_flow = client.customer_flow.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+            title="Reschedule an appointment (v2)",
+        )
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
     def test_raw_response_duplicate(self, client: Roark) -> None:
         response = client.customer_flow.with_raw_response.duplicate(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -990,6 +1000,16 @@ class TestAsyncCustomerFlow:
     async def test_method_duplicate(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.duplicate(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
+
+    @pytest.mark.skip(reason="prism cannot mock a recursive response schema")
+    @parametrize
+    async def test_method_duplicate_with_all_params(self, async_client: AsyncRoark) -> None:
+        customer_flow = await async_client.customer_flow.duplicate(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+            title="Reschedule an appointment (v2)",
         )
         assert_matches_type(CustomerFlowDuplicateResponse, customer_flow, path=["response"])
 

@@ -88,6 +88,12 @@ class DataMetric(BaseModel):
     default, SIMULATED.
     """
 
+    min_pass_rate: Optional[float] = FieldInfo(alias="minPassRate")
+    """
+    THE BAR. The share of the run's simulations (0-100) that must pass this check.
+    `null` means the 80% default.
+    """
+
 
 class DataScenario(BaseModel):
     id: str

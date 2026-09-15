@@ -38,6 +38,7 @@ if TYPE_CHECKING:
         health,
         metric,
         webhook,
+        benchmark,
         simulation,
         agent_prompt,
         customer_flow,
@@ -60,6 +61,7 @@ if TYPE_CHECKING:
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
+    from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
@@ -253,6 +255,12 @@ class Roark(SyncAPIClient):
         from .resources.webhook import WebhookResource
 
         return WebhookResource(self)
+
+    @cached_property
+    def benchmark(self) -> BenchmarkResource:
+        from .resources.benchmark import BenchmarkResource
+
+        return BenchmarkResource(self)
 
     @cached_property
     def config(self) -> ConfigResource:
@@ -549,6 +557,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncWebhookResource(self)
 
     @cached_property
+    def benchmark(self) -> AsyncBenchmarkResource:
+        from .resources.benchmark import AsyncBenchmarkResource
+
+        return AsyncBenchmarkResource(self)
+
+    @cached_property
     def config(self) -> AsyncConfigResource:
         from .resources.config import AsyncConfigResource
 
@@ -794,6 +808,12 @@ class RoarkWithRawResponse:
         return WebhookResourceWithRawResponse(self._client.webhook)
 
     @cached_property
+    def benchmark(self) -> benchmark.BenchmarkResourceWithRawResponse:
+        from .resources.benchmark import BenchmarkResourceWithRawResponse
+
+        return BenchmarkResourceWithRawResponse(self._client.benchmark)
+
+    @cached_property
     def config(self) -> config.ConfigResourceWithRawResponse:
         from .resources.config import ConfigResourceWithRawResponse
 
@@ -925,6 +945,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.webhook import AsyncWebhookResourceWithRawResponse
 
         return AsyncWebhookResourceWithRawResponse(self._client.webhook)
+
+    @cached_property
+    def benchmark(self) -> benchmark.AsyncBenchmarkResourceWithRawResponse:
+        from .resources.benchmark import AsyncBenchmarkResourceWithRawResponse
+
+        return AsyncBenchmarkResourceWithRawResponse(self._client.benchmark)
 
     @cached_property
     def config(self) -> config.AsyncConfigResourceWithRawResponse:
@@ -1060,6 +1086,12 @@ class RoarkWithStreamedResponse:
         return WebhookResourceWithStreamingResponse(self._client.webhook)
 
     @cached_property
+    def benchmark(self) -> benchmark.BenchmarkResourceWithStreamingResponse:
+        from .resources.benchmark import BenchmarkResourceWithStreamingResponse
+
+        return BenchmarkResourceWithStreamingResponse(self._client.benchmark)
+
+    @cached_property
     def config(self) -> config.ConfigResourceWithStreamingResponse:
         from .resources.config import ConfigResourceWithStreamingResponse
 
@@ -1193,6 +1225,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.webhook import AsyncWebhookResourceWithStreamingResponse
 
         return AsyncWebhookResourceWithStreamingResponse(self._client.webhook)
+
+    @cached_property
+    def benchmark(self) -> benchmark.AsyncBenchmarkResourceWithStreamingResponse:
+        from .resources.benchmark import AsyncBenchmarkResourceWithStreamingResponse
+
+        return AsyncBenchmarkResourceWithStreamingResponse(self._client.benchmark)
 
     @cached_property
     def config(self) -> config.AsyncConfigResourceWithStreamingResponse:

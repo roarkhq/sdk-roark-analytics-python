@@ -170,6 +170,7 @@ Types:
 ```python
 from roark_analytics.types import (
     SimulationRunPlanJobListResponse,
+    SimulationRunPlanJobCancelResponse,
     SimulationRunPlanJobGetByIDResponse,
     SimulationRunPlanJobStartResponse,
 )
@@ -178,6 +179,7 @@ from roark_analytics.types import (
 Methods:
 
 - <code title="get /v1/simulation/plan/jobs">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_run_plan_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_list_response.py">SimulationRunPlanJobListResponse</a></code>
+- <code title="post /v1/simulation/plan/job/{jobId}/cancel">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">cancel</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_cancel_response.py">SimulationRunPlanJobCancelResponse</a></code>
 - <code title="get /v1/simulation/plan/job/{jobId}">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_by_id_response.py">SimulationRunPlanJobGetByIDResponse</a></code>
 - <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_start_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
 
@@ -381,6 +383,30 @@ Methods:
 - <code title="get /v1/webhook">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">list</a>(\*\*<a href="src/roark_analytics/types/webhook_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/webhook_list_response.py">WebhookListResponse</a></code>
 - <code title="delete /v1/webhook/{webhookId}">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">delete</a>(webhook_id) -> <a href="./src/roark_analytics/types/webhook_delete_response.py">WebhookDeleteResponse</a></code>
 - <code title="get /v1/webhook/{webhookId}">client.webhook.<a href="./src/roark_analytics/resources/webhook.py">get_by_id</a>(webhook_id) -> <a href="./src/roark_analytics/types/webhook_get_by_id_response.py">WebhookGetByIDResponse</a></code>
+
+# Benchmark
+
+Types:
+
+```python
+from roark_analytics.types import (
+    BenchmarkGetLeaderboardResponse,
+    BenchmarkGetTargetResponse,
+    BenchmarkListMetricsResponse,
+    BenchmarkListSuitesResponse,
+    BenchmarkListTargetHistoryResponse,
+    BenchmarkListTargetScoreSamplesResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/benchmark/leaderboard">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">get_leaderboard</a>(\*\*<a href="src/roark_analytics/types/benchmark_get_leaderboard_params.py">params</a>) -> <a href="./src/roark_analytics/types/benchmark_get_leaderboard_response.py">BenchmarkGetLeaderboardResponse</a></code>
+- <code title="get /v1/benchmark/target/{targetKey}">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">get_target</a>(target_key, \*\*<a href="src/roark_analytics/types/benchmark_get_target_params.py">params</a>) -> <a href="./src/roark_analytics/types/benchmark_get_target_response.py">BenchmarkGetTargetResponse</a></code>
+- <code title="get /v1/benchmark/metric">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">list_metrics</a>(\*\*<a href="src/roark_analytics/types/benchmark_list_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/benchmark_list_metrics_response.py">BenchmarkListMetricsResponse</a></code>
+- <code title="get /v1/benchmark/suite">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">list_suites</a>() -> <a href="./src/roark_analytics/types/benchmark_list_suites_response.py">BenchmarkListSuitesResponse</a></code>
+- <code title="get /v1/benchmark/target/{targetKey}/history">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">list_target_history</a>(target_key, \*\*<a href="src/roark_analytics/types/benchmark_list_target_history_params.py">params</a>) -> <a href="./src/roark_analytics/types/benchmark_list_target_history_response.py">BenchmarkListTargetHistoryResponse</a></code>
+- <code title="get /v1/benchmark/target/{targetKey}/score-sample">client.benchmark.<a href="./src/roark_analytics/resources/benchmark.py">list_target_score_samples</a>(target_key, \*\*<a href="src/roark_analytics/types/benchmark_list_target_score_samples_params.py">params</a>) -> <a href="./src/roark_analytics/types/benchmark_list_target_score_samples_response.py">BenchmarkListTargetScoreSamplesResponse</a></code>
 
 # Config
 

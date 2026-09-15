@@ -152,10 +152,11 @@ class ScriptedFlowVariantPersonaOverride(BaseModel):
     properties: Dict[str, object]
     """Additional custom properties about the persona"""
 
-    response_timing: Literal["RELAXED", "NORMAL", "QUICK"] = FieldInfo(alias="responseTiming")
+    response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] = FieldInfo(alias="responseTiming")
     """
     Controls how quickly the persona responds to pauses in conversation (QUICK,
-    NORMAL, RELAXED)
+    NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+    for several seconds.
     """
 
     speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] = FieldInfo(alias="speechClarity")
