@@ -48,6 +48,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .benchmark import (
+    BenchmarkResource,
+    AsyncBenchmarkResource,
+    BenchmarkResourceWithRawResponse,
+    AsyncBenchmarkResourceWithRawResponse,
+    BenchmarkResourceWithStreamingResponse,
+    AsyncBenchmarkResourceWithStreamingResponse,
+)
 from .simulation import (
     SimulationResource,
     AsyncSimulationResource,
@@ -290,6 +298,12 @@ __all__ = [
     "AsyncWebhookResourceWithRawResponse",
     "WebhookResourceWithStreamingResponse",
     "AsyncWebhookResourceWithStreamingResponse",
+    "BenchmarkResource",
+    "AsyncBenchmarkResource",
+    "BenchmarkResourceWithRawResponse",
+    "AsyncBenchmarkResourceWithRawResponse",
+    "BenchmarkResourceWithStreamingResponse",
+    "AsyncBenchmarkResourceWithStreamingResponse",
     "ConfigResource",
     "AsyncConfigResource",
     "ConfigResourceWithRawResponse",

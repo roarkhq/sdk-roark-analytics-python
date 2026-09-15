@@ -153,7 +153,7 @@ class PersonaConfig(TypedDict, total=False):
 
     properties: Dict[str, object]
 
-    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK"], PropertyInfo(alias="responseTiming")]
+    response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"], PropertyInfo(alias="responseTiming")]
 
     secondary_language: Annotated[Literal["EN"], PropertyInfo(alias="secondaryLanguage")]
 

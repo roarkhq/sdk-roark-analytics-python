@@ -110,7 +110,7 @@ class SimulationPersonaResource(SyncAPIResource):
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
-        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
@@ -192,7 +192,8 @@ class SimulationPersonaResource(SyncAPIResource):
           properties: Additional custom properties about the persona
 
           response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED)
+              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+              for several seconds.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -314,7 +315,7 @@ class SimulationPersonaResource(SyncAPIResource):
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
-        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
@@ -396,7 +397,8 @@ class SimulationPersonaResource(SyncAPIResource):
           properties: Additional custom properties about the persona
 
           response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED)
+              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+              for several seconds.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -615,7 +617,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
-        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
@@ -697,7 +699,8 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
           properties: Additional custom properties about the persona
 
           response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED)
+              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+              for several seconds.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -819,7 +822,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         name: str | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
-        response_timing: Literal["RELAXED", "NORMAL", "QUICK"] | Omit = omit,
+        response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
         secondary_language: Optional[Literal["EN"]] | Omit = omit,
         speech_clarity: Literal["CLEAR", "VAGUE", "RAMBLING"] | Omit = omit,
         speech_pace: Literal["SUPER_SLOW", "SLOW", "NORMAL", "FAST", "SUPER_FAST"] | Omit = omit,
@@ -901,7 +904,8 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
           properties: Additional custom properties about the persona
 
           response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED)
+              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
+              for several seconds.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
