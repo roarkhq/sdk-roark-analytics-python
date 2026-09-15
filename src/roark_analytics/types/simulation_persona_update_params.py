@@ -49,7 +49,20 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     """
 
     background_noise: Annotated[
-        Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
+        Literal[
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
+        ],
         PropertyInfo(alias="backgroundNoise"),
     ]
     """Background noise setting"""

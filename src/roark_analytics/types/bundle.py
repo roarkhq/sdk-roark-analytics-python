@@ -102,7 +102,20 @@ class PersonaConfig(BaseModel):
     age: Optional[Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"]] = None
 
     background_noise: Optional[
-        Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"]
+        Literal[
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
+        ]
     ] = FieldInfo(alias="backgroundNoise", default=None)
 
     backstory_prompt: Optional[str] = FieldInfo(alias="backstoryPrompt", default=None)
