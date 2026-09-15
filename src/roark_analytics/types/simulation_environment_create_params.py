@@ -13,7 +13,20 @@ __all__ = ["SimulationEnvironmentCreateParams"]
 class SimulationEnvironmentCreateParams(TypedDict, total=False):
     background_noise: Required[
         Annotated[
-            Literal["NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"],
+            Literal[
+                "NONE",
+                "AIRPORT",
+                "CHILDREN_PLAYING",
+                "CITY",
+                "COFFEE_SHOP",
+                "CONSTRUCTION",
+                "CRYING_BABY",
+                "DRIVING",
+                "LIBRARY",
+                "OFFICE",
+                "THUNDERSTORM",
+                "TRAIN",
+            ],
             PropertyInfo(alias="backgroundNoise"),
         ]
     ]

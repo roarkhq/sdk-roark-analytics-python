@@ -64,7 +64,18 @@ class ScriptedCustomerFlowEdgeCaseEnvironment(BaseModel):
     id: str
 
     background_noise: Literal[
-        "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        "NONE",
+        "AIRPORT",
+        "CHILDREN_PLAYING",
+        "CITY",
+        "COFFEE_SHOP",
+        "CONSTRUCTION",
+        "CRYING_BABY",
+        "DRIVING",
+        "LIBRARY",
+        "OFFICE",
+        "THUNDERSTORM",
+        "TRAIN",
     ] = FieldInfo(alias="backgroundNoise")
 
     background_noise_volume: float = FieldInfo(alias="backgroundNoiseVolume")
@@ -123,7 +134,18 @@ class ScriptedCustomerFlowEdgeCasePersonaOverride(BaseModel):
     """
 
     background_noise: Literal[
-        "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        "NONE",
+        "AIRPORT",
+        "CHILDREN_PLAYING",
+        "CITY",
+        "COFFEE_SHOP",
+        "CONSTRUCTION",
+        "CRYING_BABY",
+        "DRIVING",
+        "LIBRARY",
+        "OFFICE",
+        "THUNDERSTORM",
+        "TRAIN",
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 

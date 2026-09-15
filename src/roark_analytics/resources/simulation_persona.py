@@ -82,7 +82,18 @@ class SimulationPersonaResource(SyncAPIResource):
         name: str,
         age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
-            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
@@ -281,7 +292,18 @@ class SimulationPersonaResource(SyncAPIResource):
         | Omit = omit,
         age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
-            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
@@ -589,7 +611,18 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         name: str,
         age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
-            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,
@@ -788,7 +821,18 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         | Omit = omit,
         age: Literal["CHILD", "TEENAGER", "ADULT", "ELDERLY"] | Omit = omit,
         background_noise: Literal[
-            "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+            "NONE",
+            "AIRPORT",
+            "CHILDREN_PLAYING",
+            "CITY",
+            "COFFEE_SHOP",
+            "CONSTRUCTION",
+            "CRYING_BABY",
+            "DRIVING",
+            "LIBRARY",
+            "OFFICE",
+            "THUNDERSTORM",
+            "TRAIN",
         ]
         | Omit = omit,
         backstory_prompt: Optional[str] | Omit = omit,

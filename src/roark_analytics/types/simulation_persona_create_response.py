@@ -51,7 +51,18 @@ class Data(BaseModel):
     """
 
     background_noise: Literal[
-        "NONE", "AIRPORT", "CHILDREN_PLAYING", "CITY", "COFFEE_SHOP", "DRIVING", "OFFICE", "THUNDERSTORM"
+        "NONE",
+        "AIRPORT",
+        "CHILDREN_PLAYING",
+        "CITY",
+        "COFFEE_SHOP",
+        "CONSTRUCTION",
+        "CRYING_BABY",
+        "DRIVING",
+        "LIBRARY",
+        "OFFICE",
+        "THUNDERSTORM",
+        "TRAIN",
     ] = FieldInfo(alias="backgroundNoise")
     """Background noise setting"""
 
