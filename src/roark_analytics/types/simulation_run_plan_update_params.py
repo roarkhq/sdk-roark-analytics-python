@@ -121,6 +121,48 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     agent_endpoints: Annotated[Iterable[AgentEndpoint], PropertyInfo(alias="agentEndpoints")]
     """Agent endpoints to include in this run plan"""
 
+    comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
+    """
+    The value every other value is measured against. See `POST /v1/simulation/plan`.
+    A real value cannot be sent on its own: the property it belongs to decides which
+    values are legal, and an omitted property means "leave unchanged", which this
+    endpoint cannot check a baseline against. Send `comparisonProperty` with it, or
+    get a `400`.
+    `null` on its own IS allowed, and clears just the baseline while leaving the
+    property set. Nothing needs validating when clearing, and a property with no
+    baseline is a real state: the report falls back to that property's own norm, and
+    `GENDER` has no norm to fall back to.
+    """
+
+    comparison_property: Annotated[
+        Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ],
+        PropertyInfo(alias="comparisonProperty"),
+    ]
+    """
+    The property this plan investigates. Send `null` to clear the comparison; omit
+    the field to leave it unchanged. See `POST /v1/simulation/plan`.
+    The pair moves together. Sending `comparisonProperty` also sets
+    `comparisonBaseline` to whatever this request carries, or to `null` if it
+    carries none, because a baseline is a value of one specific property and keeping
+    the old one would store a pair that is not valid.
+    """
+
     description: str
     """Description of the run plan"""
 
@@ -193,13 +235,6 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     personas: Iterable[AgentEndpoint]
     """Personas to include in this run plan"""
-
-    reference_customer_flow_variant_id: Annotated[Optional[str], PropertyInfo(alias="referenceCustomerFlowVariantId")]
-    """
-    The reference arm every other flow variant in a run is reported as a difference
-    from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
-    /v1/simulation/plan`.
-    """
 
     scenarios: Iterable[Scenario]
     """

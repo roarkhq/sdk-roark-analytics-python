@@ -61,6 +61,25 @@ class SimulationRunPlanResource(SyncAPIResource):
         metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         auto_run: bool | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
@@ -72,7 +91,6 @@ class SimulationRunPlanResource(SyncAPIResource):
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
-        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -103,6 +121,22 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
+
+          comparison_baseline: The value of `comparisonProperty` every other value is measured against, for
+              example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
+              value that property can take. Stored rather than assumed, so the report can say
+              "compared against US accent" instead of implying Roark decided which value is
+              normal. Most properties have an obvious baseline and the dashboard prefills it;
+              `GENDER` has none, so choose the one you are testing against.
+
+          comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
+              it and the run report compares the arms on that property, so a run answers "what
+              did background noise cost" rather than just "what did each arm score". Every
+              value is a field already recorded on each call, so the report can label an arm
+              `CRYING_BABY` rather than repeating a flow variant's title. Omit it and the
+              report still compares when it can: it detects which property varies across the
+              arms. Setting it is what tells the written summary what you were trying to find
+              out, which detection cannot infer.
 
           description: Description of the run plan
 
@@ -151,15 +185,6 @@ class SimulationRunPlanResource(SyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
-          reference_customer_flow_variant_id: Name one flow variant as this run plan's REFERENCE arm. Every other flow variant
-              the plan runs is then reported as a difference from this one, which is how a run
-              answers "what did the change cost" rather than just "what did it score". The
-              usual shape is one flow whose default variant is the control (say, a silent
-              environment) plus one edge-case variant per condition under test. The variant
-              must be one this plan actually runs: it has to belong to a flow in `flows`, and
-              that flow's variant selection has to resolve to it. Omit or set null for a plan
-              that is a general health check rather than an experiment.
-
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -183,6 +208,8 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "auto_run": auto_run,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_property": comparison_property,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
@@ -194,7 +221,6 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
-                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -211,6 +237,25 @@ class SimulationRunPlanResource(SyncAPIResource):
         plan_id: str,
         *,
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -227,7 +272,6 @@ class SimulationRunPlanResource(SyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
-        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -242,6 +286,22 @@ class SimulationRunPlanResource(SyncAPIResource):
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
+
+          comparison_baseline: The value every other value is measured against. See `POST /v1/simulation/plan`.
+              A real value cannot be sent on its own: the property it belongs to decides which
+              values are legal, and an omitted property means "leave unchanged", which this
+              endpoint cannot check a baseline against. Send `comparisonProperty` with it, or
+              get a `400`. `null` on its own IS allowed, and clears just the baseline while
+              leaving the property set. Nothing needs validating when clearing, and a property
+              with no baseline is a real state: the report falls back to that property's own
+              norm, and `GENDER` has no norm to fall back to.
+
+          comparison_property: The property this plan investigates. Send `null` to clear the comparison; omit
+              the field to leave it unchanged. See `POST /v1/simulation/plan`. The pair moves
+              together. Sending `comparisonProperty` also sets `comparisonBaseline` to
+              whatever this request carries, or to `null` if it carries none, because a
+              baseline is a value of one specific property and keeping the old one would store
+              a pair that is not valid.
 
           description: Description of the run plan
 
@@ -284,10 +344,6 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          reference_customer_flow_variant_id: The reference arm every other flow variant in a run is reported as a difference
-              from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
-              /v1/simulation/plan`.
-
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -309,6 +365,8 @@ class SimulationRunPlanResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "agent_endpoints": agent_endpoints,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_property": comparison_property,
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
@@ -325,7 +383,6 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "personas": personas,
-                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -489,6 +546,25 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         auto_run: bool | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
@@ -500,7 +576,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
-        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -531,6 +606,22 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
+
+          comparison_baseline: The value of `comparisonProperty` every other value is measured against, for
+              example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
+              value that property can take. Stored rather than assumed, so the report can say
+              "compared against US accent" instead of implying Roark decided which value is
+              normal. Most properties have an obvious baseline and the dashboard prefills it;
+              `GENDER` has none, so choose the one you are testing against.
+
+          comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
+              it and the run report compares the arms on that property, so a run answers "what
+              did background noise cost" rather than just "what did each arm score". Every
+              value is a field already recorded on each call, so the report can label an arm
+              `CRYING_BABY` rather than repeating a flow variant's title. Omit it and the
+              report still compares when it can: it detects which property varies across the
+              arms. Setting it is what tells the written summary what you were trying to find
+              out, which detection cannot infer.
 
           description: Description of the run plan
 
@@ -579,15 +670,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
-          reference_customer_flow_variant_id: Name one flow variant as this run plan's REFERENCE arm. Every other flow variant
-              the plan runs is then reported as a difference from this one, which is how a run
-              answers "what did the change cost" rather than just "what did it score". The
-              usual shape is one flow whose default variant is the control (say, a silent
-              environment) plus one edge-case variant per condition under test. The variant
-              must be one this plan actually runs: it has to belong to a flow in `flows`, and
-              that flow's variant selection has to resolve to it. Omit or set null for a plan
-              that is a general health check rather than an experiment.
-
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -611,6 +693,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "auto_run": auto_run,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_property": comparison_property,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
@@ -622,7 +706,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
-                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -639,6 +722,25 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         plan_id: str,
         *,
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -655,7 +757,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
-        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -670,6 +771,22 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
+
+          comparison_baseline: The value every other value is measured against. See `POST /v1/simulation/plan`.
+              A real value cannot be sent on its own: the property it belongs to decides which
+              values are legal, and an omitted property means "leave unchanged", which this
+              endpoint cannot check a baseline against. Send `comparisonProperty` with it, or
+              get a `400`. `null` on its own IS allowed, and clears just the baseline while
+              leaving the property set. Nothing needs validating when clearing, and a property
+              with no baseline is a real state: the report falls back to that property's own
+              norm, and `GENDER` has no norm to fall back to.
+
+          comparison_property: The property this plan investigates. Send `null` to clear the comparison; omit
+              the field to leave it unchanged. See `POST /v1/simulation/plan`. The pair moves
+              together. Sending `comparisonProperty` also sets `comparisonBaseline` to
+              whatever this request carries, or to `null` if it carries none, because a
+              baseline is a value of one specific property and keeping the old one would store
+              a pair that is not valid.
 
           description: Description of the run plan
 
@@ -712,10 +829,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
-          reference_customer_flow_variant_id: The reference arm every other flow variant in a run is reported as a difference
-              from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
-              /v1/simulation/plan`.
-
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -737,6 +850,8 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "agent_endpoints": agent_endpoints,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_property": comparison_property,
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
@@ -753,7 +868,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "personas": personas,
-                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
