@@ -163,6 +163,14 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     the old one would store a pair that is not valid.
     """
 
+    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    """
+    Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
+    Omitting it keeps the arms the plan already has, so an edit that only renames
+    the plan never widens a sweep you deliberately narrowed, and never multiplies
+    what it costs.
+    """
+
     description: str
     """Description of the run plan"""
 

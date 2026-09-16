@@ -51,6 +51,8 @@ class FlowStepParamUnionMember0(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     steps: List["FlowStepParam"]
 
 
@@ -64,6 +66,8 @@ class FlowStepParamUnionMember1(TypedDict, total=False):
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
     ref: str
+
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
 
     steps: List["FlowStepParam"]
 
@@ -79,6 +83,8 @@ class FlowStepParamUnionMember2(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     steps: List["FlowStepParam"]
 
 
@@ -93,6 +99,8 @@ class FlowStepParamUnionMember3(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     steps: List["FlowStepParam"]
 
 
@@ -104,6 +112,8 @@ class FlowStepParamUnionMember4(TypedDict, total=False):
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
     ref: str
+
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
 
     silence_duration_seconds: Annotated[Optional[int], PropertyInfo(alias="silenceDurationSeconds")]
 
@@ -121,6 +131,8 @@ class FlowStepParamUnionMember5(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     steps: List["FlowStepParam"]
 
 
@@ -135,6 +147,8 @@ class FlowStepParamUnionMember6(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     steps: List["FlowStepParam"]
 
 
@@ -146,6 +160,8 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
     ref: str
+
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
 
     steps: List["FlowStepParam"]
 
@@ -160,6 +176,8 @@ class FlowStepParamUnionMember8(TypedDict, total=False):
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
     ref: str
+
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
 
     steps: List["FlowStepParam"]
 
@@ -176,6 +194,8 @@ class FlowStepParamUnionMember9(TypedDict, total=False):
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
     ref: str
+
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
 
     steps: List["FlowStepParam"]
 

@@ -48,6 +48,8 @@ class FlowStepUnionMember0(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     steps: Optional[List["FlowStep"]] = None
 
 
@@ -61,6 +63,8 @@ class FlowStepUnionMember1(BaseModel):
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
     ref: Optional[str] = None
+
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
 
     steps: Optional[List["FlowStep"]] = None
 
@@ -76,6 +80,8 @@ class FlowStepUnionMember2(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     steps: Optional[List["FlowStep"]] = None
 
 
@@ -90,6 +96,8 @@ class FlowStepUnionMember3(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     steps: Optional[List["FlowStep"]] = None
 
 
@@ -101,6 +109,8 @@ class FlowStepUnionMember4(BaseModel):
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
     ref: Optional[str] = None
+
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
 
     silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
 
@@ -118,6 +128,8 @@ class FlowStepUnionMember5(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     steps: Optional[List["FlowStep"]] = None
 
 
@@ -132,6 +144,8 @@ class FlowStepUnionMember6(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     steps: Optional[List["FlowStep"]] = None
 
 
@@ -143,6 +157,8 @@ class FlowStepUnionMember7(BaseModel):
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
     ref: Optional[str] = None
+
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
 
     steps: Optional[List["FlowStep"]] = None
 
@@ -157,6 +173,8 @@ class FlowStepUnionMember8(BaseModel):
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
     ref: Optional[str] = None
+
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
 
     steps: Optional[List["FlowStep"]] = None
 
@@ -173,6 +191,8 @@ class FlowStepUnionMember9(BaseModel):
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
     ref: Optional[str] = None
+
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
 
     steps: Optional[List["FlowStep"]] = None
 

@@ -54,6 +54,7 @@ class TestCustomerFlow:
                         "wait_seconds": 1,
                     },
                     "ref": "x",
+                    "required_for_valid_run": True,
                     "steps": [
                         {
                             "type": "AGENT_TURN",
@@ -68,6 +69,7 @@ class TestCustomerFlow:
                                 "wait_seconds": 1,
                             },
                             "ref": "x",
+                            "required_for_valid_run": True,
                             "steps": [
                                 {
                                     "type": "AGENT_TURN",
@@ -82,6 +84,7 @@ class TestCustomerFlow:
                                         "wait_seconds": 1,
                                     },
                                     "ref": "x",
+                                    "required_for_valid_run": True,
                                     "steps": [
                                         {
                                             "type": "AGENT_TURN",
@@ -94,6 +97,7 @@ class TestCustomerFlow:
                                                 "then": "HANG_UP",
                                             },
                                             "ref": "x",
+                                            "required_for_valid_run": True,
                                             "steps": [],
                                         }
                                     ],
@@ -495,6 +499,7 @@ class TestCustomerFlow:
                         "wait_seconds": 1,
                     },
                     "ref": "x",
+                    "required_for_valid_run": True,
                     "steps": [
                         {
                             "type": "AGENT_TURN",
@@ -509,6 +514,7 @@ class TestCustomerFlow:
                                 "wait_seconds": 1,
                             },
                             "ref": "x",
+                            "required_for_valid_run": True,
                             "steps": [
                                 {
                                     "type": "AGENT_TURN",
@@ -523,6 +529,7 @@ class TestCustomerFlow:
                                         "wait_seconds": 1,
                                     },
                                     "ref": "x",
+                                    "required_for_valid_run": True,
                                     "steps": [
                                         {
                                             "type": "AGENT_TURN",
@@ -535,6 +542,7 @@ class TestCustomerFlow:
                                                 "then": "HANG_UP",
                                             },
                                             "ref": "x",
+                                            "required_for_valid_run": True,
                                             "steps": [],
                                         }
                                     ],
@@ -674,6 +682,7 @@ class TestAsyncCustomerFlow:
                         "wait_seconds": 1,
                     },
                     "ref": "x",
+                    "required_for_valid_run": True,
                     "steps": [
                         {
                             "type": "AGENT_TURN",
@@ -688,6 +697,7 @@ class TestAsyncCustomerFlow:
                                 "wait_seconds": 1,
                             },
                             "ref": "x",
+                            "required_for_valid_run": True,
                             "steps": [
                                 {
                                     "type": "AGENT_TURN",
@@ -702,6 +712,7 @@ class TestAsyncCustomerFlow:
                                         "wait_seconds": 1,
                                     },
                                     "ref": "x",
+                                    "required_for_valid_run": True,
                                     "steps": [
                                         {
                                             "type": "AGENT_TURN",
@@ -714,6 +725,7 @@ class TestAsyncCustomerFlow:
                                                 "then": "HANG_UP",
                                             },
                                             "ref": "x",
+                                            "required_for_valid_run": True,
                                             "steps": [],
                                         }
                                     ],
@@ -1115,6 +1127,7 @@ class TestAsyncCustomerFlow:
                         "wait_seconds": 1,
                     },
                     "ref": "x",
+                    "required_for_valid_run": True,
                     "steps": [
                         {
                             "type": "AGENT_TURN",
@@ -1129,6 +1142,7 @@ class TestAsyncCustomerFlow:
                                 "wait_seconds": 1,
                             },
                             "ref": "x",
+                            "required_for_valid_run": True,
                             "steps": [
                                 {
                                     "type": "AGENT_TURN",
@@ -1143,6 +1157,7 @@ class TestAsyncCustomerFlow:
                                         "wait_seconds": 1,
                                     },
                                     "ref": "x",
+                                    "required_for_valid_run": True,
                                     "steps": [
                                         {
                                             "type": "AGENT_TURN",
@@ -1155,6 +1170,7 @@ class TestAsyncCustomerFlow:
                                                 "then": "HANG_UP",
                                             },
                                             "ref": "x",
+                                            "required_for_valid_run": True,
                                             "steps": [],
                                         }
                                     ],

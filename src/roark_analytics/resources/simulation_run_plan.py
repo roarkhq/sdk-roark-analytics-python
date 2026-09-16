@@ -80,6 +80,7 @@ class SimulationRunPlanResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
@@ -137,6 +138,15 @@ class SimulationRunPlanResource(SyncAPIResource):
               report still compares when it can: it detects which property varies across the
               arms. Setting it is what tells the written summary what you were trying to find
               out, which detection cannot infer.
+
+          comparison_values: Which values of `comparisonProperty` to run. This is what the plan costs: the
+              flow is attached once per value, so ten values is ten times the calls of one.
+              Omit it to run every value the property has, which for `ACCENT` is more than
+              twenty. Send a subset to narrow the sweep, for example three accents you
+              actually serve. A `comparisonBaseline` outside this set is rejected, because it
+              would anchor every difference to an arm the run never made. Not stored as a
+              field: the arms are the values. Reading the plan back returns them as its flow
+              attachments.
 
           description: Description of the run plan
 
@@ -210,6 +220,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "auto_run": auto_run,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
+                    "comparison_values": comparison_values,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
@@ -256,6 +267,7 @@ class SimulationRunPlanResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -302,6 +314,11 @@ class SimulationRunPlanResource(SyncAPIResource):
               whatever this request carries, or to `null` if it carries none, because a
               baseline is a value of one specific property and keeping the old one would store
               a pair that is not valid.
+
+          comparison_values: Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
+              Omitting it keeps the arms the plan already has, so an edit that only renames
+              the plan never widens a sweep you deliberately narrowed, and never multiplies
+              what it costs.
 
           description: Description of the run plan
 
@@ -367,6 +384,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
+                    "comparison_values": comparison_values,
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
@@ -565,6 +583,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
@@ -622,6 +641,15 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
               report still compares when it can: it detects which property varies across the
               arms. Setting it is what tells the written summary what you were trying to find
               out, which detection cannot infer.
+
+          comparison_values: Which values of `comparisonProperty` to run. This is what the plan costs: the
+              flow is attached once per value, so ten values is ten times the calls of one.
+              Omit it to run every value the property has, which for `ACCENT` is more than
+              twenty. Send a subset to narrow the sweep, for example three accents you
+              actually serve. A `comparisonBaseline` outside this set is rejected, because it
+              would anchor every difference to an arm the run never made. Not stored as a
+              field: the arms are the values. Reading the plan back returns them as its flow
+              attachments.
 
           description: Description of the run plan
 
@@ -695,6 +723,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "auto_run": auto_run,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
+                    "comparison_values": comparison_values,
                     "description": description,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
@@ -741,6 +770,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -787,6 +817,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
               whatever this request carries, or to `null` if it carries none, because a
               baseline is a value of one specific property and keeping the old one would store
               a pair that is not valid.
+
+          comparison_values: Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
+              Omitting it keeps the arms the plan already has, so an edit that only renames
+              the plan never widens a sweep you deliberately narrowed, and never multiplies
+              what it costs.
 
           description: Description of the run plan
 
@@ -852,6 +887,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
+                    "comparison_values": comparison_values,
                     "description": description,
                     "direction": direction,
                     "end_call_phrases": end_call_phrases,
