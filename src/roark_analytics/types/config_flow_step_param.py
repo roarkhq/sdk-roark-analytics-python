@@ -53,6 +53,8 @@ class ConfigFlowStepParam(TypedDict, total=False):
 
     ref: str
 
+    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+
     silence_duration_seconds: Annotated[int, PropertyInfo(alias="silenceDurationSeconds")]
 
     steps: List["ConfigFlowStepParam"]
