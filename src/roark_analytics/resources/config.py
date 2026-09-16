@@ -50,6 +50,7 @@ class ConfigResource(SyncAPIResource):
         resources: List[
             Union[
                 config_apply_params.AgentConfig,
+                config_apply_params.HTTPRequestDefinitionConfig,
                 config_apply_params.PersonaConfig,
                 config_apply_params.ImprovFlowConfig,
                 config_apply_params.ScriptedFlowConfig,
@@ -104,6 +105,7 @@ class ConfigResource(SyncAPIResource):
         resources: List[
             Union[
                 config_diff_params.AgentConfig,
+                config_diff_params.HTTPRequestDefinitionConfig,
                 config_diff_params.PersonaConfig,
                 config_diff_params.ImprovFlowConfig,
                 config_diff_params.ScriptedFlowConfig,
@@ -178,6 +180,7 @@ class AsyncConfigResource(AsyncAPIResource):
         resources: List[
             Union[
                 config_apply_params.AgentConfig,
+                config_apply_params.HTTPRequestDefinitionConfig,
                 config_apply_params.PersonaConfig,
                 config_apply_params.ImprovFlowConfig,
                 config_apply_params.ScriptedFlowConfig,
@@ -232,6 +235,7 @@ class AsyncConfigResource(AsyncAPIResource):
         resources: List[
             Union[
                 config_diff_params.AgentConfig,
+                config_diff_params.HTTPRequestDefinitionConfig,
                 config_diff_params.PersonaConfig,
                 config_diff_params.ImprovFlowConfig,
                 config_diff_params.ScriptedFlowConfig,

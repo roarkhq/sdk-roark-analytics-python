@@ -38,7 +38,14 @@ class TestConfig:
                     "description": "description",
                     "display_name": "displayName",
                     "endpoints": [
-                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                        {
+                            "value": "x",
+                            "direction": "INCOMING",
+                            "environment": "environment",
+                            "outbound_dial_http_request_definition": "x",
+                            "outbound_dial_type": "NONE",
+                            "type": "PHONE",
+                        }
                     ],
                     "prompt": "prompt",
                 }
@@ -89,7 +96,14 @@ class TestConfig:
                     "description": "description",
                     "display_name": "displayName",
                     "endpoints": [
-                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                        {
+                            "value": "x",
+                            "direction": "INCOMING",
+                            "environment": "environment",
+                            "outbound_dial_http_request_definition": "x",
+                            "outbound_dial_type": "NONE",
+                            "type": "PHONE",
+                        }
                     ],
                     "prompt": "prompt",
                 }
@@ -146,7 +160,14 @@ class TestAsyncConfig:
                     "description": "description",
                     "display_name": "displayName",
                     "endpoints": [
-                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                        {
+                            "value": "x",
+                            "direction": "INCOMING",
+                            "environment": "environment",
+                            "outbound_dial_http_request_definition": "x",
+                            "outbound_dial_type": "NONE",
+                            "type": "PHONE",
+                        }
                     ],
                     "prompt": "prompt",
                 }
@@ -197,7 +218,14 @@ class TestAsyncConfig:
                     "description": "description",
                     "display_name": "displayName",
                     "endpoints": [
-                        {"value": "x", "direction": "INCOMING", "environment": "environment", "type": "PHONE"}
+                        {
+                            "value": "x",
+                            "direction": "INCOMING",
+                            "environment": "environment",
+                            "outbound_dial_http_request_definition": "x",
+                            "outbound_dial_type": "NONE",
+                            "type": "PHONE",
+                        }
                     ],
                     "prompt": "prompt",
                 }

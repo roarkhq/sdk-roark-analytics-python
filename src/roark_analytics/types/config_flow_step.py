@@ -33,6 +33,7 @@ class ConfigFlowStep(BaseModel):
         "AGENT_DTMF",
         "VOICEMAIL",
         "SCENARIO_LINK",
+        "CUSTOMER_HANDOFF",
     ]
 
     content: Optional[str] = None
@@ -40,6 +41,8 @@ class ConfigFlowStep(BaseModel):
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
 
     flow: Optional[str] = None
+
+    handoff_persona: Optional[str] = FieldInfo(alias="handoffPersona", default=None)
 
     merge_into: Optional[List[str]] = FieldInfo(alias="mergeInto", default=None)
 
