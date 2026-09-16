@@ -21,6 +21,7 @@ __all__ = [
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
+    "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
     "ImprovFlowConfigHappyPath",
@@ -43,6 +44,12 @@ class AgentConfigEndpoint(BaseModel):
 
     environment: Optional[str] = None
 
+    outbound_dial_http_request_definition: Optional[str] = FieldInfo(
+        alias="outboundDialHttpRequestDefinition", default=None
+    )
+
+    outbound_dial_type: Optional[Literal["NONE", "HTTP_REQUEST"]] = FieldInfo(alias="outboundDialType", default=None)
+
     type: Optional[Literal["PHONE", "WEBSOCKET"]] = None
 
 
@@ -60,6 +67,22 @@ class AgentConfig(BaseModel):
     endpoints: Optional[List[AgentConfigEndpoint]] = None
 
     prompt: Optional[str] = None
+
+
+class HTTPRequestDefinitionConfig(BaseModel):
+    kind: Literal["httpRequestDefinition"]
+
+    name: str
+
+    url: str
+
+    body: Optional[str] = None
+
+    description: Optional[str] = None
+
+    headers: Optional[Dict[str, str]] = None
+
+    method: Optional[Literal["POST", "PUT", "PATCH", "GET"]] = None
 
 
 class PersonaConfig(BaseModel):
@@ -518,6 +541,7 @@ class Bundle(BaseModel):
     resources: List[
         Union[
             AgentConfig,
+            HTTPRequestDefinitionConfig,
             PersonaConfig,
             ImprovFlowConfig,
             ScriptedFlowConfig,

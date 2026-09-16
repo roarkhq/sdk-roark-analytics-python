@@ -28,6 +28,13 @@ class Data(BaseModel):
     headers: Dict[str, str]
     """Request headers as key-value pairs"""
 
+    is_config_managed: bool = FieldInfo(alias="isConfigManaged")
+    """
+    Whether this definition is managed by config-as-code. A managed definition is
+    reconciled from your config: PUT returns 409, and changes belong in the config
+    file (or detach it first).
+    """
+
     method: Literal["POST", "PUT", "PATCH", "GET"]
     """HTTP method: POST, PUT, PATCH, or GET"""
 

@@ -20,6 +20,7 @@ __all__ = [
     "FlowStepParamUnionMember6",
     "FlowStepParamUnionMember7",
     "FlowStepParamUnionMember8",
+    "FlowStepParamUnionMember9",
 ]
 
 
@@ -150,6 +151,20 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
 
 
 class FlowStepParamUnionMember8(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_HANDOFF"]]
+
+    handoff_persona_id: Annotated[Optional[str], PropertyInfo(alias="handoffPersonaId")]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    steps: List["FlowStepParam"]
+
+
+class FlowStepParamUnionMember9(TypedDict, total=False):
     type: Required[Literal["SCENARIO_LINK"]]
 
     linked_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="linkedCustomerFlowId")]
@@ -175,4 +190,5 @@ FlowStepParam: TypeAlias = Union[
     FlowStepParamUnionMember6,
     FlowStepParamUnionMember7,
     FlowStepParamUnionMember8,
+    FlowStepParamUnionMember9,
 ]
