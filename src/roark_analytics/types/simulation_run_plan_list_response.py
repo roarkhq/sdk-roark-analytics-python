@@ -180,6 +180,13 @@ class Data(BaseModel):
     personas: List[DataAgentEndpoint]
     """Personas included in this run plan. Only meaningful alongside `scenarios`."""
 
+    reference_customer_flow_variant_id: Optional[str] = FieldInfo(alias="referenceCustomerFlowVariantId")
+    """
+    The flow variant this plan's runs are measured against: the run report shows
+    every other flow variant in the run as a difference from it. `null` means the
+    plan declares no experiment.
+    """
+
     scenarios: List[DataScenario]
     """Deprecated: use `flows` instead. Scenarios included in this run plan."""
 
