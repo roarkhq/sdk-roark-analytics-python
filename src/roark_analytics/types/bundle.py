@@ -336,6 +336,8 @@ class CollectorConfig(BaseModel):
 
     name: str
 
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
     filters: Optional[List[CollectorConfigFilter]] = None
 
     status: Optional[Literal["ACTIVE", "INACTIVE"]] = None
@@ -533,6 +535,8 @@ class AlertConfig(BaseModel):
     trigger: Union[AlertThresholdTrigger, AlertEventTrigger, AlertSimulationTrigger]
 
     actions: Optional[AlertConfigAction] = None
+
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
 
     enabled: Optional[bool] = None
 

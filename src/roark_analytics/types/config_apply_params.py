@@ -338,6 +338,8 @@ class CollectorConfig(TypedDict, total=False):
 
     name: Required[str]
 
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
     filters: Iterable[CollectorConfigFilter]
 
     status: Literal["ACTIVE", "INACTIVE"]
@@ -539,6 +541,8 @@ class AlertConfig(TypedDict, total=False):
     trigger: Required[Union[AlertThresholdTrigger, AlertEventTrigger, AlertSimulationTrigger]]
 
     actions: AlertConfigAction
+
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
 
     enabled: bool
 
