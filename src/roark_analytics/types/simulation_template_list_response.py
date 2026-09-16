@@ -1,12 +1,21 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["SimulationTemplateListResponse", "Data", "DataFlow", "DataFlowEdgeCase", "DataFlowHappyPath", "DataMetric"]
+__all__ = [
+    "SimulationTemplateListResponse",
+    "Data",
+    "DataFlow",
+    "DataFlowEdgeCase",
+    "DataFlowHappyPath",
+    "DataMetric",
+    "DataSweep",
+]
 
 
 class DataFlowEdgeCase(BaseModel):
@@ -70,6 +79,35 @@ class DataMetric(BaseModel):
     """
 
 
+class DataSweep(BaseModel):
+    baseline: Optional[str]
+    """
+    The value the others are measured against, resolved to what a plan built from
+    this template will actually record. `null` when the property has no obvious
+    norm, and the report then compares against the best-performing value instead.
+    """
+
+    property: Literal[
+        "ACCENT",
+        "AGE",
+        "BACKGROUND_NOISE",
+        "BACKGROUND_NOISE_VOLUME",
+        "BASE_EMOTION",
+        "CONFIRMATION_STYLE",
+        "GENDER",
+        "INTENT_CLARITY",
+        "LANGUAGE",
+        "MEMORY_RELIABILITY",
+        "RESPONSE_TIMING",
+        "SPEECH_CLARITY",
+        "SPEECH_PACE",
+    ]
+    """The property this template varies across the flow it runs."""
+
+    values: List[str]
+    """Every value the template sweeps, in the order the plan attaches them."""
+
+
 class Data(BaseModel):
     """
     A built-in simulation template, resolved against this project: what it measures
@@ -117,6 +155,18 @@ class Data(BaseModel):
 
     slug: str
     """Stable identifier. Name this in a run request."""
+
+    sweep: Optional[DataSweep]
+    """
+    Set when this template is a property sweep: it runs ONE flow once per value of a
+    single caller or environment property, and the report compares the values
+    against `baseline`.
+    This is what decides the size of the run. A sweep attaches the flow once per
+    entry in `values`, so a plan built from it costs `values.length` times the calls
+    a normal template would, before iterations. Read it before creating a plan you
+    have to pay for.
+    `null` for every other template.
+    """
 
     thresholds: List[DataMetric]
     """The Pass/Fail checks this template attaches alongside its metrics."""

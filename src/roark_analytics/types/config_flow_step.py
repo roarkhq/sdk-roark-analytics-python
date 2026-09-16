@@ -50,6 +50,8 @@ class ConfigFlowStep(BaseModel):
 
     ref: Optional[str] = None
 
+    required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+
     silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
 
     steps: Optional[List["ConfigFlowStep"]] = None
