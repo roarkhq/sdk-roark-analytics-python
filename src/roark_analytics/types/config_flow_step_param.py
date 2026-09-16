@@ -35,6 +35,7 @@ class ConfigFlowStepParam(TypedDict, total=False):
             "AGENT_DTMF",
             "VOICEMAIL",
             "SCENARIO_LINK",
+            "CUSTOMER_HANDOFF",
         ]
     ]
 
@@ -43,6 +44,8 @@ class ConfigFlowStepParam(TypedDict, total=False):
     dtmf_digits: Annotated[str, PropertyInfo(alias="dtmfDigits")]
 
     flow: str
+
+    handoff_persona: Annotated[str, PropertyInfo(alias="handoffPersona")]
 
     merge_into: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeInto")]
 

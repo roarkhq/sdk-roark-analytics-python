@@ -19,6 +19,7 @@ __all__ = [
     "FlowStepUnionMember6",
     "FlowStepUnionMember7",
     "FlowStepUnionMember8",
+    "FlowStepUnionMember9",
 ]
 
 
@@ -147,6 +148,20 @@ class FlowStepUnionMember7(BaseModel):
 
 
 class FlowStepUnionMember8(BaseModel):
+    type: Literal["CUSTOMER_HANDOFF"]
+
+    handoff_persona_id: Optional[str] = FieldInfo(alias="handoffPersonaId", default=None)
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class FlowStepUnionMember9(BaseModel):
     type: Literal["SCENARIO_LINK"]
 
     linked_customer_flow_id: Optional[str] = FieldInfo(alias="linkedCustomerFlowId", default=None)
@@ -172,4 +187,5 @@ FlowStep: TypeAlias = Union[
     FlowStepUnionMember6,
     FlowStepUnionMember7,
     FlowStepUnionMember8,
+    FlowStepUnionMember9,
 ]

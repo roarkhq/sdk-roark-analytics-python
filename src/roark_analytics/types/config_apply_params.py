@@ -22,6 +22,7 @@ __all__ = [
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
+    "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
     "ImprovFlowConfigHappyPath",
@@ -44,6 +45,10 @@ class AgentConfigEndpoint(TypedDict, total=False):
 
     environment: str
 
+    outbound_dial_http_request_definition: Annotated[str, PropertyInfo(alias="outboundDialHttpRequestDefinition")]
+
+    outbound_dial_type: Annotated[Literal["NONE", "HTTP_REQUEST"], PropertyInfo(alias="outboundDialType")]
+
     type: Literal["PHONE", "WEBSOCKET"]
 
 
@@ -61,6 +66,22 @@ class AgentConfig(TypedDict, total=False):
     endpoints: Iterable[AgentConfigEndpoint]
 
     prompt: Optional[str]
+
+
+class HTTPRequestDefinitionConfig(TypedDict, total=False):
+    kind: Required[Literal["httpRequestDefinition"]]
+
+    name: Required[str]
+
+    url: Required[str]
+
+    body: str
+
+    description: Optional[str]
+
+    headers: Dict[str, str]
+
+    method: Literal["POST", "PUT", "PATCH", "GET"]
 
 
 class PersonaConfig(TypedDict, total=False):
@@ -527,6 +548,7 @@ class ConfigApplyParams(TypedDict, total=False):
         List[
             Union[
                 AgentConfig,
+                HTTPRequestDefinitionConfig,
                 PersonaConfig,
                 ImprovFlowConfig,
                 ScriptedFlowConfig,
