@@ -217,6 +217,19 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     `flows`, where each variant carries its own persona.
     """
 
+    reference_customer_flow_variant_id: Annotated[Optional[str], PropertyInfo(alias="referenceCustomerFlowVariantId")]
+    """
+    Name one flow variant as this run plan's REFERENCE arm.
+    Every other flow variant the plan runs is then reported as a difference from
+    this one, which is how a run answers "what did the change cost" rather than just
+    "what did it score". The usual shape is one flow whose default variant is the
+    control (say, a silent environment) plus one edge-case variant per condition
+    under test.
+    The variant must be one this plan actually runs: it has to belong to a flow in
+    `flows`, and that flow's variant selection has to resolve to it. Omit or set
+    null for a plan that is a general health check rather than an experiment.
+    """
+
     scenarios: Iterable[Scenario]
     """
     Deprecated: use `flows` instead. Scenarios to include in this run plan. The same

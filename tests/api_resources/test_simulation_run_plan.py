@@ -71,6 +71,7 @@ class TestSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -158,6 +159,7 @@ class TestSimulationRunPlan:
             ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -364,6 +366,7 @@ class TestAsyncSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -451,6 +454,7 @@ class TestAsyncSimulationRunPlan:
             ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

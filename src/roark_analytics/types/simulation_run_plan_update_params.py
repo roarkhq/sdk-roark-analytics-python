@@ -194,6 +194,13 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     personas: Iterable[AgentEndpoint]
     """Personas to include in this run plan"""
 
+    reference_customer_flow_variant_id: Annotated[Optional[str], PropertyInfo(alias="referenceCustomerFlowVariantId")]
+    """
+    The reference arm every other flow variant in a run is reported as a difference
+    from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
+    /v1/simulation/plan`.
+    """
+
     scenarios: Iterable[Scenario]
     """
     Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit

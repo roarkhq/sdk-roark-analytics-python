@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -72,6 +72,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
+        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -150,6 +151,15 @@ class SimulationRunPlanResource(SyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
+          reference_customer_flow_variant_id: Name one flow variant as this run plan's REFERENCE arm. Every other flow variant
+              the plan runs is then reported as a difference from this one, which is how a run
+              answers "what did the change cost" rather than just "what did it score". The
+              usual shape is one flow whose default variant is the control (say, a silent
+              environment) plus one edge-case variant per condition under test. The variant
+              must be one this plan actually runs: it has to belong to a flow in `flows`, and
+              that flow's variant selection has to resolve to it. Omit or set null for a plan
+              that is a general health check rather than an experiment.
+
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -184,6 +194,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
+                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -216,6 +227,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -272,6 +284,10 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
+          reference_customer_flow_variant_id: The reference arm every other flow variant in a run is reported as a difference
+              from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
+              /v1/simulation/plan`.
+
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -309,6 +325,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "personas": personas,
+                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -483,6 +500,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
+        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -561,6 +579,15 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
+          reference_customer_flow_variant_id: Name one flow variant as this run plan's REFERENCE arm. Every other flow variant
+              the plan runs is then reported as a difference from this one, which is how a run
+              answers "what did the change cost" rather than just "what did it score". The
+              usual shape is one flow whose default variant is the control (say, a silent
+              environment) plus one edge-case variant per condition under test. The variant
+              must be one this plan actually runs: it has to belong to a flow in `flows`, and
+              that flow's variant selection has to resolve to it. Omit or set null for a plan
+              that is a general health check rather than an experiment.
+
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -595,6 +622,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "personas": personas,
+                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -627,6 +655,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        reference_customer_flow_variant_id: Optional[str] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -683,6 +712,10 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
+          reference_customer_flow_variant_id: The reference arm every other flow variant in a run is reported as a difference
+              from. Send `null` to clear it; omit the field to leave it unchanged. See `POST
+              /v1/simulation/plan`.
+
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -720,6 +753,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "personas": personas,
+                    "reference_customer_flow_variant_id": reference_customer_flow_variant_id,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
