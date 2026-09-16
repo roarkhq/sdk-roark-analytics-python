@@ -277,7 +277,15 @@ class DataSimulationJob(BaseModel):
 
 
 class DataVerdictCheck(BaseModel):
-    """How one pass/fail metric did. Present for every check, passing or not."""
+    """
+    How one check did. Present for every check the run was judged on, passing or
+    not.
+    A check is a metric that yields a pass/fail: a threshold (`Silence Duration <=
+    2s`) or a yes/no metric you authored. Provider readings such as `Comprehension
+    Failure` are observations, not checks: their `true` is whatever the underlying
+    field happens to mean, so they carry no passing side and never appear here. Put
+    a threshold on one to judge it.
+    """
 
     evaluated_sims: int = FieldInfo(alias="evaluatedSims")
 
@@ -372,6 +380,8 @@ class DataVerdict(BaseModel):
     """
     Every check the run was judged on, with its rate and the minimum it had to
     reach.
+    Thresholds and authored yes/no metrics only. See `SimulationRunPlanJobCheck` for
+    why a provider reading is not one.
     """
 
     failures: List[
@@ -396,6 +406,9 @@ class DataVerdict(BaseModel):
     """
     The run's headline quality number, 0-100: the mean of each check's own pass
     rate.
+    Every check weighs the same, however many simulations it evaluated, which is the
+    same way `passed` treats them. It is the number the Roark dashboard shows for
+    this run.
     REPORTING ONLY, for dashboards and trend lines. Nothing is judged against it.
     Null when nothing was evaluated.
     """

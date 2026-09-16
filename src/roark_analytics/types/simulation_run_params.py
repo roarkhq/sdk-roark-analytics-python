@@ -153,6 +153,48 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     `slug`.
     """
 
+    comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
+    """
+    The value of `comparisonProperty` every other value is measured against, for
+    example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
+    value that property can take.
+    Stored rather than assumed, so the report can say "compared against US accent"
+    instead of implying Roark decided which value is normal. Most properties have an
+    obvious baseline and the dashboard prefills it; `GENDER` has none, so choose the
+    one you are testing against.
+    """
+
+    comparison_property: Annotated[
+        Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ],
+        PropertyInfo(alias="comparisonProperty"),
+    ]
+    """
+    The property this run plan investigates: the one thing its arms differ by.
+    Set it and the run report compares the arms on that property, so a run answers
+    "what did background noise cost" rather than just "what did each arm score".
+    Every value is a field already recorded on each call, so the report can label an
+    arm `CRYING_BABY` rather than repeating a flow variant's title.
+    Omit it and the report still compares when it can: it detects which property
+    varies across the arms. Setting it is what tells the written summary what you
+    were trying to find out, which detection cannot infer.
+    """
+
     description: str
     """Description of the run plan"""
 
@@ -232,19 +274,6 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     """
     Personas to include in this run plan. Required with `scenarios`; ignored with
     `flows`, where each variant carries its own persona.
-    """
-
-    reference_customer_flow_variant_id: Annotated[Optional[str], PropertyInfo(alias="referenceCustomerFlowVariantId")]
-    """
-    Name one flow variant as this run plan's REFERENCE arm.
-    Every other flow variant the plan runs is then reported as a difference from
-    this one, which is how a run answers "what did the change cost" rather than just
-    "what did it score". The usual shape is one flow whose default variant is the
-    control (say, a silent environment) plus one edge-case variant per condition
-    under test.
-    The variant must be one this plan actually runs: it has to belong to a flow in
-    `flows`, and that flow's variant selection has to resolve to it. Omit or set
-    null for a plan that is a general health check rather than an experiment.
     """
 
     scenarios: Iterable[RunSimulationFromConfigPlanScenario]

@@ -51,6 +51,8 @@ class TestSimulationRunPlan:
             ],
             name="My Run Plan",
             auto_run=False,
+            comparison_baseline="NONE",
+            comparison_property="BACKGROUND_NOISE",
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
@@ -71,7 +73,6 @@ class TestSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -126,6 +127,8 @@ class TestSimulationRunPlan:
         simulation_run_plan = client.simulation_run_plan.update(
             plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            comparison_baseline="comparisonBaseline",
+            comparison_property="ACCENT",
             description="description",
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
@@ -159,7 +162,6 @@ class TestSimulationRunPlan:
             ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -346,6 +348,8 @@ class TestAsyncSimulationRunPlan:
             ],
             name="My Run Plan",
             auto_run=False,
+            comparison_baseline="NONE",
+            comparison_property="BACKGROUND_NOISE",
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
@@ -366,7 +370,6 @@ class TestAsyncSimulationRunPlan:
             iteration_count=1,
             max_concurrent_jobs=5,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -421,6 +424,8 @@ class TestAsyncSimulationRunPlan:
         simulation_run_plan = await async_client.simulation_run_plan.update(
             plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            comparison_baseline="comparisonBaseline",
+            comparison_property="ACCENT",
             description="description",
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
@@ -454,7 +459,6 @@ class TestAsyncSimulationRunPlan:
             ],
             name="x",
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-            reference_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
