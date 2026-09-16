@@ -45,6 +45,8 @@ class TestSimulation:
                         "slug": "x",
                     }
                 ],
+                "comparison_baseline": "NONE",
+                "comparison_property": "BACKGROUND_NOISE",
                 "description": "A run plan for testing inbound calls",
                 "end_call_phrases": ["goodbye"],
                 "end_call_reasons": ["Order has been confirmed by the agent"],
@@ -66,7 +68,6 @@ class TestSimulation:
                 "max_concurrent_jobs": 5,
                 "name": "Billing regression",
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "reference_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "scenarios": [
                     {
                         "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -248,6 +249,8 @@ class TestAsyncSimulation:
                         "slug": "x",
                     }
                 ],
+                "comparison_baseline": "NONE",
+                "comparison_property": "BACKGROUND_NOISE",
                 "description": "A run plan for testing inbound calls",
                 "end_call_phrases": ["goodbye"],
                 "end_call_reasons": ["Order has been confirmed by the agent"],
@@ -269,7 +272,6 @@ class TestAsyncSimulation:
                 "max_concurrent_jobs": 5,
                 "name": "Billing regression",
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
-                "reference_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "scenarios": [
                     {
                         "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

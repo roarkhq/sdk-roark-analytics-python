@@ -113,6 +113,36 @@ class Data(BaseModel):
     agent_endpoints: List[DataAgentEndpoint] = FieldInfo(alias="agentEndpoints")
     """Agent endpoints included in this run plan"""
 
+    comparison_baseline: Optional[str] = FieldInfo(alias="comparisonBaseline")
+    """
+    The value of `comparisonProperty` every other value is measured against, such as
+    `NONE` for `BACKGROUND_NOISE`. `null` when no comparison is declared, or when
+    the property has no obvious norm and none was chosen.
+    """
+
+    comparison_property: Optional[
+        Literal[
+            "ACCENT",
+            "AGE",
+            "BACKGROUND_NOISE",
+            "BACKGROUND_NOISE_VOLUME",
+            "BASE_EMOTION",
+            "CONFIRMATION_STYLE",
+            "GENDER",
+            "INTENT_CLARITY",
+            "LANGUAGE",
+            "MEMORY_RELIABILITY",
+            "RESPONSE_TIMING",
+            "SPEECH_CLARITY",
+            "SPEECH_PACE",
+        ]
+    ] = FieldInfo(alias="comparisonProperty")
+    """
+    The property of the caller or their surroundings this plan investigates, such as
+    `BACKGROUND_NOISE`. The run report compares the arms on it. `null` means the
+    report works out for itself which property varies.
+    """
+
     created_at: str = FieldInfo(alias="createdAt")
     """When the run plan was created"""
 
@@ -178,13 +208,6 @@ class Data(BaseModel):
 
     personas: List[DataAgentEndpoint]
     """Personas included in this run plan. Only meaningful alongside `scenarios`."""
-
-    reference_customer_flow_variant_id: Optional[str] = FieldInfo(alias="referenceCustomerFlowVariantId")
-    """
-    The flow variant this plan's runs are measured against: the run report shows
-    every other flow variant in the run as a difference from it. `null` means the
-    plan declares no experiment.
-    """
 
     scenarios: List[DataScenario]
     """Deprecated: use `flows` instead. Scenarios included in this run plan."""
