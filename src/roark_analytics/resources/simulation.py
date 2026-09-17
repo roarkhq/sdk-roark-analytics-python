@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, overload
+from typing import Dict, Union, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
@@ -175,6 +175,8 @@ class SimulationResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -213,6 +215,20 @@ class SimulationResource(SyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           template: The template to run, as listed by GET /v1/simulation/template.
+
+          comparison_baseline: The value of the sweep every other value is measured against. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Send it
+              with `comparisonValues` and it must be one of them, or the request is rejected:
+              anchoring every difference to an arm the run never made would measure it against
+              nothing. Leave it out and the template's own baseline is used, and quietly
+              dropped if your narrowing excluded it, since that one you did not choose.
+
+          comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
+              /v1/simulation/template returns `sweep.property` for those that do). This is
+              what the run costs: the flow is called once per value, so ten values is ten
+              times the calls of one. Omit it to run every value the property has, which for
+              `accent-handling` is more than twenty. Send a subset to narrow it, for example
+              the three accents you actually serve.
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
@@ -289,6 +305,8 @@ class SimulationResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -317,6 +335,8 @@ class SimulationResource(SyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
                     "enrich_with_live_conversation": enrich_with_live_conversation,
@@ -488,6 +508,8 @@ class AsyncSimulationResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -526,6 +548,20 @@ class AsyncSimulationResource(AsyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           template: The template to run, as listed by GET /v1/simulation/template.
+
+          comparison_baseline: The value of the sweep every other value is measured against. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Send it
+              with `comparisonValues` and it must be one of them, or the request is rejected:
+              anchoring every difference to an arm the run never made would measure it against
+              nothing. Leave it out and the template's own baseline is used, and quietly
+              dropped if your narrowing excluded it, since that one you did not choose.
+
+          comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
+              /v1/simulation/template returns `sweep.property` for those that do). This is
+              what the run costs: the flow is called once per value, so ten values is ten
+              times the calls of one. Omit it to run every value the property has, which for
+              `accent-handling` is more than twenty. Send a subset to narrow it, for example
+              the three accents you actually serve.
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
@@ -602,6 +638,8 @@ class AsyncSimulationResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: SequenceNotStr[str] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -630,6 +668,8 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
+                    "comparison_baseline": comparison_baseline,
+                    "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
                     "enrich_with_live_conversation": enrich_with_live_conversation,

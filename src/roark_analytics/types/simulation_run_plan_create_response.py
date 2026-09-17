@@ -14,6 +14,7 @@ __all__ = [
     "DataRunPlanAgentEndpoint",
     "DataRunPlanFlow",
     "DataRunPlanFlowEdgeCaseUnionMember1",
+    "DataRunPlanFlowOverride",
     "DataRunPlanJob",
     "DataRunPlanMetric",
     "DataRunPlanScenario",
@@ -43,6 +44,28 @@ class DataRunPlanFlowEdgeCaseUnionMember1(BaseModel):
     """Values for this one only."""
 
 
+class DataRunPlanFlowOverride(BaseModel):
+    """One persona or environment property, changed for this flow attachment only."""
+
+    property: Literal[
+        "ACCENT",
+        "AGE",
+        "BACKGROUND_NOISE",
+        "BACKGROUND_NOISE_VOLUME",
+        "BASE_EMOTION",
+        "CONFIRMATION_STYLE",
+        "GENDER",
+        "INTENT_CLARITY",
+        "LANGUAGE",
+        "MEMORY_RELIABILITY",
+        "RESPONSE_TIMING",
+        "SPEECH_CLARITY",
+        "SPEECH_PACE",
+    ]
+
+    value: str
+
+
 class DataRunPlanFlow(BaseModel):
     """
     One customer flow attached to a run plan, and which of its ways of running you
@@ -65,6 +88,17 @@ class DataRunPlanFlow(BaseModel):
 
     happy_path: Optional[bool] = FieldInfo(alias="happyPath", default=None)
     """Run the flow's happy path. Resolved when the run starts, so it follows the flow."""
+
+    overrides: Optional[List[DataRunPlanFlowOverride]] = None
+    """
+    Persona and environment properties to change for this attachment only, without
+    editing the persona or the environment themselves. Each entry patches the
+    per-run snapshot this attachment records, so the flow runs as a caller with that
+    accent, or over that background noise, and everything else stays as authored.
+    This is how you attach the same flow twice and vary one thing between them,
+    which is what a sweep template builds for you. One value per property; a
+    property named twice is rejected.
+    """
 
     persona_override_id: Optional[str] = FieldInfo(alias="personaOverrideId", default=None)
     """Runs everything this attachment resolves as that persona instead of its own."""

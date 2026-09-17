@@ -8,7 +8,15 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["SimulationRunPlanCreateParams", "AgentEndpoint", "Flow", "FlowEdgeCaseUnionMember1", "Metric", "Scenario"]
+__all__ = [
+    "SimulationRunPlanCreateParams",
+    "AgentEndpoint",
+    "Flow",
+    "FlowEdgeCaseUnionMember1",
+    "FlowOverride",
+    "Metric",
+    "Scenario",
+]
 
 
 class AgentEndpoint(TypedDict, total=False):
@@ -71,6 +79,30 @@ class FlowEdgeCaseUnionMember1(TypedDict, total=False):
     """Values for this one only."""
 
 
+class FlowOverride(TypedDict, total=False):
+    """One persona or environment property, changed for this flow attachment only."""
+
+    property: Required[
+        Literal[
+            "ACCENT",
+            "AGE",
+            "BACKGROUND_NOISE",
+            "BACKGROUND_NOISE_VOLUME",
+            "BASE_EMOTION",
+            "CONFIRMATION_STYLE",
+            "GENDER",
+            "INTENT_CLARITY",
+            "LANGUAGE",
+            "MEMORY_RELIABILITY",
+            "RESPONSE_TIMING",
+            "SPEECH_CLARITY",
+            "SPEECH_PACE",
+        ]
+    ]
+
+    value: Required[str]
+
+
 class Flow(TypedDict, total=False):
     """
     One customer flow attached to a run plan, and which of its ways of running you
@@ -91,6 +123,17 @@ class Flow(TypedDict, total=False):
 
     happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
     """Run the flow's happy path. Resolved when the run starts, so it follows the flow."""
+
+    overrides: Iterable[FlowOverride]
+    """
+    Persona and environment properties to change for this attachment only, without
+    editing the persona or the environment themselves. Each entry patches the
+    per-run snapshot this attachment records, so the flow runs as a caller with that
+    accent, or over that background noise, and everything else stays as authored.
+    This is how you attach the same flow twice and vary one thing between them,
+    which is what a sweep template builds for you. One value per property; a
+    property named twice is rejected.
+    """
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Runs everything this attachment resolves as that persona instead of its own."""
@@ -230,7 +273,9 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     flows: Iterable[Flow]
     """
     Customer flows to include in this run plan. The same flow can appear more than
-    once with a different persona override or different variables.
+    once with a different persona override, different variables, or different
+    `overrides`: attaching it once per value of one property is how you compare that
+    property without a template.
     """
 
     include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]

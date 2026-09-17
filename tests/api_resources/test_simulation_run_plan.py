@@ -64,6 +64,10 @@ class TestSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "overrides": [
+                        {"property": "ACCENT", "value": "IN"},
+                        {"property": "BACKGROUND_NOISE", "value": "TRAIN"},
+                    ],
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
@@ -142,6 +146,10 @@ class TestSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "overrides": [
+                        {"property": "ACCENT", "value": "IN"},
+                        {"property": "BACKGROUND_NOISE", "value": "TRAIN"},
+                    ],
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
@@ -363,6 +371,10 @@ class TestAsyncSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "overrides": [
+                        {"property": "ACCENT", "value": "IN"},
+                        {"property": "BACKGROUND_NOISE", "value": "TRAIN"},
+                    ],
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
@@ -441,6 +453,10 @@ class TestAsyncSimulationRunPlan:
                     "edge_cases": "ALL",
                     "happy_path": True,
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "overrides": [
+                        {"property": "ACCENT", "value": "IN"},
+                        {"property": "BACKGROUND_NOISE", "value": "TRAIN"},
+                    ],
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "slug": "sf-prompt-injection",
                     "variables": {"customer_name": "John Doe", "appointment_date": "2024-02-15"},
