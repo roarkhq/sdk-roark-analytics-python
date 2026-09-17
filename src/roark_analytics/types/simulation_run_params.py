@@ -15,6 +15,7 @@ __all__ = [
     "RunSimulationFromConfigPlanAgentEndpoint",
     "RunSimulationFromConfigPlanFlow",
     "RunSimulationFromConfigPlanFlowEdgeCaseUnionMember1",
+    "RunSimulationFromConfigPlanFlowOverride",
     "RunSimulationFromConfigPlanMetric",
     "RunSimulationFromConfigPlanScenario",
     "RunSimulationFromConfigVariableUnionMember1",
@@ -84,6 +85,30 @@ class RunSimulationFromConfigPlanFlowEdgeCaseUnionMember1(TypedDict, total=False
     """Values for this one only."""
 
 
+class RunSimulationFromConfigPlanFlowOverride(TypedDict, total=False):
+    """One persona or environment property, changed for this flow attachment only."""
+
+    property: Required[
+        Literal[
+            "ACCENT",
+            "AGE",
+            "BACKGROUND_NOISE",
+            "BACKGROUND_NOISE_VOLUME",
+            "BASE_EMOTION",
+            "CONFIRMATION_STYLE",
+            "GENDER",
+            "INTENT_CLARITY",
+            "LANGUAGE",
+            "MEMORY_RELIABILITY",
+            "RESPONSE_TIMING",
+            "SPEECH_CLARITY",
+            "SPEECH_PACE",
+        ]
+    ]
+
+    value: Required[str]
+
+
 class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
     """
     One customer flow attached to a run plan, and which of its ways of running you
@@ -107,6 +132,17 @@ class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
 
     happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
     """Run the flow's happy path. Resolved when the run starts, so it follows the flow."""
+
+    overrides: Iterable[RunSimulationFromConfigPlanFlowOverride]
+    """
+    Persona and environment properties to change for this attachment only, without
+    editing the persona or the environment themselves. Each entry patches the
+    per-run snapshot this attachment records, so the flow runs as a caller with that
+    accent, or over that background noise, and everything else stays as authored.
+    This is how you attach the same flow twice and vary one thing between them,
+    which is what a sweep template builds for you. One value per property; a
+    property named twice is rejected.
+    """
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """Runs everything this attachment resolves as that persona instead of its own."""
@@ -241,7 +277,9 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     flows: Iterable[RunSimulationFromConfigPlanFlow]
     """
     Customer flows to include in this run plan. The same flow can appear more than
-    once with a different persona override or different variables.
+    once with a different persona override, different variables, or different
+    `overrides`: attaching it once per value of one property is how you compare that
+    property without a template.
     """
 
     include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]
@@ -412,6 +450,28 @@ class RunSimulationFromTemplate(TypedDict, total=False):
 
     template: Required[str]
     """The template to run, as listed by GET /v1/simulation/template."""
+
+    comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
+    """
+    The value of the sweep every other value is measured against. Defaults to the
+    template's own baseline, as returned by GET /v1/simulation/template.
+    Send it with `comparisonValues` and it must be one of them, or the request is
+    rejected: anchoring every difference to an arm the run never made would measure
+    it against nothing. Leave it out and the template's own baseline is used, and
+    quietly dropped if your narrowing excluded it, since that one you did not
+    choose.
+    """
+
+    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    """
+    Which values of the sweep to run, for a template that sweeps one (GET
+    /v1/simulation/template returns `sweep.property` for those that do). This is
+    what the run costs: the flow is called once per value, so ten values is ten
+    times the calls of one.
+    Omit it to run every value the property has, which for `accent-handling` is more
+    than twenty. Send a subset to narrow it, for example the three accents you
+    actually serve.
+    """
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
     """Phrases that trigger end of call. Empty array disables the feature."""

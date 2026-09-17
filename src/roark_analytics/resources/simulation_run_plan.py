@@ -168,7 +168,9 @@ class SimulationRunPlanResource(SyncAPIResource):
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: Customer flows to include in this run plan. The same flow can appear more than
-              once with a different persona override or different variables.
+              once with a different persona override, different variables, or different
+              `overrides`: attaching it once per value of one property is how you compare that
+              property without a template.
 
           include_automatic_metrics: Let the run add metrics by itself off the attached flows, on top of the
               `metrics` named here. Two attach this way today: Agent Expectations wherever an
@@ -671,7 +673,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: Customer flows to include in this run plan. The same flow can appear more than
-              once with a different persona override or different variables.
+              once with a different persona override, different variables, or different
+              `overrides`: attaching it once per value of one property is how you compare that
+              property without a template.
 
           include_automatic_metrics: Let the run add metrics by itself off the attached flows, on top of the
               `metrics` named here. Two attach this way today: Agent Expectations wherever an
