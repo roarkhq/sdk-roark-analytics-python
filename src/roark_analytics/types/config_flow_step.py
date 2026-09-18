@@ -1,13 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["ConfigFlowStep", "OffScript"]
+__all__ = ["ConfigFlowStep", "OffScript", "StageUnionMember1"]
 
 
 class OffScript(BaseModel):
@@ -20,6 +20,12 @@ class OffScript(BaseModel):
     then: Optional[Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]] = None
 
     wait_seconds: Optional[int] = FieldInfo(alias="waitSeconds", default=None)
+
+
+class StageUnionMember1(BaseModel):
+    name: str
+
+    required: Optional[bool] = None
 
 
 class ConfigFlowStep(BaseModel):
@@ -51,7 +57,10 @@ class ConfigFlowStep(BaseModel):
     ref: Optional[str] = None
 
     required_for_valid_run: Optional[bool] = FieldInfo(alias="requiredForValidRun", default=None)
+    """Removed. Use `stage` with `required: true`."""
 
     silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
+
+    stage: Optional[Union[str, StageUnionMember1]] = None
 
     steps: Optional[List["ConfigFlowStep"]] = None
