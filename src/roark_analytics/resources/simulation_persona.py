@@ -119,6 +119,7 @@ class SimulationPersonaResource(SyncAPIResource):
         idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
@@ -198,13 +199,20 @@ class SimulationPersonaResource(SyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
+          interruption: How much the persona talks over the agent. Defaults to OFF, a caller that waits
+              its turn.
+
           memory_reliability: How reliable the persona's memory is
 
           properties: Additional custom properties about the persona
 
-          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
-              for several seconds.
+          response_timing: Deprecated and inert: it no longer affects the call. It set how long the persona
+              waited once the agent stopped talking, and measured across production
+              simulations it moved the reply gap by less than the noise floor, because model
+              and speech latency dominate it. Every persona now uses one voice-activity
+              profile. Use `interruption` for a caller who talks over the agent. Still
+              accepted and stored so existing clients keep working. BARGE_IN is stored as
+              `responseTiming: QUICK` with `interruption: OCCASIONAL`.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -244,6 +252,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "idle_messages": idle_messages,
                     "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
+                    "interruption": interruption,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
                     "response_timing": response_timing,
@@ -330,6 +339,7 @@ class SimulationPersonaResource(SyncAPIResource):
         idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"] | Omit = omit,
         language: Literal[
             "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ]
@@ -410,6 +420,13 @@ class SimulationPersonaResource(SyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
+          interruption: How much the persona talks over the agent while it is still speaking. OFF waits
+              its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
+              taking the floor, which tests whether the agent wrongly stops for them.
+              OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
+              Timing is randomised per turn, so two runs of the same persona do not interrupt
+              at identical moments.
+
           language: Primary language ISO 639-1 code for the persona
 
           memory_reliability: How reliable the persona's memory is
@@ -418,9 +435,13 @@ class SimulationPersonaResource(SyncAPIResource):
 
           properties: Additional custom properties about the persona
 
-          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
-              for several seconds.
+          response_timing: Deprecated and inert: it no longer affects the call. It set how long the persona
+              waited once the agent stopped talking, and measured across production
+              simulations it moved the reply gap by less than the noise floor, because model
+              and speech latency dominate it. Every persona now uses one voice-activity
+              profile. Use `interruption` for a caller who talks over the agent. Still
+              accepted and stored so existing clients keep working. BARGE_IN is stored as
+              `responseTiming: QUICK` with `interruption: OCCASIONAL`.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -460,6 +481,7 @@ class SimulationPersonaResource(SyncAPIResource):
                     "idle_messages": idle_messages,
                     "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
+                    "interruption": interruption,
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,
@@ -648,6 +670,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"] | Omit = omit,
         memory_reliability: Literal["HIGH", "LOW"] | Omit = omit,
         properties: Dict[str, object] | Omit = omit,
         response_timing: Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"] | Omit = omit,
@@ -727,13 +750,20 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
+          interruption: How much the persona talks over the agent. Defaults to OFF, a caller that waits
+              its turn.
+
           memory_reliability: How reliable the persona's memory is
 
           properties: Additional custom properties about the persona
 
-          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
-              for several seconds.
+          response_timing: Deprecated and inert: it no longer affects the call. It set how long the persona
+              waited once the agent stopped talking, and measured across production
+              simulations it moved the reply gap by less than the noise floor, because model
+              and speech latency dominate it. Every persona now uses one voice-activity
+              profile. Use `interruption` for a caller who talks over the agent. Still
+              accepted and stored so existing clients keep working. BARGE_IN is stored as
+              `responseTiming: QUICK` with `interruption: OCCASIONAL`.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -773,6 +803,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "idle_messages": idle_messages,
                     "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
+                    "interruption": interruption,
                     "memory_reliability": memory_reliability,
                     "properties": properties,
                     "response_timing": response_timing,
@@ -859,6 +890,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
         idle_messages: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_seconds: int | Omit = omit,
         intent_clarity: Literal["CLEAR", "INDIRECT", "VAGUE"] | Omit = omit,
+        interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"] | Omit = omit,
         language: Literal[
             "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
         ]
@@ -939,6 +971,13 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           intent_clarity: How clearly the persona expresses their intentions
 
+          interruption: How much the persona talks over the agent while it is still speaking. OFF waits
+              its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
+              taking the floor, which tests whether the agent wrongly stops for them.
+              OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
+              Timing is randomised per turn, so two runs of the same persona do not interrupt
+              at identical moments.
+
           language: Primary language ISO 639-1 code for the persona
 
           memory_reliability: How reliable the persona's memory is
@@ -947,9 +986,13 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
 
           properties: Additional custom properties about the persona
 
-          response_timing: Controls how quickly the persona responds to pauses in conversation (QUICK,
-              NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
-              for several seconds.
+          response_timing: Deprecated and inert: it no longer affects the call. It set how long the persona
+              waited once the agent stopped talking, and measured across production
+              simulations it moved the reply gap by less than the noise floor, because model
+              and speech latency dominate it. Every persona now uses one voice-activity
+              profile. Use `interruption` for a caller who talks over the agent. Still
+              accepted and stored so existing clients keep working. BARGE_IN is stored as
+              `responseTiming: QUICK` with `interruption: OCCASIONAL`.
 
           secondary_language: Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)
 
@@ -989,6 +1032,7 @@ class AsyncSimulationPersonaResource(AsyncAPIResource):
                     "idle_messages": idle_messages,
                     "idle_timeout_seconds": idle_timeout_seconds,
                     "intent_clarity": intent_clarity,
+                    "interruption": interruption,
                     "language": language,
                     "memory_reliability": memory_reliability,
                     "name": name,

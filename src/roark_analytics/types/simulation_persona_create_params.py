@@ -140,6 +140,12 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
     """How clearly the persona expresses their intentions"""
 
+    interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"]
+    """
+    How much the persona talks over the agent. Defaults to OFF, a caller that waits
+    its turn.
+    """
+
     memory_reliability: Annotated[Literal["HIGH", "LOW"], PropertyInfo(alias="memoryReliability")]
     """How reliable the persona's memory is"""
 
@@ -148,9 +154,13 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
 
     response_timing: Annotated[Literal["RELAXED", "NORMAL", "QUICK", "BARGE_IN"], PropertyInfo(alias="responseTiming")]
     """
-    Controls how quickly the persona responds to pauses in conversation (QUICK,
-    NORMAL, RELAXED). BARGE_IN also talks over the agent once it has held the floor
-    for several seconds.
+    Deprecated and inert: it no longer affects the call. It set how long the persona
+    waited once the agent stopped talking, and measured across production
+    simulations it moved the reply gap by less than the noise floor, because model
+    and speech latency dominate it. Every persona now uses one voice-activity
+    profile. Use `interruption` for a caller who talks over the agent. Still
+    accepted and stored so existing clients keep working. BARGE_IN is stored as
+    `responseTiming: QUICK` with `interruption: OCCASIONAL`.
     """
 
     secondary_language: Annotated[Optional[Literal["EN"]], PropertyInfo(alias="secondaryLanguage")]
