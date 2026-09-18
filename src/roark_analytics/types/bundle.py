@@ -178,6 +178,8 @@ class PersonaConfig(BaseModel):
 
     intent_clarity: Optional[Literal["CLEAR", "INDIRECT", "VAGUE"]] = FieldInfo(alias="intentClarity", default=None)
 
+    interruption: Optional[Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"]] = None
+
     memory_reliability: Optional[Literal["HIGH", "LOW"]] = FieldInfo(alias="memoryReliability", default=None)
 
     properties: Optional[Dict[str, object]] = None

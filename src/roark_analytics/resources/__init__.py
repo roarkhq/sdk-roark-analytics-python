@@ -112,6 +112,14 @@ from .simulation_job import (
     SimulationJobResourceWithStreamingResponse,
     AsyncSimulationJobResourceWithStreamingResponse,
 )
+from .autoimprove_fix import (
+    AutoimproveFixResource,
+    AsyncAutoimproveFixResource,
+    AutoimproveFixResourceWithRawResponse,
+    AsyncAutoimproveFixResourceWithRawResponse,
+    AutoimproveFixResourceWithStreamingResponse,
+    AsyncAutoimproveFixResourceWithStreamingResponse,
+)
 from .simulation_persona import (
     SimulationPersonaResource,
     AsyncSimulationPersonaResource,
@@ -256,6 +264,12 @@ __all__ = [
     "AsyncSimulationTemplateResourceWithRawResponse",
     "SimulationTemplateResourceWithStreamingResponse",
     "AsyncSimulationTemplateResourceWithStreamingResponse",
+    "AutoimproveFixResource",
+    "AsyncAutoimproveFixResource",
+    "AutoimproveFixResourceWithRawResponse",
+    "AsyncAutoimproveFixResourceWithRawResponse",
+    "AutoimproveFixResourceWithStreamingResponse",
+    "AsyncAutoimproveFixResourceWithStreamingResponse",
     "CustomerFlowResource",
     "AsyncCustomerFlowResource",
     "CustomerFlowResourceWithRawResponse",
