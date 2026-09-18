@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         agent_endpoint,
         metric_variant,
         simulation_job,
+        autoimprove_fix,
         simulation_persona,
         simulation_run_plan,
         simulation_template,
@@ -69,6 +70,7 @@ if TYPE_CHECKING:
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
     from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
+    from .resources.autoimprove_fix import AutoimproveFixResource, AsyncAutoimproveFixResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
     from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
@@ -213,6 +215,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_template import SimulationTemplateResource
 
         return SimulationTemplateResource(self)
+
+    @cached_property
+    def autoimprove_fix(self) -> AutoimproveFixResource:
+        from .resources.autoimprove_fix import AutoimproveFixResource
+
+        return AutoimproveFixResource(self)
 
     @cached_property
     def customer_flow(self) -> CustomerFlowResource:
@@ -515,6 +523,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationTemplateResource(self)
 
     @cached_property
+    def autoimprove_fix(self) -> AsyncAutoimproveFixResource:
+        from .resources.autoimprove_fix import AsyncAutoimproveFixResource
+
+        return AsyncAutoimproveFixResource(self)
+
+    @cached_property
     def customer_flow(self) -> AsyncCustomerFlowResource:
         from .resources.customer_flow import AsyncCustomerFlowResource
 
@@ -766,6 +780,12 @@ class RoarkWithRawResponse:
         return SimulationTemplateResourceWithRawResponse(self._client.simulation_template)
 
     @cached_property
+    def autoimprove_fix(self) -> autoimprove_fix.AutoimproveFixResourceWithRawResponse:
+        from .resources.autoimprove_fix import AutoimproveFixResourceWithRawResponse
+
+        return AutoimproveFixResourceWithRawResponse(self._client.autoimprove_fix)
+
+    @cached_property
     def customer_flow(self) -> customer_flow.CustomerFlowResourceWithRawResponse:
         from .resources.customer_flow import CustomerFlowResourceWithRawResponse
 
@@ -903,6 +923,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_template import AsyncSimulationTemplateResourceWithRawResponse
 
         return AsyncSimulationTemplateResourceWithRawResponse(self._client.simulation_template)
+
+    @cached_property
+    def autoimprove_fix(self) -> autoimprove_fix.AsyncAutoimproveFixResourceWithRawResponse:
+        from .resources.autoimprove_fix import AsyncAutoimproveFixResourceWithRawResponse
+
+        return AsyncAutoimproveFixResourceWithRawResponse(self._client.autoimprove_fix)
 
     @cached_property
     def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithRawResponse:
@@ -1044,6 +1070,12 @@ class RoarkWithStreamedResponse:
         return SimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
 
     @cached_property
+    def autoimprove_fix(self) -> autoimprove_fix.AutoimproveFixResourceWithStreamingResponse:
+        from .resources.autoimprove_fix import AutoimproveFixResourceWithStreamingResponse
+
+        return AutoimproveFixResourceWithStreamingResponse(self._client.autoimprove_fix)
+
+    @cached_property
     def customer_flow(self) -> customer_flow.CustomerFlowResourceWithStreamingResponse:
         from .resources.customer_flow import CustomerFlowResourceWithStreamingResponse
 
@@ -1181,6 +1213,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_template import AsyncSimulationTemplateResourceWithStreamingResponse
 
         return AsyncSimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
+
+    @cached_property
+    def autoimprove_fix(self) -> autoimprove_fix.AsyncAutoimproveFixResourceWithStreamingResponse:
+        from .resources.autoimprove_fix import AsyncAutoimproveFixResourceWithStreamingResponse
+
+        return AsyncAutoimproveFixResourceWithStreamingResponse(self._client.autoimprove_fix)
 
     @cached_property
     def customer_flow(self) -> customer_flow.AsyncCustomerFlowResourceWithStreamingResponse:

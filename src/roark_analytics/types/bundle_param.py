@@ -183,6 +183,8 @@ class PersonaConfig(TypedDict, total=False):
 
     intent_clarity: Annotated[Literal["CLEAR", "INDIRECT", "VAGUE"], PropertyInfo(alias="intentClarity")]
 
+    interruption: Literal["OFF", "BACKCHANNEL", "OCCASIONAL", "HEAVY"]
+
     memory_reliability: Annotated[Literal["HIGH", "LOW"], PropertyInfo(alias="memoryReliability")]
 
     properties: Dict[str, object]
