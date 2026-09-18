@@ -7,14 +7,14 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["AutoimproveFix"]
+__all__ = ["AutoimproveJobCreateResponse", "Data"]
 
 
-class AutoimproveFix(BaseModel):
+class Data(BaseModel):
     """
-    One Autoimprove engagement: Roark autonomously improving one agent toward one
-    objective metric. Roark only ever changes the staging agent (a shadow clone by
-    default); production changes exactly once, when a verified fix is promoted.
+    One Autoimprove job: Roark autonomously improving one agent toward one objective
+    metric. Roark only ever changes the staging agent (a shadow clone by default);
+    production changes exactly once, when verified changes are promoted.
     """
 
     id: str
@@ -24,10 +24,10 @@ class AutoimproveFix(BaseModel):
     baseline_value: Optional[float] = FieldInfo(alias="baselineValue")
 
     concluded_at: Optional[str] = FieldInfo(alias="concludedAt")
-    """When the fix reached a terminal status (ISO 8601)."""
+    """When the job reached a terminal status (ISO 8601)."""
 
     created_at: str = FieldInfo(alias="createdAt")
-    """When the fix was created (ISO 8601)."""
+    """When the job was created (ISO 8601)."""
 
     current_value: Optional[float] = FieldInfo(alias="currentValue")
 
@@ -68,8 +68,17 @@ class AutoimproveFix(BaseModel):
     trigger: Literal["ISSUE", "RUN_THRESHOLD_FAILED", "USER", "DEGRADATION"]
 
     updated_at: str = FieldInfo(alias="updatedAt")
-    """When the fix last changed (ISO 8601)."""
+    """When the job last changed (ISO 8601)."""
 
     validation_run_plan_id: Optional[str] = FieldInfo(alias="validationRunPlanId")
 
     working_memory: Optional[str] = FieldInfo(alias="workingMemory")
+
+
+class AutoimproveJobCreateResponse(BaseModel):
+    data: Data
+    """
+    One Autoimprove job: Roark autonomously improving one agent toward one objective
+    metric. Roark only ever changes the staging agent (a shadow clone by default);
+    production changes exactly once, when verified changes are promoted.
+    """
