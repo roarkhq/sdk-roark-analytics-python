@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing_extensions import Required, TypedDict
 
-__all__ = ["AutoimproveFixAnswerQuestionParams"]
+__all__ = ["AutoimproveJobSendGuidanceParams"]
 
 
-class AutoimproveFixAnswerQuestionParams(TypedDict, total=False):
+class AutoimproveJobSendGuidanceParams(TypedDict, total=False):
     text: Required[str]
     """The message for Roark."""

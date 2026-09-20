@@ -6,15 +6,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["AutoimproveFixCreateParams"]
+__all__ = ["AutoimproveJobCreateParams"]
 
 
-class AutoimproveFixCreateParams(TypedDict, total=False):
+class AutoimproveJobCreateParams(TypedDict, total=False):
     agent_id: Required[Annotated[str, PropertyInfo(alias="agentId")]]
     """The production agent to improve. It is never modified until you promote."""
 
     objective_label: Required[Annotated[str, PropertyInfo(alias="objectiveLabel")]]
-    """Human-readable label for the objective, shown everywhere the fix appears."""
+    """Human-readable label for the objective, shown everywhere the job appears."""
 
     objective_metric_definition_id: Required[Annotated[str, PropertyInfo(alias="objectiveMetricDefinitionId")]]
     """
@@ -31,7 +31,7 @@ class AutoimproveFixCreateParams(TypedDict, total=False):
     """
 
     max_iterations: Annotated[int, PropertyInfo(alias="maxIterations")]
-    """Cap on decision turns. Defaults to 10."""
+    """Cap on decision turns. Defaults to 50."""
 
     max_sim_calls: Annotated[int, PropertyInfo(alias="maxSimCalls")]
     """Cap on simulated calls dialed. Defaults to 200."""
