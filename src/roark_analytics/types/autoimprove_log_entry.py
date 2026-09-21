@@ -12,7 +12,7 @@ __all__ = ["AutoimproveLogEntry"]
 
 class AutoimproveLogEntry(BaseModel):
     """
-    One entry in the fix's worklog: what Roark did or observed at that step.
+    One entry in the job's worklog: what Roark did or observed at that step.
     VALIDATION entries carry the batch's trial count and pass-rate movement;
     QUESTION entries carry the quick-reply options Roark is waiting on.
     """

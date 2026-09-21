@@ -4,12 +4,12 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 
-__all__ = ["AutoimproveFixAnswerQuestionResponse", "Data"]
+__all__ = ["AutoimproveJobSendGuidanceResponse", "Data"]
 
 
 class Data(BaseModel):
     accepted: Literal[True]
 
 
-class AutoimproveFixAnswerQuestionResponse(BaseModel):
+class AutoimproveJobSendGuidanceResponse(BaseModel):
     data: Data
