@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Union
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["ConfigFlowStepParam", "OffScript"]
+__all__ = ["ConfigFlowStepParam", "OffScript", "StageUnionMember1"]
 
 
 class OffScript(TypedDict, total=False):
@@ -21,6 +21,14 @@ class OffScript(TypedDict, total=False):
     then: Literal["HANG_UP", "MOVE_ON", "ADAPT", "HANG_UP_INVALIDATE"]
 
     wait_seconds: Annotated[int, PropertyInfo(alias="waitSeconds")]
+
+
+class StageUnionMember1(TypedDict, total=False):
+    name: Required[str]
+
+    analyze: bool
+
+    required: bool
 
 
 class ConfigFlowStepParam(TypedDict, total=False):
@@ -54,7 +62,10 @@ class ConfigFlowStepParam(TypedDict, total=False):
     ref: str
 
     required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    """Removed. Use `stage` with `required: true`."""
 
     silence_duration_seconds: Annotated[int, PropertyInfo(alias="silenceDurationSeconds")]
+
+    stage: Union[str, StageUnionMember1]
 
     steps: List["ConfigFlowStepParam"]

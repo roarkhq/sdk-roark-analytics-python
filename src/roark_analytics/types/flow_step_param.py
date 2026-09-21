@@ -12,6 +12,7 @@ __all__ = [
     "FlowStepParam",
     "FlowStepParamUnionMember0",
     "FlowStepParamUnionMember0OffScriptPolicy",
+    "FlowStepParamUnionMember0Stage",
     "FlowStepParamUnionMember1",
     "FlowStepParamUnionMember2",
     "FlowStepParamUnionMember3",
@@ -36,6 +37,14 @@ class FlowStepParamUnionMember0OffScriptPolicy(TypedDict, total=False):
     wait_seconds: Annotated[Optional[int], PropertyInfo(alias="waitSeconds")]
 
 
+class FlowStepParamUnionMember0Stage(TypedDict, total=False):
+    name: Required[str]
+
+    analyze: bool
+
+    required: bool
+
+
 class FlowStepParamUnionMember0(TypedDict, total=False):
     type: Required[Literal["AGENT_TURN"]]
 
@@ -51,7 +60,7 @@ class FlowStepParamUnionMember0(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -67,7 +76,7 @@ class FlowStepParamUnionMember1(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -83,7 +92,7 @@ class FlowStepParamUnionMember2(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -99,7 +108,7 @@ class FlowStepParamUnionMember3(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -113,9 +122,9 @@ class FlowStepParamUnionMember4(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
-
     silence_duration_seconds: Annotated[Optional[int], PropertyInfo(alias="silenceDurationSeconds")]
+
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -131,7 +140,7 @@ class FlowStepParamUnionMember5(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -147,7 +156,7 @@ class FlowStepParamUnionMember6(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -161,7 +170,7 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -177,7 +186,7 @@ class FlowStepParamUnionMember8(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 
@@ -195,7 +204,7 @@ class FlowStepParamUnionMember9(TypedDict, total=False):
 
     ref: str
 
-    required_for_valid_run: Annotated[bool, PropertyInfo(alias="requiredForValidRun")]
+    stage: Optional[FlowStepParamUnionMember0Stage]
 
     steps: List["FlowStepParam"]
 

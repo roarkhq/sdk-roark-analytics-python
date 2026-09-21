@@ -237,35 +237,34 @@ Methods:
 
 - <code title="get /v1/simulation/template">client.simulation_template.<a href="./src/roark_analytics/resources/simulation_template.py">list</a>() -> <a href="./src/roark_analytics/types/simulation_template_list_response.py">SimulationTemplateListResponse</a></code>
 
-# AutoimproveFix
+# AutoimproveJob
 
 Types:
 
 ```python
 from roark_analytics.types import (
-    AutoimproveFix,
     AutoimproveLogEntry,
-    AutoimproveFixCreateResponse,
-    AutoimproveFixListResponse,
-    AutoimproveFixAnswerQuestionResponse,
-    AutoimproveFixCancelResponse,
-    AutoimproveFixDismissResponse,
-    AutoimproveFixGetByIDResponse,
-    AutoimproveFixPromoteResponse,
-    AutoimproveFixSendGuidanceResponse,
+    AutoimproveJobCreateResponse,
+    AutoimproveJobListResponse,
+    AutoimproveJobAnswerQuestionResponse,
+    AutoimproveJobCancelResponse,
+    AutoimproveJobDismissResponse,
+    AutoimproveJobGetByIDResponse,
+    AutoimproveJobPromoteResponse,
+    AutoimproveJobSendGuidanceResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v1/autoimprove/fix">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">create</a>(\*\*<a href="src/roark_analytics/types/autoimprove_fix_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_fix_create_response.py">AutoimproveFixCreateResponse</a></code>
-- <code title="get /v1/autoimprove/fix">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">list</a>() -> <a href="./src/roark_analytics/types/autoimprove_fix_list_response.py">AutoimproveFixListResponse</a></code>
-- <code title="post /v1/autoimprove/fix/{fixId}/answer">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">answer_question</a>(fix_id, \*\*<a href="src/roark_analytics/types/autoimprove_fix_answer_question_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_fix_answer_question_response.py">AutoimproveFixAnswerQuestionResponse</a></code>
-- <code title="post /v1/autoimprove/fix/{fixId}/cancel">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">cancel</a>(fix_id) -> <a href="./src/roark_analytics/types/autoimprove_fix_cancel_response.py">AutoimproveFixCancelResponse</a></code>
-- <code title="post /v1/autoimprove/fix/{fixId}/dismiss">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">dismiss</a>(fix_id) -> <a href="./src/roark_analytics/types/autoimprove_fix_dismiss_response.py">AutoimproveFixDismissResponse</a></code>
-- <code title="get /v1/autoimprove/fix/{fixId}">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">get_by_id</a>(fix_id) -> <a href="./src/roark_analytics/types/autoimprove_fix_get_by_id_response.py">AutoimproveFixGetByIDResponse</a></code>
-- <code title="post /v1/autoimprove/fix/{fixId}/promote">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">promote</a>(fix_id) -> <a href="./src/roark_analytics/types/autoimprove_fix_promote_response.py">AutoimproveFixPromoteResponse</a></code>
-- <code title="post /v1/autoimprove/fix/{fixId}/guidance">client.autoimprove_fix.<a href="./src/roark_analytics/resources/autoimprove_fix.py">send_guidance</a>(fix_id, \*\*<a href="src/roark_analytics/types/autoimprove_fix_send_guidance_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_fix_send_guidance_response.py">AutoimproveFixSendGuidanceResponse</a></code>
+- <code title="post /v1/autoimprove/job">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">create</a>(\*\*<a href="src/roark_analytics/types/autoimprove_job_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_job_create_response.py">AutoimproveJobCreateResponse</a></code>
+- <code title="get /v1/autoimprove/job">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">list</a>() -> <a href="./src/roark_analytics/types/autoimprove_job_list_response.py">AutoimproveJobListResponse</a></code>
+- <code title="post /v1/autoimprove/job/{jobId}/answer">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">answer_question</a>(job_id, \*\*<a href="src/roark_analytics/types/autoimprove_job_answer_question_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_job_answer_question_response.py">AutoimproveJobAnswerQuestionResponse</a></code>
+- <code title="post /v1/autoimprove/job/{jobId}/cancel">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">cancel</a>(job_id) -> <a href="./src/roark_analytics/types/autoimprove_job_cancel_response.py">AutoimproveJobCancelResponse</a></code>
+- <code title="post /v1/autoimprove/job/{jobId}/dismiss">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">dismiss</a>(job_id) -> <a href="./src/roark_analytics/types/autoimprove_job_dismiss_response.py">AutoimproveJobDismissResponse</a></code>
+- <code title="get /v1/autoimprove/job/{jobId}">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/autoimprove_job_get_by_id_response.py">AutoimproveJobGetByIDResponse</a></code>
+- <code title="post /v1/autoimprove/job/{jobId}/promote">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">promote</a>(job_id) -> <a href="./src/roark_analytics/types/autoimprove_job_promote_response.py">AutoimproveJobPromoteResponse</a></code>
+- <code title="post /v1/autoimprove/job/{jobId}/guidance">client.autoimprove_job.<a href="./src/roark_analytics/resources/autoimprove_job.py">send_guidance</a>(job_id, \*\*<a href="src/roark_analytics/types/autoimprove_job_send_guidance_params.py">params</a>) -> <a href="./src/roark_analytics/types/autoimprove_job_send_guidance_response.py">AutoimproveJobSendGuidanceResponse</a></code>
 
 # CustomerFlow
 
