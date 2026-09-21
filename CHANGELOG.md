@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v4.24.0...v5.0.0) (2026-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes resources, methods and types from the public surface.
+
+### Features
+
+* **api:** api update ([#575](https://github.com/roarkhq/sdk-roark-analytics-python/issues/575)) ([0ccb2ab](https://github.com/roarkhq/sdk-roark-analytics-python/commit/0ccb2ab4ee02c2376a1e6a20ae129b1211584e33))
+
+
+### Chores
+
+* fold next into main ([da2b7b6](https://github.com/roarkhq/sdk-roark-analytics-python/commit/da2b7b66af6aa35d5e0f353690b30dc3cbcb9889))
+
 ## [4.24.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v4.23.0...v4.24.0) (2026-09-18)
 
 
