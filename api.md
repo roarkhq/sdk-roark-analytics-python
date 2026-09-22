@@ -237,6 +237,31 @@ Methods:
 
 - <code title="get /v1/simulation/template">client.simulation_template.<a href="./src/roark_analytics/resources/simulation_template.py">list</a>() -> <a href="./src/roark_analytics/types/simulation_template_list_response.py">SimulationTemplateListResponse</a></code>
 
+# AgentConfig
+
+Types:
+
+```python
+from roark_analytics.types import (
+    ManagedAgentConfigRevision,
+    AgentConfigUpdateResponse,
+    AgentConfigListResponse,
+    AgentConfigDeleteStagingResponse,
+    AgentConfigGetByIDResponse,
+    AgentConfigPromoteResponse,
+    AgentConfigResolveResponse,
+)
+```
+
+Methods:
+
+- <code title="put /v1/agent-config/{key}">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">update</a>(key, \*\*<a href="src/roark_analytics/types/agent_config_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_config_update_response.py">AgentConfigUpdateResponse</a></code>
+- <code title="get /v1/agent-config">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">list</a>() -> <a href="./src/roark_analytics/types/agent_config_list_response.py">AgentConfigListResponse</a></code>
+- <code title="delete /v1/agent-config/{key}/staging">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">delete_staging</a>(key) -> <a href="./src/roark_analytics/types/agent_config_delete_staging_response.py">AgentConfigDeleteStagingResponse</a></code>
+- <code title="get /v1/agent-config/{key}">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">get_by_id</a>(key) -> <a href="./src/roark_analytics/types/agent_config_get_by_id_response.py">AgentConfigGetByIDResponse</a></code>
+- <code title="post /v1/agent-config/{key}/promote">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">promote</a>(key) -> <a href="./src/roark_analytics/types/agent_config_promote_response.py">AgentConfigPromoteResponse</a></code>
+- <code title="post /v1/agent-config/{key}/resolve">client.agent_config.<a href="./src/roark_analytics/resources/agent_config.py">resolve</a>(key, \*\*<a href="src/roark_analytics/types/agent_config_resolve_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_config_resolve_response.py">AgentConfigResolveResponse</a></code>
+
 # AutoimproveJob
 
 Types:

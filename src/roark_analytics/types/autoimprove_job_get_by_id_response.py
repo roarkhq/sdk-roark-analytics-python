@@ -32,7 +32,7 @@ class Data(BaseModel):
 
     current_value: Optional[float] = FieldInfo(alias="currentValue")
 
-    customer_integration_id: str = FieldInfo(alias="customerIntegrationId")
+    customer_integration_id: Optional[str] = FieldInfo(alias="customerIntegrationId")
 
     final_report: Optional[str] = FieldInfo(alias="finalReport")
 
@@ -63,7 +63,7 @@ class Data(BaseModel):
 
     staging_agent_id: str = FieldInfo(alias="stagingAgentId")
 
-    staging_kind: Literal["DESIGNATED", "SHADOW"] = FieldInfo(alias="stagingKind")
+    staging_kind: Literal["DESIGNATED", "SHADOW", "CHANNEL"] = FieldInfo(alias="stagingKind")
 
     status: Literal["RUNNING", "NEEDS_INPUT", "PAUSED", "AWAITING_PROMOTE", "PROMOTED", "NO_FIX", "CANCELLED", "FAILED"]
 
