@@ -40,6 +40,7 @@ if TYPE_CHECKING:
         webhook,
         benchmark,
         simulation,
+        agent_config,
         agent_prompt,
         customer_flow,
         metric_policy,
@@ -64,6 +65,7 @@ if TYPE_CHECKING:
     from .resources.webhook import WebhookResource, AsyncWebhookResource
     from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.agent_config import AgentConfigResource, AsyncAgentConfigResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
@@ -215,6 +217,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_template import SimulationTemplateResource
 
         return SimulationTemplateResource(self)
+
+    @cached_property
+    def agent_config(self) -> AgentConfigResource:
+        from .resources.agent_config import AgentConfigResource
+
+        return AgentConfigResource(self)
 
     @cached_property
     def autoimprove_job(self) -> AutoimproveJobResource:
@@ -523,6 +531,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationTemplateResource(self)
 
     @cached_property
+    def agent_config(self) -> AsyncAgentConfigResource:
+        from .resources.agent_config import AsyncAgentConfigResource
+
+        return AsyncAgentConfigResource(self)
+
+    @cached_property
     def autoimprove_job(self) -> AsyncAutoimproveJobResource:
         from .resources.autoimprove_job import AsyncAutoimproveJobResource
 
@@ -780,6 +794,12 @@ class RoarkWithRawResponse:
         return SimulationTemplateResourceWithRawResponse(self._client.simulation_template)
 
     @cached_property
+    def agent_config(self) -> agent_config.AgentConfigResourceWithRawResponse:
+        from .resources.agent_config import AgentConfigResourceWithRawResponse
+
+        return AgentConfigResourceWithRawResponse(self._client.agent_config)
+
+    @cached_property
     def autoimprove_job(self) -> autoimprove_job.AutoimproveJobResourceWithRawResponse:
         from .resources.autoimprove_job import AutoimproveJobResourceWithRawResponse
 
@@ -923,6 +943,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_template import AsyncSimulationTemplateResourceWithRawResponse
 
         return AsyncSimulationTemplateResourceWithRawResponse(self._client.simulation_template)
+
+    @cached_property
+    def agent_config(self) -> agent_config.AsyncAgentConfigResourceWithRawResponse:
+        from .resources.agent_config import AsyncAgentConfigResourceWithRawResponse
+
+        return AsyncAgentConfigResourceWithRawResponse(self._client.agent_config)
 
     @cached_property
     def autoimprove_job(self) -> autoimprove_job.AsyncAutoimproveJobResourceWithRawResponse:
@@ -1070,6 +1096,12 @@ class RoarkWithStreamedResponse:
         return SimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
 
     @cached_property
+    def agent_config(self) -> agent_config.AgentConfigResourceWithStreamingResponse:
+        from .resources.agent_config import AgentConfigResourceWithStreamingResponse
+
+        return AgentConfigResourceWithStreamingResponse(self._client.agent_config)
+
+    @cached_property
     def autoimprove_job(self) -> autoimprove_job.AutoimproveJobResourceWithStreamingResponse:
         from .resources.autoimprove_job import AutoimproveJobResourceWithStreamingResponse
 
@@ -1213,6 +1245,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_template import AsyncSimulationTemplateResourceWithStreamingResponse
 
         return AsyncSimulationTemplateResourceWithStreamingResponse(self._client.simulation_template)
+
+    @cached_property
+    def agent_config(self) -> agent_config.AsyncAgentConfigResourceWithStreamingResponse:
+        from .resources.agent_config import AsyncAgentConfigResourceWithStreamingResponse
+
+        return AsyncAgentConfigResourceWithStreamingResponse(self._client.agent_config)
 
     @cached_property
     def autoimprove_job(self) -> autoimprove_job.AsyncAutoimproveJobResourceWithStreamingResponse:

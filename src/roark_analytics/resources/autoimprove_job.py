@@ -78,11 +78,11 @@ class AutoimproveJobResource(SyncAPIResource):
         callers, measures a baseline, changes the staging configuration, and re-tests
         until the objective metric passes its target. Production is never touched by the
         loop; verified changes wait for promotion. Requires an active provider
-        integration (Vapi or Retell) with agent config writes enabled. One live job per
-        agent: starting a second returns a conflict. The job runs asynchronously; poll
-        GET /v1/autoimprove/job/{jobId} or watch it in the dashboard. When its status is
-        NEEDS_INPUT, answer via the answer endpoint; when AWAITING_PROMOTE, promote or
-        dismiss.
+        integration (Vapi, Retell, or ElevenLabs) with agent config writes enabled. One
+        live job per agent: starting a second returns a conflict. The job runs
+        asynchronously; poll GET /v1/autoimprove/job/{jobId} or watch it in the
+        dashboard. When its status is NEEDS_INPUT, answer via the answer endpoint; when
+        AWAITING_PROMOTE, promote or dismiss.
 
         Args:
           agent_id: The production agent to improve. It is never modified until you promote.
@@ -444,11 +444,11 @@ class AsyncAutoimproveJobResource(AsyncAPIResource):
         callers, measures a baseline, changes the staging configuration, and re-tests
         until the objective metric passes its target. Production is never touched by the
         loop; verified changes wait for promotion. Requires an active provider
-        integration (Vapi or Retell) with agent config writes enabled. One live job per
-        agent: starting a second returns a conflict. The job runs asynchronously; poll
-        GET /v1/autoimprove/job/{jobId} or watch it in the dashboard. When its status is
-        NEEDS_INPUT, answer via the answer endpoint; when AWAITING_PROMOTE, promote or
-        dismiss.
+        integration (Vapi, Retell, or ElevenLabs) with agent config writes enabled. One
+        live job per agent: starting a second returns a conflict. The job runs
+        asynchronously; poll GET /v1/autoimprove/job/{jobId} or watch it in the
+        dashboard. When its status is NEEDS_INPUT, answer via the answer endpoint; when
+        AWAITING_PROMOTE, promote or dismiss.
 
         Args:
           agent_id: The production agent to improve. It is never modified until you promote.

@@ -64,6 +64,14 @@ from .simulation import (
     SimulationResourceWithStreamingResponse,
     AsyncSimulationResourceWithStreamingResponse,
 )
+from .agent_config import (
+    AgentConfigResource,
+    AsyncAgentConfigResource,
+    AgentConfigResourceWithRawResponse,
+    AsyncAgentConfigResourceWithRawResponse,
+    AgentConfigResourceWithStreamingResponse,
+    AsyncAgentConfigResourceWithStreamingResponse,
+)
 from .agent_prompt import (
     AgentPromptResource,
     AsyncAgentPromptResource,
@@ -264,6 +272,12 @@ __all__ = [
     "AsyncSimulationTemplateResourceWithRawResponse",
     "SimulationTemplateResourceWithStreamingResponse",
     "AsyncSimulationTemplateResourceWithStreamingResponse",
+    "AgentConfigResource",
+    "AsyncAgentConfigResource",
+    "AgentConfigResourceWithRawResponse",
+    "AsyncAgentConfigResourceWithRawResponse",
+    "AgentConfigResourceWithStreamingResponse",
+    "AsyncAgentConfigResourceWithStreamingResponse",
     "AutoimproveJobResource",
     "AsyncAutoimproveJobResource",
     "AutoimproveJobResourceWithRawResponse",
