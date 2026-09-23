@@ -138,6 +138,7 @@ from .simulation_run_plan_create_response import SimulationRunPlanCreateResponse
 from .simulation_run_plan_delete_response import SimulationRunPlanDeleteResponse as SimulationRunPlanDeleteResponse
 from .simulation_run_plan_job_list_params import SimulationRunPlanJobListParams as SimulationRunPlanJobListParams
 from .simulation_run_plan_update_response import SimulationRunPlanUpdateResponse as SimulationRunPlanUpdateResponse
+from .simulation_tool_fixture_list_params import SimulationToolFixtureListParams as SimulationToolFixtureListParams
 from .agent_config_delete_staging_response import AgentConfigDeleteStagingResponse as AgentConfigDeleteStagingResponse
 from .autoimprove_job_send_guidance_params import AutoimproveJobSendGuidanceParams as AutoimproveJobSendGuidanceParams
 from .benchmark_list_target_history_params import BenchmarkListTargetHistoryParams as BenchmarkListTargetHistoryParams
@@ -166,6 +167,15 @@ from .metric_collection_job_create_response import (
 )
 from .simulation_persona_get_by_id_response import SimulationPersonaGetByIDResponse as SimulationPersonaGetByIDResponse
 from .simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse as SimulationRunPlanJobListResponse
+from .simulation_tool_fixture_create_params import (
+    SimulationToolFixtureCreateParams as SimulationToolFixtureCreateParams,
+)
+from .simulation_tool_fixture_list_response import (
+    SimulationToolFixtureListResponse as SimulationToolFixtureListResponse,
+)
+from .simulation_tool_fixture_update_params import (
+    SimulationToolFixtureUpdateParams as SimulationToolFixtureUpdateParams,
+)
 from .autoimprove_job_answer_question_params import (
     AutoimproveJobAnswerQuestionParams as AutoimproveJobAnswerQuestionParams,
 )
@@ -190,6 +200,9 @@ from .simulation_environment_delete_response import (
 from .simulation_environment_update_response import (
     SimulationEnvironmentUpdateResponse as SimulationEnvironmentUpdateResponse,
 )
+from .simulation_job_tool_mock_list_response import (
+    SimulationJobToolMockListResponse as SimulationJobToolMockListResponse,
+)
 from .simulation_run_plan_get_by_id_response import SimulationRunPlanGetByIDResponse as SimulationRunPlanGetByIDResponse
 from .simulation_run_plan_job_start_response import (
     SimulationRunPlanJobStartResponse as SimulationRunPlanJobStartResponse,
@@ -208,6 +221,15 @@ from .http_request_definition_update_response import (
 )
 from .simulation_run_plan_job_cancel_response import (
     SimulationRunPlanJobCancelResponse as SimulationRunPlanJobCancelResponse,
+)
+from .simulation_tool_fixture_create_response import (
+    SimulationToolFixtureCreateResponse as SimulationToolFixtureCreateResponse,
+)
+from .simulation_tool_fixture_delete_response import (
+    SimulationToolFixtureDeleteResponse as SimulationToolFixtureDeleteResponse,
+)
+from .simulation_tool_fixture_update_response import (
+    SimulationToolFixtureUpdateResponse as SimulationToolFixtureUpdateResponse,
 )
 from .autoimprove_job_answer_question_response import (
     AutoimproveJobAnswerQuestionResponse as AutoimproveJobAnswerQuestionResponse,

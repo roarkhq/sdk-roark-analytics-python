@@ -56,6 +56,8 @@ if TYPE_CHECKING:
         customer_flow_edge_case,
         http_request_definition,
         simulation_run_plan_job,
+        simulation_tool_fixture,
+        simulation_job_tool_mock,
     )
     from .resources.call import CallResource, AsyncCallResource
     from .resources.agent import AgentResource, AsyncAgentResource
@@ -81,6 +83,8 @@ if TYPE_CHECKING:
     from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
     from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
+    from .resources.simulation_tool_fixture import SimulationToolFixtureResource, AsyncSimulationToolFixtureResource
+    from .resources.simulation_job_tool_mock import SimulationJobToolMockResource, AsyncSimulationJobToolMockResource
 
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Roark", "AsyncRoark", "Client", "AsyncClient"]
 
@@ -187,6 +191,18 @@ class Roark(SyncAPIClient):
         from .resources.simulation_job import SimulationJobResource
 
         return SimulationJobResource(self)
+
+    @cached_property
+    def simulation_job_tool_mock(self) -> SimulationJobToolMockResource:
+        from .resources.simulation_job_tool_mock import SimulationJobToolMockResource
+
+        return SimulationJobToolMockResource(self)
+
+    @cached_property
+    def simulation_tool_fixture(self) -> SimulationToolFixtureResource:
+        from .resources.simulation_tool_fixture import SimulationToolFixtureResource
+
+        return SimulationToolFixtureResource(self)
 
     @cached_property
     def simulation_run_plan(self) -> SimulationRunPlanResource:
@@ -501,6 +517,18 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationJobResource(self)
 
     @cached_property
+    def simulation_job_tool_mock(self) -> AsyncSimulationJobToolMockResource:
+        from .resources.simulation_job_tool_mock import AsyncSimulationJobToolMockResource
+
+        return AsyncSimulationJobToolMockResource(self)
+
+    @cached_property
+    def simulation_tool_fixture(self) -> AsyncSimulationToolFixtureResource:
+        from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResource
+
+        return AsyncSimulationToolFixtureResource(self)
+
+    @cached_property
     def simulation_run_plan(self) -> AsyncSimulationRunPlanResource:
         from .resources.simulation_run_plan import AsyncSimulationRunPlanResource
 
@@ -764,6 +792,18 @@ class RoarkWithRawResponse:
         return SimulationJobResourceWithRawResponse(self._client.simulation_job)
 
     @cached_property
+    def simulation_job_tool_mock(self) -> simulation_job_tool_mock.SimulationJobToolMockResourceWithRawResponse:
+        from .resources.simulation_job_tool_mock import SimulationJobToolMockResourceWithRawResponse
+
+        return SimulationJobToolMockResourceWithRawResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithRawResponse:
+        from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithRawResponse
+
+        return SimulationToolFixtureResourceWithRawResponse(self._client.simulation_tool_fixture)
+
+    @cached_property
     def simulation_run_plan(self) -> simulation_run_plan.SimulationRunPlanResourceWithRawResponse:
         from .resources.simulation_run_plan import SimulationRunPlanResourceWithRawResponse
 
@@ -913,6 +953,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_job import AsyncSimulationJobResourceWithRawResponse
 
         return AsyncSimulationJobResourceWithRawResponse(self._client.simulation_job)
+
+    @cached_property
+    def simulation_job_tool_mock(self) -> simulation_job_tool_mock.AsyncSimulationJobToolMockResourceWithRawResponse:
+        from .resources.simulation_job_tool_mock import AsyncSimulationJobToolMockResourceWithRawResponse
+
+        return AsyncSimulationJobToolMockResourceWithRawResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_tool_fixture(self) -> simulation_tool_fixture.AsyncSimulationToolFixtureResourceWithRawResponse:
+        from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResourceWithRawResponse
+
+        return AsyncSimulationToolFixtureResourceWithRawResponse(self._client.simulation_tool_fixture)
 
     @cached_property
     def simulation_run_plan(self) -> simulation_run_plan.AsyncSimulationRunPlanResourceWithRawResponse:
@@ -1066,6 +1118,18 @@ class RoarkWithStreamedResponse:
         return SimulationJobResourceWithStreamingResponse(self._client.simulation_job)
 
     @cached_property
+    def simulation_job_tool_mock(self) -> simulation_job_tool_mock.SimulationJobToolMockResourceWithStreamingResponse:
+        from .resources.simulation_job_tool_mock import SimulationJobToolMockResourceWithStreamingResponse
+
+        return SimulationJobToolMockResourceWithStreamingResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithStreamingResponse:
+        from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithStreamingResponse
+
+        return SimulationToolFixtureResourceWithStreamingResponse(self._client.simulation_tool_fixture)
+
+    @cached_property
     def simulation_run_plan(self) -> simulation_run_plan.SimulationRunPlanResourceWithStreamingResponse:
         from .resources.simulation_run_plan import SimulationRunPlanResourceWithStreamingResponse
 
@@ -1215,6 +1279,22 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_job import AsyncSimulationJobResourceWithStreamingResponse
 
         return AsyncSimulationJobResourceWithStreamingResponse(self._client.simulation_job)
+
+    @cached_property
+    def simulation_job_tool_mock(
+        self,
+    ) -> simulation_job_tool_mock.AsyncSimulationJobToolMockResourceWithStreamingResponse:
+        from .resources.simulation_job_tool_mock import AsyncSimulationJobToolMockResourceWithStreamingResponse
+
+        return AsyncSimulationJobToolMockResourceWithStreamingResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_tool_fixture(
+        self,
+    ) -> simulation_tool_fixture.AsyncSimulationToolFixtureResourceWithStreamingResponse:
+        from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResourceWithStreamingResponse
+
+        return AsyncSimulationToolFixtureResourceWithStreamingResponse(self._client.simulation_tool_fixture)
 
     @cached_property
     def simulation_run_plan(self) -> simulation_run_plan.AsyncSimulationRunPlanResourceWithStreamingResponse:

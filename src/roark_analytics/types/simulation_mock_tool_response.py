@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -22,6 +23,12 @@ class Data(BaseModel):
     """
 
     simulation_job_id: str = FieldInfo(alias="simulationJobId")
+
+    source: Literal["GENERATED", "FIXTURE"]
+    """
+    GENERATED = the scenario-aware model answered; FIXTURE = a pinned deterministic
+    response you configured answered.
+    """
 
     tool_name: str = FieldInfo(alias="toolName")
 

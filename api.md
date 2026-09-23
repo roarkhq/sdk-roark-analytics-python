@@ -142,6 +142,38 @@ Methods:
 - <code title="get /v1/simulation/job/{jobId}">client.simulation_job.<a href="./src/roark_analytics/resources/simulation_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_job_get_by_id_response.py">SimulationJobGetByIDResponse</a></code>
 - <code title="get /v1/simulation/job/lookup">client.simulation_job.<a href="./src/roark_analytics/resources/simulation_job.py">lookup</a>(\*\*<a href="src/roark_analytics/types/simulation_job_lookup_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_job_lookup_response.py">SimulationJobLookupResponse</a></code>
 
+# SimulationJobToolMock
+
+Types:
+
+```python
+from roark_analytics.types import SimulationJobToolMockListResponse
+```
+
+Methods:
+
+- <code title="get /v1/simulation/job/{jobId}/tool-mock">client.simulation_job_tool_mock.<a href="./src/roark_analytics/resources/simulation_job_tool_mock.py">list</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_job_tool_mock_list_response.py">SimulationJobToolMockListResponse</a></code>
+
+# SimulationToolFixture
+
+Types:
+
+```python
+from roark_analytics.types import (
+    SimulationToolFixtureCreateResponse,
+    SimulationToolFixtureUpdateResponse,
+    SimulationToolFixtureListResponse,
+    SimulationToolFixtureDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/simulation/tool-fixture">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">create</a>(\*\*<a href="src/roark_analytics/types/simulation_tool_fixture_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_create_response.py">SimulationToolFixtureCreateResponse</a></code>
+- <code title="put /v1/simulation/tool-fixture/{fixtureId}">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">update</a>(fixture_id, \*\*<a href="src/roark_analytics/types/simulation_tool_fixture_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_update_response.py">SimulationToolFixtureUpdateResponse</a></code>
+- <code title="get /v1/simulation/tool-fixture">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_tool_fixture_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_list_response.py">SimulationToolFixtureListResponse</a></code>
+- <code title="delete /v1/simulation/tool-fixture/{fixtureId}">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">delete</a>(fixture_id) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_delete_response.py">SimulationToolFixtureDeleteResponse</a></code>
+
 # SimulationRunPlan
 
 Types:
