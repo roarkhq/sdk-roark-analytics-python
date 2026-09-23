@@ -252,6 +252,7 @@ class DataSimulationJob(BaseModel):
 
     processing_status: Literal[
         "PENDING",
+        "RESERVING_CAPACITY",
         "CONNECTING",
         "WAITING_FOR_OUTBOUND_CALL",
         "SIMULATING",
