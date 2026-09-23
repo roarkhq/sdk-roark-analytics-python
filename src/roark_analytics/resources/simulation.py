@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import simulation_run_params
+from ..types import simulation_run_params, simulation_mock_tool_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,6 +20,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.simulation_run_response import SimulationRunResponse
+from ..types.simulation_mock_tool_response import SimulationMockToolResponse
 
 __all__ = ["SimulationResource", "AsyncSimulationResource"]
 
@@ -43,6 +44,78 @@ class SimulationResource(SyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return SimulationResourceWithStreamingResponse(self)
+
+    def mock_tool(
+        self,
+        *,
+        simulation_job_id: str,
+        tool_name: str,
+        arguments: Dict[str, object] | Omit = omit,
+        session_id: str | Omit = omit,
+        tool_description: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationMockToolResponse:
+        """The server half of the tool guard for code-first agents.
+
+        When a guarded tool
+        fires during a Roark test call, send the invocation here instead of executing
+        it: Roark answers with a simulated backend response that is valid JSON, shaped
+        by the tool contract you pass, consistent with the test scenario, and consistent
+        with earlier mocked responses in the same call. Real callers are never affected:
+        the guard only diverts when the agent-config resolve response identified the
+        session as a Roark simulation, and this endpoint independently re-validates the
+        simulation before answering. Failure contract for your wrapper: `404` means the
+        simulation id is unknown to this project (treat the session as real). `409`
+        means the simulation has already ended (stale session state: do NOT execute the
+        real tool; return your static fallback). `5xx` means generation failed (return
+        your static fallback). Identical retries (same tool, same arguments) within a
+        few minutes return the stored response, so double-fired handlers stay
+        consistent.
+
+        Args:
+          simulation_job_id: The simulation this session belongs to, from the agent-config resolve response
+              (`simulationJobId`). Roark re-validates it against the live simulation before
+              answering.
+
+          tool_name: The tool the agent invoked.
+
+          arguments: The arguments the agent called the tool with, verbatim.
+
+          session_id: Your session or room identifier, echoed back in logs for correlation.
+
+          tool_description: The tool's contract: its description and, ideally, its parameter and return
+              shape. The more contract you pass, the more faithful the simulated response.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/simulation/tool-mock",
+            body=maybe_transform(
+                {
+                    "simulation_job_id": simulation_job_id,
+                    "tool_name": tool_name,
+                    "arguments": arguments,
+                    "session_id": session_id,
+                    "tool_description": tool_description,
+                },
+                simulation_mock_tool_params.SimulationMockToolParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationMockToolResponse,
+        )
 
     @overload
     def run(
@@ -377,6 +450,78 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         return AsyncSimulationResourceWithStreamingResponse(self)
 
+    async def mock_tool(
+        self,
+        *,
+        simulation_job_id: str,
+        tool_name: str,
+        arguments: Dict[str, object] | Omit = omit,
+        session_id: str | Omit = omit,
+        tool_description: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationMockToolResponse:
+        """The server half of the tool guard for code-first agents.
+
+        When a guarded tool
+        fires during a Roark test call, send the invocation here instead of executing
+        it: Roark answers with a simulated backend response that is valid JSON, shaped
+        by the tool contract you pass, consistent with the test scenario, and consistent
+        with earlier mocked responses in the same call. Real callers are never affected:
+        the guard only diverts when the agent-config resolve response identified the
+        session as a Roark simulation, and this endpoint independently re-validates the
+        simulation before answering. Failure contract for your wrapper: `404` means the
+        simulation id is unknown to this project (treat the session as real). `409`
+        means the simulation has already ended (stale session state: do NOT execute the
+        real tool; return your static fallback). `5xx` means generation failed (return
+        your static fallback). Identical retries (same tool, same arguments) within a
+        few minutes return the stored response, so double-fired handlers stay
+        consistent.
+
+        Args:
+          simulation_job_id: The simulation this session belongs to, from the agent-config resolve response
+              (`simulationJobId`). Roark re-validates it against the live simulation before
+              answering.
+
+          tool_name: The tool the agent invoked.
+
+          arguments: The arguments the agent called the tool with, verbatim.
+
+          session_id: Your session or room identifier, echoed back in logs for correlation.
+
+          tool_description: The tool's contract: its description and, ideally, its parameter and return
+              shape. The more contract you pass, the more faithful the simulated response.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/simulation/tool-mock",
+            body=await async_maybe_transform(
+                {
+                    "simulation_job_id": simulation_job_id,
+                    "tool_name": tool_name,
+                    "arguments": arguments,
+                    "session_id": session_id,
+                    "tool_description": tool_description,
+                },
+                simulation_mock_tool_params.SimulationMockToolParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationMockToolResponse,
+        )
+
     @overload
     async def run(
         self,
@@ -694,6 +839,9 @@ class SimulationResourceWithRawResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
+        self.mock_tool = to_raw_response_wrapper(
+            simulation.mock_tool,
+        )
         self.run = to_raw_response_wrapper(
             simulation.run,
         )
@@ -703,6 +851,9 @@ class AsyncSimulationResourceWithRawResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
+        self.mock_tool = async_to_raw_response_wrapper(
+            simulation.mock_tool,
+        )
         self.run = async_to_raw_response_wrapper(
             simulation.run,
         )
@@ -712,6 +863,9 @@ class SimulationResourceWithStreamingResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
+        self.mock_tool = to_streamed_response_wrapper(
+            simulation.mock_tool,
+        )
         self.run = to_streamed_response_wrapper(
             simulation.run,
         )
@@ -721,6 +875,9 @@ class AsyncSimulationResourceWithStreamingResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
+        self.mock_tool = async_to_streamed_response_wrapper(
+            simulation.mock_tool,
+        )
         self.run = async_to_streamed_response_wrapper(
             simulation.run,
         )
