@@ -121,11 +121,12 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import SimulationRunResponse
+from roark_analytics.types import SimulationMockToolResponse, SimulationRunResponse
 ```
 
 Methods:
 
+- <code title="post /v1/simulation/tool-mock">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">mock_tool</a>(\*\*<a href="src/roark_analytics/types/simulation_mock_tool_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_mock_tool_response.py">SimulationMockToolResponse</a></code>
 - <code title="post /v1/simulation/run">client.simulation.<a href="./src/roark_analytics/resources/simulation.py">run</a>(\*\*<a href="src/roark_analytics/types/simulation_run_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_response.py">SimulationRunResponse</a></code>
 
 # SimulationJob
