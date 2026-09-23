@@ -9,13 +9,61 @@ import pytest
 
 from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
-from roark_analytics.types import SimulationRunResponse
+from roark_analytics.types import (
+    SimulationRunResponse,
+    SimulationMockToolResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestSimulation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_mock_tool(self, client: Roark) -> None:
+        simulation = client.simulation.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        )
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_method_mock_tool_with_all_params(self, client: Roark) -> None:
+        simulation = client.simulation.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+            arguments={"date": "2026-10-01", "time": "15:00"},
+            session_id="sessionId",
+            tool_description="Books an appointment. Args: date (YYYY-MM-DD), time (HH:MM). Returns {confirmationId, status}.",
+        )
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_raw_response_mock_tool(self, client: Roark) -> None:
+        response = client.simulation.with_raw_response.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = response.parse()
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    def test_streaming_response_mock_tool(self, client: Roark) -> None:
+        with client.simulation.with_streaming_response.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = response.parse()
+            assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_run_overload_1(self, client: Roark) -> None:
@@ -227,6 +275,51 @@ class TestAsyncSimulation:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
+
+    @parametrize
+    async def test_method_mock_tool(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        )
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_method_mock_tool_with_all_params(self, async_client: AsyncRoark) -> None:
+        simulation = await async_client.simulation.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+            arguments={"date": "2026-10-01", "time": "15:00"},
+            session_id="sessionId",
+            tool_description="Books an appointment. Args: date (YYYY-MM-DD), time (HH:MM). Returns {confirmationId, status}.",
+        )
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_raw_response_mock_tool(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation.with_raw_response.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation = await response.parse()
+        assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_mock_tool(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation.with_streaming_response.mock_tool(
+            simulation_job_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            tool_name="book_appointment",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation = await response.parse()
+            assert_matches_type(SimulationMockToolResponse, simulation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_run_overload_1(self, async_client: AsyncRoark) -> None:
