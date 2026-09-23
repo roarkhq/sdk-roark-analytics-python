@@ -29,6 +29,8 @@ __all__ = [
     "MetricConfigOption",
     "MetricConfigScaleLabel",
     "PersonaConfig",
+    "QaSimulationPlanConfig",
+    "QaSimulationPlanConfigQuestion",
     "ScriptedFlowConfig",
     "ScriptedFlowConfigOffScript",
     "SimulationPlanConfig",
@@ -456,6 +458,62 @@ class SimulationPlanConfig(BaseModel):
 
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
+    template: Optional[Literal["manual"]] = None
+
+
+class QaSimulationPlanConfigQuestion(BaseModel):
+    ask: str
+
+    expect: Optional[str] = None
+
+    name: Optional[str] = None
+
+
+class QaSimulationPlanConfig(BaseModel):
+    agent_endpoints: List[SimulationPlanConfigAgentEndpoint] = FieldInfo(alias="agentEndpoints")
+
+    direction: Literal["INBOUND", "OUTBOUND"]
+
+    environment: str
+
+    kind: Literal["simulationPlan"]
+
+    max_duration_seconds: int = FieldInfo(alias="maxDurationSeconds")
+
+    name: str
+
+    persona: str
+
+    questions: List[QaSimulationPlanConfigQuestion]
+
+    template: Literal["qa"]
+
+    description: Optional[str] = None
+
+    end_call_phrases: Optional[List[str]] = FieldInfo(alias="endCallPhrases", default=None)
+
+    end_call_reasons: Optional[List[str]] = FieldInfo(alias="endCallReasons", default=None)
+
+    enrich_with_live_conversation: Optional[bool] = FieldInfo(alias="enrichWithLiveConversation", default=None)
+
+    execution_mode: Optional[Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"]] = FieldInfo(
+        alias="executionMode", default=None
+    )
+
+    grade_with_knowledge_base: Optional[bool] = FieldInfo(alias="gradeWithKnowledgeBase", default=None)
+
+    include_automatic_metrics: Optional[bool] = FieldInfo(alias="includeAutomaticMetrics", default=None)
+
+    include_flow_metrics: Optional[bool] = FieldInfo(alias="includeFlowMetrics", default=None)
+
+    iterations: Optional[int] = None
+
+    max_concurrent_jobs: Optional[int] = FieldInfo(alias="maxConcurrentJobs", default=None)
+
+    metrics: Optional[List[str]] = None
+
+    silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
+
 
 class AlertThresholdTrigger(BaseModel):
     aggregation: Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]
@@ -554,6 +612,7 @@ class Bundle(BaseModel):
             CollectorConfig,
             MetricConfig,
             SimulationPlanConfig,
+            QaSimulationPlanConfig,
             AlertConfig,
         ]
     ]

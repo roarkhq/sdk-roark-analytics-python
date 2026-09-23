@@ -30,6 +30,8 @@ __all__ = [
     "MetricConfigOption",
     "MetricConfigScaleLabel",
     "PersonaConfig",
+    "QaSimulationPlanConfig",
+    "QaSimulationPlanConfigQuestion",
     "ScriptedFlowConfig",
     "ScriptedFlowConfigOffScript",
     "SimulationPlanConfig",
@@ -460,6 +462,64 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
+    template: Literal["manual"]
+
+
+class QaSimulationPlanConfigQuestion(TypedDict, total=False):
+    ask: Required[str]
+
+    expect: str
+
+    name: str
+
+
+class QaSimulationPlanConfig(TypedDict, total=False):
+    agent_endpoints: Required[
+        Annotated[Iterable[SimulationPlanConfigAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
+    ]
+
+    direction: Required[Literal["INBOUND", "OUTBOUND"]]
+
+    environment: Required[str]
+
+    kind: Required[Literal["simulationPlan"]]
+
+    max_duration_seconds: Required[Annotated[int, PropertyInfo(alias="maxDurationSeconds")]]
+
+    name: Required[str]
+
+    persona: Required[str]
+
+    questions: Required[Iterable[QaSimulationPlanConfigQuestion]]
+
+    template: Required[Literal["qa"]]
+
+    description: Optional[str]
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+
+    end_call_reasons: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallReasons")]
+
+    enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]
+
+    execution_mode: Annotated[
+        Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
+    ]
+
+    grade_with_knowledge_base: Annotated[bool, PropertyInfo(alias="gradeWithKnowledgeBase")]
+
+    include_automatic_metrics: Annotated[bool, PropertyInfo(alias="includeAutomaticMetrics")]
+
+    include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
+
+    iterations: int
+
+    max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
+
+    metrics: SequenceNotStr[str]
+
+    silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
+
 
 class AlertThresholdTrigger(TypedDict, total=False):
     aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]]
@@ -561,6 +621,7 @@ class ConfigApplyParams(TypedDict, total=False):
                 CollectorConfig,
                 MetricConfig,
                 SimulationPlanConfig,
+                QaSimulationPlanConfig,
                 AlertConfig,
             ]
         ]
