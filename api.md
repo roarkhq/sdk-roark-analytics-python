@@ -349,6 +349,7 @@ from roark_analytics.types import (
     AgentCreateResponse,
     AgentUpdateResponse,
     AgentListResponse,
+    AgentBuildResponse,
     AgentGetByIDResponse,
 )
 ```
@@ -358,6 +359,7 @@ Methods:
 - <code title="post /v1/agent">client.agent.<a href="./src/roark_analytics/resources/agent.py">create</a>(\*\*<a href="src/roark_analytics/types/agent_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_create_response.py">AgentCreateResponse</a></code>
 - <code title="put /v1/agent/{agentId}">client.agent.<a href="./src/roark_analytics/resources/agent.py">update</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_update_response.py">AgentUpdateResponse</a></code>
 - <code title="get /v1/agent">client.agent.<a href="./src/roark_analytics/resources/agent.py">list</a>(\*\*<a href="src/roark_analytics/types/agent_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_list_response.py">AgentListResponse</a></code>
+- <code title="post /v1/agent/build">client.agent.<a href="./src/roark_analytics/resources/agent.py">build</a>(\*\*<a href="src/roark_analytics/types/agent_build_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_build_response.py">AgentBuildResponse</a></code>
 - <code title="get /v1/agent/{agentId}">client.agent.<a href="./src/roark_analytics/resources/agent.py">get_by_id</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_get_by_id_response.py">AgentGetByIDResponse</a></code>
 
 # AgentEndpoint

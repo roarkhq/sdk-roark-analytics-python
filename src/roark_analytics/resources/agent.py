@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ..types import agent_list_params, agent_create_params, agent_update_params
+from ..types import agent_list_params, agent_build_params, agent_create_params, agent_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,6 +19,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.agent_list_response import AgentListResponse
+from ..types.agent_build_response import AgentBuildResponse
 from ..types.agent_create_response import AgentCreateResponse
 from ..types.agent_update_response import AgentUpdateResponse
 from ..types.agent_get_by_id_response import AgentGetByIDResponse
@@ -181,6 +182,57 @@ class AgentResource(SyncAPIResource):
                 ),
             ),
             cast_to=AgentListResponse,
+        )
+
+    def build(
+        self,
+        *,
+        job_description: str,
+        name: str,
+        voice: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentBuildResponse:
+        """Creates a new Roark-hosted agent from a one-line job description.
+
+        Roark authors
+        the system prompt and hosts the config, so the agent is live and self-improvable
+        from creation.
+
+        Args:
+          job_description: One-line description of what the agent should do. Roark authors the system
+              prompt from this.
+
+          name: Name of the agent
+
+          voice: Optional voice label for the hosted agent
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/agent/build",
+            body=maybe_transform(
+                {
+                    "job_description": job_description,
+                    "name": name,
+                    "voice": voice,
+                },
+                agent_build_params.AgentBuildParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentBuildResponse,
         )
 
     def get_by_id(
@@ -374,6 +426,57 @@ class AsyncAgentResource(AsyncAPIResource):
             cast_to=AgentListResponse,
         )
 
+    async def build(
+        self,
+        *,
+        job_description: str,
+        name: str,
+        voice: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentBuildResponse:
+        """Creates a new Roark-hosted agent from a one-line job description.
+
+        Roark authors
+        the system prompt and hosts the config, so the agent is live and self-improvable
+        from creation.
+
+        Args:
+          job_description: One-line description of what the agent should do. Roark authors the system
+              prompt from this.
+
+          name: Name of the agent
+
+          voice: Optional voice label for the hosted agent
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/agent/build",
+            body=await async_maybe_transform(
+                {
+                    "job_description": job_description,
+                    "name": name,
+                    "voice": voice,
+                },
+                agent_build_params.AgentBuildParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AgentBuildResponse,
+        )
+
     async def get_by_id(
         self,
         agent_id: str,
@@ -421,6 +524,9 @@ class AgentResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             agent.list,
         )
+        self.build = to_raw_response_wrapper(
+            agent.build,
+        )
         self.get_by_id = to_raw_response_wrapper(
             agent.get_by_id,
         )
@@ -438,6 +544,9 @@ class AsyncAgentResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             agent.list,
+        )
+        self.build = async_to_raw_response_wrapper(
+            agent.build,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             agent.get_by_id,
@@ -457,6 +566,9 @@ class AgentResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             agent.list,
         )
+        self.build = to_streamed_response_wrapper(
+            agent.build,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             agent.get_by_id,
         )
@@ -474,6 +586,9 @@ class AsyncAgentResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             agent.list,
+        )
+        self.build = async_to_streamed_response_wrapper(
+            agent.build,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             agent.get_by_id,

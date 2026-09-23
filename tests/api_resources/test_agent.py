@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     AgentListResponse,
+    AgentBuildResponse,
     AgentCreateResponse,
     AgentUpdateResponse,
     AgentGetByIDResponse,
@@ -140,6 +141,49 @@ class TestAgent:
 
             agent = response.parse()
             assert_matches_type(AgentListResponse, agent, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_build(self, client: Roark) -> None:
+        agent = client.agent.build(
+            job_description="x",
+            name="x",
+        )
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    def test_method_build_with_all_params(self, client: Roark) -> None:
+        agent = client.agent.build(
+            job_description="x",
+            name="x",
+            voice="voice",
+        )
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    def test_raw_response_build(self, client: Roark) -> None:
+        response = client.agent.with_raw_response.build(
+            job_description="x",
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent = response.parse()
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    def test_streaming_response_build(self, client: Roark) -> None:
+        with client.agent.with_streaming_response.build(
+            job_description="x",
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent = response.parse()
+            assert_matches_type(AgentBuildResponse, agent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -305,6 +349,49 @@ class TestAsyncAgent:
 
             agent = await response.parse()
             assert_matches_type(AgentListResponse, agent, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_build(self, async_client: AsyncRoark) -> None:
+        agent = await async_client.agent.build(
+            job_description="x",
+            name="x",
+        )
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    async def test_method_build_with_all_params(self, async_client: AsyncRoark) -> None:
+        agent = await async_client.agent.build(
+            job_description="x",
+            name="x",
+            voice="voice",
+        )
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    async def test_raw_response_build(self, async_client: AsyncRoark) -> None:
+        response = await async_client.agent.with_raw_response.build(
+            job_description="x",
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        agent = await response.parse()
+        assert_matches_type(AgentBuildResponse, agent, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_build(self, async_client: AsyncRoark) -> None:
+        async with async_client.agent.with_streaming_response.build(
+            job_description="x",
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            agent = await response.parse()
+            assert_matches_type(AgentBuildResponse, agent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
