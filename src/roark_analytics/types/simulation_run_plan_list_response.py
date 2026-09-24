@@ -151,9 +151,11 @@ class Data(BaseModel):
 
     comparison_baseline: Optional[str] = FieldInfo(alias="comparisonBaseline")
     """
-    The value of `comparisonProperty` every other value is measured against, such as
-    `NONE` for `BACKGROUND_NOISE`. `null` when no comparison is declared, or when
-    the property has no obvious norm and none was chosen.
+    The reference value of `comparisonProperty`, such as `NONE` for
+    `BACKGROUND_NOISE`: shown first in the results. Whether a value did
+    significantly worse does not depend on it: that is decided against every other
+    value combined (see `sweepAttribution`). `null` when no comparison is declared,
+    or when the property has no obvious norm and none was chosen.
     """
 
     comparison_property: Optional[

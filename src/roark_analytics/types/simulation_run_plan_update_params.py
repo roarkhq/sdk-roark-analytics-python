@@ -167,7 +167,7 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
-    The value every other value is measured against. See `POST /v1/simulation/plan`.
+    The reference value, shown first in the results. See `POST /v1/simulation/plan`.
     A real value cannot be sent on its own: the property it belongs to decides which
     values are legal, and an omitted property means "leave unchanged", which this
     endpoint cannot check a baseline against. Send `comparisonProperty` with it, or

@@ -124,12 +124,14 @@ class SimulationRunPlanResource(SyncAPIResource):
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
 
-          comparison_baseline: The value of `comparisonProperty` every other value is measured against, for
-              example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
-              value that property can take. Stored rather than assumed, so the report can say
-              "compared against US accent" instead of implying Roark decided which value is
-              normal. Most properties have an obvious baseline and the dashboard prefills it;
-              `GENDER` has none, so choose the one you are testing against.
+          comparison_baseline: The reference value of `comparisonProperty`, for example `NONE` for
+              `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
+              Must be a value that property can take. Whether a value did significantly worse
+              does not depend on it: that is decided against every other value combined (see
+              `sweepAttribution`). Stored rather than assumed, so the report can say "compared
+              against US accent" instead of implying Roark decided which value is normal. Most
+              properties have an obvious baseline and the dashboard prefills it; `GENDER` has
+              none, so choose the one you are testing against.
 
           comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
               it and the run report compares the arms on that property, so a run answers "what
@@ -303,7 +305,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
 
-          comparison_baseline: The value every other value is measured against. See `POST /v1/simulation/plan`.
+          comparison_baseline: The reference value, shown first in the results. See `POST /v1/simulation/plan`.
               A real value cannot be sent on its own: the property it belongs to decides which
               values are legal, and an omitted property means "leave unchanged", which this
               endpoint cannot check a baseline against. Send `comparisonProperty` with it, or
@@ -631,12 +633,14 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
 
-          comparison_baseline: The value of `comparisonProperty` every other value is measured against, for
-              example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
-              value that property can take. Stored rather than assumed, so the report can say
-              "compared against US accent" instead of implying Roark decided which value is
-              normal. Most properties have an obvious baseline and the dashboard prefills it;
-              `GENDER` has none, so choose the one you are testing against.
+          comparison_baseline: The reference value of `comparisonProperty`, for example `NONE` for
+              `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
+              Must be a value that property can take. Whether a value did significantly worse
+              does not depend on it: that is decided against every other value combined (see
+              `sweepAttribution`). Stored rather than assumed, so the report can say "compared
+              against US accent" instead of implying Roark decided which value is normal. Most
+              properties have an obvious baseline and the dashboard prefills it; `GENDER` has
+              none, so choose the one you are testing against.
 
           comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
               it and the run report compares the arms on that property, so a run answers "what
@@ -810,7 +814,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
 
-          comparison_baseline: The value every other value is measured against. See `POST /v1/simulation/plan`.
+          comparison_baseline: The reference value, shown first in the results. See `POST /v1/simulation/plan`.
               A real value cannot be sent on its own: the property it belongs to decides which
               values are legal, and an omitted property means "leave unchanged", which this
               endpoint cannot check a baseline against. Send `comparisonProperty` with it, or

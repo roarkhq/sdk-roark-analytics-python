@@ -188,9 +188,11 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
-    The value of `comparisonProperty` every other value is measured against, for
-    example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
-    value that property can take.
+    The reference value of `comparisonProperty`, for example `NONE` for
+    `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
+    Must be a value that property can take. Whether a value did significantly worse
+    does not depend on it: that is decided against every other value combined (see
+    `sweepAttribution`).
     Stored rather than assumed, so the report can say "compared against US accent"
     instead of implying Roark decided which value is normal. Most properties have an
     obvious baseline and the dashboard prefills it; `GENDER` has none, so choose the
