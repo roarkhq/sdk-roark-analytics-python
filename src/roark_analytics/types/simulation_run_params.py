@@ -192,9 +192,11 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
-    The value of `comparisonProperty` every other value is measured against, for
-    example `NONE` for `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`. Must be a
-    value that property can take.
+    The reference value of `comparisonProperty`, for example `NONE` for
+    `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
+    Must be a value that property can take. Whether a value did significantly worse
+    does not depend on it: that is decided against every other value combined (see
+    `sweepAttribution`).
     Stored rather than assumed, so the report can say "compared against US accent"
     instead of implying Roark decided which value is normal. Most properties have an
     obvious baseline and the dashboard prefills it; `GENDER` has none, so choose the
@@ -455,8 +457,10 @@ class RunSimulationFromTemplate(TypedDict, total=False):
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
-    The value of the sweep every other value is measured against. Defaults to the
-    template's own baseline, as returned by GET /v1/simulation/template.
+    The sweep's reference value, shown first in the results. Defaults to the
+    template's own baseline, as returned by GET /v1/simulation/template. Whether a
+    value did significantly worse does not depend on it: that is decided against
+    every other value combined.
     Send it with `comparisonValues` and it must be one of them, or the request is
     rejected: anchoring every difference to an arm the run never made would measure
     it against nothing. Leave it out and the template's own baseline is used, and
@@ -515,7 +519,11 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     """
 
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
-    """Number of iterations to run for each test case (1-10000)"""
+    """
+    Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+    a property. A sweep needs at least 5 calls per value (test cases per value times
+    iterations) to compare its values, and a lower count is refused with 400.
+    """
 
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
