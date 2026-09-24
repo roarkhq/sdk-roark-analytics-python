@@ -59,6 +59,7 @@ class ConfigResource(SyncAPIResource):
                 config_apply_params.SimulationPlanConfig,
                 config_apply_params.QaSimulationPlanConfig,
                 config_apply_params.AlertConfig,
+                config_apply_params.ToolConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -115,6 +116,7 @@ class ConfigResource(SyncAPIResource):
                 config_diff_params.SimulationPlanConfig,
                 config_diff_params.QaSimulationPlanConfig,
                 config_diff_params.AlertConfig,
+                config_diff_params.ToolConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -191,6 +193,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_apply_params.SimulationPlanConfig,
                 config_apply_params.QaSimulationPlanConfig,
                 config_apply_params.AlertConfig,
+                config_apply_params.ToolConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -247,6 +250,7 @@ class AsyncConfigResource(AsyncAPIResource):
                 config_diff_params.SimulationPlanConfig,
                 config_diff_params.QaSimulationPlanConfig,
                 config_diff_params.AlertConfig,
+                config_diff_params.ToolConfig,
             ]
         ],
         prune: bool | Omit = omit,

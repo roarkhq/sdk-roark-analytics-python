@@ -37,6 +37,7 @@ __all__ = [
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "ToolConfig",
 ]
 
 
@@ -609,6 +610,22 @@ class AlertConfig(TypedDict, total=False):
     enabled: bool
 
 
+class ToolConfig(TypedDict, total=False):
+    kind: Required[Literal["tool"]]
+
+    name: Required[str]
+
+    agent: str
+
+    description: Optional[str]
+
+    expected_result: Annotated[Optional[str], PropertyInfo(alias="expectedResult")]
+
+    invocation_criteria: Annotated[Optional[str], PropertyInfo(alias="invocationCriteria")]
+
+    parameters: Dict[str, Literal["string", "number", "boolean"]]
+
+
 class BundleParam(TypedDict, total=False):
     resources: Required[
         List[
@@ -623,6 +640,7 @@ class BundleParam(TypedDict, total=False):
                 SimulationPlanConfig,
                 QaSimulationPlanConfig,
                 AlertConfig,
+                ToolConfig,
             ]
         ]
     ]

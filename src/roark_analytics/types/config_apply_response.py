@@ -13,7 +13,9 @@ __all__ = ["ConfigApplyResponse", "Data", "DataChange", "DataSummary"]
 class DataChange(BaseModel):
     config_key: str = FieldInfo(alias="configKey")
 
-    kind: Literal["agent", "persona", "httpRequestDefinition", "flow", "collector", "metric", "simulationPlan", "alert"]
+    kind: Literal[
+        "agent", "persona", "httpRequestDefinition", "flow", "collector", "metric", "simulationPlan", "alert", "tool"
+    ]
 
     name: str
 
