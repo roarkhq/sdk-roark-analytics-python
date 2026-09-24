@@ -36,6 +36,7 @@ __all__ = [
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "ToolConfig",
 ]
 
 
@@ -601,6 +602,22 @@ class AlertConfig(BaseModel):
     enabled: Optional[bool] = None
 
 
+class ToolConfig(BaseModel):
+    kind: Literal["tool"]
+
+    name: str
+
+    agent: Optional[str] = None
+
+    description: Optional[str] = None
+
+    expected_result: Optional[str] = FieldInfo(alias="expectedResult", default=None)
+
+    invocation_criteria: Optional[str] = FieldInfo(alias="invocationCriteria", default=None)
+
+    parameters: Optional[Dict[str, Literal["string", "number", "boolean"]]] = None
+
+
 class Bundle(BaseModel):
     resources: List[
         Union[
@@ -614,6 +631,7 @@ class Bundle(BaseModel):
             SimulationPlanConfig,
             QaSimulationPlanConfig,
             AlertConfig,
+            ToolConfig,
         ]
     ]
 
