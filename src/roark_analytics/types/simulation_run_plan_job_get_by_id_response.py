@@ -51,10 +51,16 @@ class DataSimulationJobInvalidation(BaseModel):
     invalidated_at: str = FieldInfo(alias="invalidatedAt")
     """When the run was invalidated."""
 
-    reason: Literal["SCRIPT_DIVERGED", "REQUIRED_STEP_NOT_REACHED", "REQUIRED_STAGE_INCOMPLETE"]
+    reason: Literal[
+        "SCRIPT_DIVERGED", "REQUIRED_STEP_NOT_REACHED", "REQUIRED_STAGE_INCOMPLETE", "CALLER_NEVER_TOOK_OVER"
+    ]
     """
     Why the result does not count. `SCRIPT_DIVERGED`: a strict flow went off script
     at a step whose off-script policy is HANG_UP_INVALIDATE.
+    `REQUIRED_STAGE_INCOMPLETE`: the call ended before it got through a stage its
+    flow requires. `CALLER_NEVER_TOOK_OVER`: the call opened on the persona of a
+    preceding flow, which never handed the phone to the persona under test, so none
+    of that persona's properties were exercised.
     """
 
     detail: Optional[str] = None
