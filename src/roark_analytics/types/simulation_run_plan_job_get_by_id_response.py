@@ -15,6 +15,10 @@ __all__ = [
     "DataSimulationJobInvalidation",
     "DataSimulationJobPersona",
     "DataSimulationJobScenario",
+    "DataSweepAttribution",
+    "DataSweepAttributionCheck",
+    "DataSweepAttributionCheckWorseValue",
+    "DataSweepAttributionValue",
     "DataVerdict",
     "DataVerdictCheck",
     "DataVerdictFailureUnionMember0",
@@ -299,6 +303,165 @@ class DataSimulationJob(BaseModel):
     """When the simulation job started"""
 
 
+class DataSweepAttributionCheckWorseValue(BaseModel):
+    """A value that failed a check significantly more often than the rest of the run."""
+
+    adjusted_p_value: float = FieldInfo(alias="adjustedPValue")
+    """
+    How likely a difference at least this large would be by chance alone, after
+    correcting for every comparison in the run (Benjamini-Hochberg). The value is
+    called worse only when this is at most `falseDiscoveryRate`.
+    """
+
+    evaluated: int
+
+    failed: int
+
+    failure_rate: Optional[float] = FieldInfo(alias="failureRate")
+    """Share of the counted simulations at this value that failed the check, 0-100."""
+
+    label: str
+
+    rest_failure_rate: Optional[float] = FieldInfo(alias="restFailureRate")
+    """
+    The same share across every other value combined, 0-100. This is what the value
+    is compared with.
+    """
+
+    value: str
+
+
+class DataSweepAttributionCheck(BaseModel):
+    """How one check's failures relate to the swept property."""
+
+    attribution: Literal["PROPERTY_ATTRIBUTABLE", "FOUND_UNATTRIBUTED", "WITHIN_NOISE"]
+    """
+    How this check relates to the swept property:
+    - `PROPERTY_ATTRIBUTABLE`: at least one value failed it significantly more often
+    than every other value combined. `worseValues` names them. This is the only case
+    in which a value is called worse. - `FOUND_UNATTRIBUTED`: no value stands out,
+    but the check failed on at least `foundUnattributedFailureRate`% of counted
+    simulations overall. A real issue with the agent on which no value stood out, so
+    the run cannot tie it to the property. It does not show the property had no
+    effect: a small run may be unable to see one. - `WITHIN_NOISE`: neither. Any
+    differences between values are within what chance produces.
+    """
+
+    evaluated: int
+
+    failed: int
+
+    failure_rate: Optional[float] = FieldInfo(alias="failureRate")
+    """Share of counted simulations across every value that failed the check, 0-100."""
+
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+    metric_name: str = FieldInfo(alias="metricName")
+
+    worse_values: List[DataSweepAttributionCheckWorseValue] = FieldInfo(alias="worseValues")
+    """
+    The values significantly worse than the rest, most significant first. Empty
+    unless `attribution` is `PROPERTY_ATTRIBUTABLE`.
+    """
+
+
+class DataSweepAttributionValue(BaseModel):
+    """One value of the swept property."""
+
+    attempted: int
+    """
+    Simulations run at this value. Simulations that failed on the Roark platform are
+    left out, since they say nothing about your agent.
+    """
+
+    counted: int
+    """
+    Simulations that actually tested the property: not invalidated, and graded by at
+    least one check. Only these are used in the comparison.
+    """
+
+    is_baseline: bool = FieldInfo(alias="isBaseline")
+    """Whether this is the baseline the plan named."""
+
+    label: str
+    """The value in words, e.g. `American`."""
+
+    score: Optional[float]
+    """
+    The mean of each check's pass rate at this value, 0-100, the same rule as the
+    run's `score`. Descriptive only: a lower score alone never makes a value worse.
+    Null when nothing counted.
+    """
+
+    testable: bool
+    """
+    Whether this value had at least `minArmCalls` counted simulations. A value below
+    that is "insufficient data": it is reported with its numbers but never compared
+    or ranked, because a rate from one or two calls cannot be told apart from luck.
+    """
+
+    value: str
+    """The stored value of the swept property, e.g. `US`."""
+
+
+class DataSweepAttribution(BaseModel):
+    """
+    For a run that swept a property (accent, background noise, speech pace and so
+    on): which check failures the property caused.
+    Each value is compared with every other value combined using a one-sided Fisher
+    exact test, and every comparison in the run is corrected together with
+    Benjamini-Hochberg. A value is only called worse when the difference is
+    statistically significant, so a value that happened to fail a few more
+    simulations by chance is not reported as a problem. Invalidated simulations and
+    simulations that failed on the Roark platform are left out.
+    """
+
+    caveats: List[str]
+    """Plain sentences on what this run could not see, ready to show to a reader."""
+
+    checks: List[DataSweepAttributionCheck]
+    """
+    Every check the run was graded on: `PROPERTY_ATTRIBUTABLE` first, then
+    `FOUND_UNATTRIBUTED`, then `WITHIN_NOISE`.
+    """
+
+    false_discovery_rate: float = FieldInfo(alias="falseDiscoveryRate")
+    """The Benjamini-Hochberg false discovery rate the comparisons are held to."""
+
+    found_unattributed_failure_rate: float = FieldInfo(alias="foundUnattributedFailureRate")
+    """
+    The overall failure rate, 0-100, at which a check with no standout value is
+    reported as `FOUND_UNATTRIBUTED`.
+    """
+
+    min_arm_calls: int = FieldInfo(alias="minArmCalls")
+    """Counted simulations a value needs before it is compared."""
+
+    minimum_detectable_gap: Optional[float] = FieldInfo(alias="minimumDetectableGap")
+    """
+    Roughly how many percentage points more often a value would need to fail than
+    the rest of the run to be flagged at this sample size. Optimistic: it uses
+    simulation counts rather than the verdicts on each check and ignores the
+    correction, so checks graded on fewer simulations need larger gaps. Large when
+    few simulations ran per value: finding no significant difference then means the
+    run could not see one, not that none exists.
+    """
+
+    testable_value_count: int = FieldInfo(alias="testableValueCount")
+    """How many values had enough counted simulations to be compared."""
+
+    tested_comparison_count: int = FieldInfo(alias="testedComparisonCount")
+    """
+    How many value and check pairs were actually tested. A value can have enough
+    simulations and still go untested (no other value graded that check, or too few
+    verdicts on it). When this is 0 no comparison ran, so an empty `worseValues`
+    everywhere means nothing was tested, not that no value did worse.
+    """
+
+    values: List[DataSweepAttributionValue]
+    """Every value of the swept property, baseline first."""
+
+
 class DataVerdictCheck(BaseModel):
     """
     How one check did. Present for every check the run was judged on, passing or
@@ -473,6 +636,13 @@ class Data(BaseModel):
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the job started"""
+
+    sweep_attribution: Optional[DataSweepAttribution] = FieldInfo(alias="sweepAttribution", default=None)
+    """
+    For a run that swept a property: which check failures the property caused, which
+    were not specific to it, and which values had too few simulations to compare.
+    Null for a run that swept nothing, and until the run has ended.
+    """
 
     verdict: Optional[DataVerdict] = None
     """

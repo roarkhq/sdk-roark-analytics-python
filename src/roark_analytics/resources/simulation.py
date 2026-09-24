@@ -289,12 +289,14 @@ class SimulationResource(SyncAPIResource):
 
           template: The template to run, as listed by GET /v1/simulation/template.
 
-          comparison_baseline: The value of the sweep every other value is measured against. Defaults to the
-              template's own baseline, as returned by GET /v1/simulation/template. Send it
-              with `comparisonValues` and it must be one of them, or the request is rejected:
-              anchoring every difference to an arm the run never made would measure it against
-              nothing. Leave it out and the template's own baseline is used, and quietly
-              dropped if your narrowing excluded it, since that one you did not choose.
+          comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Whether a
+              value did significantly worse does not depend on it: that is decided against
+              every other value combined. Send it with `comparisonValues` and it must be one
+              of them, or the request is rejected: anchoring every difference to an arm the
+              run never made would measure it against nothing. Leave it out and the template's
+              own baseline is used, and quietly dropped if your narrowing excluded it, since
+              that one you did not choose.
 
           comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
               /v1/simulation/template returns `sweep.property` for those that do). This is
@@ -328,7 +330,9 @@ class SimulationResource(SyncAPIResource):
               way, GET /v1/simulation/template lists the flows and variant ids each template
               covers.
 
-          iteration_count: Number of iterations to run for each test case (1-10000)
+          iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+              a property. A sweep needs at least 5 calls per value (test cases per value times
+              iterations) to compare its values, and a lower count is refused with 400.
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
@@ -694,12 +698,14 @@ class AsyncSimulationResource(AsyncAPIResource):
 
           template: The template to run, as listed by GET /v1/simulation/template.
 
-          comparison_baseline: The value of the sweep every other value is measured against. Defaults to the
-              template's own baseline, as returned by GET /v1/simulation/template. Send it
-              with `comparisonValues` and it must be one of them, or the request is rejected:
-              anchoring every difference to an arm the run never made would measure it against
-              nothing. Leave it out and the template's own baseline is used, and quietly
-              dropped if your narrowing excluded it, since that one you did not choose.
+          comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Whether a
+              value did significantly worse does not depend on it: that is decided against
+              every other value combined. Send it with `comparisonValues` and it must be one
+              of them, or the request is rejected: anchoring every difference to an arm the
+              run never made would measure it against nothing. Leave it out and the template's
+              own baseline is used, and quietly dropped if your narrowing excluded it, since
+              that one you did not choose.
 
           comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
               /v1/simulation/template returns `sweep.property` for those that do). This is
@@ -733,7 +739,9 @@ class AsyncSimulationResource(AsyncAPIResource):
               way, GET /v1/simulation/template lists the flows and variant ids each template
               covers.
 
-          iteration_count: Number of iterations to run for each test case (1-10000)
+          iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+              a property. A sweep needs at least 5 calls per value (test cases per value times
+              iterations) to compare its values, and a lower count is refused with 400.
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
