@@ -487,7 +487,7 @@ class QaSimulationPlanConfig(BaseModel):
 
     questions: List[QaSimulationPlanConfigQuestion]
 
-    template: Literal["qa"]
+    template: Literal["question-answer-check"]
 
     description: Optional[str] = None
 

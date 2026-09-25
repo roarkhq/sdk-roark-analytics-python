@@ -493,7 +493,7 @@ class QaSimulationPlanConfig(TypedDict, total=False):
 
     questions: Required[Iterable[QaSimulationPlanConfigQuestion]]
 
-    template: Required[Literal["qa"]]
+    template: Required[Literal["question-answer-check"]]
 
     description: Optional[str]
 
