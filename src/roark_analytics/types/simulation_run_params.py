@@ -22,6 +22,7 @@ __all__ = [
     "RunSimulationFromConfigVariableUnionMember2",
     "RunSimulationFromPlanID",
     "RunSimulationFromTemplate",
+    "RunSimulationFromTemplateQuestion",
 ]
 
 
@@ -441,6 +442,14 @@ class RunSimulationFromPlanID(TypedDict, total=False):
     """
 
 
+class RunSimulationFromTemplateQuestion(TypedDict, total=False):
+    ask: Required[str]
+    """The question the caller asks the agent."""
+
+    expect: Required[str]
+    """The answer the agent must give, judged against the transcript."""
+
+
 class RunSimulationFromTemplate(TypedDict, total=False):
     """Run one of the built-in templates against your agent."""
 
@@ -503,6 +512,9 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     metric is silently skipped.
     """
 
+    environment_id: Annotated[str, PropertyInfo(alias="environmentId")]
+    """For `question-answer-check`: the environment the calls run in."""
+
     execution_mode: Annotated[
         Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
     ]
@@ -538,6 +550,15 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     """
     What to call this. Defaults to the template's name and the date, and required
     with `saveAsPlan`.
+    """
+
+    persona_id: Annotated[str, PropertyInfo(alias="personaId")]
+    """For `question-answer-check`: the persona that asks the questions."""
+
+    questions: Iterable[RunSimulationFromTemplateQuestion]
+    """
+    For the `question-answer-check` template: the questions to ask and the answer
+    expected for each. Every question runs as its own graded call.
     """
 
     save_as_plan: Annotated[bool, PropertyInfo(alias="saveAsPlan")]
