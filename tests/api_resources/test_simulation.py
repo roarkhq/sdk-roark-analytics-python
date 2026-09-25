@@ -227,6 +227,7 @@ class TestSimulation:
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
             enrich_with_live_conversation=False,
+            environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_mode="PARALLEL",
             flows=[
                 {"slug": "sf-prompt-injection", "edge_cases": [{"slug": "data-embedded-injection"}]},
@@ -236,6 +237,8 @@ class TestSimulation:
             max_concurrent_jobs=5,
             max_simulation_duration_seconds=1,
             name="x",
+            persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             save_as_plan=True,
             silence_timeout_seconds=30,
             variables={"order_number": "12345", "environment": "staging"},
@@ -483,6 +486,7 @@ class TestAsyncSimulation:
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
             enrich_with_live_conversation=False,
+            environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_mode="PARALLEL",
             flows=[
                 {"slug": "sf-prompt-injection", "edge_cases": [{"slug": "data-embedded-injection"}]},
@@ -492,6 +496,8 @@ class TestAsyncSimulation:
             max_concurrent_jobs=5,
             max_simulation_duration_seconds=1,
             name="x",
+            persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             save_as_plan=True,
             silence_timeout_seconds=30,
             variables={"order_number": "12345", "environment": "staging"},

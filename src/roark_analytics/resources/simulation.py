@@ -253,12 +253,15 @@ class SimulationResource(SyncAPIResource):
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         save_as_plan: bool | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1]]
@@ -321,6 +324,8 @@ class SimulationResource(SyncAPIResource):
               `LIVE`-sourced metric produces no value. Required by any metric whose
               `requiresLiveConversation` is true: without it that metric is silently skipped.
 
+          environment_id: For `question-answer-check`: the environment the calls run in.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: The flows to run, in the same shape a run plan takes them. Required when the
@@ -341,6 +346,11 @@ class SimulationResource(SyncAPIResource):
 
           name: What to call this. Defaults to the template's name and the date, and required
               with `saveAsPlan`.
+
+          persona_id: For `question-answer-check`: the persona that asks the questions.
+
+          questions: For the `question-answer-check` template: the questions to ask and the answer
+              expected for each. Every question runs as its own graded call.
 
           save_as_plan: Keeps the resolved configuration as a run plan, listed by GET
               /v1/simulation/plan and re-runnable with `planId`. Requires `name`.
@@ -387,12 +397,15 @@ class SimulationResource(SyncAPIResource):
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -417,12 +430,15 @@ class SimulationResource(SyncAPIResource):
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
                     "enrich_with_live_conversation": enrich_with_live_conversation,
+                    "environment_id": environment_id,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
+                    "persona_id": persona_id,
+                    "questions": questions,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_params.SimulationRunParams,
@@ -662,12 +678,15 @@ class AsyncSimulationResource(AsyncAPIResource):
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         save_as_plan: bool | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1]]
@@ -730,6 +749,8 @@ class AsyncSimulationResource(AsyncAPIResource):
               `LIVE`-sourced metric produces no value. Required by any metric whose
               `requiresLiveConversation` is true: without it that metric is silently skipped.
 
+          environment_id: For `question-answer-check`: the environment the calls run in.
+
           execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
 
           flows: The flows to run, in the same shape a run plan takes them. Required when the
@@ -750,6 +771,11 @@ class AsyncSimulationResource(AsyncAPIResource):
 
           name: What to call this. Defaults to the template's name and the date, and required
               with `saveAsPlan`.
+
+          persona_id: For `question-answer-check`: the persona that asks the questions.
+
+          questions: For the `question-answer-check` template: the questions to ask and the answer
+              expected for each. Every question runs as its own graded call.
 
           save_as_plan: Keeps the resolved configuration as a run plan, listed by GET
               /v1/simulation/plan and re-runnable with `planId`. Requires `name`.
@@ -796,12 +822,15 @@ class AsyncSimulationResource(AsyncAPIResource):
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -826,12 +855,15 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "end_call_phrases": end_call_phrases,
                     "end_call_reasons": end_call_reasons,
                     "enrich_with_live_conversation": enrich_with_live_conversation,
+                    "environment_id": environment_id,
                     "execution_mode": execution_mode,
                     "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
+                    "persona_id": persona_id,
+                    "questions": questions,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_params.SimulationRunParams,
