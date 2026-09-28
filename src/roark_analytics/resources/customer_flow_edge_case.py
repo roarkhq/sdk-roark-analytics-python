@@ -72,9 +72,10 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         separate call, since that also demotes the incumbent.
 
         Args:
-          additional_expectations: Replaces the expectations that apply to this variant on top of the flow's. Omit
-              to leave them alone, send [] to clear. Improv flows only: a scripted variant's
-              expectations come from the agent turns on its path and are rewritten on the next
+          additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
+              the complete set: it replaces whatever the variant had, so omit it to leave the
+              set alone and send [] to clear it. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
@@ -116,6 +117,7 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         flow_id: str,
         *,
         title: str,
+        additional_expectations: Iterable[customer_flow_edge_case_add_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
@@ -136,6 +138,12 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         personaOverrideId or environmentId unset to inherit the happy path's.
 
         Args:
+          additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
+              the complete set: it replaces whatever the variant had, so omit it to leave the
+              set alone and send [] to clear it. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on every
+              graph edit.
+
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
 
           extra_headers: Send extra headers
@@ -153,6 +161,7 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "title": title,
+                    "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
                     "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
@@ -291,9 +300,10 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         separate call, since that also demotes the incumbent.
 
         Args:
-          additional_expectations: Replaces the expectations that apply to this variant on top of the flow's. Omit
-              to leave them alone, send [] to clear. Improv flows only: a scripted variant's
-              expectations come from the agent turns on its path and are rewritten on the next
+          additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
+              the complete set: it replaces whatever the variant had, so omit it to leave the
+              set alone and send [] to clear it. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
@@ -335,6 +345,7 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         flow_id: str,
         *,
         title: str,
+        additional_expectations: Iterable[customer_flow_edge_case_add_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
@@ -355,6 +366,12 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         personaOverrideId or environmentId unset to inherit the happy path's.
 
         Args:
+          additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
+              the complete set: it replaces whatever the variant had, so omit it to leave the
+              set alone and send [] to clear it. Improv flows only: a scripted variant's
+              expectations come from the agent turns on its path and are rewritten on every
+              graph edit.
+
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
 
           extra_headers: Send extra headers
@@ -372,6 +389,7 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "title": title,
+                    "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
                     "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
