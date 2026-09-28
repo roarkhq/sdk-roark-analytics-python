@@ -10,6 +10,30 @@ Methods:
 
 - <code title="get /health">client.health.<a href="./src/roark_analytics/resources/health.py">get</a>() -> <a href="./src/roark_analytics/types/health_get_response.py">HealthGetResponse</a></code>
 
+# Me
+
+Types:
+
+```python
+from roark_analytics.types import MeGetResponse
+```
+
+Methods:
+
+- <code title="get /v1/me">client.me.<a href="./src/roark_analytics/resources/me.py">get</a>() -> <a href="./src/roark_analytics/types/me_get_response.py">MeGetResponse</a></code>
+
+# Project
+
+Types:
+
+```python
+from roark_analytics.types import ProjectListResponse
+```
+
+Methods:
+
+- <code title="get /v1/projects">client.project.<a href="./src/roark_analytics/resources/project.py">list</a>() -> <a href="./src/roark_analytics/types/project_list_response.py">ProjectListResponse</a></code>
+
 # Call
 
 Types:
