@@ -96,7 +96,11 @@ class DataInvalidation(BaseModel):
     """When the run was invalidated."""
 
     reason: Literal[
-        "SCRIPT_DIVERGED", "REQUIRED_STEP_NOT_REACHED", "REQUIRED_STAGE_INCOMPLETE", "CALLER_NEVER_TOOK_OVER"
+        "SCRIPT_DIVERGED",
+        "REQUIRED_STEP_NOT_REACHED",
+        "REQUIRED_STAGE_INCOMPLETE",
+        "CALLER_NEVER_TOOK_OVER",
+        "AGENT_NEVER_SPOKE",
     ]
     """
     Why the result does not count. `SCRIPT_DIVERGED`: a strict flow went off script
@@ -104,7 +108,9 @@ class DataInvalidation(BaseModel):
     `REQUIRED_STAGE_INCOMPLETE`: the call ended before it got through a stage its
     flow requires. `CALLER_NEVER_TOOK_OVER`: the call opened on the persona of a
     preceding flow, which never handed the phone to the persona under test, so none
-    of that persona's properties were exercised.
+    of that persona's properties were exercised. `AGENT_NEVER_SPOKE`: your agent
+    answered and never said a word (it hung up within seconds, or the line stayed
+    silent until our caller gave up), so there was nothing to grade.
     """
 
     detail: Optional[str] = None
