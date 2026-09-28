@@ -2,16 +2,30 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Iterable, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["CustomerFlowEdgeCaseAddParams"]
+__all__ = ["CustomerFlowEdgeCaseAddParams", "AdditionalExpectation"]
+
+
+class AdditionalExpectation(TypedDict, total=False):
+    prompt: Required[str]
+    """What the agent under test is graded against."""
 
 
 class CustomerFlowEdgeCaseAddParams(TypedDict, total=False):
     title: Required[str]
+
+    additional_expectations: Annotated[Iterable[AdditionalExpectation], PropertyInfo(alias="additionalExpectations")]
+    """
+    The expectations graded on this variant only, on top of the flow's own. Sent as
+    the complete set: it replaces whatever the variant had, so omit it to leave the
+    set alone and send [] to clear it. Improv flows only: a scripted variant's
+    expectations come from the agent turns on its path and are rewritten on every
+    graph edit.
+    """
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 

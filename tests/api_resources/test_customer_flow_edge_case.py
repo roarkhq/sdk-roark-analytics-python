@@ -104,6 +104,7 @@ class TestCustomerFlowEdgeCase:
         customer_flow_edge_case = client.customer_flow_edge_case.add(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             title="x",
+            additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -335,6 +336,7 @@ class TestAsyncCustomerFlowEdgeCase:
         customer_flow_edge_case = await async_client.customer_flow_edge_case.add(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             title="x",
+            additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

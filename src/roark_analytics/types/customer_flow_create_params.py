@@ -112,6 +112,17 @@ class CreateImprovCustomerFlowInputHappyPath(TypedDict, total=False):
 
     title: Required[str]
 
+    additional_expectations: Annotated[
+        Iterable[CreateScriptedCustomerFlowInputAgentExpectation], PropertyInfo(alias="additionalExpectations")
+    ]
+    """
+    The expectations graded on this variant only, on top of the flow's own. Sent as
+    the complete set: it replaces whatever the variant had, so omit it to leave the
+    set alone and send [] to clear it. Improv flows only: a scripted variant's
+    expectations come from the agent turns on its path and are rewritten on every
+    graph edit.
+    """
+
     preceded_by_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="precededByCustomerFlowId")]
 
     preceded_by_customer_flow_variant_id: Annotated[
@@ -123,6 +134,17 @@ class CreateImprovCustomerFlowInputHappyPath(TypedDict, total=False):
 
 class CreateImprovCustomerFlowInputEdgeCase(TypedDict, total=False):
     title: Required[str]
+
+    additional_expectations: Annotated[
+        Iterable[CreateScriptedCustomerFlowInputAgentExpectation], PropertyInfo(alias="additionalExpectations")
+    ]
+    """
+    The expectations graded on this variant only, on top of the flow's own. Sent as
+    the complete set: it replaces whatever the variant had, so omit it to leave the
+    set alone and send [] to clear it. Improv flows only: a scripted variant's
+    expectations come from the agent turns on its path and are rewritten on every
+    graph edit.
+    """
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 
