@@ -32,11 +32,13 @@ from ._base_client import (
 
 if TYPE_CHECKING:
     from .resources import (
+        me,
         call,
         agent,
         config,
         health,
         metric,
+        project,
         webhook,
         benchmark,
         simulation,
@@ -59,11 +61,13 @@ if TYPE_CHECKING:
         simulation_tool_fixture,
         simulation_job_tool_mock,
     )
+    from .resources.me import MeResource, AsyncMeResource
     from .resources.call import CallResource, AsyncCallResource
     from .resources.agent import AgentResource, AsyncAgentResource
     from .resources.config import ConfigResource, AsyncConfigResource
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
+    from .resources.project import ProjectResource, AsyncProjectResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
     from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
@@ -149,6 +153,18 @@ class Roark(SyncAPIClient):
         from .resources.health import HealthResource
 
         return HealthResource(self)
+
+    @cached_property
+    def me(self) -> MeResource:
+        from .resources.me import MeResource
+
+        return MeResource(self)
+
+    @cached_property
+    def project(self) -> ProjectResource:
+        from .resources.project import ProjectResource
+
+        return ProjectResource(self)
 
     @cached_property
     def call(self) -> CallResource:
@@ -475,6 +491,18 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncHealthResource(self)
 
     @cached_property
+    def me(self) -> AsyncMeResource:
+        from .resources.me import AsyncMeResource
+
+        return AsyncMeResource(self)
+
+    @cached_property
+    def project(self) -> AsyncProjectResource:
+        from .resources.project import AsyncProjectResource
+
+        return AsyncProjectResource(self)
+
+    @cached_property
     def call(self) -> AsyncCallResource:
         from .resources.call import AsyncCallResource
 
@@ -750,6 +778,18 @@ class RoarkWithRawResponse:
         return HealthResourceWithRawResponse(self._client.health)
 
     @cached_property
+    def me(self) -> me.MeResourceWithRawResponse:
+        from .resources.me import MeResourceWithRawResponse
+
+        return MeResourceWithRawResponse(self._client.me)
+
+    @cached_property
+    def project(self) -> project.ProjectResourceWithRawResponse:
+        from .resources.project import ProjectResourceWithRawResponse
+
+        return ProjectResourceWithRawResponse(self._client.project)
+
+    @cached_property
     def call(self) -> call.CallResourceWithRawResponse:
         from .resources.call import CallResourceWithRawResponse
 
@@ -911,6 +951,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.health import AsyncHealthResourceWithRawResponse
 
         return AsyncHealthResourceWithRawResponse(self._client.health)
+
+    @cached_property
+    def me(self) -> me.AsyncMeResourceWithRawResponse:
+        from .resources.me import AsyncMeResourceWithRawResponse
+
+        return AsyncMeResourceWithRawResponse(self._client.me)
+
+    @cached_property
+    def project(self) -> project.AsyncProjectResourceWithRawResponse:
+        from .resources.project import AsyncProjectResourceWithRawResponse
+
+        return AsyncProjectResourceWithRawResponse(self._client.project)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithRawResponse:
@@ -1076,6 +1128,18 @@ class RoarkWithStreamedResponse:
         return HealthResourceWithStreamingResponse(self._client.health)
 
     @cached_property
+    def me(self) -> me.MeResourceWithStreamingResponse:
+        from .resources.me import MeResourceWithStreamingResponse
+
+        return MeResourceWithStreamingResponse(self._client.me)
+
+    @cached_property
+    def project(self) -> project.ProjectResourceWithStreamingResponse:
+        from .resources.project import ProjectResourceWithStreamingResponse
+
+        return ProjectResourceWithStreamingResponse(self._client.project)
+
+    @cached_property
     def call(self) -> call.CallResourceWithStreamingResponse:
         from .resources.call import CallResourceWithStreamingResponse
 
@@ -1237,6 +1301,18 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.health import AsyncHealthResourceWithStreamingResponse
 
         return AsyncHealthResourceWithStreamingResponse(self._client.health)
+
+    @cached_property
+    def me(self) -> me.AsyncMeResourceWithStreamingResponse:
+        from .resources.me import AsyncMeResourceWithStreamingResponse
+
+        return AsyncMeResourceWithStreamingResponse(self._client.me)
+
+    @cached_property
+    def project(self) -> project.AsyncProjectResourceWithStreamingResponse:
+        from .resources.project import AsyncProjectResourceWithStreamingResponse
+
+        return AsyncProjectResourceWithStreamingResponse(self._client.project)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithStreamingResponse:
