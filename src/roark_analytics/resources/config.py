@@ -49,17 +49,20 @@ class ConfigResource(SyncAPIResource):
         *,
         resources: List[
             Union[
-                config_apply_params.AgentConfig,
-                config_apply_params.HTTPRequestDefinitionConfig,
-                config_apply_params.PersonaConfig,
-                config_apply_params.ImprovFlowConfig,
-                config_apply_params.ScriptedFlowConfig,
-                config_apply_params.CollectorConfig,
-                config_apply_params.MetricConfig,
-                config_apply_params.SimulationPlanConfig,
-                config_apply_params.QaSimulationPlanConfig,
-                config_apply_params.AlertConfig,
-                config_apply_params.ToolConfig,
+                Union[
+                    config_apply_params.AgentConfig,
+                    config_apply_params.HTTPRequestDefinitionConfig,
+                    config_apply_params.PersonaConfig,
+                    config_apply_params.ImprovFlowConfig,
+                    config_apply_params.ScriptedFlowConfig,
+                    config_apply_params.CollectorConfig,
+                    config_apply_params.MetricConfig,
+                    config_apply_params.SimulationPlanConfig,
+                    config_apply_params.QaSimulationPlanConfig,
+                    config_apply_params.AlertConfig,
+                    config_apply_params.ToolConfig,
+                ],
+                config_apply_params.ProjectConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -70,12 +73,14 @@ class ConfigResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigApplyResponse:
-        """Reconcile a config-as-code bundle into the project.
+        """Reconcile a config-as-code bundle.
 
-        Submit the full desired set
-        of resources; resources already managed by config are updated, new ones created,
-        and (unless prune is false) config-managed resources absent from the bundle are
-        deleted. Identity is by name — no ids in the bundle.
+        With a PROJECT API key, submit project-scoped
+        resources (agents, personas, flows, collectors, metrics, ...). With an
+        ORGANIZATION API key, submit `kind: project` resources, each optionally carrying
+        its members and its own nested `resources`. Submit the full desired set; managed
+        resources are updated, new ones created, and (unless prune is false) managed
+        resources absent from the bundle are deleted. Identity is by name.
 
         Args:
           extra_headers: Send extra headers
@@ -106,17 +111,20 @@ class ConfigResource(SyncAPIResource):
         *,
         resources: List[
             Union[
-                config_diff_params.AgentConfig,
-                config_diff_params.HTTPRequestDefinitionConfig,
-                config_diff_params.PersonaConfig,
-                config_diff_params.ImprovFlowConfig,
-                config_diff_params.ScriptedFlowConfig,
-                config_diff_params.CollectorConfig,
-                config_diff_params.MetricConfig,
-                config_diff_params.SimulationPlanConfig,
-                config_diff_params.QaSimulationPlanConfig,
-                config_diff_params.AlertConfig,
-                config_diff_params.ToolConfig,
+                Union[
+                    config_diff_params.AgentConfig,
+                    config_diff_params.HTTPRequestDefinitionConfig,
+                    config_diff_params.PersonaConfig,
+                    config_diff_params.ImprovFlowConfig,
+                    config_diff_params.ScriptedFlowConfig,
+                    config_diff_params.CollectorConfig,
+                    config_diff_params.MetricConfig,
+                    config_diff_params.SimulationPlanConfig,
+                    config_diff_params.QaSimulationPlanConfig,
+                    config_diff_params.AlertConfig,
+                    config_diff_params.ToolConfig,
+                ],
+                config_diff_params.ProjectConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -128,10 +136,9 @@ class ConfigResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigDiffResponse:
         """
-        Dry run for a config-as-code apply: returns the projected changes (create /
-        update / delete) for the submitted bundle without writing anything. Submit the
-        full desired set of resources; identity is by name — no ids in the bundle. Run
-        this before apply to preview what would change.
+        Dry run for an apply: returns the projected changes (create / update / delete)
+        for the submitted bundle without writing anything. Works for both project and
+        organization keys.
 
         Args:
           extra_headers: Send extra headers
@@ -183,17 +190,20 @@ class AsyncConfigResource(AsyncAPIResource):
         *,
         resources: List[
             Union[
-                config_apply_params.AgentConfig,
-                config_apply_params.HTTPRequestDefinitionConfig,
-                config_apply_params.PersonaConfig,
-                config_apply_params.ImprovFlowConfig,
-                config_apply_params.ScriptedFlowConfig,
-                config_apply_params.CollectorConfig,
-                config_apply_params.MetricConfig,
-                config_apply_params.SimulationPlanConfig,
-                config_apply_params.QaSimulationPlanConfig,
-                config_apply_params.AlertConfig,
-                config_apply_params.ToolConfig,
+                Union[
+                    config_apply_params.AgentConfig,
+                    config_apply_params.HTTPRequestDefinitionConfig,
+                    config_apply_params.PersonaConfig,
+                    config_apply_params.ImprovFlowConfig,
+                    config_apply_params.ScriptedFlowConfig,
+                    config_apply_params.CollectorConfig,
+                    config_apply_params.MetricConfig,
+                    config_apply_params.SimulationPlanConfig,
+                    config_apply_params.QaSimulationPlanConfig,
+                    config_apply_params.AlertConfig,
+                    config_apply_params.ToolConfig,
+                ],
+                config_apply_params.ProjectConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -204,12 +214,14 @@ class AsyncConfigResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigApplyResponse:
-        """Reconcile a config-as-code bundle into the project.
+        """Reconcile a config-as-code bundle.
 
-        Submit the full desired set
-        of resources; resources already managed by config are updated, new ones created,
-        and (unless prune is false) config-managed resources absent from the bundle are
-        deleted. Identity is by name — no ids in the bundle.
+        With a PROJECT API key, submit project-scoped
+        resources (agents, personas, flows, collectors, metrics, ...). With an
+        ORGANIZATION API key, submit `kind: project` resources, each optionally carrying
+        its members and its own nested `resources`. Submit the full desired set; managed
+        resources are updated, new ones created, and (unless prune is false) managed
+        resources absent from the bundle are deleted. Identity is by name.
 
         Args:
           extra_headers: Send extra headers
@@ -240,17 +252,20 @@ class AsyncConfigResource(AsyncAPIResource):
         *,
         resources: List[
             Union[
-                config_diff_params.AgentConfig,
-                config_diff_params.HTTPRequestDefinitionConfig,
-                config_diff_params.PersonaConfig,
-                config_diff_params.ImprovFlowConfig,
-                config_diff_params.ScriptedFlowConfig,
-                config_diff_params.CollectorConfig,
-                config_diff_params.MetricConfig,
-                config_diff_params.SimulationPlanConfig,
-                config_diff_params.QaSimulationPlanConfig,
-                config_diff_params.AlertConfig,
-                config_diff_params.ToolConfig,
+                Union[
+                    config_diff_params.AgentConfig,
+                    config_diff_params.HTTPRequestDefinitionConfig,
+                    config_diff_params.PersonaConfig,
+                    config_diff_params.ImprovFlowConfig,
+                    config_diff_params.ScriptedFlowConfig,
+                    config_diff_params.CollectorConfig,
+                    config_diff_params.MetricConfig,
+                    config_diff_params.SimulationPlanConfig,
+                    config_diff_params.QaSimulationPlanConfig,
+                    config_diff_params.AlertConfig,
+                    config_diff_params.ToolConfig,
+                ],
+                config_diff_params.ProjectConfig,
             ]
         ],
         prune: bool | Omit = omit,
@@ -262,10 +277,9 @@ class AsyncConfigResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConfigDiffResponse:
         """
-        Dry run for a config-as-code apply: returns the projected changes (create /
-        update / delete) for the submitted bundle without writing anything. Submit the
-        full desired set of resources; identity is by name — no ids in the bundle. Run
-        this before apply to preview what would change.
+        Dry run for an apply: returns the projected changes (create / update / delete)
+        for the submitted bundle without writing anything. Works for both project and
+        organization keys.
 
         Args:
           extra_headers: Send extra headers
