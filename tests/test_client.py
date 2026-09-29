@@ -220,12 +220,15 @@ class TestRoark:
         # The original is untouched.
         assert client.project_headers == {"X-Roark-Project-Id": "proj_123"}
 
-    def test_project_resource_is_still_the_resource(self) -> None:
-        # `client.project` is /v1/projects. The option deliberately does not shadow it.
+    def test_project_option_never_becomes_an_attribute(self) -> None:
+        # `client.project` is the /v1/projects resource accessor, and the option must never land
+        # there. Read with getattr rather than as `client.project.list`: resources come and go with
+        # the spec, and this suite must not fail because one was added or removed. It did - the
+        # codegen gate applies a pinned spec that predates /v1/projects, which deletes the resource.
         client = Roark(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
         )
-        assert callable(client.project.list)
+        assert not isinstance(getattr(client, "project", None), str)
 
     def test_copy_default_headers(self) -> None:
         client = Roark(
@@ -1216,12 +1219,15 @@ class TestAsyncRoark:
         # The original is untouched.
         assert client.project_headers == {"X-Roark-Project-Id": "proj_123"}
 
-    async def test_project_resource_is_still_the_resource(self) -> None:
-        # `client.project` is /v1/projects. The option deliberately does not shadow it.
+    async def test_project_option_never_becomes_an_attribute(self) -> None:
+        # `client.project` is the /v1/projects resource accessor, and the option must never land
+        # there. Read with getattr rather than as `client.project.list`: resources come and go with
+        # the spec, and this suite must not fail because one was added or removed. It did - the
+        # codegen gate applies a pinned spec that predates /v1/projects, which deletes the resource.
         client = AsyncRoark(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
         )
-        assert callable(client.project.list)
+        assert not isinstance(getattr(client, "project", None), str)
 
     async def test_copy_default_headers(self) -> None:
         client = AsyncRoark(
