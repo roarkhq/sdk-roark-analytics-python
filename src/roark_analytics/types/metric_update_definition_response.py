@@ -13,6 +13,7 @@ __all__ = [
     "FormulaMetricResponseFormula",
     "FormulaMetricResponseFormulaSource",
     "LlmJudgeMetricResponse",
+    "LlmJudgeMetricResponseEvidenceSource",
     "LlmJudgeMetricResponseUnit",
     "PatternMetricResponse",
     "PatternMetricResponsePattern",
@@ -21,6 +22,28 @@ __all__ = [
     "ThresholdMetricResponse",
     "ThresholdMetricResponseThreshold",
 ]
+
+
+class LlmJudgeMetricResponseEvidenceSource(BaseModel):
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
+
+    counts_when: bool = FieldInfo(alias="countsWhen")
+    """
+    The per-turn value this metric tallies. `false` for an "incorrect" count over an
+    appropriateness metric, `true` for a count of a boolean event.
+    """
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """
+    Slug of the metric whose per-turn values are the evidence behind this count or
+    rate
+    """
 
 
 class LlmJudgeMetricResponseUnit(BaseModel):
@@ -54,6 +77,15 @@ class LlmJudgeMetricResponse(BaseModel):
 
     description: str
     """Description of what the metric measures"""
+
+    evidence_source: Optional[LlmJudgeMetricResponseEvidenceSource] = FieldInfo(alias="evidenceSource")
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
 
     llm_prompt: Optional[str] = FieldInfo(alias="llmPrompt")
     """
@@ -145,6 +177,15 @@ class FormulaMetricResponse(BaseModel):
 
     description: str
     """Description of what the metric measures"""
+
+    evidence_source: Optional[LlmJudgeMetricResponseEvidenceSource] = FieldInfo(alias="evidenceSource")
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
 
     formula: FormulaMetricResponseFormula
     """Formula configuration."""
@@ -270,6 +311,15 @@ class PatternMetricResponse(BaseModel):
     description: str
     """Description of what the metric measures"""
 
+    evidence_source: Optional[LlmJudgeMetricResponseEvidenceSource] = FieldInfo(alias="evidenceSource")
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
+
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
@@ -367,6 +417,15 @@ class ThresholdMetricResponse(BaseModel):
 
     description: str
     """Description of what the metric measures"""
+
+    evidence_source: Optional[LlmJudgeMetricResponseEvidenceSource] = FieldInfo(alias="evidenceSource")
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
 
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
