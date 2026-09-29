@@ -30,6 +30,8 @@ __all__ = [
     "MetricConfigOption",
     "MetricConfigScaleLabel",
     "PersonaConfig",
+    "ProjectConfig",
+    "ProjectConfigMember",
     "QaSimulationPlanConfig",
     "QaSimulationPlanConfigQuestion",
     "ScriptedFlowConfig",
@@ -626,21 +628,72 @@ class ToolConfig(TypedDict, total=False):
     parameters: Dict[str, Literal["string", "number", "boolean"]]
 
 
+class ProjectConfigMember(TypedDict, total=False):
+    email: Required[str]
+
+    role: Required[Literal["OWNER", "ADMIN", "MEMBER", "VIEWER"]]
+
+
+class ProjectConfig(TypedDict, total=False):
+    kind: Required[Literal["project"]]
+
+    name: Required[str]
+
+    category: Literal[
+        "HEALTHCARE",
+        "FINANCIAL",
+        "RETAIL",
+        "HOSPITALITY",
+        "AUTOMOTIVE",
+        "GOVERNMENT",
+        "EDUCATION",
+        "REAL_ESTATE",
+        "OTHER",
+    ]
+
+    data_storage_region: Annotated[Literal["US_EAST_1", "EU_WEST_1"], PropertyInfo(alias="dataStorageRegion")]
+
+    description: str
+
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
+    members: Iterable[ProjectConfigMember]
+
+    resources: List[
+        Union[
+            AgentConfig,
+            HTTPRequestDefinitionConfig,
+            PersonaConfig,
+            ImprovFlowConfig,
+            ScriptedFlowConfig,
+            CollectorConfig,
+            MetricConfig,
+            SimulationPlanConfig,
+            QaSimulationPlanConfig,
+            AlertConfig,
+            ToolConfig,
+        ]
+    ]
+
+
 class ConfigApplyParams(TypedDict, total=False):
     resources: Required[
         List[
             Union[
-                AgentConfig,
-                HTTPRequestDefinitionConfig,
-                PersonaConfig,
-                ImprovFlowConfig,
-                ScriptedFlowConfig,
-                CollectorConfig,
-                MetricConfig,
-                SimulationPlanConfig,
-                QaSimulationPlanConfig,
-                AlertConfig,
-                ToolConfig,
+                Union[
+                    AgentConfig,
+                    HTTPRequestDefinitionConfig,
+                    PersonaConfig,
+                    ImprovFlowConfig,
+                    ScriptedFlowConfig,
+                    CollectorConfig,
+                    MetricConfig,
+                    SimulationPlanConfig,
+                    QaSimulationPlanConfig,
+                    AlertConfig,
+                    ToolConfig,
+                ],
+                ProjectConfig,
             ]
         ]
     ]
