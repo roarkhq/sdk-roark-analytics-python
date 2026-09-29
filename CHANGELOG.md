@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.15.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v5.14.0...v5.15.0) (2026-09-29)
+
+
+### Features
+
+* **client:** a `project` option, sent as X-Roark-Project-Id ([#620](https://github.com/roarkhq/sdk-roark-analytics-python/issues/620)) ([8713f38](https://github.com/roarkhq/sdk-roark-analytics-python/commit/8713f388e39cef4cd08820556144ae012a5379d1))
+
 ## [5.14.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v5.13.0...v5.14.0) (2026-09-29)
 
 
