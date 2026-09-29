@@ -132,6 +132,30 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Choosing a project
+
+Most credentials are project API keys, which already name the project they act on. Nothing extra is
+needed for those.
+
+A **user credential** is different. A CLI login, or an application you authorized through OAuth, acts
+as you and can reach every project you belong to, so each request has to say which project it means.
+Give the client a `project`, sent as the `X-Roark-Project-Id` header on every request:
+
+```python
+client = Roark(
+    bearer_token=os.environ.get("ROARK_API_BEARER_TOKEN"),
+    project=os.environ.get("ROARK_PROJECT_ID"),  # the default, and can be omitted
+)
+```
+
+A project API key ignores the header, so setting it is never harmful, only redundant. Pass
+`project=None` to opt out of an inherited `ROARK_PROJECT_ID`. To serve several projects from one
+process, derive a client per project: they share the same connection settings and credential.
+
+```python
+for_project = client.with_options(project="proj_123")
+```
+
 ## Nested params
 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:

@@ -101,6 +101,7 @@ class Roark(SyncAPIClient):
         self,
         *,
         bearer_token: str | None = None,
+        project: str | None | NotGiven = not_given,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -123,6 +124,7 @@ class Roark(SyncAPIClient):
         """Construct a new synchronous Roark client instance.
 
         This automatically infers the `bearer_token` argument from the `ROARK_API_BEARER_TOKEN` environment variable if it is not provided.
+        It does the same for `project` from `ROARK_PROJECT_ID`; pass `project=None` to opt out of an inherited one.
         """
         if bearer_token is None:
             bearer_token = os.environ.get("ROARK_API_BEARER_TOKEN")
@@ -131,6 +133,16 @@ class Roark(SyncAPIClient):
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the ROARK_API_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
+
+        # Only a user credential needs a project: it reaches every project its holder belongs to,
+        # so each request has to name one. A project API key names its own and ignores this.
+        #
+        # Kept private, unlike `bearer_token`: `client.project` is the `/v1/projects` resource.
+        # Blank is not the same as unset - the API answers an empty `X-Roark-Project-Id` with a
+        # 400 - so anything empty after stripping sends no header at all.
+        if not is_given(project):
+            project = os.environ.get("ROARK_PROJECT_ID")
+        self._project = project.strip() or None if isinstance(project, str) else None
 
         if base_url is None:
             base_url = os.environ.get("ROARK_BASE_URL")
@@ -336,11 +348,23 @@ class Roark(SyncAPIClient):
         return {"Authorization": f"Bearer {bearer_token}"}
 
     @property
+    def project_headers(self) -> dict[str, str]:
+        """The project header, when the client was given a project.
+
+        Not part of `auth_headers`: it is not authentication, it selects which of the projects the
+        credential can already reach this request is for.
+        """
+        if self._project is None:
+            return {}
+        return {"X-Roark-Project-Id": self._project}
+
+    @property
     @override
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
             "X-Stainless-Async": "false",
+            **self.project_headers,
             **self._custom_headers,
         }
 
@@ -348,6 +372,7 @@ class Roark(SyncAPIClient):
         self,
         *,
         bearer_token: str | None = None,
+        project: str | None | NotGiven = not_given,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.Client | None = None,
@@ -382,6 +407,7 @@ class Roark(SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             bearer_token=bearer_token or self.bearer_token,
+            project=project if is_given(project) else self._project,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -437,6 +463,7 @@ class AsyncRoark(AsyncAPIClient):
         self,
         *,
         bearer_token: str | None = None,
+        project: str | None | NotGiven = not_given,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -459,6 +486,7 @@ class AsyncRoark(AsyncAPIClient):
         """Construct a new async AsyncRoark client instance.
 
         This automatically infers the `bearer_token` argument from the `ROARK_API_BEARER_TOKEN` environment variable if it is not provided.
+        It does the same for `project` from `ROARK_PROJECT_ID`; pass `project=None` to opt out of an inherited one.
         """
         if bearer_token is None:
             bearer_token = os.environ.get("ROARK_API_BEARER_TOKEN")
@@ -467,6 +495,16 @@ class AsyncRoark(AsyncAPIClient):
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the ROARK_API_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
+
+        # Only a user credential needs a project: it reaches every project its holder belongs to,
+        # so each request has to name one. A project API key names its own and ignores this.
+        #
+        # Kept private, unlike `bearer_token`: `client.project` is the `/v1/projects` resource.
+        # Blank is not the same as unset - the API answers an empty `X-Roark-Project-Id` with a
+        # 400 - so anything empty after stripping sends no header at all.
+        if not is_given(project):
+            project = os.environ.get("ROARK_PROJECT_ID")
+        self._project = project.strip() or None if isinstance(project, str) else None
 
         if base_url is None:
             base_url = os.environ.get("ROARK_BASE_URL")
@@ -672,11 +710,23 @@ class AsyncRoark(AsyncAPIClient):
         return {"Authorization": f"Bearer {bearer_token}"}
 
     @property
+    def project_headers(self) -> dict[str, str]:
+        """The project header, when the client was given a project.
+
+        Not part of `auth_headers`: it is not authentication, it selects which of the projects the
+        credential can already reach this request is for.
+        """
+        if self._project is None:
+            return {}
+        return {"X-Roark-Project-Id": self._project}
+
+    @property
     @override
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
             "X-Stainless-Async": f"async:{get_async_library()}",
+            **self.project_headers,
             **self._custom_headers,
         }
 
@@ -684,6 +734,7 @@ class AsyncRoark(AsyncAPIClient):
         self,
         *,
         bearer_token: str | None = None,
+        project: str | None | NotGiven = not_given,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.AsyncClient | None = None,
@@ -718,6 +769,7 @@ class AsyncRoark(AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             bearer_token=bearer_token or self.bearer_token,
+            project=project if is_given(project) else self._project,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,

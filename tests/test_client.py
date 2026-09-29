@@ -156,6 +156,77 @@ class TestRoark:
         assert copied.timeout is None
         assert isinstance(client.timeout, httpx.Timeout)
 
+    def test_project_header(self) -> None:
+        client = Roark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_123"
+
+    def test_project_header_absent_when_unset(self) -> None:
+        # Absent, not empty: the API answers a blank X-Roark-Project-Id with a 400.
+        with update_env(ROARK_PROJECT_ID=Omit()):
+            client = Roark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    def test_project_header_absent_when_blank(self) -> None:
+        client = Roark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="   ")
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    def test_project_from_env(self) -> None:
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = Roark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_from_env"
+
+    def test_project_argument_beats_env(self) -> None:
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = Roark(
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_explicit"
+            )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_explicit"
+
+    def test_project_none_opts_out_of_env(self) -> None:
+        # The escape hatch for a process that has the variable set for something else and holds a
+        # project-scoped key here.
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = Roark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project=None)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    def test_project_default_headers_win(self) -> None:
+        # Setting the header by hand was the only way to do this before the option existed. Anyone
+        # doing that keeps exactly the behaviour they have today.
+        client = Roark(
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            project="proj_123",
+            default_headers={"X-Roark-Project-Id": "proj_by_hand"},
+        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_by_hand"
+
+    def test_copy_project(self) -> None:
+        client = Roark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        assert client.copy().project_headers == {"X-Roark-Project-Id": "proj_123"}
+        assert client.with_options(project="proj_other").project_headers == {"X-Roark-Project-Id": "proj_other"}
+        assert client.with_options(project=None).project_headers == {}
+        # The original is untouched.
+        assert client.project_headers == {"X-Roark-Project-Id": "proj_123"}
+
+    def test_project_resource_is_still_the_resource(self) -> None:
+        # `client.project` is /v1/projects. The option deliberately does not shadow it.
+        client = Roark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        assert callable(client.project.list)
+
     def test_copy_default_headers(self) -> None:
         client = Roark(
             base_url=base_url,
@@ -1076,6 +1147,81 @@ class TestAsyncRoark:
         copied = async_client.copy(timeout=None)
         assert copied.timeout is None
         assert isinstance(async_client.timeout, httpx.Timeout)
+
+    async def test_project_header(self) -> None:
+        client = AsyncRoark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_123"
+
+    async def test_project_header_absent_when_unset(self) -> None:
+        # Absent, not empty: the API answers a blank X-Roark-Project-Id with a 400.
+        with update_env(ROARK_PROJECT_ID=Omit()):
+            client = AsyncRoark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    async def test_project_header_absent_when_blank(self) -> None:
+        client = AsyncRoark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="   "
+        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    async def test_project_from_env(self) -> None:
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = AsyncRoark(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_from_env"
+
+    async def test_project_argument_beats_env(self) -> None:
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = AsyncRoark(
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_explicit"
+            )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_explicit"
+
+    async def test_project_none_opts_out_of_env(self) -> None:
+        # The escape hatch for a process that has the variable set for something else and holds a
+        # project-scoped key here.
+        with update_env(ROARK_PROJECT_ID="proj_from_env"):
+            client = AsyncRoark(
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project=None
+            )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert "x-roark-project-id" not in request.headers
+
+    async def test_project_default_headers_win(self) -> None:
+        # Setting the header by hand was the only way to do this before the option existed. Anyone
+        # doing that keeps exactly the behaviour they have today.
+        client = AsyncRoark(
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            project="proj_123",
+            default_headers={"X-Roark-Project-Id": "proj_by_hand"},
+        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("x-roark-project-id") == "proj_by_hand"
+
+    async def test_copy_project(self) -> None:
+        client = AsyncRoark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        assert client.copy().project_headers == {"X-Roark-Project-Id": "proj_123"}
+        assert client.with_options(project="proj_other").project_headers == {"X-Roark-Project-Id": "proj_other"}
+        assert client.with_options(project=None).project_headers == {}
+        # The original is untouched.
+        assert client.project_headers == {"X-Roark-Project-Id": "proj_123"}
+
+    async def test_project_resource_is_still_the_resource(self) -> None:
+        # `client.project` is /v1/projects. The option deliberately does not shadow it.
+        client = AsyncRoark(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, project="proj_123"
+        )
+        assert callable(client.project.list)
 
     async def test_copy_default_headers(self) -> None:
         client = AsyncRoark(
