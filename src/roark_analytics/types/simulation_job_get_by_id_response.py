@@ -11,6 +11,7 @@ __all__ = [
     "SimulationJobGetByIDResponse",
     "Data",
     "DataAgentEndpoint",
+    "DataBackgroundNoise",
     "DataEnrichment",
     "DataInvalidation",
     "DataPersona",
@@ -33,6 +34,43 @@ class DataAgentEndpoint(BaseModel):
 
     type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
     """Agent endpoint type"""
+
+
+class DataBackgroundNoise(BaseModel):
+    """
+    The background noise the call actually ran with. `persona.backgroundNoise` is
+    only what the persona was set to; a flow’s environment overrides it, and on a
+    background-noise sweep every arm’s persona says NONE while the arms differ here.
+    Filter by arm on this field.
+    """
+
+    background_noise: Literal[
+        "NONE",
+        "AIRPORT",
+        "CHILDREN_PLAYING",
+        "CITY",
+        "COFFEE_SHOP",
+        "CONSTRUCTION",
+        "CRYING_BABY",
+        "DRIVING",
+        "LIBRARY",
+        "OFFICE",
+        "THUNDERSTORM",
+        "TRAIN",
+    ] = FieldInfo(alias="backgroundNoise")
+    """
+    The noise bed the simulated caller was placed with. NONE when the call ran in
+    silence.
+    """
+
+    background_noise_volume: float = FieldInfo(alias="backgroundNoiseVolume")
+    """Linear gain (0..1) the bed played at. 1 is as loud as the caller’s voice."""
+
+    source: Literal["ENVIRONMENT", "PERSONA"]
+    """
+    `ENVIRONMENT` when the flow’s environment decided the bed (a sweep arm, or an
+    environment with noise), `PERSONA` when the persona’s own setting did.
+    """
 
 
 class DataEnrichment(BaseModel):
@@ -310,6 +348,14 @@ class Data(BaseModel):
 
     agent_endpoint: DataAgentEndpoint = FieldInfo(alias="agentEndpoint")
     """Agent endpoint used in a simulation"""
+
+    background_noise: DataBackgroundNoise = FieldInfo(alias="backgroundNoise")
+    """
+    The background noise the call actually ran with. `persona.backgroundNoise` is
+    only what the persona was set to; a flow’s environment overrides it, and on a
+    background-noise sweep every arm’s persona says NONE while the arms differ here.
+    Filter by arm on this field.
+    """
 
     created_at: str = FieldInfo(alias="createdAt")
     """When the job was created"""
