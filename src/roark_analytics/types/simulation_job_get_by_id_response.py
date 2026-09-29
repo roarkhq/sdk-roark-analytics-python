@@ -338,6 +338,12 @@ class Data(BaseModel):
     processing_status: str = FieldInfo(alias="processingStatus")
     """Processing status"""
 
+    queue_position: Optional[int] = FieldInfo(alias="queuePosition")
+    """
+    This simulation's 1-based place in its run's queue, in the order the queue
+    releases simulations. Null unless the status is QUEUED.
+    """
+
     run_plan: DataRunPlan = FieldInfo(alias="runPlan")
 
     scenario: DataScenario
