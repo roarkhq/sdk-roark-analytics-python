@@ -122,7 +122,14 @@ class PromptMetricInput(TypedDict, total=False):
     """Stable slug for the metric. Auto-generated from name if omitted."""
 
     supported_contexts: Annotated[List[Literal["CALL", "SEGMENT", "TURN"]], PropertyInfo(alias="supportedContexts")]
-    """Which levels this metric can produce values at (default: ["CALL"])"""
+    """
+    What the judge grades (default: ["CALL"], the whole conversation). ["CALL",
+    "SEGMENT"] also grades each utterance of `participantRole`; ["CALL", "TURN"]
+    also grades each agent reply to the caller (requires `participantRole: AGENT`).
+    Per-utterance and per-reply grading needs `scope: PER_PARTICIPANT` and a
+    BOOLEAN, SCALE, NUMERIC or COUNT output; the CALL value stays the graded result
+    and the per-unit values are its evidence.
+    """
 
 
 class FormulaMetricInputSource(TypedDict, total=False):
