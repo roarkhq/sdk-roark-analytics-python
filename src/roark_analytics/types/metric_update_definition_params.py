@@ -113,7 +113,11 @@ class MetricUpdateDefinitionParams(TypedDict, total=False):
     """
 
     supported_contexts: Annotated[List[Literal["CALL", "SEGMENT", "TURN"]], PropertyInfo(alias="supportedContexts")]
-    """Replacement set of supported contexts. Omit to leave unchanged."""
+    """
+    Replacement set of supported contexts. Omit to leave unchanged. Scope and
+    participantRole cannot change after create, so moving to SEGMENT or TURN grading
+    only works on a PER_PARTICIPANT metric (see create).
+    """
 
     supports_multiple_variants: Annotated[object, PropertyInfo(alias="supportsMultipleVariants")]
 

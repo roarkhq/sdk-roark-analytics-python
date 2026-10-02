@@ -58,7 +58,7 @@ class TestMetric:
             scale_min=0,
             scope="GLOBAL",
             slug="customer_satisfaction",
-            supported_contexts=["CALL"],
+            supported_contexts=["CALL", "TURN"],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
@@ -419,7 +419,7 @@ class TestAsyncMetric:
             scale_min=0,
             scope="GLOBAL",
             slug="customer_satisfaction",
-            supported_contexts=["CALL"],
+            supported_contexts=["CALL", "TURN"],
         )
         assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
 
