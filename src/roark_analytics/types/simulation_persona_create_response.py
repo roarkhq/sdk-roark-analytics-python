@@ -170,6 +170,12 @@ class Data(BaseModel):
     or set null to display the name itself.
     """
 
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """
+    The E.164 number every call with this persona uses, when Roark has pinned one
+    for your project. Present only when set; read-only.
+    """
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
