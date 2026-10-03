@@ -14,12 +14,13 @@ __all__ = [
     "PropertyVerificationMetricValue",
     "PropertyVerificationMetricValuePropertyVerdict",
     "StandardMetricValue",
-    "StandardMetricValueFromSegment",
+    "StandardMetricValueEvidenceSpan",
+    "StandardMetricValueEvidenceSpanFromSegment",
 ]
 
 
-class StandardMetricValueFromSegment(BaseModel):
-    """Starting segment information (for SEGMENT_RANGE context metrics)"""
+class StandardMetricValueEvidenceSpanFromSegment(BaseModel):
+    """First segment of the span"""
 
     id: str
     """Segment ID"""
@@ -32,6 +33,17 @@ class StandardMetricValueFromSegment(BaseModel):
 
     text: str
     """Segment text content"""
+
+
+class StandardMetricValueEvidenceSpan(BaseModel):
+    from_segment: StandardMetricValueEvidenceSpanFromSegment = FieldInfo(alias="fromSegment")
+    """First segment of the span"""
+
+    to_segment: StandardMetricValueEvidenceSpanFromSegment = FieldInfo(alias="toSegment")
+    """Last segment of the span (the same as fromSegment for one line)"""
+
+    reason: Optional[str] = None
+    """The judge's one-line account of what happens here"""
 
 
 class StandardMetricValue(BaseModel):
@@ -77,7 +89,14 @@ class StandardMetricValue(BaseModel):
     Undefined for other statuses.
     """
 
-    from_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
+    evidence_spans: Optional[List[StandardMetricValueEvidenceSpan]] = FieldInfo(alias="evidenceSpans", default=None)
+    """
+    For CALL-context values of LLM judge metrics that cited where their evidence is:
+    the transcript spans that decided the value, most decisive first. Omitted
+    otherwise.
+    """
+
+    from_segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = FieldInfo(alias="fromSegment", default=None)
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
 
     participant_role: Optional[Literal["agent", "customer"]] = FieldInfo(alias="participantRole", default=None)
@@ -86,10 +105,10 @@ class StandardMetricValue(BaseModel):
     policy_ids: Optional[List[str]] = FieldInfo(alias="policyIds", default=None)
     """IDs of metric policies that triggered this metric computation"""
 
-    segment: Optional[StandardMetricValueFromSegment] = None
+    segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = None
     """Segment information (for SEGMENT context metrics)"""
 
-    to_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="toSegment", default=None)
+    to_segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = FieldInfo(alias="toSegment", default=None)
     """Ending segment information (for SEGMENT_RANGE context metrics)"""
 
     value: Optional[Union[float, bool, str]] = None
@@ -121,7 +140,7 @@ class PropertyVerificationMetricValuePropertyVerdict(BaseModel):
     reasoning: Optional[str] = None
     """Judge reasoning for this verdict"""
 
-    segment: Optional[StandardMetricValueFromSegment] = None
+    segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = None
     """
     The transcript segment this property was referred to in: the conflicting value
     for MISMATCH, the confirming reference for MATCH. Omitted for NOT_MENTIONED and
@@ -175,7 +194,14 @@ class PropertyVerificationMetricValue(BaseModel):
     Undefined for other statuses.
     """
 
-    from_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="fromSegment", default=None)
+    evidence_spans: Optional[List[StandardMetricValueEvidenceSpan]] = FieldInfo(alias="evidenceSpans", default=None)
+    """
+    For CALL-context values of LLM judge metrics that cited where their evidence is:
+    the transcript spans that decided the value, most decisive first. Omitted
+    otherwise.
+    """
+
+    from_segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = FieldInfo(alias="fromSegment", default=None)
     """Starting segment information (for SEGMENT_RANGE context metrics)"""
 
     participant_role: Optional[Literal["agent", "customer"]] = FieldInfo(alias="participantRole", default=None)
@@ -192,10 +218,10 @@ class PropertyVerificationMetricValue(BaseModel):
     properties were checked. Omitted for every other metric.
     """
 
-    segment: Optional[StandardMetricValueFromSegment] = None
+    segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = None
     """Segment information (for SEGMENT context metrics)"""
 
-    to_segment: Optional[StandardMetricValueFromSegment] = FieldInfo(alias="toSegment", default=None)
+    to_segment: Optional[StandardMetricValueEvidenceSpanFromSegment] = FieldInfo(alias="toSegment", default=None)
     """Ending segment information (for SEGMENT_RANGE context metrics)"""
 
     value: Optional[Union[float, bool, str]] = None

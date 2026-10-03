@@ -463,6 +463,10 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
 
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
     template: Literal["manual"]
@@ -519,7 +523,11 @@ class QaSimulationPlanConfig(TypedDict, total=False):
 
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
 
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+
     metrics: SequenceNotStr[str]
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
