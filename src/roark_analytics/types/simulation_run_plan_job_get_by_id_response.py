@@ -10,6 +10,8 @@ from .._models import BaseModel
 __all__ = [
     "SimulationRunPlanJobGetByIDResponse",
     "Data",
+    "DataAttemptSummary",
+    "DataPendingRetry",
     "DataSimulationJob",
     "DataSimulationJobAgentEndpoint",
     "DataSimulationJobBackgroundNoise",
@@ -19,6 +21,7 @@ __all__ = [
     "DataSweepAttribution",
     "DataSweepAttributionCheck",
     "DataSweepAttributionCheckWorseValue",
+    "DataSweepAttributionNeverSpokeValue",
     "DataSweepAttributionValue",
     "DataVerdict",
     "DataVerdictCheck",
@@ -26,7 +29,61 @@ __all__ = [
     "DataVerdictFailureUnionMember1",
     "DataVerdictFailureUnionMember2",
     "DataVerdictFailureUnionMember3",
+    "DataVerdictFailureUnionMember4",
 ]
+
+
+class DataAttemptSummary(BaseModel):
+    """
+    The run’s simulations against its test cases. Differs from a plain job count
+    only when the plan retries simulations your agent never spoke on.
+    """
+
+    attempt_count: int = FieldInfo(alias="attemptCount")
+    """Every simulation placed, retries included. Each is a separate, billed call."""
+
+    retry_count: int = FieldInfo(alias="retryCount")
+    """Simulations placed as a retry of one your agent never spoke on."""
+
+    silent_attempt_count: int = FieldInfo(alias="silentAttemptCount")
+    """Simulations your agent never spoke on, including the ones a retry replaced."""
+
+    still_silent_test_case_count: int = FieldInfo(alias="stillSilentTestCaseCount")
+    """
+    Test cases whose final attempt your agent still never spoke on. This is what the
+    `AGENT_NEVER_SPOKE` verdict failure counts.
+    """
+
+    test_case_count: int = FieldInfo(alias="testCaseCount")
+    """
+    Test cases in the run. Each one has a single final attempt that its result is
+    read from.
+    """
+
+
+class DataPendingRetry(BaseModel):
+    """
+    A retry of a simulation your agent never spoke on, waiting out its backoff
+    before it dials.
+    """
+
+    attempt_number: int = FieldInfo(alias="attemptNumber")
+    """Its place among its test case’s attempts, 2 for the first retry."""
+
+    max_attempts: int = FieldInfo(alias="maxAttempts")
+    """
+    The most attempts a test case can get on this run: the plan’s
+    `maxNoResponseRetries` plus 1.
+    """
+
+    scheduled_at: Optional[str] = FieldInfo(alias="scheduledAt")
+    """
+    When the retry dials, ISO 8601. It may wait longer behind the run’s concurrency
+    limit.
+    """
+
+    simulation_job_id: str = FieldInfo(alias="simulationJobId")
+    """The scheduled retry."""
 
 
 class DataSimulationJobAgentEndpoint(BaseModel):
@@ -275,6 +332,12 @@ class DataSimulationJobPersona(BaseModel):
     or set null to display the name itself.
     """
 
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """
+    The E.164 number every call with this persona uses, when Roark has pinned one
+    for your project. Present only when set; read-only.
+    """
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
@@ -292,6 +355,13 @@ class DataSimulationJobScenario(BaseModel):
 class DataSimulationJob(BaseModel):
     agent_endpoint: DataSimulationJobAgentEndpoint = FieldInfo(alias="agentEndpoint")
     """Agent endpoint used in a simulation"""
+
+    attempt_number: int = FieldInfo(alias="attemptNumber")
+    """
+    This simulation’s place among its test case’s attempts: 1 for the first, 2 for
+    the first retry. Above 1 only when the plan retries simulations your agent never
+    spoke on.
+    """
 
     background_noise: DataSimulationJobBackgroundNoise = FieldInfo(alias="backgroundNoise")
     """
@@ -327,14 +397,36 @@ class DataSimulationJob(BaseModel):
     ] = FieldInfo(alias="processingStatus")
     """Processing status. PENDING until the job starts connecting."""
 
+    retry_of_simulation_job_id: Optional[str] = FieldInfo(alias="retryOfSimulationJobId")
+    """
+    The simulation this one retries, because your agent never spoke on it. Null on a
+    test case’s first attempt.
+    """
+
     scenario: DataSimulationJobScenario
     """Scenario used in a simulation"""
+
+    scheduled_at: Optional[str] = FieldInfo(alias="scheduledAt")
+    """When a `RETRY_SCHEDULED` retry dials, ISO 8601. Null on a first attempt."""
 
     simulation_job_id: str = FieldInfo(alias="simulationJobId")
     """Simulation job ID"""
 
-    status: Literal["PENDING", "QUEUED", "PROCESSING", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED", "CANCELLING"]
-    """Job status"""
+    status: Literal[
+        "PENDING",
+        "QUEUED",
+        "PROCESSING",
+        "COMPLETED",
+        "FAILED",
+        "TIMED_OUT",
+        "CANCELLED",
+        "CANCELLING",
+        "RETRY_SCHEDULED",
+    ]
+    """
+    Job status. `RETRY_SCHEDULED` is a retry of a simulation your agent never spoke
+    on, waiting out the plan’s `noResponseRetryBackoffSeconds` before it dials.
+    """
 
     call_id: Optional[str] = FieldInfo(alias="callId", default=None)
     """
@@ -417,6 +509,38 @@ class DataSweepAttributionCheck(BaseModel):
     """
 
 
+class DataSweepAttributionNeverSpokeValue(BaseModel):
+    """
+    A value your agent never spoke on significantly more often than the rest of the
+    run.
+    """
+
+    adjusted_p_value: float = FieldInfo(alias="adjustedPValue")
+    """
+    How likely a difference at least this large would be by chance alone, after
+    correcting across the values (Benjamini-Hochberg).
+    """
+
+    attempted: int
+    """Simulations run at this value."""
+
+    label: str
+
+    rest_attempted: int = FieldInfo(alias="restAttempted")
+    """Simulations run across every other value combined."""
+
+    rest_silent_attempts: int = FieldInfo(alias="restSilentAttempts")
+    """Simulations your agent never spoke on across every other value combined."""
+
+    retries: int
+    """Retries placed at this value because your agent never spoke."""
+
+    silent_attempts: int = FieldInfo(alias="silentAttempts")
+    """Simulations at this value your agent never spoke on, retried or not."""
+
+    value: str
+
+
 class DataSweepAttributionValue(BaseModel):
     """One value of the swept property."""
 
@@ -438,11 +562,23 @@ class DataSweepAttributionValue(BaseModel):
     label: str
     """The value in words, e.g. `American`."""
 
+    retries: int
+    """
+    Of `attempted`, the retries of simulations your agent never spoke on. Zero
+    unless the plan retries silent simulations.
+    """
+
     score: Optional[float]
     """
     The mean of each check's pass rate at this value, 0-100, the same rule as the
     run's `score`. Descriptive only: a lower score alone never makes a value worse.
     Null when nothing counted.
+    """
+
+    silent_attempts: int = FieldInfo(alias="silentAttempts")
+    """
+    Of `attempted`, the simulations your agent never spoke on, whether or not a
+    retry followed. They are invalidated, so they are never in `counted`.
     """
 
     testable: bool
@@ -497,6 +633,13 @@ class DataSweepAttribution(BaseModel):
     correction, so checks graded on fewer simulations need larger gaps. Large when
     few simulations ran per value: finding no significant difference then means the
     run could not see one, not that none exists.
+    """
+
+    never_spoke_values: List[DataSweepAttributionNeverSpokeValue] = FieldInfo(alias="neverSpokeValues")
+    """
+    The values your agent never spoke on significantly more often than the rest of
+    the run, most significant first, tested the same way as `worseValues`. Empty on
+    a run with no silent simulations.
     """
 
     testable_value_count: int = FieldInfo(alias="testableValueCount")
@@ -584,6 +727,44 @@ class DataVerdictFailureUnionMember1(BaseModel):
 
 
 class DataVerdictFailureUnionMember2(BaseModel):
+    """
+    Your agent never spoke on more than `maxShare` percent of the run. Those
+    simulations are left out of every check, so the run fails on them whatever the
+    checks say.
+    """
+
+    max_share: float = FieldInfo(alias="maxShare")
+    """
+    The largest share of simulations, 0-100, your agent may never speak on while the
+    run can pass.
+    """
+
+    never_spoke_calls: int = FieldInfo(alias="neverSpokeCalls")
+    """
+    Test cases your agent never spoke on, judged on each test case’s last attempt: a
+    silent simulation a retry later reached your agent on does not count here.
+    """
+
+    total_calls: int = FieldInfo(alias="totalCalls")
+    """Every test case of the run whose last attempt reached your agent."""
+
+    type: Literal["AGENT_NEVER_SPOKE"]
+
+    agent_name: Optional[str] = FieldInfo(alias="agentName", default=None)
+    """
+    The agent as the run tested it. Null when the simulations tested more than one
+    agent.
+    """
+
+    silent_attempts: Optional[int] = FieldInfo(alias="silentAttempts", default=None)
+    """
+    Every simulation your agent never spoke on, including the ones a retry replaced.
+    Above `neverSpokeCalls` only when the plan retries silent simulations
+    (`maxNoResponseRetries`).
+    """
+
+
+class DataVerdictFailureUnionMember3(BaseModel):
     metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
 
     type: Literal["METRIC_NOT_EVALUATED"]
@@ -592,7 +773,7 @@ class DataVerdictFailureUnionMember2(BaseModel):
     """The check’s name, for rendering the failure."""
 
 
-class DataVerdictFailureUnionMember3(BaseModel):
+class DataVerdictFailureUnionMember4(BaseModel):
     inherited: bool
     """Whether the missed minimum was the 80% default (`true`) or this metric's own."""
 
@@ -628,6 +809,7 @@ class DataVerdict(BaseModel):
             DataVerdictFailureUnionMember1,
             DataVerdictFailureUnionMember2,
             DataVerdictFailureUnionMember3,
+            DataVerdictFailureUnionMember4,
         ]
     ]
     """Every criterion the run missed. Empty when it passed."""
@@ -655,11 +837,27 @@ class DataVerdict(BaseModel):
 class Data(BaseModel):
     """Simulation run plan job with all associated simulation jobs"""
 
+    attempt_summary: DataAttemptSummary = FieldInfo(alias="attemptSummary")
+    """
+    The run’s simulations against its test cases. Differs from a plain job count
+    only when the plan retries simulations your agent never spoke on.
+    """
+
     created_at: str = FieldInfo(alias="createdAt")
     """When the job was created"""
 
+    pending_retries: List[DataPendingRetry] = FieldInfo(alias="pendingRetries")
+    """
+    Retries waiting out their backoff, soonest first. While this is not empty the
+    run is waiting, not stuck: it settles only once every test case has a final
+    attempt. Empty when nothing is scheduled.
+    """
+
     simulation_jobs: List[DataSimulationJob] = FieldInfo(alias="simulationJobs")
-    """List of simulation jobs (calls) in this run plan job"""
+    """
+    List of simulation jobs (calls) in this run plan job, every attempt included: a
+    simulation your agent never spoke on stays listed after a retry replaces it.
+    """
 
     simulation_run_plan_id: str = FieldInfo(alias="simulationRunPlanId")
     """ID of the simulation run plan"""

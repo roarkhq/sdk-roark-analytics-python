@@ -33,12 +33,15 @@ from .webhook_create_params import WebhookCreateParams as WebhookCreateParams
 from .webhook_list_response import WebhookListResponse as WebhookListResponse
 from .config_flow_step_param import ConfigFlowStepParam as ConfigFlowStepParam
 from .call_get_by_id_response import CallGetByIDResponse as CallGetByIDResponse
+from .me_list_api_keys_params import MeListAPIKeysParams as MeListAPIKeysParams
 from .simulation_run_response import SimulationRunResponse as SimulationRunResponse
 from .webhook_create_response import WebhookCreateResponse as WebhookCreateResponse
 from .webhook_delete_response import WebhookDeleteResponse as WebhookDeleteResponse
 from .agent_get_by_id_response import AgentGetByIDResponse as AgentGetByIDResponse
 from .call_list_metrics_params import CallListMetricsParams as CallListMetricsParams
+from .me_create_api_key_params import MeCreateAPIKeyParams as MeCreateAPIKeyParams
 from .customer_flow_list_params import CustomerFlowListParams as CustomerFlowListParams
+from .me_list_api_keys_response import MeListAPIKeysResponse as MeListAPIKeysResponse
 from .metric_policy_list_params import MetricPolicyListParams as MetricPolicyListParams
 from .agent_config_list_response import AgentConfigListResponse as AgentConfigListResponse
 from .agent_config_update_params import AgentConfigUpdateParams as AgentConfigUpdateParams
@@ -47,6 +50,8 @@ from .agent_prompt_list_response import AgentPromptListResponse as AgentPromptLi
 from .agent_prompt_update_params import AgentPromptUpdateParams as AgentPromptUpdateParams
 from .call_get_transcript_params import CallGetTranscriptParams as CallGetTranscriptParams
 from .call_list_metrics_response import CallListMetricsResponse as CallListMetricsResponse
+from .me_create_api_key_response import MeCreateAPIKeyResponse as MeCreateAPIKeyResponse
+from .me_revoke_api_key_response import MeRevokeAPIKeyResponse as MeRevokeAPIKeyResponse
 from .webhook_get_by_id_response import WebhookGetByIDResponse as WebhookGetByIDResponse
 from .agent_config_resolve_params import AgentConfigResolveParams as AgentConfigResolveParams
 from .autoimprove_log_entry_param import AutoimproveLogEntryParam as AutoimproveLogEntryParam
