@@ -228,6 +228,12 @@ class ScriptedFlowVariantPersonaOverride(BaseModel):
     or set null to display the name itself.
     """
 
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """
+    The E.164 number every call with this persona uses, when Roark has pinned one
+    for your project. Present only when set; read-only.
+    """
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
@@ -432,6 +438,12 @@ class ImprovFlowVariantHandoffPersona(BaseModel):
     Label shown in place of the name across the dashboard (e.g. a short descriptor
     like "Irate Escalator"). The persona still identifies as `name` on calls. Omit
     or set null to display the name itself.
+    """
+
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """
+    The E.164 number every call with this persona uses, when Roark has pinned one
+    for your project. Present only when set; read-only.
     """
 
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)

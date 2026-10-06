@@ -258,8 +258,10 @@ class SimulationResource(SyncAPIResource):
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         save_as_plan: bool | Omit = omit,
@@ -341,11 +343,22 @@ class SimulationResource(SyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
           max_simulation_duration_seconds: Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
               GET /v1/simulation/template.
 
           name: What to call this. Defaults to the template's name and the date, and required
               with `saveAsPlan`.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
 
           persona_id: For `question-answer-check`: the persona that asks the questions.
 
@@ -402,8 +415,10 @@ class SimulationResource(SyncAPIResource):
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -435,8 +450,10 @@ class SimulationResource(SyncAPIResource):
                     "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "persona_id": persona_id,
                     "questions": questions,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -683,8 +700,10 @@ class AsyncSimulationResource(AsyncAPIResource):
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         save_as_plan: bool | Omit = omit,
@@ -766,11 +785,22 @@ class AsyncSimulationResource(AsyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
           max_simulation_duration_seconds: Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
               GET /v1/simulation/template.
 
           name: What to call this. Defaults to the template's name and the date, and required
               with `saveAsPlan`.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
 
           persona_id: For `question-answer-check`: the persona that asks the questions.
 
@@ -827,8 +857,10 @@ class AsyncSimulationResource(AsyncAPIResource):
         flows: Iterable[simulation_run_params.RunSimulationFromConfigPlanFlow] | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -860,8 +892,10 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "flows": flows,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "persona_id": persona_id,
                     "questions": questions,
                     "silence_timeout_seconds": silence_timeout_seconds,

@@ -15,12 +15,20 @@ Methods:
 Types:
 
 ```python
-from roark_analytics.types import MeGetResponse
+from roark_analytics.types import (
+    MeCreateAPIKeyResponse,
+    MeGetResponse,
+    MeListAPIKeysResponse,
+    MeRevokeAPIKeyResponse,
+)
 ```
 
 Methods:
 
+- <code title="post /v1/me/api-keys">client.me.<a href="./src/roark_analytics/resources/me.py">create_api_key</a>(\*\*<a href="src/roark_analytics/types/me_create_api_key_params.py">params</a>) -> <a href="./src/roark_analytics/types/me_create_api_key_response.py">MeCreateAPIKeyResponse</a></code>
 - <code title="get /v1/me">client.me.<a href="./src/roark_analytics/resources/me.py">get</a>() -> <a href="./src/roark_analytics/types/me_get_response.py">MeGetResponse</a></code>
+- <code title="get /v1/me/api-keys">client.me.<a href="./src/roark_analytics/resources/me.py">list_api_keys</a>(\*\*<a href="src/roark_analytics/types/me_list_api_keys_params.py">params</a>) -> <a href="./src/roark_analytics/types/me_list_api_keys_response.py">MeListAPIKeysResponse</a></code>
+- <code title="delete /v1/me/api-keys/{id}">client.me.<a href="./src/roark_analytics/resources/me.py">revoke_api_key</a>(id) -> <a href="./src/roark_analytics/types/me_revoke_api_key_response.py">MeRevokeAPIKeyResponse</a></code>
 
 # Project
 

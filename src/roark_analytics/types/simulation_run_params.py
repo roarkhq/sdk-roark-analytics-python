@@ -30,43 +30,6 @@ class RunSimulationFromConfigPlanAgentEndpoint(TypedDict, total=False):
     id: Required[str]
 
 
-class RunSimulationFromConfigPlanMetric(TypedDict, total=False):
-    id: str
-    """Metric definition UUID. Provide either this or `slug`, not both."""
-
-    conversation_source: Annotated[Optional[Literal["SIMULATED", "LIVE"]], PropertyInfo(alias="conversationSource")]
-    """
-    Which side of an enriched run this metric is scored on. Only meaningful with
-    `enrichWithLiveConversation: true`, where a run has both a simulated
-    conversation and the customer's own live recording of it.
-    Defaults to `SIMULATED`. Use `LIVE` for a metric that must be measured against
-    the real recording (audio quality, provider latency) rather than the simulated
-    leg. `null` means the same as omitting it, so a plan read back from GET can be
-    sent straight to PUT.
-    """
-
-    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
-    """
-    Alias of `slug` accepted for backwards compatibility. Use `slug` for new
-    integrations.
-    """
-
-    min_pass_rate: Annotated[Optional[float], PropertyInfo(alias="minPassRate")]
-    """
-    THE BAR, and the only thing that decides pass/fail. The share of the run's
-    simulations that must pass this check, 0-100.
-    Applied to this check alone and never pooled: silence duration at 40 and word
-    count at 80 means the run fails unless 40% of sims clear silence AND 80% clear
-    word count. Omit or `null` for the 80% default.
-    """
-
-    slug: str
-    """
-    Stable metric slug (e.g. `customer_satisfaction`). Provide either this or `id`,
-    not both.
-    """
-
-
 class RunSimulationFromConfigPlanFlowEdgeCaseUnionMember1(TypedDict, total=False):
     id: str
     """The edge case to run."""
@@ -160,6 +123,43 @@ class RunSimulationFromConfigPlanFlow(TypedDict, total=False):
     """Values for everything it resolves."""
 
 
+class RunSimulationFromConfigPlanMetric(TypedDict, total=False):
+    id: str
+    """Metric definition UUID. Provide either this or `slug`, not both."""
+
+    conversation_source: Annotated[Optional[Literal["SIMULATED", "LIVE"]], PropertyInfo(alias="conversationSource")]
+    """
+    Which side of an enriched run this metric is scored on. Only meaningful with
+    `enrichWithLiveConversation: true`, where a run has both a simulated
+    conversation and the customer's own live recording of it.
+    Defaults to `SIMULATED`. Use `LIVE` for a metric that must be measured against
+    the real recording (audio quality, provider latency) rather than the simulated
+    leg. `null` means the same as omitting it, so a plan read back from GET can be
+    sent straight to PUT.
+    """
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """
+    Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+    integrations.
+    """
+
+    min_pass_rate: Annotated[Optional[float], PropertyInfo(alias="minPassRate")]
+    """
+    THE BAR, and the only thing that decides pass/fail. The share of the run's
+    simulations that must pass this check, 0-100.
+    Applied to this check alone and never pooled: silence duration at 40 and word
+    count at 80 means the run fails unless 40% of sims clear silence AND 80% clear
+    word count. Omit or `null` for the 80% default.
+    """
+
+    slug: str
+    """
+    Stable metric slug (e.g. `customer_satisfaction`). Provide either this or `id`,
+    not both.
+    """
+
+
 class RunSimulationFromConfigPlanScenario(TypedDict, total=False):
     id: Required[str]
     """Scenario ID"""
@@ -184,12 +184,6 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
 
     max_simulation_duration_seconds: Required[Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]]
     """Maximum duration in seconds for each simulation"""
-
-    metrics: Required[Iterable[RunSimulationFromConfigPlanMetric]]
-    """
-    Metric definitions to include in this run plan. Reference each by `id` (UUID) or
-    `slug`.
-    """
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
@@ -319,10 +313,38 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
 
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+    """
+    How many more times to run a test case when the agent under test never responds:
+    it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+    off. Failed checks and failures on Roark’s side are never retried.
+    Each retry is a separate attempt, billed like any other, so a plan retrying N
+    times can place up to N + 1 calls per test case. Every silent attempt stays on
+    the run with its own call; the run settles once each test case has a final
+    attempt, and the agent never spoke verdict is judged on each test case’s last
+    attempt.
+    """
+
+    metrics: Iterable[RunSimulationFromConfigPlanMetric]
+    """
+    Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+    `slug`.
+    Optional when the attached `flows` carry the grading: metrics a flow declares
+    itself (with `includeFlowMetrics`), or the Agent Expectations and Keypad Entry
+    metrics a run adds for flows with expectations or expected keypad entries (with
+    `includeAutomaticMetrics`). A plan with nothing to grade is rejected with a 400.
+    """
+
     name: str
     """
     What to call this. Generated from the date when omitted, and required with
     `saveAsPlan`.
+    """
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+    """
+    Seconds a retry waits before it dials (30-600). Only used when
+    `maxNoResponseRetries` is above 0.
     """
 
     personas: Iterable[RunSimulationFromConfigPlanAgentEndpoint]
@@ -540,6 +562,18 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
 
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+    """
+    How many more times to run a test case when the agent under test never responds:
+    it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+    off. Failed checks and failures on Roark’s side are never retried.
+    Each retry is a separate attempt, billed like any other, so a plan retrying N
+    times can place up to N + 1 calls per test case. Every silent attempt stays on
+    the run with its own call; the run settles once each test case has a final
+    attempt, and the agent never spoke verdict is judged on each test case’s last
+    attempt.
+    """
+
     max_simulation_duration_seconds: Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]
     """
     Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
@@ -550,6 +584,12 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     """
     What to call this. Defaults to the template's name and the date, and required
     with `saveAsPlan`.
+    """
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+    """
+    Seconds a retry waits before it dials (30-600). Only used when
+    `maxNoResponseRetries` is above 0.
     """
 
     persona_id: Annotated[str, PropertyInfo(alias="personaId")]

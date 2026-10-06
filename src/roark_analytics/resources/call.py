@@ -204,9 +204,13 @@ class CallResource(SyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        counted_in_results: Literal["true", "false"] | Omit = omit,
+        exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
+        simulation_run_plan_ids: str | Omit = omit,
         simulation_run_plan_job_id: str | Omit = omit,
+        simulation_run_plan_job_ids: str | Omit = omit,
         sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
@@ -223,12 +227,25 @@ class CallResource(SyncAPIResource):
         Args:
           after: Cursor for pagination - use the nextCursor value from a previous response
 
+          counted_in_results: true: only simulated calls their run's results count (not invalidated, for
+              example because the agent never spoke). false: only the simulated calls the
+              results leave out, each invalidated. Live calls, and calls removed from their
+              run, match neither.
+
+          exclude_hidden_runs: true: leave out calls from runs hidden from the runs list. Live calls stay in.
+              false is the same as leaving it out.
+
           limit: Maximum number of calls to return (default: 20, max: 100)
 
           search_text: Search text to filter calls by title, summary, or transcript
 
+          simulation_run_plan_ids: Calls from every run of any of these run plans, comma-separated, at most 100
+
           simulation_run_plan_job_id: Filter by simulation run plan job ID to get all calls from a specific simulation
               batch
+
+          simulation_run_plan_job_ids: Calls from any of these simulation runs (run plan job ids), comma-separated, at
+              most 100
 
           sort_by: Field to sort by (default: createdAt)
 
@@ -254,9 +271,13 @@ class CallResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "after": after,
+                        "counted_in_results": counted_in_results,
+                        "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,
                         "search_text": search_text,
+                        "simulation_run_plan_ids": simulation_run_plan_ids,
                         "simulation_run_plan_job_id": simulation_run_plan_job_id,
+                        "simulation_run_plan_job_ids": simulation_run_plan_job_ids,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,
@@ -665,9 +686,13 @@ class AsyncCallResource(AsyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        counted_in_results: Literal["true", "false"] | Omit = omit,
+        exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
+        simulation_run_plan_ids: str | Omit = omit,
         simulation_run_plan_job_id: str | Omit = omit,
+        simulation_run_plan_job_ids: str | Omit = omit,
         sort_by: Literal["createdAt", "startedAt", "endedAt", "duration", "title", "status"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["RINGING", "IN_PROGRESS", "ENDED"] | Omit = omit,
@@ -684,12 +709,25 @@ class AsyncCallResource(AsyncAPIResource):
         Args:
           after: Cursor for pagination - use the nextCursor value from a previous response
 
+          counted_in_results: true: only simulated calls their run's results count (not invalidated, for
+              example because the agent never spoke). false: only the simulated calls the
+              results leave out, each invalidated. Live calls, and calls removed from their
+              run, match neither.
+
+          exclude_hidden_runs: true: leave out calls from runs hidden from the runs list. Live calls stay in.
+              false is the same as leaving it out.
+
           limit: Maximum number of calls to return (default: 20, max: 100)
 
           search_text: Search text to filter calls by title, summary, or transcript
 
+          simulation_run_plan_ids: Calls from every run of any of these run plans, comma-separated, at most 100
+
           simulation_run_plan_job_id: Filter by simulation run plan job ID to get all calls from a specific simulation
               batch
+
+          simulation_run_plan_job_ids: Calls from any of these simulation runs (run plan job ids), comma-separated, at
+              most 100
 
           sort_by: Field to sort by (default: createdAt)
 
@@ -715,9 +753,13 @@ class AsyncCallResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "after": after,
+                        "counted_in_results": counted_in_results,
+                        "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,
                         "search_text": search_text,
+                        "simulation_run_plan_ids": simulation_run_plan_ids,
                         "simulation_run_plan_job_id": simulation_run_plan_job_id,
+                        "simulation_run_plan_job_ids": simulation_run_plan_job_ids,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,

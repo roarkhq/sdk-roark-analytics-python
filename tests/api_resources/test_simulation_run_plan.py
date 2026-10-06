@@ -29,7 +29,6 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -40,15 +39,6 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[
-                {
-                    "conversation_source": "SIMULATED",
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
-                    "min_pass_rate": 80,
-                    "slug": "x",
-                }
-            ],
             name="My Run Plan",
             auto_run=False,
             comparison_baseline="NONE",
@@ -77,6 +67,17 @@ class TestSimulationRunPlan:
             include_flow_metrics=True,
             iteration_count=1,
             max_concurrent_jobs=5,
+            max_no_response_retries=2,
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "min_pass_rate": 80,
+                    "slug": "x",
+                }
+            ],
+            no_response_retry_backoff_seconds=90,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -94,7 +95,6 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         )
 
@@ -109,7 +109,6 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         ) as response:
             assert not response.is_closed
@@ -160,6 +159,7 @@ class TestSimulationRunPlan:
             is_hidden=True,
             iteration_count=1,
             max_concurrent_jobs=1,
+            max_no_response_retries=0,
             max_simulation_duration_seconds=1,
             metrics=[
                 {
@@ -171,6 +171,7 @@ class TestSimulationRunPlan:
                 }
             ],
             name="x",
+            no_response_retry_backoff_seconds=30,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -336,7 +337,6 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -347,15 +347,6 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[
-                {
-                    "conversation_source": "SIMULATED",
-                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "metric_id": "x",
-                    "min_pass_rate": 80,
-                    "slug": "x",
-                }
-            ],
             name="My Run Plan",
             auto_run=False,
             comparison_baseline="NONE",
@@ -384,6 +375,17 @@ class TestAsyncSimulationRunPlan:
             include_flow_metrics=True,
             iteration_count=1,
             max_concurrent_jobs=5,
+            max_no_response_retries=2,
+            metrics=[
+                {
+                    "conversation_source": "SIMULATED",
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "metric_id": "x",
+                    "min_pass_rate": 80,
+                    "slug": "x",
+                }
+            ],
+            no_response_retry_backoff_seconds=90,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -401,7 +403,6 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         )
 
@@ -416,7 +417,6 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
-            metrics=[{}],
             name="My Run Plan",
         ) as response:
             assert not response.is_closed
@@ -467,6 +467,7 @@ class TestAsyncSimulationRunPlan:
             is_hidden=True,
             iteration_count=1,
             max_concurrent_jobs=1,
+            max_no_response_retries=0,
             max_simulation_duration_seconds=1,
             metrics=[
                 {
@@ -478,6 +479,7 @@ class TestAsyncSimulationRunPlan:
                 }
             ],
             name="x",
+            no_response_retry_backoff_seconds=30,
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
