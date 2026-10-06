@@ -72,7 +72,6 @@ class TestSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
@@ -84,15 +83,6 @@ class TestSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [
-                    {
-                        "conversation_source": "SIMULATED",
-                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                        "metric_id": "x",
-                        "min_pass_rate": 80,
-                        "slug": "x",
-                    }
-                ],
                 "comparison_baseline": "NONE",
                 "comparison_property": "BACKGROUND_NOISE",
                 "comparison_values": ["NONE", "CITY", "TRAIN"],
@@ -119,7 +109,18 @@ class TestSimulation:
                 "include_flow_metrics": True,
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
+                "max_no_response_retries": 2,
+                "metrics": [
+                    {
+                        "conversation_source": "SIMULATED",
+                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "metric_id": "x",
+                        "min_pass_rate": 80,
+                        "slug": "x",
+                    }
+                ],
                 "name": "Billing regression",
+                "no_response_retry_backoff_seconds": 90,
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "scenarios": [
                     {
@@ -141,7 +142,6 @@ class TestSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         )
 
@@ -157,7 +157,6 @@ class TestSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         ) as response:
             assert not response.is_closed
@@ -235,8 +234,10 @@ class TestSimulation:
             ],
             iteration_count=6,
             max_concurrent_jobs=5,
+            max_no_response_retries=2,
             max_simulation_duration_seconds=1,
             name="x",
+            no_response_retry_backoff_seconds=90,
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             save_as_plan=True,
@@ -331,7 +332,6 @@ class TestAsyncSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         )
         assert_matches_type(SimulationRunResponse, simulation, path=["response"])
@@ -343,15 +343,6 @@ class TestAsyncSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [
-                    {
-                        "conversation_source": "SIMULATED",
-                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                        "metric_id": "x",
-                        "min_pass_rate": 80,
-                        "slug": "x",
-                    }
-                ],
                 "comparison_baseline": "NONE",
                 "comparison_property": "BACKGROUND_NOISE",
                 "comparison_values": ["NONE", "CITY", "TRAIN"],
@@ -378,7 +369,18 @@ class TestAsyncSimulation:
                 "include_flow_metrics": True,
                 "iteration_count": 1,
                 "max_concurrent_jobs": 5,
+                "max_no_response_retries": 2,
+                "metrics": [
+                    {
+                        "conversation_source": "SIMULATED",
+                        "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "metric_id": "x",
+                        "min_pass_rate": 80,
+                        "slug": "x",
+                    }
+                ],
                 "name": "Billing regression",
+                "no_response_retry_backoff_seconds": 90,
                 "personas": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "scenarios": [
                     {
@@ -400,7 +402,6 @@ class TestAsyncSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         )
 
@@ -416,7 +417,6 @@ class TestAsyncSimulation:
                 "agent_endpoints": [{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                 "direction": "INBOUND",
                 "max_simulation_duration_seconds": 300,
-                "metrics": [{}],
             },
         ) as response:
             assert not response.is_closed
@@ -494,8 +494,10 @@ class TestAsyncSimulation:
             ],
             iteration_count=6,
             max_concurrent_jobs=5,
+            max_no_response_retries=2,
             max_simulation_duration_seconds=1,
             name="x",
+            no_response_retry_backoff_seconds=90,
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             save_as_plan=True,

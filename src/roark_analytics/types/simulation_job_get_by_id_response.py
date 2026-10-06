@@ -315,6 +315,12 @@ class DataPersona(BaseModel):
     or set null to display the name itself.
     """
 
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """
+    The E.164 number every call with this persona uses, when Roark has pinned one
+    for your project. Present only when set; read-only.
+    """
+
     secondary_language: Optional[Literal["EN"]] = FieldInfo(alias="secondaryLanguage", default=None)
     """Secondary language ISO 639-1 code for code-switching (e.g., Hinglish, Spanglish)"""
 
@@ -348,6 +354,13 @@ class Data(BaseModel):
 
     agent_endpoint: DataAgentEndpoint = FieldInfo(alias="agentEndpoint")
     """Agent endpoint used in a simulation"""
+
+    attempt_number: int = FieldInfo(alias="attemptNumber")
+    """
+    This simulation’s place among its test case’s attempts: 1 for the first, 2 for
+    the first retry. Above 1 only when the plan retries simulations your agent never
+    spoke on.
+    """
 
     background_noise: DataBackgroundNoise = FieldInfo(alias="backgroundNoise")
     """
@@ -390,16 +403,28 @@ class Data(BaseModel):
     releases simulations. Null unless the status is QUEUED.
     """
 
+    retry_of_simulation_job_id: Optional[str] = FieldInfo(alias="retryOfSimulationJobId")
+    """
+    The simulation this one retries, because your agent never spoke on it. Null on a
+    test case’s first attempt.
+    """
+
     run_plan: DataRunPlan = FieldInfo(alias="runPlan")
 
     scenario: DataScenario
     """Scenario used in a simulation"""
 
+    scheduled_at: Optional[str] = FieldInfo(alias="scheduledAt")
+    """When a `RETRY_SCHEDULED` retry dials, ISO 8601. Null on a first attempt."""
+
     simulation_job_id: str = FieldInfo(alias="simulationJobId")
     """Simulation job ID"""
 
     status: str
-    """Job status"""
+    """
+    Job status. `RETRY_SCHEDULED` is a retry of a simulation your agent never spoke
+    on, waiting out the plan’s `noResponseRetryBackoffSeconds` before it dials.
+    """
 
     call_id: Optional[str] = FieldInfo(alias="callId", default=None)
     """

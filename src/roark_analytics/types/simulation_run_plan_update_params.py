@@ -274,6 +274,18 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
     """Maximum number of concurrent simulation jobs"""
 
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+    """
+    How many more times to run a test case when the agent under test never responds:
+    it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+    off. Failed checks and failures on Roark’s side are never retried.
+    Each retry is a separate attempt, billed like any other, so a plan retrying N
+    times can place up to N + 1 calls per test case. Every silent attempt stays on
+    the run with its own call; the run settles once each test case has a final
+    attempt, and the agent never spoke verdict is judged on each test case’s last
+    attempt.
+    """
+
     max_simulation_duration_seconds: Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]
     """Maximum duration in seconds for each simulation"""
 
@@ -285,6 +297,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     name: str
     """Name of the run plan"""
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+    """
+    Seconds a retry waits before it dials (30-600). Only used when
+    `maxNoResponseRetries` is above 0.
+    """
 
     personas: Iterable[AgentEndpoint]
     """Personas to include in this run plan"""

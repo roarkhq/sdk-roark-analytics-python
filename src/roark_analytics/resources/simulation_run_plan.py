@@ -58,7 +58,6 @@ class SimulationRunPlanResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         max_simulation_duration_seconds: int,
-        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         auto_run: bool | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
@@ -92,6 +91,9 @@ class SimulationRunPlanResource(SyncAPIResource):
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.Metric] | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -115,9 +117,6 @@ class SimulationRunPlanResource(SyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
-
-          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
-              `slug`.
 
           name: Name of the run plan
 
@@ -197,6 +196,24 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`. Optional when the attached `flows` carry the grading: metrics a flow
+              declares itself (with `includeFlowMetrics`), or the Agent Expectations and
+              Keypad Entry metrics a run adds for flows with expectations or expected keypad
+              entries (with `includeAutomaticMetrics`). A plan with nothing to grade is
+              rejected with a 400.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
+
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
@@ -220,7 +237,6 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
-                    "metrics": metrics,
                     "name": name,
                     "auto_run": auto_run,
                     "comparison_baseline": comparison_baseline,
@@ -236,6 +252,9 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
+                    "metrics": metrics,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -286,9 +305,11 @@ class SimulationRunPlanResource(SyncAPIResource):
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -358,12 +379,23 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
           metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
               `slug`.
 
           name: Name of the run plan
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
 
           personas: Personas to include in this run plan
 
@@ -403,9 +435,11 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "metrics": metrics,
                     "name": name,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -567,7 +601,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         max_simulation_duration_seconds: int,
-        metrics: Iterable[simulation_run_plan_create_params.Metric],
         name: str,
         auto_run: bool | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
@@ -601,6 +634,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.Metric] | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -624,9 +660,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           direction: Direction of the simulation (INBOUND or OUTBOUND)
 
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
-
-          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
-              `slug`.
 
           name: Name of the run plan
 
@@ -706,6 +739,24 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
+          metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
+              `slug`. Optional when the attached `flows` carry the grading: metrics a flow
+              declares itself (with `includeFlowMetrics`), or the Agent Expectations and
+              Keypad Entry metrics a run adds for flows with expectations or expected keypad
+              entries (with `includeAutomaticMetrics`). A plan with nothing to grade is
+              rejected with a 400.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
+
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
@@ -729,7 +780,6 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
-                    "metrics": metrics,
                     "name": name,
                     "auto_run": auto_run,
                     "comparison_baseline": comparison_baseline,
@@ -745,6 +795,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "include_flow_metrics": include_flow_metrics,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
+                    "metrics": metrics,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -795,9 +848,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         is_hidden: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
         max_simulation_duration_seconds: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -867,12 +922,23 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           max_concurrent_jobs: Maximum number of concurrent simulation jobs
 
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
           max_simulation_duration_seconds: Maximum duration in seconds for each simulation
 
           metrics: Metric definitions to include in this run plan. Reference each by `id` (UUID) or
               `slug`.
 
           name: Name of the run plan
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
 
           personas: Personas to include in this run plan
 
@@ -912,9 +978,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "is_hidden": is_hidden,
                     "iteration_count": iteration_count,
                     "max_concurrent_jobs": max_concurrent_jobs,
+                    "max_no_response_retries": max_no_response_retries,
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "metrics": metrics,
                     "name": name,
+                    "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,

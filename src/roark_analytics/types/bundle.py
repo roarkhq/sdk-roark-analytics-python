@@ -459,6 +459,10 @@ class SimulationPlanConfig(BaseModel):
 
     max_concurrent_jobs: Optional[int] = FieldInfo(alias="maxConcurrentJobs", default=None)
 
+    max_no_response_retries: Optional[int] = FieldInfo(alias="maxNoResponseRetries", default=None)
+
+    no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
+
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
     template: Optional[Literal["manual"]] = None
@@ -513,7 +517,11 @@ class QaSimulationPlanConfig(BaseModel):
 
     max_concurrent_jobs: Optional[int] = FieldInfo(alias="maxConcurrentJobs", default=None)
 
+    max_no_response_retries: Optional[int] = FieldInfo(alias="maxNoResponseRetries", default=None)
+
     metrics: Optional[List[str]] = None
+
+    no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
 
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
