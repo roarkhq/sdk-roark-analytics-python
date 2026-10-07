@@ -2,28 +2,53 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Dict, List, Union, Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = [
     "SimulationRunPlanCreateParams",
-    "AgentEndpoint",
-    "Flow",
-    "FlowEdgeCaseUnionMember1",
-    "FlowOverride",
-    "Metric",
-    "Scenario",
+    "ComparisonArm",
+    "CreateRunPlanFromConfig",
+    "CreateRunPlanFromConfigAgentEndpoint",
+    "CreateRunPlanFromConfigFlow",
+    "CreateRunPlanFromConfigFlowEdgeCaseUnionMember1",
+    "CreateRunPlanFromConfigFlowOverride",
+    "CreateRunPlanFromConfigMetric",
+    "CreateRunPlanFromConfigScenario",
+    "CreateRunPlanFromTemplate",
+    "CreateRunPlanFromTemplateQuestion",
 ]
 
 
-class AgentEndpoint(TypedDict, total=False):
+class CreateRunPlanFromConfigAgentEndpoint(TypedDict, total=False):
     id: Required[str]
 
 
-class FlowEdgeCaseUnionMember1(TypedDict, total=False):
+class ComparisonArm(TypedDict, total=False):
+    """
+    One arm of a sweep: the swept value it runs, and what it pins besides that
+    value. The OFFICE arm of a BACKGROUND_NOISE sweep playing at 60% while the other
+    beds keep their level is `{ "value": "OFFICE", "backgroundNoiseVolume": 0.6 }`.
+    The report compares the arms on the swept property only, so each sweep may pin
+    just what its experiment calls for: a BACKGROUND_NOISE sweep may pin
+    `backgroundNoiseVolume`, and no other sweep pins anything yet. A pin the sweep
+    cannot account for is rejected with `400`.
+    """
+
+    value: Required[str]
+    """The swept value this arm runs, a value of `comparisonProperty`."""
+
+    background_noise_volume: Annotated[float, PropertyInfo(alias="backgroundNoiseVolume")]
+    """
+    The noise level this arm plays at, 0 to 1. The environment default is 0.1. Only
+    a `BACKGROUND_NOISE` sweep may pin it.
+    """
+
+
+class CreateRunPlanFromConfigFlowEdgeCaseUnionMember1(TypedDict, total=False):
     id: str
     """The edge case to run."""
 
@@ -42,7 +67,7 @@ class FlowEdgeCaseUnionMember1(TypedDict, total=False):
     """Values for this one only."""
 
 
-class FlowOverride(TypedDict, total=False):
+class CreateRunPlanFromConfigFlowOverride(TypedDict, total=False):
     """One persona or environment property, changed for this flow attachment only."""
 
     property: Required[
@@ -67,7 +92,7 @@ class FlowOverride(TypedDict, total=False):
     value: Required[str]
 
 
-class Flow(TypedDict, total=False):
+class CreateRunPlanFromConfigFlow(TypedDict, total=False):
     """
     One customer flow attached to a run plan, and which of its ways of running you
     cover.
@@ -78,7 +103,10 @@ class Flow(TypedDict, total=False):
     id: str
     """The customer flow to run."""
 
-    edge_cases: Annotated[Union[Literal["ALL"], Iterable[FlowEdgeCaseUnionMember1]], PropertyInfo(alias="edgeCases")]
+    edge_cases: Annotated[
+        Union[Literal["ALL"], Iterable[CreateRunPlanFromConfigFlowEdgeCaseUnionMember1]],
+        PropertyInfo(alias="edgeCases"),
+    ]
     """
     `"ALL"` runs every edge case the flow has when the run starts, so one added
     later is covered. An array runs only the ones you name, each able to carry its
@@ -88,7 +116,7 @@ class Flow(TypedDict, total=False):
     happy_path: Annotated[bool, PropertyInfo(alias="happyPath")]
     """Run the flow's happy path. Resolved when the run starts, so it follows the flow."""
 
-    overrides: Iterable[FlowOverride]
+    overrides: Iterable[CreateRunPlanFromConfigFlowOverride]
     """
     Persona and environment properties to change for this attachment only, without
     editing the persona or the environment themselves. Each entry patches the
@@ -113,7 +141,7 @@ class Flow(TypedDict, total=False):
     """Values for everything it resolves."""
 
 
-class Metric(TypedDict, total=False):
+class CreateRunPlanFromConfigMetric(TypedDict, total=False):
     id: str
     """Metric definition UUID. Provide either this or `slug`, not both."""
 
@@ -150,7 +178,7 @@ class Metric(TypedDict, total=False):
     """
 
 
-class Scenario(TypedDict, total=False):
+class CreateRunPlanFromConfigScenario(TypedDict, total=False):
     id: Required[str]
     """Scenario ID"""
 
@@ -161,8 +189,12 @@ class Scenario(TypedDict, total=False):
     """
 
 
-class SimulationRunPlanCreateParams(TypedDict, total=False):
-    agent_endpoints: Required[Annotated[Iterable[AgentEndpoint], PropertyInfo(alias="agentEndpoints")]]
+class CreateRunPlanFromConfig(TypedDict, total=False):
+    """Describe a run plan: what to call, who calls it, and what to measure."""
+
+    agent_endpoints: Required[
+        Annotated[Iterable[CreateRunPlanFromConfigAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
+    ]
     """Agent endpoints to include in this run plan"""
 
     direction: Required[Literal["INBOUND", "OUTBOUND"]]
@@ -188,9 +220,10 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     does not depend on it: that is decided against every other value combined (see
     `sweepAttribution`).
     Stored rather than assumed, so the report can say "compared against US accent"
-    instead of implying Roark decided which value is normal. Most properties have an
-    obvious baseline and the dashboard prefills it; `GENDER` has none, so choose the
-    one you are testing against.
+    instead of implying Roark decided which value is normal. Omit it and the
+    property's own norm is used, as the dashboard prefills it, or none when your
+    `comparisonValues` leave the norm out. `GENDER` has no norm, so choose the one
+    you are testing against.
     """
 
     comparison_property: Annotated[
@@ -225,16 +258,33 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     were trying to find out, which detection cannot infer.
     """
 
-    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    comparison_values: Annotated[List[Union[str, ComparisonArm]], PropertyInfo(alias="comparisonValues")]
     """
-    Which values of `comparisonProperty` to run. This is what the plan costs: the
-    flow is attached once per value, so ten values is ten times the calls of one.
-    Omit it to run every value the property has, which for `ACCENT` is more than
-    twenty. Send a subset to narrow the sweep, for example three accents you
-    actually serve. A `comparisonBaseline` outside this set is rejected, because it
-    would anchor every difference to an arm the run never made.
+    The arms to run, for a plan that sweeps `comparisonProperty`. This is what the
+    plan costs: the flow is attached once per arm, so ten arms is ten times the
+    calls of one.
+    Attach each flow once, as you would without a comparison: the plan builds the
+    arms, running the happy path or edge cases you selected under every arm. Built
+    arms need at least 5 calls per arm (`iterationCount` times the test cases per
+    arm), or the plan is refused with `400`. Flows that all carry `overrides` on
+    `comparisonProperty` already are the arms and are kept as you wrote them; a mix
+    of flows with and without one is refused.
+    Each entry is one arm. A bare value runs it plain: `"CITY"`. An object runs the
+    value with something pinned on that arm only, such as a noise level per bed: `{
+    "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+    other beds keep the default. List a value more than once with different pins to
+    run it as several arms: DRIVING at 0.7 and DRIVING at 1 are two arms, reported
+    as `Driving (70% noise)` and `Driving (100% noise)`, and `"DRIVING"` beside them
+    keeps the plain arm too. The sweep still varies one property; what an arm pins
+    is part of "everything else" for that arm only, so the report still compares the
+    arms on `comparisonProperty`.
+    Omit it to run every value the property has, plain, which for `ACCENT` is more
+    than twenty. A `comparisonBaseline` outside the values listed is rejected,
+    because it would anchor every difference to an arm the run never made. A value
+    the property cannot take, a pin the sweep cannot account for, or the same arm
+    listed twice is rejected with `400`.
     Not stored as a field: the arms are the values. Reading the plan back returns
-    them as its flow attachments.
+    them as its flow attachments, each with its pins as `overrides`.
     """
 
     description: str
@@ -268,7 +318,7 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     ]
     """Execution mode (PARALLEL or SEQUENTIAL)"""
 
-    flows: Iterable[Flow]
+    flows: Iterable[CreateRunPlanFromConfigFlow]
     """
     Customer flows to include in this run plan. The same flow can appear more than
     once with a different persona override, different variables, or different
@@ -320,7 +370,7 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     attempt.
     """
 
-    metrics: Iterable[Metric]
+    metrics: Iterable[CreateRunPlanFromConfigMetric]
     """
     Metric definitions to include in this run plan. Reference each by `id` (UUID) or
     `slug`.
@@ -336,13 +386,13 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
     `maxNoResponseRetries` is above 0.
     """
 
-    personas: Iterable[AgentEndpoint]
+    personas: Iterable[CreateRunPlanFromConfigAgentEndpoint]
     """
     Personas to include in this run plan. Required with `scenarios`; ignored with
     `flows`, where each variant carries its own persona.
     """
 
-    scenarios: Iterable[Scenario]
+    scenarios: Iterable[CreateRunPlanFromConfigScenario]
     """
     Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
     scenario ID can appear multiple times with different variables.
@@ -350,3 +400,161 @@ class SimulationRunPlanCreateParams(TypedDict, total=False):
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
     """Timeout in seconds for silence detection"""
+
+
+class CreateRunPlanFromTemplateQuestion(TypedDict, total=False):
+    ask: Required[str]
+    """The question the caller asks the agent."""
+
+    expect: Required[str]
+    """The answer the agent must give, judged against the transcript."""
+
+
+class CreateRunPlanFromTemplate(TypedDict, total=False):
+    """
+    Save one of the built-in templates as a run plan, configured for your agent,
+    without running it.
+    """
+
+    agent_endpoints: Required[
+        Annotated[Iterable[CreateRunPlanFromConfigAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
+    ]
+    """The agent endpoints to call. No template can know these."""
+
+    direction: Required[Literal["INBOUND", "OUTBOUND"]]
+    """Direction of the simulation (INBOUND or OUTBOUND)"""
+
+    template: Required[str]
+    """The template to run, as listed by GET /v1/simulation/template."""
+
+    additional_metrics: Annotated[Iterable[CreateRunPlanFromConfigMetric], PropertyInfo(alias="additionalMetrics")]
+    """
+    Metrics to collect on top of the template's own, referenced by `id` or `slug`
+    like a plan's `metrics`. The template's metrics and checks always run; naming
+    one of them here again keeps it once, with the success criteria you set on it.
+    """
+
+    comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
+    """
+    The sweep's reference value, shown first in the results. Defaults to the
+    template's own baseline, as returned by GET /v1/simulation/template. Whether a
+    value did significantly worse does not depend on it: that is decided against
+    every other value combined.
+    Send it with `comparisonValues` and it must be one of them, or the request is
+    rejected: anchoring every difference to an arm the run never made would measure
+    it against nothing. Leave it out and the template's own baseline is used, and
+    quietly dropped if your narrowing excluded it, since that one you did not
+    choose.
+    """
+
+    comparison_values: Annotated[List[Union[str, ComparisonArm]], PropertyInfo(alias="comparisonValues")]
+    """
+    The arms of the sweep to run, for a template that sweeps one (GET
+    /v1/simulation/template returns `sweep.property` for those that do). This is
+    what the run costs: the flow is called once per arm, so ten arms is ten times
+    the calls of one.
+    Omit it to run every value the property has, plain, which for `accent-handling`
+    is more than twenty. Send a subset to narrow it, for example the three accents
+    you actually serve. An object entry pins something on that arm only, such as a
+    noise level per bed on `background-noise-robustness`: `{ "value": "OFFICE",
+    "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the other beds keep
+    the default. See `POST /v1/simulation/plan`.
+    """
+
+    end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
+    """Phrases that trigger end of call. Empty array disables the feature."""
+
+    end_call_reasons: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallReasons")]
+    """
+    Semantic conditions that trigger end of call. The LLM evaluates the conversation
+    against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+    returned by GET /v1/simulation/template. Pass an empty array to run with none.
+    """
+
+    enrich_with_live_conversation: Annotated[bool, PropertyInfo(alias="enrichWithLiveConversation")]
+    """
+    Merge the customer's own recording of the real call into each simulation, so
+    metrics can be scored against the live leg as well as the simulated one. This is
+    the API equivalent of the dashboard's live-enrichment toggle.
+    With this on, the run provisions a phone number and holds each call open for up
+    to 15 minutes waiting for a matching call to be posted to POST /v1/call. A call
+    matches on the provisioned number (`roarkPhoneNumber` on the job) with a start
+    time inside the simulation window. If nothing arrives, the simulation still
+    completes and any `LIVE`-sourced metric produces no value.
+    Required by any metric whose `requiresLiveConversation` is true: without it that
+    metric is silently skipped.
+    """
+
+    environment_id: Annotated[str, PropertyInfo(alias="environmentId")]
+    """For `question-answer-check`: the environment the calls run in."""
+
+    execution_mode: Annotated[
+        Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"], PropertyInfo(alias="executionMode")
+    ]
+    """Execution mode (PARALLEL or SEQUENTIAL)"""
+
+    flows: Iterable[CreateRunPlanFromConfigFlow]
+    """
+    The flows to run, in the same shape a run plan takes them.
+    Required when the template lists no flows of its own: it presets what to
+    measure, and this says what to measure it on. Optional when it does, where these
+    REPLACE the ones it would have run, so you can narrow a suite to the cases you
+    care about. Either way, GET /v1/simulation/template lists the flows and variant
+    ids each template covers.
+    On a template that sweeps a property, every value runs exactly what you select
+    here: the happy path, the edge cases you name, or `edgeCases: "ALL"`. Each
+    selected case is a call per value per iteration, so naming three edge cases
+    triples the run.
+    """
+
+    iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]
+    """
+    Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+    a property. A sweep needs at least 5 calls per value (test cases per value times
+    iterations) to compare its values, and a lower count is refused with 400.
+    """
+
+    max_concurrent_jobs: Annotated[int, PropertyInfo(alias="maxConcurrentJobs")]
+    """Maximum number of concurrent simulation jobs"""
+
+    max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
+    """
+    How many more times to run a test case when the agent under test never responds:
+    it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+    off. Failed checks and failures on Roark’s side are never retried.
+    Each retry is a separate attempt, billed like any other, so a plan retrying N
+    times can place up to N + 1 calls per test case. Every silent attempt stays on
+    the run with its own call; the run settles once each test case has a final
+    attempt, and the agent never spoke verdict is judged on each test case’s last
+    attempt.
+    """
+
+    max_simulation_duration_seconds: Annotated[int, PropertyInfo(alias="maxSimulationDurationSeconds")]
+    """
+    Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
+    GET /v1/simulation/template.
+    """
+
+    name: str
+    """Name of the run plan. Defaults to the template's name and the date."""
+
+    no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+    """
+    Seconds a retry waits before it dials (30-600). Only used when
+    `maxNoResponseRetries` is above 0.
+    """
+
+    persona_id: Annotated[str, PropertyInfo(alias="personaId")]
+    """For `question-answer-check`: the persona that asks the questions."""
+
+    questions: Iterable[CreateRunPlanFromTemplateQuestion]
+    """
+    For the `question-answer-check` template: the questions to ask and the answer
+    expected for each. Every question runs as its own graded call.
+    """
+
+    silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
+    """Timeout in seconds for silence detection"""
+
+
+SimulationRunPlanCreateParams: TypeAlias = Union[CreateRunPlanFromConfig, CreateRunPlanFromTemplate]

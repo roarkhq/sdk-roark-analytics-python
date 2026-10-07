@@ -464,6 +464,14 @@ class DataSweepAttributionCheckWorseValue(BaseModel):
     failure_rate: Optional[float] = FieldInfo(alias="failureRate")
     """Share of the counted simulations at this value that failed the check, 0-100."""
 
+    key: str
+    """
+    The arm's identity: the override signature its calls ran with, e.g.
+    `BACKGROUND_NOISE=DRIVING;BACKGROUND_NOISE_VOLUME=0.7`. Join on this rather than
+    on `value`: a sweep can run one value as several arms (Driving at 70% and at
+    100%), and those share a value.
+    """
+
     label: str
 
     rest_failure_rate: Optional[float] = FieldInfo(alias="restFailureRate")
@@ -524,6 +532,14 @@ class DataSweepAttributionNeverSpokeValue(BaseModel):
     attempted: int
     """Simulations run at this value."""
 
+    key: str
+    """
+    The arm's identity: the override signature its calls ran with, e.g.
+    `BACKGROUND_NOISE=DRIVING;BACKGROUND_NOISE_VOLUME=0.7`. Join on this rather than
+    on `value`: a sweep can run one value as several arms (Driving at 70% and at
+    100%), and those share a value.
+    """
+
     label: str
 
     rest_attempted: int = FieldInfo(alias="restAttempted")
@@ -559,8 +575,19 @@ class DataSweepAttributionValue(BaseModel):
     is_baseline: bool = FieldInfo(alias="isBaseline")
     """Whether this is the baseline the plan named."""
 
+    key: str
+    """
+    The arm's identity: the override signature its calls ran with, e.g.
+    `BACKGROUND_NOISE=DRIVING;BACKGROUND_NOISE_VOLUME=0.7`. Join on this rather than
+    on `value`: a sweep can run one value as several arms (Driving at 70% and at
+    100%), and those share a value.
+    """
+
     label: str
-    """The value in words, e.g. `American`."""
+    """
+    The value in words, with what else the arm pinned, e.g. `American` or `Driving
+    (70% noise)`.
+    """
 
     retries: int
     """

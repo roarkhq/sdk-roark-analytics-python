@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
@@ -11,6 +11,7 @@ from .._utils import PropertyInfo
 __all__ = [
     "SimulationRunPlanUpdateParams",
     "AgentEndpoint",
+    "ComparisonArm",
     "Flow",
     "FlowEdgeCaseUnionMember1",
     "FlowOverride",
@@ -21,6 +22,27 @@ __all__ = [
 
 class AgentEndpoint(TypedDict, total=False):
     id: Required[str]
+
+
+class ComparisonArm(TypedDict, total=False):
+    """
+    One arm of a sweep: the swept value it runs, and what it pins besides that
+    value. The OFFICE arm of a BACKGROUND_NOISE sweep playing at 60% while the other
+    beds keep their level is `{ "value": "OFFICE", "backgroundNoiseVolume": 0.6 }`.
+    The report compares the arms on the swept property only, so each sweep may pin
+    just what its experiment calls for: a BACKGROUND_NOISE sweep may pin
+    `backgroundNoiseVolume`, and no other sweep pins anything yet. A pin the sweep
+    cannot account for is rejected with `400`.
+    """
+
+    value: Required[str]
+    """The swept value this arm runs, a value of `comparisonProperty`."""
+
+    background_noise_volume: Annotated[float, PropertyInfo(alias="backgroundNoiseVolume")]
+    """
+    The noise level this arm plays at, 0 to 1. The environment default is 0.1. Only
+    a `BACKGROUND_NOISE` sweep may pin it.
+    """
 
 
 class FlowEdgeCaseUnionMember1(TypedDict, total=False):
@@ -202,18 +224,20 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """
     The property this plan investigates. Send `null` to clear the comparison; omit
     the field to leave it unchanged. See `POST /v1/simulation/plan`.
-    The pair moves together. Sending `comparisonProperty` also sets
-    `comparisonBaseline` to whatever this request carries, or to `null` if it
-    carries none, because a baseline is a value of one specific property and keeping
-    the old one would store a pair that is not valid.
+    The pair moves together. Sending `comparisonProperty` without
+    `comparisonBaseline` keeps the stored baseline when the property is unchanged
+    and the baseline is still one of the values being run. Otherwise it becomes the
+    new property's norm, or `null` when that norm is not being run either, because a
+    baseline is a value of one specific property.
     """
 
-    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    comparison_values: Annotated[List[Union[str, ComparisonArm]], PropertyInfo(alias="comparisonValues")]
     """
-    Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
-    Omitting it keeps the arms the plan already has, so an edit that only renames
-    the plan never widens a sweep you deliberately narrowed, and never multiplies
-    what it costs.
+    The arms to run. See `POST /v1/simulation/plan`.
+    Omitting it keeps the arms the plan already has, pins included, so an edit that
+    only renames the plan never widens a sweep you deliberately narrowed, and never
+    multiplies what it costs. Send it with `comparisonProperty` and `flows`, which
+    the arms are rebuilt from.
     """
 
     description: str
