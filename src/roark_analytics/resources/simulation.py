@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional, overload
+from typing import Dict, List, Union, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
@@ -248,8 +248,9 @@ class SimulationResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
+        additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -294,6 +295,10 @@ class SimulationResource(SyncAPIResource):
 
           template: The template to run, as listed by GET /v1/simulation/template.
 
+          additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
+              like a plan's `metrics`. The template's metrics and checks always run; naming
+              one of them here again keeps it once, with the success criteria you set on it.
+
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
               value did significantly worse does not depend on it: that is decided against
@@ -303,12 +308,15 @@ class SimulationResource(SyncAPIResource):
               own baseline is used, and quietly dropped if your narrowing excluded it, since
               that one you did not choose.
 
-          comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
+          comparison_values: The arms of the sweep to run, for a template that sweeps one (GET
               /v1/simulation/template returns `sweep.property` for those that do). This is
-              what the run costs: the flow is called once per value, so ten values is ten
-              times the calls of one. Omit it to run every value the property has, which for
+              what the run costs: the flow is called once per arm, so ten arms is ten times
+              the calls of one. Omit it to run every value the property has, plain, which for
               `accent-handling` is more than twenty. Send a subset to narrow it, for example
-              the three accents you actually serve.
+              the three accents you actually serve. An object entry pins something on that arm
+              only, such as a noise level per bed on `background-noise-robustness`: `{
+              "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+              other beds keep the default. See `POST /v1/simulation/plan`.
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
@@ -335,7 +343,10 @@ class SimulationResource(SyncAPIResource):
               what to measure it on. Optional when it does, where these REPLACE the ones it
               would have run, so you can narrow a suite to the cases you care about. Either
               way, GET /v1/simulation/template lists the flows and variant ids each template
-              covers.
+              covers. On a template that sweeps a property, every value runs exactly what you
+              select here: the happy path, the edge cases you name, or `edgeCases: "ALL"`.
+              Each selected case is a call per value per iteration, so naming three edge cases
+              triples the run.
 
           iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
               a property. A sweep needs at least 5 calls per value (test cases per value times
@@ -405,8 +416,9 @@ class SimulationResource(SyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
+        additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -440,6 +452,7 @@ class SimulationResource(SyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
+                    "additional_metrics": additional_metrics,
                     "comparison_baseline": comparison_baseline,
                     "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,
@@ -690,8 +703,9 @@ class AsyncSimulationResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
+        additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -736,6 +750,10 @@ class AsyncSimulationResource(AsyncAPIResource):
 
           template: The template to run, as listed by GET /v1/simulation/template.
 
+          additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
+              like a plan's `metrics`. The template's metrics and checks always run; naming
+              one of them here again keeps it once, with the success criteria you set on it.
+
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
               value did significantly worse does not depend on it: that is decided against
@@ -745,12 +763,15 @@ class AsyncSimulationResource(AsyncAPIResource):
               own baseline is used, and quietly dropped if your narrowing excluded it, since
               that one you did not choose.
 
-          comparison_values: Which values of the sweep to run, for a template that sweeps one (GET
+          comparison_values: The arms of the sweep to run, for a template that sweeps one (GET
               /v1/simulation/template returns `sweep.property` for those that do). This is
-              what the run costs: the flow is called once per value, so ten values is ten
-              times the calls of one. Omit it to run every value the property has, which for
+              what the run costs: the flow is called once per arm, so ten arms is ten times
+              the calls of one. Omit it to run every value the property has, plain, which for
               `accent-handling` is more than twenty. Send a subset to narrow it, for example
-              the three accents you actually serve.
+              the three accents you actually serve. An object entry pins something on that arm
+              only, such as a noise level per bed on `background-noise-robustness`: `{
+              "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+              other beds keep the default. See `POST /v1/simulation/plan`.
 
           end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
 
@@ -777,7 +798,10 @@ class AsyncSimulationResource(AsyncAPIResource):
               what to measure it on. Optional when it does, where these REPLACE the ones it
               would have run, so you can narrow a suite to the cases you care about. Either
               way, GET /v1/simulation/template lists the flows and variant ids each template
-              covers.
+              covers. On a template that sweeps a property, every value runs exactly what you
+              select here: the happy path, the edge cases you name, or `edgeCases: "ALL"`.
+              Each selected case is a call per value per iteration, so naming three edge cases
+              triples the run.
 
           iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
               a property. A sweep needs at least 5 calls per value (test cases per value times
@@ -847,8 +871,9 @@ class AsyncSimulationResource(AsyncAPIResource):
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
+        additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
@@ -882,6 +907,7 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
+                    "additional_metrics": additional_metrics,
                     "comparison_baseline": comparison_baseline,
                     "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,

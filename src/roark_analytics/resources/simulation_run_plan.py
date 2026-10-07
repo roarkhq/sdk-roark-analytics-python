@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import List, Union, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
@@ -13,7 +13,7 @@ from ..types import (
     simulation_run_plan_update_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -52,10 +52,11 @@ class SimulationRunPlanResource(SyncAPIResource):
         """
         return SimulationRunPlanResourceWithStreamingResponse(self)
 
+    @overload
     def create(
         self,
         *,
-        agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         max_simulation_duration_seconds: int,
         name: str,
@@ -80,22 +81,22 @@ class SimulationRunPlanResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
-        flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
         include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_no_response_retries: int | Omit = omit,
-        metrics: Iterable[simulation_run_plan_create_params.Metric] | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
-        personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
-        scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -109,7 +110,12 @@ class SimulationRunPlanResource(SyncAPIResource):
         To run a simulation, use POST
         /v1/simulation/run instead: it starts a run from a plan or from an inline
         configuration, and takes runtime variables. Create a plan here when you want a
-        reusable, named one to run later.
+        reusable, named one to run later. Send `template` instead of a full
+        configuration to save one of the built-in templates as a plan. It takes the same
+        fields as the template variant of POST /v1/simulation/run, builds the same plan,
+        and never starts it. To compare one property, attach the flow once and send
+        `comparisonProperty` with the `comparisonValues` to run: the plan attaches the
+        flow once per value.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
@@ -128,9 +134,10 @@ class SimulationRunPlanResource(SyncAPIResource):
               Must be a value that property can take. Whether a value did significantly worse
               does not depend on it: that is decided against every other value combined (see
               `sweepAttribution`). Stored rather than assumed, so the report can say "compared
-              against US accent" instead of implying Roark decided which value is normal. Most
-              properties have an obvious baseline and the dashboard prefills it; `GENDER` has
-              none, so choose the one you are testing against.
+              against US accent" instead of implying Roark decided which value is normal. Omit
+              it and the property's own norm is used, as the dashboard prefills it, or none
+              when your `comparisonValues` leave the norm out. `GENDER` has no norm, so choose
+              the one you are testing against.
 
           comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
               it and the run report compares the arms on that property, so a run answers "what
@@ -141,14 +148,29 @@ class SimulationRunPlanResource(SyncAPIResource):
               arms. Setting it is what tells the written summary what you were trying to find
               out, which detection cannot infer.
 
-          comparison_values: Which values of `comparisonProperty` to run. This is what the plan costs: the
-              flow is attached once per value, so ten values is ten times the calls of one.
-              Omit it to run every value the property has, which for `ACCENT` is more than
-              twenty. Send a subset to narrow the sweep, for example three accents you
-              actually serve. A `comparisonBaseline` outside this set is rejected, because it
-              would anchor every difference to an arm the run never made. Not stored as a
-              field: the arms are the values. Reading the plan back returns them as its flow
-              attachments.
+          comparison_values: The arms to run, for a plan that sweeps `comparisonProperty`. This is what the
+              plan costs: the flow is attached once per arm, so ten arms is ten times the
+              calls of one. Attach each flow once, as you would without a comparison: the plan
+              builds the arms, running the happy path or edge cases you selected under every
+              arm. Built arms need at least 5 calls per arm (`iterationCount` times the test
+              cases per arm), or the plan is refused with `400`. Flows that all carry
+              `overrides` on `comparisonProperty` already are the arms and are kept as you
+              wrote them; a mix of flows with and without one is refused. Each entry is one
+              arm. A bare value runs it plain: `"CITY"`. An object runs the value with
+              something pinned on that arm only, such as a noise level per bed: `{ "value":
+              "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the other
+              beds keep the default. List a value more than once with different pins to run it
+              as several arms: DRIVING at 0.7 and DRIVING at 1 are two arms, reported as
+              `Driving (70% noise)` and `Driving (100% noise)`, and `"DRIVING"` beside them
+              keeps the plain arm too. The sweep still varies one property; what an arm pins
+              is part of "everything else" for that arm only, so the report still compares the
+              arms on `comparisonProperty`. Omit it to run every value the property has,
+              plain, which for `ACCENT` is more than twenty. A `comparisonBaseline` outside
+              the values listed is rejected, because it would anchor every difference to an
+              arm the run never made. A value the property cannot take, a pin the sweep cannot
+              account for, or the same arm listed twice is rejected with `400`. Not stored as
+              a field: the arms are the values. Reading the plan back returns them as its flow
+              attachments, each with its pins as `overrides`.
 
           description: Description of the run plan
 
@@ -230,6 +252,212 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
+        direction: Literal["INBOUND", "OUTBOUND"],
+        template: str,
+        additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
+        execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
+        iteration_count: int | Omit = omit,
+        max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        max_simulation_duration_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        silence_timeout_seconds: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanCreateResponse:
+        """Creates a new simulation run plan.
+
+        To run a simulation, use POST
+        /v1/simulation/run instead: it starts a run from a plan or from an inline
+        configuration, and takes runtime variables. Create a plan here when you want a
+        reusable, named one to run later. Send `template` instead of a full
+        configuration to save one of the built-in templates as a plan. It takes the same
+        fields as the template variant of POST /v1/simulation/run, builds the same plan,
+        and never starts it. To compare one property, attach the flow once and send
+        `comparisonProperty` with the `comparisonValues` to run: the plan attaches the
+        flow once per value.
+
+        Args:
+          agent_endpoints: The agent endpoints to call. No template can know these.
+
+          direction: Direction of the simulation (INBOUND or OUTBOUND)
+
+          template: The template to run, as listed by GET /v1/simulation/template.
+
+          additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
+              like a plan's `metrics`. The template's metrics and checks always run; naming
+              one of them here again keeps it once, with the success criteria you set on it.
+
+          comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Whether a
+              value did significantly worse does not depend on it: that is decided against
+              every other value combined. Send it with `comparisonValues` and it must be one
+              of them, or the request is rejected: anchoring every difference to an arm the
+              run never made would measure it against nothing. Leave it out and the template's
+              own baseline is used, and quietly dropped if your narrowing excluded it, since
+              that one you did not choose.
+
+          comparison_values: The arms of the sweep to run, for a template that sweeps one (GET
+              /v1/simulation/template returns `sweep.property` for those that do). This is
+              what the run costs: the flow is called once per arm, so ten arms is ten times
+              the calls of one. Omit it to run every value the property has, plain, which for
+              `accent-handling` is more than twenty. Send a subset to narrow it, for example
+              the three accents you actually serve. An object entry pins something on that arm
+              only, such as a noise level per bed on `background-noise-robustness`: `{
+              "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+              other beds keep the default. See `POST /v1/simulation/plan`.
+
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+              returned by GET /v1/simulation/template. Pass an empty array to run with none.
+
+          enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
+              metrics can be scored against the live leg as well as the simulated one. This is
+              the API equivalent of the dashboard's live-enrichment toggle. With this on, the
+              run provisions a phone number and holds each call open for up to 15 minutes
+              waiting for a matching call to be posted to POST /v1/call. A call matches on the
+              provisioned number (`roarkPhoneNumber` on the job) with a start time inside the
+              simulation window. If nothing arrives, the simulation still completes and any
+              `LIVE`-sourced metric produces no value. Required by any metric whose
+              `requiresLiveConversation` is true: without it that metric is silently skipped.
+
+          environment_id: For `question-answer-check`: the environment the calls run in.
+
+          execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
+
+          flows: The flows to run, in the same shape a run plan takes them. Required when the
+              template lists no flows of its own: it presets what to measure, and this says
+              what to measure it on. Optional when it does, where these REPLACE the ones it
+              would have run, so you can narrow a suite to the cases you care about. Either
+              way, GET /v1/simulation/template lists the flows and variant ids each template
+              covers. On a template that sweeps a property, every value runs exactly what you
+              select here: the happy path, the edge cases you name, or `edgeCases: "ALL"`.
+              Each selected case is a call per value per iteration, so naming three edge cases
+              triples the run.
+
+          iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+              a property. A sweep needs at least 5 calls per value (test cases per value times
+              iterations) to compare its values, and a lower count is refused with 400.
+
+          max_concurrent_jobs: Maximum number of concurrent simulation jobs
+
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
+          max_simulation_duration_seconds: Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
+              GET /v1/simulation/template.
+
+          name: Name of the run plan. Defaults to the template's name and the date.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
+
+          persona_id: For `question-answer-check`: the persona that asks the questions.
+
+          questions: For the `question-answer-check` template: the questions to ask and the answer
+              expected for each. Every question runs as its own graded call.
+
+          silence_timeout_seconds: Timeout in seconds for silence detection
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["agent_endpoints", "direction", "max_simulation_duration_seconds", "name"],
+        ["agent_endpoints", "direction", "template"],
+    )
+    def create(
+        self,
+        *,
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
+        direction: Literal["INBOUND", "OUTBOUND"],
+        max_simulation_duration_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        auto_run: bool | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "INTERRUPTION",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
+        description: str | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
+        execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
+        iteration_count: int | Omit = omit,
+        max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
+        silence_timeout_seconds: int | Omit = omit,
+        template: str | Omit = omit,
+        additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        environment_id: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanCreateResponse:
         return self._post(
             "/v1/simulation/plan",
             body=maybe_transform(
@@ -258,6 +486,11 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
+                    "template": template,
+                    "additional_metrics": additional_metrics,
+                    "environment_id": environment_id,
+                    "persona_id": persona_id,
+                    "questions": questions,
                 },
                 simulation_run_plan_create_params.SimulationRunPlanCreateParams,
             ),
@@ -292,7 +525,7 @@ class SimulationRunPlanResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_update_params.ComparisonArm]] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -337,15 +570,16 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           comparison_property: The property this plan investigates. Send `null` to clear the comparison; omit
               the field to leave it unchanged. See `POST /v1/simulation/plan`. The pair moves
-              together. Sending `comparisonProperty` also sets `comparisonBaseline` to
-              whatever this request carries, or to `null` if it carries none, because a
-              baseline is a value of one specific property and keeping the old one would store
-              a pair that is not valid.
+              together. Sending `comparisonProperty` without `comparisonBaseline` keeps the
+              stored baseline when the property is unchanged and the baseline is still one of
+              the values being run. Otherwise it becomes the new property's norm, or `null`
+              when that norm is not being run either, because a baseline is a value of one
+              specific property.
 
-          comparison_values: Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
-              Omitting it keeps the arms the plan already has, so an edit that only renames
-              the plan never widens a sweep you deliberately narrowed, and never multiplies
-              what it costs.
+          comparison_values: The arms to run. See `POST /v1/simulation/plan`. Omitting it keeps the arms the
+              plan already has, pins included, so an edit that only renames the plan never
+              widens a sweep you deliberately narrowed, and never multiplies what it costs.
+              Send it with `comparisonProperty` and `flows`, which the arms are rebuilt from.
 
           description: Description of the run plan
 
@@ -595,10 +829,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         """
         return AsyncSimulationRunPlanResourceWithStreamingResponse(self)
 
+    @overload
     async def create(
         self,
         *,
-        agent_endpoints: Iterable[simulation_run_plan_create_params.AgentEndpoint],
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         max_simulation_duration_seconds: int,
         name: str,
@@ -623,22 +858,22 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
         description: str | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
         end_call_reasons: SequenceNotStr[str] | Omit = omit,
         enrich_with_live_conversation: bool | Omit = omit,
         execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
-        flows: Iterable[simulation_run_plan_create_params.Flow] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
         include_automatic_metrics: bool | Omit = omit,
         include_flow_metrics: bool | Omit = omit,
         iteration_count: int | Omit = omit,
         max_concurrent_jobs: int | Omit = omit,
         max_no_response_retries: int | Omit = omit,
-        metrics: Iterable[simulation_run_plan_create_params.Metric] | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
-        personas: Iterable[simulation_run_plan_create_params.AgentEndpoint] | Omit = omit,
-        scenarios: Iterable[simulation_run_plan_create_params.Scenario] | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -652,7 +887,12 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         To run a simulation, use POST
         /v1/simulation/run instead: it starts a run from a plan or from an inline
         configuration, and takes runtime variables. Create a plan here when you want a
-        reusable, named one to run later.
+        reusable, named one to run later. Send `template` instead of a full
+        configuration to save one of the built-in templates as a plan. It takes the same
+        fields as the template variant of POST /v1/simulation/run, builds the same plan,
+        and never starts it. To compare one property, attach the flow once and send
+        `comparisonProperty` with the `comparisonValues` to run: the plan attaches the
+        flow once per value.
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
@@ -671,9 +911,10 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
               Must be a value that property can take. Whether a value did significantly worse
               does not depend on it: that is decided against every other value combined (see
               `sweepAttribution`). Stored rather than assumed, so the report can say "compared
-              against US accent" instead of implying Roark decided which value is normal. Most
-              properties have an obvious baseline and the dashboard prefills it; `GENDER` has
-              none, so choose the one you are testing against.
+              against US accent" instead of implying Roark decided which value is normal. Omit
+              it and the property's own norm is used, as the dashboard prefills it, or none
+              when your `comparisonValues` leave the norm out. `GENDER` has no norm, so choose
+              the one you are testing against.
 
           comparison_property: The property this run plan investigates: the one thing its arms differ by. Set
               it and the run report compares the arms on that property, so a run answers "what
@@ -684,14 +925,29 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
               arms. Setting it is what tells the written summary what you were trying to find
               out, which detection cannot infer.
 
-          comparison_values: Which values of `comparisonProperty` to run. This is what the plan costs: the
-              flow is attached once per value, so ten values is ten times the calls of one.
-              Omit it to run every value the property has, which for `ACCENT` is more than
-              twenty. Send a subset to narrow the sweep, for example three accents you
-              actually serve. A `comparisonBaseline` outside this set is rejected, because it
-              would anchor every difference to an arm the run never made. Not stored as a
-              field: the arms are the values. Reading the plan back returns them as its flow
-              attachments.
+          comparison_values: The arms to run, for a plan that sweeps `comparisonProperty`. This is what the
+              plan costs: the flow is attached once per arm, so ten arms is ten times the
+              calls of one. Attach each flow once, as you would without a comparison: the plan
+              builds the arms, running the happy path or edge cases you selected under every
+              arm. Built arms need at least 5 calls per arm (`iterationCount` times the test
+              cases per arm), or the plan is refused with `400`. Flows that all carry
+              `overrides` on `comparisonProperty` already are the arms and are kept as you
+              wrote them; a mix of flows with and without one is refused. Each entry is one
+              arm. A bare value runs it plain: `"CITY"`. An object runs the value with
+              something pinned on that arm only, such as a noise level per bed: `{ "value":
+              "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the other
+              beds keep the default. List a value more than once with different pins to run it
+              as several arms: DRIVING at 0.7 and DRIVING at 1 are two arms, reported as
+              `Driving (70% noise)` and `Driving (100% noise)`, and `"DRIVING"` beside them
+              keeps the plain arm too. The sweep still varies one property; what an arm pins
+              is part of "everything else" for that arm only, so the report still compares the
+              arms on `comparisonProperty`. Omit it to run every value the property has,
+              plain, which for `ACCENT` is more than twenty. A `comparisonBaseline` outside
+              the values listed is rejected, because it would anchor every difference to an
+              arm the run never made. A value the property cannot take, a pin the sweep cannot
+              account for, or the same arm listed twice is rejected with `400`. Not stored as
+              a field: the arms are the values. Reading the plan back returns them as its flow
+              attachments, each with its pins as `overrides`.
 
           description: Description of the run plan
 
@@ -773,6 +1029,212 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
+        direction: Literal["INBOUND", "OUTBOUND"],
+        template: str,
+        additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
+        environment_id: str | Omit = omit,
+        execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
+        iteration_count: int | Omit = omit,
+        max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        max_simulation_duration_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        silence_timeout_seconds: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanCreateResponse:
+        """Creates a new simulation run plan.
+
+        To run a simulation, use POST
+        /v1/simulation/run instead: it starts a run from a plan or from an inline
+        configuration, and takes runtime variables. Create a plan here when you want a
+        reusable, named one to run later. Send `template` instead of a full
+        configuration to save one of the built-in templates as a plan. It takes the same
+        fields as the template variant of POST /v1/simulation/run, builds the same plan,
+        and never starts it. To compare one property, attach the flow once and send
+        `comparisonProperty` with the `comparisonValues` to run: the plan attaches the
+        flow once per value.
+
+        Args:
+          agent_endpoints: The agent endpoints to call. No template can know these.
+
+          direction: Direction of the simulation (INBOUND or OUTBOUND)
+
+          template: The template to run, as listed by GET /v1/simulation/template.
+
+          additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
+              like a plan's `metrics`. The template's metrics and checks always run; naming
+              one of them here again keeps it once, with the success criteria you set on it.
+
+          comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
+              template's own baseline, as returned by GET /v1/simulation/template. Whether a
+              value did significantly worse does not depend on it: that is decided against
+              every other value combined. Send it with `comparisonValues` and it must be one
+              of them, or the request is rejected: anchoring every difference to an arm the
+              run never made would measure it against nothing. Leave it out and the template's
+              own baseline is used, and quietly dropped if your narrowing excluded it, since
+              that one you did not choose.
+
+          comparison_values: The arms of the sweep to run, for a template that sweeps one (GET
+              /v1/simulation/template returns `sweep.property` for those that do). This is
+              what the run costs: the flow is called once per arm, so ten arms is ten times
+              the calls of one. Omit it to run every value the property has, plain, which for
+              `accent-handling` is more than twenty. Send a subset to narrow it, for example
+              the three accents you actually serve. An object entry pins something on that arm
+              only, such as a noise level per bed on `background-noise-robustness`: `{
+              "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+              other beds keep the default. See `POST /v1/simulation/plan`.
+
+          end_call_phrases: Phrases that trigger end of call. Empty array disables the feature.
+
+          end_call_reasons: Semantic conditions that trigger end of call. The LLM evaluates the conversation
+              against these conditions. Defaults to the template's `defaultEndCallReasons`, as
+              returned by GET /v1/simulation/template. Pass an empty array to run with none.
+
+          enrich_with_live_conversation: Merge the customer's own recording of the real call into each simulation, so
+              metrics can be scored against the live leg as well as the simulated one. This is
+              the API equivalent of the dashboard's live-enrichment toggle. With this on, the
+              run provisions a phone number and holds each call open for up to 15 minutes
+              waiting for a matching call to be posted to POST /v1/call. A call matches on the
+              provisioned number (`roarkPhoneNumber` on the job) with a start time inside the
+              simulation window. If nothing arrives, the simulation still completes and any
+              `LIVE`-sourced metric produces no value. Required by any metric whose
+              `requiresLiveConversation` is true: without it that metric is silently skipped.
+
+          environment_id: For `question-answer-check`: the environment the calls run in.
+
+          execution_mode: Execution mode (PARALLEL or SEQUENTIAL)
+
+          flows: The flows to run, in the same shape a run plan takes them. Required when the
+              template lists no flows of its own: it presets what to measure, and this says
+              what to measure it on. Optional when it does, where these REPLACE the ones it
+              would have run, so you can narrow a suite to the cases you care about. Either
+              way, GET /v1/simulation/template lists the flows and variant ids each template
+              covers. On a template that sweeps a property, every value runs exactly what you
+              select here: the happy path, the edge cases you name, or `edgeCases: "ALL"`.
+              Each selected case is a call per value per iteration, so naming three edge cases
+              triples the run.
+
+          iteration_count: Runs per test case (1-10000). Defaults to 1, or to 6 for a template that sweeps
+              a property. A sweep needs at least 5 calls per value (test cases per value times
+              iterations) to compare its values, and a lower count is refused with 400.
+
+          max_concurrent_jobs: Maximum number of concurrent simulation jobs
+
+          max_no_response_retries: How many more times to run a test case when the agent under test never responds:
+              it never speaks on a call or never replies in a chat (0-10). 0 turns retries
+              off. Failed checks and failures on Roark’s side are never retried. Each retry is
+              a separate attempt, billed like any other, so a plan retrying N times can place
+              up to N + 1 calls per test case. Every silent attempt stays on the run with its
+              own call; the run settles once each test case has a final attempt, and the agent
+              never spoke verdict is judged on each test case’s last attempt.
+
+          max_simulation_duration_seconds: Defaults to the template's `defaultMaxSimulationDurationSeconds`, as returned by
+              GET /v1/simulation/template.
+
+          name: Name of the run plan. Defaults to the template's name and the date.
+
+          no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
+              `maxNoResponseRetries` is above 0.
+
+          persona_id: For `question-answer-check`: the persona that asks the questions.
+
+          questions: For the `question-answer-check` template: the questions to ask and the answer
+              expected for each. Every question runs as its own graded call.
+
+          silence_timeout_seconds: Timeout in seconds for silence detection
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["agent_endpoints", "direction", "max_simulation_duration_seconds", "name"],
+        ["agent_endpoints", "direction", "template"],
+    )
+    async def create(
+        self,
+        *,
+        agent_endpoints: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint],
+        direction: Literal["INBOUND", "OUTBOUND"],
+        max_simulation_duration_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        auto_run: bool | Omit = omit,
+        comparison_baseline: Optional[str] | Omit = omit,
+        comparison_property: Optional[
+            Literal[
+                "ACCENT",
+                "AGE",
+                "BACKGROUND_NOISE",
+                "BACKGROUND_NOISE_VOLUME",
+                "BASE_EMOTION",
+                "CONFIRMATION_STYLE",
+                "GENDER",
+                "INTENT_CLARITY",
+                "LANGUAGE",
+                "INTERRUPTION",
+                "MEMORY_RELIABILITY",
+                "RESPONSE_TIMING",
+                "SPEECH_CLARITY",
+                "SPEECH_PACE",
+            ]
+        ]
+        | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
+        description: str | Omit = omit,
+        end_call_phrases: SequenceNotStr[str] | Omit = omit,
+        end_call_reasons: SequenceNotStr[str] | Omit = omit,
+        enrich_with_live_conversation: bool | Omit = omit,
+        execution_mode: Literal["PARALLEL", "SEQUENTIAL_SAME_RUN_PLAN", "SEQUENTIAL_PROJECT"] | Omit = omit,
+        flows: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigFlow] | Omit = omit,
+        include_automatic_metrics: bool | Omit = omit,
+        include_flow_metrics: bool | Omit = omit,
+        iteration_count: int | Omit = omit,
+        max_concurrent_jobs: int | Omit = omit,
+        max_no_response_retries: int | Omit = omit,
+        metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        no_response_retry_backoff_seconds: int | Omit = omit,
+        personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
+        silence_timeout_seconds: int | Omit = omit,
+        template: str | Omit = omit,
+        additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        environment_id: str | Omit = omit,
+        persona_id: str | Omit = omit,
+        questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanCreateResponse:
         return await self._post(
             "/v1/simulation/plan",
             body=await async_maybe_transform(
@@ -801,6 +1263,11 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
+                    "template": template,
+                    "additional_metrics": additional_metrics,
+                    "environment_id": environment_id,
+                    "persona_id": persona_id,
+                    "questions": questions,
                 },
                 simulation_run_plan_create_params.SimulationRunPlanCreateParams,
             ),
@@ -835,7 +1302,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        comparison_values: SequenceNotStr[str] | Omit = omit,
+        comparison_values: List[Union[str, simulation_run_plan_update_params.ComparisonArm]] | Omit = omit,
         description: str | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -880,15 +1347,16 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           comparison_property: The property this plan investigates. Send `null` to clear the comparison; omit
               the field to leave it unchanged. See `POST /v1/simulation/plan`. The pair moves
-              together. Sending `comparisonProperty` also sets `comparisonBaseline` to
-              whatever this request carries, or to `null` if it carries none, because a
-              baseline is a value of one specific property and keeping the old one would store
-              a pair that is not valid.
+              together. Sending `comparisonProperty` without `comparisonBaseline` keeps the
+              stored baseline when the property is unchanged and the baseline is still one of
+              the values being run. Otherwise it becomes the new property's norm, or `null`
+              when that norm is not being run either, because a baseline is a value of one
+              specific property.
 
-          comparison_values: Which values of `comparisonProperty` to run. See `POST /v1/simulation/plan`.
-              Omitting it keeps the arms the plan already has, so an edit that only renames
-              the plan never widens a sweep you deliberately narrowed, and never multiplies
-              what it costs.
+          comparison_values: The arms to run. See `POST /v1/simulation/plan`. Omitting it keeps the arms the
+              plan already has, pins included, so an edit that only renames the plan never
+              widens a sweep you deliberately narrowed, and never multiplies what it costs.
+              Send it with `comparisonProperty` and `flows`, which the arms are rebuilt from.
 
           description: Description of the run plan
 

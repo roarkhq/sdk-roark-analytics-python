@@ -273,6 +273,13 @@ class DataRunPlan(BaseModel):
     silence_timeout_seconds: int = FieldInfo(alias="silenceTimeoutSeconds")
     """Timeout in seconds for silence detection"""
 
+    template: Optional[str]
+    """
+    The built-in template this plan was created from, as listed by GET
+    /v1/simulation/template. `null` for a plan described field by field. Recorded
+    once at creation: the plan does not follow later changes to the template.
+    """
+
     test_case_count: int = FieldInfo(alias="testCaseCount")
     """Total number of test cases generated from the plan configuration"""
 
