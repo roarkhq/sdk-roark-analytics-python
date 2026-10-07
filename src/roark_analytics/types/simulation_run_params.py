@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
@@ -10,6 +10,7 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "SimulationRunParams",
+    "ComparisonArm",
     "RunSimulationFromConfig",
     "RunSimulationFromConfigPlan",
     "RunSimulationFromConfigPlanAgentEndpoint",
@@ -28,6 +29,27 @@ __all__ = [
 
 class RunSimulationFromConfigPlanAgentEndpoint(TypedDict, total=False):
     id: Required[str]
+
+
+class ComparisonArm(TypedDict, total=False):
+    """
+    One arm of a sweep: the swept value it runs, and what it pins besides that
+    value. The OFFICE arm of a BACKGROUND_NOISE sweep playing at 60% while the other
+    beds keep their level is `{ "value": "OFFICE", "backgroundNoiseVolume": 0.6 }`.
+    The report compares the arms on the swept property only, so each sweep may pin
+    just what its experiment calls for: a BACKGROUND_NOISE sweep may pin
+    `backgroundNoiseVolume`, and no other sweep pins anything yet. A pin the sweep
+    cannot account for is rejected with `400`.
+    """
+
+    value: Required[str]
+    """The swept value this arm runs, a value of `comparisonProperty`."""
+
+    background_noise_volume: Annotated[float, PropertyInfo(alias="backgroundNoiseVolume")]
+    """
+    The noise level this arm plays at, 0 to 1. The environment default is 0.1. Only
+    a `BACKGROUND_NOISE` sweep may pin it.
+    """
 
 
 class RunSimulationFromConfigPlanFlowEdgeCaseUnionMember1(TypedDict, total=False):
@@ -193,9 +215,10 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     does not depend on it: that is decided against every other value combined (see
     `sweepAttribution`).
     Stored rather than assumed, so the report can say "compared against US accent"
-    instead of implying Roark decided which value is normal. Most properties have an
-    obvious baseline and the dashboard prefills it; `GENDER` has none, so choose the
-    one you are testing against.
+    instead of implying Roark decided which value is normal. Omit it and the
+    property's own norm is used, as the dashboard prefills it, or none when your
+    `comparisonValues` leave the norm out. `GENDER` has no norm, so choose the one
+    you are testing against.
     """
 
     comparison_property: Annotated[
@@ -230,16 +253,33 @@ class RunSimulationFromConfigPlan(TypedDict, total=False):
     were trying to find out, which detection cannot infer.
     """
 
-    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    comparison_values: Annotated[List[Union[str, ComparisonArm]], PropertyInfo(alias="comparisonValues")]
     """
-    Which values of `comparisonProperty` to run. This is what the plan costs: the
-    flow is attached once per value, so ten values is ten times the calls of one.
-    Omit it to run every value the property has, which for `ACCENT` is more than
-    twenty. Send a subset to narrow the sweep, for example three accents you
-    actually serve. A `comparisonBaseline` outside this set is rejected, because it
-    would anchor every difference to an arm the run never made.
+    The arms to run, for a plan that sweeps `comparisonProperty`. This is what the
+    plan costs: the flow is attached once per arm, so ten arms is ten times the
+    calls of one.
+    Attach each flow once, as you would without a comparison: the plan builds the
+    arms, running the happy path or edge cases you selected under every arm. Built
+    arms need at least 5 calls per arm (`iterationCount` times the test cases per
+    arm), or the plan is refused with `400`. Flows that all carry `overrides` on
+    `comparisonProperty` already are the arms and are kept as you wrote them; a mix
+    of flows with and without one is refused.
+    Each entry is one arm. A bare value runs it plain: `"CITY"`. An object runs the
+    value with something pinned on that arm only, such as a noise level per bed: `{
+    "value": "OFFICE", "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the
+    other beds keep the default. List a value more than once with different pins to
+    run it as several arms: DRIVING at 0.7 and DRIVING at 1 are two arms, reported
+    as `Driving (70% noise)` and `Driving (100% noise)`, and `"DRIVING"` beside them
+    keeps the plain arm too. The sweep still varies one property; what an arm pins
+    is part of "everything else" for that arm only, so the report still compares the
+    arms on `comparisonProperty`.
+    Omit it to run every value the property has, plain, which for `ACCENT` is more
+    than twenty. A `comparisonBaseline` outside the values listed is rejected,
+    because it would anchor every difference to an arm the run never made. A value
+    the property cannot take, a pin the sweep cannot account for, or the same arm
+    listed twice is rejected with `400`.
     Not stored as a field: the arms are the values. Reading the plan back returns
-    them as its flow attachments.
+    them as its flow attachments, each with its pins as `overrides`.
     """
 
     description: str
@@ -486,6 +526,13 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     template: Required[str]
     """The template to run, as listed by GET /v1/simulation/template."""
 
+    additional_metrics: Annotated[Iterable[RunSimulationFromConfigPlanMetric], PropertyInfo(alias="additionalMetrics")]
+    """
+    Metrics to collect on top of the template's own, referenced by `id` or `slug`
+    like a plan's `metrics`. The template's metrics and checks always run; naming
+    one of them here again keeps it once, with the success criteria you set on it.
+    """
+
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
     The sweep's reference value, shown first in the results. Defaults to the
@@ -499,15 +546,18 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     choose.
     """
 
-    comparison_values: Annotated[SequenceNotStr[str], PropertyInfo(alias="comparisonValues")]
+    comparison_values: Annotated[List[Union[str, ComparisonArm]], PropertyInfo(alias="comparisonValues")]
     """
-    Which values of the sweep to run, for a template that sweeps one (GET
+    The arms of the sweep to run, for a template that sweeps one (GET
     /v1/simulation/template returns `sweep.property` for those that do). This is
-    what the run costs: the flow is called once per value, so ten values is ten
-    times the calls of one.
-    Omit it to run every value the property has, which for `accent-handling` is more
-    than twenty. Send a subset to narrow it, for example the three accents you
-    actually serve.
+    what the run costs: the flow is called once per arm, so ten arms is ten times
+    the calls of one.
+    Omit it to run every value the property has, plain, which for `accent-handling`
+    is more than twenty. Send a subset to narrow it, for example the three accents
+    you actually serve. An object entry pins something on that arm only, such as a
+    noise level per bed on `background-noise-robustness`: `{ "value": "OFFICE",
+    "backgroundNoiseVolume": 0.6 }` plays OFFICE at 60% while the other beds keep
+    the default. See `POST /v1/simulation/plan`.
     """
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
@@ -550,6 +600,10 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     REPLACE the ones it would have run, so you can narrow a suite to the cases you
     care about. Either way, GET /v1/simulation/template lists the flows and variant
     ids each template covers.
+    On a template that sweeps a property, every value runs exactly what you select
+    here: the happy path, the edge cases you name, or `edgeCases: "ALL"`. Each
+    selected case is a call per value per iteration, so naming three edge cases
+    triples the run.
     """
 
     iteration_count: Annotated[int, PropertyInfo(alias="iterationCount")]

@@ -24,7 +24,7 @@ class TestSimulationRunPlan:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: Roark) -> None:
+    def test_method_create_overload_1(self, client: Roark) -> None:
         simulation_run_plan = client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -34,7 +34,7 @@ class TestSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: Roark) -> None:
+    def test_method_create_with_all_params_overload_1(self, client: Roark) -> None:
         simulation_run_plan = client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -43,7 +43,12 @@ class TestSimulationRunPlan:
             auto_run=False,
             comparison_baseline="NONE",
             comparison_property="BACKGROUND_NOISE",
-            comparison_values=["NONE", "CITY", "TRAIN"],
+            comparison_values=[
+                "NONE",
+                {"value": "OFFICE", "background_noise_volume": 0.6},
+                {"value": "DRIVING", "background_noise_volume": 0.7},
+                {"value": "DRIVING", "background_noise_volume": 1},
+            ],
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
@@ -90,7 +95,7 @@ class TestSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: Roark) -> None:
+    def test_raw_response_create_overload_1(self, client: Roark) -> None:
         response = client.simulation_run_plan.with_raw_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -104,12 +109,79 @@ class TestSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: Roark) -> None:
+    def test_streaming_response_create_overload_1(self, client: Roark) -> None:
         with client.simulation_run_plan.with_streaming_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
             name="My Run Plan",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan = response.parse()
+            assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_create_overload_2(self, client: Roark) -> None:
+        simulation_run_plan = client.simulation_run_plan.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+        )
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Roark) -> None:
+        simulation_run_plan = client.simulation_run_plan.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+            additional_metrics=[{"slug": "call_ended_prematurely"}],
+            comparison_baseline="US",
+            comparison_values=["US", "GB", "IN"],
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
+            enrich_with_live_conversation=False,
+            environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            execution_mode="PARALLEL",
+            flows=[
+                {"slug": "sf-prompt-injection", "edge_cases": [{"slug": "data-embedded-injection"}]},
+                {"id": "3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c", "happy_path": True},
+            ],
+            iteration_count=6,
+            max_concurrent_jobs=5,
+            max_no_response_retries=2,
+            max_simulation_duration_seconds=1,
+            name="x",
+            no_response_retry_backoff_seconds=90,
+            persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
+            silence_timeout_seconds=30,
+        )
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_overload_2(self, client: Roark) -> None:
+        response = client.simulation_run_plan.with_raw_response.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan = response.parse()
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_overload_2(self, client: Roark) -> None:
+        with client.simulation_run_plan.with_streaming_response.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -133,7 +205,12 @@ class TestSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             comparison_baseline="comparisonBaseline",
             comparison_property="ACCENT",
-            comparison_values=["NONE", "CITY", "TRAIN"],
+            comparison_values=[
+                "NONE",
+                {"value": "OFFICE", "background_noise_volume": 0.6},
+                {"value": "DRIVING", "background_noise_volume": 0.7},
+                {"value": "DRIVING", "background_noise_volume": 1},
+            ],
             description="description",
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
@@ -332,7 +409,7 @@ class TestAsyncSimulationRunPlan:
     )
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncRoark) -> None:
+    async def test_method_create_overload_1(self, async_client: AsyncRoark) -> None:
         simulation_run_plan = await async_client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -342,7 +419,7 @@ class TestAsyncSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncRoark) -> None:
         simulation_run_plan = await async_client.simulation_run_plan.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -351,7 +428,12 @@ class TestAsyncSimulationRunPlan:
             auto_run=False,
             comparison_baseline="NONE",
             comparison_property="BACKGROUND_NOISE",
-            comparison_values=["NONE", "CITY", "TRAIN"],
+            comparison_values=[
+                "NONE",
+                {"value": "OFFICE", "background_noise_volume": 0.6},
+                {"value": "DRIVING", "background_noise_volume": 0.7},
+                {"value": "DRIVING", "background_noise_volume": 1},
+            ],
             description="A run plan for testing inbound calls",
             end_call_phrases=["goodbye"],
             end_call_reasons=["Order has been confirmed by the agent"],
@@ -398,7 +480,7 @@ class TestAsyncSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncRoark) -> None:
+    async def test_raw_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         response = await async_client.simulation_run_plan.with_raw_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
@@ -412,12 +494,79 @@ class TestAsyncSimulationRunPlan:
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncRoark) -> None:
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncRoark) -> None:
         async with async_client.simulation_run_plan.with_streaming_response.create(
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             direction="INBOUND",
             max_simulation_duration_seconds=300,
             name="My Run Plan",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan = await response.parse()
+            assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_create_overload_2(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan = await async_client.simulation_run_plan.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+        )
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan = await async_client.simulation_run_plan.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+            additional_metrics=[{"slug": "call_ended_prematurely"}],
+            comparison_baseline="US",
+            comparison_values=["US", "GB", "IN"],
+            end_call_phrases=["goodbye"],
+            end_call_reasons=["Order has been confirmed by the agent"],
+            enrich_with_live_conversation=False,
+            environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            execution_mode="PARALLEL",
+            flows=[
+                {"slug": "sf-prompt-injection", "edge_cases": [{"slug": "data-embedded-injection"}]},
+                {"id": "3a1d5e7c-9b2f-4a6d-8c31-5f7e9d0a2b4c", "happy_path": True},
+            ],
+            iteration_count=6,
+            max_concurrent_jobs=5,
+            max_no_response_retries=2,
+            max_simulation_duration_seconds=1,
+            name="x",
+            no_response_retry_backoff_seconds=90,
+            persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
+            silence_timeout_seconds=30,
+        )
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_overload_2(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation_run_plan.with_raw_response.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan = await response.parse()
+        assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation_run_plan.with_streaming_response.create(
+            agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            direction="INBOUND",
+            template="health-check",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -441,7 +590,12 @@ class TestAsyncSimulationRunPlan:
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             comparison_baseline="comparisonBaseline",
             comparison_property="ACCENT",
-            comparison_values=["NONE", "CITY", "TRAIN"],
+            comparison_values=[
+                "NONE",
+                {"value": "OFFICE", "background_noise_volume": 0.6},
+                {"value": "DRIVING", "background_noise_volume": 0.7},
+                {"value": "DRIVING", "background_noise_volume": 1},
+            ],
             description="description",
             direction="INBOUND",
             end_call_phrases=["endCallPhrases"],
