@@ -75,6 +75,7 @@ class Data(BaseModel):
             "AGENT_DID_NOT_SPEAK",
             "AGENT_STOPPED_SPEAKING",
             "AGENT_ENDED_CALL",
+            "AGENT_SAID_END_CALL_PHRASE",
             "AGENT_TRANSFERRED_CALL",
             "AGENT_BUSY",
             "AGENT_ERROR",
