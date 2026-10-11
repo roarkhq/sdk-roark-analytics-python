@@ -38,6 +38,12 @@ __all__ = [
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "SimulationPlanConfigScheduleUnionMember0",
+    "SimulationPlanConfigScheduleUnionMember1",
+    "SimulationPlanConfigScheduleUnionMember2",
+    "SimulationPlanConfigScheduleUnionMember3",
+    "SimulationPlanConfigScheduleUnionMember4",
+    "SimulationPlanConfigScheduleUnionMember5",
     "ToolConfig",
 ]
 
@@ -424,6 +430,90 @@ class SimulationPlanConfigFlow(BaseModel):
     system: Optional[str] = None
 
 
+class SimulationPlanConfigScheduleUnionMember0(BaseModel):
+    type: Literal["hourly"]
+
+    enabled: Optional[bool] = None
+
+    end_date: Optional[str] = FieldInfo(alias="endDate", default=None)
+
+    max_runs: Optional[int] = FieldInfo(alias="maxRuns", default=None)
+
+    minute: Optional[int] = None
+
+    timezone: Optional[str] = None
+
+
+class SimulationPlanConfigScheduleUnionMember1(BaseModel):
+    every_minutes: int = FieldInfo(alias="everyMinutes")
+
+    type: Literal["interval"]
+
+    enabled: Optional[bool] = None
+
+    end_date: Optional[str] = FieldInfo(alias="endDate", default=None)
+
+    max_runs: Optional[int] = FieldInfo(alias="maxRuns", default=None)
+
+    timezone: Optional[str] = None
+
+
+class SimulationPlanConfigScheduleUnionMember2(BaseModel):
+    time: str
+
+    type: Literal["daily"]
+
+    enabled: Optional[bool] = None
+
+    end_date: Optional[str] = FieldInfo(alias="endDate", default=None)
+
+    max_runs: Optional[int] = FieldInfo(alias="maxRuns", default=None)
+
+    timezone: Optional[str] = None
+
+
+class SimulationPlanConfigScheduleUnionMember3(BaseModel):
+    days: List[Literal["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]]
+
+    time: str
+
+    type: Literal["weekly"]
+
+    enabled: Optional[bool] = None
+
+    end_date: Optional[str] = FieldInfo(alias="endDate", default=None)
+
+    max_runs: Optional[int] = FieldInfo(alias="maxRuns", default=None)
+
+    timezone: Optional[str] = None
+
+
+class SimulationPlanConfigScheduleUnionMember4(BaseModel):
+    day_of_month: int = FieldInfo(alias="dayOfMonth")
+
+    time: str
+
+    type: Literal["monthly"]
+
+    enabled: Optional[bool] = None
+
+    end_date: Optional[str] = FieldInfo(alias="endDate", default=None)
+
+    max_runs: Optional[int] = FieldInfo(alias="maxRuns", default=None)
+
+    timezone: Optional[str] = None
+
+
+class SimulationPlanConfigScheduleUnionMember5(BaseModel):
+    at: str
+
+    type: Literal["once"]
+
+    enabled: Optional[bool] = None
+
+    timezone: Optional[str] = None
+
+
 class SimulationPlanConfig(BaseModel):
     agent_endpoints: List[SimulationPlanConfigAgentEndpoint] = FieldInfo(alias="agentEndpoints")
 
@@ -462,6 +552,17 @@ class SimulationPlanConfig(BaseModel):
     max_no_response_retries: Optional[int] = FieldInfo(alias="maxNoResponseRetries", default=None)
 
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
+
+    schedule: Optional[
+        Union[
+            SimulationPlanConfigScheduleUnionMember0,
+            SimulationPlanConfigScheduleUnionMember1,
+            SimulationPlanConfigScheduleUnionMember2,
+            SimulationPlanConfigScheduleUnionMember3,
+            SimulationPlanConfigScheduleUnionMember4,
+            SimulationPlanConfigScheduleUnionMember5,
+        ]
+    ] = None
 
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
@@ -522,6 +623,17 @@ class QaSimulationPlanConfig(BaseModel):
     metrics: Optional[List[str]] = None
 
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
+
+    schedule: Optional[
+        Union[
+            SimulationPlanConfigScheduleUnionMember0,
+            SimulationPlanConfigScheduleUnionMember1,
+            SimulationPlanConfigScheduleUnionMember2,
+            SimulationPlanConfigScheduleUnionMember3,
+            SimulationPlanConfigScheduleUnionMember4,
+            SimulationPlanConfigScheduleUnionMember5,
+        ]
+    ] = None
 
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
