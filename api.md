@@ -236,7 +236,9 @@ Types:
 from roark_analytics.types import (
     SimulationRunPlanJobListResponse,
     SimulationRunPlanJobCancelResponse,
+    SimulationRunPlanJobCreateDebriefResponse,
     SimulationRunPlanJobGetByIDResponse,
+    SimulationRunPlanJobGetResultsResponse,
     SimulationRunPlanJobStartResponse,
 )
 ```
@@ -245,7 +247,9 @@ Methods:
 
 - <code title="get /v1/simulation/plan/jobs">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_run_plan_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_list_response.py">SimulationRunPlanJobListResponse</a></code>
 - <code title="post /v1/simulation/plan/job/{jobId}/cancel">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">cancel</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_cancel_response.py">SimulationRunPlanJobCancelResponse</a></code>
+- <code title="post /v1/simulation/plan/job/{jobId}/debrief">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">create_debrief</a>(job_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_create_debrief_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_create_debrief_response.py">SimulationRunPlanJobCreateDebriefResponse</a></code>
 - <code title="get /v1/simulation/plan/job/{jobId}">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_by_id_response.py">SimulationRunPlanJobGetByIDResponse</a></code>
+- <code title="get /v1/simulation/plan/job/{jobId}/results">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_results</a>(job_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_get_results_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_results_response.py">SimulationRunPlanJobGetResultsResponse</a></code>
 - <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_start_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
 
 # SimulationPersona
