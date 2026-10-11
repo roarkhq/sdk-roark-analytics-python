@@ -262,6 +262,18 @@ from .http_request_definition_get_by_id_response import (
 from .simulation_run_plan_job_get_by_id_response import (
     SimulationRunPlanJobGetByIDResponse as SimulationRunPlanJobGetByIDResponse,
 )
+from .simulation_run_plan_job_get_results_params import (
+    SimulationRunPlanJobGetResultsParams as SimulationRunPlanJobGetResultsParams,
+)
 from .benchmark_list_target_score_samples_response import (
     BenchmarkListTargetScoreSamplesResponse as BenchmarkListTargetScoreSamplesResponse,
+)
+from .simulation_run_plan_job_get_results_response import (
+    SimulationRunPlanJobGetResultsResponse as SimulationRunPlanJobGetResultsResponse,
+)
+from .simulation_run_plan_job_create_debrief_params import (
+    SimulationRunPlanJobCreateDebriefParams as SimulationRunPlanJobCreateDebriefParams,
+)
+from .simulation_run_plan_job_create_debrief_response import (
+    SimulationRunPlanJobCreateDebriefResponse as SimulationRunPlanJobCreateDebriefResponse,
 )
