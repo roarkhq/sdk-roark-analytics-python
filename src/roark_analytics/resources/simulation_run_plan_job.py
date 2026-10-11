@@ -7,7 +7,12 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import simulation_run_plan_job_list_params, simulation_run_plan_job_start_params
+from ..types import (
+    simulation_run_plan_job_list_params,
+    simulation_run_plan_job_start_params,
+    simulation_run_plan_job_get_results_params,
+    simulation_run_plan_job_create_debrief_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -23,6 +28,8 @@ from ..types.simulation_run_plan_job_list_response import SimulationRunPlanJobLi
 from ..types.simulation_run_plan_job_start_response import SimulationRunPlanJobStartResponse
 from ..types.simulation_run_plan_job_cancel_response import SimulationRunPlanJobCancelResponse
 from ..types.simulation_run_plan_job_get_by_id_response import SimulationRunPlanJobGetByIDResponse
+from ..types.simulation_run_plan_job_get_results_response import SimulationRunPlanJobGetResultsResponse
+from ..types.simulation_run_plan_job_create_debrief_response import SimulationRunPlanJobCreateDebriefResponse
 
 __all__ = ["SimulationRunPlanJobResource", "AsyncSimulationRunPlanJobResource"]
 
@@ -164,6 +171,53 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             cast_to=SimulationRunPlanJobCancelResponse,
         )
 
+    def create_debrief(
+        self,
+        job_id: str,
+        *,
+        regenerate: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobCreateDebriefResponse:
+        """
+        Request the written debrief for a settled run: executive summary, failure themes
+        and recommendations. Runs with graded calls get one automatically, so this is
+        for regenerating one (`regenerate: true`) or retrying one that failed. Returns
+        immediately. Generation takes a few minutes: poll GET
+        /v1/simulation/plan/job/{jobId}/results until `debrief.status` is READY or
+        FAILED. Without `regenerate`, a debrief that is ready or already being written
+        is returned as-is.
+
+        Args:
+          regenerate: Generate a new debrief even when a ready one exists. Without it, an existing
+              ready or in-progress debrief is returned as-is.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._post(
+            f"/v1/simulation/plan/job/{job_id}/debrief",
+            body=maybe_transform(
+                {"regenerate": regenerate},
+                simulation_run_plan_job_create_debrief_params.SimulationRunPlanJobCreateDebriefParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobCreateDebriefResponse,
+        )
+
     def get_by_id(
         self,
         job_id: str,
@@ -196,6 +250,61 @@ class SimulationRunPlanJobResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SimulationRunPlanJobGetByIDResponse,
+        )
+
+    def get_results(
+        self,
+        job_id: str,
+        *,
+        compare_to_job_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetResultsResponse:
+        """
+        Everything the run report shows, in one request: the summary and score, the
+        pass/fail verdict, per-metric aggregates, every simulation with its check
+        results, breakdowns by agent and persona, the comparison against the previous
+        run (or `compareToJobId`), the sweep attribution, and the written debrief with
+        its executive summary, failure themes and recommendations. Safe to call while
+        the run is in progress: counts reflect what has landed so far. `verdict` and
+        `sweepAttribution` stay null until the run ends. The debrief is generated
+        automatically a few minutes after a run with graded calls settles; poll until
+        `debrief.status` is READY, or request one with POST
+        /v1/simulation/plan/job/{jobId}/debrief.
+
+        Args:
+          compare_to_job_id: Simulation run plan job to compare this run against, e.g. the last run on your
+              main branch. Defaults to the plan's previous settled run. Any run in the project
+              works, including another plan's: checks are matched by metric, and a check only
+              one run graded reads null on the other side.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._get(
+            f"/v1/simulation/plan/job/{job_id}/results",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"compare_to_job_id": compare_to_job_id},
+                    simulation_run_plan_job_get_results_params.SimulationRunPlanJobGetResultsParams,
+                ),
+            ),
+            cast_to=SimulationRunPlanJobGetResultsResponse,
         )
 
     def start(
@@ -396,6 +505,53 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobCancelResponse,
         )
 
+    async def create_debrief(
+        self,
+        job_id: str,
+        *,
+        regenerate: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobCreateDebriefResponse:
+        """
+        Request the written debrief for a settled run: executive summary, failure themes
+        and recommendations. Runs with graded calls get one automatically, so this is
+        for regenerating one (`regenerate: true`) or retrying one that failed. Returns
+        immediately. Generation takes a few minutes: poll GET
+        /v1/simulation/plan/job/{jobId}/results until `debrief.status` is READY or
+        FAILED. Without `regenerate`, a debrief that is ready or already being written
+        is returned as-is.
+
+        Args:
+          regenerate: Generate a new debrief even when a ready one exists. Without it, an existing
+              ready or in-progress debrief is returned as-is.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._post(
+            f"/v1/simulation/plan/job/{job_id}/debrief",
+            body=await async_maybe_transform(
+                {"regenerate": regenerate},
+                simulation_run_plan_job_create_debrief_params.SimulationRunPlanJobCreateDebriefParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobCreateDebriefResponse,
+        )
+
     async def get_by_id(
         self,
         job_id: str,
@@ -428,6 +584,61 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SimulationRunPlanJobGetByIDResponse,
+        )
+
+    async def get_results(
+        self,
+        job_id: str,
+        *,
+        compare_to_job_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetResultsResponse:
+        """
+        Everything the run report shows, in one request: the summary and score, the
+        pass/fail verdict, per-metric aggregates, every simulation with its check
+        results, breakdowns by agent and persona, the comparison against the previous
+        run (or `compareToJobId`), the sweep attribution, and the written debrief with
+        its executive summary, failure themes and recommendations. Safe to call while
+        the run is in progress: counts reflect what has landed so far. `verdict` and
+        `sweepAttribution` stay null until the run ends. The debrief is generated
+        automatically a few minutes after a run with graded calls settles; poll until
+        `debrief.status` is READY, or request one with POST
+        /v1/simulation/plan/job/{jobId}/debrief.
+
+        Args:
+          compare_to_job_id: Simulation run plan job to compare this run against, e.g. the last run on your
+              main branch. Defaults to the plan's previous settled run. Any run in the project
+              works, including another plan's: checks are matched by metric, and a check only
+              one run graded reads null on the other side.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._get(
+            f"/v1/simulation/plan/job/{job_id}/results",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"compare_to_job_id": compare_to_job_id},
+                    simulation_run_plan_job_get_results_params.SimulationRunPlanJobGetResultsParams,
+                ),
+            ),
+            cast_to=SimulationRunPlanJobGetResultsResponse,
         )
 
     async def start(
@@ -501,8 +712,14 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.cancel = to_raw_response_wrapper(
             simulation_run_plan_job.cancel,
         )
+        self.create_debrief = to_raw_response_wrapper(
+            simulation_run_plan_job.create_debrief,
+        )
         self.get_by_id = to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_results = to_raw_response_wrapper(
+            simulation_run_plan_job.get_results,
         )
         self.start = to_raw_response_wrapper(
             simulation_run_plan_job.start,
@@ -519,8 +736,14 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
         self.cancel = async_to_raw_response_wrapper(
             simulation_run_plan_job.cancel,
         )
+        self.create_debrief = async_to_raw_response_wrapper(
+            simulation_run_plan_job.create_debrief,
+        )
         self.get_by_id = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_results = async_to_raw_response_wrapper(
+            simulation_run_plan_job.get_results,
         )
         self.start = async_to_raw_response_wrapper(
             simulation_run_plan_job.start,
@@ -537,8 +760,14 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             simulation_run_plan_job.cancel,
         )
+        self.create_debrief = to_streamed_response_wrapper(
+            simulation_run_plan_job.create_debrief,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_results = to_streamed_response_wrapper(
+            simulation_run_plan_job.get_results,
         )
         self.start = to_streamed_response_wrapper(
             simulation_run_plan_job.start,
@@ -555,8 +784,14 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
         self.cancel = async_to_streamed_response_wrapper(
             simulation_run_plan_job.cancel,
         )
+        self.create_debrief = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.create_debrief,
+        )
         self.get_by_id = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_results = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.get_results,
         )
         self.start = async_to_streamed_response_wrapper(
             simulation_run_plan_job.start,
