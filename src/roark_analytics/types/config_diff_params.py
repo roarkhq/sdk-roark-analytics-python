@@ -39,6 +39,12 @@ __all__ = [
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "SimulationPlanConfigScheduleUnionMember0",
+    "SimulationPlanConfigScheduleUnionMember1",
+    "SimulationPlanConfigScheduleUnionMember2",
+    "SimulationPlanConfigScheduleUnionMember3",
+    "SimulationPlanConfigScheduleUnionMember4",
+    "SimulationPlanConfigScheduleUnionMember5",
     "ToolConfig",
 ]
 
@@ -426,6 +432,90 @@ class SimulationPlanConfigFlow(TypedDict, total=False):
     system: str
 
 
+class SimulationPlanConfigScheduleUnionMember0(TypedDict, total=False):
+    type: Required[Literal["hourly"]]
+
+    enabled: bool
+
+    end_date: Annotated[str, PropertyInfo(alias="endDate")]
+
+    max_runs: Annotated[int, PropertyInfo(alias="maxRuns")]
+
+    minute: int
+
+    timezone: str
+
+
+class SimulationPlanConfigScheduleUnionMember1(TypedDict, total=False):
+    every_minutes: Required[Annotated[int, PropertyInfo(alias="everyMinutes")]]
+
+    type: Required[Literal["interval"]]
+
+    enabled: bool
+
+    end_date: Annotated[str, PropertyInfo(alias="endDate")]
+
+    max_runs: Annotated[int, PropertyInfo(alias="maxRuns")]
+
+    timezone: str
+
+
+class SimulationPlanConfigScheduleUnionMember2(TypedDict, total=False):
+    time: Required[str]
+
+    type: Required[Literal["daily"]]
+
+    enabled: bool
+
+    end_date: Annotated[str, PropertyInfo(alias="endDate")]
+
+    max_runs: Annotated[int, PropertyInfo(alias="maxRuns")]
+
+    timezone: str
+
+
+class SimulationPlanConfigScheduleUnionMember3(TypedDict, total=False):
+    days: Required[List[Literal["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]]]
+
+    time: Required[str]
+
+    type: Required[Literal["weekly"]]
+
+    enabled: bool
+
+    end_date: Annotated[str, PropertyInfo(alias="endDate")]
+
+    max_runs: Annotated[int, PropertyInfo(alias="maxRuns")]
+
+    timezone: str
+
+
+class SimulationPlanConfigScheduleUnionMember4(TypedDict, total=False):
+    day_of_month: Required[Annotated[int, PropertyInfo(alias="dayOfMonth")]]
+
+    time: Required[str]
+
+    type: Required[Literal["monthly"]]
+
+    enabled: bool
+
+    end_date: Annotated[str, PropertyInfo(alias="endDate")]
+
+    max_runs: Annotated[int, PropertyInfo(alias="maxRuns")]
+
+    timezone: str
+
+
+class SimulationPlanConfigScheduleUnionMember5(TypedDict, total=False):
+    at: Required[str]
+
+    type: Required[Literal["once"]]
+
+    enabled: bool
+
+    timezone: str
+
+
 class SimulationPlanConfig(TypedDict, total=False):
     agent_endpoints: Required[
         Annotated[Iterable[SimulationPlanConfigAgentEndpoint], PropertyInfo(alias="agentEndpoints")]
@@ -466,6 +556,15 @@ class SimulationPlanConfig(TypedDict, total=False):
     max_no_response_retries: Annotated[int, PropertyInfo(alias="maxNoResponseRetries")]
 
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+
+    schedule: Union[
+        SimulationPlanConfigScheduleUnionMember0,
+        SimulationPlanConfigScheduleUnionMember1,
+        SimulationPlanConfigScheduleUnionMember2,
+        SimulationPlanConfigScheduleUnionMember3,
+        SimulationPlanConfigScheduleUnionMember4,
+        SimulationPlanConfigScheduleUnionMember5,
+    ]
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
@@ -528,6 +627,15 @@ class QaSimulationPlanConfig(TypedDict, total=False):
     metrics: SequenceNotStr[str]
 
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
+
+    schedule: Union[
+        SimulationPlanConfigScheduleUnionMember0,
+        SimulationPlanConfigScheduleUnionMember1,
+        SimulationPlanConfigScheduleUnionMember2,
+        SimulationPlanConfigScheduleUnionMember3,
+        SimulationPlanConfigScheduleUnionMember4,
+        SimulationPlanConfigScheduleUnionMember5,
+    ]
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
