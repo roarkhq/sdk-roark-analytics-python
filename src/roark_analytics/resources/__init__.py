@@ -168,6 +168,14 @@ from .simulation_template import (
     SimulationTemplateResourceWithStreamingResponse,
     AsyncSimulationTemplateResourceWithStreamingResponse,
 )
+from .simulation_run_group import (
+    SimulationRunGroupResource,
+    AsyncSimulationRunGroupResource,
+    SimulationRunGroupResourceWithRawResponse,
+    AsyncSimulationRunGroupResourceWithRawResponse,
+    SimulationRunGroupResourceWithStreamingResponse,
+    AsyncSimulationRunGroupResourceWithStreamingResponse,
+)
 from .metric_collection_job import (
     MetricCollectionJobResource,
     AsyncMetricCollectionJobResource,
@@ -298,6 +306,12 @@ __all__ = [
     "AsyncSimulationToolFixtureResourceWithRawResponse",
     "SimulationToolFixtureResourceWithStreamingResponse",
     "AsyncSimulationToolFixtureResourceWithStreamingResponse",
+    "SimulationRunGroupResource",
+    "AsyncSimulationRunGroupResource",
+    "SimulationRunGroupResourceWithRawResponse",
+    "AsyncSimulationRunGroupResourceWithRawResponse",
+    "SimulationRunGroupResourceWithStreamingResponse",
+    "AsyncSimulationRunGroupResourceWithStreamingResponse",
     "SimulationRunPlanResource",
     "AsyncSimulationRunPlanResource",
     "SimulationRunPlanResourceWithRawResponse",
