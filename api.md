@@ -206,6 +206,28 @@ Methods:
 - <code title="get /v1/simulation/tool-fixture">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_tool_fixture_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_list_response.py">SimulationToolFixtureListResponse</a></code>
 - <code title="delete /v1/simulation/tool-fixture/{fixtureId}">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">delete</a>(fixture_id) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_delete_response.py">SimulationToolFixtureDeleteResponse</a></code>
 
+# SimulationRunGroup
+
+Types:
+
+```python
+from roark_analytics.types import (
+    SimulationRunGroupCreateResponse,
+    SimulationRunGroupListResponse,
+    SimulationRunGroupDeleteResponse,
+    SimulationRunGroupGetByIDResponse,
+    SimulationRunGroupRegenerateReportResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/simulation/run-group">client.simulation_run_group.<a href="./src/roark_analytics/resources/simulation_run_group.py">create</a>(\*\*<a href="src/roark_analytics/types/simulation_run_group_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_group_create_response.py">SimulationRunGroupCreateResponse</a></code>
+- <code title="get /v1/simulation/run-group">client.simulation_run_group.<a href="./src/roark_analytics/resources/simulation_run_group.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_run_group_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_group_list_response.py">SimulationRunGroupListResponse</a></code>
+- <code title="delete /v1/simulation/run-group/{groupId}">client.simulation_run_group.<a href="./src/roark_analytics/resources/simulation_run_group.py">delete</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_run_group_delete_response.py">SimulationRunGroupDeleteResponse</a></code>
+- <code title="get /v1/simulation/run-group/{groupId}">client.simulation_run_group.<a href="./src/roark_analytics/resources/simulation_run_group.py">get_by_id</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_run_group_get_by_id_response.py">SimulationRunGroupGetByIDResponse</a></code>
+- <code title="post /v1/simulation/run-group/{groupId}/report">client.simulation_run_group.<a href="./src/roark_analytics/resources/simulation_run_group.py">regenerate_report</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_run_group_regenerate_report_response.py">SimulationRunGroupRegenerateReportResponse</a></code>
+
 # SimulationRunPlan
 
 Types:
