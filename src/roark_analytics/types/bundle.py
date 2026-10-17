@@ -14,13 +14,13 @@ __all__ = [
     "AgentConfigEndpoint",
     "AlertConfig",
     "AlertConfigAction",
-    "AlertConfigActionSlack",
     "AlertEventTrigger",
     "AlertSimulationTrigger",
     "AlertThresholdTrigger",
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
+    "CollectorMetricConfig",
     "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
@@ -35,6 +35,9 @@ __all__ = [
     "QaSimulationPlanConfigQuestion",
     "ScriptedFlowConfig",
     "ScriptedFlowConfigOffScript",
+    "SimulationGroupConfig",
+    "SimulationGroupConfigNotify",
+    "SimulationGroupConfigNotifySlack",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
@@ -252,6 +255,8 @@ class ImprovFlowConfigEdgeCase(BaseModel):
 
     expectations: Optional[List[str]] = None
 
+    include_flow_expectations: Optional[bool] = FieldInfo(alias="includeFlowExpectations", default=None)
+
     persona: Optional[str] = None
 
     prompt: Optional[str] = None
@@ -315,6 +320,18 @@ class ScriptedFlowConfig(BaseModel):
     title: Optional[str] = None
 
 
+class CollectorMetricConfig(BaseModel):
+    metric: str
+
+    excluded_phrases: Optional[List[str]] = FieldInfo(alias="excludedPhrases", default=None)
+
+    screening_brief: Optional[str] = FieldInfo(alias="screeningBrief", default=None)
+
+    verified_properties: Optional[List[str]] = FieldInfo(alias="verifiedProperties", default=None)
+
+    voicemail_script: Optional[str] = FieldInfo(alias="voicemailScript", default=None)
+
+
 class CollectorConfigFilterCondition(BaseModel):
     key: str
 
@@ -343,7 +360,7 @@ class CollectorConfigFilter(BaseModel):
 class CollectorConfig(BaseModel):
     kind: Literal["collector"]
 
-    metrics: List[str]
+    metrics: List[Union[str, CollectorMetricConfig]]
 
     modality: Literal["call", "chat"]
 
@@ -638,6 +655,41 @@ class QaSimulationPlanConfig(BaseModel):
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
 
+class SimulationGroupConfigNotifySlack(BaseModel):
+    channel_id: str = FieldInfo(alias="channelId")
+
+    channel_name: str = FieldInfo(alias="channelName")
+
+
+class SimulationGroupConfigNotify(BaseModel):
+    email: Optional[Union[bool, List[str]]] = None
+
+    slack: Optional[List[SimulationGroupConfigNotifySlack]] = None
+
+
+class SimulationGroupConfig(BaseModel):
+    kind: Literal["simulationGroup"]
+
+    name: str
+
+    plans: List[str]
+
+    description: Optional[str] = None
+
+    notify: Optional[SimulationGroupConfigNotify] = None
+
+    schedule: Optional[
+        Union[
+            SimulationPlanConfigScheduleUnionMember0,
+            SimulationPlanConfigScheduleUnionMember1,
+            SimulationPlanConfigScheduleUnionMember2,
+            SimulationPlanConfigScheduleUnionMember3,
+            SimulationPlanConfigScheduleUnionMember4,
+            SimulationPlanConfigScheduleUnionMember5,
+        ]
+    ] = None
+
+
 class AlertThresholdTrigger(BaseModel):
     aggregation: Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]
 
@@ -698,14 +750,8 @@ class AlertSimulationTrigger(BaseModel):
     plan: Optional[str] = None
 
 
-class AlertConfigActionSlack(BaseModel):
-    channel_id: str = FieldInfo(alias="channelId")
-
-    channel_name: str = FieldInfo(alias="channelName")
-
-
 class AlertConfigAction(BaseModel):
-    slack: Optional[List[AlertConfigActionSlack]] = None
+    slack: Optional[List[SimulationGroupConfigNotifySlack]] = None
 
     webhooks: Optional[List[str]] = None
 
@@ -787,6 +833,7 @@ class ProjectConfig(BaseModel):
                 MetricConfig,
                 SimulationPlanConfig,
                 QaSimulationPlanConfig,
+                SimulationGroupConfig,
                 AlertConfig,
                 ToolConfig,
             ]
@@ -807,6 +854,7 @@ class Bundle(BaseModel):
                 MetricConfig,
                 SimulationPlanConfig,
                 QaSimulationPlanConfig,
+                SimulationGroupConfig,
                 AlertConfig,
                 ToolConfig,
             ],

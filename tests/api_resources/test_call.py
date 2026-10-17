@@ -15,6 +15,7 @@ from roark_analytics.types import (
     CallGetByIDResponse,
     CallListMetricsResponse,
     CallGetTranscriptResponse,
+    CallUpdatePropertiesResponse,
     CallListSentimentRunsResponse,
     CallAppendToolInvocationsResponse,
 )
@@ -397,6 +398,57 @@ class TestCall:
                 "",
             )
 
+    @parametrize
+    def test_method_update_properties(self, client: Roark) -> None:
+        call = client.call.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        )
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    def test_method_update_properties_with_all_params(self, client: Roark) -> None:
+        call = client.call.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_update_properties(self, client: Roark) -> None:
+        response = client.call.with_raw_response.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_properties(self, client: Roark) -> None:
+        with client.call.with_streaming_response.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update_properties(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            client.call.with_raw_response.update_properties(
+                call_id="",
+                properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+            )
+
 
 class TestAsyncCall:
     parametrize = pytest.mark.parametrize(
@@ -773,4 +825,55 @@ class TestAsyncCall:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
             await async_client.call.with_raw_response.list_sentiment_runs(
                 "",
+            )
+
+    @parametrize
+    async def test_method_update_properties(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        )
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    async def test_method_update_properties_with_all_params(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+        )
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update_properties(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update_properties(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.update_properties(
+            call_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallUpdatePropertiesResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update_properties(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            await async_client.call.with_raw_response.update_properties(
+                call_id="",
+                properties={"partner_outcome": "apr_returned", "delivered_apr": "21.99"},
             )

@@ -15,13 +15,13 @@ __all__ = [
     "AgentConfigEndpoint",
     "AlertConfig",
     "AlertConfigAction",
-    "AlertConfigActionSlack",
     "AlertEventTrigger",
     "AlertSimulationTrigger",
     "AlertThresholdTrigger",
     "CollectorConfig",
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
+    "CollectorMetricConfig",
     "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
@@ -36,6 +36,9 @@ __all__ = [
     "QaSimulationPlanConfigQuestion",
     "ScriptedFlowConfig",
     "ScriptedFlowConfigOffScript",
+    "SimulationGroupConfig",
+    "SimulationGroupConfigNotify",
+    "SimulationGroupConfigNotifySlack",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
@@ -256,6 +259,8 @@ class ImprovFlowConfigEdgeCase(TypedDict, total=False):
 
     expectations: SequenceNotStr[str]
 
+    include_flow_expectations: Annotated[bool, PropertyInfo(alias="includeFlowExpectations")]
+
     persona: str
 
     prompt: str
@@ -319,6 +324,18 @@ class ScriptedFlowConfig(TypedDict, total=False):
     title: str
 
 
+class CollectorMetricConfig(TypedDict, total=False):
+    metric: Required[str]
+
+    excluded_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="excludedPhrases")]
+
+    screening_brief: Annotated[str, PropertyInfo(alias="screeningBrief")]
+
+    verified_properties: Annotated[SequenceNotStr[str], PropertyInfo(alias="verifiedProperties")]
+
+    voicemail_script: Annotated[str, PropertyInfo(alias="voicemailScript")]
+
+
 class CollectorConfigFilterCondition(TypedDict, total=False):
     key: Required[str]
 
@@ -345,7 +362,7 @@ class CollectorConfigFilter(TypedDict, total=False):
 class CollectorConfig(TypedDict, total=False):
     kind: Required[Literal["collector"]]
 
-    metrics: Required[SequenceNotStr[str]]
+    metrics: Required[List[Union[str, CollectorMetricConfig]]]
 
     modality: Required[Literal["call", "chat"]]
 
@@ -640,6 +657,39 @@ class QaSimulationPlanConfig(TypedDict, total=False):
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
 
+class SimulationGroupConfigNotifySlack(TypedDict, total=False):
+    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
+
+    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
+
+
+class SimulationGroupConfigNotify(TypedDict, total=False):
+    email: Union[bool, SequenceNotStr[str]]
+
+    slack: Iterable[SimulationGroupConfigNotifySlack]
+
+
+class SimulationGroupConfig(TypedDict, total=False):
+    kind: Required[Literal["simulationGroup"]]
+
+    name: Required[str]
+
+    plans: Required[SequenceNotStr[str]]
+
+    description: Optional[str]
+
+    notify: SimulationGroupConfigNotify
+
+    schedule: Union[
+        SimulationPlanConfigScheduleUnionMember0,
+        SimulationPlanConfigScheduleUnionMember1,
+        SimulationPlanConfigScheduleUnionMember2,
+        SimulationPlanConfigScheduleUnionMember3,
+        SimulationPlanConfigScheduleUnionMember4,
+        SimulationPlanConfigScheduleUnionMember5,
+    ]
+
+
 class AlertThresholdTrigger(TypedDict, total=False):
     aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]]
 
@@ -702,14 +752,8 @@ class AlertSimulationTrigger(TypedDict, total=False):
     plan: str
 
 
-class AlertConfigActionSlack(TypedDict, total=False):
-    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
-
-    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
-
-
 class AlertConfigAction(TypedDict, total=False):
-    slack: Iterable[AlertConfigActionSlack]
+    slack: Iterable[SimulationGroupConfigNotifySlack]
 
     webhooks: SequenceNotStr[str]
 
@@ -786,6 +830,7 @@ class ProjectConfig(TypedDict, total=False):
             MetricConfig,
             SimulationPlanConfig,
             QaSimulationPlanConfig,
+            SimulationGroupConfig,
             AlertConfig,
             ToolConfig,
         ]
@@ -806,6 +851,7 @@ class ConfigApplyParams(TypedDict, total=False):
                     MetricConfig,
                     SimulationPlanConfig,
                     QaSimulationPlanConfig,
+                    SimulationGroupConfig,
                     AlertConfig,
                     ToolConfig,
                 ],

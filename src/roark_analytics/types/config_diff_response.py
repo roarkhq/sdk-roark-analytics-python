@@ -21,6 +21,7 @@ class DataChange(BaseModel):
         "collector",
         "metric",
         "simulationPlan",
+        "simulationGroup",
         "alert",
         "tool",
         "project",

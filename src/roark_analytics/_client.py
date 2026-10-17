@@ -50,6 +50,7 @@ if TYPE_CHECKING:
         metric_variant,
         simulation_job,
         autoimprove_job,
+        simulation_group,
         simulation_persona,
         simulation_run_plan,
         simulation_template,
@@ -80,6 +81,7 @@ if TYPE_CHECKING:
     from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.autoimprove_job import AutoimproveJobResource, AsyncAutoimproveJobResource
+    from .resources.simulation_group import SimulationGroupResource, AsyncSimulationGroupResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
     from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
@@ -233,6 +235,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_tool_fixture import SimulationToolFixtureResource
 
         return SimulationToolFixtureResource(self)
+
+    @cached_property
+    def simulation_group(self) -> SimulationGroupResource:
+        from .resources.simulation_group import SimulationGroupResource
+
+        return SimulationGroupResource(self)
 
     @cached_property
     def simulation_run_group(self) -> SimulationRunGroupResource:
@@ -603,6 +611,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationToolFixtureResource(self)
 
     @cached_property
+    def simulation_group(self) -> AsyncSimulationGroupResource:
+        from .resources.simulation_group import AsyncSimulationGroupResource
+
+        return AsyncSimulationGroupResource(self)
+
+    @cached_property
     def simulation_run_group(self) -> AsyncSimulationRunGroupResource:
         from .resources.simulation_run_group import AsyncSimulationRunGroupResource
 
@@ -910,6 +924,12 @@ class RoarkWithRawResponse:
         return SimulationToolFixtureResourceWithRawResponse(self._client.simulation_tool_fixture)
 
     @cached_property
+    def simulation_group(self) -> simulation_group.SimulationGroupResourceWithRawResponse:
+        from .resources.simulation_group import SimulationGroupResourceWithRawResponse
+
+        return SimulationGroupResourceWithRawResponse(self._client.simulation_group)
+
+    @cached_property
     def simulation_run_group(self) -> simulation_run_group.SimulationRunGroupResourceWithRawResponse:
         from .resources.simulation_run_group import SimulationRunGroupResourceWithRawResponse
 
@@ -1091,6 +1111,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncSimulationToolFixtureResourceWithRawResponse(self._client.simulation_tool_fixture)
 
     @cached_property
+    def simulation_group(self) -> simulation_group.AsyncSimulationGroupResourceWithRawResponse:
+        from .resources.simulation_group import AsyncSimulationGroupResourceWithRawResponse
+
+        return AsyncSimulationGroupResourceWithRawResponse(self._client.simulation_group)
+
+    @cached_property
     def simulation_run_group(self) -> simulation_run_group.AsyncSimulationRunGroupResourceWithRawResponse:
         from .resources.simulation_run_group import AsyncSimulationRunGroupResourceWithRawResponse
 
@@ -1270,6 +1296,12 @@ class RoarkWithStreamedResponse:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithStreamingResponse
 
         return SimulationToolFixtureResourceWithStreamingResponse(self._client.simulation_tool_fixture)
+
+    @cached_property
+    def simulation_group(self) -> simulation_group.SimulationGroupResourceWithStreamingResponse:
+        from .resources.simulation_group import SimulationGroupResourceWithStreamingResponse
+
+        return SimulationGroupResourceWithStreamingResponse(self._client.simulation_group)
 
     @cached_property
     def simulation_run_group(self) -> simulation_run_group.SimulationRunGroupResourceWithStreamingResponse:
@@ -1455,6 +1487,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResourceWithStreamingResponse
 
         return AsyncSimulationToolFixtureResourceWithStreamingResponse(self._client.simulation_tool_fixture)
+
+    @cached_property
+    def simulation_group(self) -> simulation_group.AsyncSimulationGroupResourceWithStreamingResponse:
+        from .resources.simulation_group import AsyncSimulationGroupResourceWithStreamingResponse
+
+        return AsyncSimulationGroupResourceWithStreamingResponse(self._client.simulation_group)
 
     @cached_property
     def simulation_run_group(self) -> simulation_run_group.AsyncSimulationRunGroupResourceWithStreamingResponse:
