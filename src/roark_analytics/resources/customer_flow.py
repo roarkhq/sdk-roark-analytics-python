@@ -523,6 +523,7 @@ class CustomerFlowResource(SyncAPIResource):
         *,
         additional_expectations: Iterable[customer_flow_update_happy_path_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        include_flow_expectations: bool | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
@@ -549,6 +550,10 @@ class CustomerFlowResource(SyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
+              own additionalExpectations. Defaults to true; false grades it on its
+              additionalExpectations only.
+
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
 
           extra_headers: Send extra headers
@@ -567,6 +572,7 @@ class CustomerFlowResource(SyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "include_flow_expectations": include_flow_expectations,
                     "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,
@@ -1066,6 +1072,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         *,
         additional_expectations: Iterable[customer_flow_update_happy_path_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        include_flow_expectations: bool | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_id: Optional[str] | Omit = omit,
         preceded_by_customer_flow_variant_id: Optional[str] | Omit = omit,
@@ -1092,6 +1099,10 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
+              own additionalExpectations. Defaults to true; false grades it on its
+              additionalExpectations only.
+
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
 
           extra_headers: Send extra headers
@@ -1110,6 +1121,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "include_flow_expectations": include_flow_expectations,
                     "persona_override_id": persona_override_id,
                     "preceded_by_customer_flow_id": preceded_by_customer_flow_id,
                     "preceded_by_customer_flow_variant_id": preceded_by_customer_flow_variant_id,

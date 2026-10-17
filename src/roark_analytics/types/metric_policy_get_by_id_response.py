@@ -7,7 +7,14 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["MetricPolicyGetByIDResponse", "Data", "DataCondition", "DataConditionCondition", "DataMetric"]
+__all__ = [
+    "MetricPolicyGetByIDResponse",
+    "Data",
+    "DataCondition",
+    "DataConditionCondition",
+    "DataMetric",
+    "DataMetricSetting",
+]
 
 
 class DataConditionCondition(BaseModel):
@@ -45,8 +52,55 @@ class DataCondition(BaseModel):
     conditions: List[DataConditionCondition]
 
 
+class DataMetricSetting(BaseModel):
+    """
+    The metric's per-collector setting. A metric takes at most one field, and which
+    one depends on the metric: verifiedProperties for Property Verification,
+    excludedPhrases for voice consistency, voicemailScript for voicemail,
+    screeningBrief for call screening, toolDefinitionIds for tool invocation,
+    knowledgeBaseDocumentIds for knowledge grounding. A field the metric doesn't
+    take is rejected with a 400.
+    """
+
+    excluded_phrases: Optional[List[str]] = FieldInfo(alias="excludedPhrases", default=None)
+    """
+    Voice consistency metrics: phrases whose agent lines are not judged, such as a
+    recorded prompt in a different voice.
+    """
+
+    knowledge_base_document_ids: Optional[List[str]] = FieldInfo(alias="knowledgeBaseDocumentIds", default=None)
+    """
+    Knowledge grounding metrics: the knowledge base documents to ground against, in
+    priority order. Empty or omitted uses every knowledge base in the project.
+    """
+
+    screening_brief: Optional[str] = FieldInfo(alias="screeningBrief", default=None)
+    """
+    Call screening metrics: what the agent should say when a screener asks who is
+    calling and why.
+    """
+
+    tool_definition_ids: Optional[List[str]] = FieldInfo(alias="toolDefinitionIds", default=None)
+    """
+    Tool invocation metrics: the tool definitions to score. Empty or omitted scores
+    every tool the agent has.
+    """
+
+    verified_properties: Optional[List[str]] = FieldInfo(alias="verifiedProperties", default=None)
+    """
+    Property Verification metrics: the conversation properties to check against the
+    transcript. Empty or omitted checks every custom property.
+    """
+
+    voicemail_script: Optional[str] = FieldInfo(alias="voicemailScript", default=None)
+    """Voicemail metrics: the message the agent is expected to leave on voicemail."""
+
+
 class DataMetric(BaseModel):
     id: str
+
+    settings: Optional[DataMetricSetting]
+    """The metric's per-collector setting, or null when it runs with its default"""
 
 
 class Data(BaseModel):

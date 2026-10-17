@@ -144,6 +144,14 @@ from .autoimprove_job import (
     AutoimproveJobResourceWithStreamingResponse,
     AsyncAutoimproveJobResourceWithStreamingResponse,
 )
+from .simulation_group import (
+    SimulationGroupResource,
+    AsyncSimulationGroupResource,
+    SimulationGroupResourceWithRawResponse,
+    AsyncSimulationGroupResourceWithRawResponse,
+    SimulationGroupResourceWithStreamingResponse,
+    AsyncSimulationGroupResourceWithStreamingResponse,
+)
 from .simulation_persona import (
     SimulationPersonaResource,
     AsyncSimulationPersonaResource,
@@ -306,6 +314,12 @@ __all__ = [
     "AsyncSimulationToolFixtureResourceWithRawResponse",
     "SimulationToolFixtureResourceWithStreamingResponse",
     "AsyncSimulationToolFixtureResourceWithStreamingResponse",
+    "SimulationGroupResource",
+    "AsyncSimulationGroupResource",
+    "SimulationGroupResourceWithRawResponse",
+    "AsyncSimulationGroupResourceWithRawResponse",
+    "SimulationGroupResourceWithStreamingResponse",
+    "AsyncSimulationGroupResourceWithStreamingResponse",
     "SimulationRunGroupResource",
     "AsyncSimulationRunGroupResource",
     "SimulationRunGroupResourceWithRawResponse",
