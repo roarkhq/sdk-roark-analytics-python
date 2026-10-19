@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v6.5.0...v7.0.0) (2026-10-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes types from the public surface.
+
+### Features
+
+* **api:** api update ([#653](https://github.com/roarkhq/sdk-roark-analytics-python/issues/653)) ([dd96bdc](https://github.com/roarkhq/sdk-roark-analytics-python/commit/dd96bdc21cf933c6cdc33252e576d07ad16cfb49))
+
+
+### Chores
+
+* fold next into main ([66ffea1](https://github.com/roarkhq/sdk-roark-analytics-python/commit/66ffea1efd270fac7580273ebfd9d703c5ffb91e))
+
 ## [6.5.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v6.4.0...v6.5.0) (2026-10-12)
 
 
