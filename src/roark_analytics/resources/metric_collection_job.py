@@ -49,9 +49,10 @@ class MetricCollectionJobResource(SyncAPIResource):
     def create(
         self,
         *,
-        metrics: Iterable[metric_collection_job_create_params.Metric],
         call_ids: SequenceNotStr[str] | Omit = omit,
         chat_ids: SequenceNotStr[str] | Omit = omit,
+        metrics: Iterable[metric_collection_job_create_params.Metric] | Omit = omit,
+        policy_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -61,16 +62,28 @@ class MetricCollectionJobResource(SyncAPIResource):
     ) -> MetricCollectionJobCreateResponse:
         """
         Creates a metric collection job for the specified calls or chats and metrics,
-        then triggers processing. Provide exactly one of callIds or chatIds.
+        then triggers processing. Provide exactly one of callIds or chatIds. Pass
+        policyId to score with a metric policy’s settings (for example to re-score past
+        calls after changing which properties Property Verification checks); metrics
+        then defaults to every metric that policy collects.
 
         Args:
-          metrics: Metric definitions to collect. Max 20 per request.
-
           call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds. Max 500 per
               request.
 
           chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds. Max 500 per
               request.
+
+          metrics: Metric definitions to collect. Max 20 per request. Required unless policyId is
+              given; with policyId, defaults to every metric that policy collects, and each
+              one listed must be in it.
+
+          policy_id: Optional. A metric policy (collector) whose settings to score with: each metric
+              runs at the version that policy runs it at, with its per-collector setting (such
+              as the properties Property Verification checks), instead of the metric's
+              default. A metric the policy runs at its default runs at its default here too.
+              The policy's conditions are not applied: the listed conversations are scored as
+              given. Use it to re-score past conversations after changing a policy's settings.
 
           extra_headers: Send extra headers
 
@@ -84,9 +97,10 @@ class MetricCollectionJobResource(SyncAPIResource):
             "/v1/metric/collection-jobs",
             body=maybe_transform(
                 {
-                    "metrics": metrics,
                     "call_ids": call_ids,
                     "chat_ids": chat_ids,
+                    "metrics": metrics,
+                    "policy_id": policy_id,
                 },
                 metric_collection_job_create_params.MetricCollectionJobCreateParams,
             ),
@@ -203,9 +217,10 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        metrics: Iterable[metric_collection_job_create_params.Metric],
         call_ids: SequenceNotStr[str] | Omit = omit,
         chat_ids: SequenceNotStr[str] | Omit = omit,
+        metrics: Iterable[metric_collection_job_create_params.Metric] | Omit = omit,
+        policy_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -215,16 +230,28 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
     ) -> MetricCollectionJobCreateResponse:
         """
         Creates a metric collection job for the specified calls or chats and metrics,
-        then triggers processing. Provide exactly one of callIds or chatIds.
+        then triggers processing. Provide exactly one of callIds or chatIds. Pass
+        policyId to score with a metric policy’s settings (for example to re-score past
+        calls after changing which properties Property Verification checks); metrics
+        then defaults to every metric that policy collects.
 
         Args:
-          metrics: Metric definitions to collect. Max 20 per request.
-
           call_ids: Call IDs to collect metrics for. Mutually exclusive with chatIds. Max 500 per
               request.
 
           chat_ids: Chat IDs to collect metrics for. Mutually exclusive with callIds. Max 500 per
               request.
+
+          metrics: Metric definitions to collect. Max 20 per request. Required unless policyId is
+              given; with policyId, defaults to every metric that policy collects, and each
+              one listed must be in it.
+
+          policy_id: Optional. A metric policy (collector) whose settings to score with: each metric
+              runs at the version that policy runs it at, with its per-collector setting (such
+              as the properties Property Verification checks), instead of the metric's
+              default. A metric the policy runs at its default runs at its default here too.
+              The policy's conditions are not applied: the listed conversations are scored as
+              given. Use it to re-score past conversations after changing a policy's settings.
 
           extra_headers: Send extra headers
 
@@ -238,9 +265,10 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
             "/v1/metric/collection-jobs",
             body=await async_maybe_transform(
                 {
-                    "metrics": metrics,
                     "call_ids": call_ids,
                     "chat_ids": chat_ids,
+                    "metrics": metrics,
+                    "policy_id": policy_id,
                 },
                 metric_collection_job_create_params.MetricCollectionJobCreateParams,
             ),

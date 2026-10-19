@@ -69,7 +69,8 @@ class MetricPolicyResource(SyncAPIResource):
         what conditions.
 
         Args:
-          metrics: Metric definitions to collect when this policy matches
+          metrics: Metric definitions to collect when this policy matches, each with an optional
+              setting
 
           modality: Modality this policy targets. A policy fires for exactly one modality and can
               only reference metrics that support that modality.
@@ -129,7 +130,9 @@ class MetricPolicyResource(SyncAPIResource):
           conditions: Condition groups. Omit to keep existing, provide empty array to remove all
               conditions.
 
-          metrics: Metric definitions to collect when this policy matches
+          metrics: Metric definitions to collect when this policy matches. Replaces the policy's
+              whole metric list: a metric sent without settings goes back to its default, so
+              resend a metric's settings to keep them. Omit to keep the current metrics.
 
           name: Name of the metric policy
 
@@ -322,7 +325,8 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
         what conditions.
 
         Args:
-          metrics: Metric definitions to collect when this policy matches
+          metrics: Metric definitions to collect when this policy matches, each with an optional
+              setting
 
           modality: Modality this policy targets. A policy fires for exactly one modality and can
               only reference metrics that support that modality.
@@ -382,7 +386,9 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
           conditions: Condition groups. Omit to keep existing, provide empty array to remove all
               conditions.
 
-          metrics: Metric definitions to collect when this policy matches
+          metrics: Metric definitions to collect when this policy matches. Replaces the policy's
+              whole metric list: a metric sent without settings goes back to its default, so
+              resend a metric's settings to keep them. Omit to keep the current metrics.
 
           name: Name of the metric policy
 

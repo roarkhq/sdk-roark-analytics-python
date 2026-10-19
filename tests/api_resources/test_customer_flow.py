@@ -196,6 +196,7 @@ class TestCustomerFlow:
                         {"prompt": "The agent confirmed the new appointment time back to the customer"}
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "include_flow_expectations": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -613,6 +614,7 @@ class TestCustomerFlow:
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_flow_expectations=True,
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -830,6 +832,7 @@ class TestAsyncCustomerFlow:
                         {"prompt": "The agent confirmed the new appointment time back to the customer"}
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "include_flow_expectations": True,
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1247,6 +1250,7 @@ class TestAsyncCustomerFlow:
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_flow_expectations=True,
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

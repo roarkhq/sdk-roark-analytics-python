@@ -35,7 +35,19 @@ class TestMetricPolicy:
     @parametrize
     def test_method_create_with_all_params(self, client: Roark) -> None:
         metric_policy = client.metric_policy.create(
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "settings": {
+                        "excluded_phrases": ["x"],
+                        "knowledge_base_document_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "screening_brief": "x",
+                        "tool_definition_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "verified_properties": ["x"],
+                        "voicemail_script": "x",
+                    },
+                }
+            ],
             modality="call",
             name="Evaluate all inbound calls",
             conditions=[
@@ -105,7 +117,19 @@ class TestMetricPolicy:
                     ]
                 }
             ],
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "settings": {
+                        "excluded_phrases": ["x"],
+                        "knowledge_base_document_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "screening_brief": "x",
+                        "tool_definition_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "verified_properties": ["x"],
+                        "voicemail_script": "x",
+                    },
+                }
+            ],
             name="x",
             status="ACTIVE",
         )
@@ -270,7 +294,19 @@ class TestAsyncMetricPolicy:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
         metric_policy = await async_client.metric_policy.create(
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "settings": {
+                        "excluded_phrases": ["x"],
+                        "knowledge_base_document_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "screening_brief": "x",
+                        "tool_definition_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "verified_properties": ["x"],
+                        "voicemail_script": "x",
+                    },
+                }
+            ],
             modality="call",
             name="Evaluate all inbound calls",
             conditions=[
@@ -340,7 +376,19 @@ class TestAsyncMetricPolicy:
                     ]
                 }
             ],
-            metrics=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            metrics=[
+                {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "settings": {
+                        "excluded_phrases": ["x"],
+                        "knowledge_base_document_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "screening_brief": "x",
+                        "tool_definition_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                        "verified_properties": ["x"],
+                        "voicemail_script": "x",
+                    },
+                }
+            ],
             name="x",
             status="ACTIVE",
         )

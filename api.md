@@ -55,6 +55,7 @@ from roark_analytics.types import (
     CallGetTranscriptResponse,
     CallListMetricsResponse,
     CallListSentimentRunsResponse,
+    CallUpdatePropertiesResponse,
 )
 ```
 
@@ -67,6 +68,7 @@ Methods:
 - <code title="get /v1/call/{callId}/transcript">client.call.<a href="./src/roark_analytics/resources/call.py">get_transcript</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_transcript_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_transcript_response.py">CallGetTranscriptResponse</a></code>
 - <code title="get /v1/call/{callId}/metrics">client.call.<a href="./src/roark_analytics/resources/call.py">list_metrics</a>(call_id, \*\*<a href="src/roark_analytics/types/call_list_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_metrics_response.py">CallListMetricsResponse</a></code>
 - <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">list_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_list_sentiment_runs_response.py">CallListSentimentRunsResponse</a></code>
+- <code title="patch /v1/call/{callId}/properties">client.call.<a href="./src/roark_analytics/resources/call.py">update_properties</a>(call_id, \*\*<a href="src/roark_analytics/types/call_update_properties_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_update_properties_response.py">CallUpdatePropertiesResponse</a></code>
 
 # Metric
 
@@ -205,6 +207,30 @@ Methods:
 - <code title="put /v1/simulation/tool-fixture/{fixtureId}">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">update</a>(fixture_id, \*\*<a href="src/roark_analytics/types/simulation_tool_fixture_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_update_response.py">SimulationToolFixtureUpdateResponse</a></code>
 - <code title="get /v1/simulation/tool-fixture">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_tool_fixture_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_list_response.py">SimulationToolFixtureListResponse</a></code>
 - <code title="delete /v1/simulation/tool-fixture/{fixtureId}">client.simulation_tool_fixture.<a href="./src/roark_analytics/resources/simulation_tool_fixture.py">delete</a>(fixture_id) -> <a href="./src/roark_analytics/types/simulation_tool_fixture_delete_response.py">SimulationToolFixtureDeleteResponse</a></code>
+
+# SimulationGroup
+
+Types:
+
+```python
+from roark_analytics.types import (
+    SimulationGroupCreateResponse,
+    SimulationGroupUpdateResponse,
+    SimulationGroupListResponse,
+    SimulationGroupDeleteResponse,
+    SimulationGroupGetByIDResponse,
+    SimulationGroupRunResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/simulation/group">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">create</a>(\*\*<a href="src/roark_analytics/types/simulation_group_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_group_create_response.py">SimulationGroupCreateResponse</a></code>
+- <code title="put /v1/simulation/group/{groupId}">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">update</a>(group_id, \*\*<a href="src/roark_analytics/types/simulation_group_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_group_update_response.py">SimulationGroupUpdateResponse</a></code>
+- <code title="get /v1/simulation/group">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_group_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_group_list_response.py">SimulationGroupListResponse</a></code>
+- <code title="delete /v1/simulation/group/{groupId}">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">delete</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_group_delete_response.py">SimulationGroupDeleteResponse</a></code>
+- <code title="get /v1/simulation/group/{groupId}">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">get_by_id</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_group_get_by_id_response.py">SimulationGroupGetByIDResponse</a></code>
+- <code title="post /v1/simulation/group/{groupId}/run">client.simulation_group.<a href="./src/roark_analytics/resources/simulation_group.py">run</a>(group_id) -> <a href="./src/roark_analytics/types/simulation_group_run_response.py">SimulationGroupRunResponse</a></code>
 
 # SimulationRunGroup
 

@@ -255,6 +255,13 @@ class ScriptedFlowVariant(BaseModel):
     environment: Optional[ScriptedFlowVariantEnvironment]
     """The conditions this runs under. Null means it inherits the happy path's."""
 
+    include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
+    """
+    Whether this variant is graded on the flow's agentExpectations as well as its
+    additionalExpectations. False grades it on its additionalExpectations only.
+    Always true on the happy path.
+    """
+
     is_generated: bool = FieldInfo(alias="isGenerated")
 
     persona_override: Optional[ScriptedFlowVariantPersonaOverride] = FieldInfo(alias="personaOverride")
@@ -470,6 +477,13 @@ class ImprovFlowVariant(BaseModel):
     when the brief inherits the happy path's: read the happy path's list.
     """
 
+    include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
+    """
+    Whether this variant is graded on the flow's agentExpectations as well as its
+    additionalExpectations. False grades it on its additionalExpectations only.
+    Always true on the happy path.
+    """
+
     is_generated: bool = FieldInfo(alias="isGenerated")
 
     persona_override: Optional[ScriptedFlowVariantPersonaOverride] = FieldInfo(alias="personaOverride")
@@ -509,6 +523,13 @@ class VoicemailFlowVariant(BaseModel):
 
     environment: Optional[ScriptedFlowVariantEnvironment]
     """The conditions this runs under. Null means it inherits the happy path's."""
+
+    include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
+    """
+    Whether this variant is graded on the flow's agentExpectations as well as its
+    additionalExpectations. False grades it on its additionalExpectations only.
+    Always true on the happy path.
+    """
 
     is_generated: bool = FieldInfo(alias="isGenerated")
 

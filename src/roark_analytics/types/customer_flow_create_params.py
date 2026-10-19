@@ -148,6 +148,13 @@ class CreateImprovCustomerFlowInputEdgeCase(TypedDict, total=False):
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 
+    include_flow_expectations: Annotated[bool, PropertyInfo(alias="includeFlowExpectations")]
+    """
+    Whether this edge case is graded on the flow's agentExpectations as well as its
+    own additionalExpectations. Defaults to true; false grades it on its
+    additionalExpectations only.
+    """
+
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """The persona this runs as. Omit to inherit the happy path's."""
 
