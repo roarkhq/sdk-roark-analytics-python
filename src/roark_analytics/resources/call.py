@@ -12,6 +12,7 @@ from ..types import (
     call_create_params,
     call_list_metrics_params,
     call_get_transcript_params,
+    call_update_properties_params,
     call_append_tool_invocations_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -30,6 +31,7 @@ from ..types.call_create_response import CallCreateResponse
 from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
+from ..types.call_update_properties_response import CallUpdatePropertiesResponse
 from ..types.call_list_sentiment_runs_response import CallListSentimentRunsResponse
 from ..types.call_append_tool_invocations_response import CallAppendToolInvocationsResponse
 
@@ -518,6 +520,71 @@ class CallResource(SyncAPIResource):
             cast_to=CallListSentimentRunsResponse,
         )
 
+    def update_properties(
+        self,
+        call_id: str,
+        *,
+        properties: Dict[str, Union[str, float, bool, None]],
+        metrics: Iterable[call_update_properties_params.Metric] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallUpdatePropertiesResponse:
+        """Add, overwrite or remove custom properties on an already-existing call.
+
+        Use this
+        for data that becomes available after the call was created, e.g. an outcome your
+        system validates a few minutes later. Merge semantics: a value adds or
+        overwrites the property, null removes it, and properties left out are untouched.
+        The patch is applied whole or not at all: a property Roark sets itself, or a
+        value whose type differs from the type the project already stores that property
+        as, rejects the request with a 400 and nothing is written. A 409 means another
+        request created one of the properties with a different value type at the same
+        moment; nothing was written. Optionally pass `metrics` to (re)score metrics over
+        the updated properties, which triggers a billed metric collection job and
+        requires the `metric:create` permission.
+
+        Args:
+          properties: Properties to change on the call. A string, number or boolean value adds the
+              property or overwrites it; null removes it. Properties left out are untouched.
+              Keys are stored in snake_case, as on POST /v1/call. A property keeps the value
+              type it was first stored with in the project, so a value of another type is
+              rejected. Properties Roark sets itself (direction, duration_seconds, agent_id,
+              ...) can't be changed. Max 100 per request.
+
+          metrics: Optional. Metric definitions to (re)score on this call once the properties are
+              written, e.g. metrics that read the call's properties. Triggers a metric
+              collection job (billed, credit-gated) and requires the 'metric:create'
+              permission. Omit to update properties without scoring. Max 20.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._patch(
+            f"/v1/call/{call_id}/properties",
+            body=maybe_transform(
+                {
+                    "properties": properties,
+                    "metrics": metrics,
+                },
+                call_update_properties_params.CallUpdatePropertiesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallUpdatePropertiesResponse,
+        )
+
 
 class AsyncCallResource(AsyncAPIResource):
     @cached_property
@@ -1003,6 +1070,71 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallListSentimentRunsResponse,
         )
 
+    async def update_properties(
+        self,
+        call_id: str,
+        *,
+        properties: Dict[str, Union[str, float, bool, None]],
+        metrics: Iterable[call_update_properties_params.Metric] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallUpdatePropertiesResponse:
+        """Add, overwrite or remove custom properties on an already-existing call.
+
+        Use this
+        for data that becomes available after the call was created, e.g. an outcome your
+        system validates a few minutes later. Merge semantics: a value adds or
+        overwrites the property, null removes it, and properties left out are untouched.
+        The patch is applied whole or not at all: a property Roark sets itself, or a
+        value whose type differs from the type the project already stores that property
+        as, rejects the request with a 400 and nothing is written. A 409 means another
+        request created one of the properties with a different value type at the same
+        moment; nothing was written. Optionally pass `metrics` to (re)score metrics over
+        the updated properties, which triggers a billed metric collection job and
+        requires the `metric:create` permission.
+
+        Args:
+          properties: Properties to change on the call. A string, number or boolean value adds the
+              property or overwrites it; null removes it. Properties left out are untouched.
+              Keys are stored in snake_case, as on POST /v1/call. A property keeps the value
+              type it was first stored with in the project, so a value of another type is
+              rejected. Properties Roark sets itself (direction, duration_seconds, agent_id,
+              ...) can't be changed. Max 100 per request.
+
+          metrics: Optional. Metric definitions to (re)score on this call once the properties are
+              written, e.g. metrics that read the call's properties. Triggers a metric
+              collection job (billed, credit-gated) and requires the 'metric:create'
+              permission. Omit to update properties without scoring. Max 20.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._patch(
+            f"/v1/call/{call_id}/properties",
+            body=await async_maybe_transform(
+                {
+                    "properties": properties,
+                    "metrics": metrics,
+                },
+                call_update_properties_params.CallUpdatePropertiesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallUpdatePropertiesResponse,
+        )
+
 
 class CallResourceWithRawResponse:
     def __init__(self, call: CallResource) -> None:
@@ -1028,6 +1160,9 @@ class CallResourceWithRawResponse:
         )
         self.list_sentiment_runs = to_raw_response_wrapper(
             call.list_sentiment_runs,
+        )
+        self.update_properties = to_raw_response_wrapper(
+            call.update_properties,
         )
 
 
@@ -1056,6 +1191,9 @@ class AsyncCallResourceWithRawResponse:
         self.list_sentiment_runs = async_to_raw_response_wrapper(
             call.list_sentiment_runs,
         )
+        self.update_properties = async_to_raw_response_wrapper(
+            call.update_properties,
+        )
 
 
 class CallResourceWithStreamingResponse:
@@ -1083,6 +1221,9 @@ class CallResourceWithStreamingResponse:
         self.list_sentiment_runs = to_streamed_response_wrapper(
             call.list_sentiment_runs,
         )
+        self.update_properties = to_streamed_response_wrapper(
+            call.update_properties,
+        )
 
 
 class AsyncCallResourceWithStreamingResponse:
@@ -1109,4 +1250,7 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.list_sentiment_runs = async_to_streamed_response_wrapper(
             call.list_sentiment_runs,
+        )
+        self.update_properties = async_to_streamed_response_wrapper(
+            call.update_properties,
         )
