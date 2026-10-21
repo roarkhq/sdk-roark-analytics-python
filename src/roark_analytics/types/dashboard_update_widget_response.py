@@ -36,9 +36,6 @@ class DataMeasureFilter(BaseModel):
     ]
     """What the filter narrows on. GET /v1/analytics/schema lists each type."""
 
-    value: Union[str, float, bool]
-    """The value to compare against (an agent id, "call" / "chat", a property value)."""
-
     operator: Optional[
         Literal[
             "EQUALS",
@@ -49,14 +46,26 @@ class DataMeasureFilter(BaseModel):
             "LESS_THAN_OR_EQUAL_TO",
             "CONTAINS",
             "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
         ]
     ] = None
-    """Defaults to EQUALS."""
+    """
+    Defaults to EQUALS. IS_SET / IS_NOT_SET (CALL_PROPERTY only) keep conversations
+    where the property is set, whatever the value, or missing (never sent, sent as
+    null, or removed); they take no value.
+    """
 
     property: Optional[str] = None
     """
     The property to compare. Required for CALL_PROPERTY and METRIC_PROPERTY; may be
     omitted for AGENT_PROPERTY, DATASET, MODALITY and CALL_ID.
+    """
+
+    value: Optional[Union[str, float, bool]] = None
+    """
+    The value to compare against (an agent id, "call" / "chat", a property value).
+    Required except with IS_SET / IS_NOT_SET.
     """
 
 
@@ -118,6 +127,8 @@ class DataMeasure(BaseModel):
             "LESS_THAN_OR_EQUAL_TO",
             "CONTAINS",
             "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
         ]
     ] = FieldInfo(alias="passOperator", default=None)
     """

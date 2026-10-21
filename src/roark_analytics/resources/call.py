@@ -10,12 +10,13 @@ import httpx
 from ..types import (
     call_list_params,
     call_create_params,
+    call_batch_delete_params,
     call_list_metrics_params,
     call_get_transcript_params,
     call_update_properties_params,
     call_append_tool_invocations_params,
 )
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -28,8 +29,10 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.call_list_response import CallListResponse
 from ..types.call_create_response import CallCreateResponse
+from ..types.call_delete_response import CallDeleteResponse
 from ..types.call_get_cost_response import CallGetCostResponse
 from ..types.call_get_by_id_response import CallGetByIDResponse
+from ..types.call_batch_delete_response import CallBatchDeleteResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
 from ..types.call_update_properties_response import CallUpdatePropertiesResponse
@@ -211,6 +214,7 @@ class CallResource(SyncAPIResource):
         counted_in_results: Literal["true", "false"] | Omit = omit,
         exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
+        properties: Dict[str, call_list_params.Property] | Omit = omit,
         search_text: str | Omit = omit,
         simulation_run_plan_ids: str | Omit = omit,
         simulation_run_plan_job_id: str | Omit = omit,
@@ -240,6 +244,14 @@ class CallResource(SyncAPIResource):
               false is the same as leaving it out.
 
           limit: Maximum number of calls to return (default: 20, max: 100)
+
+          properties: Filter on custom properties, one entry per property name:
+              properties[<name>][exists]=true keeps calls that have the property set (whatever
+              the value), properties[<name>][exists]=false keeps calls missing it (never sent,
+              sent as null, or removed). A property the project has never seen is missing on
+              every call. Names match the way properties are stored, so planTier and plan_tier
+              are one property. At most 20 properties; a name taken by a built-in call filter,
+              such as status, is rejected with 400.
 
           search_text: Search text to filter calls by title, summary, or transcript
 
@@ -278,6 +290,7 @@ class CallResource(SyncAPIResource):
                         "counted_in_results": counted_in_results,
                         "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,
+                        "properties": properties,
                         "search_text": search_text,
                         "simulation_run_plan_ids": simulation_run_plan_ids,
                         "simulation_run_plan_job_id": simulation_run_plan_job_id,
@@ -290,6 +303,42 @@ class CallResource(SyncAPIResource):
                 ),
             ),
             cast_to=CallListResponse,
+        )
+
+    def delete(
+        self,
+        call_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallDeleteResponse:
+        """Deletes a call by its ID.
+
+        The call, its metrics and its analysis are hidden from
+        every read, and any analysis still running on it is cancelled. Returns 404 when
+        the call does not exist in this project or was already deleted.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._delete(
+            f"/v1/call/{call_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallDeleteResponse,
         )
 
     def append_tool_invocations(
@@ -348,6 +397,45 @@ class CallResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CallAppendToolInvocationsResponse,
+        )
+
+    def batch_delete(
+        self,
+        *,
+        call_ids: SequenceNotStr[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallBatchDeleteResponse:
+        """Deletes up to 100 calls by ID in one request.
+
+        Each deleted call, its metrics and
+        its analysis are hidden from every read, and any analysis still running on it is
+        cancelled. IDs that do not exist in this project, or were already deleted, are
+        returned in notFoundCallIds and left untouched. The request succeeds even when
+        none of the calls are found. IDs are returned lowercase, each once.
+
+        Args:
+          call_ids: IDs of the calls to delete, at most 100. Repeated IDs are counted once.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/call/batch-delete",
+            body=maybe_transform({"call_ids": call_ids}, call_batch_delete_params.CallBatchDeleteParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallBatchDeleteResponse,
         )
 
     def get_by_id(
@@ -796,6 +884,7 @@ class AsyncCallResource(AsyncAPIResource):
         counted_in_results: Literal["true", "false"] | Omit = omit,
         exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
+        properties: Dict[str, call_list_params.Property] | Omit = omit,
         search_text: str | Omit = omit,
         simulation_run_plan_ids: str | Omit = omit,
         simulation_run_plan_job_id: str | Omit = omit,
@@ -825,6 +914,14 @@ class AsyncCallResource(AsyncAPIResource):
               false is the same as leaving it out.
 
           limit: Maximum number of calls to return (default: 20, max: 100)
+
+          properties: Filter on custom properties, one entry per property name:
+              properties[<name>][exists]=true keeps calls that have the property set (whatever
+              the value), properties[<name>][exists]=false keeps calls missing it (never sent,
+              sent as null, or removed). A property the project has never seen is missing on
+              every call. Names match the way properties are stored, so planTier and plan_tier
+              are one property. At most 20 properties; a name taken by a built-in call filter,
+              such as status, is rejected with 400.
 
           search_text: Search text to filter calls by title, summary, or transcript
 
@@ -863,6 +960,7 @@ class AsyncCallResource(AsyncAPIResource):
                         "counted_in_results": counted_in_results,
                         "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,
+                        "properties": properties,
                         "search_text": search_text,
                         "simulation_run_plan_ids": simulation_run_plan_ids,
                         "simulation_run_plan_job_id": simulation_run_plan_job_id,
@@ -875,6 +973,42 @@ class AsyncCallResource(AsyncAPIResource):
                 ),
             ),
             cast_to=CallListResponse,
+        )
+
+    async def delete(
+        self,
+        call_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallDeleteResponse:
+        """Deletes a call by its ID.
+
+        The call, its metrics and its analysis are hidden from
+        every read, and any analysis still running on it is cancelled. Returns 404 when
+        the call does not exist in this project or was already deleted.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._delete(
+            f"/v1/call/{call_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallDeleteResponse,
         )
 
     async def append_tool_invocations(
@@ -933,6 +1067,45 @@ class AsyncCallResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CallAppendToolInvocationsResponse,
+        )
+
+    async def batch_delete(
+        self,
+        *,
+        call_ids: SequenceNotStr[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallBatchDeleteResponse:
+        """Deletes up to 100 calls by ID in one request.
+
+        Each deleted call, its metrics and
+        its analysis are hidden from every read, and any analysis still running on it is
+        cancelled. IDs that do not exist in this project, or were already deleted, are
+        returned in notFoundCallIds and left untouched. The request succeeds even when
+        none of the calls are found. IDs are returned lowercase, each once.
+
+        Args:
+          call_ids: IDs of the calls to delete, at most 100. Repeated IDs are counted once.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/call/batch-delete",
+            body=await async_maybe_transform({"call_ids": call_ids}, call_batch_delete_params.CallBatchDeleteParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallBatchDeleteResponse,
         )
 
     async def get_by_id(
@@ -1221,8 +1394,14 @@ class CallResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             call.list,
         )
+        self.delete = to_raw_response_wrapper(
+            call.delete,
+        )
         self.append_tool_invocations = to_raw_response_wrapper(
             call.append_tool_invocations,
+        )
+        self.batch_delete = to_raw_response_wrapper(
+            call.batch_delete,
         )
         self.get_by_id = to_raw_response_wrapper(
             call.get_by_id,
@@ -1254,8 +1433,14 @@ class AsyncCallResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             call.list,
         )
+        self.delete = async_to_raw_response_wrapper(
+            call.delete,
+        )
         self.append_tool_invocations = async_to_raw_response_wrapper(
             call.append_tool_invocations,
+        )
+        self.batch_delete = async_to_raw_response_wrapper(
+            call.batch_delete,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             call.get_by_id,
@@ -1287,8 +1472,14 @@ class CallResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             call.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            call.delete,
+        )
         self.append_tool_invocations = to_streamed_response_wrapper(
             call.append_tool_invocations,
+        )
+        self.batch_delete = to_streamed_response_wrapper(
+            call.batch_delete,
         )
         self.get_by_id = to_streamed_response_wrapper(
             call.get_by_id,
@@ -1320,8 +1511,14 @@ class AsyncCallResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             call.list,
         )
+        self.delete = async_to_streamed_response_wrapper(
+            call.delete,
+        )
         self.append_tool_invocations = async_to_streamed_response_wrapper(
             call.append_tool_invocations,
+        )
+        self.batch_delete = async_to_streamed_response_wrapper(
+            call.batch_delete,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             call.get_by_id,

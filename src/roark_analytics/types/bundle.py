@@ -799,8 +799,6 @@ class ToolConfig(BaseModel):
 class DashboardConfigFilter(BaseModel):
     type: Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]
 
-    value: Union[str, float, bool]
-
     operator: Optional[
         Literal[
             "EQUALS",
@@ -811,10 +809,14 @@ class DashboardConfigFilter(BaseModel):
             "LESS_THAN_OR_EQUAL_TO",
             "CONTAINS",
             "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
         ]
     ] = None
 
     property: Optional[str] = None
+
+    value: Optional[Union[str, float, bool]] = None
 
 
 class DashboardConfigTimeRangeUnionMember0(BaseModel):

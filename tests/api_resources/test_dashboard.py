@@ -40,7 +40,7 @@ class TestDashboard:
         dashboard = client.dashboard.create(
             name="x",
             description="description",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             is_default=True,
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
             widgets=[
@@ -54,9 +54,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "is_baseline": True,
@@ -75,9 +75,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -87,9 +87,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -100,7 +100,7 @@ class TestDashboard:
                     "description": "description",
                     "display": "LINE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "interval": "HOUR",
                     "size": "SMALL",
@@ -145,7 +145,7 @@ class TestDashboard:
         dashboard = client.dashboard.update(
             dashboard_id="6f1d2c3b-4a5e-4f60-8b71-9c0d1e2f3a4b",
             description="description",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             is_default=True,
             name="x",
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
@@ -160,9 +160,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "is_baseline": True,
@@ -181,9 +181,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -193,9 +193,9 @@ class TestDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -206,7 +206,7 @@ class TestDashboard:
                     "description": "description",
                     "display": "LINE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "interval": "HOUR",
                     "size": "SMALL",
@@ -329,7 +329,7 @@ class TestDashboard:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -345,14 +345,14 @@ class TestDashboard:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
@@ -361,7 +361,7 @@ class TestDashboard:
             comparison_mode="NONE",
             description="description",
             display="LINE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             interval="HOUR",
             size="SMALL",
         )
@@ -619,7 +619,7 @@ class TestDashboard:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -635,14 +635,14 @@ class TestDashboard:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
@@ -651,7 +651,7 @@ class TestDashboard:
             comparison_mode="NONE",
             description="description",
             display="LINE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             interval="HOUR",
             size="SMALL",
         )
@@ -723,7 +723,7 @@ class TestAsyncDashboard:
         dashboard = await async_client.dashboard.create(
             name="x",
             description="description",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             is_default=True,
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
             widgets=[
@@ -737,9 +737,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "is_baseline": True,
@@ -758,9 +758,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -770,9 +770,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -783,7 +783,7 @@ class TestAsyncDashboard:
                     "description": "description",
                     "display": "LINE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "interval": "HOUR",
                     "size": "SMALL",
@@ -828,7 +828,7 @@ class TestAsyncDashboard:
         dashboard = await async_client.dashboard.update(
             dashboard_id="6f1d2c3b-4a5e-4f60-8b71-9c0d1e2f3a4b",
             description="description",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             is_default=True,
             name="x",
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
@@ -843,9 +843,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "is_baseline": True,
@@ -864,9 +864,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -876,9 +876,9 @@ class TestAsyncDashboard:
                             "filters": [
                                 {
                                     "type": "METRIC_PROPERTY",
-                                    "value": "string",
                                     "operator": "EQUALS",
                                     "property": "property",
+                                    "value": "string",
                                 }
                             ],
                             "name": "x",
@@ -889,7 +889,7 @@ class TestAsyncDashboard:
                     "description": "description",
                     "display": "LINE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "interval": "HOUR",
                     "size": "SMALL",
@@ -1012,7 +1012,7 @@ class TestAsyncDashboard:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -1028,14 +1028,14 @@ class TestAsyncDashboard:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
@@ -1044,7 +1044,7 @@ class TestAsyncDashboard:
             comparison_mode="NONE",
             description="description",
             display="LINE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             interval="HOUR",
             size="SMALL",
         )
@@ -1302,7 +1302,7 @@ class TestAsyncDashboard:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -1318,14 +1318,14 @@ class TestAsyncDashboard:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
@@ -1334,7 +1334,7 @@ class TestAsyncDashboard:
             comparison_mode="NONE",
             description="description",
             display="LINE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             interval="HOUR",
             size="SMALL",
         )
