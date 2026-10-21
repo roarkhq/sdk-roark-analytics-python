@@ -13,6 +13,7 @@ from roark_analytics.types import (
     CallListResponse,
     CallCreateResponse,
     CallGetByIDResponse,
+    CallGetCostResponse,
     CallListMetricsResponse,
     CallGetTranscriptResponse,
     CallUpdatePropertiesResponse,
@@ -264,6 +265,44 @@ class TestCall:
     def test_path_params_get_by_id(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
             client.call.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
+    def test_method_get_cost(self, client: Roark) -> None:
+        call = client.call.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_cost(self, client: Roark) -> None:
+        response = client.call.with_raw_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_cost(self, client: Roark) -> None:
+        with client.call.with_streaming_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_cost(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            client.call.with_raw_response.get_cost(
                 "",
             )
 
@@ -693,6 +732,44 @@ class TestAsyncCall:
     async def test_path_params_get_by_id(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
             await async_client.call.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
+    async def test_method_get_cost(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_cost(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_cost(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallGetCostResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_cost(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            await async_client.call.with_raw_response.get_cost(
                 "",
             )
 

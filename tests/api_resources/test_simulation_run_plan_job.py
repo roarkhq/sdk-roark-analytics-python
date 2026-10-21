@@ -14,6 +14,7 @@ from roark_analytics.types import (
     SimulationRunPlanJobStartResponse,
     SimulationRunPlanJobCancelResponse,
     SimulationRunPlanJobGetByIDResponse,
+    SimulationRunPlanJobGetCostResponse,
     SimulationRunPlanJobGetResultsResponse,
     SimulationRunPlanJobCreateDebriefResponse,
 )
@@ -180,6 +181,44 @@ class TestSimulationRunPlanJob:
     def test_path_params_get_by_id(self, client: Roark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.simulation_run_plan_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
+    def test_method_get_cost(self, client: Roark) -> None:
+        simulation_run_plan_job = client.simulation_run_plan_job.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_cost(self, client: Roark) -> None:
+        response = client.simulation_run_plan_job.with_raw_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = response.parse()
+        assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_cost(self, client: Roark) -> None:
+        with client.simulation_run_plan_job.with_streaming_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = response.parse()
+            assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_cost(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_run_plan_job.with_raw_response.get_cost(
                 "",
             )
 
@@ -437,6 +476,44 @@ class TestAsyncSimulationRunPlanJob:
     async def test_path_params_get_by_id(self, async_client: AsyncRoark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.simulation_run_plan_job.with_raw_response.get_by_id(
+                "",
+            )
+
+    @parametrize
+    async def test_method_get_cost(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan_job = await async_client.simulation_run_plan_job.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_cost(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation_run_plan_job.with_raw_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = await response.parse()
+        assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_cost(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation_run_plan_job.with_streaming_response.get_cost(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = await response.parse()
+            assert_matches_type(SimulationRunPlanJobGetCostResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_cost(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_run_plan_job.with_raw_response.get_cost(
                 "",
             )
 
