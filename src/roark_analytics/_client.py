@@ -35,6 +35,7 @@ if TYPE_CHECKING:
         me,
         call,
         agent,
+        usage,
         config,
         health,
         metric,
@@ -68,6 +69,7 @@ if TYPE_CHECKING:
     from .resources.me import MeResource, AsyncMeResource
     from .resources.call import CallResource, AsyncCallResource
     from .resources.agent import AgentResource, AsyncAgentResource
+    from .resources.usage import UsageResource, AsyncUsageResource
     from .resources.config import ConfigResource, AsyncConfigResource
     from .resources.health import HealthResource, AsyncHealthResource
     from .resources.metric import MetricResource, AsyncMetricResource
@@ -185,6 +187,12 @@ class Roark(SyncAPIClient):
         from .resources.project import ProjectResource
 
         return ProjectResource(self)
+
+    @cached_property
+    def usage(self) -> UsageResource:
+        from .resources.usage import UsageResource
+
+        return UsageResource(self)
 
     @cached_property
     def call(self) -> CallResource:
@@ -573,6 +581,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncProjectResource(self)
 
     @cached_property
+    def usage(self) -> AsyncUsageResource:
+        from .resources.usage import AsyncUsageResource
+
+        return AsyncUsageResource(self)
+
+    @cached_property
     def call(self) -> AsyncCallResource:
         from .resources.call import AsyncCallResource
 
@@ -898,6 +912,12 @@ class RoarkWithRawResponse:
         return ProjectResourceWithRawResponse(self._client.project)
 
     @cached_property
+    def usage(self) -> usage.UsageResourceWithRawResponse:
+        from .resources.usage import UsageResourceWithRawResponse
+
+        return UsageResourceWithRawResponse(self._client.usage)
+
+    @cached_property
     def call(self) -> call.CallResourceWithRawResponse:
         from .resources.call import CallResourceWithRawResponse
 
@@ -1095,6 +1115,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.project import AsyncProjectResourceWithRawResponse
 
         return AsyncProjectResourceWithRawResponse(self._client.project)
+
+    @cached_property
+    def usage(self) -> usage.AsyncUsageResourceWithRawResponse:
+        from .resources.usage import AsyncUsageResourceWithRawResponse
+
+        return AsyncUsageResourceWithRawResponse(self._client.usage)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithRawResponse:
@@ -1296,6 +1322,12 @@ class RoarkWithStreamedResponse:
         return ProjectResourceWithStreamingResponse(self._client.project)
 
     @cached_property
+    def usage(self) -> usage.UsageResourceWithStreamingResponse:
+        from .resources.usage import UsageResourceWithStreamingResponse
+
+        return UsageResourceWithStreamingResponse(self._client.usage)
+
+    @cached_property
     def call(self) -> call.CallResourceWithStreamingResponse:
         from .resources.call import CallResourceWithStreamingResponse
 
@@ -1493,6 +1525,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.project import AsyncProjectResourceWithStreamingResponse
 
         return AsyncProjectResourceWithStreamingResponse(self._client.project)
+
+    @cached_property
+    def usage(self) -> usage.AsyncUsageResourceWithStreamingResponse:
+        from .resources.usage import AsyncUsageResourceWithStreamingResponse
+
+        return AsyncUsageResourceWithStreamingResponse(self._client.usage)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithStreamingResponse:

@@ -24,6 +24,14 @@ from .agent import (
     AgentResourceWithStreamingResponse,
     AsyncAgentResourceWithStreamingResponse,
 )
+from .usage import (
+    UsageResource,
+    AsyncUsageResource,
+    UsageResourceWithRawResponse,
+    AsyncUsageResourceWithRawResponse,
+    UsageResourceWithStreamingResponse,
+    AsyncUsageResourceWithStreamingResponse,
+)
 from .config import (
     ConfigResource,
     AsyncConfigResource,
@@ -276,6 +284,12 @@ __all__ = [
     "AsyncProjectResourceWithRawResponse",
     "ProjectResourceWithStreamingResponse",
     "AsyncProjectResourceWithStreamingResponse",
+    "UsageResource",
+    "AsyncUsageResource",
+    "UsageResourceWithRawResponse",
+    "AsyncUsageResourceWithRawResponse",
+    "UsageResourceWithStreamingResponse",
+    "AsyncUsageResourceWithStreamingResponse",
     "CallResource",
     "AsyncCallResource",
     "CallResourceWithRawResponse",
