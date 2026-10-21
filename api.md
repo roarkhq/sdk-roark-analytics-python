@@ -42,6 +42,18 @@ Methods:
 
 - <code title="get /v1/projects">client.project.<a href="./src/roark_analytics/resources/project.py">list</a>() -> <a href="./src/roark_analytics/types/project_list_response.py">ProjectListResponse</a></code>
 
+# Usage
+
+Types:
+
+```python
+from roark_analytics.types import UsageGetResponse
+```
+
+Methods:
+
+- <code title="get /v1/usage">client.usage.<a href="./src/roark_analytics/resources/usage.py">get</a>(\*\*<a href="src/roark_analytics/types/usage_get_params.py">params</a>) -> <a href="./src/roark_analytics/types/usage_get_response.py">UsageGetResponse</a></code>
+
 # Call
 
 Types:
