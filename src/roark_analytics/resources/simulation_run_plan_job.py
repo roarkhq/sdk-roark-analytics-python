@@ -27,6 +27,7 @@ from .._base_client import make_request_options
 from ..types.simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse
 from ..types.simulation_run_plan_job_start_response import SimulationRunPlanJobStartResponse
 from ..types.simulation_run_plan_job_cancel_response import SimulationRunPlanJobCancelResponse
+from ..types.simulation_run_plan_job_get_cost_response import SimulationRunPlanJobGetCostResponse
 from ..types.simulation_run_plan_job_get_by_id_response import SimulationRunPlanJobGetByIDResponse
 from ..types.simulation_run_plan_job_get_results_response import SimulationRunPlanJobGetResultsResponse
 from ..types.simulation_run_plan_job_create_debrief_response import SimulationRunPlanJobCreateDebriefResponse
@@ -250,6 +251,43 @@ class SimulationRunPlanJobResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SimulationRunPlanJobGetByIDResponse,
+        )
+
+    def get_cost(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetCostResponse:
+        """
+        The billable spend for one simulation run (run plan job), split by cost type,
+        with the spend of each simulated call in it. Safe to call while the run is in
+        progress: totals reflect the costs recorded so far. Amounts are billable spend
+        only, in exact micro-dollars (`*UsdMicros`) and dollars (`*Usd`, for display).
+        Requires an API key with the `billing:read` permission.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._get(
+            f"/v1/simulation/plan/job/{job_id}/cost",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobGetCostResponse,
         )
 
     def get_results(
@@ -586,6 +624,43 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobGetByIDResponse,
         )
 
+    async def get_cost(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetCostResponse:
+        """
+        The billable spend for one simulation run (run plan job), split by cost type,
+        with the spend of each simulated call in it. Safe to call while the run is in
+        progress: totals reflect the costs recorded so far. Amounts are billable spend
+        only, in exact micro-dollars (`*UsdMicros`) and dollars (`*Usd`, for display).
+        Requires an API key with the `billing:read` permission.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._get(
+            f"/v1/simulation/plan/job/{job_id}/cost",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobGetCostResponse,
+        )
+
     async def get_results(
         self,
         job_id: str,
@@ -718,6 +793,9 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.get_by_id = to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
+        self.get_cost = to_raw_response_wrapper(
+            simulation_run_plan_job.get_cost,
+        )
         self.get_results = to_raw_response_wrapper(
             simulation_run_plan_job.get_results,
         )
@@ -741,6 +819,9 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
         )
         self.get_by_id = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_cost = async_to_raw_response_wrapper(
+            simulation_run_plan_job.get_cost,
         )
         self.get_results = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_results,
@@ -766,6 +847,9 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
         )
+        self.get_cost = to_streamed_response_wrapper(
+            simulation_run_plan_job.get_cost,
+        )
         self.get_results = to_streamed_response_wrapper(
             simulation_run_plan_job.get_results,
         )
@@ -789,6 +873,9 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_by_id,
+        )
+        self.get_cost = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.get_cost,
         )
         self.get_results = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_results,

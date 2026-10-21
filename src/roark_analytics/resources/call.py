@@ -28,6 +28,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.call_list_response import CallListResponse
 from ..types.call_create_response import CallCreateResponse
+from ..types.call_get_cost_response import CallGetCostResponse
 from ..types.call_get_by_id_response import CallGetByIDResponse
 from ..types.call_list_metrics_response import CallListMetricsResponse
 from ..types.call_get_transcript_response import CallGetTranscriptResponse
@@ -380,6 +381,43 @@ class CallResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CallGetByIDResponse,
+        )
+
+    def get_cost(
+        self,
+        call_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetCostResponse:
+        """
+        The billable spend attributed to one call, split by cost type, with every cost
+        line behind it. Simulated calls include the costs their simulation incurred
+        before the call connected. Amounts are billable spend only, in exact
+        micro-dollars (`*UsdMicros`) and dollars (`*Usd`, for display). Requires an API
+        key with the `billing:read` permission.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return self._get(
+            f"/v1/call/{call_id}/cost",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallGetCostResponse,
         )
 
     def get_transcript(
@@ -930,6 +968,43 @@ class AsyncCallResource(AsyncAPIResource):
             cast_to=CallGetByIDResponse,
         )
 
+    async def get_cost(
+        self,
+        call_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CallGetCostResponse:
+        """
+        The billable spend attributed to one call, split by cost type, with every cost
+        line behind it. Simulated calls include the costs their simulation incurred
+        before the call connected. Amounts are billable spend only, in exact
+        micro-dollars (`*UsdMicros`) and dollars (`*Usd`, for display). Requires an API
+        key with the `billing:read` permission.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not call_id:
+            raise ValueError(f"Expected a non-empty value for `call_id` but received {call_id!r}")
+        return await self._get(
+            f"/v1/call/{call_id}/cost",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CallGetCostResponse,
+        )
+
     async def get_transcript(
         self,
         call_id: str,
@@ -1152,6 +1227,9 @@ class CallResourceWithRawResponse:
         self.get_by_id = to_raw_response_wrapper(
             call.get_by_id,
         )
+        self.get_cost = to_raw_response_wrapper(
+            call.get_cost,
+        )
         self.get_transcript = to_raw_response_wrapper(
             call.get_transcript,
         )
@@ -1181,6 +1259,9 @@ class AsyncCallResourceWithRawResponse:
         )
         self.get_by_id = async_to_raw_response_wrapper(
             call.get_by_id,
+        )
+        self.get_cost = async_to_raw_response_wrapper(
+            call.get_cost,
         )
         self.get_transcript = async_to_raw_response_wrapper(
             call.get_transcript,
@@ -1212,6 +1293,9 @@ class CallResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             call.get_by_id,
         )
+        self.get_cost = to_streamed_response_wrapper(
+            call.get_cost,
+        )
         self.get_transcript = to_streamed_response_wrapper(
             call.get_transcript,
         )
@@ -1241,6 +1325,9 @@ class AsyncCallResourceWithStreamingResponse:
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             call.get_by_id,
+        )
+        self.get_cost = async_to_streamed_response_wrapper(
+            call.get_cost,
         )
         self.get_transcript = async_to_streamed_response_wrapper(
             call.get_transcript,

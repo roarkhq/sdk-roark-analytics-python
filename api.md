@@ -64,6 +64,7 @@ from roark_analytics.types import (
     CallListResponse,
     CallAppendToolInvocationsResponse,
     CallGetByIDResponse,
+    CallGetCostResponse,
     CallGetTranscriptResponse,
     CallListMetricsResponse,
     CallListSentimentRunsResponse,
@@ -77,6 +78,7 @@ Methods:
 - <code title="get /v1/call">client.call.<a href="./src/roark_analytics/resources/call.py">list</a>(\*\*<a href="src/roark_analytics/types/call_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_response.py">CallListResponse</a></code>
 - <code title="post /v1/call/{callId}/tool-invocations">client.call.<a href="./src/roark_analytics/resources/call.py">append_tool_invocations</a>(call_id, \*\*<a href="src/roark_analytics/types/call_append_tool_invocations_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_append_tool_invocations_response.py">CallAppendToolInvocationsResponse</a></code>
 - <code title="get /v1/call/{callId}">client.call.<a href="./src/roark_analytics/resources/call.py">get_by_id</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_by_id_response.py">CallGetByIDResponse</a></code>
+- <code title="get /v1/call/{callId}/cost">client.call.<a href="./src/roark_analytics/resources/call.py">get_cost</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_cost_response.py">CallGetCostResponse</a></code>
 - <code title="get /v1/call/{callId}/transcript">client.call.<a href="./src/roark_analytics/resources/call.py">get_transcript</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_transcript_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_transcript_response.py">CallGetTranscriptResponse</a></code>
 - <code title="get /v1/call/{callId}/metrics">client.call.<a href="./src/roark_analytics/resources/call.py">list_metrics</a>(call_id, \*\*<a href="src/roark_analytics/types/call_list_metrics_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_metrics_response.py">CallListMetricsResponse</a></code>
 - <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">list_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_list_sentiment_runs_response.py">CallListSentimentRunsResponse</a></code>
@@ -343,6 +345,7 @@ from roark_analytics.types import (
     SimulationRunPlanJobCancelResponse,
     SimulationRunPlanJobCreateDebriefResponse,
     SimulationRunPlanJobGetByIDResponse,
+    SimulationRunPlanJobGetCostResponse,
     SimulationRunPlanJobGetResultsResponse,
     SimulationRunPlanJobStartResponse,
 )
@@ -354,6 +357,7 @@ Methods:
 - <code title="post /v1/simulation/plan/job/{jobId}/cancel">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">cancel</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_cancel_response.py">SimulationRunPlanJobCancelResponse</a></code>
 - <code title="post /v1/simulation/plan/job/{jobId}/debrief">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">create_debrief</a>(job_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_create_debrief_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_create_debrief_response.py">SimulationRunPlanJobCreateDebriefResponse</a></code>
 - <code title="get /v1/simulation/plan/job/{jobId}">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_by_id_response.py">SimulationRunPlanJobGetByIDResponse</a></code>
+- <code title="get /v1/simulation/plan/job/{jobId}/cost">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_cost</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_cost_response.py">SimulationRunPlanJobGetCostResponse</a></code>
 - <code title="get /v1/simulation/plan/job/{jobId}/results">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">get_results</a>(job_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_get_results_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_get_results_response.py">SimulationRunPlanJobGetResultsResponse</a></code>
 - <code title="post /v1/simulation/plan/{planId}/job">client.simulation_run_plan_job.<a href="./src/roark_analytics/resources/simulation_run_plan_job.py">start</a>(plan_id, \*\*<a href="src/roark_analytics/types/simulation_run_plan_job_start_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_run_plan_job_start_response.py">SimulationRunPlanJobStartResponse</a></code>
 
