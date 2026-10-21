@@ -40,7 +40,9 @@ if TYPE_CHECKING:
         metric,
         project,
         webhook,
+        analytics,
         benchmark,
+        dashboard,
         simulation,
         agent_config,
         agent_prompt,
@@ -71,7 +73,9 @@ if TYPE_CHECKING:
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.project import ProjectResource, AsyncProjectResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
+    from .resources.analytics import AnalyticsResource, AsyncAnalyticsResource
     from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
+    from .resources.dashboard import DashboardResource, AsyncDashboardResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.agent_config import AgentConfigResource, AsyncAgentConfigResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
@@ -187,6 +191,18 @@ class Roark(SyncAPIClient):
         from .resources.call import CallResource
 
         return CallResource(self)
+
+    @cached_property
+    def analytics(self) -> AnalyticsResource:
+        from .resources.analytics import AnalyticsResource
+
+        return AnalyticsResource(self)
+
+    @cached_property
+    def dashboard(self) -> DashboardResource:
+        from .resources.dashboard import DashboardResource
+
+        return DashboardResource(self)
 
     @cached_property
     def metric(self) -> MetricResource:
@@ -563,6 +579,18 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncCallResource(self)
 
     @cached_property
+    def analytics(self) -> AsyncAnalyticsResource:
+        from .resources.analytics import AsyncAnalyticsResource
+
+        return AsyncAnalyticsResource(self)
+
+    @cached_property
+    def dashboard(self) -> AsyncDashboardResource:
+        from .resources.dashboard import AsyncDashboardResource
+
+        return AsyncDashboardResource(self)
+
+    @cached_property
     def metric(self) -> AsyncMetricResource:
         from .resources.metric import AsyncMetricResource
 
@@ -876,6 +904,18 @@ class RoarkWithRawResponse:
         return CallResourceWithRawResponse(self._client.call)
 
     @cached_property
+    def analytics(self) -> analytics.AnalyticsResourceWithRawResponse:
+        from .resources.analytics import AnalyticsResourceWithRawResponse
+
+        return AnalyticsResourceWithRawResponse(self._client.analytics)
+
+    @cached_property
+    def dashboard(self) -> dashboard.DashboardResourceWithRawResponse:
+        from .resources.dashboard import DashboardResourceWithRawResponse
+
+        return DashboardResourceWithRawResponse(self._client.dashboard)
+
+    @cached_property
     def metric(self) -> metric.MetricResourceWithRawResponse:
         from .resources.metric import MetricResourceWithRawResponse
 
@@ -1061,6 +1101,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.call import AsyncCallResourceWithRawResponse
 
         return AsyncCallResourceWithRawResponse(self._client.call)
+
+    @cached_property
+    def analytics(self) -> analytics.AsyncAnalyticsResourceWithRawResponse:
+        from .resources.analytics import AsyncAnalyticsResourceWithRawResponse
+
+        return AsyncAnalyticsResourceWithRawResponse(self._client.analytics)
+
+    @cached_property
+    def dashboard(self) -> dashboard.AsyncDashboardResourceWithRawResponse:
+        from .resources.dashboard import AsyncDashboardResourceWithRawResponse
+
+        return AsyncDashboardResourceWithRawResponse(self._client.dashboard)
 
     @cached_property
     def metric(self) -> metric.AsyncMetricResourceWithRawResponse:
@@ -1250,6 +1302,18 @@ class RoarkWithStreamedResponse:
         return CallResourceWithStreamingResponse(self._client.call)
 
     @cached_property
+    def analytics(self) -> analytics.AnalyticsResourceWithStreamingResponse:
+        from .resources.analytics import AnalyticsResourceWithStreamingResponse
+
+        return AnalyticsResourceWithStreamingResponse(self._client.analytics)
+
+    @cached_property
+    def dashboard(self) -> dashboard.DashboardResourceWithStreamingResponse:
+        from .resources.dashboard import DashboardResourceWithStreamingResponse
+
+        return DashboardResourceWithStreamingResponse(self._client.dashboard)
+
+    @cached_property
     def metric(self) -> metric.MetricResourceWithStreamingResponse:
         from .resources.metric import MetricResourceWithStreamingResponse
 
@@ -1435,6 +1499,18 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.call import AsyncCallResourceWithStreamingResponse
 
         return AsyncCallResourceWithStreamingResponse(self._client.call)
+
+    @cached_property
+    def analytics(self) -> analytics.AsyncAnalyticsResourceWithStreamingResponse:
+        from .resources.analytics import AsyncAnalyticsResourceWithStreamingResponse
+
+        return AsyncAnalyticsResourceWithStreamingResponse(self._client.analytics)
+
+    @cached_property
+    def dashboard(self) -> dashboard.AsyncDashboardResourceWithStreamingResponse:
+        from .resources.dashboard import AsyncDashboardResourceWithStreamingResponse
+
+        return AsyncDashboardResourceWithStreamingResponse(self._client.dashboard)
 
     @cached_property
     def metric(self) -> metric.AsyncMetricResourceWithStreamingResponse:

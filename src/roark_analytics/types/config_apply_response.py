@@ -24,6 +24,7 @@ class DataChange(BaseModel):
         "simulationGroup",
         "alert",
         "tool",
+        "dashboard",
         "project",
         "member",
     ]

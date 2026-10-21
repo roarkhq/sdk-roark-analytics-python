@@ -62,6 +62,7 @@ class ConfigResource(SyncAPIResource):
                     config_apply_params.SimulationGroupConfig,
                     config_apply_params.AlertConfig,
                     config_apply_params.ToolConfig,
+                    config_apply_params.DashboardConfig,
                 ],
                 config_apply_params.ProjectConfig,
             ]
@@ -125,6 +126,7 @@ class ConfigResource(SyncAPIResource):
                     config_diff_params.SimulationGroupConfig,
                     config_diff_params.AlertConfig,
                     config_diff_params.ToolConfig,
+                    config_diff_params.DashboardConfig,
                 ],
                 config_diff_params.ProjectConfig,
             ]
@@ -205,6 +207,7 @@ class AsyncConfigResource(AsyncAPIResource):
                     config_apply_params.SimulationGroupConfig,
                     config_apply_params.AlertConfig,
                     config_apply_params.ToolConfig,
+                    config_apply_params.DashboardConfig,
                 ],
                 config_apply_params.ProjectConfig,
             ]
@@ -268,6 +271,7 @@ class AsyncConfigResource(AsyncAPIResource):
                     config_diff_params.SimulationGroupConfig,
                     config_diff_params.AlertConfig,
                     config_diff_params.ToolConfig,
+                    config_diff_params.DashboardConfig,
                 ],
                 config_diff_params.ProjectConfig,
             ]
