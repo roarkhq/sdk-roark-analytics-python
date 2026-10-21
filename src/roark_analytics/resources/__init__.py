@@ -64,6 +64,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .analytics import (
+    AnalyticsResource,
+    AsyncAnalyticsResource,
+    AnalyticsResourceWithRawResponse,
+    AsyncAnalyticsResourceWithRawResponse,
+    AnalyticsResourceWithStreamingResponse,
+    AsyncAnalyticsResourceWithStreamingResponse,
+)
 from .benchmark import (
     BenchmarkResource,
     AsyncBenchmarkResource,
@@ -71,6 +79,14 @@ from .benchmark import (
     AsyncBenchmarkResourceWithRawResponse,
     BenchmarkResourceWithStreamingResponse,
     AsyncBenchmarkResourceWithStreamingResponse,
+)
+from .dashboard import (
+    DashboardResource,
+    AsyncDashboardResource,
+    DashboardResourceWithRawResponse,
+    AsyncDashboardResourceWithRawResponse,
+    DashboardResourceWithStreamingResponse,
+    AsyncDashboardResourceWithStreamingResponse,
 )
 from .simulation import (
     SimulationResource,
@@ -266,6 +282,18 @@ __all__ = [
     "AsyncCallResourceWithRawResponse",
     "CallResourceWithStreamingResponse",
     "AsyncCallResourceWithStreamingResponse",
+    "AnalyticsResource",
+    "AsyncAnalyticsResource",
+    "AnalyticsResourceWithRawResponse",
+    "AsyncAnalyticsResourceWithRawResponse",
+    "AnalyticsResourceWithStreamingResponse",
+    "AsyncAnalyticsResourceWithStreamingResponse",
+    "DashboardResource",
+    "AsyncDashboardResource",
+    "DashboardResourceWithRawResponse",
+    "AsyncDashboardResourceWithRawResponse",
+    "DashboardResourceWithStreamingResponse",
+    "AsyncDashboardResourceWithStreamingResponse",
     "MetricResource",
     "AsyncMetricResource",
     "MetricResourceWithRawResponse",

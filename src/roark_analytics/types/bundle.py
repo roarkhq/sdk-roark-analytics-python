@@ -21,6 +21,16 @@ __all__ = [
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
     "CollectorMetricConfig",
+    "DashboardConfig",
+    "DashboardConfigFilter",
+    "DashboardConfigTimeRangeUnionMember0",
+    "DashboardConfigTimeRangeUnionMember1",
+    "DashboardConfigTimeRangeUnionMember2",
+    "DashboardConfigTimeRangeUnionMember3",
+    "DashboardConfigWidget",
+    "DashboardConfigWidgetComparisonGroup",
+    "DashboardConfigWidgetMeasure",
+    "DashboardConfigWidgetMeasureBreakdown",
     "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
@@ -786,6 +796,163 @@ class ToolConfig(BaseModel):
     parameters: Optional[Dict[str, Literal["string", "number", "boolean"]]] = None
 
 
+class DashboardConfigFilter(BaseModel):
+    type: Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]
+
+    value: Union[str, float, bool]
+
+    operator: Optional[
+        Literal[
+            "EQUALS",
+            "NOT_EQUALS",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUAL_TO",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUAL_TO",
+            "CONTAINS",
+            "STARTS_WITH",
+        ]
+    ] = None
+
+    property: Optional[str] = None
+
+
+class DashboardConfigTimeRangeUnionMember0(BaseModel):
+    type: Literal["LAST"]
+
+    unit: Literal["DAYS", "WEEKS", "MONTHS"]
+
+    value: int
+
+
+class DashboardConfigTimeRangeUnionMember1(BaseModel):
+    period: Literal[
+        "TODAY", "YESTERDAY", "THIS_WEEK", "LAST_WEEK", "THIS_MONTH", "LAST_MONTH", "THIS_YEAR", "LAST_YEAR"
+    ]
+
+    type: Literal["CALENDAR_ALIGNED"]
+
+
+class DashboardConfigTimeRangeUnionMember2(BaseModel):
+    from_: str = FieldInfo(alias="from")
+
+    to: str
+
+    type: Literal["FIXED"]
+
+
+class DashboardConfigTimeRangeUnionMember3(BaseModel):
+    from_: str = FieldInfo(alias="from")
+
+    type: Literal["SINCE"]
+
+
+class DashboardConfigWidgetMeasureBreakdown(BaseModel):
+    type: Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "DATASET"]
+
+    property: Optional[str] = None
+
+
+class DashboardConfigWidgetMeasure(BaseModel):
+    aggregation: Optional[Literal["COUNT", "AVG", "MIN", "MAX", "SUM", "MEDIAN", "PERCENTILE", "PASS_RATE"]] = None
+
+    breakdown: Optional[DashboardConfigWidgetMeasureBreakdown] = None
+
+    color: Optional[
+        Literal["GREEN", "RED", "ORANGE", "PURPLE", "GREY", "BLUE", "PEACH", "TEAL", "INDIGO", "AMBER", "ROSE", "CYAN"]
+    ] = None
+
+    distinct_by: Optional[Literal["NONE", "CALL"]] = FieldInfo(alias="distinctBy", default=None)
+
+    filters: Optional[List[DashboardConfigFilter]] = None
+
+    is_baseline: Optional[bool] = FieldInfo(alias="isBaseline", default=None)
+
+    metric: Optional[str] = None
+
+    nested_aggregation: Optional[Literal["COUNT", "AVG", "MIN", "MAX", "SUM", "MEDIAN", "PERCENTILE", "PASS_RATE"]] = (
+        FieldInfo(alias="nestedAggregation", default=None)
+    )
+
+    nested_aggregation_percentile: Optional[int] = FieldInfo(alias="nestedAggregationPercentile", default=None)
+
+    pass_operator: Optional[
+        Literal[
+            "EQUALS",
+            "NOT_EQUALS",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUAL_TO",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUAL_TO",
+            "CONTAINS",
+            "STARTS_WITH",
+        ]
+    ] = FieldInfo(alias="passOperator", default=None)
+
+    pass_value: Optional[Union[str, float, bool]] = FieldInfo(alias="passValue", default=None)
+
+    percentile: Optional[int] = None
+
+    type: Optional[Literal["METRIC", "CONVERSATION", "UPTIME"]] = None
+
+
+class DashboardConfigWidgetComparisonGroup(BaseModel):
+    filters: List[DashboardConfigFilter]
+
+    name: str
+
+    color: Optional[
+        Literal["GREEN", "RED", "ORANGE", "PURPLE", "GREY", "BLUE", "PEACH", "TEAL", "INDIGO", "AMBER", "ROSE", "CYAN"]
+    ] = None
+
+
+class DashboardConfigWidget(BaseModel):
+    measures: List[DashboardConfigWidgetMeasure]
+
+    name: str
+
+    comparison_groups: Optional[List[DashboardConfigWidgetComparisonGroup]] = FieldInfo(
+        alias="comparisonGroups", default=None
+    )
+
+    comparison_mode: Optional[Literal["NONE", "PREVIOUS_PERIOD"]] = FieldInfo(alias="comparisonMode", default=None)
+
+    description: Optional[str] = None
+
+    display: Optional[Literal["LINE", "NUMBER", "RADAR", "STACKED_BAR", "TABLE"]] = None
+
+    filters: Optional[List[DashboardConfigFilter]] = None
+
+    interval: Optional[Literal["HOUR", "DAY", "WEEK", "MONTH"]] = None
+
+    size: Optional[Literal["SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"]] = None
+
+
+class DashboardConfig(BaseModel):
+    kind: Literal["dashboard"]
+
+    name: str
+
+    description: Optional[str] = None
+
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
+    filters: Optional[List[DashboardConfigFilter]] = None
+
+    is_default: Optional[bool] = FieldInfo(alias="isDefault", default=None)
+
+    time_range: Optional[
+        Union[
+            DashboardConfigTimeRangeUnionMember0,
+            DashboardConfigTimeRangeUnionMember1,
+            DashboardConfigTimeRangeUnionMember2,
+            DashboardConfigTimeRangeUnionMember3,
+        ]
+    ] = FieldInfo(alias="timeRange", default=None)
+
+    widgets: Optional[List[DashboardConfigWidget]] = None
+
+
 class ProjectConfigMember(BaseModel):
     email: str
 
@@ -836,6 +1003,7 @@ class ProjectConfig(BaseModel):
                 SimulationGroupConfig,
                 AlertConfig,
                 ToolConfig,
+                DashboardConfig,
             ]
         ]
     ] = None
@@ -857,6 +1025,7 @@ class Bundle(BaseModel):
                 SimulationGroupConfig,
                 AlertConfig,
                 ToolConfig,
+                DashboardConfig,
             ],
             ProjectConfig,
         ]

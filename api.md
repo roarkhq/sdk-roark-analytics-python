@@ -70,6 +70,51 @@ Methods:
 - <code title="get /v1/call/{callId}/sentiment-run">client.call.<a href="./src/roark_analytics/resources/call.py">list_sentiment_runs</a>(call_id) -> <a href="./src/roark_analytics/types/call_list_sentiment_runs_response.py">CallListSentimentRunsResponse</a></code>
 - <code title="patch /v1/call/{callId}/properties">client.call.<a href="./src/roark_analytics/resources/call.py">update_properties</a>(call_id, \*\*<a href="src/roark_analytics/types/call_update_properties_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_update_properties_response.py">CallUpdatePropertiesResponse</a></code>
 
+# Analytics
+
+Types:
+
+```python
+from roark_analytics.types import AnalyticsGetSchemaResponse, AnalyticsQueryResponse
+```
+
+Methods:
+
+- <code title="get /v1/analytics/schema">client.analytics.<a href="./src/roark_analytics/resources/analytics.py">get_schema</a>() -> <a href="./src/roark_analytics/types/analytics_get_schema_response.py">AnalyticsGetSchemaResponse</a></code>
+- <code title="post /v1/analytics/query">client.analytics.<a href="./src/roark_analytics/resources/analytics.py">query</a>(\*\*<a href="src/roark_analytics/types/analytics_query_params.py">params</a>) -> <a href="./src/roark_analytics/types/analytics_query_response.py">AnalyticsQueryResponse</a></code>
+
+# Dashboard
+
+Types:
+
+```python
+from roark_analytics.types import (
+    DashboardCreateResponse,
+    DashboardUpdateResponse,
+    DashboardListResponse,
+    DashboardDeleteResponse,
+    DashboardCreateWidgetResponse,
+    DashboardDeleteWidgetResponse,
+    DashboardGetByIDResponse,
+    DashboardGetDataResponse,
+    DashboardGetWidgetDataResponse,
+    DashboardUpdateWidgetResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/dashboard">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">create</a>(\*\*<a href="src/roark_analytics/types/dashboard_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_create_response.py">DashboardCreateResponse</a></code>
+- <code title="put /v1/dashboard/{dashboardId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">update</a>(dashboard_id, \*\*<a href="src/roark_analytics/types/dashboard_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_update_response.py">DashboardUpdateResponse</a></code>
+- <code title="get /v1/dashboard">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">list</a>() -> <a href="./src/roark_analytics/types/dashboard_list_response.py">DashboardListResponse</a></code>
+- <code title="delete /v1/dashboard/{dashboardId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">delete</a>(dashboard_id) -> <a href="./src/roark_analytics/types/dashboard_delete_response.py">DashboardDeleteResponse</a></code>
+- <code title="post /v1/dashboard/{dashboardId}/widget">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">create_widget</a>(dashboard_id, \*\*<a href="src/roark_analytics/types/dashboard_create_widget_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_create_widget_response.py">DashboardCreateWidgetResponse</a></code>
+- <code title="delete /v1/dashboard/{dashboardId}/widget/{widgetId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">delete_widget</a>(widget_id, \*\*<a href="src/roark_analytics/types/dashboard_delete_widget_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_delete_widget_response.py">DashboardDeleteWidgetResponse</a></code>
+- <code title="get /v1/dashboard/{dashboardId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">get_by_id</a>(dashboard_id) -> <a href="./src/roark_analytics/types/dashboard_get_by_id_response.py">DashboardGetByIDResponse</a></code>
+- <code title="get /v1/dashboard/{dashboardId}/data">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">get_data</a>(dashboard_id, \*\*<a href="src/roark_analytics/types/dashboard_get_data_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_get_data_response.py">DashboardGetDataResponse</a></code>
+- <code title="get /v1/dashboard/{dashboardId}/widget/{widgetId}/data">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">get_widget_data</a>(widget_id, \*\*<a href="src/roark_analytics/types/dashboard_get_widget_data_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_get_widget_data_response.py">DashboardGetWidgetDataResponse</a></code>
+- <code title="put /v1/dashboard/{dashboardId}/widget/{widgetId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">update_widget</a>(widget_id, \*\*<a href="src/roark_analytics/types/dashboard_update_widget_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_update_widget_response.py">DashboardUpdateWidgetResponse</a></code>
+
 # Metric
 
 Types:

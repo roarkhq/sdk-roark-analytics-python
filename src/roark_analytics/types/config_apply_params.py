@@ -22,6 +22,16 @@ __all__ = [
     "CollectorConfigFilter",
     "CollectorConfigFilterCondition",
     "CollectorMetricConfig",
+    "DashboardConfig",
+    "DashboardConfigFilter",
+    "DashboardConfigTimeRangeUnionMember0",
+    "DashboardConfigTimeRangeUnionMember1",
+    "DashboardConfigTimeRangeUnionMember2",
+    "DashboardConfigTimeRangeUnionMember3",
+    "DashboardConfigWidget",
+    "DashboardConfigWidgetComparisonGroup",
+    "DashboardConfigWidgetMeasure",
+    "DashboardConfigWidgetMeasureBreakdown",
     "HTTPRequestDefinitionConfig",
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
@@ -788,6 +798,162 @@ class ToolConfig(TypedDict, total=False):
     parameters: Dict[str, Literal["string", "number", "boolean"]]
 
 
+class DashboardConfigFilter(TypedDict, total=False):
+    type: Required[Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]]
+
+    value: Required[Union[str, float, bool]]
+
+    operator: Literal[
+        "EQUALS",
+        "NOT_EQUALS",
+        "GREATER_THAN",
+        "GREATER_THAN_OR_EQUAL_TO",
+        "LESS_THAN",
+        "LESS_THAN_OR_EQUAL_TO",
+        "CONTAINS",
+        "STARTS_WITH",
+    ]
+
+    property: str
+
+
+class DashboardConfigTimeRangeUnionMember0(TypedDict, total=False):
+    type: Required[Literal["LAST"]]
+
+    unit: Required[Literal["DAYS", "WEEKS", "MONTHS"]]
+
+    value: Required[int]
+
+
+class DashboardConfigTimeRangeUnionMember1(TypedDict, total=False):
+    period: Required[
+        Literal["TODAY", "YESTERDAY", "THIS_WEEK", "LAST_WEEK", "THIS_MONTH", "LAST_MONTH", "THIS_YEAR", "LAST_YEAR"]
+    ]
+
+    type: Required[Literal["CALENDAR_ALIGNED"]]
+
+
+class DashboardConfigTimeRangeUnionMember2(TypedDict, total=False):
+    from_: Required[Annotated[str, PropertyInfo(alias="from")]]
+
+    to: Required[str]
+
+    type: Required[Literal["FIXED"]]
+
+
+class DashboardConfigTimeRangeUnionMember3(TypedDict, total=False):
+    from_: Required[Annotated[str, PropertyInfo(alias="from")]]
+
+    type: Required[Literal["SINCE"]]
+
+
+class DashboardConfigWidgetMeasureBreakdown(TypedDict, total=False):
+    type: Required[Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "DATASET"]]
+
+    property: str
+
+
+class DashboardConfigWidgetMeasure(TypedDict, total=False):
+    aggregation: Literal["COUNT", "AVG", "MIN", "MAX", "SUM", "MEDIAN", "PERCENTILE", "PASS_RATE"]
+
+    breakdown: DashboardConfigWidgetMeasureBreakdown
+
+    color: Literal[
+        "GREEN", "RED", "ORANGE", "PURPLE", "GREY", "BLUE", "PEACH", "TEAL", "INDIGO", "AMBER", "ROSE", "CYAN"
+    ]
+
+    distinct_by: Annotated[Literal["NONE", "CALL"], PropertyInfo(alias="distinctBy")]
+
+    filters: Iterable[DashboardConfigFilter]
+
+    is_baseline: Annotated[bool, PropertyInfo(alias="isBaseline")]
+
+    metric: str
+
+    nested_aggregation: Annotated[
+        Literal["COUNT", "AVG", "MIN", "MAX", "SUM", "MEDIAN", "PERCENTILE", "PASS_RATE"],
+        PropertyInfo(alias="nestedAggregation"),
+    ]
+
+    nested_aggregation_percentile: Annotated[int, PropertyInfo(alias="nestedAggregationPercentile")]
+
+    pass_operator: Annotated[
+        Literal[
+            "EQUALS",
+            "NOT_EQUALS",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUAL_TO",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUAL_TO",
+            "CONTAINS",
+            "STARTS_WITH",
+        ],
+        PropertyInfo(alias="passOperator"),
+    ]
+
+    pass_value: Annotated[Union[str, float, bool], PropertyInfo(alias="passValue")]
+
+    percentile: int
+
+    type: Literal["METRIC", "CONVERSATION", "UPTIME"]
+
+
+class DashboardConfigWidgetComparisonGroup(TypedDict, total=False):
+    filters: Required[Iterable[DashboardConfigFilter]]
+
+    name: Required[str]
+
+    color: Literal[
+        "GREEN", "RED", "ORANGE", "PURPLE", "GREY", "BLUE", "PEACH", "TEAL", "INDIGO", "AMBER", "ROSE", "CYAN"
+    ]
+
+
+class DashboardConfigWidget(TypedDict, total=False):
+    measures: Required[Iterable[DashboardConfigWidgetMeasure]]
+
+    name: Required[str]
+
+    comparison_groups: Annotated[Iterable[DashboardConfigWidgetComparisonGroup], PropertyInfo(alias="comparisonGroups")]
+
+    comparison_mode: Annotated[Literal["NONE", "PREVIOUS_PERIOD"], PropertyInfo(alias="comparisonMode")]
+
+    description: str
+
+    display: Literal["LINE", "NUMBER", "RADAR", "STACKED_BAR", "TABLE"]
+
+    filters: Iterable[DashboardConfigFilter]
+
+    interval: Literal["HOUR", "DAY", "WEEK", "MONTH"]
+
+    size: Literal["SMALL", "MEDIUM", "LARGE", "EXTRA_LARGE"]
+
+
+class DashboardConfig(TypedDict, total=False):
+    kind: Required[Literal["dashboard"]]
+
+    name: Required[str]
+
+    description: str
+
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
+    filters: Iterable[DashboardConfigFilter]
+
+    is_default: Annotated[bool, PropertyInfo(alias="isDefault")]
+
+    time_range: Annotated[
+        Union[
+            DashboardConfigTimeRangeUnionMember0,
+            DashboardConfigTimeRangeUnionMember1,
+            DashboardConfigTimeRangeUnionMember2,
+            DashboardConfigTimeRangeUnionMember3,
+        ],
+        PropertyInfo(alias="timeRange"),
+    ]
+
+    widgets: Iterable[DashboardConfigWidget]
+
+
 class ProjectConfigMember(TypedDict, total=False):
     email: Required[str]
 
@@ -833,6 +999,7 @@ class ProjectConfig(TypedDict, total=False):
             SimulationGroupConfig,
             AlertConfig,
             ToolConfig,
+            DashboardConfig,
         ]
     ]
 
@@ -854,6 +1021,7 @@ class ConfigApplyParams(TypedDict, total=False):
                     SimulationGroupConfig,
                     AlertConfig,
                     ToolConfig,
+                    DashboardConfig,
                 ],
                 ProjectConfig,
             ]
