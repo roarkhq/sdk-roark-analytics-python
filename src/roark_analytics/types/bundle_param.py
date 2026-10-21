@@ -801,8 +801,6 @@ class ToolConfig(TypedDict, total=False):
 class DashboardConfigFilter(TypedDict, total=False):
     type: Required[Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]]
 
-    value: Required[Union[str, float, bool]]
-
     operator: Literal[
         "EQUALS",
         "NOT_EQUALS",
@@ -812,9 +810,13 @@ class DashboardConfigFilter(TypedDict, total=False):
         "LESS_THAN_OR_EQUAL_TO",
         "CONTAINS",
         "STARTS_WITH",
+        "IS_SET",
+        "IS_NOT_SET",
     ]
 
     property: str
+
+    value: Union[str, float, bool]
 
 
 class DashboardConfigTimeRangeUnionMember0(TypedDict, total=False):

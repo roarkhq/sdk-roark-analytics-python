@@ -12,8 +12,10 @@ from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     CallListResponse,
     CallCreateResponse,
+    CallDeleteResponse,
     CallGetByIDResponse,
     CallGetCostResponse,
+    CallBatchDeleteResponse,
     CallListMetricsResponse,
     CallGetTranscriptResponse,
     CallUpdatePropertiesResponse,
@@ -131,6 +133,7 @@ class TestCall:
             counted_in_results="true",
             exclude_hidden_runs="true",
             limit=20,
+            properties={"plan_tier": {"exists": False}, "region": {"exists": True}},
             search_text="billing inquiry",
             simulation_run_plan_ids="770e8400-e29b-41d4-a716-446655440002",
             simulation_run_plan_job_id="550e8400-e29b-41d4-a716-446655440000",
@@ -160,6 +163,44 @@ class TestCall:
             assert_matches_type(CallListResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_delete(self, client: Roark) -> None:
+        call = client.call.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_delete(self, client: Roark) -> None:
+        response = client.call.with_raw_response.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_delete(self, client: Roark) -> None:
+        with client.call.with_streaming_response.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_delete(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            client.call.with_raw_response.delete(
+                "",
+            )
 
     @parametrize
     def test_method_append_tool_invocations(self, client: Roark) -> None:
@@ -229,6 +270,37 @@ class TestCall:
                     {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
                 ],
             )
+
+    @parametrize
+    def test_method_batch_delete(self, client: Roark) -> None:
+        call = client.call.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        )
+        assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+    @parametrize
+    def test_raw_response_batch_delete(self, client: Roark) -> None:
+        response = client.call.with_raw_response.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = response.parse()
+        assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+    @parametrize
+    def test_streaming_response_batch_delete(self, client: Roark) -> None:
+        with client.call.with_streaming_response.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = response.parse()
+            assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
@@ -598,6 +670,7 @@ class TestAsyncCall:
             counted_in_results="true",
             exclude_hidden_runs="true",
             limit=20,
+            properties={"plan_tier": {"exists": False}, "region": {"exists": True}},
             search_text="billing inquiry",
             simulation_run_plan_ids="770e8400-e29b-41d4-a716-446655440002",
             simulation_run_plan_job_id="550e8400-e29b-41d4-a716-446655440000",
@@ -627,6 +700,44 @@ class TestAsyncCall:
             assert_matches_type(CallListResponse, call, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_delete(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_delete(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_delete(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.delete(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallDeleteResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_delete(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `call_id` but received ''"):
+            await async_client.call.with_raw_response.delete(
+                "",
+            )
 
     @parametrize
     async def test_method_append_tool_invocations(self, async_client: AsyncRoark) -> None:
@@ -696,6 +807,37 @@ class TestAsyncCall:
                     {"name": "name", "parameters": {"foo": "string"}, "result": "string", "start_offset_ms": 0}
                 ],
             )
+
+    @parametrize
+    async def test_method_batch_delete(self, async_client: AsyncRoark) -> None:
+        call = await async_client.call.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        )
+        assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+    @parametrize
+    async def test_raw_response_batch_delete(self, async_client: AsyncRoark) -> None:
+        response = await async_client.call.with_raw_response.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        call = await response.parse()
+        assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_batch_delete(self, async_client: AsyncRoark) -> None:
+        async with async_client.call.with_streaming_response.batch_delete(
+            call_ids=["550e8400-e29b-41d4-a716-446655440000", "660e8400-e29b-41d4-a716-446655440001"],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            call = await response.parse()
+            assert_matches_type(CallBatchDeleteResponse, call, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:

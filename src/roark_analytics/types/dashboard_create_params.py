@@ -27,9 +27,6 @@ class Filter(TypedDict, total=False):
     ]
     """What the filter narrows on. GET /v1/analytics/schema lists each type."""
 
-    value: Required[Union[str, float, bool]]
-    """The value to compare against (an agent id, "call" / "chat", a property value)."""
-
     operator: Literal[
         "EQUALS",
         "NOT_EQUALS",
@@ -39,13 +36,25 @@ class Filter(TypedDict, total=False):
         "LESS_THAN_OR_EQUAL_TO",
         "CONTAINS",
         "STARTS_WITH",
+        "IS_SET",
+        "IS_NOT_SET",
     ]
-    """Defaults to EQUALS."""
+    """
+    Defaults to EQUALS. IS_SET / IS_NOT_SET (CALL_PROPERTY only) keep conversations
+    where the property is set, whatever the value, or missing (never sent, sent as
+    null, or removed); they take no value.
+    """
 
     property: str
     """
     The property to compare. Required for CALL_PROPERTY and METRIC_PROPERTY; may be
     omitted for AGENT_PROPERTY, DATASET, MODALITY and CALL_ID.
+    """
+
+    value: Union[str, float, bool]
+    """
+    The value to compare against (an agent id, "call" / "chat", a property value).
+    Required except with IS_SET / IS_NOT_SET.
     """
 
 
@@ -151,6 +160,8 @@ class WidgetMeasure(TypedDict, total=False):
             "LESS_THAN_OR_EQUAL_TO",
             "CONTAINS",
             "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
         ],
         PropertyInfo(alias="passOperator"),
     ]

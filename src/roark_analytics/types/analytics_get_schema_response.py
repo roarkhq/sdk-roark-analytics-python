@@ -105,6 +105,8 @@ class Data(BaseModel):
             "LESS_THAN_OR_EQUAL_TO",
             "CONTAINS",
             "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
         ]
     ]
 

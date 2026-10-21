@@ -24,6 +24,7 @@ from .health_get_response import HealthGetResponse as HealthGetResponse
 from .webhook_list_params import WebhookListParams as WebhookListParams
 from .agent_build_response import AgentBuildResponse as AgentBuildResponse
 from .call_create_response import CallCreateResponse as CallCreateResponse
+from .call_delete_response import CallDeleteResponse as CallDeleteResponse
 from .config_diff_response import ConfigDiffResponse as ConfigDiffResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
 from .agent_update_response import AgentUpdateResponse as AgentUpdateResponse
@@ -46,6 +47,7 @@ from .webhook_create_response import WebhookCreateResponse as WebhookCreateRespo
 from .webhook_delete_response import WebhookDeleteResponse as WebhookDeleteResponse
 from .agent_get_by_id_response import AgentGetByIDResponse as AgentGetByIDResponse
 from .analytics_query_response import AnalyticsQueryResponse as AnalyticsQueryResponse
+from .call_batch_delete_params import CallBatchDeleteParams as CallBatchDeleteParams
 from .call_list_metrics_params import CallListMetricsParams as CallListMetricsParams
 from .me_create_api_key_params import MeCreateAPIKeyParams as MeCreateAPIKeyParams
 from .customer_flow_list_params import CustomerFlowListParams as CustomerFlowListParams
@@ -60,6 +62,7 @@ from .agent_config_update_params import AgentConfigUpdateParams as AgentConfigUp
 from .agent_endpoint_list_params import AgentEndpointListParams as AgentEndpointListParams
 from .agent_prompt_list_response import AgentPromptListResponse as AgentPromptListResponse
 from .agent_prompt_update_params import AgentPromptUpdateParams as AgentPromptUpdateParams
+from .call_batch_delete_response import CallBatchDeleteResponse as CallBatchDeleteResponse
 from .call_get_transcript_params import CallGetTranscriptParams as CallGetTranscriptParams
 from .call_list_metrics_response import CallListMetricsResponse as CallListMetricsResponse
 from .me_create_api_key_response import MeCreateAPIKeyResponse as MeCreateAPIKeyResponse
