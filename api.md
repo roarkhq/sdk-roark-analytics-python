@@ -62,7 +62,9 @@ Types:
 from roark_analytics.types import (
     CallCreateResponse,
     CallListResponse,
+    CallDeleteResponse,
     CallAppendToolInvocationsResponse,
+    CallBatchDeleteResponse,
     CallGetByIDResponse,
     CallGetCostResponse,
     CallGetTranscriptResponse,
@@ -76,7 +78,9 @@ Methods:
 
 - <code title="post /v1/call">client.call.<a href="./src/roark_analytics/resources/call.py">create</a>(\*\*<a href="src/roark_analytics/types/call_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_create_response.py">CallCreateResponse</a></code>
 - <code title="get /v1/call">client.call.<a href="./src/roark_analytics/resources/call.py">list</a>(\*\*<a href="src/roark_analytics/types/call_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_list_response.py">CallListResponse</a></code>
+- <code title="delete /v1/call/{callId}">client.call.<a href="./src/roark_analytics/resources/call.py">delete</a>(call_id) -> <a href="./src/roark_analytics/types/call_delete_response.py">CallDeleteResponse</a></code>
 - <code title="post /v1/call/{callId}/tool-invocations">client.call.<a href="./src/roark_analytics/resources/call.py">append_tool_invocations</a>(call_id, \*\*<a href="src/roark_analytics/types/call_append_tool_invocations_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_append_tool_invocations_response.py">CallAppendToolInvocationsResponse</a></code>
+- <code title="post /v1/call/batch-delete">client.call.<a href="./src/roark_analytics/resources/call.py">batch_delete</a>(\*\*<a href="src/roark_analytics/types/call_batch_delete_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_batch_delete_response.py">CallBatchDeleteResponse</a></code>
 - <code title="get /v1/call/{callId}">client.call.<a href="./src/roark_analytics/resources/call.py">get_by_id</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_by_id_response.py">CallGetByIDResponse</a></code>
 - <code title="get /v1/call/{callId}/cost">client.call.<a href="./src/roark_analytics/resources/call.py">get_cost</a>(call_id) -> <a href="./src/roark_analytics/types/call_get_cost_response.py">CallGetCostResponse</a></code>
 - <code title="get /v1/call/{callId}/transcript">client.call.<a href="./src/roark_analytics/resources/call.py">get_transcript</a>(call_id, \*\*<a href="src/roark_analytics/types/call_get_transcript_params.py">params</a>) -> <a href="./src/roark_analytics/types/call_get_transcript_response.py">CallGetTranscriptResponse</a></code>

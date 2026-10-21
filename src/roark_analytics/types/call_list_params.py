@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Dict
 from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["CallListParams"]
+__all__ = ["CallListParams", "Property"]
+
+
+class Property(TypedDict, total=False):
+    exists: bool
+    """true: the property is set. false: the property is missing."""
 
 
 class CallListParams(TypedDict, total=False):
@@ -29,6 +35,17 @@ class CallListParams(TypedDict, total=False):
 
     limit: int
     """Maximum number of calls to return (default: 20, max: 100)"""
+
+    properties: Dict[str, Property]
+    """
+    Filter on custom properties, one entry per property name:
+    properties[<name>][exists]=true keeps calls that have the property set (whatever
+    the value), properties[<name>][exists]=false keeps calls missing it (never sent,
+    sent as null, or removed). A property the project has never seen is missing on
+    every call. Names match the way properties are stored, so planTier and plan_tier
+    are one property. At most 20 properties; a name taken by a built-in call filter,
+    such as status, is rejected with 400.
+    """
 
     search_text: Annotated[str, PropertyInfo(alias="searchText")]
     """Search text to filter calls by title, summary, or transcript"""

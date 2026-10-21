@@ -62,7 +62,7 @@ class TestAnalytics:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -77,21 +77,21 @@ class TestAnalytics:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
             ],
             comparison_mode="NONE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             include_buckets=True,
             interval="HOUR",
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
@@ -171,7 +171,7 @@ class TestAsyncAnalytics:
                     "color": "GREEN",
                     "distinct_by": "NONE",
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "is_baseline": True,
                     "metric": "x",
@@ -186,21 +186,21 @@ class TestAsyncAnalytics:
             comparison_groups=[
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
                 {
                     "filters": [
-                        {"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}
+                        {"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}
                     ],
                     "name": "x",
                     "color": "GREEN",
                 },
             ],
             comparison_mode="NONE",
-            filters=[{"type": "METRIC_PROPERTY", "value": "string", "operator": "EQUALS", "property": "property"}],
+            filters=[{"type": "METRIC_PROPERTY", "operator": "EQUALS", "property": "property", "value": "string"}],
             include_buckets=True,
             interval="HOUR",
             time_range={"type": "LAST", "unit": "DAYS", "value": 1},
