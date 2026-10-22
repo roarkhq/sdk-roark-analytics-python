@@ -211,6 +211,9 @@ from .http_request_definition_list_response import (
 from .http_request_definition_update_params import (
     HTTPRequestDefinitionUpdateParams as HTTPRequestDefinitionUpdateParams,
 )
+from .metric_collection_job_cancel_response import (
+    MetricCollectionJobCancelResponse as MetricCollectionJobCancelResponse,
+)
 from .metric_collection_job_create_response import (
     MetricCollectionJobCreateResponse as MetricCollectionJobCreateResponse,
 )
