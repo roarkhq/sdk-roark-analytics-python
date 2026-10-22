@@ -20,6 +20,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.metric_collection_job_list_response import MetricCollectionJobListResponse
+from ..types.metric_collection_job_cancel_response import MetricCollectionJobCancelResponse
 from ..types.metric_collection_job_create_response import MetricCollectionJobCreateResponse
 from ..types.metric_collection_job_get_by_id_response import MetricCollectionJobGetByIDResponse
 
@@ -158,6 +159,45 @@ class MetricCollectionJobResource(SyncAPIResource):
                 ),
             ),
             cast_to=MetricCollectionJobListResponse,
+        )
+
+    def cancel(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCollectionJobCancelResponse:
+        """Stops a metric collection job that has not finished.
+
+        No further conversations
+        are processed and the job ends in CANCELED. Items the job had not reached are
+        marked SKIPPED. Metric values already produced are kept, and items that were
+        mid-computation when the cancel arrived may still complete. Only the items that
+        completed are billed. Safe to call more than once: a job that has already
+        finished (COMPLETED, FAILED, or CANCELED) is returned unchanged.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._post(
+            f"/v1/metric/collection-jobs/{job_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MetricCollectionJobCancelResponse,
         )
 
     def get_by_id(
@@ -328,6 +368,45 @@ class AsyncMetricCollectionJobResource(AsyncAPIResource):
             cast_to=MetricCollectionJobListResponse,
         )
 
+    async def cancel(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCollectionJobCancelResponse:
+        """Stops a metric collection job that has not finished.
+
+        No further conversations
+        are processed and the job ends in CANCELED. Items the job had not reached are
+        marked SKIPPED. Metric values already produced are kept, and items that were
+        mid-computation when the cancel arrived may still complete. Only the items that
+        completed are billed. Safe to call more than once: a job that has already
+        finished (COMPLETED, FAILED, or CANCELED) is returned unchanged.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._post(
+            f"/v1/metric/collection-jobs/{job_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MetricCollectionJobCancelResponse,
+        )
+
     async def get_by_id(
         self,
         job_id: str,
@@ -372,6 +451,9 @@ class MetricCollectionJobResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             metric_collection_job.list,
         )
+        self.cancel = to_raw_response_wrapper(
+            metric_collection_job.cancel,
+        )
         self.get_by_id = to_raw_response_wrapper(
             metric_collection_job.get_by_id,
         )
@@ -386,6 +468,9 @@ class AsyncMetricCollectionJobResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             metric_collection_job.list,
+        )
+        self.cancel = async_to_raw_response_wrapper(
+            metric_collection_job.cancel,
         )
         self.get_by_id = async_to_raw_response_wrapper(
             metric_collection_job.get_by_id,
@@ -402,6 +487,9 @@ class MetricCollectionJobResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             metric_collection_job.list,
         )
+        self.cancel = to_streamed_response_wrapper(
+            metric_collection_job.cancel,
+        )
         self.get_by_id = to_streamed_response_wrapper(
             metric_collection_job.get_by_id,
         )
@@ -416,6 +504,9 @@ class AsyncMetricCollectionJobResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             metric_collection_job.list,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            metric_collection_job.cancel,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             metric_collection_job.get_by_id,
