@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from roark_analytics import Roark, AsyncRoark
 from roark_analytics.types import (
     MetricCollectionJobListResponse,
+    MetricCollectionJobCancelResponse,
     MetricCollectionJobCreateResponse,
     MetricCollectionJobGetByIDResponse,
 )
@@ -89,6 +90,44 @@ class TestMetricCollectionJob:
             assert_matches_type(MetricCollectionJobListResponse, metric_collection_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_cancel(self, client: Roark) -> None:
+        metric_collection_job = client.metric_collection_job.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    def test_raw_response_cancel(self, client: Roark) -> None:
+        response = client.metric_collection_job.with_raw_response.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric_collection_job = response.parse()
+        assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    def test_streaming_response_cancel(self, client: Roark) -> None:
+        with client.metric_collection_job.with_streaming_response.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric_collection_job = response.parse()
+            assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_cancel(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.metric_collection_job.with_raw_response.cancel(
+                "",
+            )
 
     @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
@@ -202,6 +241,44 @@ class TestAsyncMetricCollectionJob:
             assert_matches_type(MetricCollectionJobListResponse, metric_collection_job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncRoark) -> None:
+        metric_collection_job = await async_client.metric_collection_job.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric_collection_job.with_raw_response.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric_collection_job = await response.parse()
+        assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric_collection_job.with_streaming_response.cancel(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric_collection_job = await response.parse()
+            assert_matches_type(MetricCollectionJobCancelResponse, metric_collection_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.metric_collection_job.with_raw_response.cancel(
+                "",
+            )
 
     @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:

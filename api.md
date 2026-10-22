@@ -181,6 +181,7 @@ Types:
 from roark_analytics.types import (
     MetricCollectionJobCreateResponse,
     MetricCollectionJobListResponse,
+    MetricCollectionJobCancelResponse,
     MetricCollectionJobGetByIDResponse,
 )
 ```
@@ -189,6 +190,7 @@ Methods:
 
 - <code title="post /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">create</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_create_response.py">MetricCollectionJobCreateResponse</a></code>
 - <code title="get /v1/metric/collection-jobs">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">list</a>(\*\*<a href="src/roark_analytics/types/metric_collection_job_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/metric_collection_job_list_response.py">MetricCollectionJobListResponse</a></code>
+- <code title="post /v1/metric/collection-jobs/{jobId}/cancel">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">cancel</a>(job_id) -> <a href="./src/roark_analytics/types/metric_collection_job_cancel_response.py">MetricCollectionJobCancelResponse</a></code>
 - <code title="get /v1/metric/collection-jobs/{jobId}">client.metric_collection_job.<a href="./src/roark_analytics/resources/metric_collection_job.py">get_by_id</a>(job_id) -> <a href="./src/roark_analytics/types/metric_collection_job_get_by_id_response.py">MetricCollectionJobGetByIDResponse</a></code>
 
 # MetricVariant
