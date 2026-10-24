@@ -58,6 +58,7 @@ __all__ = [
     "SimulationPlanConfigScheduleUnionMember4",
     "SimulationPlanConfigScheduleUnionMember5",
     "ToolConfig",
+    "ToolConfigHandler",
 ]
 
 
@@ -780,6 +781,14 @@ class AlertConfig(BaseModel):
     enabled: Optional[bool] = None
 
 
+class ToolConfigHandler(BaseModel):
+    type: Literal["http"]
+
+    url: str
+
+    method: Optional[Literal["GET", "POST", "PUT", "PATCH", "DELETE"]] = None
+
+
 class ToolConfig(BaseModel):
     kind: Literal["tool"]
 
@@ -790,6 +799,8 @@ class ToolConfig(BaseModel):
     description: Optional[str] = None
 
     expected_result: Optional[str] = FieldInfo(alias="expectedResult", default=None)
+
+    handler: Optional[ToolConfigHandler] = None
 
     invocation_criteria: Optional[str] = FieldInfo(alias="invocationCriteria", default=None)
 
