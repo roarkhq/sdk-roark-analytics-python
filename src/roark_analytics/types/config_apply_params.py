@@ -59,6 +59,7 @@ __all__ = [
     "SimulationPlanConfigScheduleUnionMember4",
     "SimulationPlanConfigScheduleUnionMember5",
     "ToolConfig",
+    "ToolConfigHandler",
 ]
 
 
@@ -782,6 +783,14 @@ class AlertConfig(TypedDict, total=False):
     enabled: bool
 
 
+class ToolConfigHandler(TypedDict, total=False):
+    type: Required[Literal["http"]]
+
+    url: Required[str]
+
+    method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
+
+
 class ToolConfig(TypedDict, total=False):
     kind: Required[Literal["tool"]]
 
@@ -792,6 +801,8 @@ class ToolConfig(TypedDict, total=False):
     description: Optional[str]
 
     expected_result: Annotated[Optional[str], PropertyInfo(alias="expectedResult")]
+
+    handler: ToolConfigHandler
 
     invocation_criteria: Annotated[Optional[str], PropertyInfo(alias="invocationCriteria")]
 
