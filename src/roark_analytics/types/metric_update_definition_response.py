@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -12,6 +12,8 @@ __all__ = [
     "FormulaMetricResponse",
     "FormulaMetricResponseFormula",
     "FormulaMetricResponseFormulaSource",
+    "HTTPRequestMetricResponse",
+    "HTTPRequestMetricResponseHTTPRequest",
     "LlmJudgeMetricResponse",
     "LlmJudgeMetricResponseEvidenceSource",
     "LlmJudgeMetricResponseUnit",
@@ -130,10 +132,12 @@ class LlmJudgeMetricResponse(BaseModel):
     """
     Whether you can create a variant of this metric with POST
     /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
-    configuration comes from the metric they derive from), for provider-computed
-    metrics whose calculation lives in the collector rather than an editable prompt,
-    and for metrics in a package that manages its own variants. Most of Roark’s own
-    metrics are false, so read this rather than discovering it from a 403.
+    configuration comes from the metric they derive from), for HTTP request metrics
+    (their configuration is the request, edited on the metric), for
+    provider-computed metrics whose calculation lives in the collector rather than
+    an editable prompt, and for metrics in a package that manages its own variants.
+    Most of Roark’s own metrics are false, so read this rather than discovering it
+    from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
@@ -227,10 +231,12 @@ class FormulaMetricResponse(BaseModel):
     """
     Whether you can create a variant of this metric with POST
     /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
-    configuration comes from the metric they derive from), for provider-computed
-    metrics whose calculation lives in the collector rather than an editable prompt,
-    and for metrics in a package that manages its own variants. Most of Roark’s own
-    metrics are false, so read this rather than discovering it from a 403.
+    configuration comes from the metric they derive from), for HTTP request metrics
+    (their configuration is the request, edited on the metric), for
+    provider-computed metrics whose calculation lives in the collector rather than
+    an editable prompt, and for metrics in a package that manages its own variants.
+    Most of Roark’s own metrics are false, so read this rather than discovering it
+    from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
@@ -360,10 +366,12 @@ class PatternMetricResponse(BaseModel):
     """
     Whether you can create a variant of this metric with POST
     /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
-    configuration comes from the metric they derive from), for provider-computed
-    metrics whose calculation lives in the collector rather than an editable prompt,
-    and for metrics in a package that manages its own variants. Most of Roark’s own
-    metrics are false, so read this rather than discovering it from a 403.
+    configuration comes from the metric they derive from), for HTTP request metrics
+    (their configuration is the request, edited on the metric), for
+    provider-computed metrics whose calculation lives in the collector rather than
+    an editable prompt, and for metrics in a package that manages its own variants.
+    Most of Roark’s own metrics are false, so read this rather than discovering it
+    from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
@@ -464,10 +472,12 @@ class ThresholdMetricResponse(BaseModel):
     """
     Whether you can create a variant of this metric with POST
     /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
-    configuration comes from the metric they derive from), for provider-computed
-    metrics whose calculation lives in the collector rather than an editable prompt,
-    and for metrics in a package that manages its own variants. Most of Roark’s own
-    metrics are false, so read this rather than discovering it from a 403.
+    configuration comes from the metric they derive from), for HTTP request metrics
+    (their configuration is the request, edited on the metric), for
+    provider-computed metrics whose calculation lives in the collector rather than
+    an editable prompt, and for metrics in a package that manages its own variants.
+    Most of Roark’s own metrics are false, so read this rather than discovering it
+    from a 403.
     """
 
     type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
@@ -493,6 +503,121 @@ class ThresholdMetricResponse(BaseModel):
     """Unit information if applicable"""
 
 
+class HTTPRequestMetricResponseHTTPRequest(BaseModel):
+    body: Optional[str]
+    """The JSON body template, or null when the default payload is sent"""
+
+    headers: Dict[str, str]
+    """Request headers as key-value pairs"""
+
+    method: Literal["GET", "POST"]
+
+    url: str
+    """The URL the request is sent to, placeholders included"""
+
+
+class HTTPRequestMetricResponse(BaseModel):
+    id: str
+    """Unique identifier for the metric definition"""
+
+    boolean_false_label: Optional[str] = FieldInfo(alias="booleanFalseLabel")
+    """What a failed check is called"""
+
+    boolean_true_label: Optional[str] = FieldInfo(alias="booleanTrueLabel")
+    """What a passed check is called"""
+
+    calculation_type: Literal["HTTP_REQUEST"] = FieldInfo(alias="calculationType")
+    """
+    BOOLEAN metric answered by your own endpoint: Roark sends a request about each
+    call and records the {"passed", "reason"} it answers with.
+    """
+
+    description: str
+    """Description of what the metric measures"""
+
+    evidence_source: Optional[LlmJudgeMetricResponseEvidenceSource] = FieldInfo(alias="evidenceSource")
+    """
+    For a Roark count or rate summed from the per-turn verdicts of a sibling metric
+    (for example `incorrect_barge_in_yield_count` over
+    `barge_in_yield_appropriateness`): where the reasoning and transcript positions
+    live. The count value itself carries neither. `null` for a metric that is its
+    own evidence.
+    """
+
+    http_request: Optional[HTTPRequestMetricResponseHTTPRequest] = FieldInfo(alias="httpRequest")
+    """The request this metric sends."""
+
+    metric_id: str = FieldInfo(alias="metricId")
+    """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
+
+    name: str
+    """Name of the metric"""
+
+    requires_live_conversation: bool = FieldInfo(alias="requiresLiveConversation")
+    """
+    True when this metric can only be scored from a live recording
+    (`supportedConversationSources` is `["LIVE"]`). Selecting one of these on a
+    simulation run forces live enrichment: the run waits for your recording and, if
+    none arrives, the metric produces no value. Check this before a run rather than
+    discovering the wait afterwards.
+    """
+
+    scope: Literal["GLOBAL", "PER_PARTICIPANT"]
+    """Whether metric is global or per-participant"""
+
+    slug: str
+    """Stable metric slug (e.g. "call_reason", "customer_satisfaction")"""
+
+    supported_contexts: List[Literal["CALL", "SEGMENT", "TURN"]] = FieldInfo(alias="supportedContexts")
+    """Which levels this metric can produce values at"""
+
+    supported_conversation_sources: Optional[List[Literal["SIMULATED", "LIVE"]]] = FieldInfo(
+        alias="supportedConversationSources"
+    )
+    """
+    Which kinds of conversation this metric can be scored on. `null` means both.
+    `["LIVE"]` marks a metric that can only be scored from your own recording of a
+    real call, and `["SIMULATED"]` one that only applies to simulations.
+    """
+
+    supports_variants: bool = FieldInfo(alias="supportsVariants")
+    """
+    Whether you can create a variant of this metric with POST
+    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    configuration comes from the metric they derive from), for HTTP request metrics
+    (their configuration is the request, edited on the metric), for
+    provider-computed metrics whose calculation lives in the collector rather than
+    an editable prompt, and for metrics in a package that manages its own variants.
+    Most of Roark’s own metrics are false, so read this rather than discovering it
+    from a 403.
+    """
+
+    type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"]
+    """Type of value this metric produces"""
+
+    variant_id: str = FieldInfo(alias="variantId")
+    """
+    The resolved variant this response reflects (org-scoped Default if the org has
+    customized it, otherwise the system Default). Pass this as sourceVariantId when
+    building a derived metric off this one to pin the exact config.
+    """
+
+    version_id: str = FieldInfo(alias="versionId")
+    """
+    The variant's current version. Immutable snapshot of the config — editing the
+    metric produces a new versionId. Use it to detect config changes.
+    """
+
+    unit: Optional[LlmJudgeMetricResponseUnit] = None
+    """Unit information if applicable"""
+
+
 class MetricUpdateDefinitionResponse(BaseModel):
-    data: Union[LlmJudgeMetricResponse, FormulaMetricResponse, PatternMetricResponse, ThresholdMetricResponse]
+    data: Union[
+        LlmJudgeMetricResponse,
+        FormulaMetricResponse,
+        PatternMetricResponse,
+        ThresholdMetricResponse,
+        HTTPRequestMetricResponse,
+    ]
     """The updated metric definition. The variant is selected by `calculationType`."""

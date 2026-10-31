@@ -83,6 +83,10 @@ class TestSimulationRunPlan:
                 }
             ],
             no_response_retry_backoff_seconds=90,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -157,6 +161,10 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=1,
             name="x",
             no_response_retry_backoff_seconds=90,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             silence_timeout_seconds=30,
@@ -249,6 +257,10 @@ class TestSimulationRunPlan:
             ],
             name="x",
             no_response_retry_backoff_seconds=30,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -468,6 +480,10 @@ class TestAsyncSimulationRunPlan:
                 }
             ],
             no_response_retry_backoff_seconds=90,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {
@@ -542,6 +558,10 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=1,
             name="x",
             no_response_retry_backoff_seconds=90,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
             silence_timeout_seconds=30,
@@ -634,6 +654,10 @@ class TestAsyncSimulationRunPlan:
             ],
             name="x",
             no_response_retry_backoff_seconds=30,
+            notifications={
+                "email": {"enabled": True, "recipients": ["qa-lead@example.com"]},
+                "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
+            },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
             scenarios=[
                 {

@@ -16,6 +16,9 @@ __all__ = [
     "FlowEdgeCaseUnionMember1",
     "FlowOverride",
     "Metric",
+    "Notification",
+    "NotificationEmail",
+    "NotificationSlack",
     "Scenario",
 ]
 
@@ -169,6 +172,37 @@ class Metric(TypedDict, total=False):
     """
     Stable metric slug (e.g. `customer_satisfaction`). Provide either this or `id`,
     not both.
+    """
+
+
+class NotificationEmail(TypedDict, total=False):
+    enabled: Required[bool]
+    """Whether each run's report is emailed when it is ready."""
+
+    recipients: SequenceNotStr[str]
+    """
+    Addresses to email (at most 50), Roark users or not: the email attaches the
+    report PDF. Empty emails every member of the project.
+    """
+
+
+class NotificationSlack(TypedDict, total=False):
+    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
+    """The Slack channel id"""
+
+    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
+    """The channel name, shown in Roark"""
+
+
+class Notification(TypedDict, total=False):
+    """Where each run's report announces itself once it is ready."""
+
+    email: NotificationEmail
+
+    slack: Iterable[NotificationSlack]
+    """
+    Channels in the project's connected Slack workspace to post the report to (at
+    most 10). Slack must be connected to the project first.
     """
 
 
@@ -326,6 +360,12 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     """
     Seconds a retry waits before it dials (30-600). Only used when
     `maxNoResponseRetries` is above 0.
+    """
+
+    notifications: Optional[Notification]
+    """
+    Replaces where each run's report is sent, as a whole. `null` turns notifications
+    off. Omitted keeps them. A run whose report already went out is not sent again.
     """
 
     personas: Iterable[AgentEndpoint]

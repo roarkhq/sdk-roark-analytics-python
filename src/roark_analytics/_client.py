@@ -45,8 +45,11 @@ if TYPE_CHECKING:
         benchmark,
         dashboard,
         simulation,
+        agent_draft,
         agent_config,
         agent_prompt,
+        phone_number,
+        agent_version,
         customer_flow,
         metric_policy,
         agent_endpoint,
@@ -79,8 +82,11 @@ if TYPE_CHECKING:
     from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
     from .resources.dashboard import DashboardResource, AsyncDashboardResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
+    from .resources.agent_draft import AgentDraftResource, AsyncAgentDraftResource
     from .resources.agent_config import AgentConfigResource, AsyncAgentConfigResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
+    from .resources.phone_number import PhoneNumberResource, AsyncPhoneNumberResource
+    from .resources.agent_version import AgentVersionResource, AsyncAgentVersionResource
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
     from .resources.metric_policy import MetricPolicyResource, AsyncMetricPolicyResource
     from .resources.agent_endpoint import AgentEndpointResource, AsyncAgentEndpointResource
@@ -339,10 +345,28 @@ class Roark(SyncAPIClient):
         return AgentEndpointResource(self)
 
     @cached_property
+    def phone_number(self) -> PhoneNumberResource:
+        from .resources.phone_number import PhoneNumberResource
+
+        return PhoneNumberResource(self)
+
+    @cached_property
     def agent_prompt(self) -> AgentPromptResource:
         from .resources.agent_prompt import AgentPromptResource
 
         return AgentPromptResource(self)
+
+    @cached_property
+    def agent_version(self) -> AgentVersionResource:
+        from .resources.agent_version import AgentVersionResource
+
+        return AgentVersionResource(self)
+
+    @cached_property
+    def agent_draft(self) -> AgentDraftResource:
+        from .resources.agent_draft import AgentDraftResource
+
+        return AgentDraftResource(self)
 
     @cached_property
     def http_request_definition(self) -> HTTPRequestDefinitionResource:
@@ -731,10 +755,28 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncAgentEndpointResource(self)
 
     @cached_property
+    def phone_number(self) -> AsyncPhoneNumberResource:
+        from .resources.phone_number import AsyncPhoneNumberResource
+
+        return AsyncPhoneNumberResource(self)
+
+    @cached_property
     def agent_prompt(self) -> AsyncAgentPromptResource:
         from .resources.agent_prompt import AsyncAgentPromptResource
 
         return AsyncAgentPromptResource(self)
+
+    @cached_property
+    def agent_version(self) -> AsyncAgentVersionResource:
+        from .resources.agent_version import AsyncAgentVersionResource
+
+        return AsyncAgentVersionResource(self)
+
+    @cached_property
+    def agent_draft(self) -> AsyncAgentDraftResource:
+        from .resources.agent_draft import AsyncAgentDraftResource
+
+        return AsyncAgentDraftResource(self)
 
     @cached_property
     def http_request_definition(self) -> AsyncHTTPRequestDefinitionResource:
@@ -1062,10 +1104,28 @@ class RoarkWithRawResponse:
         return AgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
 
     @cached_property
+    def phone_number(self) -> phone_number.PhoneNumberResourceWithRawResponse:
+        from .resources.phone_number import PhoneNumberResourceWithRawResponse
+
+        return PhoneNumberResourceWithRawResponse(self._client.phone_number)
+
+    @cached_property
     def agent_prompt(self) -> agent_prompt.AgentPromptResourceWithRawResponse:
         from .resources.agent_prompt import AgentPromptResourceWithRawResponse
 
         return AgentPromptResourceWithRawResponse(self._client.agent_prompt)
+
+    @cached_property
+    def agent_version(self) -> agent_version.AgentVersionResourceWithRawResponse:
+        from .resources.agent_version import AgentVersionResourceWithRawResponse
+
+        return AgentVersionResourceWithRawResponse(self._client.agent_version)
+
+    @cached_property
+    def agent_draft(self) -> agent_draft.AgentDraftResourceWithRawResponse:
+        from .resources.agent_draft import AgentDraftResourceWithRawResponse
+
+        return AgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithRawResponse:
@@ -1267,10 +1327,28 @@ class AsyncRoarkWithRawResponse:
         return AsyncAgentEndpointResourceWithRawResponse(self._client.agent_endpoint)
 
     @cached_property
+    def phone_number(self) -> phone_number.AsyncPhoneNumberResourceWithRawResponse:
+        from .resources.phone_number import AsyncPhoneNumberResourceWithRawResponse
+
+        return AsyncPhoneNumberResourceWithRawResponse(self._client.phone_number)
+
+    @cached_property
     def agent_prompt(self) -> agent_prompt.AsyncAgentPromptResourceWithRawResponse:
         from .resources.agent_prompt import AsyncAgentPromptResourceWithRawResponse
 
         return AsyncAgentPromptResourceWithRawResponse(self._client.agent_prompt)
+
+    @cached_property
+    def agent_version(self) -> agent_version.AsyncAgentVersionResourceWithRawResponse:
+        from .resources.agent_version import AsyncAgentVersionResourceWithRawResponse
+
+        return AsyncAgentVersionResourceWithRawResponse(self._client.agent_version)
+
+    @cached_property
+    def agent_draft(self) -> agent_draft.AsyncAgentDraftResourceWithRawResponse:
+        from .resources.agent_draft import AsyncAgentDraftResourceWithRawResponse
+
+        return AsyncAgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
     def http_request_definition(self) -> http_request_definition.AsyncHTTPRequestDefinitionResourceWithRawResponse:
@@ -1472,10 +1550,28 @@ class RoarkWithStreamedResponse:
         return AgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
 
     @cached_property
+    def phone_number(self) -> phone_number.PhoneNumberResourceWithStreamingResponse:
+        from .resources.phone_number import PhoneNumberResourceWithStreamingResponse
+
+        return PhoneNumberResourceWithStreamingResponse(self._client.phone_number)
+
+    @cached_property
     def agent_prompt(self) -> agent_prompt.AgentPromptResourceWithStreamingResponse:
         from .resources.agent_prompt import AgentPromptResourceWithStreamingResponse
 
         return AgentPromptResourceWithStreamingResponse(self._client.agent_prompt)
+
+    @cached_property
+    def agent_version(self) -> agent_version.AgentVersionResourceWithStreamingResponse:
+        from .resources.agent_version import AgentVersionResourceWithStreamingResponse
+
+        return AgentVersionResourceWithStreamingResponse(self._client.agent_version)
+
+    @cached_property
+    def agent_draft(self) -> agent_draft.AgentDraftResourceWithStreamingResponse:
+        from .resources.agent_draft import AgentDraftResourceWithStreamingResponse
+
+        return AgentDraftResourceWithStreamingResponse(self._client.agent_draft)
 
     @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithStreamingResponse:
@@ -1681,10 +1777,28 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncAgentEndpointResourceWithStreamingResponse(self._client.agent_endpoint)
 
     @cached_property
+    def phone_number(self) -> phone_number.AsyncPhoneNumberResourceWithStreamingResponse:
+        from .resources.phone_number import AsyncPhoneNumberResourceWithStreamingResponse
+
+        return AsyncPhoneNumberResourceWithStreamingResponse(self._client.phone_number)
+
+    @cached_property
     def agent_prompt(self) -> agent_prompt.AsyncAgentPromptResourceWithStreamingResponse:
         from .resources.agent_prompt import AsyncAgentPromptResourceWithStreamingResponse
 
         return AsyncAgentPromptResourceWithStreamingResponse(self._client.agent_prompt)
+
+    @cached_property
+    def agent_version(self) -> agent_version.AsyncAgentVersionResourceWithStreamingResponse:
+        from .resources.agent_version import AsyncAgentVersionResourceWithStreamingResponse
+
+        return AsyncAgentVersionResourceWithStreamingResponse(self._client.agent_version)
+
+    @cached_property
+    def agent_draft(self) -> agent_draft.AsyncAgentDraftResourceWithStreamingResponse:
+        from .resources.agent_draft import AsyncAgentDraftResourceWithStreamingResponse
+
+        return AsyncAgentDraftResourceWithStreamingResponse(self._client.agent_draft)
 
     @cached_property
     def http_request_definition(

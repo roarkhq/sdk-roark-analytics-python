@@ -17,6 +17,9 @@ __all__ = [
     "DataRunPlanFlowOverride",
     "DataRunPlanJob",
     "DataRunPlanMetric",
+    "DataRunPlanNotification",
+    "DataRunPlanNotificationEmail",
+    "DataRunPlanNotificationSlack",
     "DataRunPlanScenario",
 ]
 
@@ -129,6 +132,29 @@ class DataRunPlanMetric(BaseModel):
     THE BAR. The share of the run's simulations (0-100) that must pass this check.
     `null` means the 80% default.
     """
+
+
+class DataRunPlanNotificationEmail(BaseModel):
+    enabled: bool
+
+    recipients: List[str]
+
+
+class DataRunPlanNotificationSlack(BaseModel):
+    channel_id: str = FieldInfo(alias="channelId")
+
+    channel_name: str = FieldInfo(alias="channelName")
+
+
+class DataRunPlanNotification(BaseModel):
+    """
+    Where each run's report announces itself once it is ready. Email off and no
+    Slack channels means the plan sends none.
+    """
+
+    email: DataRunPlanNotificationEmail
+
+    slack: List[DataRunPlanNotificationSlack]
 
 
 class DataRunPlanScenario(BaseModel):
@@ -262,6 +288,12 @@ class DataRunPlan(BaseModel):
     """
     Seconds a retry waits before it dials (30-600). Only used when
     `maxNoResponseRetries` is above 0.
+    """
+
+    notifications: DataRunPlanNotification
+    """
+    Where each run's report announces itself once it is ready. Email off and no
+    Slack channels means the plan sends none.
     """
 
     personas: List[DataRunPlanAgentEndpoint]

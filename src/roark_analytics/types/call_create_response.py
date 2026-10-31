@@ -21,6 +21,9 @@ class DataAgentEndpoint(BaseModel):
 class DataAgent(BaseModel):
     id: str
 
+    agent_version_id: Optional[str] = FieldInfo(alias="agentVersionId", default=None)
+    """For an agent hosted on Roark, the version of it that handled the call"""
+
     endpoint: Optional[DataAgentEndpoint] = None
 
 
