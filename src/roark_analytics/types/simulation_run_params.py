@@ -12,6 +12,7 @@ __all__ = [
     "SimulationRunParams",
     "ComparisonArm",
     "RunSimulationFromConfig",
+    "RunSimulationFromConfigKey",
     "RunSimulationFromConfigPlan",
     "RunSimulationFromConfigPlanAgentEndpoint",
     "RunSimulationFromConfigPlanFlow",
@@ -504,6 +505,42 @@ class RunSimulationFromPlanID(TypedDict, total=False):
     """
 
 
+class RunSimulationFromConfigKey(TypedDict, total=False):
+    """Run a config-managed plan by its config name, with no id lookup."""
+
+    plan_config_key: Required[Annotated[str, PropertyInfo(alias="planConfigKey")]]
+    """
+    The config key of a plan to run, as applied from config as code
+    (`simulationPlan/<name>`). Runs a config-managed plan by name, with no id
+    lookup. Unique per project.
+    """
+
+    variables: Union[
+        Dict[str, str],
+        Iterable[RunSimulationFromConfigVariableUnionMember1],
+        Iterable[RunSimulationFromConfigVariableUnionMember2],
+    ]
+    """
+    Values for the {{variables}} the run resolves, overriding whatever the plan has
+    pinned.
+    An object applies them to the whole run:
+    { "orderNumber": "12345", "tier": "gold" }
+    An array applies them per flow, or to just its happy path or one of its edge
+    cases, when a single set will not do. Each entry carries what it applies to:
+    [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345" } }, {
+    "flowId": "550e8400-...", "happyPath": true, "variables": { "orderNumber":
+    "55555" } }, { "flowId": "550e8400-...", "edgeCaseId": "7a3d2e1f-...",
+    "variables": { "orderNumber": "67890" } } ]
+    An entry that narrows to neither covers everything that flow resolves. A flow
+    this plan does not attach, or an edge case that does not belong to the flow, is
+    rejected rather than ignored.
+    A plan built on scenarios rather than customer flows targets them the same way,
+    with `scenarioId` in place of `flowId`. That form is deprecated alongside
+    scenarios themselves, and still accepted so runs against those plans keep
+    working.
+    """
+
+
 class RunSimulationFromTemplateQuestion(TypedDict, total=False):
     ask: Required[str]
     """The question the caller asks the agent."""
@@ -674,4 +711,6 @@ class RunSimulationFromTemplate(TypedDict, total=False):
     """
 
 
-SimulationRunParams: TypeAlias = Union[RunSimulationFromConfig, RunSimulationFromPlanID, RunSimulationFromTemplate]
+SimulationRunParams: TypeAlias = Union[
+    RunSimulationFromConfig, RunSimulationFromPlanID, RunSimulationFromConfigKey, RunSimulationFromTemplate
+]

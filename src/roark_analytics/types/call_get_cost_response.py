@@ -30,6 +30,7 @@ class DataBreakdown(BaseModel):
         "TRANSCRIPTION",
         "INTERNAL_LLM",
         "INTERNAL_STT",
+        "PHONE_NUMBER",
     ]
     """The cost source, e.g. SIM_PLATFORM_FEE, SIM_LLM, METRIC."""
 
@@ -79,6 +80,7 @@ class DataItem(BaseModel):
         "TRANSCRIPTION",
         "INTERNAL_LLM",
         "INTERNAL_STT",
+        "PHONE_NUMBER",
     ]
 
     surface: Literal["SIMULATION", "POST_CALL"]

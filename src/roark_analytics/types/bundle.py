@@ -10,6 +10,8 @@ from .config_flow_step import ConfigFlowStep
 
 __all__ = [
     "Bundle",
+    "APICheckMetricConfig",
+    "APICheckMetricConfigHTTPRequest",
     "AgentConfig",
     "AgentConfigEndpoint",
     "AlertConfig",
@@ -47,16 +49,18 @@ __all__ = [
     "ScriptedFlowConfigOffScript",
     "SimulationGroupConfig",
     "SimulationGroupConfigNotify",
-    "SimulationGroupConfigNotifySlack",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "SimulationPlanConfigNotify",
+    "SimulationPlanConfigNotifySlack",
     "SimulationPlanConfigScheduleUnionMember0",
     "SimulationPlanConfigScheduleUnionMember1",
     "SimulationPlanConfigScheduleUnionMember2",
     "SimulationPlanConfigScheduleUnionMember3",
     "SimulationPlanConfigScheduleUnionMember4",
     "SimulationPlanConfigScheduleUnionMember5",
+    "ThresholdMetricConfig",
     "ToolConfig",
     "ToolConfigHandler",
 ]
@@ -415,6 +419,8 @@ class MetricConfig(BaseModel):
 
     type: Literal["BOOLEAN", "SCALE", "NUMERIC", "TEXT", "CLASSIFICATION"]
 
+    calculation_type: Optional[Literal["LLM_JUDGE"]] = FieldInfo(alias="calculationType", default=None)
+
     contexts: Optional[List[Literal["CALL", "SEGMENT", "TURN"]]] = None
 
     display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
@@ -438,6 +444,64 @@ class MetricConfig(BaseModel):
     true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
 
 
+class APICheckMetricConfigHTTPRequest(BaseModel):
+    url: str
+
+    body: Optional[str] = None
+
+    headers: Optional[Dict[str, str]] = None
+
+    method: Optional[Literal["GET", "POST"]] = None
+
+
+class APICheckMetricConfig(BaseModel):
+    calculation_type: Literal["HTTP_REQUEST"] = FieldInfo(alias="calculationType")
+
+    http_request: APICheckMetricConfigHTTPRequest = FieldInfo(alias="httpRequest")
+
+    kind: Literal["metric"]
+
+    name: str
+
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
+    false_label: Optional[str] = FieldInfo(alias="falseLabel", default=None)
+
+    true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
+
+
+class ThresholdMetricConfig(BaseModel):
+    calculation_type: Literal["THRESHOLD"] = FieldInfo(alias="calculationType")
+
+    kind: Literal["metric"]
+
+    name: str
+
+    operator: Literal[
+        "GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"
+    ]
+
+    source_metric: str = FieldInfo(alias="sourceMetric")
+
+    value: Union[str, float, bool]
+
+    aggregation_mode: Optional[Literal["EACH", "COUNT", "AVERAGE", "MIN", "MAX", "MEDIAN", "P95", "P99", "SUM"]] = (
+        FieldInfo(alias="aggregationMode", default=None)
+    )
+
+    count_threshold: Optional[int] = FieldInfo(alias="countThreshold", default=None)
+
+    false_label: Optional[str] = FieldInfo(alias="falseLabel", default=None)
+
+    source_participant_role: Optional[Literal["AGENT", "CUSTOMER"]] = FieldInfo(
+        alias="sourceParticipantRole", default=None
+    )
+
+    source_variant: Optional[str] = FieldInfo(alias="sourceVariant", default=None)
+
+    true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
+
+
 class SimulationPlanConfigAgentEndpoint(BaseModel):
     agent: str
 
@@ -456,6 +520,18 @@ class SimulationPlanConfigFlow(BaseModel):
     persona_override: Optional[str] = FieldInfo(alias="personaOverride", default=None)
 
     system: Optional[str] = None
+
+
+class SimulationPlanConfigNotifySlack(BaseModel):
+    channel_id: str = FieldInfo(alias="channelId")
+
+    channel_name: str = FieldInfo(alias="channelName")
+
+
+class SimulationPlanConfigNotify(BaseModel):
+    email: Optional[Union[bool, List[str]]] = None
+
+    slack: Optional[List[SimulationPlanConfigNotifySlack]] = None
 
 
 class SimulationPlanConfigScheduleUnionMember0(BaseModel):
@@ -581,6 +657,8 @@ class SimulationPlanConfig(BaseModel):
 
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
 
+    notify: Optional[SimulationPlanConfigNotify] = None
+
     schedule: Optional[
         Union[
             SimulationPlanConfigScheduleUnionMember0,
@@ -652,6 +730,8 @@ class QaSimulationPlanConfig(BaseModel):
 
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
 
+    notify: Optional[SimulationPlanConfigNotify] = None
+
     schedule: Optional[
         Union[
             SimulationPlanConfigScheduleUnionMember0,
@@ -666,16 +746,10 @@ class QaSimulationPlanConfig(BaseModel):
     silence_timeout_seconds: Optional[int] = FieldInfo(alias="silenceTimeoutSeconds", default=None)
 
 
-class SimulationGroupConfigNotifySlack(BaseModel):
-    channel_id: str = FieldInfo(alias="channelId")
-
-    channel_name: str = FieldInfo(alias="channelName")
-
-
 class SimulationGroupConfigNotify(BaseModel):
     email: Optional[Union[bool, List[str]]] = None
 
-    slack: Optional[List[SimulationGroupConfigNotifySlack]] = None
+    slack: Optional[List[SimulationPlanConfigNotifySlack]] = None
 
 
 class SimulationGroupConfig(BaseModel):
@@ -762,7 +836,7 @@ class AlertSimulationTrigger(BaseModel):
 
 
 class AlertConfigAction(BaseModel):
-    slack: Optional[List[SimulationGroupConfigNotifySlack]] = None
+    slack: Optional[List[SimulationPlanConfigNotifySlack]] = None
 
     webhooks: Optional[List[str]] = None
 
@@ -808,7 +882,9 @@ class ToolConfig(BaseModel):
 
 
 class DashboardConfigFilter(BaseModel):
-    type: Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]
+    type: Literal[
+        "METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET", "METRIC_VALUE"
+    ]
 
     operator: Optional[
         Literal[
@@ -1011,6 +1087,8 @@ class ProjectConfig(BaseModel):
                 ScriptedFlowConfig,
                 CollectorConfig,
                 MetricConfig,
+                APICheckMetricConfig,
+                ThresholdMetricConfig,
                 SimulationPlanConfig,
                 QaSimulationPlanConfig,
                 SimulationGroupConfig,
@@ -1033,6 +1111,8 @@ class Bundle(BaseModel):
                 ScriptedFlowConfig,
                 CollectorConfig,
                 MetricConfig,
+                APICheckMetricConfig,
+                ThresholdMetricConfig,
                 SimulationPlanConfig,
                 QaSimulationPlanConfig,
                 SimulationGroupConfig,
