@@ -265,15 +265,76 @@ class MetricResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def create_definition(
+        self,
+        *,
+        calculation_type: Literal["HTTP_REQUEST"],
+        http_request: metric_create_definition_params.HTTPRequestMetricInputHTTPRequest,
+        name: str,
+        analysis_package_id: str | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use `POST
+        /metric/definitions/{idOrSlug}/thresholds` instead.
+
+        Args:
+          calculation_type: BOOLEAN metric answered by your own endpoint. Roark sends a request about each
+              call, live or simulated, and your endpoint answers {"passed": true | false,
+              "reason": "..."}.
+
+          http_request: The request to send. With no body, Roark POSTs the default payload: { version,
+              requestId, metric, call, simulation }.
+
+          name: Name of the metric
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
+
+          boolean_false_label: What a failed check is called (default: Fail)
+
+          boolean_true_label: What a passed check is called (default: Pass)
+
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["calculation_type", "name", "output_type"],
         ["calculation_type", "formula", "name", "output_type", "sources"],
         ["calculation_type", "name", "operation", "outcome"],
+        ["calculation_type", "http_request", "name"],
     )
     def create_definition(
         self,
         *,
-        calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN"],
+        calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN", "HTTP_REQUEST"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
         analysis_package_id: str | Omit = omit,
@@ -299,6 +360,7 @@ class MetricResource(SyncAPIResource):
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
         triggers: Iterable[metric_create_definition_params.PatternMetricInputTrigger] | Omit = omit,
         window_mode: Literal["seconds", "segments"] | Omit = omit,
+        http_request: metric_create_definition_params.HTTPRequestMetricInputHTTPRequest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -335,6 +397,7 @@ class MetricResource(SyncAPIResource):
                     "trigger_combinator": trigger_combinator,
                     "triggers": triggers,
                     "window_mode": window_mode,
+                    "http_request": http_request,
                 },
                 metric_create_definition_params.MetricCreateDefinitionParams,
             ),
@@ -399,6 +462,7 @@ class MetricResource(SyncAPIResource):
         change_reason: str | Omit = omit,
         classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
         formula: str | Omit = omit,
+        http_request: metric_update_definition_params.HTTPRequest | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: object | Omit = omit,
@@ -448,6 +512,9 @@ class MetricResource(SyncAPIResource):
           formula: New formula expression (FORMULA only). Pass `sources` alongside if the
               referenced metrics change.
 
+          http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
+              are removed.
+
           llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
@@ -491,6 +558,7 @@ class MetricResource(SyncAPIResource):
                     "change_reason": change_reason,
                     "classification_options": classification_options,
                     "formula": formula,
+                    "http_request": http_request,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "metric_id": metric_id,
@@ -758,15 +826,76 @@ class AsyncMetricResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def create_definition(
+        self,
+        *,
+        calculation_type: Literal["HTTP_REQUEST"],
+        http_request: metric_create_definition_params.HTTPRequestMetricInputHTTPRequest,
+        name: str,
+        analysis_package_id: str | Omit = omit,
+        boolean_false_label: str | Omit = omit,
+        boolean_true_label: str | Omit = omit,
+        metric_id: str | Omit = omit,
+        slug: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MetricCreateDefinitionResponse:
+        """Create a new metric definition.
+
+        The `calculationType` field selects the variant:
+        LLM_JUDGE (LLM-evaluated), FORMULA (computed from a math expression over other
+        metrics), or PATTERN (detects a trigger→outcome pattern within a window). To
+        create a threshold on top of an existing metric, use `POST
+        /metric/definitions/{idOrSlug}/thresholds` instead.
+
+        Args:
+          calculation_type: BOOLEAN metric answered by your own endpoint. Roark sends a request about each
+              call, live or simulated, and your endpoint answers {"passed": true | false,
+              "reason": "..."}.
+
+          http_request: The request to send. With no body, Roark POSTs the default payload: { version,
+              requestId, metric, call, simulation }.
+
+          name: Name of the metric
+
+          analysis_package_id: ID of the analysis package to add this metric to. Optional: when omitted, the
+              metric is added to a default "Custom Metrics" package for your project (created
+              automatically the first time).
+
+          boolean_false_label: What a failed check is called (default: Fail)
+
+          boolean_true_label: What a passed check is called (default: Pass)
+
+          metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+              integrations.
+
+          slug: Stable slug for the metric. Auto-generated from name if omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["calculation_type", "name", "output_type"],
         ["calculation_type", "formula", "name", "output_type", "sources"],
         ["calculation_type", "name", "operation", "outcome"],
+        ["calculation_type", "http_request", "name"],
     )
     async def create_definition(
         self,
         *,
-        calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN"],
+        calculation_type: Literal["LLM_JUDGE", "FORMULA", "PATTERN", "HTTP_REQUEST"],
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
         analysis_package_id: str | Omit = omit,
@@ -792,6 +921,7 @@ class AsyncMetricResource(AsyncAPIResource):
         trigger_combinator: Literal["AND", "OR"] | Omit = omit,
         triggers: Iterable[metric_create_definition_params.PatternMetricInputTrigger] | Omit = omit,
         window_mode: Literal["seconds", "segments"] | Omit = omit,
+        http_request: metric_create_definition_params.HTTPRequestMetricInputHTTPRequest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -828,6 +958,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "trigger_combinator": trigger_combinator,
                     "triggers": triggers,
                     "window_mode": window_mode,
+                    "http_request": http_request,
                 },
                 metric_create_definition_params.MetricCreateDefinitionParams,
             ),
@@ -892,6 +1023,7 @@ class AsyncMetricResource(AsyncAPIResource):
         change_reason: str | Omit = omit,
         classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
         formula: str | Omit = omit,
+        http_request: metric_update_definition_params.HTTPRequest | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: object | Omit = omit,
@@ -941,6 +1073,9 @@ class AsyncMetricResource(AsyncAPIResource):
           formula: New formula expression (FORMULA only). Pass `sources` alongside if the
               referenced metrics change.
 
+          http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
+              are removed.
+
           llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
@@ -984,6 +1119,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "change_reason": change_reason,
                     "classification_options": classification_options,
                     "formula": formula,
+                    "http_request": http_request,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "metric_id": metric_id,

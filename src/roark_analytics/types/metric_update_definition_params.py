@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable
+from typing import Dict, List, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["MetricUpdateDefinitionParams", "ClassificationOption", "ScaleLabel", "Source"]
+__all__ = ["MetricUpdateDefinitionParams", "ClassificationOption", "HTTPRequest", "ScaleLabel", "Source"]
 
 
 class ClassificationOption(TypedDict, total=False):
@@ -19,6 +19,30 @@ class ClassificationOption(TypedDict, total=False):
     display_order: Required[Annotated[int, PropertyInfo(alias="displayOrder")]]
 
     label: Required[str]
+
+
+class HTTPRequest(TypedDict, total=False):
+    url: Required[str]
+    """
+    Public http(s) URL. May contain {{path}} placeholders into the request payload,
+    which are URL-encoded.
+    """
+
+    body: Optional[str]
+    """
+    A JSON template with {{path}} placeholders into the request payload, such as
+    {"cardId": "{{call.properties.cardId}}"}. Omit or pass null to send the default
+    payload.
+    """
+
+    headers: Dict[str, str]
+    """
+    Request headers, for example your own Authorization header. Values may contain
+    placeholders.
+    """
+
+    method: Literal["GET", "POST"]
+    """GET or POST (default POST). A GET request has no body."""
 
 
 class ScaleLabel(TypedDict, total=False):
@@ -70,6 +94,12 @@ class MetricUpdateDefinitionParams(TypedDict, total=False):
     """
     New formula expression (FORMULA only). Pass `sources` alongside if the
     referenced metrics change.
+    """
+
+    http_request: Annotated[HTTPRequest, PropertyInfo(alias="httpRequest")]
+    """
+    Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
+    are removed.
     """
 
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]

@@ -245,6 +245,66 @@ class SimulationResource(SyncAPIResource):
     def run(
         self,
         *,
+        plan_config_key: str,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
+        """Starts a simulation and returns the run.
+
+        Send `template` to run one of the
+        built-in templates: it supplies the metrics and checks, and for some templates
+        the flows too, so the request only names the agent and the direction. Send
+        `plan` to describe a simulation yourself and run it once. Send `planId` to run a
+        plan you already have. `template` and `plan` both resolve to a run plan,
+        returned as `simulationRunPlanId`. Add `saveAsPlan` to keep it, or read it back
+        to see exactly what ran. A plan built from a template is a snapshot: retuning
+        the template later never changes what that plan runs, which is what makes a
+        saved one safe to pin in CI.
+
+        Args:
+          plan_config_key: The config key of a plan to run, as applied from config as code
+              (`simulationPlan/<name>`). Runs a config-managed plan by name, with no id
+              lookup. Unique per project.
+
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned. An object applies them to the whole run: { "orderNumber": "12345",
+              "tier": "gold" } An array applies them per flow, or to just its happy path or
+              one of its edge cases, when a single set will not do. Each entry carries what it
+              applies to: [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345"
+              } }, { "flowId": "550e8400-...", "happyPath": true, "variables": {
+              "orderNumber": "55555" } }, { "flowId": "550e8400-...", "edgeCaseId":
+              "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ] An entry that
+              narrows to neither covers everything that flow resolves. A flow this plan does
+              not attach, or an edge case that does not belong to the flow, is rejected rather
+              than ignored. A plan built on scenarios rather than customer flows targets them
+              the same way, with `scenarioId` in place of `flowId`. That form is deprecated
+              alongside scenarios themselves, and still accepted so runs against those plans
+              keep working.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def run(
+        self,
+        *,
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
@@ -397,7 +457,7 @@ class SimulationResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["plan"], ["plan_id"], ["agent_endpoints", "direction", "template"])
+    @required_args(["plan"], ["plan_id"], ["plan_config_key"], ["agent_endpoints", "direction", "template"])
     def run(
         self,
         *,
@@ -413,6 +473,7 @@ class SimulationResource(SyncAPIResource):
         ]
         | Omit = omit,
         plan_id: str | Omit = omit,
+        plan_config_key: str | Omit = omit,
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
@@ -449,6 +510,7 @@ class SimulationResource(SyncAPIResource):
                     "save_as_plan": save_as_plan,
                     "variables": variables,
                     "plan_id": plan_id,
+                    "plan_config_key": plan_config_key,
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
@@ -700,6 +762,66 @@ class AsyncSimulationResource(AsyncAPIResource):
     async def run(
         self,
         *,
+        plan_config_key: str,
+        variables: Union[
+            Dict[str, str],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1],
+            Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember2],
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunResponse:
+        """Starts a simulation and returns the run.
+
+        Send `template` to run one of the
+        built-in templates: it supplies the metrics and checks, and for some templates
+        the flows too, so the request only names the agent and the direction. Send
+        `plan` to describe a simulation yourself and run it once. Send `planId` to run a
+        plan you already have. `template` and `plan` both resolve to a run plan,
+        returned as `simulationRunPlanId`. Add `saveAsPlan` to keep it, or read it back
+        to see exactly what ran. A plan built from a template is a snapshot: retuning
+        the template later never changes what that plan runs, which is what makes a
+        saved one safe to pin in CI.
+
+        Args:
+          plan_config_key: The config key of a plan to run, as applied from config as code
+              (`simulationPlan/<name>`). Runs a config-managed plan by name, with no id
+              lookup. Unique per project.
+
+          variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
+              pinned. An object applies them to the whole run: { "orderNumber": "12345",
+              "tier": "gold" } An array applies them per flow, or to just its happy path or
+              one of its edge cases, when a single set will not do. Each entry carries what it
+              applies to: [ { "flowId": "550e8400-...", "variables": { "orderNumber": "12345"
+              } }, { "flowId": "550e8400-...", "happyPath": true, "variables": {
+              "orderNumber": "55555" } }, { "flowId": "550e8400-...", "edgeCaseId":
+              "7a3d2e1f-...", "variables": { "orderNumber": "67890" } } ] An entry that
+              narrows to neither covers everything that flow resolves. A flow this plan does
+              not attach, or an edge case that does not belong to the flow, is rejected rather
+              than ignored. A plan built on scenarios rather than customer flows targets them
+              the same way, with `scenarioId` in place of `flowId`. That form is deprecated
+              alongside scenarios themselves, and still accepted so runs against those plans
+              keep working.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def run(
+        self,
+        *,
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint],
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
@@ -852,7 +974,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["plan"], ["plan_id"], ["agent_endpoints", "direction", "template"])
+    @required_args(["plan"], ["plan_id"], ["plan_config_key"], ["agent_endpoints", "direction", "template"])
     async def run(
         self,
         *,
@@ -868,6 +990,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         ]
         | Omit = omit,
         plan_id: str | Omit = omit,
+        plan_config_key: str | Omit = omit,
         agent_endpoints: Iterable[simulation_run_params.RunSimulationFromConfigPlanAgentEndpoint] | Omit = omit,
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
@@ -904,6 +1027,7 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "save_as_plan": save_as_plan,
                     "variables": variables,
                     "plan_id": plan_id,
+                    "plan_config_key": plan_config_key,
                     "agent_endpoints": agent_endpoints,
                     "direction": direction,
                     "template": template,
