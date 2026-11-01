@@ -130,10 +130,11 @@ class TestCall:
     def test_method_list_with_all_params(self, client: Roark) -> None:
         call = client.call.list(
             after="eyJzb3J0VmFsdWUiOiIyMDI1LTAxLTE1VDEwOjAwOjAwLjAwMDAwMFoiLCJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCJ9",
+            agent_id="550e8400-e29b-41d4-a716-446655440000,660e8400-e29b-41d4-a716-446655440001",
             counted_in_results="true",
             exclude_hidden_runs="true",
             limit=20,
-            properties={"plan_tier": {"exists": False}, "region": {"exists": True}},
+            properties={"plan_tier": {"exists": False}, "agent_name": {"eq": "Billing Bot"}},
             search_text="billing inquiry",
             simulation_run_plan_ids="770e8400-e29b-41d4-a716-446655440002",
             simulation_run_plan_job_id="550e8400-e29b-41d4-a716-446655440000",
@@ -667,10 +668,11 @@ class TestAsyncCall:
     async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
         call = await async_client.call.list(
             after="eyJzb3J0VmFsdWUiOiIyMDI1LTAxLTE1VDEwOjAwOjAwLjAwMDAwMFoiLCJpZCI6IjU1MGU4NDAwLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCJ9",
+            agent_id="550e8400-e29b-41d4-a716-446655440000,660e8400-e29b-41d4-a716-446655440001",
             counted_in_results="true",
             exclude_hidden_runs="true",
             limit=20,
-            properties={"plan_tier": {"exists": False}, "region": {"exists": True}},
+            properties={"plan_tier": {"exists": False}, "agent_name": {"eq": "Billing Bot"}},
             search_text="billing inquiry",
             simulation_run_plan_ids="770e8400-e29b-41d4-a716-446655440002",
             simulation_run_plan_job_id="550e8400-e29b-41d4-a716-446655440000",

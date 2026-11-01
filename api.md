@@ -566,6 +566,30 @@ Methods:
 - <code title="get /v1/agent/endpoint">client.agent_endpoint.<a href="./src/roark_analytics/resources/agent_endpoint.py">list</a>(\*\*<a href="src/roark_analytics/types/agent_endpoint_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_endpoint_list_response.py">AgentEndpointListResponse</a></code>
 - <code title="get /v1/agent/endpoint/{endpointId}">client.agent_endpoint.<a href="./src/roark_analytics/resources/agent_endpoint.py">get_by_id</a>(endpoint_id) -> <a href="./src/roark_analytics/types/agent_endpoint_get_by_id_response.py">AgentEndpointGetByIDResponse</a></code>
 
+# PhoneNumber
+
+Types:
+
+```python
+from roark_analytics.types import (
+    PhoneNumberCreateResponse,
+    PhoneNumberUpdateResponse,
+    PhoneNumberListResponse,
+    PhoneNumberDeleteResponse,
+    PhoneNumberGetAllowanceResponse,
+    PhoneNumberListAvailableResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/phone-number">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">create</a>(\*\*<a href="src/roark_analytics/types/phone_number_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/phone_number_create_response.py">PhoneNumberCreateResponse</a></code>
+- <code title="put /v1/phone-number/{phoneNumberId}">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">update</a>(phone_number_id, \*\*<a href="src/roark_analytics/types/phone_number_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/phone_number_update_response.py">PhoneNumberUpdateResponse</a></code>
+- <code title="get /v1/phone-number">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">list</a>(\*\*<a href="src/roark_analytics/types/phone_number_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/phone_number_list_response.py">PhoneNumberListResponse</a></code>
+- <code title="delete /v1/phone-number/{phoneNumberId}">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">delete</a>(phone_number_id) -> <a href="./src/roark_analytics/types/phone_number_delete_response.py">PhoneNumberDeleteResponse</a></code>
+- <code title="get /v1/phone-number/allowance">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">get_allowance</a>() -> <a href="./src/roark_analytics/types/phone_number_get_allowance_response.py">PhoneNumberGetAllowanceResponse</a></code>
+- <code title="get /v1/phone-number/available">client.phone_number.<a href="./src/roark_analytics/resources/phone_number.py">list_available</a>(\*\*<a href="src/roark_analytics/types/phone_number_list_available_params.py">params</a>) -> <a href="./src/roark_analytics/types/phone_number_list_available_response.py">PhoneNumberListAvailableResponse</a></code>
+
 # AgentPrompt
 
 Types:
@@ -583,6 +607,46 @@ Methods:
 - <code title="put /v1/agent/{agentId}/prompts">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">update</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_prompt_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_prompt_update_response.py">AgentPromptUpdateResponse</a></code>
 - <code title="get /v1/agent/{agentId}/prompts">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_prompt_list_response.py">AgentPromptListResponse</a></code>
 - <code title="get /v1/agent/{agentId}/prompts/{promptId}/versions">client.agent_prompt.<a href="./src/roark_analytics/resources/agent_prompt.py">list_versions</a>(prompt_id, \*\*<a href="src/roark_analytics/types/agent_prompt_list_versions_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_prompt_list_versions_response.py">AgentPromptListVersionsResponse</a></code>
+
+# AgentVersion
+
+Types:
+
+```python
+from roark_analytics.types import (
+    AgentVersionListResponse,
+    AgentVersionGetByIDResponse,
+    AgentVersionRollbackResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/agent/{agentId}/versions">client.agent_version.<a href="./src/roark_analytics/resources/agent_version.py">list</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_version_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_version_list_response.py">AgentVersionListResponse</a></code>
+- <code title="get /v1/agent/{agentId}/versions/{versionId}">client.agent_version.<a href="./src/roark_analytics/resources/agent_version.py">get_by_id</a>(version_id, \*\*<a href="src/roark_analytics/types/agent_version_get_by_id_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_version_get_by_id_response.py">AgentVersionGetByIDResponse</a></code>
+- <code title="post /v1/agent/{agentId}/versions/{versionId}/rollback">client.agent_version.<a href="./src/roark_analytics/resources/agent_version.py">rollback</a>(version_id, \*\*<a href="src/roark_analytics/types/agent_version_rollback_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_version_rollback_response.py">AgentVersionRollbackResponse</a></code>
+
+# AgentDraft
+
+Types:
+
+```python
+from roark_analytics.types import (
+    AgentDraftCreateResponse,
+    AgentDraftUpdateResponse,
+    AgentDraftDeleteResponse,
+    AgentDraftGetResponse,
+    AgentDraftPublishResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">create</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_draft_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_draft_create_response.py">AgentDraftCreateResponse</a></code>
+- <code title="put /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">update</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_draft_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_draft_update_response.py">AgentDraftUpdateResponse</a></code>
+- <code title="delete /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">delete</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_draft_delete_response.py">AgentDraftDeleteResponse</a></code>
+- <code title="get /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">get</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_draft_get_response.py">AgentDraftGetResponse</a></code>
+- <code title="post /v1/agent/{agentId}/draft/publish">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">publish</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_draft_publish_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_draft_publish_response.py">AgentDraftPublishResponse</a></code>
 
 # HTTPRequestDefinition
 

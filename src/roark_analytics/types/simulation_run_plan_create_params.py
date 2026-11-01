@@ -17,6 +17,9 @@ __all__ = [
     "CreateRunPlanFromConfigFlowEdgeCaseUnionMember1",
     "CreateRunPlanFromConfigFlowOverride",
     "CreateRunPlanFromConfigMetric",
+    "CreateRunPlanFromConfigNotification",
+    "CreateRunPlanFromConfigNotificationEmail",
+    "CreateRunPlanFromConfigNotificationSlack",
     "CreateRunPlanFromConfigScenario",
     "CreateRunPlanFromTemplate",
     "CreateRunPlanFromTemplateQuestion",
@@ -175,6 +178,37 @@ class CreateRunPlanFromConfigMetric(TypedDict, total=False):
     """
     Stable metric slug (e.g. `customer_satisfaction`). Provide either this or `id`,
     not both.
+    """
+
+
+class CreateRunPlanFromConfigNotificationEmail(TypedDict, total=False):
+    enabled: Required[bool]
+    """Whether each run's report is emailed when it is ready."""
+
+    recipients: SequenceNotStr[str]
+    """
+    Addresses to email (at most 50), Roark users or not: the email attaches the
+    report PDF. Empty emails every member of the project.
+    """
+
+
+class CreateRunPlanFromConfigNotificationSlack(TypedDict, total=False):
+    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
+    """The Slack channel id"""
+
+    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
+    """The channel name, shown in Roark"""
+
+
+class CreateRunPlanFromConfigNotification(TypedDict, total=False):
+    """Where each run's report announces itself once it is ready."""
+
+    email: CreateRunPlanFromConfigNotificationEmail
+
+    slack: Iterable[CreateRunPlanFromConfigNotificationSlack]
+    """
+    Channels in the project's connected Slack workspace to post the report to (at
+    most 10). Slack must be connected to the project first.
     """
 
 
@@ -386,6 +420,13 @@ class CreateRunPlanFromConfig(TypedDict, total=False):
     `maxNoResponseRetries` is above 0.
     """
 
+    notifications: CreateRunPlanFromConfigNotification
+    """
+    Email and/or Slack delivery of each run's report once it is ready, with the
+    report PDF attached. Each run announces once, off its first report. Omitted: no
+    notifications.
+    """
+
     personas: Iterable[CreateRunPlanFromConfigAgentEndpoint]
     """
     Personas to include in this run plan. Required with `scenarios`; ignored with
@@ -542,6 +583,13 @@ class CreateRunPlanFromTemplate(TypedDict, total=False):
     """
     Seconds a retry waits before it dials (30-600). Only used when
     `maxNoResponseRetries` is above 0.
+    """
+
+    notifications: CreateRunPlanFromConfigNotification
+    """
+    Email and/or Slack delivery of each run's report once it is ready, with the
+    report PDF attached. Each run announces once, off its first report. Omitted: no
+    notifications.
     """
 
     persona_id: Annotated[str, PropertyInfo(alias="personaId")]

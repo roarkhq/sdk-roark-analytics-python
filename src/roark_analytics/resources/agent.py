@@ -189,6 +189,9 @@ class AgentResource(SyncAPIResource):
         *,
         job_description: str,
         name: str,
+        llm: Optional[agent_build_params.Llm] | Omit = omit,
+        stt: Optional[agent_build_params.Stt] | Omit = omit,
+        tts: Optional[agent_build_params.Tt] | Omit = omit,
         voice: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -209,7 +212,14 @@ class AgentResource(SyncAPIResource):
 
           name: Name of the agent
 
-          voice: Optional voice label for the hosted agent
+          llm: Optional text model the hosted agent thinks with. Roark's default when omitted
+
+          stt: Optional transcriber the hosted agent hears with. Roark's default when omitted
+
+          tts: Optional provider voice the hosted agent speaks with
+
+          voice: Optional display name of the agent's voice. The authored prompt matches its
+              delivery to it.
 
           extra_headers: Send extra headers
 
@@ -225,6 +235,9 @@ class AgentResource(SyncAPIResource):
                 {
                     "job_description": job_description,
                     "name": name,
+                    "llm": llm,
+                    "stt": stt,
+                    "tts": tts,
                     "voice": voice,
                 },
                 agent_build_params.AgentBuildParams,
@@ -431,6 +444,9 @@ class AsyncAgentResource(AsyncAPIResource):
         *,
         job_description: str,
         name: str,
+        llm: Optional[agent_build_params.Llm] | Omit = omit,
+        stt: Optional[agent_build_params.Stt] | Omit = omit,
+        tts: Optional[agent_build_params.Tt] | Omit = omit,
         voice: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -451,7 +467,14 @@ class AsyncAgentResource(AsyncAPIResource):
 
           name: Name of the agent
 
-          voice: Optional voice label for the hosted agent
+          llm: Optional text model the hosted agent thinks with. Roark's default when omitted
+
+          stt: Optional transcriber the hosted agent hears with. Roark's default when omitted
+
+          tts: Optional provider voice the hosted agent speaks with
+
+          voice: Optional display name of the agent's voice. The authored prompt matches its
+              delivery to it.
 
           extra_headers: Send extra headers
 
@@ -467,6 +490,9 @@ class AsyncAgentResource(AsyncAPIResource):
                 {
                     "job_description": job_description,
                     "name": name,
+                    "llm": llm,
+                    "stt": stt,
+                    "tts": tts,
                     "voice": voice,
                 },
                 agent_build_params.AgentBuildParams,

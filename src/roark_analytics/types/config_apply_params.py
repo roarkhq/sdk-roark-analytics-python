@@ -11,6 +11,8 @@ from .config_flow_step_param import ConfigFlowStepParam
 
 __all__ = [
     "ConfigApplyParams",
+    "APICheckMetricConfig",
+    "APICheckMetricConfigHTTPRequest",
     "AgentConfig",
     "AgentConfigEndpoint",
     "AlertConfig",
@@ -48,16 +50,18 @@ __all__ = [
     "ScriptedFlowConfigOffScript",
     "SimulationGroupConfig",
     "SimulationGroupConfigNotify",
-    "SimulationGroupConfigNotifySlack",
     "SimulationPlanConfig",
     "SimulationPlanConfigAgentEndpoint",
     "SimulationPlanConfigFlow",
+    "SimulationPlanConfigNotify",
+    "SimulationPlanConfigNotifySlack",
     "SimulationPlanConfigScheduleUnionMember0",
     "SimulationPlanConfigScheduleUnionMember1",
     "SimulationPlanConfigScheduleUnionMember2",
     "SimulationPlanConfigScheduleUnionMember3",
     "SimulationPlanConfigScheduleUnionMember4",
     "SimulationPlanConfigScheduleUnionMember5",
+    "ThresholdMetricConfig",
     "ToolConfig",
     "ToolConfigHandler",
 ]
@@ -417,6 +421,8 @@ class MetricConfig(TypedDict, total=False):
 
     type: Required[Literal["BOOLEAN", "SCALE", "NUMERIC", "TEXT", "CLASSIFICATION"]]
 
+    calculation_type: Annotated[Literal["LLM_JUDGE"], PropertyInfo(alias="calculationType")]
+
     contexts: List[Literal["CALL", "SEGMENT", "TURN"]]
 
     display_name: Annotated[str, PropertyInfo(alias="displayName")]
@@ -440,6 +446,63 @@ class MetricConfig(TypedDict, total=False):
     true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
 
 
+class APICheckMetricConfigHTTPRequest(TypedDict, total=False):
+    url: Required[str]
+
+    body: str
+
+    headers: Dict[str, str]
+
+    method: Literal["GET", "POST"]
+
+
+class APICheckMetricConfig(TypedDict, total=False):
+    calculation_type: Required[Annotated[Literal["HTTP_REQUEST"], PropertyInfo(alias="calculationType")]]
+
+    http_request: Required[Annotated[APICheckMetricConfigHTTPRequest, PropertyInfo(alias="httpRequest")]]
+
+    kind: Required[Literal["metric"]]
+
+    name: Required[str]
+
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
+    false_label: Annotated[str, PropertyInfo(alias="falseLabel")]
+
+    true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
+
+
+class ThresholdMetricConfig(TypedDict, total=False):
+    calculation_type: Required[Annotated[Literal["THRESHOLD"], PropertyInfo(alias="calculationType")]]
+
+    kind: Required[Literal["metric"]]
+
+    name: Required[str]
+
+    operator: Required[
+        Literal["GREATER_THAN", "GREATER_THAN_OR_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "EQUALS", "NOT_EQUALS"]
+    ]
+
+    source_metric: Required[Annotated[str, PropertyInfo(alias="sourceMetric")]]
+
+    value: Required[Union[str, float, bool]]
+
+    aggregation_mode: Annotated[
+        Literal["EACH", "COUNT", "AVERAGE", "MIN", "MAX", "MEDIAN", "P95", "P99", "SUM"],
+        PropertyInfo(alias="aggregationMode"),
+    ]
+
+    count_threshold: Annotated[int, PropertyInfo(alias="countThreshold")]
+
+    false_label: Annotated[str, PropertyInfo(alias="falseLabel")]
+
+    source_participant_role: Annotated[Literal["AGENT", "CUSTOMER"], PropertyInfo(alias="sourceParticipantRole")]
+
+    source_variant: Annotated[str, PropertyInfo(alias="sourceVariant")]
+
+    true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
+
+
 class SimulationPlanConfigAgentEndpoint(TypedDict, total=False):
     agent: Required[str]
 
@@ -458,6 +521,18 @@ class SimulationPlanConfigFlow(TypedDict, total=False):
     persona_override: Annotated[str, PropertyInfo(alias="personaOverride")]
 
     system: str
+
+
+class SimulationPlanConfigNotifySlack(TypedDict, total=False):
+    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
+
+    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
+
+
+class SimulationPlanConfigNotify(TypedDict, total=False):
+    email: Union[bool, SequenceNotStr[str]]
+
+    slack: Iterable[SimulationPlanConfigNotifySlack]
 
 
 class SimulationPlanConfigScheduleUnionMember0(TypedDict, total=False):
@@ -585,6 +660,8 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
+    notify: SimulationPlanConfigNotify
+
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
         SimulationPlanConfigScheduleUnionMember1,
@@ -656,6 +733,8 @@ class QaSimulationPlanConfig(TypedDict, total=False):
 
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
+    notify: SimulationPlanConfigNotify
+
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
         SimulationPlanConfigScheduleUnionMember1,
@@ -668,16 +747,10 @@ class QaSimulationPlanConfig(TypedDict, total=False):
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
 
 
-class SimulationGroupConfigNotifySlack(TypedDict, total=False):
-    channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
-
-    channel_name: Required[Annotated[str, PropertyInfo(alias="channelName")]]
-
-
 class SimulationGroupConfigNotify(TypedDict, total=False):
     email: Union[bool, SequenceNotStr[str]]
 
-    slack: Iterable[SimulationGroupConfigNotifySlack]
+    slack: Iterable[SimulationPlanConfigNotifySlack]
 
 
 class SimulationGroupConfig(TypedDict, total=False):
@@ -764,7 +837,7 @@ class AlertSimulationTrigger(TypedDict, total=False):
 
 
 class AlertConfigAction(TypedDict, total=False):
-    slack: Iterable[SimulationGroupConfigNotifySlack]
+    slack: Iterable[SimulationPlanConfigNotifySlack]
 
     webhooks: SequenceNotStr[str]
 
@@ -810,7 +883,9 @@ class ToolConfig(TypedDict, total=False):
 
 
 class DashboardConfigFilter(TypedDict, total=False):
-    type: Required[Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET"]]
+    type: Required[
+        Literal["METRIC_PROPERTY", "CALL_PROPERTY", "AGENT_PROPERTY", "CALL_ID", "MODALITY", "DATASET", "METRIC_VALUE"]
+    ]
 
     operator: Literal[
         "EQUALS",
@@ -1007,6 +1082,8 @@ class ProjectConfig(TypedDict, total=False):
             ScriptedFlowConfig,
             CollectorConfig,
             MetricConfig,
+            APICheckMetricConfig,
+            ThresholdMetricConfig,
             SimulationPlanConfig,
             QaSimulationPlanConfig,
             SimulationGroupConfig,
@@ -1029,6 +1106,8 @@ class ConfigApplyParams(TypedDict, total=False):
                     ScriptedFlowConfig,
                     CollectorConfig,
                     MetricConfig,
+                    APICheckMetricConfig,
+                    ThresholdMetricConfig,
                     SimulationPlanConfig,
                     QaSimulationPlanConfig,
                     SimulationGroupConfig,

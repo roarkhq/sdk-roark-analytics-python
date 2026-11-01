@@ -104,6 +104,14 @@ from .simulation import (
     SimulationResourceWithStreamingResponse,
     AsyncSimulationResourceWithStreamingResponse,
 )
+from .agent_draft import (
+    AgentDraftResource,
+    AsyncAgentDraftResource,
+    AgentDraftResourceWithRawResponse,
+    AsyncAgentDraftResourceWithRawResponse,
+    AgentDraftResourceWithStreamingResponse,
+    AsyncAgentDraftResourceWithStreamingResponse,
+)
 from .agent_config import (
     AgentConfigResource,
     AsyncAgentConfigResource,
@@ -119,6 +127,22 @@ from .agent_prompt import (
     AsyncAgentPromptResourceWithRawResponse,
     AgentPromptResourceWithStreamingResponse,
     AsyncAgentPromptResourceWithStreamingResponse,
+)
+from .phone_number import (
+    PhoneNumberResource,
+    AsyncPhoneNumberResource,
+    PhoneNumberResourceWithRawResponse,
+    AsyncPhoneNumberResourceWithRawResponse,
+    PhoneNumberResourceWithStreamingResponse,
+    AsyncPhoneNumberResourceWithStreamingResponse,
+)
+from .agent_version import (
+    AgentVersionResource,
+    AsyncAgentVersionResource,
+    AgentVersionResourceWithRawResponse,
+    AsyncAgentVersionResourceWithRawResponse,
+    AgentVersionResourceWithStreamingResponse,
+    AsyncAgentVersionResourceWithStreamingResponse,
 )
 from .customer_flow import (
     CustomerFlowResource,
@@ -434,12 +458,30 @@ __all__ = [
     "AsyncAgentEndpointResourceWithRawResponse",
     "AgentEndpointResourceWithStreamingResponse",
     "AsyncAgentEndpointResourceWithStreamingResponse",
+    "PhoneNumberResource",
+    "AsyncPhoneNumberResource",
+    "PhoneNumberResourceWithRawResponse",
+    "AsyncPhoneNumberResourceWithRawResponse",
+    "PhoneNumberResourceWithStreamingResponse",
+    "AsyncPhoneNumberResourceWithStreamingResponse",
     "AgentPromptResource",
     "AsyncAgentPromptResource",
     "AgentPromptResourceWithRawResponse",
     "AsyncAgentPromptResourceWithRawResponse",
     "AgentPromptResourceWithStreamingResponse",
     "AsyncAgentPromptResourceWithStreamingResponse",
+    "AgentVersionResource",
+    "AsyncAgentVersionResource",
+    "AgentVersionResourceWithRawResponse",
+    "AsyncAgentVersionResourceWithRawResponse",
+    "AgentVersionResourceWithStreamingResponse",
+    "AsyncAgentVersionResourceWithStreamingResponse",
+    "AgentDraftResource",
+    "AsyncAgentDraftResource",
+    "AgentDraftResourceWithRawResponse",
+    "AsyncAgentDraftResourceWithRawResponse",
+    "AgentDraftResourceWithStreamingResponse",
+    "AsyncAgentDraftResourceWithStreamingResponse",
     "HTTPRequestDefinitionResource",
     "AsyncHTTPRequestDefinitionResource",
     "HTTPRequestDefinitionResourceWithRawResponse",
