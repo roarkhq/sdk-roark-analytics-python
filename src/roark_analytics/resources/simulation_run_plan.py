@@ -95,6 +95,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         max_no_response_retries: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -236,6 +237,10 @@ class SimulationRunPlanResource(SyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Email and/or Slack delivery of each run's report once it is ready, with the
+              report PDF attached. Each run announces once, off its first report. Omitted: no
+              notifications.
+
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
@@ -276,6 +281,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -380,6 +386,10 @@ class SimulationRunPlanResource(SyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Email and/or Slack delivery of each run's report once it is ready, with the
+              report PDF attached. Each run announces once, off its first report. Omitted: no
+              notifications.
+
           persona_id: For `question-answer-check`: the persona that asks the questions.
 
           questions: For the `question-answer-check` template: the questions to ask and the answer
@@ -443,6 +453,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         max_no_response_retries: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -483,6 +494,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "max_no_response_retries": max_no_response_retries,
                     "metrics": metrics,
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
+                    "notifications": notifications,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -543,6 +555,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: Optional[simulation_run_plan_update_params.Notification] | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -631,6 +644,9 @@ class SimulationRunPlanResource(SyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Replaces where each run's report is sent, as a whole. `null` turns notifications
+              off. Omitted keeps them. A run whose report already went out is not sent again.
+
           personas: Personas to include in this run plan
 
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
@@ -674,6 +690,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
+                    "notifications": notifications,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -872,6 +889,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         max_no_response_retries: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -1013,6 +1031,10 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Email and/or Slack delivery of each run's report once it is ready, with the
+              report PDF attached. Each run announces once, off its first report. Omitted: no
+              notifications.
+
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
@@ -1053,6 +1075,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -1157,6 +1180,10 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Email and/or Slack delivery of each run's report once it is ready, with the
+              report PDF attached. Each run announces once, off its first report. Omitted: no
+              notifications.
+
           persona_id: For `question-answer-check`: the persona that asks the questions.
 
           questions: For the `question-answer-check` template: the questions to ask and the answer
@@ -1220,6 +1247,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         max_no_response_retries: int | Omit = omit,
         metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -1260,6 +1288,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "max_no_response_retries": max_no_response_retries,
                     "metrics": metrics,
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
+                    "notifications": notifications,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
@@ -1320,6 +1349,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         metrics: Iterable[simulation_run_plan_update_params.Metric] | Omit = omit,
         name: str | Omit = omit,
         no_response_retry_backoff_seconds: int | Omit = omit,
+        notifications: Optional[simulation_run_plan_update_params.Notification] | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
@@ -1408,6 +1438,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           no_response_retry_backoff_seconds: Seconds a retry waits before it dials (30-600). Only used when
               `maxNoResponseRetries` is above 0.
 
+          notifications: Replaces where each run's report is sent, as a whole. `null` turns notifications
+              off. Omitted keeps them. A run whose report already went out is not sent again.
+
           personas: Personas to include in this run plan
 
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
@@ -1451,6 +1484,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "metrics": metrics,
                     "name": name,
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
+                    "notifications": notifications,
                     "personas": personas,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,

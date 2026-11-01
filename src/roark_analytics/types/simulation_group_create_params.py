@@ -13,7 +13,7 @@ __all__ = ["SimulationGroupCreateParams", "Notification", "NotificationEmail", "
 
 class NotificationEmail(TypedDict, total=False):
     enabled: Required[bool]
-    """Whether the group report of each run is emailed when it is ready."""
+    """Whether each run's group report is emailed when it is ready."""
 
     recipients: SequenceNotStr[str]
     """

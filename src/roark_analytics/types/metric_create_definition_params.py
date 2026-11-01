@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
+from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
@@ -11,6 +11,8 @@ __all__ = [
     "MetricCreateDefinitionParams",
     "FormulaMetricInput",
     "FormulaMetricInputSource",
+    "HTTPRequestMetricInput",
+    "HTTPRequestMetricInputHTTPRequest",
     "PatternMetricInput",
     "PatternMetricInputOutcome",
     "PatternMetricInputTrigger",
@@ -274,4 +276,75 @@ class PatternMetricInput(TypedDict, total=False):
     """Unit for trigger/outcome window values (default: seconds)"""
 
 
-MetricCreateDefinitionParams: TypeAlias = Union[PromptMetricInput, FormulaMetricInput, PatternMetricInput]
+class HTTPRequestMetricInputHTTPRequest(TypedDict, total=False):
+    """
+    The request to send. With no body, Roark POSTs the default payload: { version,
+    requestId, metric, call, simulation }.
+    """
+
+    url: Required[str]
+    """
+    Public http(s) URL. May contain {{path}} placeholders into the request payload,
+    which are URL-encoded.
+    """
+
+    body: Optional[str]
+    """
+    A JSON template with {{path}} placeholders into the request payload, such as
+    {"cardId": "{{call.properties.cardId}}"}. Omit or pass null to send the default
+    payload.
+    """
+
+    headers: Dict[str, str]
+    """
+    Request headers, for example your own Authorization header. Values may contain
+    placeholders.
+    """
+
+    method: Literal["GET", "POST"]
+    """GET or POST (default POST). A GET request has no body."""
+
+
+class HTTPRequestMetricInput(TypedDict, total=False):
+    calculation_type: Required[Annotated[Literal["HTTP_REQUEST"], PropertyInfo(alias="calculationType")]]
+    """
+    BOOLEAN metric answered by your own endpoint. Roark sends a request about each
+    call, live or simulated, and your endpoint answers {"passed": true | false,
+    "reason": "..."}.
+    """
+
+    http_request: Required[Annotated[HTTPRequestMetricInputHTTPRequest, PropertyInfo(alias="httpRequest")]]
+    """
+    The request to send. With no body, Roark POSTs the default payload: { version,
+    requestId, metric, call, simulation }.
+    """
+
+    name: Required[str]
+    """Name of the metric"""
+
+    analysis_package_id: Annotated[str, PropertyInfo(alias="analysisPackageId")]
+    """
+    ID of the analysis package to add this metric to. Optional: when omitted, the
+    metric is added to a default "Custom Metrics" package for your project (created
+    automatically the first time).
+    """
+
+    boolean_false_label: Annotated[str, PropertyInfo(alias="booleanFalseLabel")]
+    """What a failed check is called (default: Fail)"""
+
+    boolean_true_label: Annotated[str, PropertyInfo(alias="booleanTrueLabel")]
+    """What a passed check is called (default: Pass)"""
+
+    metric_id: Annotated[str, PropertyInfo(alias="metricId")]
+    """
+    Alias of `slug` accepted for backwards compatibility. Use `slug` for new
+    integrations.
+    """
+
+    slug: str
+    """Stable slug for the metric. Auto-generated from name if omitted."""
+
+
+MetricCreateDefinitionParams: TypeAlias = Union[
+    PromptMetricInput, FormulaMetricInput, PatternMetricInput, HTTPRequestMetricInput
+]

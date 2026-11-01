@@ -211,6 +211,7 @@ class CallResource(SyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        agent_id: str | Omit = omit,
         counted_in_results: Literal["true", "false"] | Omit = omit,
         exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
@@ -229,11 +230,19 @@ class CallResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CallListResponse:
-        """
-        Returns a paginated list of calls for the authenticated project.
+        """Returns a paginated list of calls for the authenticated project.
+
+        Pass agentId to
+        keep calls for specific agents, or properties[agent_name][eq] when you only have
+        the agent name. sortBy and sortDirection apply together with those filters.
 
         Args:
           after: Cursor for pagination - use the nextCursor value from a previous response
+
+          agent_id: Calls that include any of these agents. One id, or several separated by commas,
+              at most 100. A call with more than one agent matches when any of them is listed.
+              An id that is not an agent on a call in this project matches nothing. Combines
+              with the other filters, including sortBy and sortDirection.
 
           counted_in_results: true: only simulated calls their run's results count (not invalidated, for
               example because the agent never spoke). false: only the simulated calls the
@@ -245,13 +254,18 @@ class CallResource(SyncAPIResource):
 
           limit: Maximum number of calls to return (default: 20, max: 100)
 
-          properties: Filter on custom properties, one entry per property name:
+          properties: Filter on properties, one entry per property name.
               properties[<name>][exists]=true keeps calls that have the property set (whatever
               the value), properties[<name>][exists]=false keeps calls missing it (never sent,
-              sent as null, or removed). A property the project has never seen is missing on
-              every call. Names match the way properties are stored, so planTier and plan_tier
-              are one property. At most 20 properties; a name taken by a built-in call filter,
-              such as status, is rejected with 400.
+              sent as null, or removed). properties[<name>][eq]=<value> keeps calls whose
+              value equals it, ignoring case. agent_name and agent_id are built in and read
+              the agents linked to the call, not a stored snapshot: agent_name matches an
+              agent name, agent_id matches an agent id (a UUID). A call with several agents
+              matches when any of them does. A custom property the project has never stored
+              matches no calls under eq. Names match the way properties are stored, so
+              planTier and plan_tier are one property, and agentName is agent_name. At most 20
+              properties. A name taken by a built-in call filter, such as status, is rejected
+              with 400. One operator per property.
 
           search_text: Search text to filter calls by title, summary, or transcript
 
@@ -287,6 +301,7 @@ class CallResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "after": after,
+                        "agent_id": agent_id,
                         "counted_in_results": counted_in_results,
                         "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,
@@ -881,6 +896,7 @@ class AsyncCallResource(AsyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        agent_id: str | Omit = omit,
         counted_in_results: Literal["true", "false"] | Omit = omit,
         exclude_hidden_runs: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
@@ -899,11 +915,19 @@ class AsyncCallResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CallListResponse:
-        """
-        Returns a paginated list of calls for the authenticated project.
+        """Returns a paginated list of calls for the authenticated project.
+
+        Pass agentId to
+        keep calls for specific agents, or properties[agent_name][eq] when you only have
+        the agent name. sortBy and sortDirection apply together with those filters.
 
         Args:
           after: Cursor for pagination - use the nextCursor value from a previous response
+
+          agent_id: Calls that include any of these agents. One id, or several separated by commas,
+              at most 100. A call with more than one agent matches when any of them is listed.
+              An id that is not an agent on a call in this project matches nothing. Combines
+              with the other filters, including sortBy and sortDirection.
 
           counted_in_results: true: only simulated calls their run's results count (not invalidated, for
               example because the agent never spoke). false: only the simulated calls the
@@ -915,13 +939,18 @@ class AsyncCallResource(AsyncAPIResource):
 
           limit: Maximum number of calls to return (default: 20, max: 100)
 
-          properties: Filter on custom properties, one entry per property name:
+          properties: Filter on properties, one entry per property name.
               properties[<name>][exists]=true keeps calls that have the property set (whatever
               the value), properties[<name>][exists]=false keeps calls missing it (never sent,
-              sent as null, or removed). A property the project has never seen is missing on
-              every call. Names match the way properties are stored, so planTier and plan_tier
-              are one property. At most 20 properties; a name taken by a built-in call filter,
-              such as status, is rejected with 400.
+              sent as null, or removed). properties[<name>][eq]=<value> keeps calls whose
+              value equals it, ignoring case. agent_name and agent_id are built in and read
+              the agents linked to the call, not a stored snapshot: agent_name matches an
+              agent name, agent_id matches an agent id (a UUID). A call with several agents
+              matches when any of them does. A custom property the project has never stored
+              matches no calls under eq. Names match the way properties are stored, so
+              planTier and plan_tier are one property, and agentName is agent_name. At most 20
+              properties. A name taken by a built-in call filter, such as status, is rejected
+              with 400. One operator per property.
 
           search_text: Search text to filter calls by title, summary, or transcript
 
@@ -957,6 +986,7 @@ class AsyncCallResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "after": after,
+                        "agent_id": agent_id,
                         "counted_in_results": counted_in_results,
                         "exclude_hidden_runs": exclude_hidden_runs,
                         "limit": limit,

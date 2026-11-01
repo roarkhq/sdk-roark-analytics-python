@@ -260,6 +260,62 @@ class TestMetric:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_method_create_definition_overload_4(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_method_create_definition_with_all_params_overload_4(self, client: Roark) -> None:
+        metric = client.metric.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={
+                "url": "https://api.example.com/roark/checks/pin-changed",
+                "body": "x",
+                "headers": {"authorization": "Bearer sk_live_..."},
+                "method": "GET",
+            },
+            name="Customer Satisfaction",
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
+            metric_id="customer_satisfaction",
+            slug="customer_satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_definition_overload_4(self, client: Roark) -> None:
+        response = client.metric.with_raw_response.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_definition_overload_4(self, client: Roark) -> None:
+        with client.metric.with_streaming_response.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     def test_method_list_definitions(self, client: Roark) -> None:
         metric = client.metric.list_definitions()
         assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
@@ -310,6 +366,12 @@ class TestMetric:
             change_reason="changeReason",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
             formula="x",
+            http_request={
+                "url": "https://api.example.com/roark/checks/pin-changed",
+                "body": "x",
+                "headers": {"authorization": "Bearer sk_live_..."},
+                "method": "GET",
+            },
             llm_prompt="llmPrompt",
             max_classifications=1,
             metric_id="metricId",
@@ -621,6 +683,62 @@ class TestAsyncMetric:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_method_create_definition_overload_4(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_method_create_definition_with_all_params_overload_4(self, async_client: AsyncRoark) -> None:
+        metric = await async_client.metric.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={
+                "url": "https://api.example.com/roark/checks/pin-changed",
+                "body": "x",
+                "headers": {"authorization": "Bearer sk_live_..."},
+                "method": "GET",
+            },
+            name="Customer Satisfaction",
+            analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            boolean_false_label="booleanFalseLabel",
+            boolean_true_label="booleanTrueLabel",
+            metric_id="customer_satisfaction",
+            slug="customer_satisfaction",
+        )
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_definition_overload_4(self, async_client: AsyncRoark) -> None:
+        response = await async_client.metric.with_raw_response.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        metric = await response.parse()
+        assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_definition_overload_4(self, async_client: AsyncRoark) -> None:
+        async with async_client.metric.with_streaming_response.create_definition(
+            calculation_type="HTTP_REQUEST",
+            http_request={"url": "https://api.example.com/roark/checks/pin-changed"},
+            name="Customer Satisfaction",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            metric = await response.parse()
+            assert_matches_type(MetricCreateDefinitionResponse, metric, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_list_definitions(self, async_client: AsyncRoark) -> None:
         metric = await async_client.metric.list_definitions()
         assert_matches_type(MetricListDefinitionsResponse, metric, path=["response"])
@@ -671,6 +789,12 @@ class TestAsyncMetric:
             change_reason="changeReason",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
             formula="x",
+            http_request={
+                "url": "https://api.example.com/roark/checks/pin-changed",
+                "body": "x",
+                "headers": {"authorization": "Bearer sk_live_..."},
+                "method": "GET",
+            },
             llm_prompt="llmPrompt",
             max_classifications=1,
             metric_id="metricId",

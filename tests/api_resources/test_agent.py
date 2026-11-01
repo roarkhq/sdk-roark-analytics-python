@@ -157,6 +157,9 @@ class TestAgent:
         agent = client.agent.build(
             job_description="x",
             name="x",
+            llm={"model": "x", "provider": "OPENAI"},
+            stt={"model": "x", "provider": "DEEPGRAM"},
+            tts={"provider": "CARTESIA", "voice_id": "x", "model": "x"},
             voice="voice",
         )
         assert_matches_type(AgentBuildResponse, agent, path=["response"])
@@ -365,6 +368,9 @@ class TestAsyncAgent:
         agent = await async_client.agent.build(
             job_description="x",
             name="x",
+            llm={"model": "x", "provider": "OPENAI"},
+            stt={"model": "x", "provider": "DEEPGRAM"},
+            tts={"provider": "CARTESIA", "voice_id": "x", "model": "x"},
             voice="voice",
         )
         assert_matches_type(AgentBuildResponse, agent, path=["response"])
