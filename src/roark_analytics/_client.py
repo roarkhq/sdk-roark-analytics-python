@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         dashboard,
         simulation,
         agent_draft,
+        live_report,
         agent_config,
         agent_prompt,
         phone_number,
@@ -83,6 +84,7 @@ if TYPE_CHECKING:
     from .resources.dashboard import DashboardResource, AsyncDashboardResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.agent_draft import AgentDraftResource, AsyncAgentDraftResource
+    from .resources.live_report import LiveReportResource, AsyncLiveReportResource
     from .resources.agent_config import AgentConfigResource, AsyncAgentConfigResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
     from .resources.phone_number import PhoneNumberResource, AsyncPhoneNumberResource
@@ -217,6 +219,12 @@ class Roark(SyncAPIClient):
         from .resources.dashboard import DashboardResource
 
         return DashboardResource(self)
+
+    @cached_property
+    def live_report(self) -> LiveReportResource:
+        from .resources.live_report import LiveReportResource
+
+        return LiveReportResource(self)
 
     @cached_property
     def metric(self) -> MetricResource:
@@ -629,6 +637,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncDashboardResource(self)
 
     @cached_property
+    def live_report(self) -> AsyncLiveReportResource:
+        from .resources.live_report import AsyncLiveReportResource
+
+        return AsyncLiveReportResource(self)
+
+    @cached_property
     def metric(self) -> AsyncMetricResource:
         from .resources.metric import AsyncMetricResource
 
@@ -978,6 +992,12 @@ class RoarkWithRawResponse:
         return DashboardResourceWithRawResponse(self._client.dashboard)
 
     @cached_property
+    def live_report(self) -> live_report.LiveReportResourceWithRawResponse:
+        from .resources.live_report import LiveReportResourceWithRawResponse
+
+        return LiveReportResourceWithRawResponse(self._client.live_report)
+
+    @cached_property
     def metric(self) -> metric.MetricResourceWithRawResponse:
         from .resources.metric import MetricResourceWithRawResponse
 
@@ -1199,6 +1219,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.dashboard import AsyncDashboardResourceWithRawResponse
 
         return AsyncDashboardResourceWithRawResponse(self._client.dashboard)
+
+    @cached_property
+    def live_report(self) -> live_report.AsyncLiveReportResourceWithRawResponse:
+        from .resources.live_report import AsyncLiveReportResourceWithRawResponse
+
+        return AsyncLiveReportResourceWithRawResponse(self._client.live_report)
 
     @cached_property
     def metric(self) -> metric.AsyncMetricResourceWithRawResponse:
@@ -1424,6 +1450,12 @@ class RoarkWithStreamedResponse:
         return DashboardResourceWithStreamingResponse(self._client.dashboard)
 
     @cached_property
+    def live_report(self) -> live_report.LiveReportResourceWithStreamingResponse:
+        from .resources.live_report import LiveReportResourceWithStreamingResponse
+
+        return LiveReportResourceWithStreamingResponse(self._client.live_report)
+
+    @cached_property
     def metric(self) -> metric.MetricResourceWithStreamingResponse:
         from .resources.metric import MetricResourceWithStreamingResponse
 
@@ -1645,6 +1677,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.dashboard import AsyncDashboardResourceWithStreamingResponse
 
         return AsyncDashboardResourceWithStreamingResponse(self._client.dashboard)
+
+    @cached_property
+    def live_report(self) -> live_report.AsyncLiveReportResourceWithStreamingResponse:
+        from .resources.live_report import AsyncLiveReportResourceWithStreamingResponse
+
+        return AsyncLiveReportResourceWithStreamingResponse(self._client.live_report)
 
     @cached_property
     def metric(self) -> metric.AsyncMetricResourceWithStreamingResponse:

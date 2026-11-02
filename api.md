@@ -133,6 +133,34 @@ Methods:
 - <code title="get /v1/dashboard/{dashboardId}/widget/{widgetId}/data">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">get_widget_data</a>(widget_id, \*\*<a href="src/roark_analytics/types/dashboard_get_widget_data_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_get_widget_data_response.py">DashboardGetWidgetDataResponse</a></code>
 - <code title="put /v1/dashboard/{dashboardId}/widget/{widgetId}">client.dashboard.<a href="./src/roark_analytics/resources/dashboard.py">update_widget</a>(widget_id, \*\*<a href="src/roark_analytics/types/dashboard_update_widget_params.py">params</a>) -> <a href="./src/roark_analytics/types/dashboard_update_widget_response.py">DashboardUpdateWidgetResponse</a></code>
 
+# LiveReport
+
+Types:
+
+```python
+from roark_analytics.types import (
+    LiveReportCreateResponse,
+    LiveReportUpdateResponse,
+    LiveReportListResponse,
+    LiveReportDeleteResponse,
+    LiveReportGetByIDResponse,
+    LiveReportGetDocumentResponse,
+    LiveReportListDocumentsResponse,
+    LiveReportRunResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/live-report">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">create</a>(\*\*<a href="src/roark_analytics/types/live_report_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_create_response.py">LiveReportCreateResponse</a></code>
+- <code title="patch /v1/live-report/{reportId}">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">update</a>(report_id, \*\*<a href="src/roark_analytics/types/live_report_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_update_response.py">LiveReportUpdateResponse</a></code>
+- <code title="get /v1/live-report">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">list</a>(\*\*<a href="src/roark_analytics/types/live_report_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_list_response.py">LiveReportListResponse</a></code>
+- <code title="delete /v1/live-report/{reportId}">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">delete</a>(report_id) -> <a href="./src/roark_analytics/types/live_report_delete_response.py">LiveReportDeleteResponse</a></code>
+- <code title="get /v1/live-report/{reportId}">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">get_by_id</a>(report_id) -> <a href="./src/roark_analytics/types/live_report_get_by_id_response.py">LiveReportGetByIDResponse</a></code>
+- <code title="get /v1/live-report/{reportId}/document/{documentId}">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">get_document</a>(document_id, \*\*<a href="src/roark_analytics/types/live_report_get_document_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_get_document_response.py">LiveReportGetDocumentResponse</a></code>
+- <code title="get /v1/live-report/{reportId}/document">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">list_documents</a>(report_id, \*\*<a href="src/roark_analytics/types/live_report_list_documents_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_list_documents_response.py">LiveReportListDocumentsResponse</a></code>
+- <code title="post /v1/live-report/{reportId}/generate">client.live_report.<a href="./src/roark_analytics/resources/live_report.py">run</a>(report_id, \*\*<a href="src/roark_analytics/types/live_report_run_params.py">params</a>) -> <a href="./src/roark_analytics/types/live_report_run_response.py">LiveReportRunResponse</a></code>
+
 # Metric
 
 Types:
