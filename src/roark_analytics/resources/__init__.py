@@ -112,6 +112,14 @@ from .agent_draft import (
     AgentDraftResourceWithStreamingResponse,
     AsyncAgentDraftResourceWithStreamingResponse,
 )
+from .live_report import (
+    LiveReportResource,
+    AsyncLiveReportResource,
+    LiveReportResourceWithRawResponse,
+    AsyncLiveReportResourceWithRawResponse,
+    LiveReportResourceWithStreamingResponse,
+    AsyncLiveReportResourceWithStreamingResponse,
+)
 from .agent_config import (
     AgentConfigResource,
     AsyncAgentConfigResource,
@@ -332,6 +340,12 @@ __all__ = [
     "AsyncDashboardResourceWithRawResponse",
     "DashboardResourceWithStreamingResponse",
     "AsyncDashboardResourceWithStreamingResponse",
+    "LiveReportResource",
+    "AsyncLiveReportResource",
+    "LiveReportResourceWithRawResponse",
+    "AsyncLiveReportResourceWithRawResponse",
+    "LiveReportResourceWithStreamingResponse",
+    "AsyncLiveReportResourceWithStreamingResponse",
     "MetricResource",
     "AsyncMetricResource",
     "MetricResourceWithRawResponse",
