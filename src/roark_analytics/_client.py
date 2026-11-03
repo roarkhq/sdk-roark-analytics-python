@@ -60,6 +60,7 @@ if TYPE_CHECKING:
         autoimprove_job,
         simulation_group,
         simulation_persona,
+        calendar_connection,
         simulation_run_plan,
         simulation_template,
         simulation_run_group,
@@ -99,6 +100,7 @@ if TYPE_CHECKING:
     from .resources.autoimprove_job import AutoimproveJobResource, AsyncAutoimproveJobResource
     from .resources.simulation_group import SimulationGroupResource, AsyncSimulationGroupResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
+    from .resources.calendar_connection import CalendarConnectionResource, AsyncCalendarConnectionResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
     from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
     from .resources.simulation_run_group import SimulationRunGroupResource, AsyncSimulationRunGroupResource
@@ -389,6 +391,12 @@ class Roark(SyncAPIClient):
         from .resources.http_request_definition import HTTPRequestDefinitionResource
 
         return HTTPRequestDefinitionResource(self)
+
+    @cached_property
+    def calendar_connection(self) -> CalendarConnectionResource:
+        from .resources.calendar_connection import CalendarConnectionResource
+
+        return CalendarConnectionResource(self)
 
     @cached_property
     def webhook(self) -> WebhookResource:
@@ -813,6 +821,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncHTTPRequestDefinitionResource(self)
 
     @cached_property
+    def calendar_connection(self) -> AsyncCalendarConnectionResource:
+        from .resources.calendar_connection import AsyncCalendarConnectionResource
+
+        return AsyncCalendarConnectionResource(self)
+
+    @cached_property
     def webhook(self) -> AsyncWebhookResource:
         from .resources.webhook import AsyncWebhookResource
 
@@ -1174,6 +1188,12 @@ class RoarkWithRawResponse:
         return HTTPRequestDefinitionResourceWithRawResponse(self._client.http_request_definition)
 
     @cached_property
+    def calendar_connection(self) -> calendar_connection.CalendarConnectionResourceWithRawResponse:
+        from .resources.calendar_connection import CalendarConnectionResourceWithRawResponse
+
+        return CalendarConnectionResourceWithRawResponse(self._client.calendar_connection)
+
+    @cached_property
     def webhook(self) -> webhook.WebhookResourceWithRawResponse:
         from .resources.webhook import WebhookResourceWithRawResponse
 
@@ -1409,6 +1429,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncHTTPRequestDefinitionResourceWithRawResponse(self._client.http_request_definition)
 
     @cached_property
+    def calendar_connection(self) -> calendar_connection.AsyncCalendarConnectionResourceWithRawResponse:
+        from .resources.calendar_connection import AsyncCalendarConnectionResourceWithRawResponse
+
+        return AsyncCalendarConnectionResourceWithRawResponse(self._client.calendar_connection)
+
+    @cached_property
     def webhook(self) -> webhook.AsyncWebhookResourceWithRawResponse:
         from .resources.webhook import AsyncWebhookResourceWithRawResponse
 
@@ -1642,6 +1668,12 @@ class RoarkWithStreamedResponse:
         from .resources.http_request_definition import HTTPRequestDefinitionResourceWithStreamingResponse
 
         return HTTPRequestDefinitionResourceWithStreamingResponse(self._client.http_request_definition)
+
+    @cached_property
+    def calendar_connection(self) -> calendar_connection.CalendarConnectionResourceWithStreamingResponse:
+        from .resources.calendar_connection import CalendarConnectionResourceWithStreamingResponse
+
+        return CalendarConnectionResourceWithStreamingResponse(self._client.calendar_connection)
 
     @cached_property
     def webhook(self) -> webhook.WebhookResourceWithStreamingResponse:
@@ -1883,6 +1915,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.http_request_definition import AsyncHTTPRequestDefinitionResourceWithStreamingResponse
 
         return AsyncHTTPRequestDefinitionResourceWithStreamingResponse(self._client.http_request_definition)
+
+    @cached_property
+    def calendar_connection(self) -> calendar_connection.AsyncCalendarConnectionResourceWithStreamingResponse:
+        from .resources.calendar_connection import AsyncCalendarConnectionResourceWithStreamingResponse
+
+        return AsyncCalendarConnectionResourceWithStreamingResponse(self._client.calendar_connection)
 
     @cached_property
     def webhook(self) -> webhook.AsyncWebhookResourceWithStreamingResponse:
