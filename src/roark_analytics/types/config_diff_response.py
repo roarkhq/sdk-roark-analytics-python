@@ -25,6 +25,7 @@ class DataChange(BaseModel):
         "alert",
         "tool",
         "dashboard",
+        "liveReport",
         "project",
         "member",
     ]
