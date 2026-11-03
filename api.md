@@ -676,6 +676,28 @@ Methods:
 - <code title="get /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">get</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_draft_get_response.py">AgentDraftGetResponse</a></code>
 - <code title="post /v1/agent/{agentId}/draft/publish">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">publish</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_draft_publish_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_draft_publish_response.py">AgentDraftPublishResponse</a></code>
 
+# Tool
+
+Types:
+
+```python
+from roark_analytics.types import (
+    ToolCreateResponse,
+    ToolUpdateResponse,
+    ToolListResponse,
+    ToolDeleteResponse,
+    ToolGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/tool">client.tool.<a href="./src/roark_analytics/resources/tool.py">create</a>(\*\*<a href="src/roark_analytics/types/tool_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/tool_create_response.py">ToolCreateResponse</a></code>
+- <code title="put /v1/tool/{toolId}">client.tool.<a href="./src/roark_analytics/resources/tool.py">update</a>(tool_id, \*\*<a href="src/roark_analytics/types/tool_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/tool_update_response.py">ToolUpdateResponse</a></code>
+- <code title="get /v1/tool">client.tool.<a href="./src/roark_analytics/resources/tool.py">list</a>(\*\*<a href="src/roark_analytics/types/tool_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/tool_list_response.py">ToolListResponse</a></code>
+- <code title="delete /v1/tool/{toolId}">client.tool.<a href="./src/roark_analytics/resources/tool.py">delete</a>(tool_id) -> <a href="./src/roark_analytics/types/tool_delete_response.py">ToolDeleteResponse</a></code>
+- <code title="get /v1/tool/{toolId}">client.tool.<a href="./src/roark_analytics/resources/tool.py">get_by_id</a>(tool_id) -> <a href="./src/roark_analytics/types/tool_get_by_id_response.py">ToolGetByIDResponse</a></code>
+
 # HTTPRequestDefinition
 
 Types:

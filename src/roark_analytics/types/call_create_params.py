@@ -113,6 +113,8 @@ class Customer(TypedDict, total=False):
 class ToolInvocationParameterUnionMember0(TypedDict, total=False):
     description: str
 
+    required: bool
+
     type: Literal["string", "number", "boolean"]
 
     value: object

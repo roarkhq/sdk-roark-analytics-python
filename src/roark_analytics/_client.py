@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from .resources import (
         me,
         call,
+        tool,
         agent,
         usage,
         config,
@@ -72,6 +73,7 @@ if TYPE_CHECKING:
     )
     from .resources.me import MeResource, AsyncMeResource
     from .resources.call import CallResource, AsyncCallResource
+    from .resources.tool import ToolResource, AsyncToolResource
     from .resources.agent import AgentResource, AsyncAgentResource
     from .resources.usage import UsageResource, AsyncUsageResource
     from .resources.config import ConfigResource, AsyncConfigResource
@@ -375,6 +377,12 @@ class Roark(SyncAPIClient):
         from .resources.agent_draft import AgentDraftResource
 
         return AgentDraftResource(self)
+
+    @cached_property
+    def tool(self) -> ToolResource:
+        from .resources.tool import ToolResource
+
+        return ToolResource(self)
 
     @cached_property
     def http_request_definition(self) -> HTTPRequestDefinitionResource:
@@ -793,6 +801,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncAgentDraftResource(self)
 
     @cached_property
+    def tool(self) -> AsyncToolResource:
+        from .resources.tool import AsyncToolResource
+
+        return AsyncToolResource(self)
+
+    @cached_property
     def http_request_definition(self) -> AsyncHTTPRequestDefinitionResource:
         from .resources.http_request_definition import AsyncHTTPRequestDefinitionResource
 
@@ -1148,6 +1162,12 @@ class RoarkWithRawResponse:
         return AgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
+    def tool(self) -> tool.ToolResourceWithRawResponse:
+        from .resources.tool import ToolResourceWithRawResponse
+
+        return ToolResourceWithRawResponse(self._client.tool)
+
+    @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithRawResponse:
         from .resources.http_request_definition import HTTPRequestDefinitionResourceWithRawResponse
 
@@ -1377,6 +1397,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncAgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
+    def tool(self) -> tool.AsyncToolResourceWithRawResponse:
+        from .resources.tool import AsyncToolResourceWithRawResponse
+
+        return AsyncToolResourceWithRawResponse(self._client.tool)
+
+    @cached_property
     def http_request_definition(self) -> http_request_definition.AsyncHTTPRequestDefinitionResourceWithRawResponse:
         from .resources.http_request_definition import AsyncHTTPRequestDefinitionResourceWithRawResponse
 
@@ -1604,6 +1630,12 @@ class RoarkWithStreamedResponse:
         from .resources.agent_draft import AgentDraftResourceWithStreamingResponse
 
         return AgentDraftResourceWithStreamingResponse(self._client.agent_draft)
+
+    @cached_property
+    def tool(self) -> tool.ToolResourceWithStreamingResponse:
+        from .resources.tool import ToolResourceWithStreamingResponse
+
+        return ToolResourceWithStreamingResponse(self._client.tool)
 
     @cached_property
     def http_request_definition(self) -> http_request_definition.HTTPRequestDefinitionResourceWithStreamingResponse:
@@ -1837,6 +1869,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.agent_draft import AsyncAgentDraftResourceWithStreamingResponse
 
         return AsyncAgentDraftResourceWithStreamingResponse(self._client.agent_draft)
+
+    @cached_property
+    def tool(self) -> tool.AsyncToolResourceWithStreamingResponse:
+        from .resources.tool import AsyncToolResourceWithStreamingResponse
+
+        return AsyncToolResourceWithStreamingResponse(self._client.tool)
 
     @cached_property
     def http_request_definition(

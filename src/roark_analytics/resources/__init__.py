@@ -16,6 +16,14 @@ from .call import (
     CallResourceWithStreamingResponse,
     AsyncCallResourceWithStreamingResponse,
 )
+from .tool import (
+    ToolResource,
+    AsyncToolResource,
+    ToolResourceWithRawResponse,
+    AsyncToolResourceWithRawResponse,
+    ToolResourceWithStreamingResponse,
+    AsyncToolResourceWithStreamingResponse,
+)
 from .agent import (
     AgentResource,
     AsyncAgentResource,
@@ -496,6 +504,12 @@ __all__ = [
     "AsyncAgentDraftResourceWithRawResponse",
     "AgentDraftResourceWithStreamingResponse",
     "AsyncAgentDraftResourceWithStreamingResponse",
+    "ToolResource",
+    "AsyncToolResource",
+    "ToolResourceWithRawResponse",
+    "AsyncToolResourceWithRawResponse",
+    "ToolResourceWithStreamingResponse",
+    "AsyncToolResourceWithStreamingResponse",
     "HTTPRequestDefinitionResource",
     "AsyncHTTPRequestDefinitionResource",
     "HTTPRequestDefinitionResourceWithRawResponse",
