@@ -37,6 +37,9 @@ __all__ = [
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
     "ImprovFlowConfigHappyPath",
+    "LiveReportConfig",
+    "LiveReportConfigFilter",
+    "LiveReportConfigTarget",
     "MetricConfig",
     "MetricConfigOption",
     "MetricConfigScaleLabel",
@@ -1042,6 +1045,81 @@ class DashboardConfig(BaseModel):
     widgets: Optional[List[DashboardConfigWidget]] = None
 
 
+class LiveReportConfigFilter(BaseModel):
+    type: Literal["CALL_PROPERTY", "MODALITY", "DATASET", "METRIC_VALUE"]
+
+    operator: Optional[
+        Literal[
+            "EQUALS",
+            "NOT_EQUALS",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUAL_TO",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUAL_TO",
+            "CONTAINS",
+            "STARTS_WITH",
+            "IS_SET",
+            "IS_NOT_SET",
+        ]
+    ] = None
+
+    property: Optional[str] = None
+
+    value: Optional[Union[str, float, bool]] = None
+
+
+class LiveReportConfigTarget(BaseModel):
+    metric: str
+
+    value: float
+
+    aggregation: Optional[Literal["PASS_RATE", "AVG", "MEDIAN", "PERCENTILE", "MIN", "MAX"]] = None
+
+    comparator: Optional[Literal["AT_LEAST", "AT_MOST"]] = None
+
+    label: Optional[str] = None
+
+    pass_operator: Optional[
+        Literal[
+            "EQUALS", "NOT_EQUALS", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO"
+        ]
+    ] = FieldInfo(alias="passOperator", default=None)
+
+    pass_value: Optional[Union[str, float, bool]] = FieldInfo(alias="passValue", default=None)
+
+    percentile: Optional[int] = None
+
+
+class LiveReportConfig(BaseModel):
+    kind: Literal["liveReport"]
+
+    name: str
+
+    agent: Optional[str] = None
+
+    cadence: Optional[Literal["DAILY", "WEEKLY", "MONTHLY"]] = None
+
+    dashboard: Optional[str] = None
+
+    delivery_hour: Optional[int] = FieldInfo(alias="deliveryHour", default=None)
+
+    description: Optional[str] = None
+
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
+    enabled: Optional[bool] = None
+
+    filters: Optional[List[LiveReportConfigFilter]] = None
+
+    include_transcript_excerpts: Optional[bool] = FieldInfo(alias="includeTranscriptExcerpts", default=None)
+
+    notify: Optional[SimulationGroupConfigNotify] = None
+
+    targets: Optional[List[LiveReportConfigTarget]] = None
+
+    timezone: Optional[str] = None
+
+
 class ProjectConfigMember(BaseModel):
     email: str
 
@@ -1095,6 +1173,7 @@ class ProjectConfig(BaseModel):
                 AlertConfig,
                 ToolConfig,
                 DashboardConfig,
+                LiveReportConfig,
             ]
         ]
     ] = None
@@ -1119,6 +1198,7 @@ class Bundle(BaseModel):
                 AlertConfig,
                 ToolConfig,
                 DashboardConfig,
+                LiveReportConfig,
             ],
             ProjectConfig,
         ]

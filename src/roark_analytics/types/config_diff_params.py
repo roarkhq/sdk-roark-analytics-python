@@ -38,6 +38,9 @@ __all__ = [
     "ImprovFlowConfig",
     "ImprovFlowConfigEdgeCase",
     "ImprovFlowConfigHappyPath",
+    "LiveReportConfig",
+    "LiveReportConfigFilter",
+    "LiveReportConfigTarget",
     "MetricConfig",
     "MetricConfigOption",
     "MetricConfigScaleLabel",
@@ -1042,6 +1045,80 @@ class DashboardConfig(TypedDict, total=False):
     widgets: Iterable[DashboardConfigWidget]
 
 
+class LiveReportConfigFilter(TypedDict, total=False):
+    type: Required[Literal["CALL_PROPERTY", "MODALITY", "DATASET", "METRIC_VALUE"]]
+
+    operator: Literal[
+        "EQUALS",
+        "NOT_EQUALS",
+        "GREATER_THAN",
+        "GREATER_THAN_OR_EQUAL_TO",
+        "LESS_THAN",
+        "LESS_THAN_OR_EQUAL_TO",
+        "CONTAINS",
+        "STARTS_WITH",
+        "IS_SET",
+        "IS_NOT_SET",
+    ]
+
+    property: str
+
+    value: Union[str, float, bool]
+
+
+class LiveReportConfigTarget(TypedDict, total=False):
+    metric: Required[str]
+
+    value: Required[float]
+
+    aggregation: Literal["PASS_RATE", "AVG", "MEDIAN", "PERCENTILE", "MIN", "MAX"]
+
+    comparator: Literal["AT_LEAST", "AT_MOST"]
+
+    label: str
+
+    pass_operator: Annotated[
+        Literal[
+            "EQUALS", "NOT_EQUALS", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO"
+        ],
+        PropertyInfo(alias="passOperator"),
+    ]
+
+    pass_value: Annotated[Union[str, float, bool], PropertyInfo(alias="passValue")]
+
+    percentile: int
+
+
+class LiveReportConfig(TypedDict, total=False):
+    kind: Required[Literal["liveReport"]]
+
+    name: Required[str]
+
+    agent: str
+
+    cadence: Literal["DAILY", "WEEKLY", "MONTHLY"]
+
+    dashboard: str
+
+    delivery_hour: Annotated[int, PropertyInfo(alias="deliveryHour")]
+
+    description: str
+
+    display_name: Annotated[str, PropertyInfo(alias="displayName")]
+
+    enabled: bool
+
+    filters: Iterable[LiveReportConfigFilter]
+
+    include_transcript_excerpts: Annotated[bool, PropertyInfo(alias="includeTranscriptExcerpts")]
+
+    notify: SimulationGroupConfigNotify
+
+    targets: Iterable[LiveReportConfigTarget]
+
+    timezone: str
+
+
 class ProjectConfigMember(TypedDict, total=False):
     email: Required[str]
 
@@ -1090,6 +1167,7 @@ class ProjectConfig(TypedDict, total=False):
             AlertConfig,
             ToolConfig,
             DashboardConfig,
+            LiveReportConfig,
         ]
     ]
 
@@ -1114,6 +1192,7 @@ class ConfigDiffParams(TypedDict, total=False):
                     AlertConfig,
                     ToolConfig,
                     DashboardConfig,
+                    LiveReportConfig,
                 ],
                 ProjectConfig,
             ]
