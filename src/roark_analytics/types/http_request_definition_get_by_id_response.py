@@ -35,7 +35,7 @@ class Data(BaseModel):
     file (or detach it first).
     """
 
-    method: Literal["POST", "PUT", "PATCH", "GET"]
+    method: Literal["POST", "PUT", "PATCH", "GET", "DELETE"]
     """HTTP method: POST, PUT, PATCH, or GET"""
 
     parsed_body: Union[Dict[str, object], str, None] = FieldInfo(alias="parsedBody")

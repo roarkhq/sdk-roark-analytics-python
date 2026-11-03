@@ -67,6 +67,7 @@ __all__ = [
     "ThresholdMetricConfig",
     "ToolConfig",
     "ToolConfigHandler",
+    "ToolConfigMessage",
 ]
 
 
@@ -864,7 +865,21 @@ class ToolConfigHandler(TypedDict, total=False):
 
     url: Required[str]
 
+    body: str
+
+    headers: Dict[str, str]
+
     method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
+
+    timeout_ms: Annotated[int, PropertyInfo(alias="timeoutMs")]
+
+
+class ToolConfigMessage(TypedDict, total=False):
+    before: str
+
+    failure: str
+
+    slow: str
 
 
 class ToolConfig(TypedDict, total=False):
@@ -874,6 +889,8 @@ class ToolConfig(TypedDict, total=False):
 
     agent: str
 
+    changes_data: Annotated[bool, PropertyInfo(alias="changesData")]
+
     description: Optional[str]
 
     expected_result: Annotated[Optional[str], PropertyInfo(alias="expectedResult")]
@@ -882,7 +899,11 @@ class ToolConfig(TypedDict, total=False):
 
     invocation_criteria: Annotated[Optional[str], PropertyInfo(alias="invocationCriteria")]
 
+    messages: ToolConfigMessage
+
     parameters: Dict[str, Literal["string", "number", "boolean"]]
+
+    response_fields: Annotated[SequenceNotStr[str], PropertyInfo(alias="responseFields")]
 
 
 class DashboardConfigFilter(TypedDict, total=False):

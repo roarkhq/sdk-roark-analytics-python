@@ -66,6 +66,7 @@ __all__ = [
     "ThresholdMetricConfig",
     "ToolConfig",
     "ToolConfigHandler",
+    "ToolConfigMessage",
 ]
 
 
@@ -863,7 +864,21 @@ class ToolConfigHandler(BaseModel):
 
     url: str
 
+    body: Optional[str] = None
+
+    headers: Optional[Dict[str, str]] = None
+
     method: Optional[Literal["GET", "POST", "PUT", "PATCH", "DELETE"]] = None
+
+    timeout_ms: Optional[int] = FieldInfo(alias="timeoutMs", default=None)
+
+
+class ToolConfigMessage(BaseModel):
+    before: Optional[str] = None
+
+    failure: Optional[str] = None
+
+    slow: Optional[str] = None
 
 
 class ToolConfig(BaseModel):
@@ -873,6 +888,8 @@ class ToolConfig(BaseModel):
 
     agent: Optional[str] = None
 
+    changes_data: Optional[bool] = FieldInfo(alias="changesData", default=None)
+
     description: Optional[str] = None
 
     expected_result: Optional[str] = FieldInfo(alias="expectedResult", default=None)
@@ -881,7 +898,11 @@ class ToolConfig(BaseModel):
 
     invocation_criteria: Optional[str] = FieldInfo(alias="invocationCriteria", default=None)
 
+    messages: Optional[ToolConfigMessage] = None
+
     parameters: Optional[Dict[str, Literal["string", "number", "boolean"]]] = None
+
+    response_fields: Optional[List[str]] = FieldInfo(alias="responseFields", default=None)
 
 
 class DashboardConfigFilter(BaseModel):
