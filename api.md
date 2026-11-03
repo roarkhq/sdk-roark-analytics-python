@@ -718,6 +718,30 @@ Methods:
 - <code title="get /v1/http-request-definition">client.http_request_definition.<a href="./src/roark_analytics/resources/http_request_definition.py">list</a>(\*\*<a href="src/roark_analytics/types/http_request_definition_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/http_request_definition_list_response.py">HTTPRequestDefinitionListResponse</a></code>
 - <code title="get /v1/http-request-definition/{definitionId}">client.http_request_definition.<a href="./src/roark_analytics/resources/http_request_definition.py">get_by_id</a>(definition_id) -> <a href="./src/roark_analytics/types/http_request_definition_get_by_id_response.py">HTTPRequestDefinitionGetByIDResponse</a></code>
 
+# CalendarConnection
+
+Types:
+
+```python
+from roark_analytics.types import (
+    CalendarConnectionCreateResponse,
+    CalendarConnectionUpdateResponse,
+    CalendarConnectionListResponse,
+    CalendarConnectionDeleteResponse,
+    CalendarConnectionCheckResponse,
+    CalendarConnectionGetByIDResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/calendar-connection">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">create</a>(\*\*<a href="src/roark_analytics/types/calendar_connection_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_create_response.py">CalendarConnectionCreateResponse</a></code>
+- <code title="patch /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">update</a>(connection_id, \*\*<a href="src/roark_analytics/types/calendar_connection_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_update_response.py">CalendarConnectionUpdateResponse</a></code>
+- <code title="get /v1/calendar-connection">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">list</a>(\*\*<a href="src/roark_analytics/types/calendar_connection_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_list_response.py">CalendarConnectionListResponse</a></code>
+- <code title="delete /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">delete</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_delete_response.py">CalendarConnectionDeleteResponse</a></code>
+- <code title="post /v1/calendar-connection/{connectionId}/check">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">check</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_check_response.py">CalendarConnectionCheckResponse</a></code>
+- <code title="get /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">get_by_id</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_get_by_id_response.py">CalendarConnectionGetByIDResponse</a></code>
+
 # Webhook
 
 Types:

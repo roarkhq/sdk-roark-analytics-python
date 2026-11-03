@@ -224,6 +224,14 @@ from .simulation_persona import (
     SimulationPersonaResourceWithStreamingResponse,
     AsyncSimulationPersonaResourceWithStreamingResponse,
 )
+from .calendar_connection import (
+    CalendarConnectionResource,
+    AsyncCalendarConnectionResource,
+    CalendarConnectionResourceWithRawResponse,
+    AsyncCalendarConnectionResourceWithRawResponse,
+    CalendarConnectionResourceWithStreamingResponse,
+    AsyncCalendarConnectionResourceWithStreamingResponse,
+)
 from .simulation_run_plan import (
     SimulationRunPlanResource,
     AsyncSimulationRunPlanResource,
@@ -516,6 +524,12 @@ __all__ = [
     "AsyncHTTPRequestDefinitionResourceWithRawResponse",
     "HTTPRequestDefinitionResourceWithStreamingResponse",
     "AsyncHTTPRequestDefinitionResourceWithStreamingResponse",
+    "CalendarConnectionResource",
+    "AsyncCalendarConnectionResource",
+    "CalendarConnectionResourceWithRawResponse",
+    "AsyncCalendarConnectionResourceWithRawResponse",
+    "CalendarConnectionResourceWithStreamingResponse",
+    "AsyncCalendarConnectionResourceWithStreamingResponse",
     "WebhookResource",
     "AsyncWebhookResource",
     "WebhookResourceWithRawResponse",
