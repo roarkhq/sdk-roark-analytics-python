@@ -730,6 +730,8 @@ from roark_analytics.types import (
     CalendarConnectionDeleteResponse,
     CalendarConnectionCheckResponse,
     CalendarConnectionGetByIDResponse,
+    CalendarConnectionGetTargetResponse,
+    CalendarConnectionListTargetsResponse,
 )
 ```
 
@@ -741,6 +743,8 @@ Methods:
 - <code title="delete /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">delete</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_delete_response.py">CalendarConnectionDeleteResponse</a></code>
 - <code title="post /v1/calendar-connection/{connectionId}/check">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">check</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_check_response.py">CalendarConnectionCheckResponse</a></code>
 - <code title="get /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">get_by_id</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_get_by_id_response.py">CalendarConnectionGetByIDResponse</a></code>
+- <code title="get /v1/calendar-connection/{connectionId}/targets/{targetId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">get_target</a>(target_id, \*\*<a href="src/roark_analytics/types/calendar_connection_get_target_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_get_target_response.py">CalendarConnectionGetTargetResponse</a></code>
+- <code title="get /v1/calendar-connection/{connectionId}/targets">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">list_targets</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_list_targets_response.py">CalendarConnectionListTargetsResponse</a></code>
 
 # Webhook
 
