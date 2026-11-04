@@ -64,6 +64,7 @@ __all__ = [
     "SimulationPlanConfigScheduleUnionMember3",
     "SimulationPlanConfigScheduleUnionMember4",
     "SimulationPlanConfigScheduleUnionMember5",
+    "SimulationPlanMetricConfig",
     "ThresholdMetricConfig",
     "ToolConfig",
     "ToolConfigHandler",
@@ -336,9 +337,13 @@ class ScriptedFlowConfig(TypedDict, total=False):
 
     description: Optional[str]
 
+    environment: str
+
     expectations: SequenceNotStr[str]
 
     off_script: Annotated[ScriptedFlowConfigOffScript, PropertyInfo(alias="offScript")]
+
+    persona: str
 
     title: str
 
@@ -527,6 +532,12 @@ class SimulationPlanConfigFlow(TypedDict, total=False):
     system: str
 
 
+class SimulationPlanMetricConfig(TypedDict, total=False):
+    metric: Required[str]
+
+    min_pass_rate: Annotated[float, PropertyInfo(alias="minPassRate")]
+
+
 class SimulationPlanConfigNotifySlack(TypedDict, total=False):
     channel_id: Required[Annotated[str, PropertyInfo(alias="channelId")]]
 
@@ -636,7 +647,7 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     max_duration_seconds: Required[Annotated[int, PropertyInfo(alias="maxDurationSeconds")]]
 
-    metrics: Required[SequenceNotStr[str]]
+    metrics: Required[List[Union[str, SimulationPlanMetricConfig]]]
 
     name: Required[str]
 
