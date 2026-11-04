@@ -251,6 +251,9 @@ from .simulation_environment_update_params import SimulationEnvironmentUpdatePar
 from .simulation_run_group_create_response import SimulationRunGroupCreateResponse as SimulationRunGroupCreateResponse
 from .simulation_run_group_delete_response import SimulationRunGroupDeleteResponse as SimulationRunGroupDeleteResponse
 from .simulation_run_plan_job_start_params import SimulationRunPlanJobStartParams as SimulationRunPlanJobStartParams
+from .calendar_connection_get_target_params import (
+    CalendarConnectionGetTargetParams as CalendarConnectionGetTargetParams,
+)
 from .call_append_tool_invocations_response import (
     CallAppendToolInvocationsResponse as CallAppendToolInvocationsResponse,
 )
@@ -316,6 +319,9 @@ from .simulation_run_plan_get_by_id_response import SimulationRunPlanGetByIDResp
 from .simulation_run_plan_job_start_response import (
     SimulationRunPlanJobStartResponse as SimulationRunPlanJobStartResponse,
 )
+from .calendar_connection_get_target_response import (
+    CalendarConnectionGetTargetResponse as CalendarConnectionGetTargetResponse,
+)
 from .customer_flow_edge_case_remove_response import (
     CustomerFlowEdgeCaseRemoveResponse as CustomerFlowEdgeCaseRemoveResponse,
 )
@@ -354,6 +360,9 @@ from .customer_flow_update_happy_path_response import (
 )
 from .metric_collection_job_get_by_id_response import (
     MetricCollectionJobGetByIDResponse as MetricCollectionJobGetByIDResponse,
+)
+from .calendar_connection_list_targets_response import (
+    CalendarConnectionListTargetsResponse as CalendarConnectionListTargetsResponse,
 )
 from .simulation_environment_get_by_id_response import (
     SimulationEnvironmentGetByIDResponse as SimulationEnvironmentGetByIDResponse,

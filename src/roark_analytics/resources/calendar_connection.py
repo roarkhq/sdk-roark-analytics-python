@@ -29,6 +29,8 @@ from ..types.calendar_connection_create_response import CalendarConnectionCreate
 from ..types.calendar_connection_delete_response import CalendarConnectionDeleteResponse
 from ..types.calendar_connection_update_response import CalendarConnectionUpdateResponse
 from ..types.calendar_connection_get_by_id_response import CalendarConnectionGetByIDResponse
+from ..types.calendar_connection_get_target_response import CalendarConnectionGetTargetResponse
+from ..types.calendar_connection_list_targets_response import CalendarConnectionListTargetsResponse
 
 __all__ = ["CalendarConnectionResource", "AsyncCalendarConnectionResource"]
 
@@ -317,6 +319,87 @@ class CalendarConnectionResource(SyncAPIResource):
             cast_to=CalendarConnectionGetByIDResponse,
         )
 
+    def get_target(
+        self,
+        target_id: str,
+        *,
+        connection_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CalendarConnectionGetTargetResponse:
+        """
+        The same entry as the list, plus what it demands of a booker.
+        `requiresAttendeeEmail` is the field that decides an agent’s design: the
+        attendee object itself needs only a name and a timezone, but an event type can
+        declare email required, and an agent that cannot collect one simply cannot book
+        on it. Read this when configuring a calendar tool, not after a caller is already
+        waiting. Costs one provider call more than the list, which is why the list does
+        not fold it in.
+
+        Args:
+          connection_id: Calendar connection ID
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not target_id:
+            raise ValueError(f"Expected a non-empty value for `target_id` but received {target_id!r}")
+        if not connection_id:
+            raise ValueError(f"Expected a non-empty value for `connection_id` but received {connection_id!r}")
+        return self._get(
+            f"/v1/calendar-connection/{connection_id}/targets/{target_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CalendarConnectionGetTargetResponse,
+        )
+
+    def list_targets(
+        self,
+        connection_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CalendarConnectionListTargetsResponse:
+        """
+        What an agent can be pointed at on this connection: Cal.com event types today,
+        Google calendars when that lands. Read live from the provider, so an event type
+        added since you connected is here without reconnecting. Each entry carries a
+        `target` ready to put on a calendar tool, so nothing has to assemble one by
+        hand.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not connection_id:
+            raise ValueError(f"Expected a non-empty value for `connection_id` but received {connection_id!r}")
+        return self._get(
+            f"/v1/calendar-connection/{connection_id}/targets",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CalendarConnectionListTargetsResponse,
+        )
+
 
 class AsyncCalendarConnectionResource(AsyncAPIResource):
     @cached_property
@@ -602,6 +685,87 @@ class AsyncCalendarConnectionResource(AsyncAPIResource):
             cast_to=CalendarConnectionGetByIDResponse,
         )
 
+    async def get_target(
+        self,
+        target_id: str,
+        *,
+        connection_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CalendarConnectionGetTargetResponse:
+        """
+        The same entry as the list, plus what it demands of a booker.
+        `requiresAttendeeEmail` is the field that decides an agent’s design: the
+        attendee object itself needs only a name and a timezone, but an event type can
+        declare email required, and an agent that cannot collect one simply cannot book
+        on it. Read this when configuring a calendar tool, not after a caller is already
+        waiting. Costs one provider call more than the list, which is why the list does
+        not fold it in.
+
+        Args:
+          connection_id: Calendar connection ID
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not target_id:
+            raise ValueError(f"Expected a non-empty value for `target_id` but received {target_id!r}")
+        if not connection_id:
+            raise ValueError(f"Expected a non-empty value for `connection_id` but received {connection_id!r}")
+        return await self._get(
+            f"/v1/calendar-connection/{connection_id}/targets/{target_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CalendarConnectionGetTargetResponse,
+        )
+
+    async def list_targets(
+        self,
+        connection_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CalendarConnectionListTargetsResponse:
+        """
+        What an agent can be pointed at on this connection: Cal.com event types today,
+        Google calendars when that lands. Read live from the provider, so an event type
+        added since you connected is here without reconnecting. Each entry carries a
+        `target` ready to put on a calendar tool, so nothing has to assemble one by
+        hand.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not connection_id:
+            raise ValueError(f"Expected a non-empty value for `connection_id` but received {connection_id!r}")
+        return await self._get(
+            f"/v1/calendar-connection/{connection_id}/targets",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CalendarConnectionListTargetsResponse,
+        )
+
 
 class CalendarConnectionResourceWithRawResponse:
     def __init__(self, calendar_connection: CalendarConnectionResource) -> None:
@@ -624,6 +788,12 @@ class CalendarConnectionResourceWithRawResponse:
         )
         self.get_by_id = to_raw_response_wrapper(
             calendar_connection.get_by_id,
+        )
+        self.get_target = to_raw_response_wrapper(
+            calendar_connection.get_target,
+        )
+        self.list_targets = to_raw_response_wrapper(
+            calendar_connection.list_targets,
         )
 
 
@@ -649,6 +819,12 @@ class AsyncCalendarConnectionResourceWithRawResponse:
         self.get_by_id = async_to_raw_response_wrapper(
             calendar_connection.get_by_id,
         )
+        self.get_target = async_to_raw_response_wrapper(
+            calendar_connection.get_target,
+        )
+        self.list_targets = async_to_raw_response_wrapper(
+            calendar_connection.list_targets,
+        )
 
 
 class CalendarConnectionResourceWithStreamingResponse:
@@ -673,6 +849,12 @@ class CalendarConnectionResourceWithStreamingResponse:
         self.get_by_id = to_streamed_response_wrapper(
             calendar_connection.get_by_id,
         )
+        self.get_target = to_streamed_response_wrapper(
+            calendar_connection.get_target,
+        )
+        self.list_targets = to_streamed_response_wrapper(
+            calendar_connection.list_targets,
+        )
 
 
 class AsyncCalendarConnectionResourceWithStreamingResponse:
@@ -696,4 +878,10 @@ class AsyncCalendarConnectionResourceWithStreamingResponse:
         )
         self.get_by_id = async_to_streamed_response_wrapper(
             calendar_connection.get_by_id,
+        )
+        self.get_target = async_to_streamed_response_wrapper(
+            calendar_connection.get_target,
+        )
+        self.list_targets = async_to_streamed_response_wrapper(
+            calendar_connection.list_targets,
         )
