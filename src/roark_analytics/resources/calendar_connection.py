@@ -224,10 +224,12 @@ class CalendarConnectionResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CalendarConnectionDeleteResponse:
-        """Deletes the connection and its stored credential outright.
+        """Disconnects the calendar and destroys the stored credential.
 
         A credential the
-        customer deleted should stop existing, so this is not an archive.
+        customer deleted should stop existing, so this is not an archive. Appointments
+        already recorded against the connection are kept, so a booking stays explainable
+        after the calendar is disconnected.
 
         Args:
           extra_headers: Send extra headers
@@ -590,10 +592,12 @@ class AsyncCalendarConnectionResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CalendarConnectionDeleteResponse:
-        """Deletes the connection and its stored credential outright.
+        """Disconnects the calendar and destroys the stored credential.
 
         A credential the
-        customer deleted should stop existing, so this is not an archive.
+        customer deleted should stop existing, so this is not an archive. Appointments
+        already recorded against the connection are kept, so a booking stays explainable
+        after the calendar is disconnected.
 
         Args:
           extra_headers: Send extra headers
