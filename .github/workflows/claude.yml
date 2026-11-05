@@ -77,6 +77,20 @@ jobs:
                  `BREAKING CHANGE:` footer matches that conclusion. Claiming a
                  break that is not there and missing one that is are both
                  findings.
+               - Do not stop at the types the body lists. Variant names are
+                 positional, so inserting a union member mid-list renumbers
+                 every name after it: the name survives and its schema changes
+                 under it. The body's surface diff compares name sets, so this
+                 shows up as nothing removed and one `...UnionMemberN` added
+                 with the highest N. Whenever you see that, walk the whole
+                 union: for every `...UnionMemberN` class in the diff, pair its
+                 `type` literal before and after. Report each name whose
+                 discriminator moved, with the before and after value. This
+                 breaks consumers more quietly than a removal - imports keep
+                 working, an `isinstance` branch silently starts matching a
+                 different variant - so it belongs in the breaking-change call
+                 and in the `BREAKING CHANGE:` footer even though no gate
+                 flagged it.
                - Check each added or removed field against the spec change it
                  implies: Python name against the camelCase `alias`, `Optional`
                  with a default for optional fields, `Literal` members, and
@@ -93,7 +107,9 @@ jobs:
                - What breaks for someone upgrading: a removed or renamed import,
                  a field whose type or requiredness changed, a model that became
                  a union and now needs narrowing before attribute access.
-               - Call out anything that type-checks today and fails after this.
+               - Call out anything that type-checks today and fails after this,
+                 and separately anything that keeps type-checking and changes
+                 meaning - a renumbered union member is the second kind.
 
             Do not raise these on a regeneration PR:
                - The deterministic gates. A bot comment on the PR already
@@ -168,8 +184,9 @@ jobs:
             Follow the table with:
             - one line on which kind of PR this is and what spec change appears
               to be behind it;
-            - the breaking-change call: real removal, rename only, or none, and
-              whether the commit metadata matches it;
+            - the breaking-change call: real removal, rename only, a union
+              member renumbered under a surviving name, or none, and whether the
+              commit metadata matches it;
             - what breaks for a consumer upgrading, or "nothing";
             - blocking findings, each with its file and line;
             - anything that belongs in roarkhq/app-agent-codegen instead, named
