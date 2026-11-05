@@ -95,6 +95,7 @@ class MetricVariantResource(SyncAPIResource):
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         change_reason: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         name: str | Omit = omit,
@@ -130,6 +131,10 @@ class MetricVariantResource(SyncAPIResource):
 
           change_reason: Free-text audit note recorded on the new version.
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           llm_prompt: The rubric this variant applies. LLM judge metrics only.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
@@ -160,6 +165,7 @@ class MetricVariantResource(SyncAPIResource):
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,
+                    "grades_short_calls": grades_short_calls,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "name": name,
@@ -363,6 +369,7 @@ class AsyncMetricVariantResource(AsyncAPIResource):
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         change_reason: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         name: str | Omit = omit,
@@ -398,6 +405,10 @@ class AsyncMetricVariantResource(AsyncAPIResource):
 
           change_reason: Free-text audit note recorded on the new version.
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           llm_prompt: The rubric this variant applies. LLM judge metrics only.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
@@ -428,6 +439,7 @@ class AsyncMetricVariantResource(AsyncAPIResource):
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,
+                    "grades_short_calls": grades_short_calls,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "name": name,

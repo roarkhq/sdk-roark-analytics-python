@@ -58,6 +58,7 @@ class MetricResource(SyncAPIResource):
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
         | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
@@ -99,6 +100,10 @@ class MetricResource(SyncAPIResource):
           boolean_true_label: Label for the true case (only for BOOLEAN type)
 
           classification_options: Options for classification. Required for CLASSIFICATION type.
+
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
               TEXT, and SCALE types.
@@ -275,6 +280,7 @@ class MetricResource(SyncAPIResource):
         analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -310,6 +316,10 @@ class MetricResource(SyncAPIResource):
 
           boolean_true_label: What a passed check is called (default: Pass)
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
 
@@ -342,6 +352,7 @@ class MetricResource(SyncAPIResource):
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
         | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
@@ -379,6 +390,7 @@ class MetricResource(SyncAPIResource):
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,
+                    "grades_short_calls": grades_short_calls,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "metric_id": metric_id,
@@ -462,6 +474,7 @@ class MetricResource(SyncAPIResource):
         change_reason: str | Omit = omit,
         classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
         formula: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         http_request: metric_update_definition_params.HTTPRequest | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
@@ -512,6 +525,10 @@ class MetricResource(SyncAPIResource):
           formula: New formula expression (FORMULA only). Pass `sources` alongside if the
               referenced metrics change.
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
@@ -558,6 +575,7 @@ class MetricResource(SyncAPIResource):
                     "change_reason": change_reason,
                     "classification_options": classification_options,
                     "formula": formula,
+                    "grades_short_calls": grades_short_calls,
                     "http_request": http_request,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
@@ -619,6 +637,7 @@ class AsyncMetricResource(AsyncAPIResource):
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
         | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
@@ -660,6 +679,10 @@ class AsyncMetricResource(AsyncAPIResource):
           boolean_true_label: Label for the true case (only for BOOLEAN type)
 
           classification_options: Options for classification. Required for CLASSIFICATION type.
+
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
               TEXT, and SCALE types.
@@ -836,6 +859,7 @@ class AsyncMetricResource(AsyncAPIResource):
         analysis_package_id: str | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         metric_id: str | Omit = omit,
         slug: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -871,6 +895,10 @@ class AsyncMetricResource(AsyncAPIResource):
 
           boolean_true_label: What a passed check is called (default: Pass)
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           metric_id: Alias of `slug` accepted for backwards compatibility. Use `slug` for new
               integrations.
 
@@ -903,6 +931,7 @@ class AsyncMetricResource(AsyncAPIResource):
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
         | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
         metric_id: str | Omit = omit,
@@ -940,6 +969,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,
+                    "grades_short_calls": grades_short_calls,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,
                     "metric_id": metric_id,
@@ -1023,6 +1053,7 @@ class AsyncMetricResource(AsyncAPIResource):
         change_reason: str | Omit = omit,
         classification_options: Iterable[metric_update_definition_params.ClassificationOption] | Omit = omit,
         formula: str | Omit = omit,
+        grades_short_calls: bool | Omit = omit,
         http_request: metric_update_definition_params.HTTPRequest | Omit = omit,
         llm_prompt: str | Omit = omit,
         max_classifications: int | Omit = omit,
@@ -1073,6 +1104,10 @@ class AsyncMetricResource(AsyncAPIResource):
           formula: New formula expression (FORMULA only). Pass `sources` alongside if the
               referenced metrics change.
 
+          grades_short_calls: Score this metric on a simulated call with fewer than 4 transcript lines or
+              where your agent never spoke (custom metrics only, not ones that judge the
+              audio). Such calls skip every other metric. Default false.
+
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
@@ -1119,6 +1154,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "change_reason": change_reason,
                     "classification_options": classification_options,
                     "formula": formula,
+                    "grades_short_calls": grades_short_calls,
                     "http_request": http_request,
                     "llm_prompt": llm_prompt,
                     "max_classifications": max_classifications,

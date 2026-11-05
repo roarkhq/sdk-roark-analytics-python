@@ -89,6 +89,12 @@ class LlmJudgeMetricResponse(BaseModel):
     own evidence.
     """
 
+    grades_short_calls: bool = FieldInfo(alias="gradesShortCalls")
+    """
+    Whether a simulation scores this metric on a call with fewer than 4 transcript
+    lines or where your agent never spoke. Such calls skip every metric without it.
+    """
+
     llm_prompt: Optional[str] = FieldInfo(alias="llmPrompt")
     """
     The rubric this judge applies, as stored. Read it back to confirm which criteria
@@ -193,6 +199,12 @@ class FormulaMetricResponse(BaseModel):
 
     formula: FormulaMetricResponseFormula
     """Formula configuration."""
+
+    grades_short_calls: bool = FieldInfo(alias="gradesShortCalls")
+    """
+    Whether a simulation scores this metric on a call with fewer than 4 transcript
+    lines or where your agent never spoke. Such calls skip every metric without it.
+    """
 
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
@@ -326,6 +338,12 @@ class PatternMetricResponse(BaseModel):
     own evidence.
     """
 
+    grades_short_calls: bool = FieldInfo(alias="gradesShortCalls")
+    """
+    Whether a simulation scores this metric on a call with fewer than 4 transcript
+    lines or where your agent never spoke. Such calls skip every metric without it.
+    """
+
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
@@ -435,6 +453,12 @@ class ThresholdMetricResponse(BaseModel):
     own evidence.
     """
 
+    grades_short_calls: bool = FieldInfo(alias="gradesShortCalls")
+    """
+    Whether a simulation scores this metric on a call with fewer than 4 transcript
+    lines or where your agent never spoke. Such calls skip every metric without it.
+    """
+
     metric_id: str = FieldInfo(alias="metricId")
     """Alias of `slug` retained for backwards compatibility. Same value as `slug`."""
 
@@ -542,6 +566,12 @@ class HTTPRequestMetricResponse(BaseModel):
     `barge_in_yield_appropriateness`): where the reasoning and transcript positions
     live. The count value itself carries neither. `null` for a metric that is its
     own evidence.
+    """
+
+    grades_short_calls: bool = FieldInfo(alias="gradesShortCalls")
+    """
+    Whether a simulation scores this metric on a call with fewer than 4 transcript
+    lines or where your agent never spoke. Such calls skip every metric without it.
     """
 
     http_request: Optional[HTTPRequestMetricResponseHTTPRequest] = FieldInfo(alias="httpRequest")

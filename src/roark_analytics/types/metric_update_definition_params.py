@@ -96,6 +96,13 @@ class MetricUpdateDefinitionParams(TypedDict, total=False):
     referenced metrics change.
     """
 
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
+    """
+    Score this metric on a simulated call with fewer than 4 transcript lines or
+    where your agent never spoke (custom metrics only, not ones that judge the
+    audio). Such calls skip every other metric. Default false.
+    """
+
     http_request: Annotated[HTTPRequest, PropertyInfo(alias="httpRequest")]
     """
     Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers

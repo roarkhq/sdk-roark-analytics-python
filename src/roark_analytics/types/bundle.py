@@ -66,7 +66,9 @@ __all__ = [
     "SimulationPlanMetricConfig",
     "ThresholdMetricConfig",
     "ToolConfig",
-    "ToolConfigHandler",
+    "ToolConfigHandlerUnionMember0",
+    "ToolConfigHandlerUnionMember1",
+    "ToolConfigHandlerUnionMember1AppointmentType",
     "ToolConfigMessage",
 ]
 
@@ -436,6 +438,8 @@ class MetricConfig(BaseModel):
 
     false_label: Optional[str] = FieldInfo(alias="falseLabel", default=None)
 
+    grades_short_calls: Optional[bool] = FieldInfo(alias="gradesShortCalls", default=None)
+
     max_selections: Optional[int] = FieldInfo(alias="maxSelections", default=None)
 
     options: Optional[List[MetricConfigOption]] = None
@@ -475,6 +479,8 @@ class APICheckMetricConfig(BaseModel):
     display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
 
     false_label: Optional[str] = FieldInfo(alias="falseLabel", default=None)
+
+    grades_short_calls: Optional[bool] = FieldInfo(alias="gradesShortCalls", default=None)
 
     true_label: Optional[str] = FieldInfo(alias="trueLabel", default=None)
 
@@ -870,7 +876,7 @@ class AlertConfig(BaseModel):
     enabled: Optional[bool] = None
 
 
-class ToolConfigHandler(BaseModel):
+class ToolConfigHandlerUnionMember0(BaseModel):
     type: Literal["http"]
 
     url: str
@@ -882,6 +888,28 @@ class ToolConfigHandler(BaseModel):
     method: Optional[Literal["GET", "POST", "PUT", "PATCH", "DELETE"]] = None
 
     timeout_ms: Optional[int] = FieldInfo(alias="timeoutMs", default=None)
+
+
+class ToolConfigHandlerUnionMember1AppointmentType(BaseModel):
+    event_type_id: int = FieldInfo(alias="eventTypeId")
+
+    name: str
+
+    duration_minutes: Optional[int] = FieldInfo(alias="durationMinutes", default=None)
+
+    when_to_use: Optional[str] = FieldInfo(alias="whenToUse", default=None)
+
+
+class ToolConfigHandlerUnionMember1(BaseModel):
+    appointment_types: List[ToolConfigHandlerUnionMember1AppointmentType] = FieldInfo(alias="appointmentTypes")
+
+    calendar_connection: str = FieldInfo(alias="calendarConnection")
+
+    operation: Literal["CHECK_AVAILABILITY", "BOOK", "LOOKUP_BOOKING", "RESCHEDULE", "CANCEL", "LIST_BOOKINGS"]
+
+    type: Literal["calendar"]
+
+    simulate: Optional[bool] = None
 
 
 class ToolConfigMessage(BaseModel):
@@ -905,7 +933,7 @@ class ToolConfig(BaseModel):
 
     expected_result: Optional[str] = FieldInfo(alias="expectedResult", default=None)
 
-    handler: Optional[ToolConfigHandler] = None
+    handler: Optional[Union[ToolConfigHandlerUnionMember0, ToolConfigHandlerUnionMember1]] = None
 
     invocation_criteria: Optional[str] = FieldInfo(alias="invocationCriteria", default=None)
 

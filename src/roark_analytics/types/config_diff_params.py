@@ -67,7 +67,9 @@ __all__ = [
     "SimulationPlanMetricConfig",
     "ThresholdMetricConfig",
     "ToolConfig",
-    "ToolConfigHandler",
+    "ToolConfigHandlerUnionMember0",
+    "ToolConfigHandlerUnionMember1",
+    "ToolConfigHandlerUnionMember1AppointmentType",
     "ToolConfigMessage",
 ]
 
@@ -438,6 +440,8 @@ class MetricConfig(TypedDict, total=False):
 
     false_label: Annotated[str, PropertyInfo(alias="falseLabel")]
 
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
+
     max_selections: Annotated[int, PropertyInfo(alias="maxSelections")]
 
     options: Iterable[MetricConfigOption]
@@ -477,6 +481,8 @@ class APICheckMetricConfig(TypedDict, total=False):
     display_name: Annotated[str, PropertyInfo(alias="displayName")]
 
     false_label: Annotated[str, PropertyInfo(alias="falseLabel")]
+
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
 
     true_label: Annotated[str, PropertyInfo(alias="trueLabel")]
 
@@ -871,7 +877,7 @@ class AlertConfig(TypedDict, total=False):
     enabled: bool
 
 
-class ToolConfigHandler(TypedDict, total=False):
+class ToolConfigHandlerUnionMember0(TypedDict, total=False):
     type: Required[Literal["http"]]
 
     url: Required[str]
@@ -883,6 +889,32 @@ class ToolConfigHandler(TypedDict, total=False):
     method: Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
 
     timeout_ms: Annotated[int, PropertyInfo(alias="timeoutMs")]
+
+
+class ToolConfigHandlerUnionMember1AppointmentType(TypedDict, total=False):
+    event_type_id: Required[Annotated[int, PropertyInfo(alias="eventTypeId")]]
+
+    name: Required[str]
+
+    duration_minutes: Annotated[Optional[int], PropertyInfo(alias="durationMinutes")]
+
+    when_to_use: Annotated[Optional[str], PropertyInfo(alias="whenToUse")]
+
+
+class ToolConfigHandlerUnionMember1(TypedDict, total=False):
+    appointment_types: Required[
+        Annotated[Iterable[ToolConfigHandlerUnionMember1AppointmentType], PropertyInfo(alias="appointmentTypes")]
+    ]
+
+    calendar_connection: Required[Annotated[str, PropertyInfo(alias="calendarConnection")]]
+
+    operation: Required[
+        Literal["CHECK_AVAILABILITY", "BOOK", "LOOKUP_BOOKING", "RESCHEDULE", "CANCEL", "LIST_BOOKINGS"]
+    ]
+
+    type: Required[Literal["calendar"]]
+
+    simulate: Optional[bool]
 
 
 class ToolConfigMessage(TypedDict, total=False):
@@ -906,7 +938,7 @@ class ToolConfig(TypedDict, total=False):
 
     expected_result: Annotated[Optional[str], PropertyInfo(alias="expectedResult")]
 
-    handler: ToolConfigHandler
+    handler: Union[ToolConfigHandlerUnionMember0, ToolConfigHandlerUnionMember1]
 
     invocation_criteria: Annotated[Optional[str], PropertyInfo(alias="invocationCriteria")]
 

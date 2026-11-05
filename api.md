@@ -281,6 +281,18 @@ Methods:
 
 - <code title="get /v1/simulation/job/{jobId}/tool-mock">client.simulation_job_tool_mock.<a href="./src/roark_analytics/resources/simulation_job_tool_mock.py">list</a>(job_id) -> <a href="./src/roark_analytics/types/simulation_job_tool_mock_list_response.py">SimulationJobToolMockListResponse</a></code>
 
+# SimulationAudioClip
+
+Types:
+
+```python
+from roark_analytics.types import SimulationAudioClipListResponse
+```
+
+Methods:
+
+- <code title="get /v1/simulation/audio-clip">client.simulation_audio_clip.<a href="./src/roark_analytics/resources/simulation_audio_clip.py">list</a>() -> <a href="./src/roark_analytics/types/simulation_audio_clip_list_response.py">SimulationAudioClipListResponse</a></code>
+
 # SimulationToolFixture
 
 Types:
