@@ -264,6 +264,14 @@ from .metric_collection_job import (
     MetricCollectionJobResourceWithStreamingResponse,
     AsyncMetricCollectionJobResourceWithStreamingResponse,
 )
+from .simulation_audio_clip import (
+    SimulationAudioClipResource,
+    AsyncSimulationAudioClipResource,
+    SimulationAudioClipResourceWithRawResponse,
+    AsyncSimulationAudioClipResourceWithRawResponse,
+    SimulationAudioClipResourceWithStreamingResponse,
+    AsyncSimulationAudioClipResourceWithStreamingResponse,
+)
 from .simulation_environment import (
     SimulationEnvironmentResource,
     AsyncSimulationEnvironmentResource,
@@ -404,6 +412,12 @@ __all__ = [
     "AsyncSimulationJobToolMockResourceWithRawResponse",
     "SimulationJobToolMockResourceWithStreamingResponse",
     "AsyncSimulationJobToolMockResourceWithStreamingResponse",
+    "SimulationAudioClipResource",
+    "AsyncSimulationAudioClipResource",
+    "SimulationAudioClipResourceWithRawResponse",
+    "AsyncSimulationAudioClipResourceWithRawResponse",
+    "SimulationAudioClipResourceWithStreamingResponse",
+    "AsyncSimulationAudioClipResourceWithStreamingResponse",
     "SimulationToolFixtureResource",
     "AsyncSimulationToolFixtureResource",
     "SimulationToolFixtureResourceWithRawResponse",

@@ -13,6 +13,7 @@ __all__ = [
     "FlowStepUnionMember0OffScriptPolicy",
     "FlowStepUnionMember0Stage",
     "FlowStepUnionMember1",
+    "FlowStepUnionMember10",
     "FlowStepUnionMember2",
     "FlowStepUnionMember3",
     "FlowStepUnionMember4",
@@ -127,6 +128,36 @@ class FlowStepUnionMember4(BaseModel):
 
 
 class FlowStepUnionMember5(BaseModel):
+    type: Literal["CUSTOMER_AUDIO"]
+
+    audio_clip: Optional[
+        Literal[
+            "HOLD_MUSIC_CLASSICAL_PIANO",
+            "HOLD_MUSIC_CLASSICAL_ORCHESTRA",
+            "HOLD_MUSIC_STRING_QUARTET",
+            "HOLD_MUSIC_AMBIENT",
+            "HOLD_MUSIC_SMOOTH_JAZZ",
+            "HOLD_MUSIC_SOFT_SYNTH",
+            "HOLD_BEEP",
+            "RINGBACK_US",
+            "RINGBACK_UK",
+        ]
+    ] = FieldInfo(alias="audioClip", default=None)
+
+    merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
+
+    node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
+
+    ref: Optional[str] = None
+
+    silence_duration_seconds: Optional[int] = FieldInfo(alias="silenceDurationSeconds", default=None)
+
+    stage: Optional[FlowStepUnionMember0Stage] = None
+
+    steps: Optional[List["FlowStep"]] = None
+
+
+class FlowStepUnionMember6(BaseModel):
     type: Literal["CUSTOMER_DTMF"]
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
@@ -142,7 +173,7 @@ class FlowStepUnionMember5(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember6(BaseModel):
+class FlowStepUnionMember7(BaseModel):
     type: Literal["AGENT_DTMF"]
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
@@ -151,6 +182,8 @@ class FlowStepUnionMember6(BaseModel):
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
 
+    off_script_policy: Optional[FlowStepUnionMember0OffScriptPolicy] = FieldInfo(alias="offScriptPolicy", default=None)
+
     ref: Optional[str] = None
 
     stage: Optional[FlowStepUnionMember0Stage] = None
@@ -158,7 +191,7 @@ class FlowStepUnionMember6(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember7(BaseModel):
+class FlowStepUnionMember8(BaseModel):
     type: Literal["VOICEMAIL"]
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
@@ -172,7 +205,7 @@ class FlowStepUnionMember7(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember8(BaseModel):
+class FlowStepUnionMember9(BaseModel):
     type: Literal["CUSTOMER_HANDOFF"]
 
     handoff_persona_id: Optional[str] = FieldInfo(alias="handoffPersonaId", default=None)
@@ -188,7 +221,7 @@ class FlowStepUnionMember8(BaseModel):
     steps: Optional[List["FlowStep"]] = None
 
 
-class FlowStepUnionMember9(BaseModel):
+class FlowStepUnionMember10(BaseModel):
     type: Literal["SCENARIO_LINK"]
 
     linked_customer_flow_id: Optional[str] = FieldInfo(alias="linkedCustomerFlowId", default=None)
@@ -217,4 +250,5 @@ FlowStep: TypeAlias = Union[
     FlowStepUnionMember7,
     FlowStepUnionMember8,
     FlowStepUnionMember9,
+    FlowStepUnionMember10,
 ]

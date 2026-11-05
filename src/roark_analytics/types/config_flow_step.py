@@ -37,12 +37,27 @@ class ConfigFlowStep(BaseModel):
         "CUSTOMER_FIRST_MESSAGE",
         "CUSTOMER_VERBATIM_TURN",
         "CUSTOMER_SILENCE",
+        "CUSTOMER_AUDIO",
         "CUSTOMER_DTMF",
         "AGENT_DTMF",
         "VOICEMAIL",
         "SCENARIO_LINK",
         "CUSTOMER_HANDOFF",
     ]
+
+    audio_clip: Optional[
+        Literal[
+            "HOLD_MUSIC_CLASSICAL_PIANO",
+            "HOLD_MUSIC_CLASSICAL_ORCHESTRA",
+            "HOLD_MUSIC_STRING_QUARTET",
+            "HOLD_MUSIC_AMBIENT",
+            "HOLD_MUSIC_SMOOTH_JAZZ",
+            "HOLD_MUSIC_SOFT_SYNTH",
+            "HOLD_BEEP",
+            "RINGBACK_US",
+            "RINGBACK_UK",
+        ]
+    ] = FieldInfo(alias="audioClip", default=None)
 
     content: Optional[str] = None
 

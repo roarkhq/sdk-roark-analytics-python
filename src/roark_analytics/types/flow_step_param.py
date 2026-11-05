@@ -14,6 +14,7 @@ __all__ = [
     "FlowStepParamUnionMember0OffScriptPolicy",
     "FlowStepParamUnionMember0Stage",
     "FlowStepParamUnionMember1",
+    "FlowStepParamUnionMember10",
     "FlowStepParamUnionMember2",
     "FlowStepParamUnionMember3",
     "FlowStepParamUnionMember4",
@@ -130,6 +131,39 @@ class FlowStepParamUnionMember4(TypedDict, total=False):
 
 
 class FlowStepParamUnionMember5(TypedDict, total=False):
+    type: Required[Literal["CUSTOMER_AUDIO"]]
+
+    audio_clip: Annotated[
+        Optional[
+            Literal[
+                "HOLD_MUSIC_CLASSICAL_PIANO",
+                "HOLD_MUSIC_CLASSICAL_ORCHESTRA",
+                "HOLD_MUSIC_STRING_QUARTET",
+                "HOLD_MUSIC_AMBIENT",
+                "HOLD_MUSIC_SMOOTH_JAZZ",
+                "HOLD_MUSIC_SOFT_SYNTH",
+                "HOLD_BEEP",
+                "RINGBACK_US",
+                "RINGBACK_UK",
+            ]
+        ],
+        PropertyInfo(alias="audioClip"),
+    ]
+
+    merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
+
+    node_id: Annotated[str, PropertyInfo(alias="nodeId")]
+
+    ref: str
+
+    silence_duration_seconds: Annotated[Optional[int], PropertyInfo(alias="silenceDurationSeconds")]
+
+    stage: Optional[FlowStepParamUnionMember0Stage]
+
+    steps: List["FlowStepParam"]
+
+
+class FlowStepParamUnionMember6(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_DTMF"]]
 
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
@@ -145,7 +179,7 @@ class FlowStepParamUnionMember5(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember6(TypedDict, total=False):
+class FlowStepParamUnionMember7(TypedDict, total=False):
     type: Required[Literal["AGENT_DTMF"]]
 
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
@@ -154,6 +188,10 @@ class FlowStepParamUnionMember6(TypedDict, total=False):
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
 
+    off_script_policy: Annotated[
+        Optional[FlowStepParamUnionMember0OffScriptPolicy], PropertyInfo(alias="offScriptPolicy")
+    ]
+
     ref: str
 
     stage: Optional[FlowStepParamUnionMember0Stage]
@@ -161,7 +199,7 @@ class FlowStepParamUnionMember6(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember7(TypedDict, total=False):
+class FlowStepParamUnionMember8(TypedDict, total=False):
     type: Required[Literal["VOICEMAIL"]]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
@@ -175,7 +213,7 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember8(TypedDict, total=False):
+class FlowStepParamUnionMember9(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_HANDOFF"]]
 
     handoff_persona_id: Annotated[Optional[str], PropertyInfo(alias="handoffPersonaId")]
@@ -191,7 +229,7 @@ class FlowStepParamUnionMember8(TypedDict, total=False):
     steps: List["FlowStepParam"]
 
 
-class FlowStepParamUnionMember9(TypedDict, total=False):
+class FlowStepParamUnionMember10(TypedDict, total=False):
     type: Required[Literal["SCENARIO_LINK"]]
 
     linked_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="linkedCustomerFlowId")]
@@ -220,4 +258,5 @@ FlowStepParam: TypeAlias = Union[
     FlowStepParamUnionMember7,
     FlowStepParamUnionMember8,
     FlowStepParamUnionMember9,
+    FlowStepParamUnionMember10,
 ]
