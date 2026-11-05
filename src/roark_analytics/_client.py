@@ -65,6 +65,7 @@ if TYPE_CHECKING:
         simulation_template,
         simulation_run_group,
         metric_collection_job,
+        simulation_audio_clip,
         simulation_environment,
         customer_flow_edge_case,
         http_request_definition,
@@ -105,6 +106,7 @@ if TYPE_CHECKING:
     from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
     from .resources.simulation_run_group import SimulationRunGroupResource, AsyncSimulationRunGroupResource
     from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
+    from .resources.simulation_audio_clip import SimulationAudioClipResource, AsyncSimulationAudioClipResource
     from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
     from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
@@ -271,6 +273,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_job_tool_mock import SimulationJobToolMockResource
 
         return SimulationJobToolMockResource(self)
+
+    @cached_property
+    def simulation_audio_clip(self) -> SimulationAudioClipResource:
+        from .resources.simulation_audio_clip import SimulationAudioClipResource
+
+        return SimulationAudioClipResource(self)
 
     @cached_property
     def simulation_tool_fixture(self) -> SimulationToolFixtureResource:
@@ -701,6 +709,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationJobToolMockResource(self)
 
     @cached_property
+    def simulation_audio_clip(self) -> AsyncSimulationAudioClipResource:
+        from .resources.simulation_audio_clip import AsyncSimulationAudioClipResource
+
+        return AsyncSimulationAudioClipResource(self)
+
+    @cached_property
     def simulation_tool_fixture(self) -> AsyncSimulationToolFixtureResource:
         from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResource
 
@@ -1068,6 +1082,12 @@ class RoarkWithRawResponse:
         return SimulationJobToolMockResourceWithRawResponse(self._client.simulation_job_tool_mock)
 
     @cached_property
+    def simulation_audio_clip(self) -> simulation_audio_clip.SimulationAudioClipResourceWithRawResponse:
+        from .resources.simulation_audio_clip import SimulationAudioClipResourceWithRawResponse
+
+        return SimulationAudioClipResourceWithRawResponse(self._client.simulation_audio_clip)
+
+    @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithRawResponse:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithRawResponse
 
@@ -1307,6 +1327,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.simulation_job_tool_mock import AsyncSimulationJobToolMockResourceWithRawResponse
 
         return AsyncSimulationJobToolMockResourceWithRawResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_audio_clip(self) -> simulation_audio_clip.AsyncSimulationAudioClipResourceWithRawResponse:
+        from .resources.simulation_audio_clip import AsyncSimulationAudioClipResourceWithRawResponse
+
+        return AsyncSimulationAudioClipResourceWithRawResponse(self._client.simulation_audio_clip)
 
     @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.AsyncSimulationToolFixtureResourceWithRawResponse:
@@ -1550,6 +1576,12 @@ class RoarkWithStreamedResponse:
         return SimulationJobToolMockResourceWithStreamingResponse(self._client.simulation_job_tool_mock)
 
     @cached_property
+    def simulation_audio_clip(self) -> simulation_audio_clip.SimulationAudioClipResourceWithStreamingResponse:
+        from .resources.simulation_audio_clip import SimulationAudioClipResourceWithStreamingResponse
+
+        return SimulationAudioClipResourceWithStreamingResponse(self._client.simulation_audio_clip)
+
+    @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithStreamingResponse:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithStreamingResponse
 
@@ -1791,6 +1823,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_job_tool_mock import AsyncSimulationJobToolMockResourceWithStreamingResponse
 
         return AsyncSimulationJobToolMockResourceWithStreamingResponse(self._client.simulation_job_tool_mock)
+
+    @cached_property
+    def simulation_audio_clip(self) -> simulation_audio_clip.AsyncSimulationAudioClipResourceWithStreamingResponse:
+        from .resources.simulation_audio_clip import AsyncSimulationAudioClipResourceWithStreamingResponse
+
+        return AsyncSimulationAudioClipResourceWithStreamingResponse(self._client.simulation_audio_clip)
 
     @cached_property
     def simulation_tool_fixture(

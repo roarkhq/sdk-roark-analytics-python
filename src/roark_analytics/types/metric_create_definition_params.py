@@ -85,6 +85,13 @@ class PromptMetricInput(TypedDict, total=False):
     ]
     """Options for classification. Required for CLASSIFICATION type."""
 
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
+    """
+    Score this metric on a simulated call with fewer than 4 transcript lines or
+    where your agent never spoke (custom metrics only, not ones that judge the
+    audio). Such calls skip every other metric. Default false.
+    """
+
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
     """
     LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
@@ -334,6 +341,13 @@ class HTTPRequestMetricInput(TypedDict, total=False):
 
     boolean_true_label: Annotated[str, PropertyInfo(alias="booleanTrueLabel")]
     """What a passed check is called (default: Pass)"""
+
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
+    """
+    Score this metric on a simulated call with fewer than 4 transcript lines or
+    where your agent never spoke (custom metrics only, not ones that judge the
+    audio). Such calls skip every other metric. Default false.
+    """
 
     metric_id: Annotated[str, PropertyInfo(alias="metricId")]
     """

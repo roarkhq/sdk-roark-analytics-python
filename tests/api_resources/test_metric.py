@@ -40,6 +40,7 @@ class TestMetric:
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
+            grades_short_calls=True,
             llm_prompt="Evaluate whether the customer expressed satisfaction with the service provided.",
             max_classifications=1,
             metric_id="customer_satisfaction",
@@ -282,6 +283,7 @@ class TestMetric:
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
+            grades_short_calls=True,
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
@@ -366,6 +368,7 @@ class TestMetric:
             change_reason="changeReason",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
             formula="x",
+            grades_short_calls=True,
             http_request={
                 "url": "https://api.example.com/roark/checks/pin-changed",
                 "body": "x",
@@ -463,6 +466,7 @@ class TestAsyncMetric:
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
+            grades_short_calls=True,
             llm_prompt="Evaluate whether the customer expressed satisfaction with the service provided.",
             max_classifications=1,
             metric_id="customer_satisfaction",
@@ -705,6 +709,7 @@ class TestAsyncMetric:
             analysis_package_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
+            grades_short_calls=True,
             metric_id="customer_satisfaction",
             slug="customer_satisfaction",
         )
@@ -789,6 +794,7 @@ class TestAsyncMetric:
             change_reason="changeReason",
             classification_options=[{"description": "description", "display_order": 0, "label": "label"}],
             formula="x",
+            grades_short_calls=True,
             http_request={
                 "url": "https://api.example.com/roark/checks/pin-changed",
                 "body": "x",

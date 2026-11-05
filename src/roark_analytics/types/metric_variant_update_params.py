@@ -27,6 +27,13 @@ class MetricVariantUpdateParams(TypedDict, total=False):
     change_reason: Annotated[str, PropertyInfo(alias="changeReason")]
     """Free-text audit note recorded on the new version."""
 
+    grades_short_calls: Annotated[bool, PropertyInfo(alias="gradesShortCalls")]
+    """
+    Score this metric on a simulated call with fewer than 4 transcript lines or
+    where your agent never spoke (custom metrics only, not ones that judge the
+    audio). Such calls skip every other metric. Default false.
+    """
+
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
     """The rubric this variant applies. LLM judge metrics only."""
 
