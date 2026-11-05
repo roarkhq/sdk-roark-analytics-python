@@ -1,5 +1,21 @@
 # Changelog
 
+## [9.0.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v8.7.0...v9.0.0) (2026-11-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** `ToolConfigHandler` is now `ToolConfigHandlerUnionMember0` in bundle, bundle_param, config_apply_params and config_diff_params, and `ToolConfig.handler` is now a union of the http and calendar handlers, so attribute access on it needs narrowing on `type` first. Inserting the CUSTOMER_AUDIO flow step also shifts the FlowStep union members onto different variants while keeping their names: Member5 CUSTOMER_DTMF -> CUSTOMER_AUDIO, Member6 AGENT_DTMF -> CUSTOMER_DTMF, Member7 VOICEMAIL -> AGENT_DTMF, Member8 CUSTOMER_HANDOFF -> VOICEMAIL, Member9 SCENARIO_LINK -> CUSTOMER_HANDOFF, and Member10 is the new SCENARIO_LINK. Same in flow_step_param. Imports of those names keep working, so an isinstance branch on one silently starts matching a different variant. No endpoint, method or field was removed from the API; every break here is a generated name, not a lost capability.
+
+### Features
+
+* **api:** api update ([#698](https://github.com/roarkhq/sdk-roark-analytics-python/issues/698)) ([62098de](https://github.com/roarkhq/sdk-roark-analytics-python/commit/62098def35392b83594486e12bbbae03fe84b308))
+
+
+### Chores
+
+* fold next into main ([7f1ff07](https://github.com/roarkhq/sdk-roark-analytics-python/commit/7f1ff07c4c8bcb3e9570509397d1a302727b2382))
+
 ## [8.7.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v8.6.0...v8.7.0) (2026-11-04)
 
 
