@@ -47,7 +47,14 @@ class TestConfig:
                             "value": "x",
                         }
                     ],
+                    "greeting": "x",
+                    "job_description": "x",
+                    "llm": {"model": "x", "provider": "OPENAI"},
                     "prompt": "prompt",
+                    "provider": "roark",
+                    "stt": {"model": "x", "provider": "DEEPGRAM"},
+                    "tts": {"provider": "CARTESIA", "voice_id": "x", "model": "x"},
+                    "voice": "x",
                 }
             ],
             prune=True,
@@ -105,7 +112,14 @@ class TestConfig:
                             "value": "x",
                         }
                     ],
+                    "greeting": "x",
+                    "job_description": "x",
+                    "llm": {"model": "x", "provider": "OPENAI"},
                     "prompt": "prompt",
+                    "provider": "roark",
+                    "stt": {"model": "x", "provider": "DEEPGRAM"},
+                    "tts": {"provider": "CARTESIA", "voice_id": "x", "model": "x"},
+                    "voice": "x",
                 }
             ],
             prune=True,
@@ -169,7 +183,14 @@ class TestAsyncConfig:
                             "value": "x",
                         }
                     ],
+                    "greeting": "x",
+                    "job_description": "x",
+                    "llm": {"model": "x", "provider": "OPENAI"},
                     "prompt": "prompt",
+                    "provider": "roark",
+                    "stt": {"model": "x", "provider": "DEEPGRAM"},
+                    "tts": {"provider": "CARTESIA", "voice_id": "x", "model": "x"},
+                    "voice": "x",
                 }
             ],
             prune=True,
@@ -227,7 +248,14 @@ class TestAsyncConfig:
                             "value": "x",
                         }
                     ],
+                    "greeting": "x",
+                    "job_description": "x",
+                    "llm": {"model": "x", "provider": "OPENAI"},
                     "prompt": "prompt",
+                    "provider": "roark",
+                    "stt": {"model": "x", "provider": "DEEPGRAM"},
+                    "tts": {"provider": "CARTESIA", "voice_id": "x", "model": "x"},
+                    "voice": "x",
                 }
             ],
             prune=True,

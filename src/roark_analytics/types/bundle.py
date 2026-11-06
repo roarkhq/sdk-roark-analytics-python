@@ -14,6 +14,9 @@ __all__ = [
     "APICheckMetricConfigHTTPRequest",
     "AgentConfig",
     "AgentConfigEndpoint",
+    "AgentConfigLlm",
+    "AgentConfigStt",
+    "AgentConfigTt",
     "AlertConfig",
     "AlertConfigAction",
     "AlertEventTrigger",
@@ -89,6 +92,26 @@ class AgentConfigEndpoint(BaseModel):
     value: Optional[str] = None
 
 
+class AgentConfigLlm(BaseModel):
+    model: str
+
+    provider: Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]
+
+
+class AgentConfigStt(BaseModel):
+    model: str
+
+    provider: Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]
+
+
+class AgentConfigTt(BaseModel):
+    provider: Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]
+
+    voice_id: str = FieldInfo(alias="voiceId")
+
+    model: Optional[str] = None
+
+
 class AgentConfig(BaseModel):
     kind: Literal["agent"]
 
@@ -102,7 +125,37 @@ class AgentConfig(BaseModel):
 
     endpoints: Optional[List[AgentConfigEndpoint]] = None
 
+    greeting: Optional[str] = None
+
+    job_description: Optional[str] = FieldInfo(alias="jobDescription", default=None)
+
+    llm: Optional[AgentConfigLlm] = None
+
     prompt: Optional[str] = None
+
+    provider: Optional[
+        Literal[
+            "roark",
+            "vapi",
+            "retell",
+            "elevenlabs",
+            "livekit",
+            "livekit-self-hosted",
+            "leaping",
+            "bland",
+            "api",
+            "kore",
+            "google-ces",
+            "pipecat-cloud",
+            "pipecat-self-hosted",
+        ]
+    ] = None
+
+    stt: Optional[AgentConfigStt] = None
+
+    tts: Optional[AgentConfigTt] = None
+
+    voice: Optional[str] = None
 
 
 class HTTPRequestDefinitionConfig(BaseModel):
