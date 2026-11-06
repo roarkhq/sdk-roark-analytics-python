@@ -27,6 +27,7 @@ from .._base_client import make_request_options
 from ..types.simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse
 from ..types.simulation_run_plan_job_start_response import SimulationRunPlanJobStartResponse
 from ..types.simulation_run_plan_job_cancel_response import SimulationRunPlanJobCancelResponse
+from ..types.simulation_run_plan_job_delete_response import SimulationRunPlanJobDeleteResponse
 from ..types.simulation_run_plan_job_get_cost_response import SimulationRunPlanJobGetCostResponse
 from ..types.simulation_run_plan_job_get_by_id_response import SimulationRunPlanJobGetByIDResponse
 from ..types.simulation_run_plan_job_get_results_response import SimulationRunPlanJobGetResultsResponse
@@ -134,6 +135,43 @@ class SimulationRunPlanJobResource(SyncAPIResource):
                 ),
             ),
             cast_to=SimulationRunPlanJobListResponse,
+        )
+
+    def delete(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobDeleteResponse:
+        """Removes a finished run from the run history (a soft delete).
+
+        The run stops
+        appearing in run lists, counts and plan run histories, and reading it by ID
+        returns 404. A run that is still in progress is refused with 409: cancel it
+        first.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._delete(
+            f"/v1/simulation/plan/job/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobDeleteResponse,
         )
 
     def cancel(
@@ -507,6 +545,43 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobListResponse,
         )
 
+    async def delete(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobDeleteResponse:
+        """Removes a finished run from the run history (a soft delete).
+
+        The run stops
+        appearing in run lists, counts and plan run histories, and reading it by ID
+        returns 404. A run that is still in progress is refused with 409: cancel it
+        first.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._delete(
+            f"/v1/simulation/plan/job/{job_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobDeleteResponse,
+        )
+
     async def cancel(
         self,
         job_id: str,
@@ -784,6 +859,9 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             simulation_run_plan_job.list,
         )
+        self.delete = to_raw_response_wrapper(
+            simulation_run_plan_job.delete,
+        )
         self.cancel = to_raw_response_wrapper(
             simulation_run_plan_job.cancel,
         )
@@ -810,6 +888,9 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
 
         self.list = async_to_raw_response_wrapper(
             simulation_run_plan_job.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            simulation_run_plan_job.delete,
         )
         self.cancel = async_to_raw_response_wrapper(
             simulation_run_plan_job.cancel,
@@ -838,6 +919,9 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             simulation_run_plan_job.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            simulation_run_plan_job.delete,
+        )
         self.cancel = to_streamed_response_wrapper(
             simulation_run_plan_job.cancel,
         )
@@ -864,6 +948,9 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             simulation_run_plan_job.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.delete,
         )
         self.cancel = async_to_streamed_response_wrapper(
             simulation_run_plan_job.cancel,
