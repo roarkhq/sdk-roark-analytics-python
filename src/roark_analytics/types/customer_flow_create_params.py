@@ -123,6 +123,8 @@ class CreateImprovCustomerFlowInputHappyPath(TypedDict, total=False):
     graph edit.
     """
 
+    opening_line: Annotated[Optional[str], PropertyInfo(alias="openingLine")]
+
     preceded_by_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="precededByCustomerFlowId")]
 
     preceded_by_customer_flow_variant_id: Annotated[
@@ -154,6 +156,8 @@ class CreateImprovCustomerFlowInputEdgeCase(TypedDict, total=False):
     own additionalExpectations. Defaults to true; false grades it on its
     additionalExpectations only.
     """
+
+    opening_line: Annotated[Optional[str], PropertyInfo(alias="openingLine")]
 
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """The persona this runs as. Omit to inherit the happy path's."""
