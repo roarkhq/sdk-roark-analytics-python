@@ -341,6 +341,9 @@ from .simulation_run_group_get_by_id_response import (
 from .simulation_run_plan_job_cancel_response import (
     SimulationRunPlanJobCancelResponse as SimulationRunPlanJobCancelResponse,
 )
+from .simulation_run_plan_job_delete_response import (
+    SimulationRunPlanJobDeleteResponse as SimulationRunPlanJobDeleteResponse,
+)
 from .simulation_tool_fixture_create_response import (
     SimulationToolFixtureCreateResponse as SimulationToolFixtureCreateResponse,
 )
