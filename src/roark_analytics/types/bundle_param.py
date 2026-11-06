@@ -75,8 +75,6 @@ __all__ = [
 
 
 class AgentConfigEndpoint(TypedDict, total=False):
-    value: Required[str]
-
     direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
 
     environment: str
@@ -86,6 +84,8 @@ class AgentConfigEndpoint(TypedDict, total=False):
     outbound_dial_type: Annotated[Literal["NONE", "HTTP_REQUEST"], PropertyInfo(alias="outboundDialType")]
 
     type: Literal["PHONE", "WEBSOCKET"]
+
+    value: str
 
 
 class AgentConfig(TypedDict, total=False):
@@ -522,6 +522,8 @@ class SimulationPlanConfigAgentEndpoint(TypedDict, total=False):
     agent: Required[str]
 
     direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]
+
+    environment: str
 
     value: str
 

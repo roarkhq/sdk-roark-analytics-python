@@ -39,12 +39,12 @@ class TestConfig:
                     "display_name": "displayName",
                     "endpoints": [
                         {
-                            "value": "x",
                             "direction": "INCOMING",
                             "environment": "environment",
                             "outbound_dial_http_request_definition": "x",
                             "outbound_dial_type": "NONE",
                             "type": "PHONE",
+                            "value": "x",
                         }
                     ],
                     "prompt": "prompt",
@@ -97,12 +97,12 @@ class TestConfig:
                     "display_name": "displayName",
                     "endpoints": [
                         {
-                            "value": "x",
                             "direction": "INCOMING",
                             "environment": "environment",
                             "outbound_dial_http_request_definition": "x",
                             "outbound_dial_type": "NONE",
                             "type": "PHONE",
+                            "value": "x",
                         }
                     ],
                     "prompt": "prompt",
@@ -161,12 +161,12 @@ class TestAsyncConfig:
                     "display_name": "displayName",
                     "endpoints": [
                         {
-                            "value": "x",
                             "direction": "INCOMING",
                             "environment": "environment",
                             "outbound_dial_http_request_definition": "x",
                             "outbound_dial_type": "NONE",
                             "type": "PHONE",
+                            "value": "x",
                         }
                     ],
                     "prompt": "prompt",
@@ -219,12 +219,12 @@ class TestAsyncConfig:
                     "display_name": "displayName",
                     "endpoints": [
                         {
-                            "value": "x",
                             "direction": "INCOMING",
                             "environment": "environment",
                             "outbound_dial_http_request_definition": "x",
                             "outbound_dial_type": "NONE",
                             "type": "PHONE",
+                            "value": "x",
                         }
                     ],
                     "prompt": "prompt",

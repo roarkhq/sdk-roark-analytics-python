@@ -27,7 +27,6 @@ class TestAgentEndpoint:
         agent_endpoint = client.agent_endpoint.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         )
         assert_matches_type(AgentEndpointCreateResponse, agent_endpoint, path=["response"])
 
@@ -36,10 +35,10 @@ class TestAgentEndpoint:
         agent_endpoint = client.agent_endpoint.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
             environment="environment",
             outbound_dial_http_request_definition_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             outbound_dial_type="NONE",
+            value="value",
         )
         assert_matches_type(AgentEndpointCreateResponse, agent_endpoint, path=["response"])
 
@@ -48,7 +47,6 @@ class TestAgentEndpoint:
         response = client.agent_endpoint.with_raw_response.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         )
 
         assert response.is_closed is True
@@ -61,7 +59,6 @@ class TestAgentEndpoint:
         with client.agent_endpoint.with_streaming_response.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -203,7 +200,6 @@ class TestAsyncAgentEndpoint:
         agent_endpoint = await async_client.agent_endpoint.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         )
         assert_matches_type(AgentEndpointCreateResponse, agent_endpoint, path=["response"])
 
@@ -212,10 +208,10 @@ class TestAsyncAgentEndpoint:
         agent_endpoint = await async_client.agent_endpoint.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
             environment="environment",
             outbound_dial_http_request_definition_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             outbound_dial_type="NONE",
+            value="value",
         )
         assert_matches_type(AgentEndpointCreateResponse, agent_endpoint, path=["response"])
 
@@ -224,7 +220,6 @@ class TestAsyncAgentEndpoint:
         response = await async_client.agent_endpoint.with_raw_response.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         )
 
         assert response.is_closed is True
@@ -237,7 +232,6 @@ class TestAsyncAgentEndpoint:
         async with async_client.agent_endpoint.with_streaming_response.create(
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             direction="INCOMING",
-            value="value",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
