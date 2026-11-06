@@ -15,6 +15,9 @@ __all__ = [
     "APICheckMetricConfigHTTPRequest",
     "AgentConfig",
     "AgentConfigEndpoint",
+    "AgentConfigLlm",
+    "AgentConfigStt",
+    "AgentConfigTt",
     "AlertConfig",
     "AlertConfigAction",
     "AlertEventTrigger",
@@ -88,6 +91,26 @@ class AgentConfigEndpoint(TypedDict, total=False):
     value: str
 
 
+class AgentConfigLlm(TypedDict, total=False):
+    model: Required[str]
+
+    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+
+
+class AgentConfigStt(TypedDict, total=False):
+    model: Required[str]
+
+    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+
+
+class AgentConfigTt(TypedDict, total=False):
+    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+
+    voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]
+
+    model: str
+
+
 class AgentConfig(TypedDict, total=False):
     kind: Required[Literal["agent"]]
 
@@ -101,7 +124,35 @@ class AgentConfig(TypedDict, total=False):
 
     endpoints: Iterable[AgentConfigEndpoint]
 
+    greeting: str
+
+    job_description: Annotated[str, PropertyInfo(alias="jobDescription")]
+
+    llm: AgentConfigLlm
+
     prompt: Optional[str]
+
+    provider: Literal[
+        "roark",
+        "vapi",
+        "retell",
+        "elevenlabs",
+        "livekit",
+        "livekit-self-hosted",
+        "leaping",
+        "bland",
+        "api",
+        "kore",
+        "google-ces",
+        "pipecat-cloud",
+        "pipecat-self-hosted",
+    ]
+
+    stt: AgentConfigStt
+
+    tts: AgentConfigTt
+
+    voice: str
 
 
 class HTTPRequestDefinitionConfig(TypedDict, total=False):
