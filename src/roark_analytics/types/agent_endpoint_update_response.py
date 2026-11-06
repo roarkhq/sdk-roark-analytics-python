@@ -40,8 +40,11 @@ class Data(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp"""
 
-    value: str
-    """Agent endpoint value (phone number, URL, etc.)"""
+    value: Optional[str]
+    """
+    Agent endpoint value (phone number, URL, etc.). Null for an outbound phone
+    endpoint with no fixed calling number.
+    """
 
 
 class AgentEndpointUpdateResponse(BaseModel):

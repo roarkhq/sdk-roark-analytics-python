@@ -17,9 +17,6 @@ class AgentEndpointCreateParams(TypedDict, total=False):
     direction: Required[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]]
     """Call direction: INCOMING, OUTGOING, or INCOMING_AND_OUTGOING"""
 
-    value: Required[str]
-    """Phone number in E.164 format (e.g., +12345678900)"""
-
     environment: str
     """Environment name (default: production)"""
 
@@ -33,3 +30,9 @@ class AgentEndpointCreateParams(TypedDict, total=False):
 
     outbound_dial_type: Annotated[Literal["NONE", "HTTP_REQUEST"], PropertyInfo(alias="outboundDialType")]
     """Outbound dial type: NONE or HTTP_REQUEST (default: NONE)"""
+
+    value: Optional[str]
+    """
+    Phone number in E.164 format (e.g., +12345678900). Optional when direction is
+    OUTGOING, for an agent that calls from numbers you do not know up front.
+    """
