@@ -1,5 +1,17 @@
 # Changelog
 
+## [9.4.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v9.3.0...v9.4.0) (2026-11-06)
+
+
+### Features
+
+* **api:** api update ([#711](https://github.com/roarkhq/sdk-roark-analytics-python/issues/711)) ([a0bc98d](https://github.com/roarkhq/sdk-roark-analytics-python/commit/a0bc98d88b58fe2d287e70382ea8d658d6d355d7))
+
+
+### Chores
+
+* fold next into main ([837e6fd](https://github.com/roarkhq/sdk-roark-analytics-python/commit/837e6fda672a0743d38d27ba7109d649681175ff))
+
 ## [9.3.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v9.2.0...v9.3.0) (2026-11-06)
 
 
