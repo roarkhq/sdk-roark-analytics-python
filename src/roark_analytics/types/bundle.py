@@ -265,6 +265,8 @@ class ImprovFlowConfigHappyPath(BaseModel):
 
     expectations: Optional[List[str]] = None
 
+    opening_line: Optional[str] = FieldInfo(alias="openingLine", default=None)
+
     prompt: Optional[str] = None
 
     title: Optional[str] = None
@@ -278,6 +280,8 @@ class ImprovFlowConfigEdgeCase(BaseModel):
     expectations: Optional[List[str]] = None
 
     include_flow_expectations: Optional[bool] = FieldInfo(alias="includeFlowExpectations", default=None)
+
+    opening_line: Optional[str] = FieldInfo(alias="openingLine", default=None)
 
     persona: Optional[str] = None
 

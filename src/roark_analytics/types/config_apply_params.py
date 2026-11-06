@@ -269,6 +269,8 @@ class ImprovFlowConfigHappyPath(TypedDict, total=False):
 
     expectations: SequenceNotStr[str]
 
+    opening_line: Annotated[str, PropertyInfo(alias="openingLine")]
+
     prompt: str
 
     title: str
@@ -282,6 +284,8 @@ class ImprovFlowConfigEdgeCase(TypedDict, total=False):
     expectations: SequenceNotStr[str]
 
     include_flow_expectations: Annotated[bool, PropertyInfo(alias="includeFlowExpectations")]
+
+    opening_line: Annotated[str, PropertyInfo(alias="openingLine")]
 
     persona: str
 

@@ -181,6 +181,7 @@ class TestCustomerFlow:
                 "additional_expectations": [
                     {"prompt": "The agent confirmed the new appointment time back to the customer"}
                 ],
+                "opening_line": "openingLine",
                 "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "prompt": "prompt",
@@ -197,6 +198,7 @@ class TestCustomerFlow:
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "include_flow_expectations": True,
+                    "opening_line": "openingLine",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -615,6 +617,7 @@ class TestCustomerFlow:
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             include_flow_expectations=True,
+            opening_line="openingLine",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -817,6 +820,7 @@ class TestAsyncCustomerFlow:
                 "additional_expectations": [
                     {"prompt": "The agent confirmed the new appointment time back to the customer"}
                 ],
+                "opening_line": "openingLine",
                 "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "prompt": "prompt",
@@ -833,6 +837,7 @@ class TestAsyncCustomerFlow:
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "include_flow_expectations": True,
+                    "opening_line": "openingLine",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1251,6 +1256,7 @@ class TestAsyncCustomerFlow:
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             include_flow_expectations=True,
+            opening_line="openingLine",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             preceded_by_customer_flow_variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

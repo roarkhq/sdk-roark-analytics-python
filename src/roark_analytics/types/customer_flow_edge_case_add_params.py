@@ -36,6 +36,8 @@ class CustomerFlowEdgeCaseAddParams(TypedDict, total=False):
     additionalExpectations only.
     """
 
+    opening_line: Annotated[Optional[str], PropertyInfo(alias="openingLine")]
+
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """The persona this runs as. Omit to inherit the happy path's."""
 

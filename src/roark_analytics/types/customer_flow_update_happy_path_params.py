@@ -34,6 +34,8 @@ class CustomerFlowUpdateHappyPathParams(TypedDict, total=False):
     additionalExpectations only.
     """
 
+    opening_line: Annotated[Optional[str], PropertyInfo(alias="openingLine")]
+
     persona_override_id: Annotated[Optional[str], PropertyInfo(alias="personaOverrideId")]
     """The persona this runs as. Null on an edge case inherits the happy path's."""
 

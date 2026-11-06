@@ -310,6 +310,8 @@ class ScriptedCustomerFlowEdgeCase(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
 
+    opening_line: Optional[str] = FieldInfo(alias="openingLine", default=None)
+
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
@@ -614,6 +616,14 @@ class ImprovCustomerFlowEdgeCase(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
 
+    opening_line: Optional[str] = FieldInfo(alias="openingLine", default=None)
+    """
+    What the simulated customer says word for word as the call connects. Null on an
+    edge case inherits the happy path's; null on the happy path waits for your agent
+    to speak first. Ignored when a preceding flow runs first. Cannot use
+    {{variables}}.
+    """
+
     prompt: Optional[str] = None
     """
     The brief the simulated customer improvises from. A `@{persona:<id>}` mention
@@ -697,6 +707,8 @@ class VoicemailCustomerFlowEdgeCase(BaseModel):
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
+
+    opening_line: Optional[str] = FieldInfo(alias="openingLine", default=None)
 
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
