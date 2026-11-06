@@ -52,10 +52,10 @@ class AgentEndpointResource(SyncAPIResource):
         *,
         agent_id: str,
         direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"],
-        value: str,
         environment: str | Omit = omit,
         outbound_dial_http_request_definition_id: Optional[str] | Omit = omit,
         outbound_dial_type: Literal["NONE", "HTTP_REQUEST"] | Omit = omit,
+        value: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -71,14 +71,15 @@ class AgentEndpointResource(SyncAPIResource):
 
           direction: Call direction: INCOMING, OUTGOING, or INCOMING_AND_OUTGOING
 
-          value: Phone number in E.164 format (e.g., +12345678900)
-
           environment: Environment name (default: production)
 
           outbound_dial_http_request_definition_id: ID of the HTTP request definition for outbound dialing (required when
               outboundDialType is HTTP_REQUEST)
 
           outbound_dial_type: Outbound dial type: NONE or HTTP_REQUEST (default: NONE)
+
+          value: Phone number in E.164 format (e.g., +12345678900). Optional when direction is
+              OUTGOING, for an agent that calls from numbers you do not know up front.
 
           extra_headers: Send extra headers
 
@@ -94,10 +95,10 @@ class AgentEndpointResource(SyncAPIResource):
                 {
                     "agent_id": agent_id,
                     "direction": direction,
-                    "value": value,
                     "environment": environment,
                     "outbound_dial_http_request_definition_id": outbound_dial_http_request_definition_id,
                     "outbound_dial_type": outbound_dial_type,
+                    "value": value,
                 },
                 agent_endpoint_create_params.AgentEndpointCreateParams,
             ),
@@ -272,10 +273,10 @@ class AsyncAgentEndpointResource(AsyncAPIResource):
         *,
         agent_id: str,
         direction: Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"],
-        value: str,
         environment: str | Omit = omit,
         outbound_dial_http_request_definition_id: Optional[str] | Omit = omit,
         outbound_dial_type: Literal["NONE", "HTTP_REQUEST"] | Omit = omit,
+        value: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -291,14 +292,15 @@ class AsyncAgentEndpointResource(AsyncAPIResource):
 
           direction: Call direction: INCOMING, OUTGOING, or INCOMING_AND_OUTGOING
 
-          value: Phone number in E.164 format (e.g., +12345678900)
-
           environment: Environment name (default: production)
 
           outbound_dial_http_request_definition_id: ID of the HTTP request definition for outbound dialing (required when
               outboundDialType is HTTP_REQUEST)
 
           outbound_dial_type: Outbound dial type: NONE or HTTP_REQUEST (default: NONE)
+
+          value: Phone number in E.164 format (e.g., +12345678900). Optional when direction is
+              OUTGOING, for an agent that calls from numbers you do not know up front.
 
           extra_headers: Send extra headers
 
@@ -314,10 +316,10 @@ class AsyncAgentEndpointResource(AsyncAPIResource):
                 {
                     "agent_id": agent_id,
                     "direction": direction,
-                    "value": value,
                     "environment": environment,
                     "outbound_dial_http_request_definition_id": outbound_dial_http_request_definition_id,
                     "outbound_dial_type": outbound_dial_type,
+                    "value": value,
                 },
                 agent_endpoint_create_params.AgentEndpointCreateParams,
             ),

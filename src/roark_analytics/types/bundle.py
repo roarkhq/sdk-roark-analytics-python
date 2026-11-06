@@ -74,8 +74,6 @@ __all__ = [
 
 
 class AgentConfigEndpoint(BaseModel):
-    value: str
-
     direction: Optional[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]] = None
 
     environment: Optional[str] = None
@@ -87,6 +85,8 @@ class AgentConfigEndpoint(BaseModel):
     outbound_dial_type: Optional[Literal["NONE", "HTTP_REQUEST"]] = FieldInfo(alias="outboundDialType", default=None)
 
     type: Optional[Literal["PHONE", "WEBSOCKET"]] = None
+
+    value: Optional[str] = None
 
 
 class AgentConfig(BaseModel):
@@ -521,6 +521,8 @@ class SimulationPlanConfigAgentEndpoint(BaseModel):
     agent: str
 
     direction: Optional[Literal["INCOMING", "OUTGOING", "INCOMING_AND_OUTGOING"]] = None
+
+    environment: Optional[str] = None
 
     value: Optional[str] = None
 
