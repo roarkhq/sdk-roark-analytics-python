@@ -67,6 +67,8 @@ class ConfigFlowStepParam(TypedDict, total=False):
 
     dtmf_digits: Annotated[str, PropertyInfo(alias="dtmfDigits")]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     flow: str
 
     handoff_persona: Annotated[str, PropertyInfo(alias="handoffPersona")]

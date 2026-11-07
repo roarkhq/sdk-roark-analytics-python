@@ -44,6 +44,7 @@ class TestCustomerFlow:
                 {
                     "type": "AGENT_TURN",
                     "content": "content",
+                    "ends_call": True,
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "off_script_policy": {
@@ -59,6 +60,7 @@ class TestCustomerFlow:
                         {
                             "type": "AGENT_TURN",
                             "content": "content",
+                            "ends_call": True,
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "off_script_policy": {
@@ -74,6 +76,7 @@ class TestCustomerFlow:
                                 {
                                     "type": "AGENT_TURN",
                                     "content": "content",
+                                    "ends_call": True,
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                     "off_script_policy": {
@@ -89,6 +92,7 @@ class TestCustomerFlow:
                                         {
                                             "type": "AGENT_TURN",
                                             "content": "content",
+                                            "ends_call": True,
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                             "off_script_policy": {
@@ -498,6 +502,7 @@ class TestCustomerFlow:
                 {
                     "type": "AGENT_TURN",
                     "content": "content",
+                    "ends_call": True,
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "off_script_policy": {
@@ -513,6 +518,7 @@ class TestCustomerFlow:
                         {
                             "type": "AGENT_TURN",
                             "content": "content",
+                            "ends_call": True,
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "off_script_policy": {
@@ -528,6 +534,7 @@ class TestCustomerFlow:
                                 {
                                     "type": "AGENT_TURN",
                                     "content": "content",
+                                    "ends_call": True,
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                     "off_script_policy": {
@@ -543,6 +550,7 @@ class TestCustomerFlow:
                                         {
                                             "type": "AGENT_TURN",
                                             "content": "content",
+                                            "ends_call": True,
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                             "off_script_policy": {
@@ -683,6 +691,7 @@ class TestAsyncCustomerFlow:
                 {
                     "type": "AGENT_TURN",
                     "content": "content",
+                    "ends_call": True,
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "off_script_policy": {
@@ -698,6 +707,7 @@ class TestAsyncCustomerFlow:
                         {
                             "type": "AGENT_TURN",
                             "content": "content",
+                            "ends_call": True,
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "off_script_policy": {
@@ -713,6 +723,7 @@ class TestAsyncCustomerFlow:
                                 {
                                     "type": "AGENT_TURN",
                                     "content": "content",
+                                    "ends_call": True,
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                     "off_script_policy": {
@@ -728,6 +739,7 @@ class TestAsyncCustomerFlow:
                                         {
                                             "type": "AGENT_TURN",
                                             "content": "content",
+                                            "ends_call": True,
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                             "off_script_policy": {
@@ -1137,6 +1149,7 @@ class TestAsyncCustomerFlow:
                 {
                     "type": "AGENT_TURN",
                     "content": "content",
+                    "ends_call": True,
                     "merge_into_node_ids": ["x"],
                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "off_script_policy": {
@@ -1152,6 +1165,7 @@ class TestAsyncCustomerFlow:
                         {
                             "type": "AGENT_TURN",
                             "content": "content",
+                            "ends_call": True,
                             "merge_into_node_ids": ["x"],
                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "off_script_policy": {
@@ -1167,6 +1181,7 @@ class TestAsyncCustomerFlow:
                                 {
                                     "type": "AGENT_TURN",
                                     "content": "content",
+                                    "ends_call": True,
                                     "merge_into_node_ids": ["x"],
                                     "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                     "off_script_policy": {
@@ -1182,6 +1197,7 @@ class TestAsyncCustomerFlow:
                                         {
                                             "type": "AGENT_TURN",
                                             "content": "content",
+                                            "ends_call": True,
                                             "merge_into_node_ids": [],
                                             "node_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                                             "off_script_policy": {
