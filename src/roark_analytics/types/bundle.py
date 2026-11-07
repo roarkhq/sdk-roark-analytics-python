@@ -136,6 +136,7 @@ class AgentConfig(BaseModel):
     provider: Optional[
         Literal[
             "roark",
+            "custom",
             "vapi",
             "retell",
             "elevenlabs",
