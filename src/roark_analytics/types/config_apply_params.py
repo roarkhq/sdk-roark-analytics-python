@@ -134,6 +134,7 @@ class AgentConfig(TypedDict, total=False):
 
     provider: Literal[
         "roark",
+        "custom",
         "vapi",
         "retell",
         "elevenlabs",
