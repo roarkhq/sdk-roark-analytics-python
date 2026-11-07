@@ -63,6 +63,8 @@ class ConfigFlowStep(BaseModel):
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     flow: Optional[str] = None
 
     handoff_persona: Optional[str] = FieldInfo(alias="handoffPersona", default=None)

@@ -50,6 +50,8 @@ class FlowStepUnionMember0(BaseModel):
 
     content: Optional[str] = None
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -68,6 +70,8 @@ class FlowStepUnionMember1(BaseModel):
 
     content: Optional[str] = None
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -83,6 +87,8 @@ class FlowStepUnionMember2(BaseModel):
     type: Literal["CUSTOMER_FIRST_MESSAGE"]
 
     content: Optional[str] = None
+
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
@@ -100,6 +106,8 @@ class FlowStepUnionMember3(BaseModel):
 
     content: Optional[str] = None
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -113,6 +121,8 @@ class FlowStepUnionMember3(BaseModel):
 
 class FlowStepUnionMember4(BaseModel):
     type: Literal["CUSTOMER_SILENCE"]
+
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
@@ -144,6 +154,8 @@ class FlowStepUnionMember5(BaseModel):
         ]
     ] = FieldInfo(alias="audioClip", default=None)
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -162,6 +174,8 @@ class FlowStepUnionMember6(BaseModel):
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -177,6 +191,8 @@ class FlowStepUnionMember7(BaseModel):
     type: Literal["AGENT_DTMF"]
 
     dtmf_digits: Optional[str] = FieldInfo(alias="dtmfDigits", default=None)
+
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
 
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
@@ -194,6 +210,8 @@ class FlowStepUnionMember7(BaseModel):
 class FlowStepUnionMember8(BaseModel):
     type: Literal["VOICEMAIL"]
 
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
+
     merge_into_node_ids: Optional[List[str]] = FieldInfo(alias="mergeIntoNodeIds", default=None)
 
     node_id: Optional[str] = FieldInfo(alias="nodeId", default=None)
@@ -207,6 +225,8 @@ class FlowStepUnionMember8(BaseModel):
 
 class FlowStepUnionMember9(BaseModel):
     type: Literal["CUSTOMER_HANDOFF"]
+
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
 
     handoff_persona_id: Optional[str] = FieldInfo(alias="handoffPersonaId", default=None)
 
@@ -223,6 +243,8 @@ class FlowStepUnionMember9(BaseModel):
 
 class FlowStepUnionMember10(BaseModel):
     type: Literal["SCENARIO_LINK"]
+
+    ends_call: Optional[bool] = FieldInfo(alias="endsCall", default=None)
 
     linked_customer_flow_id: Optional[str] = FieldInfo(alias="linkedCustomerFlowId", default=None)
 

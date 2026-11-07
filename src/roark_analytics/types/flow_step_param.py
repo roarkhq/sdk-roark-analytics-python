@@ -51,6 +51,8 @@ class FlowStepParamUnionMember0(TypedDict, total=False):
 
     content: Optional[str]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -71,6 +73,8 @@ class FlowStepParamUnionMember1(TypedDict, total=False):
 
     content: Optional[str]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -86,6 +90,8 @@ class FlowStepParamUnionMember2(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_FIRST_MESSAGE"]]
 
     content: Optional[str]
+
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
@@ -103,6 +109,8 @@ class FlowStepParamUnionMember3(TypedDict, total=False):
 
     content: Optional[str]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -116,6 +124,8 @@ class FlowStepParamUnionMember3(TypedDict, total=False):
 
 class FlowStepParamUnionMember4(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_SILENCE"]]
+
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
@@ -150,6 +160,8 @@ class FlowStepParamUnionMember5(TypedDict, total=False):
         PropertyInfo(alias="audioClip"),
     ]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -168,6 +180,8 @@ class FlowStepParamUnionMember6(TypedDict, total=False):
 
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -183,6 +197,8 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
     type: Required[Literal["AGENT_DTMF"]]
 
     dtmf_digits: Annotated[Optional[str], PropertyInfo(alias="dtmfDigits")]
+
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
 
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
@@ -202,6 +218,8 @@ class FlowStepParamUnionMember7(TypedDict, total=False):
 class FlowStepParamUnionMember8(TypedDict, total=False):
     type: Required[Literal["VOICEMAIL"]]
 
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
+
     merge_into_node_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="mergeIntoNodeIds")]
 
     node_id: Annotated[str, PropertyInfo(alias="nodeId")]
@@ -215,6 +233,8 @@ class FlowStepParamUnionMember8(TypedDict, total=False):
 
 class FlowStepParamUnionMember9(TypedDict, total=False):
     type: Required[Literal["CUSTOMER_HANDOFF"]]
+
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
 
     handoff_persona_id: Annotated[Optional[str], PropertyInfo(alias="handoffPersonaId")]
 
@@ -231,6 +251,8 @@ class FlowStepParamUnionMember9(TypedDict, total=False):
 
 class FlowStepParamUnionMember10(TypedDict, total=False):
     type: Required[Literal["SCENARIO_LINK"]]
+
+    ends_call: Annotated[bool, PropertyInfo(alias="endsCall")]
 
     linked_customer_flow_id: Annotated[Optional[str], PropertyInfo(alias="linkedCustomerFlowId")]
 
