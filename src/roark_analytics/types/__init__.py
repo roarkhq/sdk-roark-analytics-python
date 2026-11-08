@@ -116,6 +116,7 @@ from .agent_endpoint_list_response import AgentEndpointListResponse as AgentEndp
 from .agent_endpoint_update_params import AgentEndpointUpdateParams as AgentEndpointUpdateParams
 from .agent_prompt_update_response import AgentPromptUpdateResponse as AgentPromptUpdateResponse
 from .call_get_transcript_response import CallGetTranscriptResponse as CallGetTranscriptResponse
+from .customer_profile_list_params import CustomerProfileListParams as CustomerProfileListParams
 from .dashboard_get_by_id_response import DashboardGetByIDResponse as DashboardGetByIDResponse
 from .metric_variant_create_params import MetricVariantCreateParams as MetricVariantCreateParams
 from .metric_variant_delete_params import MetricVariantDeleteParams as MetricVariantDeleteParams
@@ -149,6 +150,7 @@ from .agent_endpoint_update_response import AgentEndpointUpdateResponse as Agent
 from .agent_version_get_by_id_params import AgentVersionGetByIDParams as AgentVersionGetByIDParams
 from .benchmark_list_suites_response import BenchmarkListSuitesResponse as BenchmarkListSuitesResponse
 from .customer_flow_duplicate_params import CustomerFlowDuplicateParams as CustomerFlowDuplicateParams
+from .customer_profile_list_response import CustomerProfileListResponse as CustomerProfileListResponse
 from .dashboard_create_widget_params import DashboardCreateWidgetParams as DashboardCreateWidgetParams
 from .dashboard_delete_widget_params import DashboardDeleteWidgetParams as DashboardDeleteWidgetParams
 from .dashboard_update_widget_params import DashboardUpdateWidgetParams as DashboardUpdateWidgetParams
@@ -180,6 +182,7 @@ from .autoimprove_job_promote_response import AutoimproveJobPromoteResponse as A
 from .benchmark_get_leaderboard_params import BenchmarkGetLeaderboardParams as BenchmarkGetLeaderboardParams
 from .customer_flow_duplicate_response import CustomerFlowDuplicateResponse as CustomerFlowDuplicateResponse
 from .customer_flow_get_by_id_response import CustomerFlowGetByIDResponse as CustomerFlowGetByIDResponse
+from .customer_profile_delete_response import CustomerProfileDeleteResponse as CustomerProfileDeleteResponse
 from .dashboard_create_widget_response import DashboardCreateWidgetResponse as DashboardCreateWidgetResponse
 from .dashboard_delete_widget_response import DashboardDeleteWidgetResponse as DashboardDeleteWidgetResponse
 from .dashboard_get_widget_data_params import DashboardGetWidgetDataParams as DashboardGetWidgetDataParams
@@ -227,6 +230,7 @@ from .calendar_connection_create_response import CalendarConnectionCreateRespons
 from .calendar_connection_delete_response import CalendarConnectionDeleteResponse as CalendarConnectionDeleteResponse
 from .calendar_connection_update_response import CalendarConnectionUpdateResponse as CalendarConnectionUpdateResponse
 from .call_append_tool_invocations_params import CallAppendToolInvocationsParams as CallAppendToolInvocationsParams
+from .customer_profile_get_by_id_response import CustomerProfileGetByIDResponse as CustomerProfileGetByIDResponse
 from .http_request_definition_list_params import HTTPRequestDefinitionListParams as HTTPRequestDefinitionListParams
 from .live_report_list_documents_response import LiveReportListDocumentsResponse as LiveReportListDocumentsResponse
 from .managed_agent_config_revision_param import ManagedAgentConfigRevisionParam as ManagedAgentConfigRevisionParam
@@ -245,6 +249,7 @@ from .autoimprove_job_send_guidance_params import AutoimproveJobSendGuidancePara
 from .benchmark_list_target_history_params import BenchmarkListTargetHistoryParams as BenchmarkListTargetHistoryParams
 from .customer_flow_edge_case_add_response import CustomerFlowEdgeCaseAddResponse as CustomerFlowEdgeCaseAddResponse
 from .customer_flow_replace_graph_response import CustomerFlowReplaceGraphResponse as CustomerFlowReplaceGraphResponse
+from .customer_profile_update_notes_params import CustomerProfileUpdateNotesParams as CustomerProfileUpdateNotesParams
 from .phone_number_list_available_response import PhoneNumberListAvailableResponse as PhoneNumberListAvailableResponse
 from .simulation_environment_create_params import SimulationEnvironmentCreateParams as SimulationEnvironmentCreateParams
 from .simulation_environment_list_response import SimulationEnvironmentListResponse as SimulationEnvironmentListResponse
@@ -260,6 +265,9 @@ from .call_append_tool_invocations_response import (
 )
 from .customer_flow_edge_case_remove_params import CustomerFlowEdgeCaseRemoveParams as CustomerFlowEdgeCaseRemoveParams
 from .customer_flow_edge_case_update_params import CustomerFlowEdgeCaseUpdateParams as CustomerFlowEdgeCaseUpdateParams
+from .customer_profile_set_attribute_params import (
+    CustomerProfileSetAttributeParams as CustomerProfileSetAttributeParams,
+)
 from .http_request_definition_create_params import (
     HTTPRequestDefinitionCreateParams as HTTPRequestDefinitionCreateParams,
 )
@@ -304,6 +312,9 @@ from .customer_flow_edge_case_promote_params import (
 from .customer_flow_update_happy_path_params import (
     CustomerFlowUpdateHappyPathParams as CustomerFlowUpdateHappyPathParams,
 )
+from .customer_profile_update_notes_response import (
+    CustomerProfileUpdateNotesResponse as CustomerProfileUpdateNotesResponse,
+)
 from .simulation_environment_create_response import (
     SimulationEnvironmentCreateResponse as SimulationEnvironmentCreateResponse,
 )
@@ -328,6 +339,12 @@ from .customer_flow_edge_case_remove_response import (
 )
 from .customer_flow_edge_case_update_response import (
     CustomerFlowEdgeCaseUpdateResponse as CustomerFlowEdgeCaseUpdateResponse,
+)
+from .customer_profile_clear_attribute_params import (
+    CustomerProfileClearAttributeParams as CustomerProfileClearAttributeParams,
+)
+from .customer_profile_set_attribute_response import (
+    CustomerProfileSetAttributeResponse as CustomerProfileSetAttributeResponse,
 )
 from .http_request_definition_create_response import (
     HTTPRequestDefinitionCreateResponse as HTTPRequestDefinitionCreateResponse,
@@ -362,11 +379,17 @@ from .customer_flow_edge_case_promote_response import (
 from .customer_flow_update_happy_path_response import (
     CustomerFlowUpdateHappyPathResponse as CustomerFlowUpdateHappyPathResponse,
 )
+from .customer_profile_unlock_attribute_params import (
+    CustomerProfileUnlockAttributeParams as CustomerProfileUnlockAttributeParams,
+)
 from .metric_collection_job_get_by_id_response import (
     MetricCollectionJobGetByIDResponse as MetricCollectionJobGetByIDResponse,
 )
 from .calendar_connection_list_targets_response import (
     CalendarConnectionListTargetsResponse as CalendarConnectionListTargetsResponse,
+)
+from .customer_profile_clear_attribute_response import (
+    CustomerProfileClearAttributeResponse as CustomerProfileClearAttributeResponse,
 )
 from .simulation_environment_get_by_id_response import (
     SimulationEnvironmentGetByIDResponse as SimulationEnvironmentGetByIDResponse,
@@ -376,6 +399,12 @@ from .simulation_run_plan_job_get_cost_response import (
 )
 from .benchmark_list_target_score_samples_params import (
     BenchmarkListTargetScoreSamplesParams as BenchmarkListTargetScoreSamplesParams,
+)
+from .customer_profile_list_conversations_params import (
+    CustomerProfileListConversationsParams as CustomerProfileListConversationsParams,
+)
+from .customer_profile_unlock_attribute_response import (
+    CustomerProfileUnlockAttributeResponse as CustomerProfileUnlockAttributeResponse,
 )
 from .http_request_definition_get_by_id_response import (
     HTTPRequestDefinitionGetByIDResponse as HTTPRequestDefinitionGetByIDResponse,
@@ -388,6 +417,9 @@ from .simulation_run_plan_job_get_results_params import (
 )
 from .benchmark_list_target_score_samples_response import (
     BenchmarkListTargetScoreSamplesResponse as BenchmarkListTargetScoreSamplesResponse,
+)
+from .customer_profile_list_conversations_response import (
+    CustomerProfileListConversationsResponse as CustomerProfileListConversationsResponse,
 )
 from .simulation_run_plan_job_get_results_response import (
     SimulationRunPlanJobGetResultsResponse as SimulationRunPlanJobGetResultsResponse,

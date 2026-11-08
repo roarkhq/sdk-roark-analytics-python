@@ -28,6 +28,8 @@ class DataAgent(BaseModel):
 
 
 class DataCustomer(BaseModel):
+    customer_profile_id: Optional[str] = FieldInfo(alias="customerProfileId", default=None)
+
     label: Optional[str] = None
 
     phone_number_e164: Optional[str] = FieldInfo(alias="phoneNumberE164", default=None)
