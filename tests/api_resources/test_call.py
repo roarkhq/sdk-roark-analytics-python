@@ -58,8 +58,8 @@ class TestCall:
                     "prompt": {"resolved_prompt": "resolvedPrompt"},
                 }
             ],
-            customer={"phone_number_e164": "phoneNumberE164", "label": "label"},
-            customers=[{"phone_number_e164": "phoneNumberE164", "label": "label"}],
+            customer={"phone_number_e164": "phoneNumberE164", "external_id": "x", "label": "label"},
+            customers=[{"phone_number_e164": "phoneNumberE164", "external_id": "x", "label": "label"}],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
             external_id="externalId",
             livekit_room_id="livekitRoomId",
@@ -596,8 +596,8 @@ class TestAsyncCall:
                     "prompt": {"resolved_prompt": "resolvedPrompt"},
                 }
             ],
-            customer={"phone_number_e164": "phoneNumberE164", "label": "label"},
-            customers=[{"phone_number_e164": "phoneNumberE164", "label": "label"}],
+            customer={"phone_number_e164": "phoneNumberE164", "external_id": "x", "label": "label"},
+            customers=[{"phone_number_e164": "phoneNumberE164", "external_id": "x", "label": "label"}],
             ended_status="PARTICIPANTS_DID_NOT_SPEAK",
             external_id="externalId",
             livekit_room_id="livekitRoomId",

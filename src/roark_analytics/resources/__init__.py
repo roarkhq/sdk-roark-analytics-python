@@ -208,6 +208,14 @@ from .autoimprove_job import (
     AutoimproveJobResourceWithStreamingResponse,
     AsyncAutoimproveJobResourceWithStreamingResponse,
 )
+from .customer_profile import (
+    CustomerProfileResource,
+    AsyncCustomerProfileResource,
+    CustomerProfileResourceWithRawResponse,
+    AsyncCustomerProfileResourceWithRawResponse,
+    CustomerProfileResourceWithStreamingResponse,
+    AsyncCustomerProfileResourceWithStreamingResponse,
+)
 from .simulation_group import (
     SimulationGroupResource,
     AsyncSimulationGroupResource,
@@ -454,6 +462,12 @@ __all__ = [
     "AsyncSimulationPersonaResourceWithRawResponse",
     "SimulationPersonaResourceWithStreamingResponse",
     "AsyncSimulationPersonaResourceWithStreamingResponse",
+    "CustomerProfileResource",
+    "AsyncCustomerProfileResource",
+    "CustomerProfileResourceWithRawResponse",
+    "AsyncCustomerProfileResourceWithRawResponse",
+    "CustomerProfileResourceWithStreamingResponse",
+    "AsyncCustomerProfileResourceWithStreamingResponse",
     "SimulationEnvironmentResource",
     "AsyncSimulationEnvironmentResource",
     "SimulationEnvironmentResourceWithRawResponse",

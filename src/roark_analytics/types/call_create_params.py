@@ -103,6 +103,12 @@ class Customer(TypedDict, total=False):
     phone_number_e164: Required[Annotated[Optional[str], PropertyInfo(alias="phoneNumberE164")]]
     """Customer phone number in E.164 format (e.g., +14155551234)"""
 
+    external_id: Annotated[Optional[str], PropertyInfo(alias="externalId")]
+    """
+    Your own stable id for this person. Links conversations to one customer profile
+    where there is no phone number, such as web calls.
+    """
+
     label: Optional[str]
     """
     Label to identify this customer in the transcript (e.g., "speaker-01",
