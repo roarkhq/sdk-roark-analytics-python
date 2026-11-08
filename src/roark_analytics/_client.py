@@ -58,6 +58,7 @@ if TYPE_CHECKING:
         metric_variant,
         simulation_job,
         autoimprove_job,
+        customer_profile,
         simulation_group,
         simulation_persona,
         calendar_connection,
@@ -99,6 +100,7 @@ if TYPE_CHECKING:
     from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.autoimprove_job import AutoimproveJobResource, AsyncAutoimproveJobResource
+    from .resources.customer_profile import CustomerProfileResource, AsyncCustomerProfileResource
     from .resources.simulation_group import SimulationGroupResource, AsyncSimulationGroupResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.calendar_connection import CalendarConnectionResource, AsyncCalendarConnectionResource
@@ -315,6 +317,12 @@ class Roark(SyncAPIClient):
         from .resources.simulation_persona import SimulationPersonaResource
 
         return SimulationPersonaResource(self)
+
+    @cached_property
+    def customer_profile(self) -> CustomerProfileResource:
+        from .resources.customer_profile import CustomerProfileResource
+
+        return CustomerProfileResource(self)
 
     @cached_property
     def simulation_environment(self) -> SimulationEnvironmentResource:
@@ -751,6 +759,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationPersonaResource(self)
 
     @cached_property
+    def customer_profile(self) -> AsyncCustomerProfileResource:
+        from .resources.customer_profile import AsyncCustomerProfileResource
+
+        return AsyncCustomerProfileResource(self)
+
+    @cached_property
     def simulation_environment(self) -> AsyncSimulationEnvironmentResource:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResource
 
@@ -1124,6 +1138,12 @@ class RoarkWithRawResponse:
         return SimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
 
     @cached_property
+    def customer_profile(self) -> customer_profile.CustomerProfileResourceWithRawResponse:
+        from .resources.customer_profile import CustomerProfileResourceWithRawResponse
+
+        return CustomerProfileResourceWithRawResponse(self._client.customer_profile)
+
+    @cached_property
     def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithRawResponse:
         from .resources.simulation_environment import SimulationEnvironmentResourceWithRawResponse
 
@@ -1371,6 +1391,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncSimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
 
     @cached_property
+    def customer_profile(self) -> customer_profile.AsyncCustomerProfileResourceWithRawResponse:
+        from .resources.customer_profile import AsyncCustomerProfileResourceWithRawResponse
+
+        return AsyncCustomerProfileResourceWithRawResponse(self._client.customer_profile)
+
+    @cached_property
     def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithRawResponse:
         from .resources.simulation_environment import AsyncSimulationEnvironmentResourceWithRawResponse
 
@@ -1616,6 +1642,12 @@ class RoarkWithStreamedResponse:
         from .resources.simulation_persona import SimulationPersonaResourceWithStreamingResponse
 
         return SimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def customer_profile(self) -> customer_profile.CustomerProfileResourceWithStreamingResponse:
+        from .resources.customer_profile import CustomerProfileResourceWithStreamingResponse
+
+        return CustomerProfileResourceWithStreamingResponse(self._client.customer_profile)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithStreamingResponse:
@@ -1867,6 +1899,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.simulation_persona import AsyncSimulationPersonaResourceWithStreamingResponse
 
         return AsyncSimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
+
+    @cached_property
+    def customer_profile(self) -> customer_profile.AsyncCustomerProfileResourceWithStreamingResponse:
+        from .resources.customer_profile import AsyncCustomerProfileResourceWithStreamingResponse
+
+        return AsyncCustomerProfileResourceWithStreamingResponse(self._client.customer_profile)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithStreamingResponse:

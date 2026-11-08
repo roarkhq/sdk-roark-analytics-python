@@ -429,6 +429,34 @@ Methods:
 - <code title="get /v1/persona">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_persona_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_persona_list_response.py">SimulationPersonaListResponse</a></code>
 - <code title="get /v1/persona/{personaId}">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">get_by_id</a>(persona_id) -> <a href="./src/roark_analytics/types/simulation_persona_get_by_id_response.py">SimulationPersonaGetByIDResponse</a></code>
 
+# CustomerProfile
+
+Types:
+
+```python
+from roark_analytics.types import (
+    CustomerProfileListResponse,
+    CustomerProfileDeleteResponse,
+    CustomerProfileClearAttributeResponse,
+    CustomerProfileGetByIDResponse,
+    CustomerProfileListConversationsResponse,
+    CustomerProfileSetAttributeResponse,
+    CustomerProfileUnlockAttributeResponse,
+    CustomerProfileUpdateNotesResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/customer-profile">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">list</a>(\*\*<a href="src/roark_analytics/types/customer_profile_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_list_response.py">CustomerProfileListResponse</a></code>
+- <code title="delete /v1/customer-profile/{customerProfileId}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">delete</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_profile_delete_response.py">CustomerProfileDeleteResponse</a></code>
+- <code title="delete /v1/customer-profile/{customerProfileId}/attributes/{key}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">clear_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_clear_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_clear_attribute_response.py">CustomerProfileClearAttributeResponse</a></code>
+- <code title="get /v1/customer-profile/{customerProfileId}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">get_by_id</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_profile_get_by_id_response.py">CustomerProfileGetByIDResponse</a></code>
+- <code title="get /v1/customer-profile/{customerProfileId}/conversations">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">list_conversations</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_profile_list_conversations_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_list_conversations_response.py">CustomerProfileListConversationsResponse</a></code>
+- <code title="put /v1/customer-profile/{customerProfileId}/attributes/{key}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">set_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_set_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_set_attribute_response.py">CustomerProfileSetAttributeResponse</a></code>
+- <code title="post /v1/customer-profile/{customerProfileId}/attributes/{key}/unlock">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">unlock_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_unlock_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_unlock_attribute_response.py">CustomerProfileUnlockAttributeResponse</a></code>
+- <code title="put /v1/customer-profile/{customerProfileId}/notes">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">update_notes</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_profile_update_notes_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_update_notes_response.py">CustomerProfileUpdateNotesResponse</a></code>
+
 # SimulationEnvironment
 
 Types:
