@@ -127,8 +127,6 @@ class Data(BaseModel):
 
     notes_updated_at: Optional[str] = FieldInfo(alias="notesUpdatedAt")
 
-    open_items: Optional[str] = FieldInfo(alias="openItems")
-
     phone_number_e164: Optional[str] = FieldInfo(alias="phoneNumberE164")
 
     summary: Optional[str]
