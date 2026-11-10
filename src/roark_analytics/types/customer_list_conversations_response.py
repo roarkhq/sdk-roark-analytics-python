@@ -7,13 +7,14 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CustomerProfileListConversationsResponse", "Data", "DataItem"]
+__all__ = ["CustomerListConversationsResponse", "Data", "DataItem"]
 
 
 class DataItem(BaseModel):
     id: str
 
-    conversation_type: Literal["call", "chat"] = FieldInfo(alias="conversationType")
+    conversation_type: Literal["voice", "chat"] = FieldInfo(alias="conversationType")
+    """`voice` or `chat`."""
 
     duration_ms: Optional[int] = FieldInfo(alias="durationMs")
 
@@ -32,5 +33,5 @@ class Data(BaseModel):
     total_count: int = FieldInfo(alias="totalCount")
 
 
-class CustomerProfileListConversationsResponse(BaseModel):
+class CustomerListConversationsResponse(BaseModel):
     data: Data

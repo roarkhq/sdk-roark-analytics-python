@@ -80,6 +80,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .customer import (
+    CustomerResource,
+    AsyncCustomerResource,
+    CustomerResourceWithRawResponse,
+    AsyncCustomerResourceWithRawResponse,
+    CustomerResourceWithStreamingResponse,
+    AsyncCustomerResourceWithStreamingResponse,
+)
 from .analytics import (
     AnalyticsResource,
     AsyncAnalyticsResource,
@@ -143,6 +151,14 @@ from .agent_prompt import (
     AsyncAgentPromptResourceWithRawResponse,
     AgentPromptResourceWithStreamingResponse,
     AsyncAgentPromptResourceWithStreamingResponse,
+)
+from .conversation import (
+    ConversationResource,
+    AsyncConversationResource,
+    ConversationResourceWithRawResponse,
+    AsyncConversationResourceWithRawResponse,
+    ConversationResourceWithStreamingResponse,
+    AsyncConversationResourceWithStreamingResponse,
 )
 from .phone_number import (
     PhoneNumberResource,
@@ -208,14 +224,6 @@ from .autoimprove_job import (
     AutoimproveJobResourceWithStreamingResponse,
     AsyncAutoimproveJobResourceWithStreamingResponse,
 )
-from .customer_profile import (
-    CustomerProfileResource,
-    AsyncCustomerProfileResource,
-    CustomerProfileResourceWithRawResponse,
-    AsyncCustomerProfileResourceWithRawResponse,
-    CustomerProfileResourceWithStreamingResponse,
-    AsyncCustomerProfileResourceWithStreamingResponse,
-)
 from .simulation_group import (
     SimulationGroupResource,
     AsyncSimulationGroupResource,
@@ -224,6 +232,14 @@ from .simulation_group import (
     SimulationGroupResourceWithStreamingResponse,
     AsyncSimulationGroupResourceWithStreamingResponse,
 )
+from .agent_conversation import (
+    AgentConversationResource,
+    AsyncAgentConversationResource,
+    AgentConversationResourceWithRawResponse,
+    AsyncAgentConversationResourceWithRawResponse,
+    AgentConversationResourceWithStreamingResponse,
+    AsyncAgentConversationResourceWithStreamingResponse,
+)
 from .simulation_persona import (
     SimulationPersonaResource,
     AsyncSimulationPersonaResource,
@@ -231,14 +247,6 @@ from .simulation_persona import (
     AsyncSimulationPersonaResourceWithRawResponse,
     SimulationPersonaResourceWithStreamingResponse,
     AsyncSimulationPersonaResourceWithStreamingResponse,
-)
-from .calendar_connection import (
-    CalendarConnectionResource,
-    AsyncCalendarConnectionResource,
-    CalendarConnectionResourceWithRawResponse,
-    AsyncCalendarConnectionResourceWithRawResponse,
-    CalendarConnectionResourceWithStreamingResponse,
-    AsyncCalendarConnectionResourceWithStreamingResponse,
 )
 from .simulation_run_plan import (
     SimulationRunPlanResource,
@@ -354,6 +362,12 @@ __all__ = [
     "AsyncUsageResourceWithRawResponse",
     "UsageResourceWithStreamingResponse",
     "AsyncUsageResourceWithStreamingResponse",
+    "ConversationResource",
+    "AsyncConversationResource",
+    "ConversationResourceWithRawResponse",
+    "AsyncConversationResourceWithRawResponse",
+    "ConversationResourceWithStreamingResponse",
+    "AsyncConversationResourceWithStreamingResponse",
     "CallResource",
     "AsyncCallResource",
     "CallResourceWithRawResponse",
@@ -462,12 +476,12 @@ __all__ = [
     "AsyncSimulationPersonaResourceWithRawResponse",
     "SimulationPersonaResourceWithStreamingResponse",
     "AsyncSimulationPersonaResourceWithStreamingResponse",
-    "CustomerProfileResource",
-    "AsyncCustomerProfileResource",
-    "CustomerProfileResourceWithRawResponse",
-    "AsyncCustomerProfileResourceWithRawResponse",
-    "CustomerProfileResourceWithStreamingResponse",
-    "AsyncCustomerProfileResourceWithStreamingResponse",
+    "CustomerResource",
+    "AsyncCustomerResource",
+    "CustomerResourceWithRawResponse",
+    "AsyncCustomerResourceWithRawResponse",
+    "CustomerResourceWithStreamingResponse",
+    "AsyncCustomerResourceWithStreamingResponse",
     "SimulationEnvironmentResource",
     "AsyncSimulationEnvironmentResource",
     "SimulationEnvironmentResourceWithRawResponse",
@@ -540,6 +554,12 @@ __all__ = [
     "AsyncAgentDraftResourceWithRawResponse",
     "AgentDraftResourceWithStreamingResponse",
     "AsyncAgentDraftResourceWithStreamingResponse",
+    "AgentConversationResource",
+    "AsyncAgentConversationResource",
+    "AgentConversationResourceWithRawResponse",
+    "AsyncAgentConversationResourceWithRawResponse",
+    "AgentConversationResourceWithStreamingResponse",
+    "AsyncAgentConversationResourceWithStreamingResponse",
     "ToolResource",
     "AsyncToolResource",
     "ToolResourceWithRawResponse",
@@ -552,12 +572,6 @@ __all__ = [
     "AsyncHTTPRequestDefinitionResourceWithRawResponse",
     "HTTPRequestDefinitionResourceWithStreamingResponse",
     "AsyncHTTPRequestDefinitionResourceWithStreamingResponse",
-    "CalendarConnectionResource",
-    "AsyncCalendarConnectionResource",
-    "CalendarConnectionResourceWithRawResponse",
-    "AsyncCalendarConnectionResourceWithRawResponse",
-    "CalendarConnectionResourceWithStreamingResponse",
-    "AsyncCalendarConnectionResourceWithStreamingResponse",
     "WebhookResource",
     "AsyncWebhookResource",
     "WebhookResourceWithRawResponse",

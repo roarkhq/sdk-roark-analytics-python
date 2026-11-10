@@ -100,7 +100,7 @@ class TestAgentDraft:
                 "idle_timeout_seconds": 1,
                 "interruption_mode": "ALLOW",
                 "language": "xx",
-                "modalities": ["call"],
+                "modalities": ["voice"],
                 "sub_agents": [
                     {
                         "handoffs": [
@@ -390,7 +390,7 @@ class TestAsyncAgentDraft:
                 "idle_timeout_seconds": 1,
                 "interruption_mode": "ALLOW",
                 "language": "xx",
-                "modalities": ["call"],
+                "modalities": ["voice"],
                 "sub_agents": [
                     {
                         "handoffs": [

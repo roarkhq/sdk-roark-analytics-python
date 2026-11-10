@@ -6,8 +6,8 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["CalendarConnectionGetTargetParams"]
+__all__ = ["CustomerUnlockAttributeParams"]
 
 
-class CalendarConnectionGetTargetParams(TypedDict, total=False):
-    connection_id: Required[Annotated[str, PropertyInfo(alias="connectionId")]]
+class CustomerUnlockAttributeParams(TypedDict, total=False):
+    customer_profile_id: Required[Annotated[str, PropertyInfo(alias="customerProfileId")]]

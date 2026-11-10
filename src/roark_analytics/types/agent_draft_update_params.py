@@ -196,7 +196,7 @@ class Setting(TypedDict, total=False):
 
     language: Optional[str]
 
-    modalities: List[Literal["call", "chat"]]
+    modalities: List[Literal["voice", "chat", "call"]]
 
     sub_agents: Annotated[Iterable[SettingSubAgent], PropertyInfo(alias="subAgents")]
 

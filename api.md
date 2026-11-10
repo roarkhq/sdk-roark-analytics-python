@@ -54,6 +54,19 @@ Methods:
 
 - <code title="get /v1/usage">client.usage.<a href="./src/roark_analytics/resources/usage.py">get</a>(\*\*<a href="src/roark_analytics/types/usage_get_params.py">params</a>) -> <a href="./src/roark_analytics/types/usage_get_response.py">UsageGetResponse</a></code>
 
+# Conversation
+
+Types:
+
+```python
+from roark_analytics.types import ConversationListResponse, ConversationGetByIDResponse
+```
+
+Methods:
+
+- <code title="get /v1/conversation">client.conversation.<a href="./src/roark_analytics/resources/conversation.py">list</a>(\*\*<a href="src/roark_analytics/types/conversation_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/conversation_list_response.py">ConversationListResponse</a></code>
+- <code title="get /v1/conversation/{conversationId}">client.conversation.<a href="./src/roark_analytics/resources/conversation.py">get_by_id</a>(conversation_id) -> <a href="./src/roark_analytics/types/conversation_get_by_id_response.py">ConversationGetByIDResponse</a></code>
+
 # Call
 
 Types:
@@ -429,33 +442,41 @@ Methods:
 - <code title="get /v1/persona">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">list</a>(\*\*<a href="src/roark_analytics/types/simulation_persona_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/simulation_persona_list_response.py">SimulationPersonaListResponse</a></code>
 - <code title="get /v1/persona/{personaId}">client.simulation_persona.<a href="./src/roark_analytics/resources/simulation_persona.py">get_by_id</a>(persona_id) -> <a href="./src/roark_analytics/types/simulation_persona_get_by_id_response.py">SimulationPersonaGetByIDResponse</a></code>
 
-# CustomerProfile
+# Customer
 
 Types:
 
 ```python
 from roark_analytics.types import (
-    CustomerProfileListResponse,
-    CustomerProfileDeleteResponse,
-    CustomerProfileClearAttributeResponse,
-    CustomerProfileGetByIDResponse,
-    CustomerProfileListConversationsResponse,
-    CustomerProfileSetAttributeResponse,
-    CustomerProfileUnlockAttributeResponse,
-    CustomerProfileUpdateNotesResponse,
+    CustomerListResponse,
+    CustomerDeleteResponse,
+    CustomerClearAttributeResponse,
+    CustomerCreateFieldResponse,
+    CustomerDeleteFieldResponse,
+    CustomerGetByIDResponse,
+    CustomerListConversationsResponse,
+    CustomerListFieldsResponse,
+    CustomerSetAttributeResponse,
+    CustomerUnlockAttributeResponse,
+    CustomerUpdateFieldResponse,
+    CustomerUpdateNotesResponse,
 )
 ```
 
 Methods:
 
-- <code title="get /v1/customer-profile">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">list</a>(\*\*<a href="src/roark_analytics/types/customer_profile_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_list_response.py">CustomerProfileListResponse</a></code>
-- <code title="delete /v1/customer-profile/{customerProfileId}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">delete</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_profile_delete_response.py">CustomerProfileDeleteResponse</a></code>
-- <code title="delete /v1/customer-profile/{customerProfileId}/attributes/{key}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">clear_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_clear_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_clear_attribute_response.py">CustomerProfileClearAttributeResponse</a></code>
-- <code title="get /v1/customer-profile/{customerProfileId}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">get_by_id</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_profile_get_by_id_response.py">CustomerProfileGetByIDResponse</a></code>
-- <code title="get /v1/customer-profile/{customerProfileId}/conversations">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">list_conversations</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_profile_list_conversations_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_list_conversations_response.py">CustomerProfileListConversationsResponse</a></code>
-- <code title="put /v1/customer-profile/{customerProfileId}/attributes/{key}">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">set_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_set_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_set_attribute_response.py">CustomerProfileSetAttributeResponse</a></code>
-- <code title="post /v1/customer-profile/{customerProfileId}/attributes/{key}/unlock">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">unlock_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_profile_unlock_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_unlock_attribute_response.py">CustomerProfileUnlockAttributeResponse</a></code>
-- <code title="put /v1/customer-profile/{customerProfileId}/notes">client.customer_profile.<a href="./src/roark_analytics/resources/customer_profile.py">update_notes</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_profile_update_notes_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_profile_update_notes_response.py">CustomerProfileUpdateNotesResponse</a></code>
+- <code title="get /v1/customer">client.customer.<a href="./src/roark_analytics/resources/customer.py">list</a>(\*\*<a href="src/roark_analytics/types/customer_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_list_response.py">CustomerListResponse</a></code>
+- <code title="delete /v1/customer/{customerProfileId}">client.customer.<a href="./src/roark_analytics/resources/customer.py">delete</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_delete_response.py">CustomerDeleteResponse</a></code>
+- <code title="delete /v1/customer/{customerProfileId}/attributes/{key}">client.customer.<a href="./src/roark_analytics/resources/customer.py">clear_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_clear_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_clear_attribute_response.py">CustomerClearAttributeResponse</a></code>
+- <code title="post /v1/customer/fields">client.customer.<a href="./src/roark_analytics/resources/customer.py">create_field</a>(\*\*<a href="src/roark_analytics/types/customer_create_field_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_create_field_response.py">CustomerCreateFieldResponse</a></code>
+- <code title="delete /v1/customer/fields/{key}">client.customer.<a href="./src/roark_analytics/resources/customer.py">delete_field</a>(key) -> <a href="./src/roark_analytics/types/customer_delete_field_response.py">CustomerDeleteFieldResponse</a></code>
+- <code title="get /v1/customer/{customerProfileId}">client.customer.<a href="./src/roark_analytics/resources/customer.py">get_by_id</a>(customer_profile_id) -> <a href="./src/roark_analytics/types/customer_get_by_id_response.py">CustomerGetByIDResponse</a></code>
+- <code title="get /v1/customer/{customerProfileId}/conversations">client.customer.<a href="./src/roark_analytics/resources/customer.py">list_conversations</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_list_conversations_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_list_conversations_response.py">CustomerListConversationsResponse</a></code>
+- <code title="get /v1/customer/fields">client.customer.<a href="./src/roark_analytics/resources/customer.py">list_fields</a>() -> <a href="./src/roark_analytics/types/customer_list_fields_response.py">CustomerListFieldsResponse</a></code>
+- <code title="put /v1/customer/{customerProfileId}/attributes/{key}">client.customer.<a href="./src/roark_analytics/resources/customer.py">set_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_set_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_set_attribute_response.py">CustomerSetAttributeResponse</a></code>
+- <code title="post /v1/customer/{customerProfileId}/attributes/{key}/unlock">client.customer.<a href="./src/roark_analytics/resources/customer.py">unlock_attribute</a>(key, \*\*<a href="src/roark_analytics/types/customer_unlock_attribute_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_unlock_attribute_response.py">CustomerUnlockAttributeResponse</a></code>
+- <code title="patch /v1/customer/fields/{key}">client.customer.<a href="./src/roark_analytics/resources/customer.py">update_field</a>(key, \*\*<a href="src/roark_analytics/types/customer_update_field_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_update_field_response.py">CustomerUpdateFieldResponse</a></code>
+- <code title="put /v1/customer/{customerProfileId}/notes">client.customer.<a href="./src/roark_analytics/resources/customer.py">update_notes</a>(customer_profile_id, \*\*<a href="src/roark_analytics/types/customer_update_notes_params.py">params</a>) -> <a href="./src/roark_analytics/types/customer_update_notes_response.py">CustomerUpdateNotesResponse</a></code>
 
 # SimulationEnvironment
 
@@ -718,6 +739,18 @@ Methods:
 - <code title="get /v1/agent/{agentId}/draft">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">get</a>(agent_id) -> <a href="./src/roark_analytics/types/agent_draft_get_response.py">AgentDraftGetResponse</a></code>
 - <code title="post /v1/agent/{agentId}/draft/publish">client.agent_draft.<a href="./src/roark_analytics/resources/agent_draft.py">publish</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_draft_publish_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_draft_publish_response.py">AgentDraftPublishResponse</a></code>
 
+# AgentConversation
+
+Types:
+
+```python
+from roark_analytics.types import AgentConversationCreateResponse
+```
+
+Methods:
+
+- <code title="post /v1/agent/{agentId}/conversations">client.agent_conversation.<a href="./src/roark_analytics/resources/agent_conversation.py">create</a>(agent_id, \*\*<a href="src/roark_analytics/types/agent_conversation_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/agent_conversation_create_response.py">AgentConversationCreateResponse</a></code>
+
 # Tool
 
 Types:
@@ -759,34 +792,6 @@ Methods:
 - <code title="put /v1/http-request-definition/{definitionId}">client.http_request_definition.<a href="./src/roark_analytics/resources/http_request_definition.py">update</a>(definition_id, \*\*<a href="src/roark_analytics/types/http_request_definition_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/http_request_definition_update_response.py">HTTPRequestDefinitionUpdateResponse</a></code>
 - <code title="get /v1/http-request-definition">client.http_request_definition.<a href="./src/roark_analytics/resources/http_request_definition.py">list</a>(\*\*<a href="src/roark_analytics/types/http_request_definition_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/http_request_definition_list_response.py">HTTPRequestDefinitionListResponse</a></code>
 - <code title="get /v1/http-request-definition/{definitionId}">client.http_request_definition.<a href="./src/roark_analytics/resources/http_request_definition.py">get_by_id</a>(definition_id) -> <a href="./src/roark_analytics/types/http_request_definition_get_by_id_response.py">HTTPRequestDefinitionGetByIDResponse</a></code>
-
-# CalendarConnection
-
-Types:
-
-```python
-from roark_analytics.types import (
-    CalendarConnectionCreateResponse,
-    CalendarConnectionUpdateResponse,
-    CalendarConnectionListResponse,
-    CalendarConnectionDeleteResponse,
-    CalendarConnectionCheckResponse,
-    CalendarConnectionGetByIDResponse,
-    CalendarConnectionGetTargetResponse,
-    CalendarConnectionListTargetsResponse,
-)
-```
-
-Methods:
-
-- <code title="post /v1/calendar-connection">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">create</a>(\*\*<a href="src/roark_analytics/types/calendar_connection_create_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_create_response.py">CalendarConnectionCreateResponse</a></code>
-- <code title="patch /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">update</a>(connection_id, \*\*<a href="src/roark_analytics/types/calendar_connection_update_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_update_response.py">CalendarConnectionUpdateResponse</a></code>
-- <code title="get /v1/calendar-connection">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">list</a>(\*\*<a href="src/roark_analytics/types/calendar_connection_list_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_list_response.py">CalendarConnectionListResponse</a></code>
-- <code title="delete /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">delete</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_delete_response.py">CalendarConnectionDeleteResponse</a></code>
-- <code title="post /v1/calendar-connection/{connectionId}/check">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">check</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_check_response.py">CalendarConnectionCheckResponse</a></code>
-- <code title="get /v1/calendar-connection/{connectionId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">get_by_id</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_get_by_id_response.py">CalendarConnectionGetByIDResponse</a></code>
-- <code title="get /v1/calendar-connection/{connectionId}/targets/{targetId}">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">get_target</a>(target_id, \*\*<a href="src/roark_analytics/types/calendar_connection_get_target_params.py">params</a>) -> <a href="./src/roark_analytics/types/calendar_connection_get_target_response.py">CalendarConnectionGetTargetResponse</a></code>
-- <code title="get /v1/calendar-connection/{connectionId}/targets">client.calendar_connection.<a href="./src/roark_analytics/resources/calendar_connection.py">list_targets</a>(connection_id) -> <a href="./src/roark_analytics/types/calendar_connection_list_targets_response.py">CalendarConnectionListTargetsResponse</a></code>
 
 # Webhook
 

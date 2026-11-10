@@ -130,6 +130,8 @@ class AgentConfig(TypedDict, total=False):
 
     llm: AgentConfigLlm
 
+    modalities: List[Literal["voice", "chat", "call"]]
+
     prompt: Optional[str]
 
     provider: Literal[
@@ -446,7 +448,7 @@ class CollectorConfig(TypedDict, total=False):
 
     metrics: Required[List[Union[str, CollectorMetricConfig]]]
 
-    modality: Required[Literal["call", "chat"]]
+    modality: Required[Literal["voice", "chat", "call"]]
 
     name: Required[str]
 

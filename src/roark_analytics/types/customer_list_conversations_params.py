@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["CustomerProfileListConversationsParams"]
+__all__ = ["CustomerListConversationsParams"]
 
 
-class CustomerProfileListConversationsParams(TypedDict, total=False):
+class CustomerListConversationsParams(TypedDict, total=False):
     limit: int
 
     page: int

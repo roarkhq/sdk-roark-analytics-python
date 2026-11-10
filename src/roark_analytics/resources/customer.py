@@ -8,10 +8,12 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import (
-    customer_profile_list_params,
-    customer_profile_update_notes_params,
-    customer_profile_set_attribute_params,
-    customer_profile_list_conversations_params,
+    customer_list_params,
+    customer_create_field_params,
+    customer_update_field_params,
+    customer_update_notes_params,
+    customer_set_attribute_params,
+    customer_list_conversations_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
@@ -24,91 +26,56 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.customer_profile_list_response import CustomerProfileListResponse
-from ..types.customer_profile_delete_response import CustomerProfileDeleteResponse
-from ..types.customer_profile_get_by_id_response import CustomerProfileGetByIDResponse
-from ..types.customer_profile_update_notes_response import CustomerProfileUpdateNotesResponse
-from ..types.customer_profile_set_attribute_response import CustomerProfileSetAttributeResponse
-from ..types.customer_profile_clear_attribute_response import CustomerProfileClearAttributeResponse
-from ..types.customer_profile_unlock_attribute_response import CustomerProfileUnlockAttributeResponse
-from ..types.customer_profile_list_conversations_response import CustomerProfileListConversationsResponse
+from ..types.customer_list_response import CustomerListResponse
+from ..types.customer_delete_response import CustomerDeleteResponse
+from ..types.customer_get_by_id_response import CustomerGetByIDResponse
+from ..types.customer_list_fields_response import CustomerListFieldsResponse
+from ..types.customer_create_field_response import CustomerCreateFieldResponse
+from ..types.customer_delete_field_response import CustomerDeleteFieldResponse
+from ..types.customer_update_field_response import CustomerUpdateFieldResponse
+from ..types.customer_update_notes_response import CustomerUpdateNotesResponse
+from ..types.customer_set_attribute_response import CustomerSetAttributeResponse
+from ..types.customer_clear_attribute_response import CustomerClearAttributeResponse
+from ..types.customer_unlock_attribute_response import CustomerUnlockAttributeResponse
+from ..types.customer_list_conversations_response import CustomerListConversationsResponse
 
-__all__ = ["CustomerProfileResource", "AsyncCustomerProfileResource"]
+__all__ = ["CustomerResource", "AsyncCustomerResource"]
 
 
-class CustomerProfileResource(SyncAPIResource):
+class CustomerResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> CustomerProfileResourceWithRawResponse:
+    def with_raw_response(self) -> CustomerResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
         """
-        return CustomerProfileResourceWithRawResponse(self)
+        return CustomerResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> CustomerProfileResourceWithStreamingResponse:
+    def with_streaming_response(self) -> CustomerResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
-        return CustomerProfileResourceWithStreamingResponse(self)
+        return CustomerResourceWithStreamingResponse(self)
 
     def list(
         self,
         *,
         agent_id: str | Omit = omit,
-        field_key: Literal[
-            "FULL_NAME",
-            "PREFERRED_NAME",
-            "ACCOUNT_ID",
-            "COMPANY",
-            "JOB_TITLE",
-            "EMAIL",
-            "ALTERNATE_PHONE",
-            "AGE",
-            "GENDER",
-            "LANGUAGE",
-            "LOCATION",
-            "TIMEZONE",
-            "BEST_TIME_TO_REACH",
-            "PREFERRED_CHANNEL",
-        ]
-        | Omit = omit,
+        field_key: str | Omit = omit,
         field_operator: Literal["EQUALS", "NOT_EQUALS", "CONTAINS", "STARTS_WITH", "IS_SET", "IS_NOT_SET"]
         | Omit = omit,
         field_value: str | Omit = omit,
         include_no_data: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
-        modality: Literal["call", "chat"] | Omit = omit,
+        modality: Literal["voice", "chat", "call"] | Omit = omit,
         page: int | Omit = omit,
         search: str | Omit = omit,
-        sort_by: Literal[
-            "lastSeenAt",
-            "firstSeenAt",
-            "conversationCount",
-            "voiceCount",
-            "chatCount",
-            "talkTimeMs",
-            "displayName",
-            "field.FULL_NAME",
-            "field.PREFERRED_NAME",
-            "field.ACCOUNT_ID",
-            "field.COMPANY",
-            "field.JOB_TITLE",
-            "field.EMAIL",
-            "field.ALTERNATE_PHONE",
-            "field.AGE",
-            "field.GENDER",
-            "field.LANGUAGE",
-            "field.LOCATION",
-            "field.TIMEZONE",
-            "field.BEST_TIME_TO_REACH",
-            "field.PREFERRED_CHANNEL",
-        ]
-        | Omit = omit,
+        sort_by: str | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -116,7 +83,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileListResponse:
+    ) -> CustomerListResponse:
         """Returns the people who have talked to your agents in this project.
 
         Customers we
@@ -124,8 +91,8 @@ class CustomerProfileResource(SyncAPIResource):
         true.
 
         Args:
-          field_key: Filter by this field. Use with fieldOperator and, unless checking presence,
-              fieldValue.
+          field_key: Filter by this field, a key from GET /v1/customer/fields. Use with fieldOperator
+              and, unless checking presence, fieldValue.
 
           field_operator: How fieldValue is compared, ignoring case. NOT_EQUALS includes customers without
               the field.
@@ -133,8 +100,10 @@ class CustomerProfileResource(SyncAPIResource):
           include_no_data: Include customers we hold nothing about beyond their identifier. Defaults to
               false.
 
-          sort_by: A column, or field.<KEY> (for example field.COMPANY) to sort by a field's value.
-              Customers without a value sort last.
+          sort_by: lastSeenAt (the default), firstSeenAt, conversationCount, voiceCount, chatCount,
+              talkTimeMs or displayName, or field.<key> (for example field.COMPANY) to sort by
+              a field's value. Field keys come from GET /v1/customer/fields. Customers without
+              a value sort last.
 
           extra_headers: Send extra headers
 
@@ -145,7 +114,7 @@ class CustomerProfileResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
-            "/v1/customer-profile",
+            "/v1/customer",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -165,10 +134,10 @@ class CustomerProfileResource(SyncAPIResource):
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                     },
-                    customer_profile_list_params.CustomerProfileListParams,
+                    customer_list_params.CustomerListParams,
                 ),
             ),
-            cast_to=CustomerProfileListResponse,
+            cast_to=CustomerListResponse,
         )
 
     def delete(
@@ -181,11 +150,11 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileDeleteResponse:
-        """Permanently removes the profile, its fields, evidence and notes.
-
-        Conversations
-        are kept. A new conversation from the same identifier creates a new profile.
+    ) -> CustomerDeleteResponse:
+        """
+        Permanently removes the customer, with their fields, evidence and notes.
+        Conversations are kept. A new conversation from the same identifier starts a new
+        customer.
 
         Args:
           extra_headers: Send extra headers
@@ -201,11 +170,11 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._delete(
-            f"/v1/customer-profile/{customer_profile_id}",
+            f"/v1/customer/{customer_profile_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileDeleteResponse,
+            cast_to=CustomerDeleteResponse,
         )
 
     def clear_attribute(
@@ -219,7 +188,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileClearAttributeResponse:
+    ) -> CustomerClearAttributeResponse:
         """
         Removes the value and any lock, so a later conversation can fill it again.
 
@@ -239,11 +208,99 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._delete(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}",
+            f"/v1/customer/{customer_profile_id}/attributes/{key}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileClearAttributeResponse,
+            cast_to=CustomerClearAttributeResponse,
+        )
+
+    def create_field(
+        self,
+        *,
+        extract: bool,
+        key: str,
+        label: str,
+        value_type: Literal["TEXT", "NUMBER", "BOOLEAN", "DATE", "PHONE_NUMBER", "EMAIL", "CURRENCY"],
+        description: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerCreateFieldResponse:
+        """Adds a field of your project's own.
+
+        With extract on, conversations fill it from
+        what customers say, guided by its description.
+
+        Args:
+          extract: Whether conversations fill this field
+
+          key: Starts with a letter; letters, numbers and underscores only. Fixed once created.
+
+          description: What the agent listens for in a conversation. Required when extract is true.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/customer/fields",
+            body=maybe_transform(
+                {
+                    "extract": extract,
+                    "key": key,
+                    "label": label,
+                    "value_type": value_type,
+                    "description": description,
+                },
+                customer_create_field_params.CustomerCreateFieldParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerCreateFieldResponse,
+        )
+
+    def delete_field(
+        self,
+        key: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerDeleteFieldResponse:
+        """Deletes a field of your project's own.
+
+        Its values stop showing on customers. A
+        built-in field cannot be deleted; turn it off instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not key:
+            raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
+        return self._delete(
+            f"/v1/customer/fields/{key}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerDeleteFieldResponse,
         )
 
     def get_by_id(
@@ -256,9 +313,9 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileGetByIDResponse:
+    ) -> CustomerGetByIDResponse:
         """
-        Get a customer profile
+        Get a customer
 
         Args:
           extra_headers: Send extra headers
@@ -274,11 +331,11 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._get(
-            f"/v1/customer-profile/{customer_profile_id}",
+            f"/v1/customer/{customer_profile_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileGetByIDResponse,
+            cast_to=CustomerGetByIDResponse,
         )
 
     def list_conversations(
@@ -293,7 +350,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileListConversationsResponse:
+    ) -> CustomerListConversationsResponse:
         """
         Calls and chats with this customer, newest first.
 
@@ -311,7 +368,7 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._get(
-            f"/v1/customer-profile/{customer_profile_id}/conversations",
+            f"/v1/customer/{customer_profile_id}/conversations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -322,10 +379,42 @@ class CustomerProfileResource(SyncAPIResource):
                         "limit": limit,
                         "page": page,
                     },
-                    customer_profile_list_conversations_params.CustomerProfileListConversationsParams,
+                    customer_list_conversations_params.CustomerListConversationsParams,
                 ),
             ),
-            cast_to=CustomerProfileListConversationsResponse,
+            cast_to=CustomerListConversationsResponse,
+        )
+
+    def list_fields(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerListFieldsResponse:
+        """The fields this project's customers can hold, in display order.
+
+        Use a field's
+        key to filter, sort and set attributes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/customer/fields",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerListFieldsResponse,
         )
 
     def set_attribute(
@@ -340,7 +429,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileSetAttributeResponse:
+    ) -> CustomerSetAttributeResponse:
         """
         Sets the value and locks the field, so newer conversations cannot change it.
 
@@ -363,14 +452,12 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._put(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}",
-            body=maybe_transform(
-                {"value": value}, customer_profile_set_attribute_params.CustomerProfileSetAttributeParams
-            ),
+            f"/v1/customer/{customer_profile_id}/attributes/{key}",
+            body=maybe_transform({"value": value}, customer_set_attribute_params.CustomerSetAttributeParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileSetAttributeResponse,
+            cast_to=CustomerSetAttributeResponse,
         )
 
     def unlock_attribute(
@@ -384,7 +471,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileUnlockAttributeResponse:
+    ) -> CustomerUnlockAttributeResponse:
         """Lets newer conversations change this field again.
 
         The current value stays until
@@ -406,11 +493,59 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._post(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}/unlock",
+            f"/v1/customer/{customer_profile_id}/attributes/{key}/unlock",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileUnlockAttributeResponse,
+            cast_to=CustomerUnlockAttributeResponse,
+        )
+
+    def update_field(
+        self,
+        key: str,
+        *,
+        description: Optional[str] | Omit = omit,
+        extract: bool | Omit = omit,
+        label: str | Omit = omit,
+        value_type: Literal["TEXT", "NUMBER", "BOOLEAN", "DATE", "PHONE_NUMBER", "EMAIL", "CURRENCY"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerUpdateFieldResponse:
+        """Changes a field.
+
+        A built-in field can only be turned on or off for your project;
+        any field of your project's own can change everything but its key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not key:
+            raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
+        return self._patch(
+            f"/v1/customer/fields/{key}",
+            body=maybe_transform(
+                {
+                    "description": description,
+                    "extract": extract,
+                    "label": label,
+                    "value_type": value_type,
+                },
+                customer_update_field_params.CustomerUpdateFieldParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerUpdateFieldResponse,
         )
 
     def update_notes(
@@ -424,7 +559,7 @@ class CustomerProfileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileUpdateNotesResponse:
+    ) -> CustomerUpdateNotesResponse:
         """Replaces your team's shared notes.
 
         Null or empty clears them. The last save
@@ -446,90 +581,49 @@ class CustomerProfileResource(SyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return self._put(
-            f"/v1/customer-profile/{customer_profile_id}/notes",
-            body=maybe_transform(
-                {"notes": notes}, customer_profile_update_notes_params.CustomerProfileUpdateNotesParams
-            ),
+            f"/v1/customer/{customer_profile_id}/notes",
+            body=maybe_transform({"notes": notes}, customer_update_notes_params.CustomerUpdateNotesParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileUpdateNotesResponse,
+            cast_to=CustomerUpdateNotesResponse,
         )
 
 
-class AsyncCustomerProfileResource(AsyncAPIResource):
+class AsyncCustomerResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncCustomerProfileResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncCustomerResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncCustomerProfileResourceWithRawResponse(self)
+        return AsyncCustomerResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncCustomerProfileResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncCustomerResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
-        return AsyncCustomerProfileResourceWithStreamingResponse(self)
+        return AsyncCustomerResourceWithStreamingResponse(self)
 
     async def list(
         self,
         *,
         agent_id: str | Omit = omit,
-        field_key: Literal[
-            "FULL_NAME",
-            "PREFERRED_NAME",
-            "ACCOUNT_ID",
-            "COMPANY",
-            "JOB_TITLE",
-            "EMAIL",
-            "ALTERNATE_PHONE",
-            "AGE",
-            "GENDER",
-            "LANGUAGE",
-            "LOCATION",
-            "TIMEZONE",
-            "BEST_TIME_TO_REACH",
-            "PREFERRED_CHANNEL",
-        ]
-        | Omit = omit,
+        field_key: str | Omit = omit,
         field_operator: Literal["EQUALS", "NOT_EQUALS", "CONTAINS", "STARTS_WITH", "IS_SET", "IS_NOT_SET"]
         | Omit = omit,
         field_value: str | Omit = omit,
         include_no_data: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
-        modality: Literal["call", "chat"] | Omit = omit,
+        modality: Literal["voice", "chat", "call"] | Omit = omit,
         page: int | Omit = omit,
         search: str | Omit = omit,
-        sort_by: Literal[
-            "lastSeenAt",
-            "firstSeenAt",
-            "conversationCount",
-            "voiceCount",
-            "chatCount",
-            "talkTimeMs",
-            "displayName",
-            "field.FULL_NAME",
-            "field.PREFERRED_NAME",
-            "field.ACCOUNT_ID",
-            "field.COMPANY",
-            "field.JOB_TITLE",
-            "field.EMAIL",
-            "field.ALTERNATE_PHONE",
-            "field.AGE",
-            "field.GENDER",
-            "field.LANGUAGE",
-            "field.LOCATION",
-            "field.TIMEZONE",
-            "field.BEST_TIME_TO_REACH",
-            "field.PREFERRED_CHANNEL",
-        ]
-        | Omit = omit,
+        sort_by: str | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -537,7 +631,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileListResponse:
+    ) -> CustomerListResponse:
         """Returns the people who have talked to your agents in this project.
 
         Customers we
@@ -545,8 +639,8 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         true.
 
         Args:
-          field_key: Filter by this field. Use with fieldOperator and, unless checking presence,
-              fieldValue.
+          field_key: Filter by this field, a key from GET /v1/customer/fields. Use with fieldOperator
+              and, unless checking presence, fieldValue.
 
           field_operator: How fieldValue is compared, ignoring case. NOT_EQUALS includes customers without
               the field.
@@ -554,8 +648,10 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
           include_no_data: Include customers we hold nothing about beyond their identifier. Defaults to
               false.
 
-          sort_by: A column, or field.<KEY> (for example field.COMPANY) to sort by a field's value.
-              Customers without a value sort last.
+          sort_by: lastSeenAt (the default), firstSeenAt, conversationCount, voiceCount, chatCount,
+              talkTimeMs or displayName, or field.<key> (for example field.COMPANY) to sort by
+              a field's value. Field keys come from GET /v1/customer/fields. Customers without
+              a value sort last.
 
           extra_headers: Send extra headers
 
@@ -566,7 +662,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
-            "/v1/customer-profile",
+            "/v1/customer",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -586,10 +682,10 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                     },
-                    customer_profile_list_params.CustomerProfileListParams,
+                    customer_list_params.CustomerListParams,
                 ),
             ),
-            cast_to=CustomerProfileListResponse,
+            cast_to=CustomerListResponse,
         )
 
     async def delete(
@@ -602,11 +698,11 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileDeleteResponse:
-        """Permanently removes the profile, its fields, evidence and notes.
-
-        Conversations
-        are kept. A new conversation from the same identifier creates a new profile.
+    ) -> CustomerDeleteResponse:
+        """
+        Permanently removes the customer, with their fields, evidence and notes.
+        Conversations are kept. A new conversation from the same identifier starts a new
+        customer.
 
         Args:
           extra_headers: Send extra headers
@@ -622,11 +718,11 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._delete(
-            f"/v1/customer-profile/{customer_profile_id}",
+            f"/v1/customer/{customer_profile_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileDeleteResponse,
+            cast_to=CustomerDeleteResponse,
         )
 
     async def clear_attribute(
@@ -640,7 +736,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileClearAttributeResponse:
+    ) -> CustomerClearAttributeResponse:
         """
         Removes the value and any lock, so a later conversation can fill it again.
 
@@ -660,11 +756,99 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._delete(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}",
+            f"/v1/customer/{customer_profile_id}/attributes/{key}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileClearAttributeResponse,
+            cast_to=CustomerClearAttributeResponse,
+        )
+
+    async def create_field(
+        self,
+        *,
+        extract: bool,
+        key: str,
+        label: str,
+        value_type: Literal["TEXT", "NUMBER", "BOOLEAN", "DATE", "PHONE_NUMBER", "EMAIL", "CURRENCY"],
+        description: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerCreateFieldResponse:
+        """Adds a field of your project's own.
+
+        With extract on, conversations fill it from
+        what customers say, guided by its description.
+
+        Args:
+          extract: Whether conversations fill this field
+
+          key: Starts with a letter; letters, numbers and underscores only. Fixed once created.
+
+          description: What the agent listens for in a conversation. Required when extract is true.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/customer/fields",
+            body=await async_maybe_transform(
+                {
+                    "extract": extract,
+                    "key": key,
+                    "label": label,
+                    "value_type": value_type,
+                    "description": description,
+                },
+                customer_create_field_params.CustomerCreateFieldParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerCreateFieldResponse,
+        )
+
+    async def delete_field(
+        self,
+        key: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerDeleteFieldResponse:
+        """Deletes a field of your project's own.
+
+        Its values stop showing on customers. A
+        built-in field cannot be deleted; turn it off instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not key:
+            raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
+        return await self._delete(
+            f"/v1/customer/fields/{key}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerDeleteFieldResponse,
         )
 
     async def get_by_id(
@@ -677,9 +861,9 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileGetByIDResponse:
+    ) -> CustomerGetByIDResponse:
         """
-        Get a customer profile
+        Get a customer
 
         Args:
           extra_headers: Send extra headers
@@ -695,11 +879,11 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._get(
-            f"/v1/customer-profile/{customer_profile_id}",
+            f"/v1/customer/{customer_profile_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileGetByIDResponse,
+            cast_to=CustomerGetByIDResponse,
         )
 
     async def list_conversations(
@@ -714,7 +898,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileListConversationsResponse:
+    ) -> CustomerListConversationsResponse:
         """
         Calls and chats with this customer, newest first.
 
@@ -732,7 +916,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._get(
-            f"/v1/customer-profile/{customer_profile_id}/conversations",
+            f"/v1/customer/{customer_profile_id}/conversations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -743,10 +927,42 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                         "limit": limit,
                         "page": page,
                     },
-                    customer_profile_list_conversations_params.CustomerProfileListConversationsParams,
+                    customer_list_conversations_params.CustomerListConversationsParams,
                 ),
             ),
-            cast_to=CustomerProfileListConversationsResponse,
+            cast_to=CustomerListConversationsResponse,
+        )
+
+    async def list_fields(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerListFieldsResponse:
+        """The fields this project's customers can hold, in display order.
+
+        Use a field's
+        key to filter, sort and set attributes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/customer/fields",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerListFieldsResponse,
         )
 
     async def set_attribute(
@@ -761,7 +977,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileSetAttributeResponse:
+    ) -> CustomerSetAttributeResponse:
         """
         Sets the value and locks the field, so newer conversations cannot change it.
 
@@ -784,14 +1000,14 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._put(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}",
+            f"/v1/customer/{customer_profile_id}/attributes/{key}",
             body=await async_maybe_transform(
-                {"value": value}, customer_profile_set_attribute_params.CustomerProfileSetAttributeParams
+                {"value": value}, customer_set_attribute_params.CustomerSetAttributeParams
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileSetAttributeResponse,
+            cast_to=CustomerSetAttributeResponse,
         )
 
     async def unlock_attribute(
@@ -805,7 +1021,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileUnlockAttributeResponse:
+    ) -> CustomerUnlockAttributeResponse:
         """Lets newer conversations change this field again.
 
         The current value stays until
@@ -827,11 +1043,59 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._post(
-            f"/v1/customer-profile/{customer_profile_id}/attributes/{key}/unlock",
+            f"/v1/customer/{customer_profile_id}/attributes/{key}/unlock",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileUnlockAttributeResponse,
+            cast_to=CustomerUnlockAttributeResponse,
+        )
+
+    async def update_field(
+        self,
+        key: str,
+        *,
+        description: Optional[str] | Omit = omit,
+        extract: bool | Omit = omit,
+        label: str | Omit = omit,
+        value_type: Literal["TEXT", "NUMBER", "BOOLEAN", "DATE", "PHONE_NUMBER", "EMAIL", "CURRENCY"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CustomerUpdateFieldResponse:
+        """Changes a field.
+
+        A built-in field can only be turned on or off for your project;
+        any field of your project's own can change everything but its key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not key:
+            raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
+        return await self._patch(
+            f"/v1/customer/fields/{key}",
+            body=await async_maybe_transform(
+                {
+                    "description": description,
+                    "extract": extract,
+                    "label": label,
+                    "value_type": value_type,
+                },
+                customer_update_field_params.CustomerUpdateFieldParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CustomerUpdateFieldResponse,
         )
 
     async def update_notes(
@@ -845,7 +1109,7 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerProfileUpdateNotesResponse:
+    ) -> CustomerUpdateNotesResponse:
         """Replaces your team's shared notes.
 
         Null or empty clears them. The last save
@@ -867,132 +1131,178 @@ class AsyncCustomerProfileResource(AsyncAPIResource):
                 f"Expected a non-empty value for `customer_profile_id` but received {customer_profile_id!r}"
             )
         return await self._put(
-            f"/v1/customer-profile/{customer_profile_id}/notes",
-            body=await async_maybe_transform(
-                {"notes": notes}, customer_profile_update_notes_params.CustomerProfileUpdateNotesParams
-            ),
+            f"/v1/customer/{customer_profile_id}/notes",
+            body=await async_maybe_transform({"notes": notes}, customer_update_notes_params.CustomerUpdateNotesParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomerProfileUpdateNotesResponse,
+            cast_to=CustomerUpdateNotesResponse,
         )
 
 
-class CustomerProfileResourceWithRawResponse:
-    def __init__(self, customer_profile: CustomerProfileResource) -> None:
-        self._customer_profile = customer_profile
+class CustomerResourceWithRawResponse:
+    def __init__(self, customer: CustomerResource) -> None:
+        self._customer = customer
 
         self.list = to_raw_response_wrapper(
-            customer_profile.list,
+            customer.list,
         )
         self.delete = to_raw_response_wrapper(
-            customer_profile.delete,
+            customer.delete,
         )
         self.clear_attribute = to_raw_response_wrapper(
-            customer_profile.clear_attribute,
+            customer.clear_attribute,
+        )
+        self.create_field = to_raw_response_wrapper(
+            customer.create_field,
+        )
+        self.delete_field = to_raw_response_wrapper(
+            customer.delete_field,
         )
         self.get_by_id = to_raw_response_wrapper(
-            customer_profile.get_by_id,
+            customer.get_by_id,
         )
         self.list_conversations = to_raw_response_wrapper(
-            customer_profile.list_conversations,
+            customer.list_conversations,
+        )
+        self.list_fields = to_raw_response_wrapper(
+            customer.list_fields,
         )
         self.set_attribute = to_raw_response_wrapper(
-            customer_profile.set_attribute,
+            customer.set_attribute,
         )
         self.unlock_attribute = to_raw_response_wrapper(
-            customer_profile.unlock_attribute,
+            customer.unlock_attribute,
+        )
+        self.update_field = to_raw_response_wrapper(
+            customer.update_field,
         )
         self.update_notes = to_raw_response_wrapper(
-            customer_profile.update_notes,
+            customer.update_notes,
         )
 
 
-class AsyncCustomerProfileResourceWithRawResponse:
-    def __init__(self, customer_profile: AsyncCustomerProfileResource) -> None:
-        self._customer_profile = customer_profile
+class AsyncCustomerResourceWithRawResponse:
+    def __init__(self, customer: AsyncCustomerResource) -> None:
+        self._customer = customer
 
         self.list = async_to_raw_response_wrapper(
-            customer_profile.list,
+            customer.list,
         )
         self.delete = async_to_raw_response_wrapper(
-            customer_profile.delete,
+            customer.delete,
         )
         self.clear_attribute = async_to_raw_response_wrapper(
-            customer_profile.clear_attribute,
+            customer.clear_attribute,
+        )
+        self.create_field = async_to_raw_response_wrapper(
+            customer.create_field,
+        )
+        self.delete_field = async_to_raw_response_wrapper(
+            customer.delete_field,
         )
         self.get_by_id = async_to_raw_response_wrapper(
-            customer_profile.get_by_id,
+            customer.get_by_id,
         )
         self.list_conversations = async_to_raw_response_wrapper(
-            customer_profile.list_conversations,
+            customer.list_conversations,
+        )
+        self.list_fields = async_to_raw_response_wrapper(
+            customer.list_fields,
         )
         self.set_attribute = async_to_raw_response_wrapper(
-            customer_profile.set_attribute,
+            customer.set_attribute,
         )
         self.unlock_attribute = async_to_raw_response_wrapper(
-            customer_profile.unlock_attribute,
+            customer.unlock_attribute,
+        )
+        self.update_field = async_to_raw_response_wrapper(
+            customer.update_field,
         )
         self.update_notes = async_to_raw_response_wrapper(
-            customer_profile.update_notes,
+            customer.update_notes,
         )
 
 
-class CustomerProfileResourceWithStreamingResponse:
-    def __init__(self, customer_profile: CustomerProfileResource) -> None:
-        self._customer_profile = customer_profile
+class CustomerResourceWithStreamingResponse:
+    def __init__(self, customer: CustomerResource) -> None:
+        self._customer = customer
 
         self.list = to_streamed_response_wrapper(
-            customer_profile.list,
+            customer.list,
         )
         self.delete = to_streamed_response_wrapper(
-            customer_profile.delete,
+            customer.delete,
         )
         self.clear_attribute = to_streamed_response_wrapper(
-            customer_profile.clear_attribute,
+            customer.clear_attribute,
+        )
+        self.create_field = to_streamed_response_wrapper(
+            customer.create_field,
+        )
+        self.delete_field = to_streamed_response_wrapper(
+            customer.delete_field,
         )
         self.get_by_id = to_streamed_response_wrapper(
-            customer_profile.get_by_id,
+            customer.get_by_id,
         )
         self.list_conversations = to_streamed_response_wrapper(
-            customer_profile.list_conversations,
+            customer.list_conversations,
+        )
+        self.list_fields = to_streamed_response_wrapper(
+            customer.list_fields,
         )
         self.set_attribute = to_streamed_response_wrapper(
-            customer_profile.set_attribute,
+            customer.set_attribute,
         )
         self.unlock_attribute = to_streamed_response_wrapper(
-            customer_profile.unlock_attribute,
+            customer.unlock_attribute,
+        )
+        self.update_field = to_streamed_response_wrapper(
+            customer.update_field,
         )
         self.update_notes = to_streamed_response_wrapper(
-            customer_profile.update_notes,
+            customer.update_notes,
         )
 
 
-class AsyncCustomerProfileResourceWithStreamingResponse:
-    def __init__(self, customer_profile: AsyncCustomerProfileResource) -> None:
-        self._customer_profile = customer_profile
+class AsyncCustomerResourceWithStreamingResponse:
+    def __init__(self, customer: AsyncCustomerResource) -> None:
+        self._customer = customer
 
         self.list = async_to_streamed_response_wrapper(
-            customer_profile.list,
+            customer.list,
         )
         self.delete = async_to_streamed_response_wrapper(
-            customer_profile.delete,
+            customer.delete,
         )
         self.clear_attribute = async_to_streamed_response_wrapper(
-            customer_profile.clear_attribute,
+            customer.clear_attribute,
+        )
+        self.create_field = async_to_streamed_response_wrapper(
+            customer.create_field,
+        )
+        self.delete_field = async_to_streamed_response_wrapper(
+            customer.delete_field,
         )
         self.get_by_id = async_to_streamed_response_wrapper(
-            customer_profile.get_by_id,
+            customer.get_by_id,
         )
         self.list_conversations = async_to_streamed_response_wrapper(
-            customer_profile.list_conversations,
+            customer.list_conversations,
+        )
+        self.list_fields = async_to_streamed_response_wrapper(
+            customer.list_fields,
         )
         self.set_attribute = async_to_streamed_response_wrapper(
-            customer_profile.set_attribute,
+            customer.set_attribute,
         )
         self.unlock_attribute = async_to_streamed_response_wrapper(
-            customer_profile.unlock_attribute,
+            customer.unlock_attribute,
+        )
+        self.update_field = async_to_streamed_response_wrapper(
+            customer.update_field,
         )
         self.update_notes = async_to_streamed_response_wrapper(
-            customer_profile.update_notes,
+            customer.update_notes,
         )
