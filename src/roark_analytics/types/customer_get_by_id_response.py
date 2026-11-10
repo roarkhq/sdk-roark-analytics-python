@@ -7,17 +7,10 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = [
-    "CustomerProfileListResponse",
-    "Data",
-    "DataItem",
-    "DataItemAttribute",
-    "DataItemAttributeEvidence",
-    "DataItemAttributeHistory",
-]
+__all__ = ["CustomerGetByIDResponse", "Data", "DataAttribute", "DataAttributeEvidence", "DataAttributeHistory"]
 
 
-class DataItemAttributeEvidence(BaseModel):
+class DataAttributeEvidence(BaseModel):
     """
     The moment the current value was heard. Null for a value set by a person or the
     API.
@@ -40,7 +33,7 @@ class DataItemAttributeEvidence(BaseModel):
     value: str
 
 
-class DataItemAttributeHistory(BaseModel):
+class DataAttributeHistory(BaseModel):
     call_id: Optional[str] = FieldInfo(alias="callId")
 
     chat_id: Optional[str] = FieldInfo(alias="chatId")
@@ -58,38 +51,29 @@ class DataItemAttributeHistory(BaseModel):
     value: str
 
 
-class DataItemAttribute(BaseModel):
+class DataAttribute(BaseModel):
     blocked_value: Optional[str] = FieldInfo(alias="blockedValue")
     """What a newer conversation said while this field was locked"""
 
-    evidence: Optional[DataItemAttributeEvidence]
+    evidence: Optional[DataAttributeEvidence]
     """
     The moment the current value was heard. Null for a value set by a person or the
     API.
     """
 
-    history: List[DataItemAttributeHistory]
+    history: List[DataAttributeHistory]
     """Other values this field has held or been offered, newest first"""
+
+    is_inferred: bool = FieldInfo(alias="isInferred")
+    """
+    True when the value was inferred from the conversation, such as a gender read
+    from a name, rather than stated. A stated value always replaces it.
+    """
 
     is_locked: bool = FieldInfo(alias="isLocked")
     """True when newer conversations cannot change this field"""
 
-    key: Literal[
-        "FULL_NAME",
-        "PREFERRED_NAME",
-        "ACCOUNT_ID",
-        "COMPANY",
-        "JOB_TITLE",
-        "EMAIL",
-        "ALTERNATE_PHONE",
-        "AGE",
-        "GENDER",
-        "LANGUAGE",
-        "LOCATION",
-        "TIMEZONE",
-        "BEST_TIME_TO_REACH",
-        "PREFERRED_CHANNEL",
-    ]
+    key: str
 
     observed_at: str = FieldInfo(alias="observedAt")
 
@@ -102,13 +86,13 @@ class DataItemAttribute(BaseModel):
     value: str
 
 
-class DataItem(BaseModel):
+class Data(BaseModel):
     id: str
-    """Unique identifier of the customer profile"""
+    """Unique identifier of the customer"""
 
     agent_ids: List[str] = FieldInfo(alias="agentIds")
 
-    attributes: List[DataItemAttribute]
+    attributes: List[DataAttribute]
 
     chat_count: int = FieldInfo(alias="chatCount")
 
@@ -138,13 +122,5 @@ class DataItem(BaseModel):
     voice_count: int = FieldInfo(alias="voiceCount")
 
 
-class Data(BaseModel):
-    items: List[DataItem]
-
-    page: int
-
-    total_count: int = FieldInfo(alias="totalCount")
-
-
-class CustomerProfileListResponse(BaseModel):
+class CustomerGetByIDResponse(BaseModel):
     data: Data

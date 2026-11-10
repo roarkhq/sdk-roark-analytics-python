@@ -7,13 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = [
-    "CustomerProfileUpdateNotesResponse",
-    "Data",
-    "DataAttribute",
-    "DataAttributeEvidence",
-    "DataAttributeHistory",
-]
+__all__ = ["CustomerClearAttributeResponse", "Data", "DataAttribute", "DataAttributeEvidence", "DataAttributeHistory"]
 
 
 class DataAttributeEvidence(BaseModel):
@@ -70,25 +64,16 @@ class DataAttribute(BaseModel):
     history: List[DataAttributeHistory]
     """Other values this field has held or been offered, newest first"""
 
+    is_inferred: bool = FieldInfo(alias="isInferred")
+    """
+    True when the value was inferred from the conversation, such as a gender read
+    from a name, rather than stated. A stated value always replaces it.
+    """
+
     is_locked: bool = FieldInfo(alias="isLocked")
     """True when newer conversations cannot change this field"""
 
-    key: Literal[
-        "FULL_NAME",
-        "PREFERRED_NAME",
-        "ACCOUNT_ID",
-        "COMPANY",
-        "JOB_TITLE",
-        "EMAIL",
-        "ALTERNATE_PHONE",
-        "AGE",
-        "GENDER",
-        "LANGUAGE",
-        "LOCATION",
-        "TIMEZONE",
-        "BEST_TIME_TO_REACH",
-        "PREFERRED_CHANNEL",
-    ]
+    key: str
 
     observed_at: str = FieldInfo(alias="observedAt")
 
@@ -103,7 +88,7 @@ class DataAttribute(BaseModel):
 
 class Data(BaseModel):
     id: str
-    """Unique identifier of the customer profile"""
+    """Unique identifier of the customer"""
 
     agent_ids: List[str] = FieldInfo(alias="agentIds")
 
@@ -137,5 +122,5 @@ class Data(BaseModel):
     voice_count: int = FieldInfo(alias="voiceCount")
 
 
-class CustomerProfileUpdateNotesResponse(BaseModel):
+class CustomerClearAttributeResponse(BaseModel):
     data: Data

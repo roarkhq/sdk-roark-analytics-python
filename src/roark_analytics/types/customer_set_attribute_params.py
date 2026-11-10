@@ -6,8 +6,14 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["CustomerProfileClearAttributeParams"]
+__all__ = ["CustomerSetAttributeParams"]
 
 
-class CustomerProfileClearAttributeParams(TypedDict, total=False):
+class CustomerSetAttributeParams(TypedDict, total=False):
     customer_profile_id: Required[Annotated[str, PropertyInfo(alias="customerProfileId")]]
+
+    value: Required[str]
+    """
+    The new value. Setting a field locks it, so newer conversations cannot change
+    it.
+    """

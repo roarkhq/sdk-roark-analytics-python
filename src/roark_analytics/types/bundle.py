@@ -131,6 +131,8 @@ class AgentConfig(BaseModel):
 
     llm: Optional[AgentConfigLlm] = None
 
+    modalities: Optional[List[Literal["voice", "chat", "call"]]] = None
+
     prompt: Optional[str] = None
 
     provider: Optional[
@@ -446,7 +448,7 @@ class CollectorConfig(BaseModel):
 
     metrics: List[Union[str, CollectorMetricConfig]]
 
-    modality: Literal["call", "chat"]
+    modality: Literal["voice", "chat", "call"]
 
     name: str
 

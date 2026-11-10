@@ -281,8 +281,8 @@ class Data(BaseModel):
     language: Optional[str]
     """ISO 639-1, e.g. en."""
 
-    modalities: List[Literal["call", "chat"]]
-    """Whether the agent takes calls, chats, or both."""
+    modalities: List[Literal["voice", "chat"]]
+    """Whether the agent talks by voice, in chats, or both: `voice`, `chat`."""
 
     published_at: Optional[str] = FieldInfo(alias="publishedAt")
     """ISO 8601."""

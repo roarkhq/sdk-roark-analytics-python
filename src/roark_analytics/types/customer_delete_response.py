@@ -2,12 +2,12 @@
 
 from .._models import BaseModel
 
-__all__ = ["CustomerProfileDeleteResponse", "Data"]
+__all__ = ["CustomerDeleteResponse", "Data"]
 
 
 class Data(BaseModel):
     success: bool
 
 
-class CustomerProfileDeleteResponse(BaseModel):
+class CustomerDeleteResponse(BaseModel):
     data: Data

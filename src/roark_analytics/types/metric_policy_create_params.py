@@ -114,10 +114,11 @@ class MetricPolicyCreateParams(TypedDict, total=False):
     setting
     """
 
-    modality: Required[Literal["call", "chat"]]
+    modality: Required[Literal["voice", "chat", "call"]]
     """
-    Modality this policy targets. A policy fires for exactly one modality and can
-    only reference metrics that support that modality.
+    Modality this policy targets: `voice` or `chat` (`call` is still accepted for
+    `voice`). A policy fires for exactly one modality and can only reference metrics
+    that support that modality.
     """
 
     name: Required[str]
