@@ -388,7 +388,9 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         self._custom_headers = custom_headers or {}
         self._custom_query = custom_query or {}
         self._strict_response_validation = _strict_response_validation
-        self._idempotency_header = None
+        # Every non-GET request carries one key, kept across its retries, so a POST retried after a
+        # timeout or 5xx is answered from the first attempt instead of starting the work again.
+        self._idempotency_header = "Idempotency-Key"
         self._platform: Platform | None = None
 
         if max_retries is None:  # pyright: ignore[reportUnnecessaryComparison]
