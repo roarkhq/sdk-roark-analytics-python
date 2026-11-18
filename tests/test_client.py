@@ -1006,6 +1006,50 @@ class TestRoark:
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
+    @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_retried_post_sends_same_idempotency_key(self, client: Roark, respx_mock: MockRouter) -> None:
+        client = client.with_options(max_retries=4)
+        keys: list[str | None] = []
+
+        def retry_handler(request: httpx.Request) -> httpx.Response:
+            keys.append(request.headers.get("Idempotency-Key"))
+            return httpx.Response(503) if len(keys) <= 2 else httpx.Response(200, json={})
+
+        respx_mock.post("/v1/webhook").mock(side_effect=retry_handler)
+
+        client.webhook.with_raw_response.create(events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com")
+        assert len(keys) == 3
+        assert keys[0]
+        assert len(set(keys)) == 1
+
+        client.webhook.with_raw_response.create(events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com")
+        assert keys[3]
+        assert keys[3] != keys[0]
+
+    @pytest.mark.respx(base_url=base_url)
+    def test_caller_idempotency_key_header_wins(self, client: Roark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/webhook").mock(return_value=httpx.Response(200, json={}))
+
+        response = client.webhook.with_raw_response.create(
+            events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com", extra_headers={"Idempotency-Key": "my-key"}
+        )
+        assert response.http_request.headers.get("Idempotency-Key") == "my-key"
+
+    @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_get_sends_no_idempotency_key(self, client: Roark, respx_mock: MockRouter) -> None:
+        keys: list[str | None] = []
+
+        def retry_handler(request: httpx.Request) -> httpx.Response:
+            keys.append(request.headers.get("Idempotency-Key"))
+            return httpx.Response(503) if len(keys) == 1 else httpx.Response(200, json={"foo": "bar"})
+
+        respx_mock.get("/foo").mock(side_effect=retry_handler)
+
+        client.get("/foo", cast_to=httpx.Response)
+        assert keys == [None, None]
+
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
@@ -2011,6 +2055,52 @@ class TestAsyncRoark:
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+
+    @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    async def test_retried_post_sends_same_idempotency_key(
+        self, async_client: AsyncRoark, respx_mock: MockRouter
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+        keys: list[str | None] = []
+
+        def retry_handler(request: httpx.Request) -> httpx.Response:
+            keys.append(request.headers.get("Idempotency-Key"))
+            return httpx.Response(503) if len(keys) <= 2 else httpx.Response(200, json={})
+
+        respx_mock.post("/v1/webhook").mock(side_effect=retry_handler)
+
+        await client.webhook.with_raw_response.create(events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com")
+        assert len(keys) == 3
+        assert keys[0]
+        assert len(set(keys)) == 1
+
+        await client.webhook.with_raw_response.create(events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com")
+        assert keys[3]
+        assert keys[3] != keys[0]
+
+    @pytest.mark.respx(base_url=base_url)
+    async def test_caller_idempotency_key_header_wins(self, async_client: AsyncRoark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/webhook").mock(return_value=httpx.Response(200, json={}))
+
+        response = await async_client.webhook.with_raw_response.create(
+            events=["CALL_ANALYSIS_COMPLETED"], url="https://example.com", extra_headers={"Idempotency-Key": "my-key"}
+        )
+        assert response.http_request.headers.get("Idempotency-Key") == "my-key"
+
+    @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    async def test_get_sends_no_idempotency_key(self, async_client: AsyncRoark, respx_mock: MockRouter) -> None:
+        keys: list[str | None] = []
+
+        def retry_handler(request: httpx.Request) -> httpx.Response:
+            keys.append(request.headers.get("Idempotency-Key"))
+            return httpx.Response(503) if len(keys) == 1 else httpx.Response(200, json={"foo": "bar"})
+
+        respx_mock.get("/foo").mock(side_effect=retry_handler)
+
+        await async_client.get("/foo", cast_to=httpx.Response)
+        assert keys == [None, None]
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("roark_analytics._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
