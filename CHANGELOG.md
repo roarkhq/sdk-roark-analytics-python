@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.8.1](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v9.8.0...v9.8.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* **client:** send an Idempotency-Key so retried requests are not repeated ([#727](https://github.com/roarkhq/sdk-roark-analytics-python/issues/727)) ([24b3770](https://github.com/roarkhq/sdk-roark-analytics-python/commit/24b37704e8d30afe0e85936a4366c193dbf27a08))
+
 ## [9.8.0](https://github.com/roarkhq/sdk-roark-analytics-python/compare/v9.7.0...v9.8.0) (2026-11-08)
 
 
