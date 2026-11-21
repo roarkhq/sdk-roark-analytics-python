@@ -18,6 +18,13 @@ class CalendarConnectionUpdateParams(TypedDict, total=False):
     recovers from INVALID_CREDENTIALS.
     """
 
+    go_high_level_location: Annotated[Optional[str], PropertyInfo(alias="goHighLevelLocation")]
+    """
+    Only with `apiKey`, and only for GO_HIGH_LEVEL: the sub-account the rotated
+    token belongs to. Required there because the token and the sub-account are one
+    credential, so a rotation has to name both.
+    """
+
     label: Optional[str]
     """Rename the connection."""
 

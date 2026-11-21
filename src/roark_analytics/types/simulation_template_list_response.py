@@ -99,6 +99,7 @@ class DataSweep(BaseModel):
         "INTENT_CLARITY",
         "LANGUAGE",
         "INTERRUPTION",
+        "LINE_QUALITY",
         "MEMORY_RELIABILITY",
         "RESPONSE_TIMING",
         "SPEECH_CLARITY",

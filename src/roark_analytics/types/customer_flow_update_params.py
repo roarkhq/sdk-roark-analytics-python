@@ -63,6 +63,12 @@ class CustomerFlowUpdateParams(TypedDict, total=False):
 
     description: Optional[str]
 
+    folder_id: Annotated[Optional[str], PropertyInfo(alias="folderId")]
+    """
+    Moves the flow into this folder. Null takes it out of its folder; omit to leave
+    it where it is.
+    """
+
     off_script_policy: Annotated[Optional[OffScriptPolicy], PropertyInfo(alias="offScriptPolicy")]
 
     script_adherence: Annotated[Literal["LOOSE", "STRICT"], PropertyInfo(alias="scriptAdherence")]

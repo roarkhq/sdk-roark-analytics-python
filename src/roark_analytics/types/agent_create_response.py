@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -21,6 +22,28 @@ class Data(BaseModel):
 
     description: Optional[str]
     """Description of the agent"""
+
+    industry: Optional[
+        Literal[
+            "HEALTHCARE",
+            "FINANCIAL_SERVICES",
+            "INSURANCE",
+            "DEBT_COLLECTION",
+            "RETAIL",
+            "TRAVEL_AND_HOSPITALITY",
+            "TELECOMMUNICATIONS",
+            "TECHNOLOGY",
+            "PUBLIC_SECTOR",
+            "UTILITIES",
+            "LOGISTICS",
+            "AUTOMOTIVE",
+            "HOME_SERVICES",
+            "RESTAURANTS",
+            "EDUCATION",
+            "OTHER",
+        ]
+    ]
+    """The industry the agent serves"""
 
     name: str
     """Name of the agent"""

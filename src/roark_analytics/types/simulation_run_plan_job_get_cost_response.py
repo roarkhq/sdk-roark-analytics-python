@@ -31,6 +31,11 @@ class DataBreakdown(BaseModel):
         "INTERNAL_LLM",
         "INTERNAL_STT",
         "PHONE_NUMBER",
+        "AI_AGENT",
+        "HOSTED_AGENT_LLM",
+        "HOSTED_AGENT_TTS",
+        "HOSTED_AGENT_STT",
+        "HOSTED_AGENT_TELEPHONY",
     ]
     """The cost source, e.g. SIM_PLATFORM_FEE, SIM_LLM, METRIC."""
 

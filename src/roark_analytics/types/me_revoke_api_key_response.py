@@ -8,14 +8,14 @@ __all__ = ["MeRevokeAPIKeyResponse", "Data"]
 
 
 class Data(BaseModel):
-    """Result of revoking one of your credentials"""
+    """Result of revoking one of your personal API keys"""
 
     id: str
 
     deleted: Literal[True]
-    """Always true when the credential was revoked"""
+    """Always true when the key was revoked"""
 
 
 class MeRevokeAPIKeyResponse(BaseModel):
     data: Data
-    """Result of revoking one of your credentials"""
+    """Result of revoking one of your personal API keys"""

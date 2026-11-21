@@ -48,3 +48,10 @@ class CustomerFlowEdgeCaseAddParams(TypedDict, total=False):
     ]
 
     prompt: Optional[str]
+    """
+    The brief the simulated customer improvises from. Caller cues steer the caller
+    from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+    code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+    when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+    customer flows concept.
+    """

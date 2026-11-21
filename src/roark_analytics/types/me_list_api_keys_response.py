@@ -11,7 +11,7 @@ __all__ = ["MeListAPIKeysResponse", "Data", "DataAPIKey"]
 
 
 class DataAPIKey(BaseModel):
-    """A credential that acts as the caller"""
+    """A personal API key: a credential that acts as you"""
 
     id: str
     """Roark ID of the credential. Pass it to DELETE to revoke."""
@@ -47,11 +47,11 @@ class DataAPIKey(BaseModel):
 
 
 class Data(BaseModel):
-    """The credentials that act as the caller"""
+    """Your personal API keys"""
 
     api_keys: List[DataAPIKey] = FieldInfo(alias="apiKeys")
 
 
 class MeListAPIKeysResponse(BaseModel):
     data: Data
-    """The credentials that act as the caller"""
+    """Your personal API keys"""

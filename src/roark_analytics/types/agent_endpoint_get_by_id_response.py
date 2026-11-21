@@ -34,7 +34,9 @@ class Data(BaseModel):
     outbound_dial_type: Literal["NONE", "HTTP_REQUEST"] = FieldInfo(alias="outboundDialType")
     """Outbound dial type (NONE or HTTP_REQUEST)"""
 
-    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
+    type: Literal[
+        "PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY", "ROARK_WEBRTC"
+    ]
     """Agent endpoint type (PHONE, WEBSOCKET, LIVEKIT, SMALL_WEBRTC, or ELEVENLABS_WS)"""
 
     updated_at: str = FieldInfo(alias="updatedAt")

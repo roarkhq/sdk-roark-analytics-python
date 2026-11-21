@@ -135,7 +135,10 @@ class MetricVariantResource(SyncAPIResource):
               where your agent never spoke (custom metrics only, not ones that judge the
               audio). Such calls skip every other metric. Default false.
 
-          llm_prompt: The rubric this variant applies. LLM judge metrics only.
+          llm_prompt: The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+              must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
 
@@ -409,7 +412,10 @@ class AsyncMetricVariantResource(AsyncAPIResource):
               where your agent never spoke (custom metrics only, not ones that judge the
               audio). Such calls skip every other metric. Default false.
 
-          llm_prompt: The rubric this variant applies. LLM judge metrics only.
+          llm_prompt: The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+              must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
 

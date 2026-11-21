@@ -94,17 +94,36 @@ class AgentConfigEndpoint(TypedDict, total=False):
 class AgentConfigLlm(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
 
 
 class AgentConfigStt(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+    provider: Required[
+        Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
+    ]
 
 
 class AgentConfigTt(TypedDict, total=False):
-    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+    provider: Required[
+        Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
+    ]
 
     voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]
 
@@ -129,6 +148,8 @@ class AgentConfig(TypedDict, total=False):
     job_description: Annotated[str, PropertyInfo(alias="jobDescription")]
 
     llm: AgentConfigLlm
+
+    modalities: List[Literal["voice", "chat", "call"]]
 
     prompt: Optional[str]
 
@@ -446,7 +467,7 @@ class CollectorConfig(TypedDict, total=False):
 
     metrics: Required[List[Union[str, CollectorMetricConfig]]]
 
-    modality: Required[Literal["call", "chat"]]
+    modality: Required[Literal["voice", "chat", "call"]]
 
     name: Required[str]
 
@@ -715,6 +736,8 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     name: Required[str]
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+
     description: Optional[str]
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
@@ -740,6 +763,8 @@ class SimulationPlanConfig(TypedDict, total=False):
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
     notify: SimulationPlanConfigNotify
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
 
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
@@ -784,6 +809,8 @@ class QaSimulationPlanConfig(TypedDict, total=False):
 
     template: Required[Literal["question-answer-check"]]
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+
     description: Optional[str]
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
@@ -813,6 +840,8 @@ class QaSimulationPlanConfig(TypedDict, total=False):
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
     notify: SimulationPlanConfigNotify
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
 
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
@@ -898,6 +927,8 @@ class AlertEventTrigger(TypedDict, total=False):
                 "CHAT_ANALYSIS_FAILED",
                 "ISSUE_OPENED",
                 "ISSUE_RESOLVED",
+                "SIMULATION_RESOURCE_GENERATION_COMPLETED",
+                "SIMULATION_RESOURCE_GENERATION_FAILED",
             ]
         ]
     ]
@@ -950,11 +981,17 @@ class ToolConfigHandlerUnionMember0(TypedDict, total=False):
 
 
 class ToolConfigHandlerUnionMember1AppointmentType(TypedDict, total=False):
-    event_type_id: Required[Annotated[int, PropertyInfo(alias="eventTypeId")]]
-
     name: Required[str]
 
+    calendar_target: Annotated[Optional[str], PropertyInfo(alias="calendarTarget")]
+
     duration_minutes: Annotated[Optional[int], PropertyInfo(alias="durationMinutes")]
+
+    event_type_id: Annotated[Optional[int], PropertyInfo(alias="eventTypeId")]
+
+    event_type_uri: Annotated[Optional[str], PropertyInfo(alias="eventTypeUri")]
+
+    go_high_level_calendar: Annotated[Optional[str], PropertyInfo(alias="goHighLevelCalendar")]
 
     when_to_use: Annotated[Optional[str], PropertyInfo(alias="whenToUse")]
 

@@ -106,7 +106,9 @@ class MetricResource(SyncAPIResource):
               audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
-              TEXT, and SCALE types.
+              TEXT, and SCALE types. A custom metric prompt must include a transcript variable
+              such as `{{transcript}}` and `{{world_context}}`, which gives the judge the
+              current date and time when it grades.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
@@ -532,7 +534,10 @@ class MetricResource(SyncAPIResource):
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
-          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable). A custom
+              metric prompt must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
 
@@ -685,7 +690,9 @@ class AsyncMetricResource(AsyncAPIResource):
               audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
-              TEXT, and SCALE types.
+              TEXT, and SCALE types. A custom metric prompt must include a transcript variable
+              such as `{{transcript}}` and `{{world_context}}`, which gives the judge the
+              current date and time when it grades.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
@@ -1111,7 +1118,10 @@ class AsyncMetricResource(AsyncAPIResource):
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
-          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable). A custom
+              metric prompt must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
 

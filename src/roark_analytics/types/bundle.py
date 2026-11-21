@@ -95,17 +95,30 @@ class AgentConfigEndpoint(BaseModel):
 class AgentConfigLlm(BaseModel):
     model: str
 
-    provider: Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]
+    provider: Literal[
+        "OPENAI",
+        "ANTHROPIC",
+        "GOOGLE",
+        "XAI",
+        "ULTRAVOX",
+        "AWS",
+        "ELEVENLABS",
+        "GROQ",
+        "META",
+        "RIME",
+        "PHONIC",
+        "SMALLEST",
+    ]
 
 
 class AgentConfigStt(BaseModel):
     model: str
 
-    provider: Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]
+    provider: Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
 
 
 class AgentConfigTt(BaseModel):
-    provider: Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]
+    provider: Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
 
     voice_id: str = FieldInfo(alias="voiceId")
 
@@ -130,6 +143,8 @@ class AgentConfig(BaseModel):
     job_description: Optional[str] = FieldInfo(alias="jobDescription", default=None)
 
     llm: Optional[AgentConfigLlm] = None
+
+    modalities: Optional[List[Literal["voice", "chat", "call"]]] = None
 
     prompt: Optional[str] = None
 
@@ -446,7 +461,7 @@ class CollectorConfig(BaseModel):
 
     metrics: List[Union[str, CollectorMetricConfig]]
 
-    modality: Literal["call", "chat"]
+    modality: Literal["voice", "chat", "call"]
 
     name: str
 
@@ -714,6 +729,8 @@ class SimulationPlanConfig(BaseModel):
 
     name: str
 
+    calls_per_second: Optional[float] = FieldInfo(alias="callsPerSecond", default=None)
+
     description: Optional[str] = None
 
     end_call_phrases: Optional[List[str]] = FieldInfo(alias="endCallPhrases", default=None)
@@ -739,6 +756,8 @@ class SimulationPlanConfig(BaseModel):
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
 
     notify: Optional[SimulationPlanConfigNotify] = None
+
+    ramp_up_seconds: Optional[int] = FieldInfo(alias="rampUpSeconds", default=None)
 
     schedule: Optional[
         Union[
@@ -783,6 +802,8 @@ class QaSimulationPlanConfig(BaseModel):
 
     template: Literal["question-answer-check"]
 
+    calls_per_second: Optional[float] = FieldInfo(alias="callsPerSecond", default=None)
+
     description: Optional[str] = None
 
     end_call_phrases: Optional[List[str]] = FieldInfo(alias="endCallPhrases", default=None)
@@ -812,6 +833,8 @@ class QaSimulationPlanConfig(BaseModel):
     no_response_retry_backoff_seconds: Optional[int] = FieldInfo(alias="noResponseRetryBackoffSeconds", default=None)
 
     notify: Optional[SimulationPlanConfigNotify] = None
+
+    ramp_up_seconds: Optional[int] = FieldInfo(alias="rampUpSeconds", default=None)
 
     schedule: Optional[
         Union[
@@ -900,6 +923,8 @@ class AlertEventTrigger(BaseModel):
             "CHAT_ANALYSIS_FAILED",
             "ISSUE_OPENED",
             "ISSUE_RESOLVED",
+            "SIMULATION_RESOURCE_GENERATION_COMPLETED",
+            "SIMULATION_RESOURCE_GENERATION_FAILED",
         ]
     ]
 
@@ -951,11 +976,17 @@ class ToolConfigHandlerUnionMember0(BaseModel):
 
 
 class ToolConfigHandlerUnionMember1AppointmentType(BaseModel):
-    event_type_id: int = FieldInfo(alias="eventTypeId")
-
     name: str
 
+    calendar_target: Optional[str] = FieldInfo(alias="calendarTarget", default=None)
+
     duration_minutes: Optional[int] = FieldInfo(alias="durationMinutes", default=None)
+
+    event_type_id: Optional[int] = FieldInfo(alias="eventTypeId", default=None)
+
+    event_type_uri: Optional[str] = FieldInfo(alias="eventTypeUri", default=None)
+
+    go_high_level_calendar: Optional[str] = FieldInfo(alias="goHighLevelCalendar", default=None)
 
     when_to_use: Optional[str] = FieldInfo(alias="whenToUse", default=None)
 

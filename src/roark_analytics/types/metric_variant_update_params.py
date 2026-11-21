@@ -35,7 +35,12 @@ class MetricVariantUpdateParams(TypedDict, total=False):
     """
 
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
-    """The rubric this variant applies. LLM judge metrics only."""
+    """
+    The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+    must include a transcript variable such as `{{transcript}}` and
+    `{{world_context}}`, which gives the judge the current date and time when it
+    grades.
+    """
 
     max_classifications: Annotated[int, PropertyInfo(alias="maxClassifications")]
     """Maximum classifications returned. CLASSIFICATION output only."""

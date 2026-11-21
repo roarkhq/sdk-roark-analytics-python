@@ -68,8 +68,8 @@ class Data(BaseModel):
 
     latest_run_group_id: Optional[str] = FieldInfo(alias="latestRunGroupId")
     """
-    The most recent run group it started, readable at GET
-    /v1/simulation/run-group/{groupId}. Null when it has never run.
+    The most recent run group it started, readable at `GET
+    /v1/simulation/run-group/{groupId}`. Null when it has never run.
     """
 
     name: str

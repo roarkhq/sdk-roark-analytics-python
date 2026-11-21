@@ -541,8 +541,8 @@ class DataItemDocument(BaseModel):
 class DataItem(BaseModel):
     """
     One written report over one period. `document` is null until `status` is READY;
-    every number in it comes from the analytics engine (the same reads GET
-    /v1/dashboard/{dashboardId}/data makes over the same window and filters).
+    every number in it comes from the analytics engine (the same reads `GET
+    /v1/dashboard/{dashboardId}/data` makes over the same window and filters).
     """
 
     id: str

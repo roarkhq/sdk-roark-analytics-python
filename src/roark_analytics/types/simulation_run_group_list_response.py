@@ -75,8 +75,8 @@ class Data(BaseModel):
 
     latest_report: Optional[DataLatestReport] = FieldInfo(alias="latestReport")
     """
-    Where the latest group report stands. Read the document from GET
-    /v1/simulation/run-group/{groupId}.
+    Where the latest group report stands. Read the document from `GET
+    /v1/simulation/run-group/{groupId}`.
     """
 
     name: str

@@ -11,6 +11,7 @@ __all__ = [
     "SimulationRunPlanJobGetByIDResponse",
     "Data",
     "DataAttemptSummary",
+    "DataDialRate",
     "DataPendingRetry",
     "DataSimulationJob",
     "DataSimulationJobAgentEndpoint",
@@ -98,7 +99,9 @@ class DataSimulationJobAgentEndpoint(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber")
     """Agent endpoint phone number"""
 
-    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
+    type: Literal[
+        "PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY", "ROARK_WEBRTC"
+    ]
     """Agent endpoint type"""
 
 
@@ -270,9 +273,11 @@ class DataSimulationJobPersona(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
@@ -445,6 +450,26 @@ class DataSimulationJob(BaseModel):
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
     """When the simulation job started"""
+
+
+class DataDialRate(BaseModel):
+    """A paced run: the dial rate it was started with, and the rate it achieved."""
+
+    achieved_calls_per_second: Optional[float] = FieldInfo(alias="achievedCallsPerSecond")
+    """
+    Simulations started per second after the ramp, from the first start past it to
+    the last. Below the target when concurrency or phone capacity held the run back.
+    `null` until two have started.
+    """
+
+    ramp_up_seconds: Optional[int] = FieldInfo(alias="rampUpSeconds")
+    """
+    The ramp up to that rate, in seconds. `null` when the run started at the full
+    rate.
+    """
+
+    target_calls_per_second: float = FieldInfo(alias="targetCallsPerSecond")
+    """The `callsPerSecond` the plan asked for when this run started."""
 
 
 class DataSweepAttributionCheckWorseValue(BaseModel):
@@ -907,6 +932,12 @@ class Data(BaseModel):
         "ENDING_SIMULATIONS",
     ]
     """Job status"""
+
+    dial_rate: Optional[DataDialRate] = FieldInfo(alias="dialRate", default=None)
+    """
+    The dial rate this run was paced at, and the rate it achieved. `null` for a run
+    started without one.
+    """
 
     ended_at: Optional[str] = FieldInfo(alias="endedAt", default=None)
     """When the job ended"""

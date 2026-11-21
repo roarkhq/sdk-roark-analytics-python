@@ -7,7 +7,14 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import simulation_run_params, simulation_mock_tool_params
+from ..types import (
+    simulation_run_params,
+    simulation_mock_tool_params,
+    simulation_generate_resources_params,
+    simulation_guide_resource_generation_params,
+    simulation_list_resource_generations_params,
+    simulation_answer_resource_generation_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -21,6 +28,12 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.simulation_run_response import SimulationRunResponse
 from ..types.simulation_mock_tool_response import SimulationMockToolResponse
+from ..types.simulation_generate_resources_response import SimulationGenerateResourcesResponse
+from ..types.simulation_get_resource_generation_response import SimulationGetResourceGenerationResponse
+from ..types.simulation_guide_resource_generation_response import SimulationGuideResourceGenerationResponse
+from ..types.simulation_list_resource_generations_response import SimulationListResourceGenerationsResponse
+from ..types.simulation_answer_resource_generation_response import SimulationAnswerResourceGenerationResponse
+from ..types.simulation_cancel_resource_generation_response import SimulationCancelResourceGenerationResponse
 
 __all__ = ["SimulationResource", "AsyncSimulationResource"]
 
@@ -44,6 +57,314 @@ class SimulationResource(SyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return SimulationResourceWithStreamingResponse(self)
+
+    def answer_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationAnswerResourceGenerationResponse:
+        """
+        Answers the question a simulation resource generation is waiting on (status
+        NEEDS_INPUT). If nobody answers within 15 minutes, it goes ahead with its
+        default.
+
+        Args:
+          text: What you want the generation to know
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/answer",
+            body=maybe_transform(
+                {"text": text}, simulation_answer_resource_generation_params.SimulationAnswerResourceGenerationParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationAnswerResourceGenerationResponse,
+        )
+
+    def cancel_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCancelResourceGenerationResponse:
+        """Stops a running simulation resource generation.
+
+        Flows and metrics it already
+        created are kept; no run plan is made. Refused once the generation has finished.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCancelResourceGenerationResponse,
+        )
+
+    def generate_resources(
+        self,
+        *,
+        agent_ids: SequenceNotStr[str],
+        agent_endpoint_id: str | Omit = omit,
+        capabilities: List[
+            Literal[
+                "APPOINTMENT_BOOKING",
+                "FAQ",
+                "IDENTITY_VERIFICATION",
+                "ACCOUNT_MANAGEMENT",
+                "BILLING_AND_PAYMENTS",
+                "ORDER_MANAGEMENT",
+                "TROUBLESHOOTING",
+                "CALL_ROUTING",
+                "LEAD_QUALIFICATION",
+                "COLLECTIONS",
+                "OUTBOUND_CALLING",
+            ]
+        ]
+        | Omit = omit,
+        explore: simulation_generate_resources_params.Explore | Omit = omit,
+        industry: Literal[
+            "HEALTHCARE",
+            "FINANCIAL_SERVICES",
+            "INSURANCE",
+            "DEBT_COLLECTION",
+            "RETAIL",
+            "TRAVEL_AND_HOSPITALITY",
+            "TELECOMMUNICATIONS",
+            "TECHNOLOGY",
+            "PUBLIC_SECTOR",
+            "UTILITIES",
+            "LOGISTICS",
+            "AUTOMOTIVE",
+            "HOME_SERVICES",
+            "RESTAURANTS",
+            "EDUCATION",
+            "OTHER",
+        ]
+        | Omit = omit,
+        testing_instructions: str | Omit = omit,
+        website_url: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGenerateResourcesResponse:
+        """
+        Works out what to test for an existing agent, then creates the customer flows,
+        metrics and checks to simulate it, and a run plan that runs them. It does not
+        create or change the agent. It also reads the agent's recent production calls
+        and open issues. Run it again and it builds on what earlier generations made,
+        adding only what changed; when nothing has, it finishes straight away and says
+        so. Runs in the background: watch the `simulation.resource_generation.completed`
+        webhook, or poll `GET /v1/simulation/generations/resources/{generationId}`.
+        Takes one agent for now. Refused while another generation for the agent is
+        running. Needs the 'simulation:create' and 'metric:create' permissions.
+        Exploration also needs 'simulation:run', and is turned off for keys without it
+        unless explore.enabled is set.
+
+        Args:
+          agent_ids: The agents to generate simulation resources for. One agent per generation for
+              now.
+
+          agent_endpoint_id: The endpoint the run plan calls. Defaults to the agent's newest endpoint.
+
+          capabilities: The capabilities to test. Omit to let Roark work them out from the agent.
+
+          explore: Exploration settings
+
+          industry: The industry the agent serves.
+
+          testing_instructions: What you want tested, in your own words. Each scenario you describe becomes a
+              flow.
+
+          website_url: A page Roark reads to learn about the business.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/simulation/generations/resources",
+            body=maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "agent_endpoint_id": agent_endpoint_id,
+                    "capabilities": capabilities,
+                    "explore": explore,
+                    "industry": industry,
+                    "testing_instructions": testing_instructions,
+                    "website_url": website_url,
+                },
+                simulation_generate_resources_params.SimulationGenerateResourcesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGenerateResourcesResponse,
+        )
+
+    def get_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGetResourceGenerationResponse:
+        """
+        Returns one simulation resource generation, for example the one a webhook named.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return self._get(
+            f"/v1/simulation/generations/resources/{generation_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGetResourceGenerationResponse,
+        )
+
+    def guide_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGuideResourceGenerationResponse:
+        """
+        Tells a running simulation resource generation what to focus on or avoid, in
+        your own words. It reads it on its next turn and it outranks its own plan.
+        Refused once the generation has finished.
+
+        Args:
+          text: What you want the generation to know
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/guidance",
+            body=maybe_transform(
+                {"text": text}, simulation_guide_resource_generation_params.SimulationGuideResourceGenerationParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGuideResourceGenerationResponse,
+        )
+
+    def list_resource_generations(
+        self,
+        *,
+        agent_ids: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListResourceGenerationsResponse:
+        """
+        Returns the project's simulation resource generations, newest first, optionally
+        only for some agents: each one's progress, the run plan it created, and every
+        flow, metric and check it added or left out, with the reason and the source it
+        came from.
+
+        Args:
+          agent_ids: Only generations for these agents, comma-separated, at most 100. Omit for every
+              agent.
+
+          limit: How many to return, newest first. Default 20, max 50.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/simulation/generations/resources",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "agent_ids": agent_ids,
+                        "limit": limit,
+                    },
+                    simulation_list_resource_generations_params.SimulationListResourceGenerationsParams,
+                ),
+            ),
+            cast_to=SimulationListResourceGenerationsResponse,
+        )
 
     def mock_tool(
         self,
@@ -213,8 +534,8 @@ class SimulationResource(SyncAPIResource):
         saved one safe to pin in CI.
 
         Args:
-          plan_id: The run plan to run, saved or hidden. Rename or unhide it with PUT
-              /v1/simulation/plan/{planId}.
+          plan_id: The run plan to run, saved or hidden. Rename or unhide it with `PUT
+              /v1/simulation/plan/{planId}`.
 
           variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
               pinned. An object applies them to the whole run: { "orderNumber": "12345",
@@ -309,6 +630,7 @@ class SimulationResource(SyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
         additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -325,6 +647,7 @@ class SimulationResource(SyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         save_as_plan: bool | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1]]
@@ -358,6 +681,15 @@ class SimulationResource(SyncAPIResource):
           additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
               like a plan's `metrics`. The template's metrics and checks always run; naming
               one of them here again keeps it once, with the success criteria you set on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
@@ -436,6 +768,9 @@ class SimulationResource(SyncAPIResource):
           questions: For the `question-answer-check` template: the questions to ask and the answer
               expected for each. Every question runs as its own graded call.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           save_as_plan: Keeps the resolved configuration as a run plan, listed by GET
               /v1/simulation/plan and re-runnable with `planId`. Requires `name`.
 
@@ -478,6 +813,7 @@ class SimulationResource(SyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
         additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -494,6 +830,7 @@ class SimulationResource(SyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -515,6 +852,7 @@ class SimulationResource(SyncAPIResource):
                     "direction": direction,
                     "template": template,
                     "additional_metrics": additional_metrics,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,
@@ -531,6 +869,7 @@ class SimulationResource(SyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "persona_id": persona_id,
                     "questions": questions,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_params.SimulationRunParams,
@@ -561,6 +900,314 @@ class AsyncSimulationResource(AsyncAPIResource):
         For more information, see https://www.github.com/roarkhq/sdk-roark-analytics-python#with_streaming_response
         """
         return AsyncSimulationResourceWithStreamingResponse(self)
+
+    async def answer_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationAnswerResourceGenerationResponse:
+        """
+        Answers the question a simulation resource generation is waiting on (status
+        NEEDS_INPUT). If nobody answers within 15 minutes, it goes ahead with its
+        default.
+
+        Args:
+          text: What you want the generation to know
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return await self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/answer",
+            body=await async_maybe_transform(
+                {"text": text}, simulation_answer_resource_generation_params.SimulationAnswerResourceGenerationParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationAnswerResourceGenerationResponse,
+        )
+
+    async def cancel_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationCancelResourceGenerationResponse:
+        """Stops a running simulation resource generation.
+
+        Flows and metrics it already
+        created are kept; no run plan is made. Refused once the generation has finished.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return await self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/cancel",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationCancelResourceGenerationResponse,
+        )
+
+    async def generate_resources(
+        self,
+        *,
+        agent_ids: SequenceNotStr[str],
+        agent_endpoint_id: str | Omit = omit,
+        capabilities: List[
+            Literal[
+                "APPOINTMENT_BOOKING",
+                "FAQ",
+                "IDENTITY_VERIFICATION",
+                "ACCOUNT_MANAGEMENT",
+                "BILLING_AND_PAYMENTS",
+                "ORDER_MANAGEMENT",
+                "TROUBLESHOOTING",
+                "CALL_ROUTING",
+                "LEAD_QUALIFICATION",
+                "COLLECTIONS",
+                "OUTBOUND_CALLING",
+            ]
+        ]
+        | Omit = omit,
+        explore: simulation_generate_resources_params.Explore | Omit = omit,
+        industry: Literal[
+            "HEALTHCARE",
+            "FINANCIAL_SERVICES",
+            "INSURANCE",
+            "DEBT_COLLECTION",
+            "RETAIL",
+            "TRAVEL_AND_HOSPITALITY",
+            "TELECOMMUNICATIONS",
+            "TECHNOLOGY",
+            "PUBLIC_SECTOR",
+            "UTILITIES",
+            "LOGISTICS",
+            "AUTOMOTIVE",
+            "HOME_SERVICES",
+            "RESTAURANTS",
+            "EDUCATION",
+            "OTHER",
+        ]
+        | Omit = omit,
+        testing_instructions: str | Omit = omit,
+        website_url: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGenerateResourcesResponse:
+        """
+        Works out what to test for an existing agent, then creates the customer flows,
+        metrics and checks to simulate it, and a run plan that runs them. It does not
+        create or change the agent. It also reads the agent's recent production calls
+        and open issues. Run it again and it builds on what earlier generations made,
+        adding only what changed; when nothing has, it finishes straight away and says
+        so. Runs in the background: watch the `simulation.resource_generation.completed`
+        webhook, or poll `GET /v1/simulation/generations/resources/{generationId}`.
+        Takes one agent for now. Refused while another generation for the agent is
+        running. Needs the 'simulation:create' and 'metric:create' permissions.
+        Exploration also needs 'simulation:run', and is turned off for keys without it
+        unless explore.enabled is set.
+
+        Args:
+          agent_ids: The agents to generate simulation resources for. One agent per generation for
+              now.
+
+          agent_endpoint_id: The endpoint the run plan calls. Defaults to the agent's newest endpoint.
+
+          capabilities: The capabilities to test. Omit to let Roark work them out from the agent.
+
+          explore: Exploration settings
+
+          industry: The industry the agent serves.
+
+          testing_instructions: What you want tested, in your own words. Each scenario you describe becomes a
+              flow.
+
+          website_url: A page Roark reads to learn about the business.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/simulation/generations/resources",
+            body=await async_maybe_transform(
+                {
+                    "agent_ids": agent_ids,
+                    "agent_endpoint_id": agent_endpoint_id,
+                    "capabilities": capabilities,
+                    "explore": explore,
+                    "industry": industry,
+                    "testing_instructions": testing_instructions,
+                    "website_url": website_url,
+                },
+                simulation_generate_resources_params.SimulationGenerateResourcesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGenerateResourcesResponse,
+        )
+
+    async def get_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGetResourceGenerationResponse:
+        """
+        Returns one simulation resource generation, for example the one a webhook named.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return await self._get(
+            f"/v1/simulation/generations/resources/{generation_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGetResourceGenerationResponse,
+        )
+
+    async def guide_resource_generation(
+        self,
+        generation_id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationGuideResourceGenerationResponse:
+        """
+        Tells a running simulation resource generation what to focus on or avoid, in
+        your own words. It reads it on its next turn and it outranks its own plan.
+        Refused once the generation has finished.
+
+        Args:
+          text: What you want the generation to know
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not generation_id:
+            raise ValueError(f"Expected a non-empty value for `generation_id` but received {generation_id!r}")
+        return await self._post(
+            f"/v1/simulation/generations/resources/{generation_id}/guidance",
+            body=await async_maybe_transform(
+                {"text": text}, simulation_guide_resource_generation_params.SimulationGuideResourceGenerationParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationGuideResourceGenerationResponse,
+        )
+
+    async def list_resource_generations(
+        self,
+        *,
+        agent_ids: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationListResourceGenerationsResponse:
+        """
+        Returns the project's simulation resource generations, newest first, optionally
+        only for some agents: each one's progress, the run plan it created, and every
+        flow, metric and check it added or left out, with the reason and the source it
+        came from.
+
+        Args:
+          agent_ids: Only generations for these agents, comma-separated, at most 100. Omit for every
+              agent.
+
+          limit: How many to return, newest first. Default 20, max 50.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/simulation/generations/resources",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "agent_ids": agent_ids,
+                        "limit": limit,
+                    },
+                    simulation_list_resource_generations_params.SimulationListResourceGenerationsParams,
+                ),
+            ),
+            cast_to=SimulationListResourceGenerationsResponse,
+        )
 
     async def mock_tool(
         self,
@@ -730,8 +1377,8 @@ class AsyncSimulationResource(AsyncAPIResource):
         saved one safe to pin in CI.
 
         Args:
-          plan_id: The run plan to run, saved or hidden. Rename or unhide it with PUT
-              /v1/simulation/plan/{planId}.
+          plan_id: The run plan to run, saved or hidden. Rename or unhide it with `PUT
+              /v1/simulation/plan/{planId}`.
 
           variables: Values for the {{variables}} the run resolves, overriding whatever the plan has
               pinned. An object applies them to the whole run: { "orderNumber": "12345",
@@ -826,6 +1473,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
         additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -842,6 +1490,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         save_as_plan: bool | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         variables: Union[Dict[str, str], Iterable[simulation_run_params.RunSimulationFromConfigVariableUnionMember1]]
@@ -875,6 +1524,15 @@ class AsyncSimulationResource(AsyncAPIResource):
           additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
               like a plan's `metrics`. The template's metrics and checks always run; naming
               one of them here again keeps it once, with the success criteria you set on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
@@ -953,6 +1611,9 @@ class AsyncSimulationResource(AsyncAPIResource):
           questions: For the `question-answer-check` template: the questions to ask and the answer
               expected for each. Every question runs as its own graded call.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           save_as_plan: Keeps the resolved configuration as a run plan, listed by GET
               /v1/simulation/plan and re-runnable with `planId`. Requires `name`.
 
@@ -995,6 +1656,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"] | Omit = omit,
         template: str | Omit = omit,
         additional_metrics: Iterable[simulation_run_params.RunSimulationFromConfigPlanMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -1011,6 +1673,7 @@ class AsyncSimulationResource(AsyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_params.RunSimulationFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1032,6 +1695,7 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "direction": direction,
                     "template": template,
                     "additional_metrics": additional_metrics,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_values": comparison_values,
                     "end_call_phrases": end_call_phrases,
@@ -1048,6 +1712,7 @@ class AsyncSimulationResource(AsyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "persona_id": persona_id,
                     "questions": questions,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
                 simulation_run_params.SimulationRunParams,
@@ -1063,6 +1728,24 @@ class SimulationResourceWithRawResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
+        self.answer_resource_generation = to_raw_response_wrapper(
+            simulation.answer_resource_generation,
+        )
+        self.cancel_resource_generation = to_raw_response_wrapper(
+            simulation.cancel_resource_generation,
+        )
+        self.generate_resources = to_raw_response_wrapper(
+            simulation.generate_resources,
+        )
+        self.get_resource_generation = to_raw_response_wrapper(
+            simulation.get_resource_generation,
+        )
+        self.guide_resource_generation = to_raw_response_wrapper(
+            simulation.guide_resource_generation,
+        )
+        self.list_resource_generations = to_raw_response_wrapper(
+            simulation.list_resource_generations,
+        )
         self.mock_tool = to_raw_response_wrapper(
             simulation.mock_tool,
         )
@@ -1075,6 +1758,24 @@ class AsyncSimulationResourceWithRawResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
+        self.answer_resource_generation = async_to_raw_response_wrapper(
+            simulation.answer_resource_generation,
+        )
+        self.cancel_resource_generation = async_to_raw_response_wrapper(
+            simulation.cancel_resource_generation,
+        )
+        self.generate_resources = async_to_raw_response_wrapper(
+            simulation.generate_resources,
+        )
+        self.get_resource_generation = async_to_raw_response_wrapper(
+            simulation.get_resource_generation,
+        )
+        self.guide_resource_generation = async_to_raw_response_wrapper(
+            simulation.guide_resource_generation,
+        )
+        self.list_resource_generations = async_to_raw_response_wrapper(
+            simulation.list_resource_generations,
+        )
         self.mock_tool = async_to_raw_response_wrapper(
             simulation.mock_tool,
         )
@@ -1087,6 +1788,24 @@ class SimulationResourceWithStreamingResponse:
     def __init__(self, simulation: SimulationResource) -> None:
         self._simulation = simulation
 
+        self.answer_resource_generation = to_streamed_response_wrapper(
+            simulation.answer_resource_generation,
+        )
+        self.cancel_resource_generation = to_streamed_response_wrapper(
+            simulation.cancel_resource_generation,
+        )
+        self.generate_resources = to_streamed_response_wrapper(
+            simulation.generate_resources,
+        )
+        self.get_resource_generation = to_streamed_response_wrapper(
+            simulation.get_resource_generation,
+        )
+        self.guide_resource_generation = to_streamed_response_wrapper(
+            simulation.guide_resource_generation,
+        )
+        self.list_resource_generations = to_streamed_response_wrapper(
+            simulation.list_resource_generations,
+        )
         self.mock_tool = to_streamed_response_wrapper(
             simulation.mock_tool,
         )
@@ -1099,6 +1818,24 @@ class AsyncSimulationResourceWithStreamingResponse:
     def __init__(self, simulation: AsyncSimulationResource) -> None:
         self._simulation = simulation
 
+        self.answer_resource_generation = async_to_streamed_response_wrapper(
+            simulation.answer_resource_generation,
+        )
+        self.cancel_resource_generation = async_to_streamed_response_wrapper(
+            simulation.cancel_resource_generation,
+        )
+        self.generate_resources = async_to_streamed_response_wrapper(
+            simulation.generate_resources,
+        )
+        self.get_resource_generation = async_to_streamed_response_wrapper(
+            simulation.get_resource_generation,
+        )
+        self.guide_resource_generation = async_to_streamed_response_wrapper(
+            simulation.guide_resource_generation,
+        )
+        self.list_resource_generations = async_to_streamed_response_wrapper(
+            simulation.list_resource_generations,
+        )
         self.mock_tool = async_to_streamed_response_wrapper(
             simulation.mock_tool,
         )

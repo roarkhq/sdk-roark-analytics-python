@@ -8,7 +8,65 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["ToolCreateParams", "Input", "Runtime", "RuntimeMessage", "RuntimeRequest", "RuntimeRequestHeader"]
+__all__ = [
+    "ToolCreateParams",
+    "Calendar",
+    "CalendarAppointmentType",
+    "CalendarMessage",
+    "Input",
+    "Mcp",
+    "Runtime",
+    "RuntimeRequest",
+    "RuntimeRequestHeader",
+]
+
+
+class CalendarAppointmentType(TypedDict, total=False):
+    name: Required[str]
+
+    calendar_target_id: Annotated[Optional[str], PropertyInfo(alias="calendarTargetId")]
+    """For a calendar with no scheduling of its own: the bookable target to book into"""
+
+    duration_minutes: Annotated[Optional[int], PropertyInfo(alias="durationMinutes")]
+
+    event_type_id: Annotated[Optional[int], PropertyInfo(alias="eventTypeId")]
+    """For Cal.com: the event type to book"""
+
+    event_type_uri: Annotated[Optional[str], PropertyInfo(alias="eventTypeUri")]
+    """For Calendly: the event type to book, by URI"""
+
+    go_high_level_calendar: Annotated[Optional[str], PropertyInfo(alias="goHighLevelCalendar")]
+    """For GoHighLevel: the calendar to book into, by its own id"""
+
+    when_to_use: Annotated[Optional[str], PropertyInfo(alias="whenToUse")]
+
+
+class CalendarMessage(TypedDict, total=False):
+    before: Optional[str]
+
+    failure: Optional[str]
+
+    slow: Optional[str]
+
+
+class Calendar(TypedDict, total=False):
+    """
+    Makes this a calendar tool, which Roark runs against a connected calendar: it
+    takes no runtime and no inputs. Omit or null for any other tool; on update,
+    omitting it makes the tool an ordinary one.
+    """
+
+    appointment_types: Required[Annotated[Iterable[CalendarAppointmentType], PropertyInfo(alias="appointmentTypes")]]
+
+    calendar_connection_id: Required[Annotated[str, PropertyInfo(alias="calendarConnectionId")]]
+
+    operation: Required[
+        Literal["CHECK_AVAILABILITY", "BOOK", "LOOKUP_BOOKING", "RESCHEDULE", "CANCEL", "LIST_BOOKINGS"]
+    ]
+
+    messages: CalendarMessage
+
+    simulate: bool
 
 
 class Input(TypedDict, total=False):
@@ -19,6 +77,21 @@ class Input(TypedDict, total=False):
     description: str
 
     required: bool
+
+
+class Mcp(TypedDict, total=False):
+    """
+    Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+    inputs and no calendar, and the description replaces the server's own. On
+    update, omitting it makes the tool an ordinary one.
+    """
+
+    mcp_server_id: Required[Annotated[str, PropertyInfo(alias="mcpServerId")]]
+
+    tool: Required[str]
+    """The tool as the server names it"""
+
+    messages: CalendarMessage
 
 
 class RuntimeRequestHeader(TypedDict, total=False):
@@ -39,14 +112,6 @@ class RuntimeRequest(TypedDict, total=False):
     timeout_ms: Annotated[Optional[int], PropertyInfo(alias="timeoutMs")]
 
 
-class RuntimeMessage(TypedDict, total=False):
-    before: Optional[str]
-
-    failure: Optional[str]
-
-    slow: Optional[str]
-
-
 class Runtime(TypedDict, total=False):
     """Omit or null for a tool that is only graded"""
 
@@ -54,7 +119,7 @@ class Runtime(TypedDict, total=False):
 
     changes_data: Annotated[bool, PropertyInfo(alias="changesData")]
 
-    messages: RuntimeMessage
+    messages: CalendarMessage
 
     response_fields: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="responseFields")]
 
@@ -67,11 +132,25 @@ class ToolCreateParams(TypedDict, total=False):
 
     agent_id: Annotated[Optional[str], PropertyInfo(alias="agentId")]
 
+    calendar: Optional[Calendar]
+    """
+    Makes this a calendar tool, which Roark runs against a connected calendar: it
+    takes no runtime and no inputs. Omit or null for any other tool; on update,
+    omitting it makes the tool an ordinary one.
+    """
+
     expected_result: Annotated[Optional[str], PropertyInfo(alias="expectedResult")]
 
     inputs: Iterable[Input]
 
     invocation_criteria: Annotated[Optional[str], PropertyInfo(alias="invocationCriteria")]
+
+    mcp: Optional[Mcp]
+    """
+    Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+    inputs and no calendar, and the description replaces the server's own. On
+    update, omitting it makes the tool an ordinary one.
+    """
 
     runtime: Optional[Runtime]
     """Omit or null for a tool that is only graded"""

@@ -60,6 +60,7 @@ class DataFlowOverride(BaseModel):
         "INTENT_CLARITY",
         "LANGUAGE",
         "INTERRUPTION",
+        "LINE_QUALITY",
         "MEMORY_RELIABILITY",
         "RESPONSE_TIMING",
         "SPEECH_CLARITY",
@@ -175,6 +176,18 @@ class Data(BaseModel):
     agent_endpoints: List[DataAgentEndpoint] = FieldInfo(alias="agentEndpoints")
     """Agent endpoints included in this run plan"""
 
+    calls_per_second: Optional[float] = FieldInfo(alias="callsPerSecond")
+    """
+    The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+    starts one every 5 seconds. Omitted or `null` starts them as fast as
+    `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+    holds the rate only while calls last under `maxConcurrentJobs` /
+    `callsPerSecond` seconds. A run reports the rate it achieved as
+    `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+    / 30 is refused with 400: that limit could only hold it with calls under 30
+    seconds.
+    """
+
     comparison_baseline: Optional[str] = FieldInfo(alias="comparisonBaseline")
     """
     The reference value of `comparisonProperty`, such as `NONE` for
@@ -196,6 +209,7 @@ class Data(BaseModel):
             "INTENT_CLARITY",
             "LANGUAGE",
             "INTERRUPTION",
+            "LINE_QUALITY",
             "MEMORY_RELIABILITY",
             "RESPONSE_TIMING",
             "SPEECH_CLARITY",
@@ -297,6 +311,12 @@ class Data(BaseModel):
 
     personas: List[DataAgentEndpoint]
     """Personas included in this run plan. Only meaningful alongside `scenarios`."""
+
+    ramp_up_seconds: Optional[int] = FieldInfo(alias="rampUpSeconds")
+    """
+    Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+    Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+    """
 
     scenarios: List[DataScenario]
     """Deprecated: use `flows` instead. Scenarios included in this run plan."""

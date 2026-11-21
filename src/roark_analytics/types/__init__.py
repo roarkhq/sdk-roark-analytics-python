@@ -30,6 +30,7 @@ from .agent_build_response import AgentBuildResponse as AgentBuildResponse
 from .call_create_response import CallCreateResponse as CallCreateResponse
 from .call_delete_response import CallDeleteResponse as CallDeleteResponse
 from .config_diff_response import ConfigDiffResponse as ConfigDiffResponse
+from .customer_list_params import CustomerListParams as CustomerListParams
 from .tool_create_response import ToolCreateResponse as ToolCreateResponse
 from .tool_delete_response import ToolDeleteResponse as ToolDeleteResponse
 from .tool_update_response import ToolUpdateResponse as ToolUpdateResponse
@@ -44,6 +45,7 @@ from .webhook_list_response import WebhookListResponse as WebhookListResponse
 from .analytics_query_params import AnalyticsQueryParams as AnalyticsQueryParams
 from .call_get_cost_response import CallGetCostResponse as CallGetCostResponse
 from .config_flow_step_param import ConfigFlowStepParam as ConfigFlowStepParam
+from .customer_list_response import CustomerListResponse as CustomerListResponse
 from .live_report_run_params import LiveReportRunParams as LiveReportRunParams
 from .call_get_by_id_response import CallGetByIDResponse as CallGetByIDResponse
 from .dashboard_create_params import DashboardCreateParams as DashboardCreateParams
@@ -60,7 +62,11 @@ from .agent_get_by_id_response import AgentGetByIDResponse as AgentGetByIDRespon
 from .analytics_query_response import AnalyticsQueryResponse as AnalyticsQueryResponse
 from .call_batch_delete_params import CallBatchDeleteParams as CallBatchDeleteParams
 from .call_list_metrics_params import CallListMetricsParams as CallListMetricsParams
+from .customer_delete_response import CustomerDeleteResponse as CustomerDeleteResponse
 from .live_report_run_response import LiveReportRunResponse as LiveReportRunResponse
+from .mcp_server_create_params import McpServerCreateParams as McpServerCreateParams
+from .mcp_server_list_response import McpServerListResponse as McpServerListResponse
+from .mcp_server_update_params import McpServerUpdateParams as McpServerUpdateParams
 from .me_create_api_key_params import MeCreateAPIKeyParams as MeCreateAPIKeyParams
 from .phone_number_list_params import PhoneNumberListParams as PhoneNumberListParams
 from .agent_draft_create_params import AgentDraftCreateParams as AgentDraftCreateParams
@@ -85,6 +91,10 @@ from .agent_prompt_update_params import AgentPromptUpdateParams as AgentPromptUp
 from .call_batch_delete_response import CallBatchDeleteResponse as CallBatchDeleteResponse
 from .call_get_transcript_params import CallGetTranscriptParams as CallGetTranscriptParams
 from .call_list_metrics_response import CallListMetricsResponse as CallListMetricsResponse
+from .mcp_server_create_response import McpServerCreateResponse as McpServerCreateResponse
+from .mcp_server_delete_response import McpServerDeleteResponse as McpServerDeleteResponse
+from .mcp_server_discover_params import McpServerDiscoverParams as McpServerDiscoverParams
+from .mcp_server_update_response import McpServerUpdateResponse as McpServerUpdateResponse
 from .me_create_api_key_response import MeCreateAPIKeyResponse as MeCreateAPIKeyResponse
 from .me_revoke_api_key_response import MeRevokeAPIKeyResponse as MeRevokeAPIKeyResponse
 from .phone_number_create_params import PhoneNumberCreateParams as PhoneNumberCreateParams
@@ -101,23 +111,29 @@ from .benchmark_get_target_params import BenchmarkGetTargetParams as BenchmarkGe
 from .customer_flow_create_params import CustomerFlowCreateParams as CustomerFlowCreateParams
 from .customer_flow_list_response import CustomerFlowListResponse as CustomerFlowListResponse
 from .customer_flow_update_params import CustomerFlowUpdateParams as CustomerFlowUpdateParams
+from .customer_get_by_id_response import CustomerGetByIDResponse as CustomerGetByIDResponse
 from .dashboard_get_data_response import DashboardGetDataResponse as DashboardGetDataResponse
 from .live_report_create_response import LiveReportCreateResponse as LiveReportCreateResponse
 from .live_report_delete_response import LiveReportDeleteResponse as LiveReportDeleteResponse
 from .live_report_update_response import LiveReportUpdateResponse as LiveReportUpdateResponse
+from .mcp_server_refresh_response import McpServerRefreshResponse as McpServerRefreshResponse
 from .metric_policy_create_params import MetricPolicyCreateParams as MetricPolicyCreateParams
 from .metric_policy_list_response import MetricPolicyListResponse as MetricPolicyListResponse
 from .metric_policy_update_params import MetricPolicyUpdateParams as MetricPolicyUpdateParams
 from .simulation_mock_tool_params import SimulationMockToolParams as SimulationMockToolParams
 from .agent_config_update_response import AgentConfigUpdateResponse as AgentConfigUpdateResponse
+from .agent_connection_list_params import AgentConnectionListParams as AgentConnectionListParams
 from .agent_draft_publish_response import AgentDraftPublishResponse as AgentDraftPublishResponse
 from .agent_endpoint_create_params import AgentEndpointCreateParams as AgentEndpointCreateParams
 from .agent_endpoint_list_response import AgentEndpointListResponse as AgentEndpointListResponse
 from .agent_endpoint_update_params import AgentEndpointUpdateParams as AgentEndpointUpdateParams
 from .agent_prompt_update_response import AgentPromptUpdateResponse as AgentPromptUpdateResponse
 from .call_get_transcript_response import CallGetTranscriptResponse as CallGetTranscriptResponse
-from .customer_profile_list_params import CustomerProfileListParams as CustomerProfileListParams
+from .customer_create_field_params import CustomerCreateFieldParams as CustomerCreateFieldParams
+from .customer_update_field_params import CustomerUpdateFieldParams as CustomerUpdateFieldParams
+from .customer_update_notes_params import CustomerUpdateNotesParams as CustomerUpdateNotesParams
 from .dashboard_get_by_id_response import DashboardGetByIDResponse as DashboardGetByIDResponse
+from .mcp_server_discover_response import McpServerDiscoverResponse as McpServerDiscoverResponse
 from .metric_variant_create_params import MetricVariantCreateParams as MetricVariantCreateParams
 from .metric_variant_delete_params import MetricVariantDeleteParams as MetricVariantDeleteParams
 from .metric_variant_list_response import MetricVariantListResponse as MetricVariantListResponse
@@ -139,18 +155,27 @@ from .call_update_properties_params import CallUpdatePropertiesParams as CallUpd
 from .customer_flow_create_response import CustomerFlowCreateResponse as CustomerFlowCreateResponse
 from .customer_flow_delete_response import CustomerFlowDeleteResponse as CustomerFlowDeleteResponse
 from .customer_flow_update_response import CustomerFlowUpdateResponse as CustomerFlowUpdateResponse
+from .customer_list_fields_response import CustomerListFieldsResponse as CustomerListFieldsResponse
+from .customer_set_attribute_params import CustomerSetAttributeParams as CustomerSetAttributeParams
 from .managed_agent_config_revision import ManagedAgentConfigRevision as ManagedAgentConfigRevision
+from .mcp_server_get_by_id_response import McpServerGetByIDResponse as McpServerGetByIDResponse
 from .metric_policy_create_response import MetricPolicyCreateResponse as MetricPolicyCreateResponse
 from .metric_policy_delete_response import MetricPolicyDeleteResponse as MetricPolicyDeleteResponse
 from .metric_policy_update_response import MetricPolicyUpdateResponse as MetricPolicyUpdateResponse
 from .simulation_group_run_response import SimulationGroupRunResponse as SimulationGroupRunResponse
 from .simulation_mock_tool_response import SimulationMockToolResponse as SimulationMockToolResponse
+from .agent_connection_create_params import AgentConnectionCreateParams as AgentConnectionCreateParams
+from .agent_connection_list_response import AgentConnectionListResponse as AgentConnectionListResponse
+from .agent_connection_update_params import AgentConnectionUpdateParams as AgentConnectionUpdateParams
 from .agent_endpoint_create_response import AgentEndpointCreateResponse as AgentEndpointCreateResponse
 from .agent_endpoint_update_response import AgentEndpointUpdateResponse as AgentEndpointUpdateResponse
 from .agent_version_get_by_id_params import AgentVersionGetByIDParams as AgentVersionGetByIDParams
 from .benchmark_list_suites_response import BenchmarkListSuitesResponse as BenchmarkListSuitesResponse
+from .customer_create_field_response import CustomerCreateFieldResponse as CustomerCreateFieldResponse
+from .customer_delete_field_response import CustomerDeleteFieldResponse as CustomerDeleteFieldResponse
 from .customer_flow_duplicate_params import CustomerFlowDuplicateParams as CustomerFlowDuplicateParams
-from .customer_profile_list_response import CustomerProfileListResponse as CustomerProfileListResponse
+from .customer_update_field_response import CustomerUpdateFieldResponse as CustomerUpdateFieldResponse
+from .customer_update_notes_response import CustomerUpdateNotesResponse as CustomerUpdateNotesResponse
 from .dashboard_create_widget_params import DashboardCreateWidgetParams as DashboardCreateWidgetParams
 from .dashboard_delete_widget_params import DashboardDeleteWidgetParams as DashboardDeleteWidgetParams
 from .dashboard_update_widget_params import DashboardUpdateWidgetParams as DashboardUpdateWidgetParams
@@ -171,18 +196,25 @@ from .autoimprove_job_create_response import AutoimproveJobCreateResponse as Aut
 from .benchmark_list_metrics_response import BenchmarkListMetricsResponse as BenchmarkListMetricsResponse
 from .calendar_connection_list_params import CalendarConnectionListParams as CalendarConnectionListParams
 from .call_update_properties_response import CallUpdatePropertiesResponse as CallUpdatePropertiesResponse
+from .conversation_get_by_id_response import ConversationGetByIDResponse as ConversationGetByIDResponse
+from .customer_clear_attribute_params import CustomerClearAttributeParams as CustomerClearAttributeParams
+from .customer_set_attribute_response import CustomerSetAttributeResponse as CustomerSetAttributeResponse
 from .live_report_get_document_params import LiveReportGetDocumentParams as LiveReportGetDocumentParams
 from .metric_create_definition_params import MetricCreateDefinitionParams as MetricCreateDefinitionParams
 from .metric_update_definition_params import MetricUpdateDefinitionParams as MetricUpdateDefinitionParams
 from .metric_variant_get_by_id_params import MetricVariantGetByIDParams as MetricVariantGetByIDParams
 from .simulation_run_plan_list_params import SimulationRunPlanListParams as SimulationRunPlanListParams
+from .agent_connection_create_response import AgentConnectionCreateResponse as AgentConnectionCreateResponse
+from .agent_connection_delete_response import AgentConnectionDeleteResponse as AgentConnectionDeleteResponse
+from .agent_connection_discover_params import AgentConnectionDiscoverParams as AgentConnectionDiscoverParams
+from .agent_connection_update_response import AgentConnectionUpdateResponse as AgentConnectionUpdateResponse
 from .agent_version_get_by_id_response import AgentVersionGetByIDResponse as AgentVersionGetByIDResponse
 from .autoimprove_job_dismiss_response import AutoimproveJobDismissResponse as AutoimproveJobDismissResponse
 from .autoimprove_job_promote_response import AutoimproveJobPromoteResponse as AutoimproveJobPromoteResponse
 from .benchmark_get_leaderboard_params import BenchmarkGetLeaderboardParams as BenchmarkGetLeaderboardParams
 from .customer_flow_duplicate_response import CustomerFlowDuplicateResponse as CustomerFlowDuplicateResponse
 from .customer_flow_get_by_id_response import CustomerFlowGetByIDResponse as CustomerFlowGetByIDResponse
-from .customer_profile_delete_response import CustomerProfileDeleteResponse as CustomerProfileDeleteResponse
+from .customer_unlock_attribute_params import CustomerUnlockAttributeParams as CustomerUnlockAttributeParams
 from .dashboard_create_widget_response import DashboardCreateWidgetResponse as DashboardCreateWidgetResponse
 from .dashboard_delete_widget_response import DashboardDeleteWidgetResponse as DashboardDeleteWidgetResponse
 from .dashboard_get_widget_data_params import DashboardGetWidgetDataParams as DashboardGetWidgetDataParams
@@ -202,6 +234,7 @@ from .calendar_connection_create_params import CalendarConnectionCreateParams as
 from .calendar_connection_list_response import CalendarConnectionListResponse as CalendarConnectionListResponse
 from .calendar_connection_update_params import CalendarConnectionUpdateParams as CalendarConnectionUpdateParams
 from .call_list_sentiment_runs_response import CallListSentimentRunsResponse as CallListSentimentRunsResponse
+from .customer_clear_attribute_response import CustomerClearAttributeResponse as CustomerClearAttributeResponse
 from .live_report_get_document_response import LiveReportGetDocumentResponse as LiveReportGetDocumentResponse
 from .live_report_list_documents_params import LiveReportListDocumentsParams as LiveReportListDocumentsParams
 from .metric_collection_job_list_params import MetricCollectionJobListParams as MetricCollectionJobListParams
@@ -213,11 +246,17 @@ from .simulation_run_plan_create_params import SimulationRunPlanCreateParams as 
 from .simulation_run_plan_list_response import SimulationRunPlanListResponse as SimulationRunPlanListResponse
 from .simulation_run_plan_update_params import SimulationRunPlanUpdateParams as SimulationRunPlanUpdateParams
 from .simulation_template_list_response import SimulationTemplateListResponse as SimulationTemplateListResponse
+from .agent_connection_discover_response import AgentConnectionDiscoverResponse as AgentConnectionDiscoverResponse
+from .agent_conversation_create_response import AgentConversationCreateResponse as AgentConversationCreateResponse
 from .autoimprove_job_get_by_id_response import AutoimproveJobGetByIDResponse as AutoimproveJobGetByIDResponse
 from .benchmark_get_leaderboard_response import BenchmarkGetLeaderboardResponse as BenchmarkGetLeaderboardResponse
 from .calendar_connection_check_response import CalendarConnectionCheckResponse as CalendarConnectionCheckResponse
 from .customer_flow_edge_case_add_params import CustomerFlowEdgeCaseAddParams as CustomerFlowEdgeCaseAddParams
+from .customer_flow_folder_create_params import CustomerFlowFolderCreateParams as CustomerFlowFolderCreateParams
+from .customer_flow_folder_list_response import CustomerFlowFolderListResponse as CustomerFlowFolderListResponse
 from .customer_flow_replace_graph_params import CustomerFlowReplaceGraphParams as CustomerFlowReplaceGraphParams
+from .customer_list_conversations_params import CustomerListConversationsParams as CustomerListConversationsParams
+from .customer_unlock_attribute_response import CustomerUnlockAttributeResponse as CustomerUnlockAttributeResponse
 from .dashboard_get_widget_data_response import DashboardGetWidgetDataResponse as DashboardGetWidgetDataResponse
 from .phone_number_list_available_params import PhoneNumberListAvailableParams as PhoneNumberListAvailableParams
 from .simulation_environment_list_params import SimulationEnvironmentListParams as SimulationEnvironmentListParams
@@ -225,12 +264,12 @@ from .simulation_persona_create_response import SimulationPersonaCreateResponse 
 from .simulation_persona_update_response import SimulationPersonaUpdateResponse as SimulationPersonaUpdateResponse
 from .simulation_run_group_create_params import SimulationRunGroupCreateParams as SimulationRunGroupCreateParams
 from .simulation_run_group_list_response import SimulationRunGroupListResponse as SimulationRunGroupListResponse
+from .agent_connection_get_by_id_response import AgentConnectionGetByIDResponse as AgentConnectionGetByIDResponse
 from .agent_prompt_list_versions_response import AgentPromptListVersionsResponse as AgentPromptListVersionsResponse
 from .calendar_connection_create_response import CalendarConnectionCreateResponse as CalendarConnectionCreateResponse
 from .calendar_connection_delete_response import CalendarConnectionDeleteResponse as CalendarConnectionDeleteResponse
 from .calendar_connection_update_response import CalendarConnectionUpdateResponse as CalendarConnectionUpdateResponse
 from .call_append_tool_invocations_params import CallAppendToolInvocationsParams as CallAppendToolInvocationsParams
-from .customer_profile_get_by_id_response import CustomerProfileGetByIDResponse as CustomerProfileGetByIDResponse
 from .http_request_definition_list_params import HTTPRequestDefinitionListParams as HTTPRequestDefinitionListParams
 from .live_report_list_documents_response import LiveReportListDocumentsResponse as LiveReportListDocumentsResponse
 from .managed_agent_config_revision_param import ManagedAgentConfigRevisionParam as ManagedAgentConfigRevisionParam
@@ -248,12 +287,15 @@ from .agent_config_delete_staging_response import AgentConfigDeleteStagingRespon
 from .autoimprove_job_send_guidance_params import AutoimproveJobSendGuidanceParams as AutoimproveJobSendGuidanceParams
 from .benchmark_list_target_history_params import BenchmarkListTargetHistoryParams as BenchmarkListTargetHistoryParams
 from .customer_flow_edge_case_add_response import CustomerFlowEdgeCaseAddResponse as CustomerFlowEdgeCaseAddResponse
+from .customer_flow_folder_create_response import CustomerFlowFolderCreateResponse as CustomerFlowFolderCreateResponse
+from .customer_flow_folder_delete_response import CustomerFlowFolderDeleteResponse as CustomerFlowFolderDeleteResponse
 from .customer_flow_replace_graph_response import CustomerFlowReplaceGraphResponse as CustomerFlowReplaceGraphResponse
-from .customer_profile_update_notes_params import CustomerProfileUpdateNotesParams as CustomerProfileUpdateNotesParams
+from .customer_list_conversations_response import CustomerListConversationsResponse as CustomerListConversationsResponse
 from .phone_number_list_available_response import PhoneNumberListAvailableResponse as PhoneNumberListAvailableResponse
 from .simulation_environment_create_params import SimulationEnvironmentCreateParams as SimulationEnvironmentCreateParams
 from .simulation_environment_list_response import SimulationEnvironmentListResponse as SimulationEnvironmentListResponse
 from .simulation_environment_update_params import SimulationEnvironmentUpdateParams as SimulationEnvironmentUpdateParams
+from .simulation_generate_resources_params import SimulationGenerateResourcesParams as SimulationGenerateResourcesParams
 from .simulation_run_group_create_response import SimulationRunGroupCreateResponse as SimulationRunGroupCreateResponse
 from .simulation_run_group_delete_response import SimulationRunGroupDeleteResponse as SimulationRunGroupDeleteResponse
 from .simulation_run_plan_job_start_params import SimulationRunPlanJobStartParams as SimulationRunPlanJobStartParams
@@ -265,9 +307,6 @@ from .call_append_tool_invocations_response import (
 )
 from .customer_flow_edge_case_remove_params import CustomerFlowEdgeCaseRemoveParams as CustomerFlowEdgeCaseRemoveParams
 from .customer_flow_edge_case_update_params import CustomerFlowEdgeCaseUpdateParams as CustomerFlowEdgeCaseUpdateParams
-from .customer_profile_set_attribute_params import (
-    CustomerProfileSetAttributeParams as CustomerProfileSetAttributeParams,
-)
 from .http_request_definition_create_params import (
     HTTPRequestDefinitionCreateParams as HTTPRequestDefinitionCreateParams,
 )
@@ -284,6 +323,9 @@ from .metric_collection_job_create_response import (
     MetricCollectionJobCreateResponse as MetricCollectionJobCreateResponse,
 )
 from .simulation_persona_get_by_id_response import SimulationPersonaGetByIDResponse as SimulationPersonaGetByIDResponse
+from .simulation_phone_number_list_response import (
+    SimulationPhoneNumberListResponse as SimulationPhoneNumberListResponse,
+)
 from .simulation_run_plan_job_list_response import SimulationRunPlanJobListResponse as SimulationRunPlanJobListResponse
 from .simulation_tool_fixture_create_params import (
     SimulationToolFixtureCreateParams as SimulationToolFixtureCreateParams,
@@ -312,9 +354,6 @@ from .customer_flow_edge_case_promote_params import (
 from .customer_flow_update_happy_path_params import (
     CustomerFlowUpdateHappyPathParams as CustomerFlowUpdateHappyPathParams,
 )
-from .customer_profile_update_notes_response import (
-    CustomerProfileUpdateNotesResponse as CustomerProfileUpdateNotesResponse,
-)
 from .simulation_environment_create_response import (
     SimulationEnvironmentCreateResponse as SimulationEnvironmentCreateResponse,
 )
@@ -324,12 +363,21 @@ from .simulation_environment_delete_response import (
 from .simulation_environment_update_response import (
     SimulationEnvironmentUpdateResponse as SimulationEnvironmentUpdateResponse,
 )
+from .simulation_generate_resources_response import (
+    SimulationGenerateResourcesResponse as SimulationGenerateResourcesResponse,
+)
 from .simulation_job_tool_mock_list_response import (
     SimulationJobToolMockListResponse as SimulationJobToolMockListResponse,
 )
 from .simulation_run_plan_get_by_id_response import SimulationRunPlanGetByIDResponse as SimulationRunPlanGetByIDResponse
 from .simulation_run_plan_job_start_response import (
     SimulationRunPlanJobStartResponse as SimulationRunPlanJobStartResponse,
+)
+from .agent_connection_cancel_backfill_params import (
+    AgentConnectionCancelBackfillParams as AgentConnectionCancelBackfillParams,
+)
+from .agent_connection_create_backfill_params import (
+    AgentConnectionCreateBackfillParams as AgentConnectionCreateBackfillParams,
 )
 from .calendar_connection_get_target_response import (
     CalendarConnectionGetTargetResponse as CalendarConnectionGetTargetResponse,
@@ -339,12 +387,6 @@ from .customer_flow_edge_case_remove_response import (
 )
 from .customer_flow_edge_case_update_response import (
     CustomerFlowEdgeCaseUpdateResponse as CustomerFlowEdgeCaseUpdateResponse,
-)
-from .customer_profile_clear_attribute_params import (
-    CustomerProfileClearAttributeParams as CustomerProfileClearAttributeParams,
-)
-from .customer_profile_set_attribute_response import (
-    CustomerProfileSetAttributeResponse as CustomerProfileSetAttributeResponse,
 )
 from .http_request_definition_create_response import (
     HTTPRequestDefinitionCreateResponse as HTTPRequestDefinitionCreateResponse,
@@ -370,8 +412,23 @@ from .simulation_tool_fixture_delete_response import (
 from .simulation_tool_fixture_update_response import (
     SimulationToolFixtureUpdateResponse as SimulationToolFixtureUpdateResponse,
 )
+from .agent_connection_list_backfills_response import (
+    AgentConnectionListBackfillsResponse as AgentConnectionListBackfillsResponse,
+)
+from .agent_connection_list_providers_response import (
+    AgentConnectionListProvidersResponse as AgentConnectionListProvidersResponse,
+)
 from .autoimprove_job_answer_question_response import (
     AutoimproveJobAnswerQuestionResponse as AutoimproveJobAnswerQuestionResponse,
+)
+from .calendar_connection_create_target_params import (
+    CalendarConnectionCreateTargetParams as CalendarConnectionCreateTargetParams,
+)
+from .calendar_connection_delete_target_params import (
+    CalendarConnectionDeleteTargetParams as CalendarConnectionDeleteTargetParams,
+)
+from .calendar_connection_update_target_params import (
+    CalendarConnectionUpdateTargetParams as CalendarConnectionUpdateTargetParams,
 )
 from .customer_flow_edge_case_promote_response import (
     CustomerFlowEdgeCasePromoteResponse as CustomerFlowEdgeCasePromoteResponse,
@@ -379,17 +436,17 @@ from .customer_flow_edge_case_promote_response import (
 from .customer_flow_update_happy_path_response import (
     CustomerFlowUpdateHappyPathResponse as CustomerFlowUpdateHappyPathResponse,
 )
-from .customer_profile_unlock_attribute_params import (
-    CustomerProfileUnlockAttributeParams as CustomerProfileUnlockAttributeParams,
-)
 from .metric_collection_job_get_by_id_response import (
     MetricCollectionJobGetByIDResponse as MetricCollectionJobGetByIDResponse,
 )
+from .agent_connection_cancel_backfill_response import (
+    AgentConnectionCancelBackfillResponse as AgentConnectionCancelBackfillResponse,
+)
+from .agent_connection_create_backfill_response import (
+    AgentConnectionCreateBackfillResponse as AgentConnectionCreateBackfillResponse,
+)
 from .calendar_connection_list_targets_response import (
     CalendarConnectionListTargetsResponse as CalendarConnectionListTargetsResponse,
-)
-from .customer_profile_clear_attribute_response import (
-    CustomerProfileClearAttributeResponse as CustomerProfileClearAttributeResponse,
 )
 from .simulation_environment_get_by_id_response import (
     SimulationEnvironmentGetByIDResponse as SimulationEnvironmentGetByIDResponse,
@@ -400,11 +457,14 @@ from .simulation_run_plan_job_get_cost_response import (
 from .benchmark_list_target_score_samples_params import (
     BenchmarkListTargetScoreSamplesParams as BenchmarkListTargetScoreSamplesParams,
 )
-from .customer_profile_list_conversations_params import (
-    CustomerProfileListConversationsParams as CustomerProfileListConversationsParams,
+from .calendar_connection_create_target_response import (
+    CalendarConnectionCreateTargetResponse as CalendarConnectionCreateTargetResponse,
 )
-from .customer_profile_unlock_attribute_response import (
-    CustomerProfileUnlockAttributeResponse as CustomerProfileUnlockAttributeResponse,
+from .calendar_connection_delete_target_response import (
+    CalendarConnectionDeleteTargetResponse as CalendarConnectionDeleteTargetResponse,
+)
+from .calendar_connection_update_target_response import (
+    CalendarConnectionUpdateTargetResponse as CalendarConnectionUpdateTargetResponse,
 )
 from .http_request_definition_get_by_id_response import (
     HTTPRequestDefinitionGetByIDResponse as HTTPRequestDefinitionGetByIDResponse,
@@ -415,21 +475,57 @@ from .simulation_run_plan_job_get_by_id_response import (
 from .simulation_run_plan_job_get_results_params import (
     SimulationRunPlanJobGetResultsParams as SimulationRunPlanJobGetResultsParams,
 )
+from .calendar_connection_list_calendars_response import (
+    CalendarConnectionListCalendarsResponse as CalendarConnectionListCalendarsResponse,
+)
+from .simulation_get_resource_generation_response import (
+    SimulationGetResourceGenerationResponse as SimulationGetResourceGenerationResponse,
+)
+from .simulation_guide_resource_generation_params import (
+    SimulationGuideResourceGenerationParams as SimulationGuideResourceGenerationParams,
+)
+from .simulation_list_resource_generations_params import (
+    SimulationListResourceGenerationsParams as SimulationListResourceGenerationsParams,
+)
 from .benchmark_list_target_score_samples_response import (
     BenchmarkListTargetScoreSamplesResponse as BenchmarkListTargetScoreSamplesResponse,
 )
-from .customer_profile_list_conversations_response import (
-    CustomerProfileListConversationsResponse as CustomerProfileListConversationsResponse,
+from .simulation_answer_resource_generation_params import (
+    SimulationAnswerResourceGenerationParams as SimulationAnswerResourceGenerationParams,
 )
 from .simulation_run_plan_job_get_results_response import (
     SimulationRunPlanJobGetResultsResponse as SimulationRunPlanJobGetResultsResponse,
 )
+from .calendar_connection_start_google_oauth_params import (
+    CalendarConnectionStartGoogleOauthParams as CalendarConnectionStartGoogleOauthParams,
+)
+from .simulation_guide_resource_generation_response import (
+    SimulationGuideResourceGenerationResponse as SimulationGuideResourceGenerationResponse,
+)
+from .simulation_list_resource_generations_response import (
+    SimulationListResourceGenerationsResponse as SimulationListResourceGenerationsResponse,
+)
 from .simulation_run_plan_job_create_debrief_params import (
     SimulationRunPlanJobCreateDebriefParams as SimulationRunPlanJobCreateDebriefParams,
+)
+from .simulation_answer_resource_generation_response import (
+    SimulationAnswerResourceGenerationResponse as SimulationAnswerResourceGenerationResponse,
+)
+from .simulation_cancel_resource_generation_response import (
+    SimulationCancelResourceGenerationResponse as SimulationCancelResourceGenerationResponse,
+)
+from .calendar_connection_start_calendly_oauth_params import (
+    CalendarConnectionStartCalendlyOauthParams as CalendarConnectionStartCalendlyOauthParams,
+)
+from .calendar_connection_start_google_oauth_response import (
+    CalendarConnectionStartGoogleOauthResponse as CalendarConnectionStartGoogleOauthResponse,
 )
 from .simulation_run_group_regenerate_report_response import (
     SimulationRunGroupRegenerateReportResponse as SimulationRunGroupRegenerateReportResponse,
 )
 from .simulation_run_plan_job_create_debrief_response import (
     SimulationRunPlanJobCreateDebriefResponse as SimulationRunPlanJobCreateDebriefResponse,
+)
+from .calendar_connection_start_calendly_oauth_response import (
+    CalendarConnectionStartCalendlyOauthResponse as CalendarConnectionStartCalendlyOauthResponse,
 )
