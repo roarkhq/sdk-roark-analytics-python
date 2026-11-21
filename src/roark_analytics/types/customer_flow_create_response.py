@@ -18,7 +18,10 @@ __all__ = [
     "ScriptedCustomerFlowAgentExpectation",
     "ScriptedCustomerFlowEdgeCase",
     "ScriptedCustomerFlowEdgeCaseEnvironment",
+    "ScriptedCustomerFlowEdgeCaseEnvironmentLineCustom",
+    "ScriptedCustomerFlowEdgeCaseEnvironmentLineCustomFromAgent",
     "ScriptedCustomerFlowEdgeCasePersonaOverride",
+    "ScriptedCustomerFlowFolder",
     "ScriptedCustomerFlowOffScriptPolicy",
     "VoicemailCustomerFlow",
     "VoicemailCustomerFlowEdgeCase",
@@ -47,11 +50,61 @@ class ScriptedCustomerFlowAgent(BaseModel):
     description: Optional[str]
     """Description of the agent"""
 
+    industry: Optional[
+        Literal[
+            "HEALTHCARE",
+            "FINANCIAL_SERVICES",
+            "INSURANCE",
+            "DEBT_COLLECTION",
+            "RETAIL",
+            "TRAVEL_AND_HOSPITALITY",
+            "TELECOMMUNICATIONS",
+            "TECHNOLOGY",
+            "PUBLIC_SECTOR",
+            "UTILITIES",
+            "LOGISTICS",
+            "AUTOMOTIVE",
+            "HOME_SERVICES",
+            "RESTAURANTS",
+            "EDUCATION",
+            "OTHER",
+        ]
+    ]
+    """The industry the agent serves"""
+
     name: str
     """Name of the agent"""
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
+
+
+class ScriptedCustomerFlowEdgeCaseEnvironmentLineCustomFromAgent(BaseModel):
+    packet_loss_percent: float = FieldInfo(alias="packetLossPercent")
+    """Share of packets lost, 0 to 20 in steps of 0.5."""
+
+    mean_burst_packets: Optional[int] = FieldInfo(alias="meanBurstPackets", default=None)
+    """Mean length of a loss gap in 20 ms packets, 2 to 10. Omit for random loss."""
+
+
+class ScriptedCustomerFlowEdgeCaseEnvironmentLineCustom(BaseModel):
+    """The per-direction loss of a CUSTOM line."""
+
+    from_agent: Optional[ScriptedCustomerFlowEdgeCaseEnvironmentLineCustomFromAgent] = FieldInfo(
+        alias="fromAgent", default=None
+    )
+    """
+    The agent's audio on its way to the caller: what the caller hears. Omit for no
+    loss.
+    """
+
+    to_agent: Optional[ScriptedCustomerFlowEdgeCaseEnvironmentLineCustomFromAgent] = FieldInfo(
+        alias="toAgent", default=None
+    )
+    """
+    The caller's audio on its way to the agent: what the agent hears. Omit for no
+    loss.
+    """
 
 
 class ScriptedCustomerFlowEdgeCaseEnvironment(BaseModel):
@@ -82,6 +135,22 @@ class ScriptedCustomerFlowEdgeCaseEnvironment(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
+
+    line_custom: Optional[ScriptedCustomerFlowEdgeCaseEnvironmentLineCustom] = FieldInfo(alias="lineCustom")
+    """The loss of a CUSTOM line; null on every other."""
+
+    line_quality: Literal["CLEAR", "MINOR_LOSS", "CELL_EDGE", "POOR_CONNECTION", "ONE_WAY_DEGRADED", "CUSTOM"] = (
+        FieldInfo(alias="lineQuality")
+    )
+    """
+    The phone line the simulated caller is on: packet loss applied to its 20 ms
+    audio packets, per direction. The loss pattern is seeded per call, so a redial
+    loses the same packets. CLEAR: No loss. MINOR_LOSS: 1% random, both ways.
+    CELL_EDGE: 5% in 80 ms gaps, both ways. POOR_CONNECTION: 10% in 120 ms gaps,
+    both ways. ONE_WAY_DEGRADED: 8% in 80 ms gaps, toward the agent only. CUSTOM:
+    the per-direction loss in `lineCustom`, up to 20% in 0.5 steps, with a mean
+    burst of up to 10 packets (omit it for random loss).
+    """
 
     name: str
 
@@ -191,9 +260,11 @@ class ScriptedCustomerFlowEdgeCasePersonaOverride(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
@@ -314,6 +385,38 @@ class ScriptedCustomerFlowEdgeCase(BaseModel):
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
 
 
+class ScriptedCustomerFlowFolder(BaseModel):
+    """A folder that groups customer flows. A flow sits in at most one folder."""
+
+    id: str
+
+    built_in: bool = FieldInfo(alias="builtIn")
+    """
+    Whether Roark curates this folder. Built-in folders cannot be deleted or have
+    your flows filed in them.
+    """
+
+    color: Literal[
+        "GREEN", "RED", "ORANGE", "PURPLE", "GREY", "BLUE", "PEACH", "TEAL", "INDIGO", "AMBER", "ROSE", "CYAN"
+    ]
+    """
+    The color the folder is shown with in the app. Folders share the palette labels
+    use.
+    """
+
+    created_at: str = FieldInfo(alias="createdAt")
+    """Creation timestamp in ISO 8601 format"""
+
+    description: Optional[str]
+    """What belongs in this folder."""
+
+    name: str
+    """The folder name, unique within the project."""
+
+    updated_at: str = FieldInfo(alias="updatedAt")
+    """Last update timestamp in ISO 8601 format"""
+
+
 class ScriptedCustomerFlowOffScriptPolicy(BaseModel):
     """
     STRICT only. What the simulated customer does when your agent does not say the
@@ -364,6 +467,9 @@ class ScriptedCustomerFlow(BaseModel):
 
     edge_cases: List[ScriptedCustomerFlowEdgeCase] = FieldInfo(alias="edgeCases")
     """Every other way of running this flow."""
+
+    folder: Optional[ScriptedCustomerFlowFolder]
+    """The folder this flow sits in, or null."""
 
     happy_path: Optional[ScriptedCustomerFlowEdgeCase] = FieldInfo(alias="happyPath")
     """
@@ -500,9 +606,11 @@ class ImprovCustomerFlowEdgeCaseHandoffPersona(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
@@ -627,7 +735,11 @@ class ImprovCustomerFlowEdgeCase(BaseModel):
     """
     The brief the simulated customer improvises from. A `@{persona:<id>}` mention
     hands the phone to that persona mid-call; the sentences around the mention say
-    when.
+    when. Caller cues steer the caller from that point in the brief:
+    `#{emotion:<emotion>}`, `#{language:<ISO 639-1 code>}`,
+    `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says when to cut
+    in on your agent. Cues are voice only. See "Caller cues" in the customer flows
+    concept.
     """
 
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
@@ -651,6 +763,9 @@ class ImprovCustomerFlow(BaseModel):
 
     edge_cases: List[ImprovCustomerFlowEdgeCase] = FieldInfo(alias="edgeCases")
     """Every other way of running this flow."""
+
+    folder: Optional[ScriptedCustomerFlowFolder]
+    """The folder this flow sits in, or null."""
 
     happy_path: Optional[ImprovCustomerFlowEdgeCase] = FieldInfo(alias="happyPath")
     """
@@ -727,6 +842,9 @@ class VoicemailCustomerFlow(BaseModel):
 
     edge_cases: List[VoicemailCustomerFlowEdgeCase] = FieldInfo(alias="edgeCases")
     """Every other way of running this flow."""
+
+    folder: Optional[ScriptedCustomerFlowFolder]
+    """The folder this flow sits in, or null."""
 
     happy_path: Optional[VoicemailCustomerFlowEdgeCase] = FieldInfo(alias="happyPath")
     """

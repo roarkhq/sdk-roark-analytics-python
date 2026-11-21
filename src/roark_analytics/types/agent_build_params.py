@@ -16,7 +16,22 @@ class Llm(TypedDict, total=False):
     model: Required[str]
     """The provider's model id, for example gpt-4.1"""
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
     """Text model provider, for example OPENAI"""
 
 
@@ -26,14 +41,18 @@ class Stt(TypedDict, total=False):
     model: Required[str]
     """The provider's model id, for example nova-3"""
 
-    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+    provider: Required[
+        Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
+    ]
     """Speech-to-text provider, for example DEEPGRAM"""
 
 
 class Tt(TypedDict, total=False):
     """Optional provider voice the hosted agent speaks with"""
 
-    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+    provider: Required[
+        Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
+    ]
     """Text-to-speech provider, for example ELEVENLABS"""
 
     voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]

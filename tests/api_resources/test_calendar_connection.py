@@ -18,6 +18,12 @@ from roark_analytics.types import (
     CalendarConnectionGetByIDResponse,
     CalendarConnectionGetTargetResponse,
     CalendarConnectionListTargetsResponse,
+    CalendarConnectionCreateTargetResponse,
+    CalendarConnectionDeleteTargetResponse,
+    CalendarConnectionUpdateTargetResponse,
+    CalendarConnectionListCalendarsResponse,
+    CalendarConnectionStartGoogleOauthResponse,
+    CalendarConnectionStartCalendlyOauthResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -41,6 +47,7 @@ class TestCalendarConnection:
             api_key="x",
             label="x",
             provider="CAL_COM",
+            go_high_level_location="x",
             timezone="x",
         )
         assert_matches_type(CalendarConnectionCreateResponse, calendar_connection, path=["response"])
@@ -85,6 +92,7 @@ class TestCalendarConnection:
         calendar_connection = client.calendar_connection.update(
             connection_id="connectionId",
             api_key="x",
+            go_high_level_location="x",
             label="x",
             timezone="x",
         )
@@ -230,6 +238,121 @@ class TestCalendarConnection:
             )
 
     @parametrize
+    def test_method_create_target(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        )
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_method_create_target_with_all_params(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+            all_day_events_block=True,
+            buffer_after_minutes=0,
+            buffer_before_minutes=0,
+            horizon_days=1,
+            hours=[{"end_minute": 1, "start_minute": 0, "weekday": 1}],
+            min_notice_minutes=0,
+            slot_interval_minutes=1,
+        )
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_target(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_target(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_create_target(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            client.calendar_connection.with_raw_response.create_target(
+                connection_id="",
+                calendar_id="clinic@example.com",
+                duration_minutes=30,
+                name="Front desk",
+            )
+
+    @parametrize
+    def test_method_delete_target(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        )
+        assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_delete_target(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_delete_target(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_delete_target(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `target_id` but received ''"):
+            client.calendar_connection.with_raw_response.delete_target(
+                "",
+                connection_id="connectionId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            client.calendar_connection.with_raw_response.delete_target(
+                "targetId",
+                connection_id="",
+            )
+
+    @parametrize
     def test_method_get_by_id(self, client: Roark) -> None:
         calendar_connection = client.calendar_connection.get_by_id(
             "connectionId",
@@ -316,6 +439,44 @@ class TestCalendarConnection:
             )
 
     @parametrize
+    def test_method_list_calendars(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.list_calendars(
+            "connectionId",
+        )
+        assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_list_calendars(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.list_calendars(
+            "connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list_calendars(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.list_calendars(
+            "connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_list_calendars(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            client.calendar_connection.with_raw_response.list_calendars(
+                "",
+            )
+
+    @parametrize
     def test_method_list_targets(self, client: Roark) -> None:
         calendar_connection = client.calendar_connection.list_targets(
             "connectionId",
@@ -353,6 +514,140 @@ class TestCalendarConnection:
                 "",
             )
 
+    @parametrize
+    def test_method_start_calendly_oauth(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.start_calendly_oauth()
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_method_start_calendly_oauth_with_all_params(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.start_calendly_oauth(
+            calendar_connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            label="x",
+            timezone="x",
+        )
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_start_calendly_oauth(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.start_calendly_oauth()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_start_calendly_oauth(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.start_calendly_oauth() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_start_google_oauth(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.start_google_oauth()
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_method_start_google_oauth_with_all_params(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.start_google_oauth(
+            calendar_connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            label="x",
+            login_hint="dev@stainless.com",
+            timezone="x",
+        )
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_start_google_oauth(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.start_google_oauth()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_start_google_oauth(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.start_google_oauth() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_update_target(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        )
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_method_update_target_with_all_params(self, client: Roark) -> None:
+        calendar_connection = client.calendar_connection.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+            all_day_events_block=True,
+            buffer_after_minutes=0,
+            buffer_before_minutes=0,
+            duration_minutes=30,
+            horizon_days=1,
+            hours=[{"end_minute": 1, "start_minute": 0, "weekday": 1}],
+            min_notice_minutes=0,
+            name="Front desk",
+            slot_interval_minutes=1,
+        )
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_raw_response_update_target(self, client: Roark) -> None:
+        response = client.calendar_connection.with_raw_response.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = response.parse()
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_target(self, client: Roark) -> None:
+        with client.calendar_connection.with_streaming_response.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = response.parse()
+            assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update_target(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `target_id` but received ''"):
+            client.calendar_connection.with_raw_response.update_target(
+                target_id="",
+                connection_id="connectionId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            client.calendar_connection.with_raw_response.update_target(
+                target_id="targetId",
+                connection_id="",
+            )
+
 
 class TestAsyncCalendarConnection:
     parametrize = pytest.mark.parametrize(
@@ -374,6 +669,7 @@ class TestAsyncCalendarConnection:
             api_key="x",
             label="x",
             provider="CAL_COM",
+            go_high_level_location="x",
             timezone="x",
         )
         assert_matches_type(CalendarConnectionCreateResponse, calendar_connection, path=["response"])
@@ -418,6 +714,7 @@ class TestAsyncCalendarConnection:
         calendar_connection = await async_client.calendar_connection.update(
             connection_id="connectionId",
             api_key="x",
+            go_high_level_location="x",
             label="x",
             timezone="x",
         )
@@ -563,6 +860,121 @@ class TestAsyncCalendarConnection:
             )
 
     @parametrize
+    async def test_method_create_target(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        )
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_method_create_target_with_all_params(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+            all_day_events_block=True,
+            buffer_after_minutes=0,
+            buffer_before_minutes=0,
+            horizon_days=1,
+            hours=[{"end_minute": 1, "start_minute": 0, "weekday": 1}],
+            min_notice_minutes=0,
+            slot_interval_minutes=1,
+        )
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_target(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_target(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.create_target(
+            connection_id="connectionId",
+            calendar_id="clinic@example.com",
+            duration_minutes=30,
+            name="Front desk",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionCreateTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_create_target(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.create_target(
+                connection_id="",
+                calendar_id="clinic@example.com",
+                duration_minutes=30,
+                name="Front desk",
+            )
+
+    @parametrize
+    async def test_method_delete_target(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        )
+        assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_delete_target(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_delete_target(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.delete_target(
+            "targetId",
+            connection_id="connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionDeleteTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_delete_target(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `target_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.delete_target(
+                "",
+                connection_id="connectionId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.delete_target(
+                "targetId",
+                connection_id="",
+            )
+
+    @parametrize
     async def test_method_get_by_id(self, async_client: AsyncRoark) -> None:
         calendar_connection = await async_client.calendar_connection.get_by_id(
             "connectionId",
@@ -649,6 +1061,44 @@ class TestAsyncCalendarConnection:
             )
 
     @parametrize
+    async def test_method_list_calendars(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.list_calendars(
+            "connectionId",
+        )
+        assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list_calendars(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.list_calendars(
+            "connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list_calendars(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.list_calendars(
+            "connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionListCalendarsResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_list_calendars(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.list_calendars(
+                "",
+            )
+
+    @parametrize
     async def test_method_list_targets(self, async_client: AsyncRoark) -> None:
         calendar_connection = await async_client.calendar_connection.list_targets(
             "connectionId",
@@ -684,4 +1134,138 @@ class TestAsyncCalendarConnection:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
             await async_client.calendar_connection.with_raw_response.list_targets(
                 "",
+            )
+
+    @parametrize
+    async def test_method_start_calendly_oauth(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.start_calendly_oauth()
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_method_start_calendly_oauth_with_all_params(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.start_calendly_oauth(
+            calendar_connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            label="x",
+            timezone="x",
+        )
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_start_calendly_oauth(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.start_calendly_oauth()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_start_calendly_oauth(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.start_calendly_oauth() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionStartCalendlyOauthResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_start_google_oauth(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.start_google_oauth()
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_method_start_google_oauth_with_all_params(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.start_google_oauth(
+            calendar_connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            label="x",
+            login_hint="dev@stainless.com",
+            timezone="x",
+        )
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_start_google_oauth(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.start_google_oauth()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_start_google_oauth(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.start_google_oauth() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionStartGoogleOauthResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_update_target(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        )
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_method_update_target_with_all_params(self, async_client: AsyncRoark) -> None:
+        calendar_connection = await async_client.calendar_connection.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+            all_day_events_block=True,
+            buffer_after_minutes=0,
+            buffer_before_minutes=0,
+            duration_minutes=30,
+            horizon_days=1,
+            hours=[{"end_minute": 1, "start_minute": 0, "weekday": 1}],
+            min_notice_minutes=0,
+            name="Front desk",
+            slot_interval_minutes=1,
+        )
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update_target(self, async_client: AsyncRoark) -> None:
+        response = await async_client.calendar_connection.with_raw_response.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        calendar_connection = await response.parse()
+        assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update_target(self, async_client: AsyncRoark) -> None:
+        async with async_client.calendar_connection.with_streaming_response.update_target(
+            target_id="targetId",
+            connection_id="connectionId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            calendar_connection = await response.parse()
+            assert_matches_type(CalendarConnectionUpdateTargetResponse, calendar_connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update_target(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `target_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.update_target(
+                target_id="",
+                connection_id="connectionId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `connection_id` but received ''"):
+            await async_client.calendar_connection.with_raw_response.update_target(
+                target_id="targetId",
+                connection_id="",
             )

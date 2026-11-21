@@ -32,7 +32,9 @@ class DataAgentEndpoint(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber")
     """Agent endpoint phone number"""
 
-    type: Literal["PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY"]
+    type: Literal[
+        "PHONE", "WEBSOCKET", "LIVEKIT", "SMALL_WEBRTC", "ELEVENLABS_WS", "KORE", "GOOGLE_CES", "DAILY", "ROARK_WEBRTC"
+    ]
     """Agent endpoint type"""
 
 
@@ -253,9 +255,11 @@ class DataPersona(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[

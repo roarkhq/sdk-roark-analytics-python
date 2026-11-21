@@ -36,6 +36,15 @@ class TestAgent:
             name="x",
             custom_id="customId",
             description="description",
+            endpoint={
+                "direction": "INCOMING",
+                "environment": "environment",
+                "outbound_dial_http_request_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "outbound_dial_type": "NONE",
+                "value": "value",
+            },
+            industry="HEALTHCARE",
+            prompt="x",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -247,6 +256,15 @@ class TestAsyncAgent:
             name="x",
             custom_id="customId",
             description="description",
+            endpoint={
+                "direction": "INCOMING",
+                "environment": "environment",
+                "outbound_dial_http_request_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "outbound_dial_type": "NONE",
+                "value": "value",
+            },
+            industry="HEALTHCARE",
+            prompt="x",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 

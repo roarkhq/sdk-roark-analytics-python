@@ -134,8 +134,8 @@ class LlmJudgeMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -239,8 +239,8 @@ class FormulaMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -380,8 +380,8 @@ class PatternMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -495,8 +495,8 @@ class HTTPRequestMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than

@@ -82,6 +82,7 @@ class FlowOverride(TypedDict, total=False):
             "INTENT_CLARITY",
             "LANGUAGE",
             "INTERRUPTION",
+            "LINE_QUALITY",
             "MEMORY_RELIABILITY",
             "RESPONSE_TIMING",
             "SPEECH_CLARITY",
@@ -221,6 +222,18 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
     agent_endpoints: Annotated[Iterable[AgentEndpoint], PropertyInfo(alias="agentEndpoints")]
     """Agent endpoints to include in this run plan"""
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+    """
+    The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+    starts one every 5 seconds. Omitted or `null` starts them as fast as
+    `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+    holds the rate only while calls last under `maxConcurrentJobs` /
+    `callsPerSecond` seconds. A run reports the rate it achieved as
+    `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+    / 30 is refused with 400: that limit could only hold it with calls under 30
+    seconds. Send `null` to remove the rate; omit to leave it unchanged.
+    """
+
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
     The reference value, shown first in the results. See `POST /v1/simulation/plan`.
@@ -247,6 +260,7 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -370,6 +384,13 @@ class SimulationRunPlanUpdateParams(TypedDict, total=False):
 
     personas: Iterable[AgentEndpoint]
     """Personas to include in this run plan"""
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
+    """
+    Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+    Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+    Send `null` to remove the ramp; omit to leave it unchanged.
+    """
 
     scenarios: Iterable[Scenario]
     """

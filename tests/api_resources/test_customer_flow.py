@@ -117,6 +117,7 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -209,6 +210,7 @@ class TestCustomerFlow:
                     "prompt": "prompt",
                 }
             ],
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -269,6 +271,7 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -325,6 +328,7 @@ class TestCustomerFlow:
     def test_method_list_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.list(
             after="after",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             include_system="true",
             limit=1,
             search_text="searchText",
@@ -764,6 +768,7 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -856,6 +861,7 @@ class TestAsyncCustomerFlow:
                     "prompt": "prompt",
                 }
             ],
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -916,6 +922,7 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -972,6 +979,7 @@ class TestAsyncCustomerFlow:
     async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.list(
             after="after",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             include_system="true",
             limit=1,
             search_text="searchText",

@@ -86,6 +86,12 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
 
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -159,6 +165,12 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
+
+          prompt: The brief the simulated customer improvises from. Caller cues steer the caller
+              from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+              code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+              when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+              customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -330,6 +342,12 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
 
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -403,6 +421,12 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
+
+          prompt: The brief the simulated customer improvises from. Caller cues steer the caller
+              from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+              code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+              when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+              customer flows concept.
 
           extra_headers: Send extra headers
 

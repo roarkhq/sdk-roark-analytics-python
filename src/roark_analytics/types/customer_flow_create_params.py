@@ -82,6 +82,12 @@ class CreateScriptedCustomerFlowInput(TypedDict, total=False):
 
     description: Optional[str]
 
+    folder_id: Annotated[str, PropertyInfo(alias="folderId")]
+    """
+    A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+    it in no folder.
+    """
+
     off_script_policy: Annotated[
         Optional[CreateScriptedCustomerFlowInputOffScriptPolicy], PropertyInfo(alias="offScriptPolicy")
     ]
@@ -132,6 +138,13 @@ class CreateImprovCustomerFlowInputHappyPath(TypedDict, total=False):
     ]
 
     prompt: Optional[str]
+    """
+    The brief the simulated customer improvises from. Caller cues steer the caller
+    from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+    code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+    when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+    customer flows concept.
+    """
 
 
 class CreateImprovCustomerFlowInputEdgeCase(TypedDict, total=False):
@@ -169,6 +182,13 @@ class CreateImprovCustomerFlowInputEdgeCase(TypedDict, total=False):
     ]
 
     prompt: Optional[str]
+    """
+    The brief the simulated customer improvises from. Caller cues steer the caller
+    from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+    code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+    when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+    customer flows concept.
+    """
 
 
 class CreateImprovCustomerFlowInput(TypedDict, total=False):
@@ -192,6 +212,12 @@ class CreateImprovCustomerFlowInput(TypedDict, total=False):
     """
     Other ways of running it, each inheriting from the happy path what it does not
     name.
+    """
+
+    folder_id: Annotated[str, PropertyInfo(alias="folderId")]
+    """
+    A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+    it in no folder.
     """
 
 

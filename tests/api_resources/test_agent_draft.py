@@ -100,7 +100,7 @@ class TestAgentDraft:
                 "idle_timeout_seconds": 1,
                 "interruption_mode": "ALLOW",
                 "language": "xx",
-                "modalities": ["call"],
+                "modalities": ["voice"],
                 "sub_agents": [
                     {
                         "handoffs": [
@@ -139,6 +139,7 @@ class TestAgentDraft:
                         "tools": [{"pinned_version": 1, "tool_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                     }
                 ],
+                "vad_max_silence_secs": 0,
                 "vad_start_secs": 0,
                 "vad_stop_secs": 0,
             },
@@ -390,7 +391,7 @@ class TestAsyncAgentDraft:
                 "idle_timeout_seconds": 1,
                 "interruption_mode": "ALLOW",
                 "language": "xx",
-                "modalities": ["call"],
+                "modalities": ["voice"],
                 "sub_agents": [
                     {
                         "handoffs": [
@@ -429,6 +430,7 @@ class TestAsyncAgentDraft:
                         "tools": [{"pinned_version": 1, "tool_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
                     }
                 ],
+                "vad_max_silence_secs": 0,
                 "vad_start_secs": 0,
                 "vad_stop_secs": 0,
             },

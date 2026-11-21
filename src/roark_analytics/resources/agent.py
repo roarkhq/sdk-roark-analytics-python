@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -53,6 +54,29 @@ class AgentResource(SyncAPIResource):
         name: str,
         custom_id: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        endpoint: Optional[agent_create_params.Endpoint] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        prompt: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -66,9 +90,15 @@ class AgentResource(SyncAPIResource):
         Args:
           name: Name of the agent
 
-          custom_id: Custom identifier for the agent
+          custom_id: Custom identifier for the agent. Must be unique in the project.
 
           description: Description of the agent
+
+          endpoint: The phone number Roark calls to test the agent.
+
+          industry: The industry the agent serves.
+
+          prompt: The agent's system prompt.
 
           extra_headers: Send extra headers
 
@@ -85,6 +115,9 @@ class AgentResource(SyncAPIResource):
                     "name": name,
                     "custom_id": custom_id,
                     "description": description,
+                    "endpoint": endpoint,
+                    "industry": industry,
+                    "prompt": prompt,
                 },
                 agent_create_params.AgentCreateParams,
             ),
@@ -308,6 +341,29 @@ class AsyncAgentResource(AsyncAPIResource):
         name: str,
         custom_id: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        endpoint: Optional[agent_create_params.Endpoint] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        prompt: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -321,9 +377,15 @@ class AsyncAgentResource(AsyncAPIResource):
         Args:
           name: Name of the agent
 
-          custom_id: Custom identifier for the agent
+          custom_id: Custom identifier for the agent. Must be unique in the project.
 
           description: Description of the agent
+
+          endpoint: The phone number Roark calls to test the agent.
+
+          industry: The industry the agent serves.
+
+          prompt: The agent's system prompt.
 
           extra_headers: Send extra headers
 
@@ -340,6 +402,9 @@ class AsyncAgentResource(AsyncAPIResource):
                     "name": name,
                     "custom_id": custom_id,
                     "description": description,
+                    "endpoint": endpoint,
+                    "industry": industry,
+                    "prompt": prompt,
                 },
                 agent_create_params.AgentCreateParams,
             ),
