@@ -54,9 +54,11 @@ class ToolResource(SyncAPIResource):
         description: str,
         name: str,
         agent_id: Optional[str] | Omit = omit,
+        calendar: Optional[tool_create_params.Calendar] | Omit = omit,
         expected_result: Optional[str] | Omit = omit,
         inputs: Iterable[tool_create_params.Input] | Omit = omit,
         invocation_criteria: Optional[str] | Omit = omit,
+        mcp: Optional[tool_create_params.Mcp] | Omit = omit,
         runtime: Optional[tool_create_params.Runtime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -69,11 +71,21 @@ class ToolResource(SyncAPIResource):
 
         A tool only recorded from calls
         under the same name is adopted; one already declared returns 409. Give it a
-        `runtime` for a hosted agent to call your endpoint. Header values are returned
-        on read, so keep secrets out of them.
+        `runtime` for a hosted agent to call your endpoint, a `calendar` for it to book
+        on a calendar connected to the project, or `mcp` for it to call a tool on an MCP
+        server connected to the project. Header values are returned on read, so keep
+        secrets out of them.
 
         Args:
           description: When the agent should use the tool
+
+          calendar: Makes this a calendar tool, which Roark runs against a connected calendar: it
+              takes no runtime and no inputs. Omit or null for any other tool; on update,
+              omitting it makes the tool an ordinary one.
+
+          mcp: Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+              inputs and no calendar, and the description replaces the server's own. On
+              update, omitting it makes the tool an ordinary one.
 
           runtime: Omit or null for a tool that is only graded
 
@@ -92,9 +104,11 @@ class ToolResource(SyncAPIResource):
                     "description": description,
                     "name": name,
                     "agent_id": agent_id,
+                    "calendar": calendar,
                     "expected_result": expected_result,
                     "inputs": inputs,
                     "invocation_criteria": invocation_criteria,
+                    "mcp": mcp,
                     "runtime": runtime,
                 },
                 tool_create_params.ToolCreateParams,
@@ -112,9 +126,11 @@ class ToolResource(SyncAPIResource):
         description: str,
         name: str,
         agent_id: Optional[str] | Omit = omit,
+        calendar: Optional[tool_update_params.Calendar] | Omit = omit,
         expected_result: Optional[str] | Omit = omit,
         inputs: Iterable[tool_update_params.Input] | Omit = omit,
         invocation_criteria: Optional[str] | Omit = omit,
+        mcp: Optional[tool_update_params.Mcp] | Omit = omit,
         runtime: Optional[tool_update_params.Runtime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -124,13 +140,22 @@ class ToolResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ToolUpdateResponse:
         """
-        Replaces the tool: its name, scope, inputs, description, grading hints and
-        runtime. A field left out is cleared, so omitting agentId makes the tool
-        project-wide. A change declares a new version; agent versions pinned to an older
-        one keep it.
+        Replaces the tool: its name, scope, inputs, description, grading hints, runtime,
+        calendar and MCP tool. A field left out is cleared, so omitting agentId makes
+        the tool project-wide and omitting calendar or mcp makes it an ordinary tool. A
+        change declares a new version; agent versions pinned to an older one keep it. A
+        tool managed by config-as-code returns 409.
 
         Args:
           description: When the agent should use the tool
+
+          calendar: Makes this a calendar tool, which Roark runs against a connected calendar: it
+              takes no runtime and no inputs. Omit or null for any other tool; on update,
+              omitting it makes the tool an ordinary one.
+
+          mcp: Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+              inputs and no calendar, and the description replaces the server's own. On
+              update, omitting it makes the tool an ordinary one.
 
           runtime: Omit or null for a tool that is only graded
 
@@ -151,9 +176,11 @@ class ToolResource(SyncAPIResource):
                     "description": description,
                     "name": name,
                     "agent_id": agent_id,
+                    "calendar": calendar,
                     "expected_result": expected_result,
                     "inputs": inputs,
                     "invocation_criteria": invocation_criteria,
+                    "mcp": mcp,
                     "runtime": runtime,
                 },
                 tool_update_params.ToolUpdateParams,
@@ -306,9 +333,11 @@ class AsyncToolResource(AsyncAPIResource):
         description: str,
         name: str,
         agent_id: Optional[str] | Omit = omit,
+        calendar: Optional[tool_create_params.Calendar] | Omit = omit,
         expected_result: Optional[str] | Omit = omit,
         inputs: Iterable[tool_create_params.Input] | Omit = omit,
         invocation_criteria: Optional[str] | Omit = omit,
+        mcp: Optional[tool_create_params.Mcp] | Omit = omit,
         runtime: Optional[tool_create_params.Runtime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -321,11 +350,21 @@ class AsyncToolResource(AsyncAPIResource):
 
         A tool only recorded from calls
         under the same name is adopted; one already declared returns 409. Give it a
-        `runtime` for a hosted agent to call your endpoint. Header values are returned
-        on read, so keep secrets out of them.
+        `runtime` for a hosted agent to call your endpoint, a `calendar` for it to book
+        on a calendar connected to the project, or `mcp` for it to call a tool on an MCP
+        server connected to the project. Header values are returned on read, so keep
+        secrets out of them.
 
         Args:
           description: When the agent should use the tool
+
+          calendar: Makes this a calendar tool, which Roark runs against a connected calendar: it
+              takes no runtime and no inputs. Omit or null for any other tool; on update,
+              omitting it makes the tool an ordinary one.
+
+          mcp: Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+              inputs and no calendar, and the description replaces the server's own. On
+              update, omitting it makes the tool an ordinary one.
 
           runtime: Omit or null for a tool that is only graded
 
@@ -344,9 +383,11 @@ class AsyncToolResource(AsyncAPIResource):
                     "description": description,
                     "name": name,
                     "agent_id": agent_id,
+                    "calendar": calendar,
                     "expected_result": expected_result,
                     "inputs": inputs,
                     "invocation_criteria": invocation_criteria,
+                    "mcp": mcp,
                     "runtime": runtime,
                 },
                 tool_create_params.ToolCreateParams,
@@ -364,9 +405,11 @@ class AsyncToolResource(AsyncAPIResource):
         description: str,
         name: str,
         agent_id: Optional[str] | Omit = omit,
+        calendar: Optional[tool_update_params.Calendar] | Omit = omit,
         expected_result: Optional[str] | Omit = omit,
         inputs: Iterable[tool_update_params.Input] | Omit = omit,
         invocation_criteria: Optional[str] | Omit = omit,
+        mcp: Optional[tool_update_params.Mcp] | Omit = omit,
         runtime: Optional[tool_update_params.Runtime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -376,13 +419,22 @@ class AsyncToolResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ToolUpdateResponse:
         """
-        Replaces the tool: its name, scope, inputs, description, grading hints and
-        runtime. A field left out is cleared, so omitting agentId makes the tool
-        project-wide. A change declares a new version; agent versions pinned to an older
-        one keep it.
+        Replaces the tool: its name, scope, inputs, description, grading hints, runtime,
+        calendar and MCP tool. A field left out is cleared, so omitting agentId makes
+        the tool project-wide and omitting calendar or mcp makes it an ordinary tool. A
+        change declares a new version; agent versions pinned to an older one keep it. A
+        tool managed by config-as-code returns 409.
 
         Args:
           description: When the agent should use the tool
+
+          calendar: Makes this a calendar tool, which Roark runs against a connected calendar: it
+              takes no runtime and no inputs. Omit or null for any other tool; on update,
+              omitting it makes the tool an ordinary one.
+
+          mcp: Makes this a tool on one of the project's MCP servers: it takes no runtime, no
+              inputs and no calendar, and the description replaces the server's own. On
+              update, omitting it makes the tool an ordinary one.
 
           runtime: Omit or null for a tool that is only graded
 
@@ -403,9 +455,11 @@ class AsyncToolResource(AsyncAPIResource):
                     "description": description,
                     "name": name,
                     "agent_id": agent_id,
+                    "calendar": calendar,
                     "expected_result": expected_result,
                     "inputs": inputs,
                     "invocation_criteria": invocation_criteria,
+                    "mcp": mcp,
                     "runtime": runtime,
                 },
                 tool_update_params.ToolUpdateParams,

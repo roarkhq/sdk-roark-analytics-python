@@ -118,8 +118,8 @@ class SimulationRunGroupResource(SyncAPIResource):
     ) -> SimulationRunGroupListResponse:
         """
         Returns the run groups in the project, newest first, with their runs and where
-        each group report stands. Read a report document from GET
-        /v1/simulation/run-group/{groupId}.
+        each group report stands. Read a report document from `GET
+        /v1/simulation/run-group/{groupId}`.
 
         Args:
           limit: Maximum number of run groups to return (default: 20, max: 100)
@@ -351,8 +351,8 @@ class AsyncSimulationRunGroupResource(AsyncAPIResource):
     ) -> SimulationRunGroupListResponse:
         """
         Returns the run groups in the project, newest first, with their runs and where
-        each group report stands. Read a report document from GET
-        /v1/simulation/run-group/{groupId}.
+        each group report stands. Read a report document from `GET
+        /v1/simulation/run-group/{groupId}`.
 
         Args:
           limit: Maximum number of run groups to return (default: 20, max: 100)

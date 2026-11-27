@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
 from ..types import metric_variant_create_params, metric_variant_update_params
@@ -92,6 +94,7 @@ class MetricVariantResource(SyncAPIResource):
         variant_id: str,
         *,
         id_or_slug: str,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         change_reason: str | Omit = omit,
@@ -123,6 +126,12 @@ class MetricVariantResource(SyncAPIResource):
         Args:
           id_or_slug: Metric definition UUID or its stable slug.
 
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation.
+
           boolean_false_label: What a `false` value means. Given to the judge as its polarity rule, so keep it
               accurate.
 
@@ -135,7 +144,10 @@ class MetricVariantResource(SyncAPIResource):
               where your agent never spoke (custom metrics only, not ones that judge the
               audio). Such calls skip every other metric. Default false.
 
-          llm_prompt: The rubric this variant applies. LLM judge metrics only.
+          llm_prompt: The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+              must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
 
@@ -162,6 +174,7 @@ class MetricVariantResource(SyncAPIResource):
             f"/v1/metric/definitions/{id_or_slug}/variants/{variant_id}",
             body=maybe_transform(
                 {
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,
@@ -366,6 +379,7 @@ class AsyncMetricVariantResource(AsyncAPIResource):
         variant_id: str,
         *,
         id_or_slug: str,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         change_reason: str | Omit = omit,
@@ -397,6 +411,12 @@ class AsyncMetricVariantResource(AsyncAPIResource):
         Args:
           id_or_slug: Metric definition UUID or its stable slug.
 
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation.
+
           boolean_false_label: What a `false` value means. Given to the judge as its polarity rule, so keep it
               accurate.
 
@@ -409,7 +429,10 @@ class AsyncMetricVariantResource(AsyncAPIResource):
               where your agent never spoke (custom metrics only, not ones that judge the
               audio). Such calls skip every other metric. Default false.
 
-          llm_prompt: The rubric this variant applies. LLM judge metrics only.
+          llm_prompt: The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+              must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: Maximum classifications returned. CLASSIFICATION output only.
 
@@ -436,6 +459,7 @@ class AsyncMetricVariantResource(AsyncAPIResource):
             f"/v1/metric/definitions/{id_or_slug}/variants/{variant_id}",
             body=await async_maybe_transform(
                 {
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "change_reason": change_reason,

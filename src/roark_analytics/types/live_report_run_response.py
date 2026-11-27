@@ -32,6 +32,7 @@ __all__ = [
     "DataDocumentTarget",
     "DataDocumentTargetSery",
     "DataDocumentTheme",
+    "DataDocumentThemeCheck",
     "DataDocumentThemeCollectorQuote",
     "DataDocumentThemeExcerpt",
     "DataDocumentThemeExcerptTurn",
@@ -268,11 +269,19 @@ class DataDocumentExecutiveSummaryKeyFinding(BaseModel):
 
     calls: Optional[List[DataDocumentExecutiveSummaryKeyFindingCall]] = None
 
+    metric_definition_ids: Optional[List[str]] = FieldInfo(alias="metricDefinitionIds", default=None)
+
+    theme_slugs: Optional[List[str]] = FieldInfo(alias="themeSlugs", default=None)
+
 
 class DataDocumentExecutiveSummarySection(BaseModel):
     body: str
 
     heading: Optional[str]
+
+    metric_definition_ids: Optional[List[str]] = FieldInfo(alias="metricDefinitionIds", default=None)
+
+    theme_slugs: Optional[List[str]] = FieldInfo(alias="themeSlugs", default=None)
 
 
 class DataDocumentExecutiveSummary(BaseModel):
@@ -437,6 +446,14 @@ class DataDocumentThemeIssue(BaseModel):
     title: str
 
 
+class DataDocumentThemeCheck(BaseModel):
+    check_name: str = FieldInfo(alias="checkName")
+
+    conversation_ids: List[str] = FieldInfo(alias="conversationIds")
+
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+
 class DataDocumentTheme(BaseModel):
     affected_conversation_count: int = FieldInfo(alias="affectedConversationCount")
 
@@ -478,9 +495,13 @@ class DataDocumentTheme(BaseModel):
 
     total_conversation_count: int = FieldInfo(alias="totalConversationCount")
 
+    checks: Optional[List[DataDocumentThemeCheck]] = None
+
     member_calls: Optional[List[DataDocumentExecutiveSummaryKeyFindingCall]] = FieldInfo(
         alias="memberCalls", default=None
     )
+
+    supported_by_transcript: Optional[bool] = FieldInfo(alias="supportedByTranscript", default=None)
 
 
 class DataDocumentVolumeEnding(BaseModel):
@@ -540,8 +561,8 @@ class DataDocument(BaseModel):
 class Data(BaseModel):
     """
     One written report over one period. `document` is null until `status` is READY;
-    every number in it comes from the analytics engine (the same reads GET
-    /v1/dashboard/{dashboardId}/data makes over the same window and filters).
+    every number in it comes from the analytics engine (the same reads `GET
+    /v1/dashboard/{dashboardId}/data` makes over the same window and filters).
     """
 
     id: str
@@ -579,6 +600,6 @@ class LiveReportRunResponse(BaseModel):
     data: Data
     """
     One written report over one period. `document` is null until `status` is READY;
-    every number in it comes from the analytics engine (the same reads GET
-    /v1/dashboard/{dashboardId}/data makes over the same window and filters).
+    every number in it comes from the analytics engine (the same reads `GET
+    /v1/dashboard/{dashboardId}/data` makes over the same window and filters).
     """

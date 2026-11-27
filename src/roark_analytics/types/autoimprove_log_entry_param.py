@@ -43,6 +43,10 @@ class AutoimproveLogEntryParam(TypedDict, total=False):
 
     question_options: Required[Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="questionOptions")]]
 
+    sent_by_id: Required[Annotated[Optional[str], PropertyInfo(alias="sentById")]]
+
+    sent_via: Required[Annotated[Optional[Literal["PLATFORM", "ROARKY", "API"]], PropertyInfo(alias="sentVia")]]
+
     simulation_run_plan_job_id: Required[Annotated[Optional[str], PropertyInfo(alias="simulationRunPlanJobId")]]
 
     text: Required[str]

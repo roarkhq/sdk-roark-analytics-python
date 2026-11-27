@@ -42,14 +42,17 @@ if TYPE_CHECKING:
         metric,
         project,
         webhook,
+        customer,
         analytics,
         benchmark,
         dashboard,
+        mcp_server,
         simulation,
         agent_draft,
         live_report,
         agent_config,
         agent_prompt,
+        conversation,
         phone_number,
         agent_version,
         customer_flow,
@@ -58,18 +61,21 @@ if TYPE_CHECKING:
         metric_variant,
         simulation_job,
         autoimprove_job,
-        customer_profile,
+        agent_connection,
         simulation_group,
+        agent_conversation,
         simulation_persona,
         calendar_connection,
         simulation_run_plan,
         simulation_template,
+        customer_flow_folder,
         simulation_run_group,
         metric_collection_job,
         simulation_audio_clip,
         simulation_environment,
         customer_flow_edge_case,
         http_request_definition,
+        simulation_phone_number,
         simulation_run_plan_job,
         simulation_tool_fixture,
         simulation_job_tool_mock,
@@ -84,14 +90,17 @@ if TYPE_CHECKING:
     from .resources.metric import MetricResource, AsyncMetricResource
     from .resources.project import ProjectResource, AsyncProjectResource
     from .resources.webhook import WebhookResource, AsyncWebhookResource
+    from .resources.customer import CustomerResource, AsyncCustomerResource
     from .resources.analytics import AnalyticsResource, AsyncAnalyticsResource
     from .resources.benchmark import BenchmarkResource, AsyncBenchmarkResource
     from .resources.dashboard import DashboardResource, AsyncDashboardResource
+    from .resources.mcp_server import McpServerResource, AsyncMcpServerResource
     from .resources.simulation import SimulationResource, AsyncSimulationResource
     from .resources.agent_draft import AgentDraftResource, AsyncAgentDraftResource
     from .resources.live_report import LiveReportResource, AsyncLiveReportResource
     from .resources.agent_config import AgentConfigResource, AsyncAgentConfigResource
     from .resources.agent_prompt import AgentPromptResource, AsyncAgentPromptResource
+    from .resources.conversation import ConversationResource, AsyncConversationResource
     from .resources.phone_number import PhoneNumberResource, AsyncPhoneNumberResource
     from .resources.agent_version import AgentVersionResource, AsyncAgentVersionResource
     from .resources.customer_flow import CustomerFlowResource, AsyncCustomerFlowResource
@@ -100,18 +109,21 @@ if TYPE_CHECKING:
     from .resources.metric_variant import MetricVariantResource, AsyncMetricVariantResource
     from .resources.simulation_job import SimulationJobResource, AsyncSimulationJobResource
     from .resources.autoimprove_job import AutoimproveJobResource, AsyncAutoimproveJobResource
-    from .resources.customer_profile import CustomerProfileResource, AsyncCustomerProfileResource
+    from .resources.agent_connection import AgentConnectionResource, AsyncAgentConnectionResource
     from .resources.simulation_group import SimulationGroupResource, AsyncSimulationGroupResource
+    from .resources.agent_conversation import AgentConversationResource, AsyncAgentConversationResource
     from .resources.simulation_persona import SimulationPersonaResource, AsyncSimulationPersonaResource
     from .resources.calendar_connection import CalendarConnectionResource, AsyncCalendarConnectionResource
     from .resources.simulation_run_plan import SimulationRunPlanResource, AsyncSimulationRunPlanResource
     from .resources.simulation_template import SimulationTemplateResource, AsyncSimulationTemplateResource
+    from .resources.customer_flow_folder import CustomerFlowFolderResource, AsyncCustomerFlowFolderResource
     from .resources.simulation_run_group import SimulationRunGroupResource, AsyncSimulationRunGroupResource
     from .resources.metric_collection_job import MetricCollectionJobResource, AsyncMetricCollectionJobResource
     from .resources.simulation_audio_clip import SimulationAudioClipResource, AsyncSimulationAudioClipResource
     from .resources.simulation_environment import SimulationEnvironmentResource, AsyncSimulationEnvironmentResource
     from .resources.customer_flow_edge_case import CustomerFlowEdgeCaseResource, AsyncCustomerFlowEdgeCaseResource
     from .resources.http_request_definition import HTTPRequestDefinitionResource, AsyncHTTPRequestDefinitionResource
+    from .resources.simulation_phone_number import SimulationPhoneNumberResource, AsyncSimulationPhoneNumberResource
     from .resources.simulation_run_plan_job import SimulationRunPlanJobResource, AsyncSimulationRunPlanJobResource
     from .resources.simulation_tool_fixture import SimulationToolFixtureResource, AsyncSimulationToolFixtureResource
     from .resources.simulation_job_tool_mock import SimulationJobToolMockResource, AsyncSimulationJobToolMockResource
@@ -211,6 +223,12 @@ class Roark(SyncAPIClient):
         return UsageResource(self)
 
     @cached_property
+    def conversation(self) -> ConversationResource:
+        from .resources.conversation import ConversationResource
+
+        return ConversationResource(self)
+
+    @cached_property
     def call(self) -> CallResource:
         from .resources.call import CallResource
 
@@ -283,6 +301,12 @@ class Roark(SyncAPIClient):
         return SimulationAudioClipResource(self)
 
     @cached_property
+    def simulation_phone_number(self) -> SimulationPhoneNumberResource:
+        from .resources.simulation_phone_number import SimulationPhoneNumberResource
+
+        return SimulationPhoneNumberResource(self)
+
+    @cached_property
     def simulation_tool_fixture(self) -> SimulationToolFixtureResource:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResource
 
@@ -319,10 +343,10 @@ class Roark(SyncAPIClient):
         return SimulationPersonaResource(self)
 
     @cached_property
-    def customer_profile(self) -> CustomerProfileResource:
-        from .resources.customer_profile import CustomerProfileResource
+    def customer(self) -> CustomerResource:
+        from .resources.customer import CustomerResource
 
-        return CustomerProfileResource(self)
+        return CustomerResource(self)
 
     @cached_property
     def simulation_environment(self) -> SimulationEnvironmentResource:
@@ -353,6 +377,12 @@ class Roark(SyncAPIClient):
         from .resources.customer_flow import CustomerFlowResource
 
         return CustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_folder(self) -> CustomerFlowFolderResource:
+        from .resources.customer_flow_folder import CustomerFlowFolderResource
+
+        return CustomerFlowFolderResource(self)
 
     @cached_property
     def customer_flow_edge_case(self) -> CustomerFlowEdgeCaseResource:
@@ -397,6 +427,12 @@ class Roark(SyncAPIClient):
         return AgentDraftResource(self)
 
     @cached_property
+    def agent_conversation(self) -> AgentConversationResource:
+        from .resources.agent_conversation import AgentConversationResource
+
+        return AgentConversationResource(self)
+
+    @cached_property
     def tool(self) -> ToolResource:
         from .resources.tool import ToolResource
 
@@ -413,6 +449,18 @@ class Roark(SyncAPIClient):
         from .resources.calendar_connection import CalendarConnectionResource
 
         return CalendarConnectionResource(self)
+
+    @cached_property
+    def mcp_server(self) -> McpServerResource:
+        from .resources.mcp_server import McpServerResource
+
+        return McpServerResource(self)
+
+    @cached_property
+    def agent_connection(self) -> AgentConnectionResource:
+        from .resources.agent_connection import AgentConnectionResource
+
+        return AgentConnectionResource(self)
 
     @cached_property
     def webhook(self) -> WebhookResource:
@@ -651,6 +699,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncUsageResource(self)
 
     @cached_property
+    def conversation(self) -> AsyncConversationResource:
+        from .resources.conversation import AsyncConversationResource
+
+        return AsyncConversationResource(self)
+
+    @cached_property
     def call(self) -> AsyncCallResource:
         from .resources.call import AsyncCallResource
 
@@ -723,6 +777,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationAudioClipResource(self)
 
     @cached_property
+    def simulation_phone_number(self) -> AsyncSimulationPhoneNumberResource:
+        from .resources.simulation_phone_number import AsyncSimulationPhoneNumberResource
+
+        return AsyncSimulationPhoneNumberResource(self)
+
+    @cached_property
     def simulation_tool_fixture(self) -> AsyncSimulationToolFixtureResource:
         from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResource
 
@@ -759,10 +819,10 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncSimulationPersonaResource(self)
 
     @cached_property
-    def customer_profile(self) -> AsyncCustomerProfileResource:
-        from .resources.customer_profile import AsyncCustomerProfileResource
+    def customer(self) -> AsyncCustomerResource:
+        from .resources.customer import AsyncCustomerResource
 
-        return AsyncCustomerProfileResource(self)
+        return AsyncCustomerResource(self)
 
     @cached_property
     def simulation_environment(self) -> AsyncSimulationEnvironmentResource:
@@ -793,6 +853,12 @@ class AsyncRoark(AsyncAPIClient):
         from .resources.customer_flow import AsyncCustomerFlowResource
 
         return AsyncCustomerFlowResource(self)
+
+    @cached_property
+    def customer_flow_folder(self) -> AsyncCustomerFlowFolderResource:
+        from .resources.customer_flow_folder import AsyncCustomerFlowFolderResource
+
+        return AsyncCustomerFlowFolderResource(self)
 
     @cached_property
     def customer_flow_edge_case(self) -> AsyncCustomerFlowEdgeCaseResource:
@@ -837,6 +903,12 @@ class AsyncRoark(AsyncAPIClient):
         return AsyncAgentDraftResource(self)
 
     @cached_property
+    def agent_conversation(self) -> AsyncAgentConversationResource:
+        from .resources.agent_conversation import AsyncAgentConversationResource
+
+        return AsyncAgentConversationResource(self)
+
+    @cached_property
     def tool(self) -> AsyncToolResource:
         from .resources.tool import AsyncToolResource
 
@@ -853,6 +925,18 @@ class AsyncRoark(AsyncAPIClient):
         from .resources.calendar_connection import AsyncCalendarConnectionResource
 
         return AsyncCalendarConnectionResource(self)
+
+    @cached_property
+    def mcp_server(self) -> AsyncMcpServerResource:
+        from .resources.mcp_server import AsyncMcpServerResource
+
+        return AsyncMcpServerResource(self)
+
+    @cached_property
+    def agent_connection(self) -> AsyncAgentConnectionResource:
+        from .resources.agent_connection import AsyncAgentConnectionResource
+
+        return AsyncAgentConnectionResource(self)
 
     @cached_property
     def webhook(self) -> AsyncWebhookResource:
@@ -1030,6 +1114,12 @@ class RoarkWithRawResponse:
         return UsageResourceWithRawResponse(self._client.usage)
 
     @cached_property
+    def conversation(self) -> conversation.ConversationResourceWithRawResponse:
+        from .resources.conversation import ConversationResourceWithRawResponse
+
+        return ConversationResourceWithRawResponse(self._client.conversation)
+
+    @cached_property
     def call(self) -> call.CallResourceWithRawResponse:
         from .resources.call import CallResourceWithRawResponse
 
@@ -1102,6 +1192,12 @@ class RoarkWithRawResponse:
         return SimulationAudioClipResourceWithRawResponse(self._client.simulation_audio_clip)
 
     @cached_property
+    def simulation_phone_number(self) -> simulation_phone_number.SimulationPhoneNumberResourceWithRawResponse:
+        from .resources.simulation_phone_number import SimulationPhoneNumberResourceWithRawResponse
+
+        return SimulationPhoneNumberResourceWithRawResponse(self._client.simulation_phone_number)
+
+    @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithRawResponse:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithRawResponse
 
@@ -1138,10 +1234,10 @@ class RoarkWithRawResponse:
         return SimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
 
     @cached_property
-    def customer_profile(self) -> customer_profile.CustomerProfileResourceWithRawResponse:
-        from .resources.customer_profile import CustomerProfileResourceWithRawResponse
+    def customer(self) -> customer.CustomerResourceWithRawResponse:
+        from .resources.customer import CustomerResourceWithRawResponse
 
-        return CustomerProfileResourceWithRawResponse(self._client.customer_profile)
+        return CustomerResourceWithRawResponse(self._client.customer)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithRawResponse:
@@ -1172,6 +1268,12 @@ class RoarkWithRawResponse:
         from .resources.customer_flow import CustomerFlowResourceWithRawResponse
 
         return CustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_folder(self) -> customer_flow_folder.CustomerFlowFolderResourceWithRawResponse:
+        from .resources.customer_flow_folder import CustomerFlowFolderResourceWithRawResponse
+
+        return CustomerFlowFolderResourceWithRawResponse(self._client.customer_flow_folder)
 
     @cached_property
     def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithRawResponse:
@@ -1216,6 +1318,12 @@ class RoarkWithRawResponse:
         return AgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
+    def agent_conversation(self) -> agent_conversation.AgentConversationResourceWithRawResponse:
+        from .resources.agent_conversation import AgentConversationResourceWithRawResponse
+
+        return AgentConversationResourceWithRawResponse(self._client.agent_conversation)
+
+    @cached_property
     def tool(self) -> tool.ToolResourceWithRawResponse:
         from .resources.tool import ToolResourceWithRawResponse
 
@@ -1232,6 +1340,18 @@ class RoarkWithRawResponse:
         from .resources.calendar_connection import CalendarConnectionResourceWithRawResponse
 
         return CalendarConnectionResourceWithRawResponse(self._client.calendar_connection)
+
+    @cached_property
+    def mcp_server(self) -> mcp_server.McpServerResourceWithRawResponse:
+        from .resources.mcp_server import McpServerResourceWithRawResponse
+
+        return McpServerResourceWithRawResponse(self._client.mcp_server)
+
+    @cached_property
+    def agent_connection(self) -> agent_connection.AgentConnectionResourceWithRawResponse:
+        from .resources.agent_connection import AgentConnectionResourceWithRawResponse
+
+        return AgentConnectionResourceWithRawResponse(self._client.agent_connection)
 
     @cached_property
     def webhook(self) -> webhook.WebhookResourceWithRawResponse:
@@ -1281,6 +1401,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.usage import AsyncUsageResourceWithRawResponse
 
         return AsyncUsageResourceWithRawResponse(self._client.usage)
+
+    @cached_property
+    def conversation(self) -> conversation.AsyncConversationResourceWithRawResponse:
+        from .resources.conversation import AsyncConversationResourceWithRawResponse
+
+        return AsyncConversationResourceWithRawResponse(self._client.conversation)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithRawResponse:
@@ -1355,6 +1481,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncSimulationAudioClipResourceWithRawResponse(self._client.simulation_audio_clip)
 
     @cached_property
+    def simulation_phone_number(self) -> simulation_phone_number.AsyncSimulationPhoneNumberResourceWithRawResponse:
+        from .resources.simulation_phone_number import AsyncSimulationPhoneNumberResourceWithRawResponse
+
+        return AsyncSimulationPhoneNumberResourceWithRawResponse(self._client.simulation_phone_number)
+
+    @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.AsyncSimulationToolFixtureResourceWithRawResponse:
         from .resources.simulation_tool_fixture import AsyncSimulationToolFixtureResourceWithRawResponse
 
@@ -1391,10 +1523,10 @@ class AsyncRoarkWithRawResponse:
         return AsyncSimulationPersonaResourceWithRawResponse(self._client.simulation_persona)
 
     @cached_property
-    def customer_profile(self) -> customer_profile.AsyncCustomerProfileResourceWithRawResponse:
-        from .resources.customer_profile import AsyncCustomerProfileResourceWithRawResponse
+    def customer(self) -> customer.AsyncCustomerResourceWithRawResponse:
+        from .resources.customer import AsyncCustomerResourceWithRawResponse
 
-        return AsyncCustomerProfileResourceWithRawResponse(self._client.customer_profile)
+        return AsyncCustomerResourceWithRawResponse(self._client.customer)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithRawResponse:
@@ -1425,6 +1557,12 @@ class AsyncRoarkWithRawResponse:
         from .resources.customer_flow import AsyncCustomerFlowResourceWithRawResponse
 
         return AsyncCustomerFlowResourceWithRawResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_folder(self) -> customer_flow_folder.AsyncCustomerFlowFolderResourceWithRawResponse:
+        from .resources.customer_flow_folder import AsyncCustomerFlowFolderResourceWithRawResponse
+
+        return AsyncCustomerFlowFolderResourceWithRawResponse(self._client.customer_flow_folder)
 
     @cached_property
     def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithRawResponse:
@@ -1469,6 +1607,12 @@ class AsyncRoarkWithRawResponse:
         return AsyncAgentDraftResourceWithRawResponse(self._client.agent_draft)
 
     @cached_property
+    def agent_conversation(self) -> agent_conversation.AsyncAgentConversationResourceWithRawResponse:
+        from .resources.agent_conversation import AsyncAgentConversationResourceWithRawResponse
+
+        return AsyncAgentConversationResourceWithRawResponse(self._client.agent_conversation)
+
+    @cached_property
     def tool(self) -> tool.AsyncToolResourceWithRawResponse:
         from .resources.tool import AsyncToolResourceWithRawResponse
 
@@ -1485,6 +1629,18 @@ class AsyncRoarkWithRawResponse:
         from .resources.calendar_connection import AsyncCalendarConnectionResourceWithRawResponse
 
         return AsyncCalendarConnectionResourceWithRawResponse(self._client.calendar_connection)
+
+    @cached_property
+    def mcp_server(self) -> mcp_server.AsyncMcpServerResourceWithRawResponse:
+        from .resources.mcp_server import AsyncMcpServerResourceWithRawResponse
+
+        return AsyncMcpServerResourceWithRawResponse(self._client.mcp_server)
+
+    @cached_property
+    def agent_connection(self) -> agent_connection.AsyncAgentConnectionResourceWithRawResponse:
+        from .resources.agent_connection import AsyncAgentConnectionResourceWithRawResponse
+
+        return AsyncAgentConnectionResourceWithRawResponse(self._client.agent_connection)
 
     @cached_property
     def webhook(self) -> webhook.AsyncWebhookResourceWithRawResponse:
@@ -1534,6 +1690,12 @@ class RoarkWithStreamedResponse:
         from .resources.usage import UsageResourceWithStreamingResponse
 
         return UsageResourceWithStreamingResponse(self._client.usage)
+
+    @cached_property
+    def conversation(self) -> conversation.ConversationResourceWithStreamingResponse:
+        from .resources.conversation import ConversationResourceWithStreamingResponse
+
+        return ConversationResourceWithStreamingResponse(self._client.conversation)
 
     @cached_property
     def call(self) -> call.CallResourceWithStreamingResponse:
@@ -1608,6 +1770,12 @@ class RoarkWithStreamedResponse:
         return SimulationAudioClipResourceWithStreamingResponse(self._client.simulation_audio_clip)
 
     @cached_property
+    def simulation_phone_number(self) -> simulation_phone_number.SimulationPhoneNumberResourceWithStreamingResponse:
+        from .resources.simulation_phone_number import SimulationPhoneNumberResourceWithStreamingResponse
+
+        return SimulationPhoneNumberResourceWithStreamingResponse(self._client.simulation_phone_number)
+
+    @cached_property
     def simulation_tool_fixture(self) -> simulation_tool_fixture.SimulationToolFixtureResourceWithStreamingResponse:
         from .resources.simulation_tool_fixture import SimulationToolFixtureResourceWithStreamingResponse
 
@@ -1644,10 +1812,10 @@ class RoarkWithStreamedResponse:
         return SimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
 
     @cached_property
-    def customer_profile(self) -> customer_profile.CustomerProfileResourceWithStreamingResponse:
-        from .resources.customer_profile import CustomerProfileResourceWithStreamingResponse
+    def customer(self) -> customer.CustomerResourceWithStreamingResponse:
+        from .resources.customer import CustomerResourceWithStreamingResponse
 
-        return CustomerProfileResourceWithStreamingResponse(self._client.customer_profile)
+        return CustomerResourceWithStreamingResponse(self._client.customer)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.SimulationEnvironmentResourceWithStreamingResponse:
@@ -1678,6 +1846,12 @@ class RoarkWithStreamedResponse:
         from .resources.customer_flow import CustomerFlowResourceWithStreamingResponse
 
         return CustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_folder(self) -> customer_flow_folder.CustomerFlowFolderResourceWithStreamingResponse:
+        from .resources.customer_flow_folder import CustomerFlowFolderResourceWithStreamingResponse
+
+        return CustomerFlowFolderResourceWithStreamingResponse(self._client.customer_flow_folder)
 
     @cached_property
     def customer_flow_edge_case(self) -> customer_flow_edge_case.CustomerFlowEdgeCaseResourceWithStreamingResponse:
@@ -1722,6 +1896,12 @@ class RoarkWithStreamedResponse:
         return AgentDraftResourceWithStreamingResponse(self._client.agent_draft)
 
     @cached_property
+    def agent_conversation(self) -> agent_conversation.AgentConversationResourceWithStreamingResponse:
+        from .resources.agent_conversation import AgentConversationResourceWithStreamingResponse
+
+        return AgentConversationResourceWithStreamingResponse(self._client.agent_conversation)
+
+    @cached_property
     def tool(self) -> tool.ToolResourceWithStreamingResponse:
         from .resources.tool import ToolResourceWithStreamingResponse
 
@@ -1738,6 +1918,18 @@ class RoarkWithStreamedResponse:
         from .resources.calendar_connection import CalendarConnectionResourceWithStreamingResponse
 
         return CalendarConnectionResourceWithStreamingResponse(self._client.calendar_connection)
+
+    @cached_property
+    def mcp_server(self) -> mcp_server.McpServerResourceWithStreamingResponse:
+        from .resources.mcp_server import McpServerResourceWithStreamingResponse
+
+        return McpServerResourceWithStreamingResponse(self._client.mcp_server)
+
+    @cached_property
+    def agent_connection(self) -> agent_connection.AgentConnectionResourceWithStreamingResponse:
+        from .resources.agent_connection import AgentConnectionResourceWithStreamingResponse
+
+        return AgentConnectionResourceWithStreamingResponse(self._client.agent_connection)
 
     @cached_property
     def webhook(self) -> webhook.WebhookResourceWithStreamingResponse:
@@ -1787,6 +1979,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.usage import AsyncUsageResourceWithStreamingResponse
 
         return AsyncUsageResourceWithStreamingResponse(self._client.usage)
+
+    @cached_property
+    def conversation(self) -> conversation.AsyncConversationResourceWithStreamingResponse:
+        from .resources.conversation import AsyncConversationResourceWithStreamingResponse
+
+        return AsyncConversationResourceWithStreamingResponse(self._client.conversation)
 
     @cached_property
     def call(self) -> call.AsyncCallResourceWithStreamingResponse:
@@ -1863,6 +2061,14 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncSimulationAudioClipResourceWithStreamingResponse(self._client.simulation_audio_clip)
 
     @cached_property
+    def simulation_phone_number(
+        self,
+    ) -> simulation_phone_number.AsyncSimulationPhoneNumberResourceWithStreamingResponse:
+        from .resources.simulation_phone_number import AsyncSimulationPhoneNumberResourceWithStreamingResponse
+
+        return AsyncSimulationPhoneNumberResourceWithStreamingResponse(self._client.simulation_phone_number)
+
+    @cached_property
     def simulation_tool_fixture(
         self,
     ) -> simulation_tool_fixture.AsyncSimulationToolFixtureResourceWithStreamingResponse:
@@ -1901,10 +2107,10 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncSimulationPersonaResourceWithStreamingResponse(self._client.simulation_persona)
 
     @cached_property
-    def customer_profile(self) -> customer_profile.AsyncCustomerProfileResourceWithStreamingResponse:
-        from .resources.customer_profile import AsyncCustomerProfileResourceWithStreamingResponse
+    def customer(self) -> customer.AsyncCustomerResourceWithStreamingResponse:
+        from .resources.customer import AsyncCustomerResourceWithStreamingResponse
 
-        return AsyncCustomerProfileResourceWithStreamingResponse(self._client.customer_profile)
+        return AsyncCustomerResourceWithStreamingResponse(self._client.customer)
 
     @cached_property
     def simulation_environment(self) -> simulation_environment.AsyncSimulationEnvironmentResourceWithStreamingResponse:
@@ -1935,6 +2141,12 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.customer_flow import AsyncCustomerFlowResourceWithStreamingResponse
 
         return AsyncCustomerFlowResourceWithStreamingResponse(self._client.customer_flow)
+
+    @cached_property
+    def customer_flow_folder(self) -> customer_flow_folder.AsyncCustomerFlowFolderResourceWithStreamingResponse:
+        from .resources.customer_flow_folder import AsyncCustomerFlowFolderResourceWithStreamingResponse
+
+        return AsyncCustomerFlowFolderResourceWithStreamingResponse(self._client.customer_flow_folder)
 
     @cached_property
     def customer_flow_edge_case(self) -> customer_flow_edge_case.AsyncCustomerFlowEdgeCaseResourceWithStreamingResponse:
@@ -1979,6 +2191,12 @@ class AsyncRoarkWithStreamedResponse:
         return AsyncAgentDraftResourceWithStreamingResponse(self._client.agent_draft)
 
     @cached_property
+    def agent_conversation(self) -> agent_conversation.AsyncAgentConversationResourceWithStreamingResponse:
+        from .resources.agent_conversation import AsyncAgentConversationResourceWithStreamingResponse
+
+        return AsyncAgentConversationResourceWithStreamingResponse(self._client.agent_conversation)
+
+    @cached_property
     def tool(self) -> tool.AsyncToolResourceWithStreamingResponse:
         from .resources.tool import AsyncToolResourceWithStreamingResponse
 
@@ -1997,6 +2215,18 @@ class AsyncRoarkWithStreamedResponse:
         from .resources.calendar_connection import AsyncCalendarConnectionResourceWithStreamingResponse
 
         return AsyncCalendarConnectionResourceWithStreamingResponse(self._client.calendar_connection)
+
+    @cached_property
+    def mcp_server(self) -> mcp_server.AsyncMcpServerResourceWithStreamingResponse:
+        from .resources.mcp_server import AsyncMcpServerResourceWithStreamingResponse
+
+        return AsyncMcpServerResourceWithStreamingResponse(self._client.mcp_server)
+
+    @cached_property
+    def agent_connection(self) -> agent_connection.AsyncAgentConnectionResourceWithStreamingResponse:
+        from .resources.agent_connection import AsyncAgentConnectionResourceWithStreamingResponse
+
+        return AsyncAgentConnectionResourceWithStreamingResponse(self._client.agent_connection)
 
     @cached_property
     def webhook(self) -> webhook.AsyncWebhookResourceWithStreamingResponse:

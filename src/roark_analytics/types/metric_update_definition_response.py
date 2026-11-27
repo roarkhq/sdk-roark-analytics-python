@@ -62,6 +62,15 @@ class LlmJudgeMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
 
+    applicability_condition: Optional[str] = FieldInfo(alias="applicabilityCondition")
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
+
     boolean_false_label: Optional[str] = FieldInfo(alias="booleanFalseLabel")
     """
     For a BOOLEAN metric, what a `false` value means. Also given to the judge as its
@@ -136,8 +145,8 @@ class LlmJudgeMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -181,6 +190,15 @@ class FormulaMetricResponseFormula(BaseModel):
 class FormulaMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
+
+    applicability_condition: Optional[str] = FieldInfo(alias="applicabilityCondition")
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
 
     calculation_type: Literal["FORMULA"] = FieldInfo(alias="calculationType")
     """Metric computed by evaluating an expression over other metrics."""
@@ -241,8 +259,8 @@ class FormulaMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -323,6 +341,15 @@ class PatternMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
 
+    applicability_condition: Optional[str] = FieldInfo(alias="applicabilityCondition")
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
+
     calculation_type: Literal["PATTERN"] = FieldInfo(alias="calculationType")
     """Metric detecting a trigger condition followed by an outcome within a window."""
 
@@ -382,8 +409,8 @@ class PatternMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -437,6 +464,15 @@ class ThresholdMetricResponseThreshold(BaseModel):
 class ThresholdMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
+
+    applicability_condition: Optional[str] = FieldInfo(alias="applicabilityCondition")
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
 
     calculation_type: Literal["THRESHOLD"] = FieldInfo(alias="calculationType")
     """Boolean metric derived by comparing a source metric against a threshold."""
@@ -494,8 +530,8 @@ class ThresholdMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than
@@ -534,7 +570,19 @@ class HTTPRequestMetricResponseHTTPRequest(BaseModel):
     headers: Dict[str, str]
     """Request headers as key-value pairs"""
 
+    max_attempts: Optional[int] = FieldInfo(alias="maxAttempts")
+    """
+    How many times Roark sends the request before recording an error. Null is the
+    default, 3.
+    """
+
     method: Literal["GET", "POST"]
+
+    timeout_ms: Optional[int] = FieldInfo(alias="timeoutMs")
+    """
+    How long Roark waits for each attempt, in milliseconds. Null is the default,
+    30000.
+    """
 
     url: str
     """The URL the request is sent to, placeholders included"""
@@ -543,6 +591,15 @@ class HTTPRequestMetricResponseHTTPRequest(BaseModel):
 class HTTPRequestMetricResponse(BaseModel):
     id: str
     """Unique identifier for the metric definition"""
+
+    applicability_condition: Optional[str] = FieldInfo(alias="applicabilityCondition")
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
 
     boolean_false_label: Optional[str] = FieldInfo(alias="booleanFalseLabel")
     """What a failed check is called"""
@@ -612,8 +669,8 @@ class HTTPRequestMetricResponse(BaseModel):
 
     supports_variants: bool = FieldInfo(alias="supportsVariants")
     """
-    Whether you can create a variant of this metric with POST
-    /v1/metric/definitions/{idOrSlug}/variants. False for threshold metrics (their
+    Whether you can create a variant of this metric with `POST
+    /v1/metric/definitions/{idOrSlug}/variants`. False for threshold metrics (their
     configuration comes from the metric they derive from), for HTTP request metrics
     (their configuration is the request, edited on the metric), for
     provider-computed metrics whose calculation lives in the collector rather than

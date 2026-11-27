@@ -26,6 +26,19 @@ class DataReportExecutiveSummarySection(BaseModel):
 
     heading: Optional[str]
 
+    metric_definition_ids: List[str] = FieldInfo(alias="metricDefinitionIds")
+    """
+    Ids of the checks this text names. Empty when it names none, and on reports
+    generated before references were recorded.
+    """
+
+    theme_slugs: List[str] = FieldInfo(alias="themeSlugs")
+    """
+    Slugs of the failure themes this text is about. Each matches a `slug` in
+    `themes`, which lists the calls. Empty when it is about none, and on reports
+    generated before references were recorded.
+    """
+
 
 class DataReportExecutiveSummary(BaseModel):
     paragraphs: List[str]
@@ -38,6 +51,19 @@ class DataReportKeyFinding(BaseModel):
 
     call_ids: List[str] = FieldInfo(alias="callIds")
     """The calls the finding is about."""
+
+    metric_definition_ids: List[str] = FieldInfo(alias="metricDefinitionIds")
+    """
+    Ids of the checks this text names. Empty when it names none, and on reports
+    generated before references were recorded.
+    """
+
+    theme_slugs: List[str] = FieldInfo(alias="themeSlugs")
+    """
+    Slugs of the failure themes this text is about. Each matches a `slug` in
+    `themes`, which lists the calls. Empty when it is about none, and on reports
+    generated before references were recorded.
+    """
 
     title: str
 

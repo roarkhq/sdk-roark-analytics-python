@@ -35,6 +35,12 @@ class Data(BaseModel):
     file (or detach it first).
     """
 
+    max_attempts: Optional[int] = FieldInfo(alias="maxAttempts")
+    """
+    How many times Roark sends the request before the simulation fails: once, plus a
+    retry after each timeout or failed response. Null is the default, 3.
+    """
+
     method: Literal["POST", "PUT", "PATCH", "GET", "DELETE"]
     """HTTP method: POST, PUT, PATCH, or GET"""
 
@@ -43,6 +49,12 @@ class Data(BaseModel):
 
     scope: Literal["AGENT_OUTBOUND_DIAL"]
     """Scope of the HTTP request definition"""
+
+    timeout_ms: Optional[int] = FieldInfo(alias="timeoutMs")
+    """
+    How long Roark waits for each attempt, in milliseconds. Null is the default,
+    30000.
+    """
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp"""

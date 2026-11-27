@@ -16,6 +16,8 @@ from roark_analytics.types import (
     SimulationRunPlanJobDeleteResponse,
     SimulationRunPlanJobGetByIDResponse,
     SimulationRunPlanJobGetCostResponse,
+    SimulationRunPlanJobRescoreResponse,
+    SimulationRunPlanJobGetRescoreResponse,
     SimulationRunPlanJobGetResultsResponse,
     SimulationRunPlanJobCreateDebriefResponse,
 )
@@ -262,6 +264,44 @@ class TestSimulationRunPlanJob:
             )
 
     @parametrize
+    def test_method_get_rescore(self, client: Roark) -> None:
+        simulation_run_plan_job = client.simulation_run_plan_job.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_rescore(self, client: Roark) -> None:
+        response = client.simulation_run_plan_job.with_raw_response.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = response.parse()
+        assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_rescore(self, client: Roark) -> None:
+        with client.simulation_run_plan_job.with_streaming_response.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = response.parse()
+            assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_rescore(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_run_plan_job.with_raw_response.get_rescore(
+                "",
+            )
+
+    @parametrize
     def test_method_get_results(self, client: Roark) -> None:
         simulation_run_plan_job = client.simulation_run_plan_job.get_results(
             job_id="jobId",
@@ -305,6 +345,44 @@ class TestSimulationRunPlanJob:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.simulation_run_plan_job.with_raw_response.get_results(
                 job_id="",
+            )
+
+    @parametrize
+    def test_method_rescore(self, client: Roark) -> None:
+        simulation_run_plan_job = client.simulation_run_plan_job.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_raw_response_rescore(self, client: Roark) -> None:
+        response = client.simulation_run_plan_job.with_raw_response.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = response.parse()
+        assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    def test_streaming_response_rescore(self, client: Roark) -> None:
+        with client.simulation_run_plan_job.with_streaming_response.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = response.parse()
+            assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_rescore(self, client: Roark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.simulation_run_plan_job.with_raw_response.rescore(
+                "",
             )
 
     @parametrize
@@ -595,6 +673,44 @@ class TestAsyncSimulationRunPlanJob:
             )
 
     @parametrize
+    async def test_method_get_rescore(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan_job = await async_client.simulation_run_plan_job.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_rescore(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation_run_plan_job.with_raw_response.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = await response.parse()
+        assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_rescore(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation_run_plan_job.with_streaming_response.get_rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = await response.parse()
+            assert_matches_type(SimulationRunPlanJobGetRescoreResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_rescore(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_run_plan_job.with_raw_response.get_rescore(
+                "",
+            )
+
+    @parametrize
     async def test_method_get_results(self, async_client: AsyncRoark) -> None:
         simulation_run_plan_job = await async_client.simulation_run_plan_job.get_results(
             job_id="jobId",
@@ -638,6 +754,44 @@ class TestAsyncSimulationRunPlanJob:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.simulation_run_plan_job.with_raw_response.get_results(
                 job_id="",
+            )
+
+    @parametrize
+    async def test_method_rescore(self, async_client: AsyncRoark) -> None:
+        simulation_run_plan_job = await async_client.simulation_run_plan_job.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_raw_response_rescore(self, async_client: AsyncRoark) -> None:
+        response = await async_client.simulation_run_plan_job.with_raw_response.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        simulation_run_plan_job = await response.parse()
+        assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_rescore(self, async_client: AsyncRoark) -> None:
+        async with async_client.simulation_run_plan_job.with_streaming_response.rescore(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            simulation_run_plan_job = await response.parse()
+            assert_matches_type(SimulationRunPlanJobRescoreResponse, simulation_run_plan_job, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_rescore(self, async_client: AsyncRoark) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.simulation_run_plan_job.with_raw_response.rescore(
+                "",
             )
 
     @parametrize

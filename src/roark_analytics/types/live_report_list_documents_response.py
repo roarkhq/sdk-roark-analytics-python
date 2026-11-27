@@ -33,6 +33,7 @@ __all__ = [
     "DataItemDocumentTarget",
     "DataItemDocumentTargetSery",
     "DataItemDocumentTheme",
+    "DataItemDocumentThemeCheck",
     "DataItemDocumentThemeCollectorQuote",
     "DataItemDocumentThemeExcerpt",
     "DataItemDocumentThemeExcerptTurn",
@@ -269,11 +270,19 @@ class DataItemDocumentExecutiveSummaryKeyFinding(BaseModel):
 
     calls: Optional[List[DataItemDocumentExecutiveSummaryKeyFindingCall]] = None
 
+    metric_definition_ids: Optional[List[str]] = FieldInfo(alias="metricDefinitionIds", default=None)
+
+    theme_slugs: Optional[List[str]] = FieldInfo(alias="themeSlugs", default=None)
+
 
 class DataItemDocumentExecutiveSummarySection(BaseModel):
     body: str
 
     heading: Optional[str]
+
+    metric_definition_ids: Optional[List[str]] = FieldInfo(alias="metricDefinitionIds", default=None)
+
+    theme_slugs: Optional[List[str]] = FieldInfo(alias="themeSlugs", default=None)
 
 
 class DataItemDocumentExecutiveSummary(BaseModel):
@@ -438,6 +447,14 @@ class DataItemDocumentThemeIssue(BaseModel):
     title: str
 
 
+class DataItemDocumentThemeCheck(BaseModel):
+    check_name: str = FieldInfo(alias="checkName")
+
+    conversation_ids: List[str] = FieldInfo(alias="conversationIds")
+
+    metric_definition_id: str = FieldInfo(alias="metricDefinitionId")
+
+
 class DataItemDocumentTheme(BaseModel):
     affected_conversation_count: int = FieldInfo(alias="affectedConversationCount")
 
@@ -479,9 +496,13 @@ class DataItemDocumentTheme(BaseModel):
 
     total_conversation_count: int = FieldInfo(alias="totalConversationCount")
 
+    checks: Optional[List[DataItemDocumentThemeCheck]] = None
+
     member_calls: Optional[List[DataItemDocumentExecutiveSummaryKeyFindingCall]] = FieldInfo(
         alias="memberCalls", default=None
     )
+
+    supported_by_transcript: Optional[bool] = FieldInfo(alias="supportedByTranscript", default=None)
 
 
 class DataItemDocumentVolumeEnding(BaseModel):
@@ -541,8 +562,8 @@ class DataItemDocument(BaseModel):
 class DataItem(BaseModel):
     """
     One written report over one period. `document` is null until `status` is READY;
-    every number in it comes from the analytics engine (the same reads GET
-    /v1/dashboard/{dashboardId}/data makes over the same window and filters).
+    every number in it comes from the analytics engine (the same reads `GET
+    /v1/dashboard/{dashboardId}/data` makes over the same window and filters).
     """
 
     id: str

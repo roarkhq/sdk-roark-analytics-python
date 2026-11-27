@@ -48,7 +48,20 @@ class AgentCascadeModelConfigLlm(BaseModel):
     model: str
     """Any text model id the provider accepts."""
 
-    provider: Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]
+    provider: Literal[
+        "OPENAI",
+        "ANTHROPIC",
+        "GOOGLE",
+        "XAI",
+        "ULTRAVOX",
+        "AWS",
+        "ELEVENLABS",
+        "GROQ",
+        "META",
+        "RIME",
+        "PHONIC",
+        "SMALLEST",
+    ]
 
     temperature: Optional[float]
     """0 to 2."""
@@ -66,7 +79,7 @@ class AgentCascadeModelConfigStt(BaseModel):
     model: str
     """Any transcriber model id the provider accepts."""
 
-    provider: Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]
+    provider: Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
 
     smart_format: Optional[bool] = FieldInfo(alias="smartFormat")
 
@@ -79,7 +92,7 @@ class AgentCascadeModelConfigTt(BaseModel):
     model: str
     """Any voice model id the provider accepts."""
 
-    provider: Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]
+    provider: Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
 
     similarity_boost: Optional[float] = FieldInfo(alias="similarityBoost")
     """0 to 1, ElevenLabs."""
@@ -126,7 +139,20 @@ class AgentSpeechToSpeechModelConfigSpeechToSpeech(BaseModel):
     model: str
     """Any speech-to-speech model id the provider accepts."""
 
-    provider: Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]
+    provider: Literal[
+        "OPENAI",
+        "ANTHROPIC",
+        "GOOGLE",
+        "XAI",
+        "ULTRAVOX",
+        "AWS",
+        "ELEVENLABS",
+        "GROQ",
+        "META",
+        "RIME",
+        "PHONIC",
+        "SMALLEST",
+    ]
 
     temperature: Optional[float]
     """0 to 2."""
@@ -280,8 +306,8 @@ class Data(BaseModel):
     language: Optional[str]
     """ISO 639-1, e.g. en."""
 
-    modalities: List[Literal["call", "chat"]]
-    """Whether the agent takes calls, chats, or both."""
+    modalities: List[Literal["voice", "chat"]]
+    """Whether the agent talks by voice, in chats, or both: `voice`, `chat`."""
 
     published_at: Optional[str] = FieldInfo(alias="publishedAt")
     """ISO 8601."""
@@ -313,9 +339,21 @@ class Data(BaseModel):
     updated_at: str = FieldInfo(alias="updatedAt")
     """ISO 8601."""
 
+    vad_max_silence_secs: Optional[float] = FieldInfo(alias="vadMaxSilenceSecs")
+    """
+    The longest silence the agent waits through when the caller sounds unfinished,
+    never shorter than vadStopSecs. Null uses vadStopSecs when that is set, else the
+    default.
+    """
+
     vad_start_secs: Optional[float] = FieldInfo(alias="vadStartSecs")
+    """Seconds of speech before it counts as the caller talking. Null uses the default."""
 
     vad_stop_secs: Optional[float] = FieldInfo(alias="vadStopSecs")
+    """
+    Seconds of silence before the agent checks whether the caller has finished. Null
+    uses the default.
+    """
 
     version_number: Optional[int] = FieldInfo(alias="versionNumber")
     """v1, v2, ... assigned on publish; null on a draft."""

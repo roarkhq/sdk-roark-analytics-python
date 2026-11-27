@@ -39,6 +39,10 @@ class DataLatestReportDocumentAggregate(BaseModel):
 
     p95_label: Optional[str] = FieldInfo(alias="p95Label")
 
+    is_core: Optional[Literal[True]] = FieldInfo(alias="isCore", default=None)
+
+    non_zero_count: Optional[int] = FieldInfo(alias="nonZeroCount", default=None)
+
 
 class DataLatestReportDocumentExecutiveSummary(BaseModel):
     body: str

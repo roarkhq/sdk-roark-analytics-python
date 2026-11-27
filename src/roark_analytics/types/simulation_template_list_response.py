@@ -10,12 +10,20 @@ from .._models import BaseModel
 __all__ = [
     "SimulationTemplateListResponse",
     "Data",
+    "DataCoreMetric",
     "DataFlow",
     "DataFlowEdgeCase",
     "DataFlowHappyPath",
-    "DataMetric",
     "DataSweep",
 ]
+
+
+class DataCoreMetric(BaseModel):
+    id: str
+    """Metric definition ID"""
+
+    slug: str
+    """Stable metric slug"""
 
 
 class DataFlowEdgeCase(BaseModel):
@@ -69,16 +77,6 @@ class DataFlow(BaseModel):
     """Flow title"""
 
 
-class DataMetric(BaseModel):
-    id: str
-    """Metric definition ID"""
-
-    slug: str
-    """
-    Stable metric slug, e.g. "response_time"
-    """
-
-
 class DataSweep(BaseModel):
     baseline: Optional[str]
     """
@@ -99,6 +97,7 @@ class DataSweep(BaseModel):
         "INTENT_CLARITY",
         "LANGUAGE",
         "INTERRUPTION",
+        "LINE_QUALITY",
         "MEMORY_RELIABILITY",
         "RESPONSE_TIMING",
         "SPEECH_CLARITY",
@@ -118,6 +117,16 @@ class Data(BaseModel):
 
     category: str
     """Grouping used in the dashboard library"""
+
+    core_metrics: List[DataCoreMetric] = FieldInfo(alias="coreMetrics")
+    """
+    The Core Analysis metrics every run collects on every simulation, on top of
+    `metrics`: timing, latency, turn-taking and how the call ended. Read-only: a run
+    adds them by itself, and a simulation collects only the ones that apply to it (a
+    chat skips the call-only ones). They cost nothing and never decide pass or fail.
+    To gate a run on one, add its check to `metrics`, such as
+    `agent_responsive_check`.
+    """
 
     default_end_call_reasons: List[str] = FieldInfo(alias="defaultEndCallReasons")
     """
@@ -152,7 +161,7 @@ class Data(BaseModel):
     on top of the template's set.
     """
 
-    metrics: List[DataMetric]
+    metrics: List[DataCoreMetric]
     """The metrics this template collects, resolved to this project's definitions."""
 
     slug: str
@@ -170,7 +179,7 @@ class Data(BaseModel):
     `null` for every other template.
     """
 
-    thresholds: List[DataMetric]
+    thresholds: List[DataCoreMetric]
     """The Pass/Fail checks this template attaches alongside its metrics."""
 
     title: str

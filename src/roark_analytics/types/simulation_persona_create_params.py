@@ -49,7 +49,26 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
 
     language: Required[
         Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+            "EN",
+            "ES",
+            "DE",
+            "HI",
+            "FR",
+            "NL",
+            "AR",
+            "EL",
+            "IT",
+            "ID",
+            "TH",
+            "JA",
+            "TL",
+            "MS",
+            "ZH",
+            "TR",
+            "PT",
+            "HE",
+            "GU",
+            "MR",
         ]
     ]
     """Primary language ISO 639-1 code for the persona"""
@@ -195,6 +214,8 @@ class SimulationPersonaCreateParams(TypedDict, total=False):
                 "TR",
                 "PT",
                 "HE",
+                "GU",
+                "MR",
             ]
         ],
         PropertyInfo(alias="understoodLanguages"),

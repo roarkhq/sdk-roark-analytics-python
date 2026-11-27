@@ -30,6 +30,7 @@ __all__ = [
     "DataDebriefReportTrendRow",
     "DataMetric",
     "DataMetricCheck",
+    "DataMetricCustomerFlow",
     "DataMetricDistribution",
     "DataMetricNumeric",
     "DataRun",
@@ -248,6 +249,19 @@ class DataDebriefReportExecutiveSummarySection(BaseModel):
 
     heading: Optional[str]
 
+    metric_definition_ids: List[str] = FieldInfo(alias="metricDefinitionIds")
+    """
+    Ids of the checks this text names. Empty when it names none, and on reports
+    generated before references were recorded.
+    """
+
+    theme_slugs: List[str] = FieldInfo(alias="themeSlugs")
+    """
+    Slugs of the failure themes this text is about. Each matches a `slug` in
+    `themes`, which lists the calls. Empty when it is about none, and on reports
+    generated before references were recorded.
+    """
+
 
 class DataDebriefReportExecutiveSummary(BaseModel):
     paragraphs: List[str]
@@ -260,6 +274,19 @@ class DataDebriefReportKeyFinding(BaseModel):
 
     call_ids: List[str] = FieldInfo(alias="callIds")
     """The calls the finding is about."""
+
+    metric_definition_ids: List[str] = FieldInfo(alias="metricDefinitionIds")
+    """
+    Ids of the checks this text names. Empty when it names none, and on reports
+    generated before references were recorded.
+    """
+
+    theme_slugs: List[str] = FieldInfo(alias="themeSlugs")
+    """
+    Slugs of the failure themes this text is about. Each matches a `slug` in
+    `themes`, which lists the calls. Empty when it is about none, and on reports
+    generated before references were recorded.
+    """
 
     title: str
 
@@ -394,6 +421,16 @@ class DataMetricCheck(BaseModel):
     passed_calls: int = FieldInfo(alias="passedCalls")
 
 
+class DataMetricCustomerFlow(BaseModel):
+    """A flow one of the run's metrics is attached to."""
+
+    id: str
+    """The flow."""
+
+    name: Optional[str]
+    """The flow as the run ran it. Null when no simulation of the run ran the flow."""
+
+
 class DataMetricDistribution(BaseModel):
     count: int
 
@@ -421,6 +458,12 @@ class DataMetric(BaseModel):
     check: Optional[DataMetricCheck]
     """The check’s tally. Null for a metric that is not a check."""
 
+    customer_flows: Optional[List[DataMetricCustomerFlow]] = FieldInfo(alias="customerFlows")
+    """
+    The flows the metric is attached to: it is collected only on simulations of
+    these flows. Null when it is run-wide, collected on every simulation.
+    """
+
     distribution: Optional[List[DataMetricDistribution]]
     """
     How many values took each reading, for BOOLEAN, SCALE and CLASSIFICATION
@@ -429,6 +472,12 @@ class DataMetric(BaseModel):
 
     evaluated_calls: int = FieldInfo(alias="evaluatedCalls")
     """Counted simulations with at least one value."""
+
+    in_scope_calls: int = FieldInfo(alias="inScopeCalls")
+    """
+    Counted simulations the metric applies to: all of them for a run-wide metric,
+    those of `customerFlows` otherwise.
+    """
 
     is_check: bool = FieldInfo(alias="isCheck")
     """A threshold: one of the checks the run is judged on."""
@@ -780,7 +829,22 @@ class DataVerdictCheck(BaseModel):
     a threshold on one to judge it.
     """
 
+    customer_flows: Optional[List[DataMetricCustomerFlow]] = FieldInfo(alias="customerFlows")
+    """
+    The flows this check is attached to. It is evaluated only on simulations of
+    these flows, and the rest of the run is out of its scope. Null when the check is
+    run-wide: attached to the run plan, so every simulation is in scope.
+    """
+
     evaluated_sims: int = FieldInfo(alias="evaluatedSims")
+
+    in_scope_sims: int = FieldInfo(alias="inScopeSims")
+    """
+    Simulations the check applies to: every counted simulation for a run-wide check,
+    those of `customerFlows` otherwise. `evaluatedSims` can be lower: a check
+    returns no verdict on a simulation with nothing for it to grade, and that
+    simulation is left out of `passRate`.
+    """
 
     inherited: bool
     """
@@ -803,11 +867,18 @@ class DataVerdictCheck(BaseModel):
     """
 
     passed: bool
-    """`passRate >= minPassRate`."""
+    """`passRate >= minPassRate`. True for a check that was not applicable to any call."""
 
     passed_sims: int = FieldInfo(alias="passedSims")
 
     metric_name: Optional[str] = FieldInfo(alias="metricName", default=None)
+
+    not_applicable: Optional[bool] = FieldInfo(alias="notApplicable", default=None)
+    """
+    Present and `true` when every call the check graded was not applicable to it
+    (each value has `captureStatus: NOT_APPLICABLE`). It neither passes nor fails
+    the run, and `passRate` is null.
+    """
 
 
 class DataVerdictFailureUnionMember0(BaseModel):
@@ -913,6 +984,13 @@ class DataVerdict(BaseModel):
     reach.
     Thresholds and authored yes/no metrics only. See `SimulationRunPlanJobCheck` for
     why a provider reading is not one.
+    """
+
+    counted_sims: int = FieldInfo(alias="countedSims")
+    """
+    Every simulation of the run that counts: the most any check can have in scope.
+    Compare a check's `inScopeSims` against it to see how much of the run the check
+    covers.
     """
 
     failures: List[

@@ -80,6 +80,14 @@ from .webhook import (
     WebhookResourceWithStreamingResponse,
     AsyncWebhookResourceWithStreamingResponse,
 )
+from .customer import (
+    CustomerResource,
+    AsyncCustomerResource,
+    CustomerResourceWithRawResponse,
+    AsyncCustomerResourceWithRawResponse,
+    CustomerResourceWithStreamingResponse,
+    AsyncCustomerResourceWithStreamingResponse,
+)
 from .analytics import (
     AnalyticsResource,
     AsyncAnalyticsResource,
@@ -103,6 +111,14 @@ from .dashboard import (
     AsyncDashboardResourceWithRawResponse,
     DashboardResourceWithStreamingResponse,
     AsyncDashboardResourceWithStreamingResponse,
+)
+from .mcp_server import (
+    McpServerResource,
+    AsyncMcpServerResource,
+    McpServerResourceWithRawResponse,
+    AsyncMcpServerResourceWithRawResponse,
+    McpServerResourceWithStreamingResponse,
+    AsyncMcpServerResourceWithStreamingResponse,
 )
 from .simulation import (
     SimulationResource,
@@ -143,6 +159,14 @@ from .agent_prompt import (
     AsyncAgentPromptResourceWithRawResponse,
     AgentPromptResourceWithStreamingResponse,
     AsyncAgentPromptResourceWithStreamingResponse,
+)
+from .conversation import (
+    ConversationResource,
+    AsyncConversationResource,
+    ConversationResourceWithRawResponse,
+    AsyncConversationResourceWithRawResponse,
+    ConversationResourceWithStreamingResponse,
+    AsyncConversationResourceWithStreamingResponse,
 )
 from .phone_number import (
     PhoneNumberResource,
@@ -208,13 +232,13 @@ from .autoimprove_job import (
     AutoimproveJobResourceWithStreamingResponse,
     AsyncAutoimproveJobResourceWithStreamingResponse,
 )
-from .customer_profile import (
-    CustomerProfileResource,
-    AsyncCustomerProfileResource,
-    CustomerProfileResourceWithRawResponse,
-    AsyncCustomerProfileResourceWithRawResponse,
-    CustomerProfileResourceWithStreamingResponse,
-    AsyncCustomerProfileResourceWithStreamingResponse,
+from .agent_connection import (
+    AgentConnectionResource,
+    AsyncAgentConnectionResource,
+    AgentConnectionResourceWithRawResponse,
+    AsyncAgentConnectionResourceWithRawResponse,
+    AgentConnectionResourceWithStreamingResponse,
+    AsyncAgentConnectionResourceWithStreamingResponse,
 )
 from .simulation_group import (
     SimulationGroupResource,
@@ -223,6 +247,14 @@ from .simulation_group import (
     AsyncSimulationGroupResourceWithRawResponse,
     SimulationGroupResourceWithStreamingResponse,
     AsyncSimulationGroupResourceWithStreamingResponse,
+)
+from .agent_conversation import (
+    AgentConversationResource,
+    AsyncAgentConversationResource,
+    AgentConversationResourceWithRawResponse,
+    AsyncAgentConversationResourceWithRawResponse,
+    AgentConversationResourceWithStreamingResponse,
+    AsyncAgentConversationResourceWithStreamingResponse,
 )
 from .simulation_persona import (
     SimulationPersonaResource,
@@ -255,6 +287,14 @@ from .simulation_template import (
     AsyncSimulationTemplateResourceWithRawResponse,
     SimulationTemplateResourceWithStreamingResponse,
     AsyncSimulationTemplateResourceWithStreamingResponse,
+)
+from .customer_flow_folder import (
+    CustomerFlowFolderResource,
+    AsyncCustomerFlowFolderResource,
+    CustomerFlowFolderResourceWithRawResponse,
+    AsyncCustomerFlowFolderResourceWithRawResponse,
+    CustomerFlowFolderResourceWithStreamingResponse,
+    AsyncCustomerFlowFolderResourceWithStreamingResponse,
 )
 from .simulation_run_group import (
     SimulationRunGroupResource,
@@ -303,6 +343,14 @@ from .http_request_definition import (
     AsyncHTTPRequestDefinitionResourceWithRawResponse,
     HTTPRequestDefinitionResourceWithStreamingResponse,
     AsyncHTTPRequestDefinitionResourceWithStreamingResponse,
+)
+from .simulation_phone_number import (
+    SimulationPhoneNumberResource,
+    AsyncSimulationPhoneNumberResource,
+    SimulationPhoneNumberResourceWithRawResponse,
+    AsyncSimulationPhoneNumberResourceWithRawResponse,
+    SimulationPhoneNumberResourceWithStreamingResponse,
+    AsyncSimulationPhoneNumberResourceWithStreamingResponse,
 )
 from .simulation_run_plan_job import (
     SimulationRunPlanJobResource,
@@ -354,6 +402,12 @@ __all__ = [
     "AsyncUsageResourceWithRawResponse",
     "UsageResourceWithStreamingResponse",
     "AsyncUsageResourceWithStreamingResponse",
+    "ConversationResource",
+    "AsyncConversationResource",
+    "ConversationResourceWithRawResponse",
+    "AsyncConversationResourceWithRawResponse",
+    "ConversationResourceWithStreamingResponse",
+    "AsyncConversationResourceWithStreamingResponse",
     "CallResource",
     "AsyncCallResource",
     "CallResourceWithRawResponse",
@@ -426,6 +480,12 @@ __all__ = [
     "AsyncSimulationAudioClipResourceWithRawResponse",
     "SimulationAudioClipResourceWithStreamingResponse",
     "AsyncSimulationAudioClipResourceWithStreamingResponse",
+    "SimulationPhoneNumberResource",
+    "AsyncSimulationPhoneNumberResource",
+    "SimulationPhoneNumberResourceWithRawResponse",
+    "AsyncSimulationPhoneNumberResourceWithRawResponse",
+    "SimulationPhoneNumberResourceWithStreamingResponse",
+    "AsyncSimulationPhoneNumberResourceWithStreamingResponse",
     "SimulationToolFixtureResource",
     "AsyncSimulationToolFixtureResource",
     "SimulationToolFixtureResourceWithRawResponse",
@@ -462,12 +522,12 @@ __all__ = [
     "AsyncSimulationPersonaResourceWithRawResponse",
     "SimulationPersonaResourceWithStreamingResponse",
     "AsyncSimulationPersonaResourceWithStreamingResponse",
-    "CustomerProfileResource",
-    "AsyncCustomerProfileResource",
-    "CustomerProfileResourceWithRawResponse",
-    "AsyncCustomerProfileResourceWithRawResponse",
-    "CustomerProfileResourceWithStreamingResponse",
-    "AsyncCustomerProfileResourceWithStreamingResponse",
+    "CustomerResource",
+    "AsyncCustomerResource",
+    "CustomerResourceWithRawResponse",
+    "AsyncCustomerResourceWithRawResponse",
+    "CustomerResourceWithStreamingResponse",
+    "AsyncCustomerResourceWithStreamingResponse",
     "SimulationEnvironmentResource",
     "AsyncSimulationEnvironmentResource",
     "SimulationEnvironmentResourceWithRawResponse",
@@ -498,6 +558,12 @@ __all__ = [
     "AsyncCustomerFlowResourceWithRawResponse",
     "CustomerFlowResourceWithStreamingResponse",
     "AsyncCustomerFlowResourceWithStreamingResponse",
+    "CustomerFlowFolderResource",
+    "AsyncCustomerFlowFolderResource",
+    "CustomerFlowFolderResourceWithRawResponse",
+    "AsyncCustomerFlowFolderResourceWithRawResponse",
+    "CustomerFlowFolderResourceWithStreamingResponse",
+    "AsyncCustomerFlowFolderResourceWithStreamingResponse",
     "CustomerFlowEdgeCaseResource",
     "AsyncCustomerFlowEdgeCaseResource",
     "CustomerFlowEdgeCaseResourceWithRawResponse",
@@ -540,6 +606,12 @@ __all__ = [
     "AsyncAgentDraftResourceWithRawResponse",
     "AgentDraftResourceWithStreamingResponse",
     "AsyncAgentDraftResourceWithStreamingResponse",
+    "AgentConversationResource",
+    "AsyncAgentConversationResource",
+    "AgentConversationResourceWithRawResponse",
+    "AsyncAgentConversationResourceWithRawResponse",
+    "AgentConversationResourceWithStreamingResponse",
+    "AsyncAgentConversationResourceWithStreamingResponse",
     "ToolResource",
     "AsyncToolResource",
     "ToolResourceWithRawResponse",
@@ -558,6 +630,18 @@ __all__ = [
     "AsyncCalendarConnectionResourceWithRawResponse",
     "CalendarConnectionResourceWithStreamingResponse",
     "AsyncCalendarConnectionResourceWithStreamingResponse",
+    "McpServerResource",
+    "AsyncMcpServerResource",
+    "McpServerResourceWithRawResponse",
+    "AsyncMcpServerResourceWithRawResponse",
+    "McpServerResourceWithStreamingResponse",
+    "AsyncMcpServerResourceWithStreamingResponse",
+    "AgentConnectionResource",
+    "AsyncAgentConnectionResource",
+    "AgentConnectionResourceWithRawResponse",
+    "AsyncAgentConnectionResourceWithRawResponse",
+    "AgentConnectionResourceWithStreamingResponse",
+    "AsyncAgentConnectionResourceWithStreamingResponse",
     "WebhookResource",
     "AsyncWebhookResource",
     "WebhookResourceWithRawResponse",

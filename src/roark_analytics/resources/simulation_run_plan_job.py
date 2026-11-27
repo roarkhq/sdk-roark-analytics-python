@@ -28,8 +28,10 @@ from ..types.simulation_run_plan_job_list_response import SimulationRunPlanJobLi
 from ..types.simulation_run_plan_job_start_response import SimulationRunPlanJobStartResponse
 from ..types.simulation_run_plan_job_cancel_response import SimulationRunPlanJobCancelResponse
 from ..types.simulation_run_plan_job_delete_response import SimulationRunPlanJobDeleteResponse
+from ..types.simulation_run_plan_job_rescore_response import SimulationRunPlanJobRescoreResponse
 from ..types.simulation_run_plan_job_get_cost_response import SimulationRunPlanJobGetCostResponse
 from ..types.simulation_run_plan_job_get_by_id_response import SimulationRunPlanJobGetByIDResponse
+from ..types.simulation_run_plan_job_get_rescore_response import SimulationRunPlanJobGetRescoreResponse
 from ..types.simulation_run_plan_job_get_results_response import SimulationRunPlanJobGetResultsResponse
 from ..types.simulation_run_plan_job_create_debrief_response import SimulationRunPlanJobCreateDebriefResponse
 
@@ -328,6 +330,40 @@ class SimulationRunPlanJobResource(SyncAPIResource):
             cast_to=SimulationRunPlanJobGetCostResponse,
         )
 
+    def get_rescore(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetRescoreResponse:
+        """
+        The run's most recent re-score, with its status and how many conversations have
+        been graded.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._get(
+            f"/v1/simulation/plan/job/{job_id}/rescore",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobGetRescoreResponse,
+        )
+
     def get_results(
         self,
         job_id: str,
@@ -381,6 +417,52 @@ class SimulationRunPlanJobResource(SyncAPIResource):
                 ),
             ),
             cast_to=SimulationRunPlanJobGetResultsResponse,
+        )
+
+    def rescore(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobRescoreResponse:
+        """
+        Grade a finished run's calls again, without placing new calls: the same calls,
+        graded on the run plan's metrics as they are now. Metrics on the plan grade
+        every call of the run, metrics attached to a flow grade that flow's calls, each
+        at its current version, and Agent Expectations grades against the flows' current
+        expectations. Use it after changing a plan's metrics, a metric, or a flow's
+        expectations, to see how the run you already have scores against them. The
+        metrics graded are listed in `metrics` and become the run's metric set: the
+        run's results, checks and report read them from then on. The new values replace
+        the run's current ones; earlier values stay in each metric value's history. The
+        grading is billed like any metric collection. A run is re-scored one at a time:
+        while one re-score runs, another is refused with 409. Returns immediately. Poll
+        GET /v1/simulation/plan/job/{jobId}/rescore until `status` is COMPLETED or
+        FAILED, then read the new values from GET
+        /v1/simulation/plan/job/{jobId}/results.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return self._post(
+            f"/v1/simulation/plan/job/{job_id}/rescore",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobRescoreResponse,
         )
 
     def start(
@@ -736,6 +818,40 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
             cast_to=SimulationRunPlanJobGetCostResponse,
         )
 
+    async def get_rescore(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobGetRescoreResponse:
+        """
+        The run's most recent re-score, with its status and how many conversations have
+        been graded.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._get(
+            f"/v1/simulation/plan/job/{job_id}/rescore",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobGetRescoreResponse,
+        )
+
     async def get_results(
         self,
         job_id: str,
@@ -789,6 +905,52 @@ class AsyncSimulationRunPlanJobResource(AsyncAPIResource):
                 ),
             ),
             cast_to=SimulationRunPlanJobGetResultsResponse,
+        )
+
+    async def rescore(
+        self,
+        job_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SimulationRunPlanJobRescoreResponse:
+        """
+        Grade a finished run's calls again, without placing new calls: the same calls,
+        graded on the run plan's metrics as they are now. Metrics on the plan grade
+        every call of the run, metrics attached to a flow grade that flow's calls, each
+        at its current version, and Agent Expectations grades against the flows' current
+        expectations. Use it after changing a plan's metrics, a metric, or a flow's
+        expectations, to see how the run you already have scores against them. The
+        metrics graded are listed in `metrics` and become the run's metric set: the
+        run's results, checks and report read them from then on. The new values replace
+        the run's current ones; earlier values stay in each metric value's history. The
+        grading is billed like any metric collection. A run is re-scored one at a time:
+        while one re-score runs, another is refused with 409. Returns immediately. Poll
+        GET /v1/simulation/plan/job/{jobId}/rescore until `status` is COMPLETED or
+        FAILED, then read the new values from GET
+        /v1/simulation/plan/job/{jobId}/results.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
+        return await self._post(
+            f"/v1/simulation/plan/job/{job_id}/rescore",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SimulationRunPlanJobRescoreResponse,
         )
 
     async def start(
@@ -874,8 +1036,14 @@ class SimulationRunPlanJobResourceWithRawResponse:
         self.get_cost = to_raw_response_wrapper(
             simulation_run_plan_job.get_cost,
         )
+        self.get_rescore = to_raw_response_wrapper(
+            simulation_run_plan_job.get_rescore,
+        )
         self.get_results = to_raw_response_wrapper(
             simulation_run_plan_job.get_results,
+        )
+        self.rescore = to_raw_response_wrapper(
+            simulation_run_plan_job.rescore,
         )
         self.start = to_raw_response_wrapper(
             simulation_run_plan_job.start,
@@ -904,8 +1072,14 @@ class AsyncSimulationRunPlanJobResourceWithRawResponse:
         self.get_cost = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_cost,
         )
+        self.get_rescore = async_to_raw_response_wrapper(
+            simulation_run_plan_job.get_rescore,
+        )
         self.get_results = async_to_raw_response_wrapper(
             simulation_run_plan_job.get_results,
+        )
+        self.rescore = async_to_raw_response_wrapper(
+            simulation_run_plan_job.rescore,
         )
         self.start = async_to_raw_response_wrapper(
             simulation_run_plan_job.start,
@@ -934,8 +1108,14 @@ class SimulationRunPlanJobResourceWithStreamingResponse:
         self.get_cost = to_streamed_response_wrapper(
             simulation_run_plan_job.get_cost,
         )
+        self.get_rescore = to_streamed_response_wrapper(
+            simulation_run_plan_job.get_rescore,
+        )
         self.get_results = to_streamed_response_wrapper(
             simulation_run_plan_job.get_results,
+        )
+        self.rescore = to_streamed_response_wrapper(
+            simulation_run_plan_job.rescore,
         )
         self.start = to_streamed_response_wrapper(
             simulation_run_plan_job.start,
@@ -964,8 +1144,14 @@ class AsyncSimulationRunPlanJobResourceWithStreamingResponse:
         self.get_cost = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_cost,
         )
+        self.get_rescore = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.get_rescore,
+        )
         self.get_results = async_to_streamed_response_wrapper(
             simulation_run_plan_job.get_results,
+        )
+        self.rescore = async_to_streamed_response_wrapper(
+            simulation_run_plan_job.rescore,
         )
         self.start = async_to_streamed_response_wrapper(
             simulation_run_plan_job.start,

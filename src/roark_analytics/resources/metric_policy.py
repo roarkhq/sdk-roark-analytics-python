@@ -52,7 +52,7 @@ class MetricPolicyResource(SyncAPIResource):
         self,
         *,
         metrics: Iterable[metric_policy_create_params.Metric],
-        modality: Literal["call", "chat"],
+        modality: Literal["voice", "chat", "call"],
         name: str,
         conditions: Iterable[metric_policy_create_params.Condition] | Omit = omit,
         status: Literal["ACTIVE", "INACTIVE"] | Omit = omit,
@@ -72,8 +72,9 @@ class MetricPolicyResource(SyncAPIResource):
           metrics: Metric definitions to collect when this policy matches, each with an optional
               setting
 
-          modality: Modality this policy targets. A policy fires for exactly one modality and can
-              only reference metrics that support that modality.
+          modality: Modality this policy targets: `voice` or `chat` (`call` is still accepted for
+              `voice`). A policy fires for exactly one modality and can only reference metrics
+              that support that modality.
 
           name: Name of the metric policy
 
@@ -308,7 +309,7 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
         self,
         *,
         metrics: Iterable[metric_policy_create_params.Metric],
-        modality: Literal["call", "chat"],
+        modality: Literal["voice", "chat", "call"],
         name: str,
         conditions: Iterable[metric_policy_create_params.Condition] | Omit = omit,
         status: Literal["ACTIVE", "INACTIVE"] | Omit = omit,
@@ -328,8 +329,9 @@ class AsyncMetricPolicyResource(AsyncAPIResource):
           metrics: Metric definitions to collect when this policy matches, each with an optional
               setting
 
-          modality: Modality this policy targets. A policy fires for exactly one modality and can
-              only reference metrics that support that modality.
+          modality: Modality this policy targets: `voice` or `chat` (`call` is still accepted for
+              `voice`). A policy fires for exactly one modality and can only reference metrics
+              that support that modality.
 
           name: Name of the metric policy
 

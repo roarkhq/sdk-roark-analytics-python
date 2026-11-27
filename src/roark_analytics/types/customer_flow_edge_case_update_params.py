@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -29,6 +29,32 @@ class CustomerFlowEdgeCaseUpdateParams(TypedDict, total=False):
 
     environment_id: Annotated[Optional[str], PropertyInfo(alias="environmentId")]
 
+    hold_instructions: Annotated[Optional[str], PropertyInfo(alias="holdInstructions")]
+    """
+    CUSTOM only: when the simulated customer waits quietly, written as instructions
+    it follows. It stays silent until the agent speaks again or the longest wait
+    runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+    characters.
+    """
+
+    hold_max_seconds: Annotated[Optional[int], PropertyInfo(alias="holdMaxSeconds")]
+    """
+    The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+    out the simulated customer takes the turn back. Null uses the default, 180.
+    Ignored when holdMode is NEVER.
+    """
+
+    hold_mode: Annotated[Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]], PropertyInfo(alias="holdMode")]
+    """
+    How the simulated customer waits quietly on hold while your agent is busy.
+    DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+    ("bear with me", "let me pull that up"), and never in place of answering a
+    question. CUSTOM follows holdInstructions. NEVER means this customer never
+    holds. Null on an edge case uses the happy path's mode, instructions and longest
+    wait together; null on the happy path is DEFAULT. Applies to improv variants and
+    to the improvised turns of scripted ones.
+    """
+
     include_flow_expectations: Annotated[bool, PropertyInfo(alias="includeFlowExpectations")]
     """
     Whether this edge case is graded on the flow's agentExpectations as well as its
@@ -48,5 +74,12 @@ class CustomerFlowEdgeCaseUpdateParams(TypedDict, total=False):
     ]
 
     prompt: Optional[str]
+    """
+    Improv flows only. The brief the simulated customer improvises from. Caller cues
+    steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+    `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+    whose sentence says when to cut in on your agent. Cues are voice only. See
+    "Caller cues" in the customer flows concept.
+    """
 
     title: str
