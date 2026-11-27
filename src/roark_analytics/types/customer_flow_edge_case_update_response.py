@@ -15,6 +15,8 @@ __all__ = [
     "ScriptedFlowVariant",
     "ScriptedFlowVariantAdditionalExpectation",
     "ScriptedFlowVariantEnvironment",
+    "ScriptedFlowVariantEnvironmentLineCustom",
+    "ScriptedFlowVariantEnvironmentLineCustomFromAgent",
     "ScriptedFlowVariantPersonaOverride",
     "VoicemailFlowVariant",
 ]
@@ -27,6 +29,30 @@ class ScriptedFlowVariantAdditionalExpectation(BaseModel):
 
     prompt: str
     """What the agent under test is graded against."""
+
+
+class ScriptedFlowVariantEnvironmentLineCustomFromAgent(BaseModel):
+    packet_loss_percent: float = FieldInfo(alias="packetLossPercent")
+    """Share of packets lost, 0 to 20 in steps of 0.5."""
+
+    mean_burst_packets: Optional[int] = FieldInfo(alias="meanBurstPackets", default=None)
+    """Mean length of a loss gap in 20 ms packets, 2 to 10. Omit for random loss."""
+
+
+class ScriptedFlowVariantEnvironmentLineCustom(BaseModel):
+    """The per-direction loss of a CUSTOM line."""
+
+    from_agent: Optional[ScriptedFlowVariantEnvironmentLineCustomFromAgent] = FieldInfo(alias="fromAgent", default=None)
+    """
+    The agent's audio on its way to the caller: what the caller hears. Omit for no
+    loss.
+    """
+
+    to_agent: Optional[ScriptedFlowVariantEnvironmentLineCustomFromAgent] = FieldInfo(alias="toAgent", default=None)
+    """
+    The caller's audio on its way to the agent: what the agent hears. Omit for no
+    loss.
+    """
 
 
 class ScriptedFlowVariantEnvironment(BaseModel):
@@ -58,7 +84,39 @@ class ScriptedFlowVariantEnvironment(BaseModel):
     created_at: str = FieldInfo(alias="createdAt")
     """Creation timestamp in ISO 8601 format"""
 
+    line_custom: Optional[ScriptedFlowVariantEnvironmentLineCustom] = FieldInfo(alias="lineCustom")
+    """The loss of a CUSTOM line; null on every other."""
+
+    line_noise: float = FieldInfo(alias="lineNoise")
+    """
+    Hiss on the line, both ways, from 0 (none) to 1 (heavy, about 10 dB under phone
+    speech). Combines with the phone and lineQuality.
+    """
+
+    line_quality: Literal["CLEAR", "MINOR_LOSS", "CELL_EDGE", "POOR_CONNECTION", "ONE_WAY_DEGRADED", "CUSTOM"] = (
+        FieldInfo(alias="lineQuality")
+    )
+    """
+    The phone line the simulated caller is on: packet loss applied to its 20 ms
+    audio packets, per direction. The loss pattern is seeded per call, so a redial
+    loses the same packets. CLEAR: No loss. MINOR_LOSS: 1% random, both ways.
+    CELL_EDGE: 5% in 80 ms gaps, both ways. POOR_CONNECTION: 10% in 120 ms gaps,
+    both ways. ONE_WAY_DEGRADED: 8% in 80 ms gaps, toward the agent only. CUSTOM:
+    the per-direction loss in `lineCustom`, up to 20% in 0.5 steps, with a mean
+    burst of up to 10 packets (omit it for random loss).
+    """
+
     name: str
+
+    phone: Optional[Literal["LANDLINE", "MOBILE", "BLUETOOTH"]]
+    """
+    The phone the simulated caller is on: the codecs the call passes through, both
+    ways, on top of any loss in lineQuality. Null is no phone. LANDLINE: The narrow
+    band of a phone handset and the codec of the phone network. MOBILE: The narrow
+    band and the compressed voice codec of a mobile call. BLUETOOTH: A mobile on a
+    car kit or headset: the Bluetooth link adds fizz under the voice, then the
+    mobile codec.
+    """
 
     updated_at: str = FieldInfo(alias="updatedAt")
     """Last update timestamp in ISO 8601 format"""
@@ -166,13 +224,34 @@ class ScriptedFlowVariantPersonaOverride(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
-        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        "EN",
+        "ES",
+        "DE",
+        "HI",
+        "FR",
+        "NL",
+        "AR",
+        "EL",
+        "IT",
+        "ID",
+        "TH",
+        "JA",
+        "TL",
+        "MS",
+        "ZH",
+        "TR",
+        "PT",
+        "HE",
+        "GU",
+        "MR",
     ]
     """Primary language ISO 639-1 code for the persona"""
 
@@ -204,7 +283,26 @@ class ScriptedFlowVariantPersonaOverride(BaseModel):
 
     understood_languages: List[
         Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+            "EN",
+            "ES",
+            "DE",
+            "HI",
+            "FR",
+            "NL",
+            "AR",
+            "EL",
+            "IT",
+            "ID",
+            "TH",
+            "JA",
+            "TL",
+            "MS",
+            "ZH",
+            "TR",
+            "PT",
+            "HE",
+            "GU",
+            "MR",
         ]
     ] = FieldInfo(alias="understoodLanguages")
     """
@@ -254,6 +352,32 @@ class ScriptedFlowVariant(BaseModel):
 
     environment: Optional[ScriptedFlowVariantEnvironment]
     """The conditions this runs under. Null means it inherits the happy path's."""
+
+    hold_instructions: Optional[str] = FieldInfo(alias="holdInstructions")
+    """
+    CUSTOM only: when the simulated customer waits quietly, written as instructions
+    it follows. It stays silent until the agent speaks again or the longest wait
+    runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+    characters.
+    """
+
+    hold_max_seconds: Optional[int] = FieldInfo(alias="holdMaxSeconds")
+    """
+    The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+    out the simulated customer takes the turn back. Null uses the default, 180.
+    Ignored when holdMode is NEVER.
+    """
+
+    hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] = FieldInfo(alias="holdMode")
+    """
+    How the simulated customer waits quietly on hold while your agent is busy.
+    DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+    ("bear with me", "let me pull that up"), and never in place of answering a
+    question. CUSTOM follows holdInstructions. NEVER means this customer never
+    holds. Null on an edge case uses the happy path's mode, instructions and longest
+    wait together; null on the happy path is DEFAULT. Applies to improv variants and
+    to the improvised turns of scripted ones.
+    """
 
     include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
     """
@@ -387,13 +511,34 @@ class ImprovFlowVariantHandoffPersona(BaseModel):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
-        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        "EN",
+        "ES",
+        "DE",
+        "HI",
+        "FR",
+        "NL",
+        "AR",
+        "EL",
+        "IT",
+        "ID",
+        "TH",
+        "JA",
+        "TL",
+        "MS",
+        "ZH",
+        "TR",
+        "PT",
+        "HE",
+        "GU",
+        "MR",
     ]
     """Primary language ISO 639-1 code for the persona"""
 
@@ -425,7 +570,26 @@ class ImprovFlowVariantHandoffPersona(BaseModel):
 
     understood_languages: List[
         Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+            "EN",
+            "ES",
+            "DE",
+            "HI",
+            "FR",
+            "NL",
+            "AR",
+            "EL",
+            "IT",
+            "ID",
+            "TH",
+            "JA",
+            "TL",
+            "MS",
+            "ZH",
+            "TR",
+            "PT",
+            "HE",
+            "GU",
+            "MR",
         ]
     ] = FieldInfo(alias="understoodLanguages")
     """
@@ -479,6 +643,32 @@ class ImprovFlowVariant(BaseModel):
     when the brief inherits the happy path's: read the happy path's list.
     """
 
+    hold_instructions: Optional[str] = FieldInfo(alias="holdInstructions")
+    """
+    CUSTOM only: when the simulated customer waits quietly, written as instructions
+    it follows. It stays silent until the agent speaks again or the longest wait
+    runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+    characters.
+    """
+
+    hold_max_seconds: Optional[int] = FieldInfo(alias="holdMaxSeconds")
+    """
+    The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+    out the simulated customer takes the turn back. Null uses the default, 180.
+    Ignored when holdMode is NEVER.
+    """
+
+    hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] = FieldInfo(alias="holdMode")
+    """
+    How the simulated customer waits quietly on hold while your agent is busy.
+    DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+    ("bear with me", "let me pull that up"), and never in place of answering a
+    question. CUSTOM follows holdInstructions. NEVER means this customer never
+    holds. Null on an edge case uses the happy path's mode, instructions and longest
+    wait together; null on the happy path is DEFAULT. Applies to improv variants and
+    to the improvised turns of scripted ones.
+    """
+
     include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
     """
     Whether this variant is graded on the flow's agentExpectations as well as its
@@ -514,7 +704,11 @@ class ImprovFlowVariant(BaseModel):
     """
     The brief the simulated customer improvises from. A `@{persona:<id>}` mention
     hands the phone to that persona mid-call; the sentences around the mention say
-    when.
+    when. Caller cues steer the caller from that point in the brief:
+    `#{emotion:<emotion>}`, `#{language:<ISO 639-1 code>}`,
+    `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says when to cut
+    in on your agent. Cues are voice only. See "Caller cues" in the customer flows
+    concept.
     """
 
     system_key: Optional[str] = FieldInfo(alias="systemKey", default=None)
@@ -533,6 +727,32 @@ class VoicemailFlowVariant(BaseModel):
 
     environment: Optional[ScriptedFlowVariantEnvironment]
     """The conditions this runs under. Null means it inherits the happy path's."""
+
+    hold_instructions: Optional[str] = FieldInfo(alias="holdInstructions")
+    """
+    CUSTOM only: when the simulated customer waits quietly, written as instructions
+    it follows. It stays silent until the agent speaks again or the longest wait
+    runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+    characters.
+    """
+
+    hold_max_seconds: Optional[int] = FieldInfo(alias="holdMaxSeconds")
+    """
+    The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+    out the simulated customer takes the turn back. Null uses the default, 180.
+    Ignored when holdMode is NEVER.
+    """
+
+    hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] = FieldInfo(alias="holdMode")
+    """
+    How the simulated customer waits quietly on hold while your agent is busy.
+    DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+    ("bear with me", "let me pull that up"), and never in place of answering a
+    question. CUSTOM follows holdInstructions. NEVER means this customer never
+    holds. Null on an edge case uses the happy path's mode, instructions and longest
+    wait together; null on the happy path is DEFAULT. Applies to improv variants and
+    to the improvised turns of scripted ones.
+    """
 
     include_flow_expectations: bool = FieldInfo(alias="includeFlowExpectations")
     """

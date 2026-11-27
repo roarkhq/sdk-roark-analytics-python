@@ -31,7 +31,7 @@ class Data(BaseModel):
     """
 
     simulation_run_plan_job_id: str = FieldInfo(alias="simulationRunPlanJobId")
-    """The run. Poll it with GET /v1/simulation/plan/job/{jobId}."""
+    """The run. Poll it with `GET /v1/simulation/plan/job/{jobId}`."""
 
     status: Literal[
         "PENDING",

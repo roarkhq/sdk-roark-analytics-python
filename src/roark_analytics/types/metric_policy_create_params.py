@@ -41,8 +41,11 @@ class MetricSetting(TypedDict, total=False):
 
     tool_definition_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="toolDefinitionIds")]
     """
-    Tool invocation metrics: the tool definitions to score. Empty or omitted scores
-    every tool the agent has.
+    Tool invocation metrics: the tool definitions to score. Required, with at least
+    one tool, for Tool Invocation Correct, Order Correct, Parameters Correct and
+    Result Correct, which score only the tools listed (a tool added to the agent
+    later is not scored until it is listed). Tool Invocation Count and Tool
+    Hallucination score every tool call when it is empty or omitted.
     """
 
     verified_properties: Annotated[SequenceNotStr[str], PropertyInfo(alias="verifiedProperties")]
@@ -114,10 +117,11 @@ class MetricPolicyCreateParams(TypedDict, total=False):
     setting
     """
 
-    modality: Required[Literal["call", "chat"]]
+    modality: Required[Literal["voice", "chat", "call"]]
     """
-    Modality this policy targets. A policy fires for exactly one modality and can
-    only reference metrics that support that modality.
+    Modality this policy targets: `voice` or `chat` (`call` is still accepted for
+    `voice`). A policy fires for exactly one modality and can only reference metrics
+    that support that modality.
     """
 
     name: Required[str]

@@ -37,9 +37,31 @@ class TestTool:
             description="x",
             name="book_appointment",
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calendar={
+                "appointment_types": [
+                    {
+                        "name": "checkup",
+                        "calendar_target_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "duration_minutes": 1,
+                        "event_type_id": 1,
+                        "event_type_uri": "eventTypeUri",
+                        "go_high_level_calendar": "x",
+                        "when_to_use": "x",
+                    }
+                ],
+                "calendar_connection_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "operation": "CHECK_AVAILABILITY",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+                "simulate": True,
+            },
             expected_result="expectedResult",
             inputs=[{"name": "date", "type": "string", "description": "description", "required": True}],
             invocation_criteria="invocationCriteria",
+            mcp={
+                "mcp_server_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "tool": "x",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+            },
             runtime={
                 "request": {
                     "url": "https://example.com",
@@ -97,9 +119,31 @@ class TestTool:
             description="x",
             name="book_appointment",
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calendar={
+                "appointment_types": [
+                    {
+                        "name": "checkup",
+                        "calendar_target_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "duration_minutes": 1,
+                        "event_type_id": 1,
+                        "event_type_uri": "eventTypeUri",
+                        "go_high_level_calendar": "x",
+                        "when_to_use": "x",
+                    }
+                ],
+                "calendar_connection_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "operation": "CHECK_AVAILABILITY",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+                "simulate": True,
+            },
             expected_result="expectedResult",
             inputs=[{"name": "date", "type": "string", "description": "description", "required": True}],
             invocation_criteria="invocationCriteria",
+            mcp={
+                "mcp_server_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "tool": "x",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+            },
             runtime={
                 "request": {
                     "url": "https://example.com",
@@ -281,9 +325,31 @@ class TestAsyncTool:
             description="x",
             name="book_appointment",
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calendar={
+                "appointment_types": [
+                    {
+                        "name": "checkup",
+                        "calendar_target_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "duration_minutes": 1,
+                        "event_type_id": 1,
+                        "event_type_uri": "eventTypeUri",
+                        "go_high_level_calendar": "x",
+                        "when_to_use": "x",
+                    }
+                ],
+                "calendar_connection_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "operation": "CHECK_AVAILABILITY",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+                "simulate": True,
+            },
             expected_result="expectedResult",
             inputs=[{"name": "date", "type": "string", "description": "description", "required": True}],
             invocation_criteria="invocationCriteria",
+            mcp={
+                "mcp_server_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "tool": "x",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+            },
             runtime={
                 "request": {
                     "url": "https://example.com",
@@ -341,9 +407,31 @@ class TestAsyncTool:
             description="x",
             name="book_appointment",
             agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            calendar={
+                "appointment_types": [
+                    {
+                        "name": "checkup",
+                        "calendar_target_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "duration_minutes": 1,
+                        "event_type_id": 1,
+                        "event_type_uri": "eventTypeUri",
+                        "go_high_level_calendar": "x",
+                        "when_to_use": "x",
+                    }
+                ],
+                "calendar_connection_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "operation": "CHECK_AVAILABILITY",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+                "simulate": True,
+            },
             expected_result="expectedResult",
             inputs=[{"name": "date", "type": "string", "description": "description", "required": True}],
             invocation_criteria="invocationCriteria",
+            mcp={
+                "mcp_server_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "tool": "x",
+                "messages": {"before": "before", "failure": "failure", "slow": "slow"},
+            },
             runtime={
                 "request": {
                     "url": "https://example.com",

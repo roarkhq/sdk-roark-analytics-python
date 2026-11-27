@@ -133,13 +133,34 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
     How much the persona talks over the agent while it is still speaking. OFF waits
     its turn. BACKCHANNEL makes listening noises ("mm-hm") over the agent without
     taking the floor, which tests whether the agent wrongly stops for them.
-    OCCASIONAL adds cutting in on some long agent turns, HEAVY on most of them.
-    Timing is randomised per turn, so two runs of the same persona do not interrupt
-    at identical moments.
+    OCCASIONAL also cuts in where a caller like this plausibly would, and HEAVY does
+    so readily, though never on every turn. The moments are chosen from what the
+    agent is saying, such as reading back a number or starting a long explanation,
+    not on a timer. A customer flow can also say exactly when to cut in, which
+    applies at any level.
     """
 
     language: Literal[
-        "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+        "EN",
+        "ES",
+        "DE",
+        "HI",
+        "FR",
+        "NL",
+        "AR",
+        "EL",
+        "IT",
+        "ID",
+        "TH",
+        "JA",
+        "TL",
+        "MS",
+        "ZH",
+        "TR",
+        "PT",
+        "HE",
+        "GU",
+        "MR",
     ]
     """Primary language ISO 639-1 code for the persona"""
 
@@ -195,6 +216,8 @@ class SimulationPersonaUpdateParams(TypedDict, total=False):
                 "TR",
                 "PT",
                 "HE",
+                "GU",
+                "MR",
             ]
         ],
         PropertyInfo(alias="understoodLanguages"),

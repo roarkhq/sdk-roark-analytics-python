@@ -41,6 +41,7 @@ class TestSimulationRunPlan:
             max_simulation_duration_seconds=300,
             name="My Run Plan",
             auto_run=False,
+            calls_per_second=0.5,
             comparison_baseline="NONE",
             comparison_property="BACKGROUND_NOISE",
             comparison_values=[
@@ -88,6 +89,7 @@ class TestSimulationRunPlan:
                 "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
             },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            ramp_up_seconds=60,
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -144,6 +146,7 @@ class TestSimulationRunPlan:
             direction="INBOUND",
             template="health-check",
             additional_metrics=[{"slug": "call_ended_prematurely"}],
+            calls_per_second=0.5,
             comparison_baseline="US",
             comparison_values=["US", "GB", "IN"],
             end_call_phrases=["goodbye"],
@@ -167,6 +170,7 @@ class TestSimulationRunPlan:
             },
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
+            ramp_up_seconds=60,
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -211,6 +215,7 @@ class TestSimulationRunPlan:
         simulation_run_plan = client.simulation_run_plan.update(
             plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            calls_per_second=0.01,
             comparison_baseline="comparisonBaseline",
             comparison_property="ACCENT",
             comparison_values=[
@@ -262,6 +267,7 @@ class TestSimulationRunPlan:
                 "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
             },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            ramp_up_seconds=0,
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -438,6 +444,7 @@ class TestAsyncSimulationRunPlan:
             max_simulation_duration_seconds=300,
             name="My Run Plan",
             auto_run=False,
+            calls_per_second=0.5,
             comparison_baseline="NONE",
             comparison_property="BACKGROUND_NOISE",
             comparison_values=[
@@ -485,6 +492,7 @@ class TestAsyncSimulationRunPlan:
                 "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
             },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            ramp_up_seconds=60,
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -541,6 +549,7 @@ class TestAsyncSimulationRunPlan:
             direction="INBOUND",
             template="health-check",
             additional_metrics=[{"slug": "call_ended_prematurely"}],
+            calls_per_second=0.5,
             comparison_baseline="US",
             comparison_values=["US", "GB", "IN"],
             end_call_phrases=["goodbye"],
@@ -564,6 +573,7 @@ class TestAsyncSimulationRunPlan:
             },
             persona_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             questions=[{"ask": "What are your holiday hours?", "expect": "We're closed on public holidays."}],
+            ramp_up_seconds=60,
             silence_timeout_seconds=30,
         )
         assert_matches_type(SimulationRunPlanCreateResponse, simulation_run_plan, path=["response"])
@@ -608,6 +618,7 @@ class TestAsyncSimulationRunPlan:
         simulation_run_plan = await async_client.simulation_run_plan.update(
             plan_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent_endpoints=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            calls_per_second=0.01,
             comparison_baseline="comparisonBaseline",
             comparison_property="ACCENT",
             comparison_values=[
@@ -659,6 +670,7 @@ class TestAsyncSimulationRunPlan:
                 "slack": [{"channel_id": "C07ABCDEF12", "channel_name": "qa-reports"}],
             },
             personas=[{"id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}],
+            ramp_up_seconds=0,
             scenarios=[
                 {
                     "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

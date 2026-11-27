@@ -83,8 +83,11 @@ class DataMetricSetting(BaseModel):
 
     tool_definition_ids: Optional[List[str]] = FieldInfo(alias="toolDefinitionIds", default=None)
     """
-    Tool invocation metrics: the tool definitions to score. Empty or omitted scores
-    every tool the agent has.
+    Tool invocation metrics: the tool definitions to score. Required, with at least
+    one tool, for Tool Invocation Correct, Order Correct, Parameters Correct and
+    Result Correct, which score only the tools listed (a tool added to the agent
+    later is not scored until it is listed). Tool Invocation Count and Tool
+    Hallucination score every tool call when it is empty or omitted.
     """
 
     verified_properties: Optional[List[str]] = FieldInfo(alias="verifiedProperties", default=None)

@@ -38,6 +38,13 @@ class TestSimulationEnvironment:
             name="Busy call centre",
             background_noise_volume=0.3,
             description="Open-plan office at peak hours",
+            line_custom={
+                "from_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+                "to_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+            },
+            line_noise=0.4,
+            line_quality="CELL_EDGE",
+            phone="MOBILE",
         )
         assert_matches_type(SimulationEnvironmentCreateResponse, simulation_environment, path=["response"])
 
@@ -81,7 +88,14 @@ class TestSimulationEnvironment:
             background_noise="OFFICE",
             background_noise_volume=0.3,
             description="Open-plan office at peak hours",
+            line_custom={
+                "from_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+                "to_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+            },
+            line_noise=0.4,
+            line_quality="CELL_EDGE",
             name="Busy call centre",
+            phone="MOBILE",
         )
         assert_matches_type(SimulationEnvironmentUpdateResponse, simulation_environment, path=["response"])
 
@@ -246,6 +260,13 @@ class TestAsyncSimulationEnvironment:
             name="Busy call centre",
             background_noise_volume=0.3,
             description="Open-plan office at peak hours",
+            line_custom={
+                "from_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+                "to_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+            },
+            line_noise=0.4,
+            line_quality="CELL_EDGE",
+            phone="MOBILE",
         )
         assert_matches_type(SimulationEnvironmentCreateResponse, simulation_environment, path=["response"])
 
@@ -289,7 +310,14 @@ class TestAsyncSimulationEnvironment:
             background_noise="OFFICE",
             background_noise_volume=0.3,
             description="Open-plan office at peak hours",
+            line_custom={
+                "from_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+                "to_agent": {"packet_loss_percent": 3, "mean_burst_packets": 3},
+            },
+            line_noise=0.4,
+            line_quality="CELL_EDGE",
             name="Busy call centre",
+            phone="MOBILE",
         )
         assert_matches_type(SimulationEnvironmentUpdateResponse, simulation_environment, path=["response"])
 

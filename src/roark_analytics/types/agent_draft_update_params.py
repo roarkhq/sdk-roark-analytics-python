@@ -38,7 +38,22 @@ class SettingSubAgentHandoff(TypedDict, total=False):
 class SettingSubAgentModelConfigUnionMember0Llm(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
 
     max_tokens: Annotated[Optional[int], PropertyInfo(alias="maxTokens")]
 
@@ -48,7 +63,9 @@ class SettingSubAgentModelConfigUnionMember0Llm(TypedDict, total=False):
 class SettingSubAgentModelConfigUnionMember0Stt(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+    provider: Required[
+        Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
+    ]
 
     endpointing_ms: Annotated[Optional[int], PropertyInfo(alias="endpointingMs")]
 
@@ -62,7 +79,9 @@ class SettingSubAgentModelConfigUnionMember0Stt(TypedDict, total=False):
 class SettingSubAgentModelConfigUnionMember0Tt(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+    provider: Required[
+        Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
+    ]
 
     voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]
 
@@ -86,7 +105,22 @@ class SettingSubAgentModelConfigUnionMember0(TypedDict, total=False):
 class SettingSubAgentModelConfigUnionMember1SpeechToSpeech(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
 
     backend_model: Annotated[Optional[str], PropertyInfo(alias="backendModel")]
 
@@ -196,9 +230,11 @@ class Setting(TypedDict, total=False):
 
     language: Optional[str]
 
-    modalities: List[Literal["call", "chat"]]
+    modalities: List[Literal["voice", "chat", "call"]]
 
     sub_agents: Annotated[Iterable[SettingSubAgent], PropertyInfo(alias="subAgents")]
+
+    vad_max_silence_secs: Annotated[Optional[float], PropertyInfo(alias="vadMaxSilenceSecs")]
 
     vad_start_secs: Annotated[Optional[float], PropertyInfo(alias="vadStartSecs")]
 

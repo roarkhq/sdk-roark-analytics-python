@@ -12,6 +12,10 @@ __all__ = ["CustomerFlowListParams"]
 class CustomerFlowListParams(TypedDict, total=False):
     after: str
 
+    folder_id: Annotated[str, PropertyInfo(alias="folderId")]
+
+    include_subfolders: Annotated[Literal["true", "false"], PropertyInfo(alias="includeSubfolders")]
+
     include_system: Annotated[Literal["true", "false"], PropertyInfo(alias="includeSystem")]
 
     limit: int

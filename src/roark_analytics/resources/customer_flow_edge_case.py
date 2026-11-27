@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -53,6 +54,9 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         flow_id: str,
         additional_expectations: Iterable[customer_flow_edge_case_update_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -68,10 +72,11 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowEdgeCaseUpdateResponse:
         """
-        Updates an edge case's title, persona, environment, brief, preceded-by link or
-        expectations. Omitted fields are left alone; `additionalExpectations` replaces
-        the set wholesale rather than appending. Promoting it to the happy path is a
-        separate call, since that also demotes the incumbent.
+        Updates an edge case's title, persona, environment, brief, hold settings,
+        preceded-by link or expectations. Omitted fields are left alone;
+        `additionalExpectations` replaces the set wholesale rather than appending.
+        Promoting it to the happy path is a separate call, since that also demotes the
+        incumbent.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -80,11 +85,34 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
+
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -104,6 +132,9 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,
@@ -127,6 +158,9 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         title: str,
         additional_expectations: Iterable[customer_flow_edge_case_add_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -145,7 +179,8 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
         A scripted flow's variants are owned by the
         path engine, one per path through the graph, so they are created by editing the
         graph through PUT /v1/customer-flow/{flowId}/graph rather than here. Leave
-        personaOverrideId or environmentId unset to inherit the happy path's.
+        personaOverrideId or environmentId unset to inherit the happy path's, and
+        holdMode unset to wait on hold the way the happy path does.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -154,11 +189,34 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
+
+          prompt: The brief the simulated customer improvises from. Caller cues steer the caller
+              from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+              code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+              when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+              customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -177,6 +235,9 @@ class CustomerFlowEdgeCaseResource(SyncAPIResource):
                     "title": title,
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,
@@ -297,6 +358,9 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         flow_id: str,
         additional_expectations: Iterable[customer_flow_edge_case_update_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -312,10 +376,11 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowEdgeCaseUpdateResponse:
         """
-        Updates an edge case's title, persona, environment, brief, preceded-by link or
-        expectations. Omitted fields are left alone; `additionalExpectations` replaces
-        the set wholesale rather than appending. Promoting it to the happy path is a
-        separate call, since that also demotes the incumbent.
+        Updates an edge case's title, persona, environment, brief, hold settings,
+        preceded-by link or expectations. Omitted fields are left alone;
+        `additionalExpectations` replaces the set wholesale rather than appending.
+        Promoting it to the happy path is a separate call, since that also demotes the
+        incumbent.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -324,11 +389,34 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
+
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -348,6 +436,9 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,
@@ -371,6 +462,9 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         title: str,
         additional_expectations: Iterable[customer_flow_edge_case_add_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -389,7 +483,8 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
         A scripted flow's variants are owned by the
         path engine, one per path through the graph, so they are created by editing the
         graph through PUT /v1/customer-flow/{flowId}/graph rather than here. Leave
-        personaOverrideId or environmentId unset to inherit the happy path's.
+        personaOverrideId or environmentId unset to inherit the happy path's, and
+        holdMode unset to wait on hold the way the happy path does.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -398,11 +493,34 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Omit to inherit the happy path's.
+
+          prompt: The brief the simulated customer improvises from. Caller cues steer the caller
+              from that point in the brief: `#{emotion:<emotion>}`, `#{language:<ISO 639-1
+              code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`, whose sentence says
+              when to cut in on your agent. Cues are voice only. See "Caller cues" in the
+              customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -421,6 +539,9 @@ class AsyncCustomerFlowEdgeCaseResource(AsyncAPIResource):
                     "title": title,
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,

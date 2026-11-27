@@ -117,6 +117,7 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -185,6 +186,9 @@ class TestCustomerFlow:
                 "additional_expectations": [
                     {"prompt": "The agent confirmed the new appointment time back to the customer"}
                 ],
+                "hold_instructions": "Hold whenever the agent is processing a credit card number and says okay.",
+                "hold_max_seconds": 30,
+                "hold_mode": "CUSTOM",
                 "opening_line": "openingLine",
                 "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -201,6 +205,9 @@ class TestCustomerFlow:
                         {"prompt": "The agent confirmed the new appointment time back to the customer"}
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "hold_instructions": "Hold whenever the agent is processing a credit card number and says okay.",
+                    "hold_max_seconds": 30,
+                    "hold_mode": "CUSTOM",
                     "include_flow_expectations": True,
                     "opening_line": "openingLine",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -209,6 +216,7 @@ class TestCustomerFlow:
                     "prompt": "prompt",
                 }
             ],
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -269,6 +277,7 @@ class TestCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -325,6 +334,8 @@ class TestCustomerFlow:
     def test_method_list_with_all_params(self, client: Roark) -> None:
         customer_flow = client.customer_flow.list(
             after="after",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_subfolders="true",
             include_system="true",
             limit=1,
             search_text="searchText",
@@ -624,6 +635,9 @@ class TestCustomerFlow:
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            hold_instructions="Hold whenever the agent is processing a credit card number and says okay.",
+            hold_max_seconds=30,
+            hold_mode="CUSTOM",
             include_flow_expectations=True,
             opening_line="openingLine",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -764,6 +778,7 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -832,6 +847,9 @@ class TestAsyncCustomerFlow:
                 "additional_expectations": [
                     {"prompt": "The agent confirmed the new appointment time back to the customer"}
                 ],
+                "hold_instructions": "Hold whenever the agent is processing a credit card number and says okay.",
+                "hold_max_seconds": 30,
+                "hold_mode": "CUSTOM",
                 "opening_line": "openingLine",
                 "preceded_by_customer_flow_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 "preceded_by_customer_flow_variant_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -848,6 +866,9 @@ class TestAsyncCustomerFlow:
                         {"prompt": "The agent confirmed the new appointment time back to the customer"}
                     ],
                     "environment_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "hold_instructions": "Hold whenever the agent is processing a credit card number and says okay.",
+                    "hold_max_seconds": 30,
+                    "hold_mode": "CUSTOM",
                     "include_flow_expectations": True,
                     "opening_line": "openingLine",
                     "persona_override_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -856,6 +877,7 @@ class TestAsyncCustomerFlow:
                     "prompt": "prompt",
                 }
             ],
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(CustomerFlowCreateResponse, customer_flow, path=["response"])
 
@@ -916,6 +938,7 @@ class TestAsyncCustomerFlow:
             agent_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             branching_mode="DETERMINISTIC",
             description="description",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             off_script_policy={
                 "max_attempts": 1,
                 "reaction": "STAY_SILENT",
@@ -972,6 +995,8 @@ class TestAsyncCustomerFlow:
     async def test_method_list_with_all_params(self, async_client: AsyncRoark) -> None:
         customer_flow = await async_client.customer_flow.list(
             after="after",
+            folder_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_subfolders="true",
             include_system="true",
             limit=1,
             search_text="searchText",
@@ -1271,6 +1296,9 @@ class TestAsyncCustomerFlow:
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             additional_expectations=[{"prompt": "The agent confirmed the new appointment time back to the customer"}],
             environment_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            hold_instructions="Hold whenever the agent is processing a credit card number and says okay.",
+            hold_max_seconds=30,
+            hold_mode="CUSTOM",
             include_flow_expectations=True,
             opening_line="openingLine",
             persona_override_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -16,7 +16,22 @@ class Llm(TypedDict, total=False):
     model: Required[str]
     """The provider's model id, for example gpt-4.1"""
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
     """Text model provider, for example OPENAI"""
 
 
@@ -26,14 +41,18 @@ class Stt(TypedDict, total=False):
     model: Required[str]
     """The provider's model id, for example nova-3"""
 
-    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+    provider: Required[
+        Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
+    ]
     """Speech-to-text provider, for example DEEPGRAM"""
 
 
 class Tt(TypedDict, total=False):
     """Optional provider voice the hosted agent speaks with"""
 
-    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+    provider: Required[
+        Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
+    ]
     """Text-to-speech provider, for example ELEVENLABS"""
 
     voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]
@@ -56,6 +75,60 @@ class AgentBuildParams(TypedDict, total=False):
     name: Required[str]
     """Name of the agent"""
 
+    capabilities: Optional[
+        List[
+            Literal[
+                "APPOINTMENT_BOOKING",
+                "FAQ",
+                "IDENTITY_VERIFICATION",
+                "ACCOUNT_MANAGEMENT",
+                "BILLING_AND_PAYMENTS",
+                "ORDER_MANAGEMENT",
+                "TROUBLESHOOTING",
+                "CALL_ROUTING",
+                "LEAD_QUALIFICATION",
+                "COLLECTIONS",
+                "OUTBOUND_CALLING",
+            ]
+        ]
+    ]
+    """
+    What the agent handles. Recorded on the agent, so its simulation setup tests
+    each.
+    """
+
+    industry: Optional[
+        Literal[
+            "HEALTHCARE",
+            "FINANCIAL_SERVICES",
+            "INSURANCE",
+            "DEBT_COLLECTION",
+            "RETAIL",
+            "TRAVEL_AND_HOSPITALITY",
+            "TELECOMMUNICATIONS",
+            "TECHNOLOGY",
+            "PUBLIC_SECTOR",
+            "UTILITIES",
+            "LOGISTICS",
+            "AUTOMOTIVE",
+            "HOME_SERVICES",
+            "RESTAURANTS",
+            "EDUCATION",
+            "RECRUITING_AND_STAFFING",
+            "OTHER",
+        ]
+    ]
+    """
+    The industry the agent serves. Recorded on the agent, so its simulation setup
+    starts from that industry.
+    """
+
+    industry_description: Annotated[Optional[str], PropertyInfo(alias="industryDescription")]
+    """
+    The industry in your own words, when none of the listed ones fits. Use it with
+    industry OTHER.
+    """
+
     llm: Optional[Llm]
     """Optional text model the hosted agent thinks with. Roark's default when omitted"""
 
@@ -70,3 +143,6 @@ class AgentBuildParams(TypedDict, total=False):
     Optional display name of the agent's voice. The authored prompt matches its
     delivery to it.
     """
+
+    website_url: Annotated[Optional[str], PropertyInfo(alias="websiteUrl")]
+    """The business's website. The agent's prompt is written from the facts it states."""

@@ -94,17 +94,36 @@ class AgentConfigEndpoint(TypedDict, total=False):
 class AgentConfigLlm(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["OPENAI", "ANTHROPIC", "GOOGLE", "XAI", "ULTRAVOX", "AWS", "ELEVENLABS"]]
+    provider: Required[
+        Literal[
+            "OPENAI",
+            "ANTHROPIC",
+            "GOOGLE",
+            "XAI",
+            "ULTRAVOX",
+            "AWS",
+            "ELEVENLABS",
+            "GROQ",
+            "META",
+            "RIME",
+            "PHONIC",
+            "SMALLEST",
+        ]
+    ]
 
 
 class AgentConfigStt(TypedDict, total=False):
     model: Required[str]
 
-    provider: Required[Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS"]]
+    provider: Required[
+        Literal["DEEPGRAM", "OPENAI_WHISPER", "SPEECHMATICS", "ASSEMBLYAI", "ELEVENLABS", "SONIOX", "SMALLEST"]
+    ]
 
 
 class AgentConfigTt(TypedDict, total=False):
-    provider: Required[Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME"]]
+    provider: Required[
+        Literal["CARTESIA", "ELEVENLABS", "OPENAI", "RIME", "ASSEMBLYAI", "DEEPGRAM", "FISH_AUDIO", "SMALLEST"]
+    ]
 
     voice_id: Required[Annotated[str, PropertyInfo(alias="voiceId")]]
 
@@ -129,6 +148,8 @@ class AgentConfig(TypedDict, total=False):
     job_description: Annotated[str, PropertyInfo(alias="jobDescription")]
 
     llm: AgentConfigLlm
+
+    modalities: List[Literal["voice", "chat", "call"]]
 
     prompt: Optional[str]
 
@@ -169,7 +190,11 @@ class HTTPRequestDefinitionConfig(TypedDict, total=False):
 
     headers: Dict[str, str]
 
+    max_attempts: Annotated[int, PropertyInfo(alias="maxAttempts")]
+
     method: Literal["POST", "PUT", "PATCH", "GET"]
+
+    timeout_ms: Annotated[int, PropertyInfo(alias="timeoutMs")]
 
 
 class PersonaConfig(TypedDict, total=False):
@@ -207,7 +232,26 @@ class PersonaConfig(TypedDict, total=False):
 
     language: Required[
         Literal[
-            "EN", "ES", "DE", "HI", "FR", "NL", "AR", "EL", "IT", "ID", "TH", "JA", "TL", "MS", "ZH", "TR", "PT", "HE"
+            "EN",
+            "ES",
+            "DE",
+            "HI",
+            "FR",
+            "NL",
+            "AR",
+            "EL",
+            "IT",
+            "ID",
+            "TH",
+            "JA",
+            "TL",
+            "MS",
+            "ZH",
+            "TR",
+            "PT",
+            "HE",
+            "GU",
+            "MR",
         ]
     ]
 
@@ -308,6 +352,8 @@ class PersonaConfig(TypedDict, total=False):
                 "TR",
                 "PT",
                 "HE",
+                "GU",
+                "MR",
             ]
         ],
         PropertyInfo(alias="understoodLanguages"),
@@ -320,6 +366,12 @@ class ImprovFlowConfigHappyPath(TypedDict, total=False):
     persona: Required[str]
 
     expectations: SequenceNotStr[str]
+
+    hold_instructions: Annotated[str, PropertyInfo(alias="holdInstructions")]
+
+    hold_max_seconds: Annotated[int, PropertyInfo(alias="holdMaxSeconds")]
+
+    hold_mode: Annotated[Literal["DEFAULT", "CUSTOM", "NEVER"], PropertyInfo(alias="holdMode")]
 
     opening_line: Annotated[str, PropertyInfo(alias="openingLine")]
 
@@ -334,6 +386,12 @@ class ImprovFlowConfigEdgeCase(TypedDict, total=False):
     environment: str
 
     expectations: SequenceNotStr[str]
+
+    hold_instructions: Annotated[str, PropertyInfo(alias="holdInstructions")]
+
+    hold_max_seconds: Annotated[int, PropertyInfo(alias="holdMaxSeconds")]
+
+    hold_mode: Annotated[Literal["DEFAULT", "CUSTOM", "NEVER"], PropertyInfo(alias="holdMode")]
 
     include_flow_expectations: Annotated[bool, PropertyInfo(alias="includeFlowExpectations")]
 
@@ -362,6 +420,8 @@ class ImprovFlowConfig(TypedDict, total=False):
     edge_cases: Annotated[Iterable[ImprovFlowConfigEdgeCase], PropertyInfo(alias="edgeCases")]
 
     expectations: SequenceNotStr[str]
+
+    folder: str
 
     title: str
 
@@ -398,6 +458,8 @@ class ScriptedFlowConfig(TypedDict, total=False):
     environment: str
 
     expectations: SequenceNotStr[str]
+
+    folder: str
 
     off_script: Annotated[ScriptedFlowConfigOffScript, PropertyInfo(alias="offScript")]
 
@@ -446,7 +508,7 @@ class CollectorConfig(TypedDict, total=False):
 
     metrics: Required[List[Union[str, CollectorMetricConfig]]]
 
-    modality: Required[Literal["call", "chat"]]
+    modality: Required[Literal["voice", "chat", "call"]]
 
     name: Required[str]
 
@@ -488,6 +550,8 @@ class MetricConfig(TypedDict, total=False):
 
     type: Required[Literal["BOOLEAN", "SCALE", "NUMERIC", "TEXT", "CLASSIFICATION"]]
 
+    applicability_condition: Annotated[str, PropertyInfo(alias="applicabilityCondition")]
+
     calculation_type: Annotated[Literal["LLM_JUDGE"], PropertyInfo(alias="calculationType")]
 
     contexts: List[Literal["CALL", "SEGMENT", "TURN"]]
@@ -522,7 +586,11 @@ class APICheckMetricConfigHTTPRequest(TypedDict, total=False):
 
     headers: Dict[str, str]
 
+    max_attempts: Annotated[int, PropertyInfo(alias="maxAttempts")]
+
     method: Literal["GET", "POST"]
+
+    timeout_ms: Annotated[int, PropertyInfo(alias="timeoutMs")]
 
 
 class APICheckMetricConfig(TypedDict, total=False):
@@ -715,6 +783,8 @@ class SimulationPlanConfig(TypedDict, total=False):
 
     name: Required[str]
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+
     description: Optional[str]
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
@@ -740,6 +810,8 @@ class SimulationPlanConfig(TypedDict, total=False):
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
     notify: SimulationPlanConfigNotify
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
 
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
@@ -784,6 +856,8 @@ class QaSimulationPlanConfig(TypedDict, total=False):
 
     template: Required[Literal["question-answer-check"]]
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+
     description: Optional[str]
 
     end_call_phrases: Annotated[SequenceNotStr[str], PropertyInfo(alias="endCallPhrases")]
@@ -813,6 +887,8 @@ class QaSimulationPlanConfig(TypedDict, total=False):
     no_response_retry_backoff_seconds: Annotated[int, PropertyInfo(alias="noResponseRetryBackoffSeconds")]
 
     notify: SimulationPlanConfigNotify
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
 
     schedule: Union[
         SimulationPlanConfigScheduleUnionMember0,
@@ -854,7 +930,7 @@ class SimulationGroupConfig(TypedDict, total=False):
 
 
 class AlertThresholdTrigger(TypedDict, total=False):
-    aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN"]]
+    aggregation: Required[Literal["COUNT", "RATE_PER_MINUTE", "MEAN", "SUM"]]
 
     metric: Required[str]
 
@@ -898,6 +974,8 @@ class AlertEventTrigger(TypedDict, total=False):
                 "CHAT_ANALYSIS_FAILED",
                 "ISSUE_OPENED",
                 "ISSUE_RESOLVED",
+                "SIMULATION_RESOURCE_GENERATION_COMPLETED",
+                "SIMULATION_RESOURCE_GENERATION_FAILED",
             ]
         ]
     ]
@@ -950,11 +1028,17 @@ class ToolConfigHandlerUnionMember0(TypedDict, total=False):
 
 
 class ToolConfigHandlerUnionMember1AppointmentType(TypedDict, total=False):
-    event_type_id: Required[Annotated[int, PropertyInfo(alias="eventTypeId")]]
-
     name: Required[str]
 
+    calendar_target: Annotated[Optional[str], PropertyInfo(alias="calendarTarget")]
+
     duration_minutes: Annotated[Optional[int], PropertyInfo(alias="durationMinutes")]
+
+    event_type_id: Annotated[Optional[int], PropertyInfo(alias="eventTypeId")]
+
+    event_type_uri: Annotated[Optional[str], PropertyInfo(alias="eventTypeUri")]
+
+    go_high_level_calendar: Annotated[Optional[str], PropertyInfo(alias="goHighLevelCalendar")]
 
     when_to_use: Annotated[Optional[str], PropertyInfo(alias="whenToUse")]
 

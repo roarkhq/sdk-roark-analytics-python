@@ -43,6 +43,8 @@ class Data(BaseModel):
             "CHAT_ANALYSIS_FAILED",
             "ISSUE_OPENED",
             "ISSUE_RESOLVED",
+            "SIMULATION_RESOURCE_GENERATION_COMPLETED",
+            "SIMULATION_RESOURCE_GENERATION_FAILED",
         ]
     ]
     """Event types this webhook is subscribed to"""

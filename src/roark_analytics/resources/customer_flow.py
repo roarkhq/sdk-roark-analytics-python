@@ -71,6 +71,7 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: str | Omit = omit,
         off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
         | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
@@ -103,6 +104,9 @@ class CustomerFlowResource(SyncAPIResource):
               actually said. Both modes speak the exact authored lines, and neither changes
               how metrics or expectations grade. (DETERMINISTIC is the default.)
 
+          folder_id: A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+              it in no folder.
+
           script_adherence: How closely a run follows the script. LOOSE (default) hands the whole script to
               the simulated customer as one prompt; it keeps the call moving whatever your
               agent says. STRICT runs the script as a state machine on the agent service: at
@@ -133,6 +137,7 @@ class CustomerFlowResource(SyncAPIResource):
         | Omit = omit,
         description: Optional[str] | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
+        folder_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -154,6 +159,9 @@ class CustomerFlowResource(SyncAPIResource):
 
           edge_cases: Other ways of running it, each inheriting from the happy path what it does not
               name.
+
+          folder_id: A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+              it in no folder.
 
           extra_headers: Send extra headers
 
@@ -177,6 +185,7 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: str | Omit = omit,
         off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
         | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
@@ -200,6 +209,7 @@ class CustomerFlowResource(SyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "folder_id": folder_id,
                     "off_script_policy": off_script_policy,
                     "script_adherence": script_adherence,
                     "happy_path": happy_path,
@@ -221,6 +231,7 @@ class CustomerFlowResource(SyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: Optional[str] | Omit = omit,
         off_script_policy: Optional[customer_flow_update_params.OffScriptPolicy] | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         title: str | Omit = omit,
@@ -232,8 +243,8 @@ class CustomerFlowResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowUpdateResponse:
         """
-        Updates a flow's title, description, branching mode, linked agents or flow-level
-        expectations. The step graph is replaced through PUT /graph.
+        Updates a flow's title, description, branching mode, linked agents, flow-level
+        expectations or folder. The step graph is replaced through PUT /graph.
 
         Args:
           agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
@@ -247,6 +258,9 @@ class CustomerFlowResource(SyncAPIResource):
               into one call PER PERSONA, on which the simulated customer picks a branch from
               what the agent actually said. Both modes speak the exact authored lines, and
               neither changes how metrics or expectations grade.
+
+          folder_id: Moves the flow into this folder. Null takes it out of its folder; omit to leave
+              it where it is.
 
           script_adherence: Scripted flows only. How closely a run follows the script. LOOSE (default) hands
               the whole script to the simulated customer as one prompt; it keeps the call
@@ -274,6 +288,7 @@ class CustomerFlowResource(SyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "folder_id": folder_id,
                     "off_script_policy": off_script_policy,
                     "script_adherence": script_adherence,
                     "title": title,
@@ -290,6 +305,8 @@ class CustomerFlowResource(SyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        folder_id: str | Omit = omit,
+        include_subfolders: Literal["true", "false"] | Omit = omit,
         include_system: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
@@ -327,6 +344,8 @@ class CustomerFlowResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "after": after,
+                        "folder_id": folder_id,
+                        "include_subfolders": include_subfolders,
                         "include_system": include_system,
                         "limit": limit,
                         "search_text": search_text,
@@ -523,6 +542,9 @@ class CustomerFlowResource(SyncAPIResource):
         *,
         additional_expectations: Iterable[customer_flow_update_happy_path_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -538,11 +560,11 @@ class CustomerFlowResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowUpdateHappyPathResponse:
         """
-        Updates the happy path's title, persona, environment, brief or expectations.
-        Omitted fields are left alone; `additionalExpectations` replaces the set
-        wholesale rather than appending. Its persona and environment are what the edge
-        cases inherit, so changing them here changes every edge case that does not name
-        its own.
+        Updates the happy path's title, persona, environment, brief, hold settings or
+        expectations. Omitted fields are left alone; `additionalExpectations` replaces
+        the set wholesale rather than appending. Its persona, environment and hold
+        settings are what the edge cases inherit, so changing them here changes every
+        edge case that does not name its own.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -551,11 +573,34 @@ class CustomerFlowResource(SyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
+
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -573,6 +618,9 @@ class CustomerFlowResource(SyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,
@@ -622,6 +670,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: str | Omit = omit,
         off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
         | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
@@ -654,6 +703,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               actually said. Both modes speak the exact authored lines, and neither changes
               how metrics or expectations grade. (DETERMINISTIC is the default.)
 
+          folder_id: A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+              it in no folder.
+
           script_adherence: How closely a run follows the script. LOOSE (default) hands the whole script to
               the simulated customer as one prompt; it keeps the call moving whatever your
               agent says. STRICT runs the script as a state machine on the agent service: at
@@ -684,6 +736,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         | Omit = omit,
         description: Optional[str] | Omit = omit,
         edge_cases: Iterable[customer_flow_create_params.CreateImprovCustomerFlowInputEdgeCase] | Omit = omit,
+        folder_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -705,6 +758,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
 
           edge_cases: Other ways of running it, each inheriting from the happy path what it does not
               name.
+
+          folder_id: A folder to file the flow in, from GET /v1/customer-flow/folder. Omit to leave
+              it in no folder.
 
           extra_headers: Send extra headers
 
@@ -728,6 +784,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: str | Omit = omit,
         off_script_policy: Optional[customer_flow_create_params.CreateScriptedCustomerFlowInputOffScriptPolicy]
         | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
@@ -751,6 +808,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "folder_id": folder_id,
                     "off_script_policy": off_script_policy,
                     "script_adherence": script_adherence,
                     "happy_path": happy_path,
@@ -772,6 +830,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         agent_ids: SequenceNotStr[str] | Omit = omit,
         branching_mode: Literal["DETERMINISTIC", "ADAPTIVE"] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        folder_id: Optional[str] | Omit = omit,
         off_script_policy: Optional[customer_flow_update_params.OffScriptPolicy] | Omit = omit,
         script_adherence: Literal["LOOSE", "STRICT"] | Omit = omit,
         title: str | Omit = omit,
@@ -783,8 +842,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowUpdateResponse:
         """
-        Updates a flow's title, description, branching mode, linked agents or flow-level
-        expectations. The step graph is replaced through PUT /graph.
+        Updates a flow's title, description, branching mode, linked agents, flow-level
+        expectations or folder. The step graph is replaced through PUT /graph.
 
         Args:
           agent_expectations: Replaces the flow-level expectations. Omit to leave them unchanged.
@@ -798,6 +857,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               into one call PER PERSONA, on which the simulated customer picks a branch from
               what the agent actually said. Both modes speak the exact authored lines, and
               neither changes how metrics or expectations grade.
+
+          folder_id: Moves the flow into this folder. Null takes it out of its folder; omit to leave
+              it where it is.
 
           script_adherence: Scripted flows only. How closely a run follows the script. LOOSE (default) hands
               the whole script to the simulated customer as one prompt; it keeps the call
@@ -825,6 +887,7 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                     "agent_ids": agent_ids,
                     "branching_mode": branching_mode,
                     "description": description,
+                    "folder_id": folder_id,
                     "off_script_policy": off_script_policy,
                     "script_adherence": script_adherence,
                     "title": title,
@@ -841,6 +904,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         self,
         *,
         after: str | Omit = omit,
+        folder_id: str | Omit = omit,
+        include_subfolders: Literal["true", "false"] | Omit = omit,
         include_system: Literal["true", "false"] | Omit = omit,
         limit: int | Omit = omit,
         search_text: str | Omit = omit,
@@ -878,6 +943,8 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "after": after,
+                        "folder_id": folder_id,
+                        "include_subfolders": include_subfolders,
                         "include_system": include_system,
                         "limit": limit,
                         "search_text": search_text,
@@ -1074,6 +1141,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         *,
         additional_expectations: Iterable[customer_flow_update_happy_path_params.AdditionalExpectation] | Omit = omit,
         environment_id: Optional[str] | Omit = omit,
+        hold_instructions: Optional[str] | Omit = omit,
+        hold_max_seconds: Optional[int] | Omit = omit,
+        hold_mode: Optional[Literal["DEFAULT", "CUSTOM", "NEVER"]] | Omit = omit,
         include_flow_expectations: bool | Omit = omit,
         opening_line: Optional[str] | Omit = omit,
         persona_override_id: Optional[str] | Omit = omit,
@@ -1089,11 +1159,11 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerFlowUpdateHappyPathResponse:
         """
-        Updates the happy path's title, persona, environment, brief or expectations.
-        Omitted fields are left alone; `additionalExpectations` replaces the set
-        wholesale rather than appending. Its persona and environment are what the edge
-        cases inherit, so changing them here changes every edge case that does not name
-        its own.
+        Updates the happy path's title, persona, environment, brief, hold settings or
+        expectations. Omitted fields are left alone; `additionalExpectations` replaces
+        the set wholesale rather than appending. Its persona, environment and hold
+        settings are what the edge cases inherit, so changing them here changes every
+        edge case that does not name its own.
 
         Args:
           additional_expectations: The expectations graded on this variant only, on top of the flow's own. Sent as
@@ -1102,11 +1172,34 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
               expectations come from the agent turns on its path and are rewritten on every
               graph edit.
 
+          hold_instructions: CUSTOM only: when the simulated customer waits quietly, written as instructions
+              it follows. It stays silent until the agent speaks again or the longest wait
+              runs out, then takes the turn back. Required when holdMode is CUSTOM. Up to 4000
+              characters.
+
+          hold_max_seconds: The longest one wait on hold can run, in seconds, from 5 to 600. When it runs
+              out the simulated customer takes the turn back. Null uses the default, 180.
+              Ignored when holdMode is NEVER.
+
+          hold_mode: How the simulated customer waits quietly on hold while your agent is busy.
+              DEFAULT follows Roark's built-in rules: wait when the agent asks for a moment
+              ("bear with me", "let me pull that up"), and never in place of answering a
+              question. CUSTOM follows holdInstructions. NEVER means this customer never
+              holds. Null on an edge case uses the happy path's mode, instructions and longest
+              wait together; null on the happy path is DEFAULT. Applies to improv variants and
+              to the improvised turns of scripted ones.
+
           include_flow_expectations: Whether this edge case is graded on the flow's agentExpectations as well as its
               own additionalExpectations. Defaults to true; false grades it on its
               additionalExpectations only.
 
           persona_override_id: The persona this runs as. Null on an edge case inherits the happy path's.
+
+          prompt: Improv flows only. The brief the simulated customer improvises from. Caller cues
+              steer the caller from that point in the brief: `#{emotion:<emotion>}`,
+              `#{language:<ISO 639-1 code>}`, `#{noise:<environmentId>}`, and `#{interrupt}`,
+              whose sentence says when to cut in on your agent. Cues are voice only. See
+              "Caller cues" in the customer flows concept.
 
           extra_headers: Send extra headers
 
@@ -1124,6 +1217,9 @@ class AsyncCustomerFlowResource(AsyncAPIResource):
                 {
                     "additional_expectations": additional_expectations,
                     "environment_id": environment_id,
+                    "hold_instructions": hold_instructions,
+                    "hold_max_seconds": hold_max_seconds,
+                    "hold_mode": hold_mode,
                     "include_flow_expectations": include_flow_expectations,
                     "opening_line": opening_line,
                     "persona_override_id": persona_override_id,

@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -51,8 +52,52 @@ class AgentResource(SyncAPIResource):
         self,
         *,
         name: str,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
         custom_id: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        endpoint: Optional[agent_create_params.Endpoint] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
+        prompt: Optional[str] | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -66,9 +111,22 @@ class AgentResource(SyncAPIResource):
         Args:
           name: Name of the agent
 
-          custom_id: Custom identifier for the agent
+          capabilities: What the agent handles. Simulation setup tests each one.
+
+          custom_id: Custom identifier for the agent. Must be unique in the project.
 
           description: Description of the agent
+
+          endpoint: The phone number Roark calls to test the agent.
+
+          industry: The industry the agent serves.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
+          prompt: The agent's system prompt.
+
+          website_url: The business's website. Simulation setup reads it.
 
           extra_headers: Send extra headers
 
@@ -83,8 +141,14 @@ class AgentResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "name": name,
+                    "capabilities": capabilities,
                     "custom_id": custom_id,
                     "description": description,
+                    "endpoint": endpoint,
+                    "industry": industry,
+                    "industry_description": industry_description,
+                    "prompt": prompt,
+                    "website_url": website_url,
                 },
                 agent_create_params.AgentCreateParams,
             ),
@@ -98,8 +162,50 @@ class AgentResource(SyncAPIResource):
         self,
         agent_id: str,
         *,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
         description: Optional[str] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
         name: str | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -111,9 +217,18 @@ class AgentResource(SyncAPIResource):
         Updates an existing agent by its ID.
 
         Args:
+          capabilities: What the agent handles. Simulation setup tests each one.
+
           description: Description of the agent
 
+          industry: The industry the agent serves.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
           name: Name of the agent
+
+          website_url: The business's website. Simulation setup reads it.
 
           extra_headers: Send extra headers
 
@@ -129,8 +244,12 @@ class AgentResource(SyncAPIResource):
             f"/v1/agent/{agent_id}",
             body=maybe_transform(
                 {
+                    "capabilities": capabilities,
                     "description": description,
+                    "industry": industry,
+                    "industry_description": industry_description,
                     "name": name,
+                    "website_url": website_url,
                 },
                 agent_update_params.AgentUpdateParams,
             ),
@@ -189,10 +308,52 @@ class AgentResource(SyncAPIResource):
         *,
         job_description: str,
         name: str,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
         llm: Optional[agent_build_params.Llm] | Omit = omit,
         stt: Optional[agent_build_params.Stt] | Omit = omit,
         tts: Optional[agent_build_params.Tt] | Omit = omit,
         voice: Optional[str] | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -212,6 +373,15 @@ class AgentResource(SyncAPIResource):
 
           name: Name of the agent
 
+          capabilities: What the agent handles. Recorded on the agent, so its simulation setup tests
+              each.
+
+          industry: The industry the agent serves. Recorded on the agent, so its simulation setup
+              starts from that industry.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
           llm: Optional text model the hosted agent thinks with. Roark's default when omitted
 
           stt: Optional transcriber the hosted agent hears with. Roark's default when omitted
@@ -220,6 +390,8 @@ class AgentResource(SyncAPIResource):
 
           voice: Optional display name of the agent's voice. The authored prompt matches its
               delivery to it.
+
+          website_url: The business's website. The agent's prompt is written from the facts it states.
 
           extra_headers: Send extra headers
 
@@ -235,10 +407,14 @@ class AgentResource(SyncAPIResource):
                 {
                     "job_description": job_description,
                     "name": name,
+                    "capabilities": capabilities,
+                    "industry": industry,
+                    "industry_description": industry_description,
                     "llm": llm,
                     "stt": stt,
                     "tts": tts,
                     "voice": voice,
+                    "website_url": website_url,
                 },
                 agent_build_params.AgentBuildParams,
             ),
@@ -306,8 +482,52 @@ class AsyncAgentResource(AsyncAPIResource):
         self,
         *,
         name: str,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
         custom_id: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
+        endpoint: Optional[agent_create_params.Endpoint] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
+        prompt: Optional[str] | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -321,9 +541,22 @@ class AsyncAgentResource(AsyncAPIResource):
         Args:
           name: Name of the agent
 
-          custom_id: Custom identifier for the agent
+          capabilities: What the agent handles. Simulation setup tests each one.
+
+          custom_id: Custom identifier for the agent. Must be unique in the project.
 
           description: Description of the agent
+
+          endpoint: The phone number Roark calls to test the agent.
+
+          industry: The industry the agent serves.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
+          prompt: The agent's system prompt.
+
+          website_url: The business's website. Simulation setup reads it.
 
           extra_headers: Send extra headers
 
@@ -338,8 +571,14 @@ class AsyncAgentResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "name": name,
+                    "capabilities": capabilities,
                     "custom_id": custom_id,
                     "description": description,
+                    "endpoint": endpoint,
+                    "industry": industry,
+                    "industry_description": industry_description,
+                    "prompt": prompt,
+                    "website_url": website_url,
                 },
                 agent_create_params.AgentCreateParams,
             ),
@@ -353,8 +592,50 @@ class AsyncAgentResource(AsyncAPIResource):
         self,
         agent_id: str,
         *,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
         description: Optional[str] | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
         name: str | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -366,9 +647,18 @@ class AsyncAgentResource(AsyncAPIResource):
         Updates an existing agent by its ID.
 
         Args:
+          capabilities: What the agent handles. Simulation setup tests each one.
+
           description: Description of the agent
 
+          industry: The industry the agent serves.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
           name: Name of the agent
+
+          website_url: The business's website. Simulation setup reads it.
 
           extra_headers: Send extra headers
 
@@ -384,8 +674,12 @@ class AsyncAgentResource(AsyncAPIResource):
             f"/v1/agent/{agent_id}",
             body=await async_maybe_transform(
                 {
+                    "capabilities": capabilities,
                     "description": description,
+                    "industry": industry,
+                    "industry_description": industry_description,
                     "name": name,
+                    "website_url": website_url,
                 },
                 agent_update_params.AgentUpdateParams,
             ),
@@ -444,10 +738,52 @@ class AsyncAgentResource(AsyncAPIResource):
         *,
         job_description: str,
         name: str,
+        capabilities: Optional[
+            List[
+                Literal[
+                    "APPOINTMENT_BOOKING",
+                    "FAQ",
+                    "IDENTITY_VERIFICATION",
+                    "ACCOUNT_MANAGEMENT",
+                    "BILLING_AND_PAYMENTS",
+                    "ORDER_MANAGEMENT",
+                    "TROUBLESHOOTING",
+                    "CALL_ROUTING",
+                    "LEAD_QUALIFICATION",
+                    "COLLECTIONS",
+                    "OUTBOUND_CALLING",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        industry: Optional[
+            Literal[
+                "HEALTHCARE",
+                "FINANCIAL_SERVICES",
+                "INSURANCE",
+                "DEBT_COLLECTION",
+                "RETAIL",
+                "TRAVEL_AND_HOSPITALITY",
+                "TELECOMMUNICATIONS",
+                "TECHNOLOGY",
+                "PUBLIC_SECTOR",
+                "UTILITIES",
+                "LOGISTICS",
+                "AUTOMOTIVE",
+                "HOME_SERVICES",
+                "RESTAURANTS",
+                "EDUCATION",
+                "RECRUITING_AND_STAFFING",
+                "OTHER",
+            ]
+        ]
+        | Omit = omit,
+        industry_description: Optional[str] | Omit = omit,
         llm: Optional[agent_build_params.Llm] | Omit = omit,
         stt: Optional[agent_build_params.Stt] | Omit = omit,
         tts: Optional[agent_build_params.Tt] | Omit = omit,
         voice: Optional[str] | Omit = omit,
+        website_url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -467,6 +803,15 @@ class AsyncAgentResource(AsyncAPIResource):
 
           name: Name of the agent
 
+          capabilities: What the agent handles. Recorded on the agent, so its simulation setup tests
+              each.
+
+          industry: The industry the agent serves. Recorded on the agent, so its simulation setup
+              starts from that industry.
+
+          industry_description: The industry in your own words, when none of the listed ones fits. Use it with
+              industry OTHER.
+
           llm: Optional text model the hosted agent thinks with. Roark's default when omitted
 
           stt: Optional transcriber the hosted agent hears with. Roark's default when omitted
@@ -475,6 +820,8 @@ class AsyncAgentResource(AsyncAPIResource):
 
           voice: Optional display name of the agent's voice. The authored prompt matches its
               delivery to it.
+
+          website_url: The business's website. The agent's prompt is written from the facts it states.
 
           extra_headers: Send extra headers
 
@@ -490,10 +837,14 @@ class AsyncAgentResource(AsyncAPIResource):
                 {
                     "job_description": job_description,
                     "name": name,
+                    "capabilities": capabilities,
+                    "industry": industry,
+                    "industry_description": industry_description,
                     "llm": llm,
                     "stt": stt,
                     "tts": tts,
                     "voice": voice,
+                    "website_url": website_url,
                 },
                 agent_build_params.AgentBuildParams,
             ),

@@ -41,8 +41,21 @@ class HTTPRequest(TypedDict, total=False):
     placeholders.
     """
 
+    max_attempts: Annotated[Optional[int], PropertyInfo(alias="maxAttempts")]
+    """
+    How many times to send the request before recording an error: once, plus retries
+    after a timeout, a connection failure or an HTTP 5xx. At most 5. Omit or pass
+    null for 3.
+    """
+
     method: Literal["GET", "POST"]
     """GET or POST (default POST). A GET request has no body."""
+
+    timeout_ms: Annotated[Optional[int], PropertyInfo(alias="timeoutMs")]
+    """
+    How long to wait for each attempt, in milliseconds. At most 300000. Omit or pass
+    null for 30000.
+    """
 
 
 class ScaleLabel(TypedDict, total=False):
@@ -75,6 +88,16 @@ class Source(TypedDict, total=False):
 
 class MetricUpdateDefinitionParams(TypedDict, total=False):
     analysis_package_id: Annotated[object, PropertyInfo(alias="analysisPackageId")]
+
+    applicability_condition: Annotated[Optional[str], PropertyInfo(alias="applicabilityCondition")]
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation. Send null or an empty string to remove
+    it.
+    """
 
     boolean_false_label: Annotated[str, PropertyInfo(alias="booleanFalseLabel")]
     """New label for the false case (BOOLEAN output only)"""
@@ -110,7 +133,12 @@ class MetricUpdateDefinitionParams(TypedDict, total=False):
     """
 
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
-    """New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)"""
+    """
+    New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable). A custom
+    metric prompt must include a transcript variable such as `{{transcript}}` and
+    `{{world_context}}`, which gives the judge the current date and time when it
+    grades.
+    """
 
     max_classifications: Annotated[int, PropertyInfo(alias="maxClassifications")]
     """New maximum number of classifications (CLASSIFICATION output only)"""

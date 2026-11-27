@@ -46,6 +46,10 @@ class AutoimproveLogEntry(BaseModel):
 
     question_options: Optional[List[str]] = FieldInfo(alias="questionOptions")
 
+    sent_by_id: Optional[str] = FieldInfo(alias="sentById")
+
+    sent_via: Optional[Literal["PLATFORM", "ROARKY", "API"]] = FieldInfo(alias="sentVia")
+
     simulation_run_plan_job_id: Optional[str] = FieldInfo(alias="simulationRunPlanJobId")
 
     text: str

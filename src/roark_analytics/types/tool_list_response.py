@@ -10,12 +10,70 @@ from .._models import BaseModel
 __all__ = [
     "ToolListResponse",
     "Data",
+    "DataCalendar",
+    "DataCalendarAppointmentType",
+    "DataCalendarMessage",
     "DataInput",
+    "DataMcp",
     "DataRuntime",
-    "DataRuntimeMessage",
     "DataRuntimeRequest",
     "DataRuntimeRequestHeader",
 ]
+
+
+class DataCalendarAppointmentType(BaseModel):
+    calendar_target_id: Optional[str] = FieldInfo(alias="calendarTargetId")
+    """
+    For a calendar with no scheduling of its own: the bookable target it books into,
+    which carries the duration, buffers, notice, horizon and weekly hours
+    """
+
+    duration_minutes: Optional[int] = FieldInfo(alias="durationMinutes")
+    """Only for an event type offering several durations"""
+
+    event_type_id: Optional[int] = FieldInfo(alias="eventTypeId")
+    """For Cal.com: the event type it books"""
+
+    event_type_uri: Optional[str] = FieldInfo(alias="eventTypeUri")
+    """For Calendly: the event type it books, which Calendly names by URI"""
+
+    go_high_level_calendar: Optional[str] = FieldInfo(alias="goHighLevelCalendar")
+    """For GoHighLevel: the calendar it books into, by its own id"""
+
+    name: str
+    """What the agent passes to name it"""
+
+    when_to_use: Optional[str] = FieldInfo(alias="whenToUse")
+    """The line that tells the agent when it applies"""
+
+
+class DataCalendarMessage(BaseModel):
+    before: Optional[str]
+    """Said as the request goes out"""
+
+    failure: Optional[str]
+    """Given to the agent to say when the request fails"""
+
+    slow: Optional[str]
+    """Said once if the request is slow"""
+
+
+class DataCalendar(BaseModel):
+    """What a calendar tool books into. Roark runs it; it has no runtime."""
+
+    appointment_types: List[DataCalendarAppointmentType] = FieldInfo(alias="appointmentTypes")
+    """The kinds of appointment the tool may reach"""
+
+    calendar_connection_id: str = FieldInfo(alias="calendarConnectionId")
+    """The connected calendar the tool books on"""
+
+    messages: DataCalendarMessage
+
+    operation: Literal["CHECK_AVAILABILITY", "BOOK", "LOOKUP_BOOKING", "RESCHEDULE", "CANCEL", "LIST_BOOKINGS"]
+    """The one action this tool takes on the calendar"""
+
+    simulate: bool
+    """Every call books on a simulated calendar instead of the customer's"""
 
 
 class DataInput(BaseModel):
@@ -32,15 +90,19 @@ class DataInput(BaseModel):
     """string, number or boolean"""
 
 
-class DataRuntimeMessage(BaseModel):
-    before: Optional[str]
-    """Said as the request goes out"""
+class DataMcp(BaseModel):
+    """
+    A tool on one of the project's MCP servers. The server runs it and defines its
+    arguments.
+    """
 
-    failure: Optional[str]
-    """Given to the agent to say when the request fails"""
+    mcp_server_id: str = FieldInfo(alias="mcpServerId")
+    """The MCP server the tool calls"""
 
-    slow: Optional[str]
-    """Said once if the request is slow"""
+    messages: DataCalendarMessage
+
+    tool: str
+    """The tool as the server names it"""
 
 
 class DataRuntimeRequestHeader(BaseModel):
@@ -80,7 +142,7 @@ class DataRuntime(BaseModel):
     caller interrupts, and each request carries an Idempotency-Key.
     """
 
-    messages: DataRuntimeMessage
+    messages: DataCalendarMessage
 
     request: DataRuntimeRequest
 
@@ -97,6 +159,9 @@ class Data(BaseModel):
     agent_id: Optional[str] = FieldInfo(alias="agentId")
     """The agent the tool is scoped to; null for the project"""
 
+    calendar: Optional[DataCalendar]
+    """Null for every tool that is not a calendar tool"""
+
     created_at: str = FieldInfo(alias="createdAt")
 
     description: Optional[str]
@@ -108,6 +173,9 @@ class Data(BaseModel):
 
     invocation_criteria: Optional[str] = FieldInfo(alias="invocationCriteria")
     """When the agent should call it, for grading"""
+
+    mcp: Optional[DataMcp]
+    """Null for every tool that is not an MCP tool"""
 
     name: str
 

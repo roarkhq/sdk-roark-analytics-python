@@ -62,14 +62,13 @@ class MeResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeCreateAPIKeyResponse:
-        """Mints a credential that acts as you, for a CLI or an automation.
-
-        The key value
-        is returned exactly once, in the `key` field: capture it now, it is unreadable
-        afterwards. Requires a personal credential (a project API key is refused) and
-        admin on the project the credential defaults to. The new credential can never
-        exceed the one that created it: not in scope, not in permissions, and not in
-        lifetime. Omit a field to copy it from the calling credential.
+        """
+        Requires a personal API key (a project API key is refused) and admin on the
+        project the new key defaults to. Mints a personal API key that acts as you, for
+        a CLI or an automation. The key value is returned exactly once, in the `key`
+        field: capture it now, it is unreadable afterwards. The new key can never exceed
+        the one that created it: not in scope, not in permissions, and not in lifetime.
+        Omit a field to copy it from the calling credential.
 
         Args:
           name: A label you will recognise later. It is the only thing that tells two
@@ -160,10 +159,11 @@ class MeResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeListAPIKeysResponse:
-        """
-        Returns the credentials that act as you: the ones created in the dashboard, from
-        `roark auth login`, and MCP connectors. Requires a personal credential; a
-        project API key is refused. Defaults to ACTIVE, pass ?status=REVOKED to see
+        """Requires a personal API key; a project API key is refused.
+
+        Returns the personal
+        API keys that act as you: the ones created in the dashboard, from `roark auth
+        login`, and MCP connectors. Defaults to ACTIVE, pass ?status=REVOKED to see
         revoked ones. The key value itself is never returned.
 
         Args:
@@ -200,11 +200,12 @@ class MeResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeRevokeAPIKeyResponse:
-        """Revokes a credential that acts as you.
+        """Requires a personal API key.
 
-        It stops working immediately. A
-        credential may revoke itself, which is what `roark auth logout` does. Repeating
-        the call is safe; an unknown id, or one belonging to someone else, answers 404.
+        Revokes one of your personal API keys; it stops
+        working immediately. A key may revoke itself, which is what `roark auth logout`
+        does. Repeating the call is safe; an unknown id, or one belonging to someone
+        else, answers 404.
 
         Args:
           extra_headers: Send extra headers
@@ -261,14 +262,13 @@ class AsyncMeResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeCreateAPIKeyResponse:
-        """Mints a credential that acts as you, for a CLI or an automation.
-
-        The key value
-        is returned exactly once, in the `key` field: capture it now, it is unreadable
-        afterwards. Requires a personal credential (a project API key is refused) and
-        admin on the project the credential defaults to. The new credential can never
-        exceed the one that created it: not in scope, not in permissions, and not in
-        lifetime. Omit a field to copy it from the calling credential.
+        """
+        Requires a personal API key (a project API key is refused) and admin on the
+        project the new key defaults to. Mints a personal API key that acts as you, for
+        a CLI or an automation. The key value is returned exactly once, in the `key`
+        field: capture it now, it is unreadable afterwards. The new key can never exceed
+        the one that created it: not in scope, not in permissions, and not in lifetime.
+        Omit a field to copy it from the calling credential.
 
         Args:
           name: A label you will recognise later. It is the only thing that tells two
@@ -359,10 +359,11 @@ class AsyncMeResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeListAPIKeysResponse:
-        """
-        Returns the credentials that act as you: the ones created in the dashboard, from
-        `roark auth login`, and MCP connectors. Requires a personal credential; a
-        project API key is refused. Defaults to ACTIVE, pass ?status=REVOKED to see
+        """Requires a personal API key; a project API key is refused.
+
+        Returns the personal
+        API keys that act as you: the ones created in the dashboard, from `roark auth
+        login`, and MCP connectors. Defaults to ACTIVE, pass ?status=REVOKED to see
         revoked ones. The key value itself is never returned.
 
         Args:
@@ -399,11 +400,12 @@ class AsyncMeResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MeRevokeAPIKeyResponse:
-        """Revokes a credential that acts as you.
+        """Requires a personal API key.
 
-        It stops working immediately. A
-        credential may revoke itself, which is what `roark auth logout` does. Repeating
-        the call is safe; an unknown id, or one belonging to someone else, answers 404.
+        Revokes one of your personal API keys; it stops
+        working immediately. A key may revoke itself, which is what `roark auth logout`
+        does. Repeating the call is safe; an unknown id, or one belonging to someone
+        else, answers 404.
 
         Args:
           extra_headers: Send extra headers

@@ -59,7 +59,9 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
         body: Union[str, Dict[str, object], None] | Omit = omit,
         description: Optional[str] | Omit = omit,
         headers: Dict[str, str] | Omit = omit,
+        max_attempts: Optional[int] | Omit = omit,
         method: Literal["POST", "PUT", "PATCH", "GET"] | Omit = omit,
+        timeout_ms: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -84,7 +86,13 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
 
           headers: Request headers as key-value pairs
 
+          max_attempts: How many times to send the request, from 1 to 5. Set 1 so a slow answer is never
+              sent again, which would start a second call. Null or omitted is the default, 3.
+
           method: HTTP method (default: POST)
+
+          timeout_ms: How long to wait for each attempt, in milliseconds, from 1000 to 300000. Raise
+              it while you debug your endpoint. Null or omitted is the default, 30000.
 
           extra_headers: Send extra headers
 
@@ -103,7 +111,9 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
                     "body": body,
                     "description": description,
                     "headers": headers,
+                    "max_attempts": max_attempts,
                     "method": method,
+                    "timeout_ms": timeout_ms,
                 },
                 http_request_definition_create_params.HTTPRequestDefinitionCreateParams,
             ),
@@ -120,7 +130,9 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
         body: Union[str, Dict[str, object], None] | Omit = omit,
         description: Optional[str] | Omit = omit,
         headers: Dict[str, str] | Omit = omit,
+        max_attempts: Optional[int] | Omit = omit,
         method: Literal["POST", "PUT", "PATCH", "GET"] | Omit = omit,
+        timeout_ms: Optional[int] | Omit = omit,
         url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -140,7 +152,13 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
 
           headers: Request headers as key-value pairs
 
+          max_attempts: How many times to send the request, from 1 to 5. Set 1 so a slow answer is never
+              sent again, which would start a second call. Null or omitted is the default, 3.
+
           method: HTTP method: POST, PUT, PATCH, or GET
+
+          timeout_ms: How long to wait for each attempt, in milliseconds, from 1000 to 300000. Raise
+              it while you debug your endpoint. Null or omitted is the default, 30000.
 
           url: URL for the HTTP request
 
@@ -161,7 +179,9 @@ class HTTPRequestDefinitionResource(SyncAPIResource):
                     "body": body,
                     "description": description,
                     "headers": headers,
+                    "max_attempts": max_attempts,
                     "method": method,
+                    "timeout_ms": timeout_ms,
                     "url": url,
                 },
                 http_request_definition_update_params.HTTPRequestDefinitionUpdateParams,
@@ -281,7 +301,9 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
         body: Union[str, Dict[str, object], None] | Omit = omit,
         description: Optional[str] | Omit = omit,
         headers: Dict[str, str] | Omit = omit,
+        max_attempts: Optional[int] | Omit = omit,
         method: Literal["POST", "PUT", "PATCH", "GET"] | Omit = omit,
+        timeout_ms: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -306,7 +328,13 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
 
           headers: Request headers as key-value pairs
 
+          max_attempts: How many times to send the request, from 1 to 5. Set 1 so a slow answer is never
+              sent again, which would start a second call. Null or omitted is the default, 3.
+
           method: HTTP method (default: POST)
+
+          timeout_ms: How long to wait for each attempt, in milliseconds, from 1000 to 300000. Raise
+              it while you debug your endpoint. Null or omitted is the default, 30000.
 
           extra_headers: Send extra headers
 
@@ -325,7 +353,9 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
                     "body": body,
                     "description": description,
                     "headers": headers,
+                    "max_attempts": max_attempts,
                     "method": method,
+                    "timeout_ms": timeout_ms,
                 },
                 http_request_definition_create_params.HTTPRequestDefinitionCreateParams,
             ),
@@ -342,7 +372,9 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
         body: Union[str, Dict[str, object], None] | Omit = omit,
         description: Optional[str] | Omit = omit,
         headers: Dict[str, str] | Omit = omit,
+        max_attempts: Optional[int] | Omit = omit,
         method: Literal["POST", "PUT", "PATCH", "GET"] | Omit = omit,
+        timeout_ms: Optional[int] | Omit = omit,
         url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -362,7 +394,13 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
 
           headers: Request headers as key-value pairs
 
+          max_attempts: How many times to send the request, from 1 to 5. Set 1 so a slow answer is never
+              sent again, which would start a second call. Null or omitted is the default, 3.
+
           method: HTTP method: POST, PUT, PATCH, or GET
+
+          timeout_ms: How long to wait for each attempt, in milliseconds, from 1000 to 300000. Raise
+              it while you debug your endpoint. Null or omitted is the default, 30000.
 
           url: URL for the HTTP request
 
@@ -383,7 +421,9 @@ class AsyncHTTPRequestDefinitionResource(AsyncAPIResource):
                     "body": body,
                     "description": description,
                     "headers": headers,
+                    "max_attempts": max_attempts,
                     "method": method,
+                    "timeout_ms": timeout_ms,
                     "url": url,
                 },
                 http_request_definition_update_params.HTTPRequestDefinitionUpdateParams,

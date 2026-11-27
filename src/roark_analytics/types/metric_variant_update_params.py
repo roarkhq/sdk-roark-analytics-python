@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -11,6 +12,15 @@ __all__ = ["MetricVariantUpdateParams"]
 
 class MetricVariantUpdateParams(TypedDict, total=False):
     id_or_slug: Required[Annotated[str, PropertyInfo(alias="idOrSlug")]]
+
+    applicability_condition: Annotated[Optional[str], PropertyInfo(alias="applicabilityCondition")]
+    """
+    When this metric applies, in plain words (for example "the caller asks to stop
+    being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+    meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+    verdict, and checks on it count only the conversations it applies to. Null or
+    empty: it applies to every conversation.
+    """
 
     boolean_false_label: Annotated[str, PropertyInfo(alias="booleanFalseLabel")]
     """
@@ -35,7 +45,12 @@ class MetricVariantUpdateParams(TypedDict, total=False):
     """
 
     llm_prompt: Annotated[str, PropertyInfo(alias="llmPrompt")]
-    """The rubric this variant applies. LLM judge metrics only."""
+    """
+    The rubric this variant applies. LLM judge metrics only. A custom metric prompt
+    must include a transcript variable such as `{{transcript}}` and
+    `{{world_context}}`, which gives the judge the current date and time when it
+    grades.
+    """
 
     max_classifications: Annotated[int, PropertyInfo(alias="maxClassifications")]
     """Maximum classifications returned. CLASSIFICATION output only."""

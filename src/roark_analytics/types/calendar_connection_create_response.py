@@ -17,7 +17,11 @@ class DataCapability(BaseModel):
     """
 
     auth: Literal["API_KEY", "OAUTH"]
-    """How this provider is authenticated."""
+    """
+    How a credential is obtained, which is the whole of what connecting looks like:
+    API_KEY takes a key in the create body, OAUTH sends the customer to the provider
+    and Roark stores the result itself.
+    """
 
     availability_window_days: Optional[float] = FieldInfo(alias="availabilityWindowDays")
     """
@@ -41,9 +45,11 @@ class DataCapability(BaseModel):
 
     roark_owns_booking_policy: bool = FieldInfo(alias="roarkOwnsBookingPolicy")
     """
-    True for a raw calendar, which exposes only events and free/busy. Roark then
-    owns bookable hours, duration, buffers, lead time and horizon, because the
-    provider has no notion of them.
+    True for a calendar that exposes only events and free/busy. Roark then owns the
+    bookable hours, duration, buffers, lead time and horizon, because the provider
+    has no notion of them. A tool on one of these is pointed at a bookable target
+    you create through this API, rather than at something that already exists on the
+    account. Read this instead of matching on the provider name.
     """
 
     slot_hold: Literal["RESERVATION", "NONE"] = FieldInfo(alias="slotHold")
@@ -84,11 +90,13 @@ class Data(BaseModel):
     last_checked_at: Optional[str] = FieldInfo(alias="lastCheckedAt")
     """When the credential was last verified against the provider, ISO 8601."""
 
-    provider: Literal["CAL_COM", "GOOGLE", "CALENDLY"]
+    provider: Literal["CAL_COM", "GOOGLE", "CALENDLY", "GO_HIGH_LEVEL"]
     """
-    Who holds the calendar. CAL_COM is the only provider that can be connected
-    today; GOOGLE and CALENDLY are described by `capabilities` but not yet
-    connectable.
+    Who holds the calendar. CAL_COM and GO_HIGH_LEVEL are connected with a key,
+    GO_HIGH_LEVEL also needing the sub-account the key belongs to; GOOGLE and
+    CALENDLY are connected by consent, through `POST
+    /v1/connections/calendar/google/authorize-url` and `POST
+    /v1/connections/calendar/calendly/authorize-url`.
     """
 
     scopes: Optional[List[str]]

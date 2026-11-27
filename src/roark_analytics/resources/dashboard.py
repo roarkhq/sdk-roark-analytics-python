@@ -152,7 +152,7 @@ class DashboardResource(SyncAPIResource):
         Omitted fields keep their current value. `widgets`, when
         sent, replaces the list: widgets are matched by name, so a widget that keeps its
         name keeps its id; a new name adds a widget and a name no longer listed removes
-        it. To change one widget, PUT /v1/dashboard/{dashboardId}/widget/{widgetId}.
+        it. To change one widget, `PUT /v1/dashboard/{dashboardId}/widget/{widgetId}`.
 
         Args:
           time_range: The window: LAST n DAYS/WEEKS/MONTHS up to now, a CALENDAR_ALIGNED period
@@ -200,8 +200,8 @@ class DashboardResource(SyncAPIResource):
     ) -> DashboardListResponse:
         """Lists the project's dashboards, the default first.
 
-        GET
-        /v1/dashboard/{dashboardId} returns the widgets.
+        `GET
+        /v1/dashboard/{dashboardId}` returns the widgets.
 
         Args:
           extra_headers: Send extra headers
@@ -708,7 +708,7 @@ class AsyncDashboardResource(AsyncAPIResource):
         Omitted fields keep their current value. `widgets`, when
         sent, replaces the list: widgets are matched by name, so a widget that keeps its
         name keeps its id; a new name adds a widget and a name no longer listed removes
-        it. To change one widget, PUT /v1/dashboard/{dashboardId}/widget/{widgetId}.
+        it. To change one widget, `PUT /v1/dashboard/{dashboardId}/widget/{widgetId}`.
 
         Args:
           time_range: The window: LAST n DAYS/WEEKS/MONTHS up to now, a CALENDAR_ALIGNED period
@@ -756,8 +756,8 @@ class AsyncDashboardResource(AsyncAPIResource):
     ) -> DashboardListResponse:
         """Lists the project's dashboards, the default first.
 
-        GET
-        /v1/dashboard/{dashboardId} returns the widgets.
+        `GET
+        /v1/dashboard/{dashboardId}` returns the widgets.
 
         Args:
           extra_headers: Send extra headers

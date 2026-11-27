@@ -38,7 +38,9 @@ class TestHTTPRequestDefinition:
             body="string",
             description="description",
             headers={"foo": "string"},
+            max_attempts=1,
             method="POST",
+            timeout_ms=120000,
         )
         assert_matches_type(HTTPRequestDefinitionCreateResponse, http_request_definition, path=["response"])
 
@@ -82,7 +84,9 @@ class TestHTTPRequestDefinition:
             body="string",
             description="description",
             headers={"foo": "string"},
+            max_attempts=1,
             method="POST",
+            timeout_ms=120000,
             url="https://example.com",
         )
         assert_matches_type(HTTPRequestDefinitionUpdateResponse, http_request_definition, path=["response"])
@@ -211,7 +215,9 @@ class TestAsyncHTTPRequestDefinition:
             body="string",
             description="description",
             headers={"foo": "string"},
+            max_attempts=1,
             method="POST",
+            timeout_ms=120000,
         )
         assert_matches_type(HTTPRequestDefinitionCreateResponse, http_request_definition, path=["response"])
 
@@ -255,7 +261,9 @@ class TestAsyncHTTPRequestDefinition:
             body="string",
             description="description",
             headers={"foo": "string"},
+            max_attempts=1,
             method="POST",
+            timeout_ms=120000,
             url="https://example.com",
         )
         assert_matches_type(HTTPRequestDefinitionUpdateResponse, http_request_definition, path=["response"])

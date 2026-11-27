@@ -61,6 +61,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         max_simulation_duration_seconds: int,
         name: str,
         auto_run: bool | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -74,6 +75,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -97,6 +99,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -129,6 +132,15 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The reference value of `comparisonProperty`, for example `NONE` for
               `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
@@ -202,10 +214,12 @@ class SimulationRunPlanResource(SyncAPIResource):
               attached flow has agent expectations written on it, and Keypad Entry wherever
               one has steps where the agent is expected to press keys. Both grade something
               authored on the flow that nothing else measures, which is why it is on by
-              default. Set false when the `metrics` list is meant to be exhaustive: a plan
-              testing only whether the caller can complete the flow may not want the agent
-              graded on its expectations as well. False also pins the plan against any
-              automatic metric Roark adds later.
+              default. Set false when no flow-earned metric should be added: a plan testing
+              only whether the caller can complete the flow may not want the agent graded on
+              its expectations as well. False also pins the plan against any flow-earned
+              metric Roark adds later. It does not affect the Core Analysis metrics
+              (`coreMetrics` on the plan), which every run collects and which never decide
+              pass or fail.
 
           include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
               here. Default true, which is what you want when you brought your own flows and
@@ -244,6 +258,9 @@ class SimulationRunPlanResource(SyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -267,6 +284,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
         additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -284,6 +302,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -314,6 +333,15 @@ class SimulationRunPlanResource(SyncAPIResource):
           additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
               like a plan's `metrics`. The template's metrics and checks always run; naming
               one of them here again keeps it once, with the success criteria you set on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
@@ -395,6 +423,9 @@ class SimulationRunPlanResource(SyncAPIResource):
           questions: For the `question-answer-check` template: the questions to ask and the answer
               expected for each. Every question runs as its own graded call.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           silence_timeout_seconds: Timeout in seconds for silence detection
 
           extra_headers: Send extra headers
@@ -419,6 +450,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
         auto_run: bool | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -432,6 +464,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -455,6 +488,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         template: str | Omit = omit,
@@ -478,6 +512,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
                     "auto_run": auto_run,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
                     "comparison_values": comparison_values,
@@ -496,6 +531,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "notifications": notifications,
                     "personas": personas,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                     "template": template,
@@ -517,6 +553,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         plan_id: str,
         *,
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -530,6 +567,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -557,6 +595,7 @@ class SimulationRunPlanResource(SyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: Optional[simulation_run_plan_update_params.Notification] | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -571,6 +610,15 @@ class SimulationRunPlanResource(SyncAPIResource):
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds. Send `null` to remove the rate; omit to leave it unchanged.
 
           comparison_baseline: The reference value, shown first in the results. See `POST /v1/simulation/plan`.
               A real value cannot be sent on its own: the property it belongs to decides which
@@ -649,6 +697,10 @@ class SimulationRunPlanResource(SyncAPIResource):
 
           personas: Personas to include in this run plan
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+              Send `null` to remove the ramp; omit to leave it unchanged.
+
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -670,6 +722,7 @@ class SimulationRunPlanResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "agent_endpoints": agent_endpoints,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
                     "comparison_values": comparison_values,
@@ -692,6 +745,7 @@ class SimulationRunPlanResource(SyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "notifications": notifications,
                     "personas": personas,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },
@@ -855,6 +909,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         max_simulation_duration_seconds: int,
         name: str,
         auto_run: bool | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -868,6 +923,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -891,6 +947,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -923,6 +980,15 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           auto_run: Deprecated: use POST /v1/simulation/run, which starts a run and accepts runtime
               `variables` as well. This flag runs the plan with only the values pinned on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The reference value of `comparisonProperty`, for example `NONE` for
               `BACKGROUND_NOISE` or `NORMAL` for `SPEECH_PACE`: shown first in the results.
@@ -996,10 +1062,12 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
               attached flow has agent expectations written on it, and Keypad Entry wherever
               one has steps where the agent is expected to press keys. Both grade something
               authored on the flow that nothing else measures, which is why it is on by
-              default. Set false when the `metrics` list is meant to be exhaustive: a plan
-              testing only whether the caller can complete the flow may not want the agent
-              graded on its expectations as well. False also pins the plan against any
-              automatic metric Roark adds later.
+              default. Set false when no flow-earned metric should be added: a plan testing
+              only whether the caller can complete the flow may not want the agent graded on
+              its expectations as well. False also pins the plan against any flow-earned
+              metric Roark adds later. It does not affect the Core Analysis metrics
+              (`coreMetrics` on the plan), which every run collects and which never decide
+              pass or fail.
 
           include_flow_metrics: Also collect each attached flow's own metrics, on top of the `metrics` named
               here. Default true, which is what you want when you brought your own flows and
@@ -1038,6 +1106,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           personas: Personas to include in this run plan. Required with `scenarios`; ignored with
               `flows`, where each variant carries its own persona.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           scenarios: Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
               scenario ID can appear multiple times with different variables.
 
@@ -1061,6 +1132,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         direction: Literal["INBOUND", "OUTBOUND"],
         template: str,
         additional_metrics: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigMetric] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_values: List[Union[str, simulation_run_plan_create_params.ComparisonArm]] | Omit = omit,
         end_call_phrases: SequenceNotStr[str] | Omit = omit,
@@ -1078,6 +1150,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         persona_id: str | Omit = omit,
         questions: Iterable[simulation_run_plan_create_params.CreateRunPlanFromTemplateQuestion] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1108,6 +1181,15 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           additional_metrics: Metrics to collect on top of the template's own, referenced by `id` or `slug`
               like a plan's `metrics`. The template's metrics and checks always run; naming
               one of them here again keeps it once, with the success criteria you set on it.
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds.
 
           comparison_baseline: The sweep's reference value, shown first in the results. Defaults to the
               template's own baseline, as returned by GET /v1/simulation/template. Whether a
@@ -1189,6 +1271,9 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
           questions: For the `question-answer-check` template: the questions to ask and the answer
               expected for each. Every question runs as its own graded call.
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+
           silence_timeout_seconds: Timeout in seconds for silence detection
 
           extra_headers: Send extra headers
@@ -1213,6 +1298,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         max_simulation_duration_seconds: int | Omit = omit,
         name: str | Omit = omit,
         auto_run: bool | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -1226,6 +1312,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -1249,6 +1336,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: simulation_run_plan_create_params.CreateRunPlanFromConfigNotification | Omit = omit,
         personas: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigAgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_create_params.CreateRunPlanFromConfigScenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         template: str | Omit = omit,
@@ -1272,6 +1360,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "max_simulation_duration_seconds": max_simulation_duration_seconds,
                     "name": name,
                     "auto_run": auto_run,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
                     "comparison_values": comparison_values,
@@ -1290,6 +1379,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "notifications": notifications,
                     "personas": personas,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                     "template": template,
@@ -1311,6 +1401,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         plan_id: str,
         *,
         agent_endpoints: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        calls_per_second: Optional[float] | Omit = omit,
         comparison_baseline: Optional[str] | Omit = omit,
         comparison_property: Optional[
             Literal[
@@ -1324,6 +1415,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -1351,6 +1443,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
         no_response_retry_backoff_seconds: int | Omit = omit,
         notifications: Optional[simulation_run_plan_update_params.Notification] | Omit = omit,
         personas: Iterable[simulation_run_plan_update_params.AgentEndpoint] | Omit = omit,
+        ramp_up_seconds: Optional[int] | Omit = omit,
         scenarios: Iterable[simulation_run_plan_update_params.Scenario] | Omit = omit,
         silence_timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1365,6 +1458,15 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
         Args:
           agent_endpoints: Agent endpoints to include in this run plan
+
+          calls_per_second: The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+              starts one every 5 seconds. Omitted or `null` starts them as fast as
+              `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+              holds the rate only while calls last under `maxConcurrentJobs` /
+              `callsPerSecond` seconds. A run reports the rate it achieved as
+              `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+              / 30 is refused with 400: that limit could only hold it with calls under 30
+              seconds. Send `null` to remove the rate; omit to leave it unchanged.
 
           comparison_baseline: The reference value, shown first in the results. See `POST /v1/simulation/plan`.
               A real value cannot be sent on its own: the property it belongs to decides which
@@ -1443,6 +1545,10 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
 
           personas: Personas to include in this run plan
 
+          ramp_up_seconds: Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+              Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+              Send `null` to remove the ramp; omit to leave it unchanged.
+
           scenarios: Deprecated: use `flows` instead. Replaces the scenarios on this run plan. Omit
               to leave them unchanged; send an empty array to detach them all, which is how a
               scenario-based plan is moved over to flows.
@@ -1464,6 +1570,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "agent_endpoints": agent_endpoints,
+                    "calls_per_second": calls_per_second,
                     "comparison_baseline": comparison_baseline,
                     "comparison_property": comparison_property,
                     "comparison_values": comparison_values,
@@ -1486,6 +1593,7 @@ class AsyncSimulationRunPlanResource(AsyncAPIResource):
                     "no_response_retry_backoff_seconds": no_response_retry_backoff_seconds,
                     "notifications": notifications,
                     "personas": personas,
+                    "ramp_up_seconds": ramp_up_seconds,
                     "scenarios": scenarios,
                     "silence_timeout_seconds": silence_timeout_seconds,
                 },

@@ -34,8 +34,20 @@ class TestAgent:
     def test_method_create_with_all_params(self, client: Roark) -> None:
         agent = client.agent.create(
             name="x",
+            capabilities=["APPOINTMENT_BOOKING"],
             custom_id="customId",
             description="description",
+            endpoint={
+                "direction": "INCOMING",
+                "environment": "environment",
+                "outbound_dial_http_request_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "outbound_dial_type": "NONE",
+                "value": "value",
+            },
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
+            prompt="x",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -74,8 +86,12 @@ class TestAgent:
     def test_method_update_with_all_params(self, client: Roark) -> None:
         agent = client.agent.update(
             agent_id="agentId",
+            capabilities=["APPOINTMENT_BOOKING"],
             description="description",
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
             name="x",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentUpdateResponse, agent, path=["response"])
 
@@ -157,10 +173,14 @@ class TestAgent:
         agent = client.agent.build(
             job_description="x",
             name="x",
+            capabilities=["APPOINTMENT_BOOKING"],
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
             llm={"model": "x", "provider": "OPENAI"},
             stt={"model": "x", "provider": "DEEPGRAM"},
             tts={"provider": "CARTESIA", "voice_id": "x", "model": "x"},
             voice="voice",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentBuildResponse, agent, path=["response"])
 
@@ -245,8 +265,20 @@ class TestAsyncAgent:
     async def test_method_create_with_all_params(self, async_client: AsyncRoark) -> None:
         agent = await async_client.agent.create(
             name="x",
+            capabilities=["APPOINTMENT_BOOKING"],
             custom_id="customId",
             description="description",
+            endpoint={
+                "direction": "INCOMING",
+                "environment": "environment",
+                "outbound_dial_http_request_definition_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "outbound_dial_type": "NONE",
+                "value": "value",
+            },
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
+            prompt="x",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -285,8 +317,12 @@ class TestAsyncAgent:
     async def test_method_update_with_all_params(self, async_client: AsyncRoark) -> None:
         agent = await async_client.agent.update(
             agent_id="agentId",
+            capabilities=["APPOINTMENT_BOOKING"],
             description="description",
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
             name="x",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentUpdateResponse, agent, path=["response"])
 
@@ -368,10 +404,14 @@ class TestAsyncAgent:
         agent = await async_client.agent.build(
             job_description="x",
             name="x",
+            capabilities=["APPOINTMENT_BOOKING"],
+            industry="HEALTHCARE",
+            industry_description="industryDescription",
             llm={"model": "x", "provider": "OPENAI"},
             stt={"model": "x", "provider": "DEEPGRAM"},
             tts={"provider": "CARTESIA", "voice_id": "x", "model": "x"},
             voice="voice",
+            website_url="https://example.com",
         )
         assert_matches_type(AgentBuildResponse, agent, path=["response"])
 

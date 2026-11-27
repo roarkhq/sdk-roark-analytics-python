@@ -78,6 +78,7 @@ class TestMetricVariant:
         metric_variant = client.metric_variant.update(
             variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             id_or_slug="idOrSlug",
+            applicability_condition="applicabilityCondition",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             change_reason="changeReason",
@@ -325,6 +326,7 @@ class TestAsyncMetricVariant:
         metric_variant = await async_client.metric_variant.update(
             variant_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             id_or_slug="idOrSlug",
+            applicability_condition="applicabilityCondition",
             boolean_false_label="booleanFalseLabel",
             boolean_true_label="booleanTrueLabel",
             change_reason="changeReason",

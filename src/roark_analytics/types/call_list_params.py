@@ -67,7 +67,13 @@ class CallListParams(TypedDict, total=False):
     """
 
     search_text: Annotated[str, PropertyInfo(alias="searchText")]
-    """Search text to filter calls by title, summary, or transcript"""
+    """
+    Search text to filter calls by title, summary, transcript, notes or call id. A
+    phone number in any common format, such as (608) 813-8733 or +16088138733,
+    matches the customer phone number on the call instead of the transcript. A
+    search that takes too long returns 400 with code search_timeout: narrow the
+    search text or add filters and try again.
+    """
 
     simulation_run_plan_ids: Annotated[str, PropertyInfo(alias="simulationRunPlanIds")]
     """Calls from every run of any of these run plans, comma-separated, at most 100"""

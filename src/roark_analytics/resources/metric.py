@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, overload
+from typing import List, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
@@ -54,6 +54,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
         analysis_package_id: str | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -95,6 +96,12 @@ class MetricResource(SyncAPIResource):
               metric is added to a default "Custom Metrics" package for your project (created
               automatically the first time).
 
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation.
+
           boolean_false_label: Label for the false case (only for BOOLEAN type)
 
           boolean_true_label: Label for the true case (only for BOOLEAN type)
@@ -106,7 +113,9 @@ class MetricResource(SyncAPIResource):
               audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
-              TEXT, and SCALE types.
+              TEXT, and SCALE types. A custom metric prompt must include a transcript variable
+              such as `{{transcript}}` and `{{world_context}}`, which gives the judge the
+              current date and time when it grades.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
@@ -348,6 +357,7 @@ class MetricResource(SyncAPIResource):
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
         analysis_package_id: str | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -387,6 +397,7 @@ class MetricResource(SyncAPIResource):
                     "name": name,
                     "output_type": output_type,
                     "analysis_package_id": analysis_package_id,
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,
@@ -468,6 +479,7 @@ class MetricResource(SyncAPIResource):
         id_or_slug: str,
         *,
         analysis_package_id: object | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         calc_type: object | Omit = omit,
@@ -514,6 +526,13 @@ class MetricResource(SyncAPIResource):
         and leaves every other workspace on the original.
 
         Args:
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation. Send null or an empty string to remove
+              it.
+
           boolean_false_label: New label for the false case (BOOLEAN output only)
 
           boolean_true_label: New label for the true case (BOOLEAN output only)
@@ -532,7 +551,10 @@ class MetricResource(SyncAPIResource):
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
-          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable). A custom
+              metric prompt must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
 
@@ -569,6 +591,7 @@ class MetricResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "analysis_package_id": analysis_package_id,
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "calc_type": calc_type,
@@ -633,6 +656,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"],
         analysis_package_id: str | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -674,6 +698,12 @@ class AsyncMetricResource(AsyncAPIResource):
               metric is added to a default "Custom Metrics" package for your project (created
               automatically the first time).
 
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation.
+
           boolean_false_label: Label for the false case (only for BOOLEAN type)
 
           boolean_true_label: Label for the true case (only for BOOLEAN type)
@@ -685,7 +715,9 @@ class AsyncMetricResource(AsyncAPIResource):
               audio). Such calls skip every other metric. Default false.
 
           llm_prompt: LLM prompt/criteria for evaluating this metric. Required for BOOLEAN, NUMERIC,
-              TEXT, and SCALE types.
+              TEXT, and SCALE types. A custom metric prompt must include a transcript variable
+              such as `{{transcript}}` and `{{world_context}}`, which gives the judge the
+              current date and time when it grades.
 
           max_classifications: Maximum number of classifications that can be selected (only for CLASSIFICATION
               type)
@@ -927,6 +959,7 @@ class AsyncMetricResource(AsyncAPIResource):
         name: str,
         output_type: Literal["COUNT", "NUMERIC", "BOOLEAN", "SCALE", "TEXT", "CLASSIFICATION", "OFFSET"] | Omit = omit,
         analysis_package_id: str | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         classification_options: Iterable[metric_create_definition_params.PromptMetricInputClassificationOption]
@@ -966,6 +999,7 @@ class AsyncMetricResource(AsyncAPIResource):
                     "name": name,
                     "output_type": output_type,
                     "analysis_package_id": analysis_package_id,
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "classification_options": classification_options,
@@ -1047,6 +1081,7 @@ class AsyncMetricResource(AsyncAPIResource):
         id_or_slug: str,
         *,
         analysis_package_id: object | Omit = omit,
+        applicability_condition: Optional[str] | Omit = omit,
         boolean_false_label: str | Omit = omit,
         boolean_true_label: str | Omit = omit,
         calc_type: object | Omit = omit,
@@ -1093,6 +1128,13 @@ class AsyncMetricResource(AsyncAPIResource):
         and leaves every other workspace on the original.
 
         Args:
+          applicability_condition: When this metric applies, in plain words (for example "the caller asks to stop
+              being contacted"). BOOLEAN LLM metrics only. On a conversation that does not
+              meet it, the metric records `captureStatus: NOT_APPLICABLE` instead of a
+              verdict, and checks on it count only the conversations it applies to. Null or
+              empty: it applies to every conversation. Send null or an empty string to remove
+              it.
+
           boolean_false_label: New label for the false case (BOOLEAN output only)
 
           boolean_true_label: New label for the true case (BOOLEAN output only)
@@ -1111,7 +1153,10 @@ class AsyncMetricResource(AsyncAPIResource):
           http_request: Replacement request (HTTP_REQUEST only). Send the whole request; omitted headers
               are removed.
 
-          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable)
+          llm_prompt: New LLM prompt (only for LLM_JUDGE metrics whose prompt is editable). A custom
+              metric prompt must include a transcript variable such as `{{transcript}}` and
+              `{{world_context}}`, which gives the judge the current date and time when it
+              grades.
 
           max_classifications: New maximum number of classifications (CLASSIFICATION output only)
 
@@ -1148,6 +1193,7 @@ class AsyncMetricResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "analysis_package_id": analysis_package_id,
+                    "applicability_condition": applicability_condition,
                     "boolean_false_label": boolean_false_label,
                     "boolean_true_label": boolean_true_label,
                     "calc_type": calc_type,

@@ -85,6 +85,7 @@ class CreateRunPlanFromConfigFlowOverride(TypedDict, total=False):
             "INTENT_CLARITY",
             "LANGUAGE",
             "INTERRUPTION",
+            "LINE_QUALITY",
             "MEMORY_RELIABILITY",
             "RESPONSE_TIMING",
             "SPEECH_CLARITY",
@@ -246,6 +247,18 @@ class CreateRunPlanFromConfig(TypedDict, total=False):
     `variables` as well. This flag runs the plan with only the values pinned on it.
     """
 
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+    """
+    The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+    starts one every 5 seconds. Omitted or `null` starts them as fast as
+    `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+    holds the rate only while calls last under `maxConcurrentJobs` /
+    `callsPerSecond` seconds. A run reports the rate it achieved as
+    `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+    / 30 is refused with 400: that limit could only hold it with calls under 30
+    seconds.
+    """
+
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
     """
     The reference value of `comparisonProperty`, for example `NONE` for
@@ -273,6 +286,7 @@ class CreateRunPlanFromConfig(TypedDict, total=False):
                 "INTENT_CLARITY",
                 "LANGUAGE",
                 "INTERRUPTION",
+                "LINE_QUALITY",
                 "MEMORY_RELIABILITY",
                 "RESPONSE_TIMING",
                 "SPEECH_CLARITY",
@@ -368,10 +382,11 @@ class CreateRunPlanFromConfig(TypedDict, total=False):
     agent expectations written on it, and Keypad Entry wherever one has steps where
     the agent is expected to press keys. Both grade something authored on the flow
     that nothing else measures, which is why it is on by default.
-    Set false when the `metrics` list is meant to be exhaustive: a plan testing only
+    Set false when no flow-earned metric should be added: a plan testing only
     whether the caller can complete the flow may not want the agent graded on its
-    expectations as well. False also pins the plan against any automatic metric
-    Roark adds later.
+    expectations as well. False also pins the plan against any flow-earned metric
+    Roark adds later. It does not affect the Core Analysis metrics (`coreMetrics` on
+    the plan), which every run collects and which never decide pass or fail.
     """
 
     include_flow_metrics: Annotated[bool, PropertyInfo(alias="includeFlowMetrics")]
@@ -433,6 +448,12 @@ class CreateRunPlanFromConfig(TypedDict, total=False):
     `flows`, where each variant carries its own persona.
     """
 
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
+    """
+    Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+    Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
+    """
+
     scenarios: Iterable[CreateRunPlanFromConfigScenario]
     """
     Deprecated: use `flows` instead. Scenarios to include in this run plan. The same
@@ -473,6 +494,18 @@ class CreateRunPlanFromTemplate(TypedDict, total=False):
     Metrics to collect on top of the template's own, referenced by `id` or `slug`
     like a plan's `metrics`. The template's metrics and checks always run; naming
     one of them here again keeps it once, with the success criteria you set on it.
+    """
+
+    calls_per_second: Annotated[Optional[float], PropertyInfo(alias="callsPerSecond")]
+    """
+    The most simulations a run starts per second (0.01-10), fractional allowed: 0.2
+    starts one every 5 seconds. Omitted or `null` starts them as fast as
+    `maxConcurrentJobs` allows. The concurrency limit still applies on top, so a run
+    holds the rate only while calls last under `maxConcurrentJobs` /
+    `callsPerSecond` seconds. A run reports the rate it achieved as
+    `dialRate.achievedCallsPerSecond`. A rate above the project's concurrency limit
+    / 30 is refused with 400: that limit could only hold it with calls under 30
+    seconds.
     """
 
     comparison_baseline: Annotated[Optional[str], PropertyInfo(alias="comparisonBaseline")]
@@ -599,6 +632,12 @@ class CreateRunPlanFromTemplate(TypedDict, total=False):
     """
     For the `question-answer-check` template: the questions to ask and the answer
     expected for each. Every question runs as its own graded call.
+    """
+
+    ramp_up_seconds: Annotated[Optional[int], PropertyInfo(alias="rampUpSeconds")]
+    """
+    Seconds over which the rate climbs linearly from 0 to `callsPerSecond` (0-3600).
+    Omitted, `null` or 0 starts at the full rate. Only used with `callsPerSecond`.
     """
 
     silence_timeout_seconds: Annotated[int, PropertyInfo(alias="silenceTimeoutSeconds")]
